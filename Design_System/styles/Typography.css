@@ -22,7 +22,7 @@ h1, h2, h3 { text-wrap: balance; }
 .project-caption h3 { margin: 0 0 7px; font-size: 17px; font-weight: 500; letter-spacing: -.04em; }
 .project-caption p { margin: 0; color: var(--muted); }
 .provisional-note { color: var(--muted); font-size: 9px; }
-.contact-label { text-transform: uppercase; color: #cdc7a9; font-size: 9px; }
+.contact-label { text-transform: uppercase; color: var(--text-on-dark); font-size: 9px; }
 @media (max-width: 700px) {
   .section-heading h2, .about h2, .bio h2 { font-size: clamp(44px, 11vw, 72px); }
 }
