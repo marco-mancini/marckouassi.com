@@ -4,7 +4,7 @@ h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3 { text-wrap: balance; }
 .eyebrow, .hero-topline, .project-caption p, .project-year,
 .image-index, .provisional-note, .timeline-date, .timeline-place,
-.site-footer, .bio-photo > span, .about-image > span {
+.site-footer, .bio-photo > span, .about-image > span, .contact-label {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: .04em;
@@ -12,18 +12,21 @@ h1, h2, h3 { text-wrap: balance; }
 .eyebrow { color: var(--muted); text-transform: uppercase; }
 .section-heading h2, .about h2, .bio h2 {
   margin: 22px 0 0;
-  font-size: clamp(54px, 8vw, 112px);
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(50px, 7.4vw, 104px);
+  font-weight: 400;
   line-height: .86;
-  letter-spacing: -.085em;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
 }
 .project-caption h3 { margin: 0 0 7px; font-size: 17px; font-weight: 500; letter-spacing: -.04em; }
 .project-caption p { margin: 0; color: var(--muted); }
 .provisional-note { color: var(--muted); font-size: 9px; }
+.contact-label { text-transform: uppercase; color: #cdc7a9; font-size: 9px; }
 @media (max-width: 700px) {
-  .section-heading h2, .about h2, .bio h2 { font-size: clamp(48px, 12vw, 78px); }
+  .section-heading h2, .about h2, .bio h2 { font-size: clamp(44px, 11vw, 72px); }
 }
 @media (max-width: 360px) {
   body { font-size: 15px; }
-  .section-heading h2, .about h2, .bio h2 { font-size: clamp(45px, 11.8vw, 54px); }
+  .section-heading h2, .about h2, .bio h2 { font-size: clamp(40px, 10.5vw, 48px); }
 }

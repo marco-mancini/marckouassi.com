@@ -1,13 +1,16 @@
 :root {
   color-scheme: light;
-  --paper: #f2f0eb;
-  --ink: #191a18;
-  --muted: #77766f;
-  --line: #d4d1c9;
-  --accent: #bc5338;
-  --surface-alt: #e7e5df;
+  --paper: #f3efe1;
+  --ink: #211f16;
+  --muted: #7c7962;
+  --line: #d8d2b9;
+  --accent: #ca9e67;
+  --olive: #57603f;
+  --olive-deep: #3d4530;
+  --surface-alt: #e9e3cc;
   --font-sans: "Manrope", Arial, sans-serif;
   --font-mono: "DM Mono", monospace;
+  --font-display: "Anton", "Arial Narrow", sans-serif;
   --page-gutter: 8.2vw;
   --ease-out: cubic-bezier(.2,.7,.2,1);
 }
