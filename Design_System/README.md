@@ -1,17 +1,17 @@
-# Design System
+# Système de design
 
-Le système visuel centralise les règles et composants réutilisables.
+Ce système centralise les règles visuelles et les éléments réutilisables.
 
 ```text
 Design_System/
-├── animations/   Animations et réductions de mouvement
+├── animations/   Animations et réduction du mouvement
 ├── assets/       Ressources visuelles partagées
 ├── components/   Composants React (.tsx) et styles associés (.css)
-├── hooks/        Hooks React partagés
-├── providers/    Contextes et providers React
-└── styles/       CSS global, responsive, typographie, icônes et tokens
+├── hooks/        Fonctions de cycle de vie et d’état React
+├── providers/    Fournisseurs de contexte React
+└── styles/       Styles CSS généraux, adaptatifs, typographiques et icônes
 ```
 
-Le portfolio publié aujourd’hui reste une page HTML/CSS/JS statique. Le workflow copie le dossier complet du Design System dans l’artefact GitHub Pages, et la page charge les styles globaux depuis `styles/`. Les composants, hooks et providers React sont des fondations pour une évolution future ; ils ne sont pas compilés ni requis pour servir le site actuel.
+Le portfolio publié est une page statique en HTML, CSS et JavaScript. Le flux de publication copie le dossier complet du système de design dans l’artefact GitHub Pages, et la page charge les styles généraux depuis `styles/`. Les composants, fonctions de cycle de vie et fournisseurs React préparent une évolution future ; ils ne sont ni compilés ni nécessaires au site actuel.
 
-`Tailwind.css` est une couche légère d’utilitaires inspirés de Tailwind, sans dépendance ni compilation Tailwind.
+`Tailwind.css` est une petite couche locale de classes utilitaires inspirées de Tailwind, sans dépendance ni compilation de Tailwind.
