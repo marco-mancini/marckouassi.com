@@ -1,3 +1,3 @@
-# Backend
+# Partie serveur
 
-Aucun backend n’est nécessaire pour le portfolio statique actuel. Ce dossier est réservé à une future API ou à des fonctionnalités serveur, si le besoin se présente.
+Aucun service serveur n’est nécessaire pour le portfolio statique actuel. Ce dossier est réservé à une future interface de programmation ou à des fonctions exécutées sur un serveur, si le besoin se présente.
