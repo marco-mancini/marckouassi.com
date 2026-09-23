@@ -6,7 +6,7 @@
 }
 .wordmark { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; font-size: 25px; font-weight: 800; letter-spacing: -2px; }
 .wordmark span, .period { color: var(--accent); }
-.header-note { color: var(--muted); font: 10px var(--font-mono); }
+.header-note { display: inline-flex; min-height: 44px; align-items: center; color: var(--muted); font: 10px var(--font-mono); }
 .menu-link {
   display: inline-flex; min-height: 44px; align-items: center; gap: 8px;
   padding: 9px 18px; border: 1px solid var(--ink); border-radius: 999px;
