@@ -1,26 +1,26 @@
-# Project instructions
+# Consignes du projet
 
-Apply these rules when changing this portfolio.
+Applique ces règles à chaque modification de ce portfolio.
 
-## Structure and reuse
-- Keep the published portfolio static unless a framework migration is explicitly requested. Do not add React dependencies just to use the starter component.
-- Reuse existing page patterns and Design System styles. Avoid duplicate HTML pages inside `Design_System/styles/`.
-- Keep CSS modules in `Design_System/styles/`; `Index.css` is their single entry point.
-- Keep shared visual values in `Design_System/styles/Tokens.css`. Define each color and design token once; do not redeclare the palette in `Theme.css` or component styles.
-- `Tailwind.css` is a small project utility layer, not the Tailwind framework. Do not describe it as Tailwind without adding and configuring the actual build tool.
+## Structure et réutilisation
+- Conserve le portfolio publié sous forme de site statique, sauf demande explicite de migration vers un framework. N’ajoute pas de dépendances React uniquement pour utiliser le composant de départ.
+- Réutilise les structures de page et les styles du système de design. Évite les pages HTML en double dans `Design_System/styles/`.
+- Place les modules CSS dans `Design_System/styles/`. `Index.css` est leur point d’entrée unique.
+- Centralise les valeurs visuelles partagées dans `Design_System/styles/Tokens.css`. Déclare chaque couleur et chaque jeton de design une seule fois ; ne redéfinis pas la palette dans `Theme.css` ni dans les styles des composants.
+- `Tailwind.css` est une petite couche d’utilitaires propre au projet, pas le framework Tailwind. Ne la présente pas comme Tailwind sans ajouter et configurer l’outil de compilation correspondant.
 
-## Visual and responsive quality
-- Build from narrow screens upward and preserve usability at 320 px, tablet, and desktop widths.
-- Use the existing breakpoints in `Responsive.css` unless a component-level container query is a better fit.
-- Keep interactive targets at least 44 by 44 px. Use semantic links and buttons, keyboard focus styles, and accessible names for icon-only controls.
-- Give images meaningful alt text and declared width and height.
-- Put reduced-motion overrides in the same stylesheet as the animation they affect.
-- Use design tokens for colors. Raw color values and opacity-based colors belong only in `Tokens.css`.
-- Do not add remote fonts, icon CDNs, or new remote assets. Prefer local files in `Public/` and `Design_System/assets/`. Existing remote Unsplash images are provisional placeholders; replace them with approved local project images before launch.
-- Preserve readable contrast between text and its background.
+## Qualité visuelle et adaptation
+- Commence par les petits écrans et préserve l’usage à 320 px, sur tablette et sur ordinateur.
+- Réutilise les points de rupture de `Responsive.css`, sauf si une requête de conteneur convient mieux à un composant.
+- Prévois des zones interactives d’au moins 44 × 44 px. Utilise des liens et boutons sémantiques, un indicateur de focus clavier et un nom accessible pour chaque commande représentée uniquement par une icône.
+- Fournis un texte alternatif pertinent ainsi que les attributs de largeur et de hauteur pour les images.
+- Place les adaptations pour la réduction des animations dans la feuille de style de l’animation concernée.
+- Utilise les jetons de design pour les couleurs. Les valeurs de couleur brutes et les couleurs fondées sur l’opacité doivent apparaître uniquement dans `Tokens.css`.
+- N’ajoute ni polices distantes, ni CDN d’icônes, ni nouvelles ressources distantes. Privilégie les fichiers locaux de `Public/` et `Design_System/assets/`. Les images Unsplash distantes existantes sont des exemples provisoires ; remplace-les par des images locales approuvées avant le lancement.
+- Préserve un contraste lisible entre le texte et son arrière-plan.
 
-## Content and verification
-- Do not invent professional history, project facts, or contact details. Keep unconfirmed information visibly marked as provisional.
-- Keep visible French copy correctly accented and proofread.
-- Before merging a visual change, check the actual published entry point and asset paths produced by the Pages workflow, not only a local or duplicate preview page.
-- Review the page at 320 px, tablet, and desktop widths and verify that all images and CSS load from the assembled Pages artifact.
+## Contenus et vérifications
+- N’invente pas d’expérience professionnelle, de faits sur les projets ni de coordonnées. Signale clairement les informations non confirmées comme provisoires.
+- Rédige et relis en français tous les textes destinés aux visiteurs et les documents du dépôt.
+- Avant d’intégrer une modification visuelle, vérifie le véritable point d’entrée publié et les chemins des ressources produits par le flux de publication GitHub Pages, pas uniquement un aperçu local ou une page en double.
+- Examine la page à 320 px, sur tablette et sur ordinateur. Vérifie que les images et les feuilles de style se chargent depuis le site assemblé pour GitHub Pages.
