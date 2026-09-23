@@ -1,0 +1,17 @@
+/*
+ * Couche d’utilitaires légère, sans CDN ni compilation Tailwind.
+ * Ces classes gardent une syntaxe familière et servent aux ajustements ponctuels.
+ */
+@layer utilities {
+  .u-block { display: block; }
+  .u-flex { display: flex; }
+  .u-grid { display: grid; }
+  .u-hidden { display: none; }
+  .u-w-full { width: 100%; }
+  .u-max-w-copy { max-width: 44rem; }
+  .u-items-center { align-items: center; }
+  .u-justify-between { justify-content: space-between; }
+  .u-gap-4 { gap: 1rem; }
+  .u-text-muted { color: var(--muted); }
+  .u-text-accent { color: var(--accent); }
+}
