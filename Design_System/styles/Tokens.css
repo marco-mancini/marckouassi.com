@@ -1,1 +1,21 @@
-:root{--paper:#f3efe1;--ink:#211f16;--muted:#7c7962;--line:#d8d2b9;--accent:#ca9e67;--olive:#57603f;--olive-deep:#3d4530;--mono:"DM Mono",monospace;--sans:"Manrope",Arial,sans-serif;--display:"Anton","Arial Narrow",sans-serif}
+:root {
+  /* Palette */
+  --paper: #f3efe1;
+  --ink: #211f16;
+  --muted: #6f6a52;
+  --line: #d8d2b9;
+  --accent: #895b2b;
+  --accent-light: #ca9e67;
+  --olive: #57603f;
+  --olive-deep: #3d4530;
+  --surface-alt: #e9e3cc;
+
+  /* Typography */
+  --font-sans: "Manrope", Arial, sans-serif;
+  --font-mono: "DM Mono", monospace;
+  --font-display: "Anton", "Arial Narrow", Impact, sans-serif;
+
+  /* Layout and motion */
+  --page-gutter: 8.2vw;
+  --ease-out: cubic-bezier(.2,.7,.2,1);
+}
