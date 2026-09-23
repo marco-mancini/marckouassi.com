@@ -1,1 +1,34 @@
-:root{--paper:#f2f0eb;--ink:#191a18;--muted:#77766f;--line:#d4d1c9;--accent:#bc5338;--mono:"DM Mono",monospace;--sans:"Manrope",Arial,sans-serif}
+:root {
+  /* Palette */
+  --paper: #f3efe1;
+  --ink: #211f16;
+  --muted: #6f6a52;
+  --line: #d8d2b9;
+  --accent: #895b2b;
+  --accent-light: #ca9e67;
+  --olive: #57603f;
+  --olive-deep: #3d4530;
+  --surface-alt: #e9e3cc;
+
+  /* Typography */
+  --font-sans: "Avenir Next", "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --font-display: "Anton", "Arial Narrow", Impact, sans-serif;
+
+  /* Layout and motion */
+  --page-gutter: 8.2vw;
+  --ease-out: cubic-bezier(.2,.7,.2,1);
+
+  /* Semantic surfaces and text */
+  --hero-meta: rgba(243,239,225,.62);
+  --hero-eyebrow: rgba(243,239,225,.7);
+  --hero-copy: rgba(243,239,225,.82);
+  --text-on-dark: #cdc7a9;
+  --text-subtle-heading: #8d8b83;
+  --text-body-muted: #66645f;
+  --text-body: #65635e;
+  --line-subtle: #c9c6be;
+  --surface-image: #d6d2c9;
+  --surface-image-portrait: #d3d0c8;
+  --white: #ffffff;
+}

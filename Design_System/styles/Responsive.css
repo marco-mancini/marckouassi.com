@@ -5,7 +5,7 @@
   .header-note { display: none; }
   .hero { min-height: calc(88svh - 64px); padding-top: 21px; }
   .hero-topline { font-size: 8px; }
-  .hero h1 { margin-bottom: 35px; font-size: clamp(78px, 21vw, 150px); }
+  .hero h1 { margin-bottom: 35px; font-size: clamp(70px, 18vw, 130px); }
   .hero-last { margin-left: 12vw; }
   .hero-stamp { top: 30%; right: 7vw; width: 65px; height: 65px; font-size: 16px; }
   .hero-bottom { grid-template-columns: minmax(0, 1fr) auto; gap: 20px; }
@@ -41,7 +41,7 @@
   .bio h2 { margin: 23px 0; }
   .contact { padding-top: 75px; padding-bottom: 55px; }
   .contact-kicker { margin-top: 65px; }
-  .contact h2 { font-size: clamp(54px, 13vw, 100px); }
+  .contact h2 { font-size: clamp(46px, 11vw, 86px); }
   .contact-bottom { display: block; margin-top: 65px; }
   .contact-links { margin-top: 30px; gap: 15px; }
   .site-footer { display: grid; padding: 18px 6vw; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); row-gap: 10px; }
@@ -50,7 +50,7 @@
 /* Tablette — 701 px à 1024 px : respiration et grilles compactes. */
 @media (min-width: 701px) and (max-width: 1024px) {
   :root { --page-gutter: 6vw; }
-  .hero h1 { font-size: clamp(130px, 17vw, 190px); }
+  .hero h1 { font-size: clamp(110px, 15vw, 165px); }
   .hero-bottom { gap: 4vw; }
   .project-grid { column-gap: 4vw; row-gap: 60px; }
   .about-layout { gap: 5vw; }
@@ -64,7 +64,7 @@
   .site-header { padding-right: 18px; padding-left: 18px; }
   .menu-link { max-width: 155px; font-size: 10px; text-align: right; }
   .hero-topline span:last-child { text-align: right; }
-  .hero h1 { font-size: clamp(68px, 20.5vw, 78px); }
+  .hero h1 { font-size: clamp(60px, 18vw, 68px); }
   .hero-last { margin-left: 8vw; }
   .hero-stamp { right: 20px; width: 56px; height: 56px; font-size: 14px; }
   .hero-role { font-size: 12px; }
@@ -77,7 +77,7 @@
   .project-year i { font-size: 7px; }
   .expertise-list h3 { font-size: 17px; }
   .timeline-date, .timeline-place { font-size: 8px; }
-  .contact h2 { font-size: clamp(48px, 15vw, 54px); }
+  .contact h2 { font-size: clamp(42px, 13vw, 48px); }
   .contact h2 a span { margin-left: 5px; }
   .contact-links { gap: 12px; }
   .contact-links a { font-size: 9px; }

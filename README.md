@@ -17,3 +17,7 @@ Public/images/        Emplacement des visuels locaux
 Le site est statique, sans dépendance à installer. Les feuilles de style sont organisées dans le Design System. Le workflow assemble le frontend, le Design System et les visuels publics dans l’artefact GitHub Pages. Les composants React sont des fondations réutilisables pour une évolution ultérieure ; ils ne sont pas requis pour publier la page actuelle.
 
 Les projets, dates, parcours, portrait et coordonnées à confirmer sont signalés dans la page. Voir [Docs/CONTENT_CHECKLIST.md](Docs/CONTENT_CHECKLIST.md).
+
+## Conventions
+
+Les règles de contribution et d’accessibilité adaptées à ce portfolio sont dans [AGENTS.md](AGENTS.md).
