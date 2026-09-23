@@ -1,4 +1,0 @@
-:where(.menu-link, .round-link, .image-arrow, .text-link, .expertise-mark, .contact-links a, .site-footer a) { -webkit-tap-highlight-color: transparent; }
-.menu-link span, .text-link span, .contact-links span, .expertise-mark, .image-arrow { line-height: 1; }
-.image-arrow { transition: color .2s, background .2s, transform .2s; }
-.project-image:hover .image-arrow { transform: translate(2px, -2px); }
