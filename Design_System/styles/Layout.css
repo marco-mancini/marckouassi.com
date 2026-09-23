@@ -118,13 +118,13 @@
 }
 .contact h2 a { color: #cdc7a9; transition: color .25s; }
 .contact h2 a:hover { color: var(--paper); }
-.contact h2 a span { margin-left: 16px; color: var(--accent); font-size: .36em; letter-spacing: 0; vertical-align: top; text-transform: none; }
+.contact h2 a span { margin-left: 16px; color: var(--accent-light); font-size: .36em; letter-spacing: 0; vertical-align: top; text-transform: none; }
 .contact-bottom { display: flex; margin-top: 100px; align-items: end; justify-content: space-between; gap: 32px; }
 .contact-bottom > p { color: #cdc7a9; font-size: 11px; line-height: 1.7; }
 .contact-links { display: flex; flex-wrap: wrap; gap: 40px; }
 .contact-item { display: flex; flex-direction: column; gap: 7px; }
 .contact-links a { font-size: 10px; }
-.contact-links span { margin-left: 5px; color: var(--accent); }
+.contact-links span { margin-left: 5px; color: var(--accent-light); }
 .contact .provisional-note { color: #cdc7a9; }
 .site-footer { display: flex; min-height: 68px; padding: 12px 4vw; align-items: center; justify-content: space-between; color: var(--muted); font-size: 9px; }
 .site-footer .wordmark { color: var(--ink); font: 800 22px var(--font-sans); }
