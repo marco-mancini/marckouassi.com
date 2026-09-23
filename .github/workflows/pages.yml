@@ -22,10 +22,17 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+      - name: Assemble static site
+        run: |
+          mkdir -p _site/Design_System _site/Public/images
+          cp Frontend/index.html Frontend/styles.css Frontend/script.js _site/
+          cp Design_System/tokens.css _site/Design_System/
+          cp -R Public/images/. _site/Public/images/
+          touch _site/.nojekyll
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
   deploy:
     environment:
       name: github-pages
