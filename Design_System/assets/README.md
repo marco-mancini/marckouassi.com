@@ -1,3 +1,3 @@
-# Assets du design system
+# Ressources du système de design
 
-Placer ici les ressources propres au système visuel (icônes, illustrations, motifs et polices locales). Les images des projets et de la page restent dans `Public/images/`.
+Place ici les ressources propres au système visuel : icônes, illustrations, motifs et polices locales. Les images des projets et de la page se trouvent dans `Public/images/`.
