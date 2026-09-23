@@ -1,20 +1,20 @@
-const year = document.querySelector("#year");
-if (year) year.textContent = new Date().getFullYear();
+const annee = document.querySelector("#annee");
+if (annee) annee.textContent = new Date().getFullYear();
 
-const items = document.querySelectorAll(".reveal");
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const elements = document.querySelectorAll(".apparition");
+const mouvementReduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-if ("IntersectionObserver" in window && !reduceMotion) {
-  const observer = new IntersectionObserver((entries, activeObserver) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        activeObserver.unobserve(entry.target);
+if ("IntersectionObserver" in window && !mouvementReduit) {
+  const observateur = new IntersectionObserver((entrees, observateurActif) => {
+    entrees.forEach((entree) => {
+      if (entree.isIntersecting) {
+        entree.target.classList.add("visible");
+        observateurActif.unobserve(entree.target);
       }
     });
   }, { threshold: 0.12 });
 
-  items.forEach((item) => observer.observe(item));
+  elements.forEach((element) => observateur.observe(element));
 } else {
-  items.forEach((item) => item.classList.add("is-visible"));
+  elements.forEach((element) => element.classList.add("visible"));
 }
