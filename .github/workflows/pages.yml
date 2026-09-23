@@ -25,8 +25,8 @@ jobs:
       - name: Assemble static site
         run: |
           mkdir -p _site/Design_System _site/Public/images
-          cp Frontend/index.html Frontend/styles.css Frontend/script.js _site/
-          cp Design_System/tokens.css _site/Design_System/
+          cp Frontend/index.html Frontend/script.js _site/
+          cp -R Design_System _site/Design_System
           cp -R Public/images/. _site/Public/images/
           touch _site/.nojekyll
       - name: Upload static site
