@@ -1,3 +1,3 @@
-# Providers
+# Fournisseurs de contexte
 
-Réserver ce dossier aux providers React qui partagent un état ou un contexte dans l’application. Le portfolio statique n’a actuellement ni contexte ni provider.
+Réserve ce dossier aux composants React qui partagent un état ou un contexte dans l’application. Le portfolio statique n’utilise actuellement ni contexte ni fournisseur.
