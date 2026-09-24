@@ -1,32 +1,39 @@
-:root { font-synthesis: none; text-rendering: optimizeLegibility; }
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
 body { font-size: 16px; line-height: 1.5; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3 { text-wrap: balance; }
-.eyebrow, .hero-topline, .project-caption p, .project-year,
-.image-index, .provisional-note, .timeline-date, .timeline-place,
-.site-footer, .bio-photo > span, .about-image > span, .contact-label {
+
+.eyebrow, .hero-topline, .entry-meta, .entry-status, .index-badge,
+.provisional-note, .timeline-date, .timeline-place, .site-footer,
+.portrait > span, .contact-label, .cv-note {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: .04em;
 }
 .eyebrow { color: var(--muted); text-transform: uppercase; }
-.section-heading h2, .about h2, .bio h2 {
+
+.section-heading h2, .about h2 {
   margin: 22px 0 0;
   font-family: var(--font-display);
   font-size: clamp(50px, 7.4vw, 104px);
   font-weight: 400;
-  line-height: .86;
-  letter-spacing: -.01em;
+  line-height: var(--display-leading);
+  letter-spacing: var(--display-tracking);
   text-transform: uppercase;
 }
-.project-caption h3 { margin: 0 0 7px; font-size: 17px; font-weight: 500; letter-spacing: -.04em; }
-.project-caption p { margin: 0; color: var(--muted); }
+.entry-title { margin: 0 0 7px; font-size: 17px; font-weight: 500; letter-spacing: -.04em; }
+.entry-meta { margin: 0; color: var(--muted); }
+.entry-note { margin: 6px 0 0; max-width: 320px; color: var(--muted); font-size: 11px; line-height: 1.6; }
 .provisional-note { color: var(--muted); font-size: 9px; }
-.contact-label { text-transform: uppercase; color: var(--text-on-dark); font-size: 9px; }
+.contact-label { text-transform: uppercase; color: var(--paper-on-dark); font-size: 9px; }
+
 @media (max-width: 700px) {
-  .section-heading h2, .about h2, .bio h2 { font-size: clamp(44px, 11vw, 72px); }
+  .section-heading h2, .about h2 { font-size: clamp(44px, 11vw, 72px); }
 }
 @media (max-width: 360px) {
   body { font-size: 15px; }
-  .section-heading h2, .about h2, .bio h2 { font-size: clamp(40px, 10.5vw, 48px); }
+  .section-heading h2, .about h2 { font-size: clamp(40px, 10.5vw, 48px); }
 }

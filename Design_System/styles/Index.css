@@ -1,9 +1,9 @@
-/* Point d’entrée CSS — l’ordre des imports est volontaire. */
-@import url("./Tokens.css");
-@import url("./Theme.css");
-@import url("./Typography.css");
-@import url("./Layout.css");
-@import url("./Icones.css");
-@import url("../animations/Animation.css");
-@import url("./Tailwind.css");
-@import url("./Responsive.css");
+/* Point d’entrée unique des modules du système de design. */
+@import url("Tokens.css");
+@import url("Theme.css");
+@import url("Typography.css");
+@import url("Layout.css");
+@import url("Icones.css");
+@import url("Motion.css");
+@import url("Tailwind.css");
+@import url("Responsive.css");

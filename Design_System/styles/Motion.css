@@ -1,0 +1,178 @@
+/* Toutes les animations et transitions du site vivent ici — aucune autre feuille n'en définit. */
+/* Le script bascule des classes d'état ; c'est cette feuille qui décide de ce qu'elles déclenchent visuellement. */
+
+/* Barre de progression de lecture, fixe en haut de page. */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; z-index: 60;
+  height: 3px; width: 0%;
+  background: var(--accent);
+  transition: width var(--duration-progress) linear;
+}
+
+/* En-tête : légère élévation dès que la page défile. */
+.site-header {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--paper);
+  transition: box-shadow var(--duration-fast) ease;
+}
+.site-header.is-scrolled { box-shadow: 0 1px 0 var(--line); }
+
+/* Bloque le défilement de fond pendant qu'un panneau (menu ou dialogue de projet) est ouvert. */
+html { scroll-behavior: smooth; }
+html.has-overlay { overflow: hidden; }
+
+/* Indicateur de rubrique active dans le menu principal, mis à jour au défilement. */
+/* Le texte reste toujours pleinement lisible (couleur --ink constante) ; seul le soulignement marque l'état. */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+  background: currentColor; transform: scaleX(0); transform-origin: left;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.nav-link:hover::after, .nav-link.is-current::after { transform: scaleX(1); }
+
+/* Bouton hamburger : les deux barres se referment en croix à l'ouverture. */
+.nav-toggle-bars span { transition: transform var(--duration-fast) var(--ease-out), top var(--duration-fast) var(--ease-out), bottom var(--duration-fast) var(--ease-out); }
+.nav-toggle.is-active .nav-toggle-bars span:first-child { top: 6px; transform: rotate(45deg); }
+.nav-toggle.is-active .nav-toggle-bars span:last-child { bottom: 6px; transform: rotate(-45deg); }
+
+/* Panneau de navigation mobile : dévoilement en rideau, comme un cadrage qui s'ouvre. */
+.nav-mobile {
+  visibility: hidden; opacity: 1; clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--duration-slow) var(--ease-out), visibility 0s var(--duration-slow);
+}
+.nav-mobile.is-open {
+  visibility: visible; clip-path: inset(0 0 0% 0);
+  transition: clip-path var(--duration-slow) var(--ease-out), visibility 0s;
+}
+.nav-mobile-links a, .nav-mobile-cta {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+}
+.nav-mobile.is-open .nav-mobile-links a, .nav-mobile.is-open .nav-mobile-cta { opacity: 1; transform: translateY(0); }
+.nav-mobile-links a:nth-child(1) { transition-delay: var(--delay-menu-first); }
+.nav-mobile-links a:nth-child(2) { transition-delay: var(--delay-menu-second); }
+.nav-mobile-links a:nth-child(3) { transition-delay: var(--delay-menu-third); }
+.nav-mobile-links a:nth-child(4) { transition-delay: var(--delay-menu-fourth); }
+.nav-mobile-links a:nth-child(5) { transition-delay: var(--delay-menu-fifth); }
+.nav-mobile-cta { transition-delay: var(--delay-menu-cta); }
+.nav-mobile-close { transition: background var(--duration-fast), border-color var(--duration-fast); }
+.nav-mobile-close:hover { background: var(--hover-on-dark); border-color: var(--paper); }
+
+/* Dialogue de présentation de projet : la trame s'estompe, le panneau se dévoile en rideau. */
+.project-modal {
+  visibility: hidden; opacity: 0; pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-out), visibility var(--duration-none) var(--duration-base);
+}
+.project-modal.is-open {
+  visibility: visible; opacity: 1; pointer-events: auto;
+  transition: opacity var(--duration-base) var(--ease-out), visibility var(--duration-none);
+}
+.project-modal-panel {
+  clip-path: inset(4% 0 96% 0); transform: translateY(10px);
+  transition: clip-path var(--duration-slow) var(--ease-out) var(--delay-project-panel), transform var(--duration-slow) var(--ease-out) var(--delay-project-panel);
+}
+.project-modal.is-open .project-modal-panel { clip-path: inset(0 0 0 0); transform: translateY(0); }
+.project-modal-close { transition: background var(--duration-fast), border-color var(--duration-fast); }
+.project-modal-close:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* Le contenu du dialogue s'efface brièvement pendant un passage au projet précédent/suivant. */
+.project-modal-body { transition: opacity var(--duration-project-swap) ease; }
+.project-modal-body.is-swapping { opacity: 0; }
+
+/* Galerie du dialogue : entrée en cascade légère à l'ouverture, via --d posé par le script. */
+.project-modal-gallery .ph-block, .project-modal-bts-grid .ph-block {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  transition-delay: calc(var(--delay-gallery-start) + var(--d, 0) * var(--delay-gallery-step));
+}
+.project-modal.is-open .project-modal-gallery .ph-block,
+.project-modal.is-open .project-modal-bts-grid .ph-block { opacity: 1; transform: translateY(0); }
+
+.project-modal-prev, .project-modal-next { transition: color var(--duration-fast) var(--ease-out); }
+.project-modal-prev:hover, .project-modal-next:hover { color: var(--accent); }
+
+/* Ouverture du Hero : entrée unique, en cascade légère, jouée une fois au chargement. */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroPop {
+  from { opacity: 0; transform: scale(.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.hero-topline, .hero-eyebrow, .hero-bottom { opacity: 0; transform: translateY(24px); animation: heroFadeUp var(--duration-slow) var(--ease-out) forwards; }
+.hero-topline { animation-delay: var(--delay-hero-topline); }
+.hero-eyebrow { animation-delay: var(--delay-hero-eyebrow); }
+.hero-bottom  { animation-delay: var(--delay-hero-bottom); }
+.hero h1 .hero-first, .hero h1 .hero-last {
+  display: inline-block; opacity: 0; transform: translateY(30px);
+  animation: heroFadeUp var(--duration-hero-title) var(--ease-out) forwards;
+}
+.hero h1 .hero-first { animation-delay: var(--delay-hero-first-name); }
+.hero h1 .hero-last  { animation-delay: var(--delay-hero-last-name); }
+.hero-stamp { opacity: 0; transform: scale(.85); animation: heroPop var(--duration-slow) var(--ease-out) var(--delay-hero-stamp) forwards; }
+
+/* Révélation au défilement, avec décalage entre éléments d'une même grille via --d. */
+.reveal {
+  opacity: 0; transform: translateY(28px); filter: blur(0);
+  transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out), filter var(--duration-slow) var(--ease-out);
+  transition-delay: calc(var(--d, 0) * var(--delay-reveal-step));
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* Transition « rideau de chapitre » : les titres de grande section s'ouvrent avec un léger flou, marquant le passage d'une séquence à l'autre. */
+.section-heading.reveal { transform: translateY(40px); filter: blur(7px); }
+.section-heading.reveal.is-visible { filter: blur(0); }
+
+/* Voile qui se retire sur les visuels de projet au moment où ils apparaissent. */
+.entry-image { position: relative; overflow: hidden; }
+.entry-image::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: var(--paper); transform-origin: left center;
+  transition: transform var(--duration-slow) var(--ease-out);
+  transition-delay: calc(var(--d, 0) * var(--delay-reveal-step));
+}
+.reveal.is-visible .entry-image::after { transform: scaleX(0); }
+
+/* Micro-interactions au survol et au toucher, toujours discrètes. */
+.entry-image img, .portrait img { transition: transform var(--duration-slow) var(--ease-out); }
+.entry-image:hover img, .portrait:hover img { transform: scale(1.035); }
+.entry-image:active .ph-block { transform: scale(.985); }
+.ph-block { transition: transform var(--duration-fast) var(--ease-out); }
+.entry-arrow { transition: transform var(--duration-fast) var(--ease-out); }
+.entry-image:hover .entry-arrow { transform: translate(2px, -2px); }
+.text-link, .contact-links a {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%; background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size var(--duration-fast) var(--ease-out);
+}
+.text-link:hover, .contact-links a:hover { background-size: 100% 1px; }
+
+.expertise-mark, .round-link { transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast), color var(--duration-fast); }
+.expertise-list article:hover .expertise-mark { transform: translate(2px, -2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-topline, .hero-eyebrow, .hero-bottom, .hero-stamp,
+  .hero h1 .hero-first, .hero h1 .hero-last {
+    animation: none; opacity: 1; transform: none;
+  }
+  .reveal, .section-heading.reveal { opacity: 1; transform: none; filter: none; transition: none; }
+  .entry-image::after { transition: none; transform: scaleX(0); }
+  .entry-image img, .portrait img, .entry-arrow, .ph-block, .expertise-mark, .round-link { transition: none; }
+  .scroll-progress { transition: none; }
+  .nav-link::after { transition: none; }
+  .nav-toggle-bars span { transition: none; }
+  .nav-mobile, .nav-mobile-links a, .nav-mobile-cta { transition: none; }
+  .nav-mobile:not(.is-open) { clip-path: inset(0 0 100% 0); }
+  .project-modal, .project-modal-panel, .project-modal-body { transition: none; }
+  .menu-link, .contact h2 a, .bouton-systeme { transition: none; }
+  .project-modal-gallery .ph-block, .project-modal-bts-grid .ph-block { transition: none; opacity: 1; transform: none; }
+}
+
+/* Transitions des contrôles et des styles d’icônes, centralisées ici. */
+.menu-link { transition: background var(--duration-fast), color var(--duration-fast); }
+.contact h2 a { transition: color var(--duration-fast); }
+.bouton-systeme { transition: color var(--duration-fast), background-color var(--duration-fast), border-color var(--duration-fast); }

@@ -4,7 +4,7 @@ Ce système centralise les règles visuelles et les éléments réutilisables.
 
 ```text
 Design_System/
-├── animations/   Animations et réduction du mouvement
+├── animations/   Documentation des animations centralisées dans Motion.css
 ├── assets/       Ressources visuelles partagées
 ├── components/   Composants React (.tsx) et styles associés (.css)
 ├── hooks/        Fonctions de cycle de vie et d’état React

@@ -1,34 +1,73 @@
+/* Source unique de toutes les valeurs visuelles partagées. */
+/* Aucune couleur, police ou durée ne se redéclare ailleurs : tout passe par ces jetons. */
 :root {
-  /* Palette de couleurs */
+  color-scheme: light;
+
+  /* Couleurs */
   --paper: #f3efe1;
   --ink: #211f16;
-  --muted: #6f6a52;
+  --muted: #7c7962;
   --line: #d8d2b9;
-  --accent: #895b2b;
-  --accent-light: #ca9e67;
+  --accent: #ca9e67;
   --olive: #57603f;
   --olive-deep: #3d4530;
   --surface-alt: #e9e3cc;
+  --paper-on-dark: #cdc7a9;
 
-  /* Typographie */
+  /* Polices */
   --font-sans: "Avenir Next", "Segoe UI", sans-serif;
   --font-mono: "SFMono-Regular", Consolas, monospace;
-  --font-display: "Anton", "Arial Narrow", Impact, sans-serif;
+  --font-display: "Arial Narrow", Impact, sans-serif;
 
-  /* Mise en page et mouvement */
-  --page-gutter: 8.2vw;
-  --ease-out: cubic-bezier(.2,.7,.2,1);
+  /* Typographie display */
+  --display-leading: .94;
+  --display-tracking: -.01em;
 
-  /* Fonds et textes par rôle */
+  /* Fonds, accents et textes secondaires */
   --hero-meta: rgba(243,239,225,.62);
   --hero-eyebrow: rgba(243,239,225,.7);
   --hero-copy: rgba(243,239,225,.82);
-  --text-on-dark: #cdc7a9;
   --text-subtle-heading: #8d8b83;
-  --text-body-muted: #66645f;
-  --text-body: #65635e;
   --line-subtle: #c9c6be;
   --surface-image: #d6d2c9;
   --surface-image-portrait: #d3d0c8;
-  --white: #ffffff;
+  --placeholder-highlight: #8d8567;
+  --placeholder-shadow: #4c4936;
+  --placeholder-text: rgba(255,255,255,.85);
+  --border-on-dark: rgba(243,239,225,.4);
+  --text-on-dark-muted: rgba(243,239,225,.55);
+  --border-on-dark-soft: rgba(243,239,225,.35);
+  --hover-on-dark: rgba(243,239,225,.12);
+  --shadow-ink-soft: rgba(33,31,22,.25);
+  --overlay-scrim: rgba(33,31,22,.68);
+
+  /* Mise en page */
+  --page-gutter: 8.2vw;
+  --header-offset: 76px;
+
+  /* Mouvement */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --duration-fast: .25s;
+  --duration-base: .6s;
+  --duration-slow: .9s;
+  --duration-progress: .12s;
+  --duration-project-swap: .18s;
+  --duration-hero-title: .8s;
+  --delay-project-panel: .06s;
+  --delay-gallery-start: .1s;
+  --delay-gallery-step: 70ms;
+  --delay-reveal-step: 90ms;
+  --delay-hero-topline: .05s;
+  --delay-hero-eyebrow: .16s;
+  --delay-hero-bottom: .46s;
+  --delay-hero-first-name: .28s;
+  --delay-hero-last-name: .4s;
+  --delay-hero-stamp: .56s;
+  --delay-menu-first: .12s;
+  --delay-menu-second: .17s;
+  --delay-menu-third: .22s;
+  --delay-menu-fourth: .27s;
+  --delay-menu-fifth: .32s;
+  --delay-menu-cta: .38s;
+  --duration-none: 0s;
 }

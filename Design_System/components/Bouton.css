@@ -8,10 +8,8 @@
   border-radius: 999px;
   font: 600 0.875rem/1 var(--font-sans);
   cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
 .bouton-systeme--principal { background: var(--ink); color: var(--paper); }
 .bouton-systeme--contour { border-color: currentColor; background: transparent; color: var(--ink); }
 .bouton-systeme:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .bouton-systeme:disabled { cursor: not-allowed; opacity: 0.55; }
-@media (prefers-reduced-motion: reduce) { .bouton-systeme { transition: none; } }
