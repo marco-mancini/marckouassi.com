@@ -1,2 +1,1 @@
 :where(.menu-link, .round-link, .text-link, .expertise-mark, .contact-links a, .site-footer a) { -webkit-tap-highlight-color: transparent; }
-.menu-link span, .text-link span, .contact-links span, .expertise-mark { line-height: 1; }

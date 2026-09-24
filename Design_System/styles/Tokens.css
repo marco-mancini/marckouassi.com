@@ -23,6 +23,25 @@
   --display-leading: .94;
   --display-tracking: -.01em;
 
+  /* Échelle typographique consommée par Typography.css */
+  --type-display: clamp(5.25rem, 16vw, 15rem);
+  --type-display-contact: clamp(3.25rem, 10.5vw, 9.25rem);
+  --type-title-section: clamp(3.125rem, 7.4vw, 6.5rem);
+  --type-title-dialog: clamp(1.875rem, 5vw, 3.375rem);
+  --type-title-card: clamp(1.25rem, 2.2vw, 1.5rem);
+  --type-mobile-navigation: clamp(2rem, 11vw, 3.25rem);
+  --type-body: 1rem;
+  --type-body-emphasis: 1.125rem;
+  --type-body-compact: .875rem;
+  --type-label: .75rem;
+  --type-micro: .625rem;
+  --type-index: 1rem;
+  --type-icon: 1.125rem;
+  --type-symbol: 1.75rem;
+  --leading-heading: 1.08;
+  --leading-body: 1.6;
+  --leading-compact: 1.5;
+
   /* Fonds, accents et textes secondaires */
   --hero-meta: rgba(243,239,225,.62);
   --hero-eyebrow: rgba(243,239,225,.7);
