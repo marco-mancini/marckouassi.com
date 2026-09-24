@@ -1,84 +1,81 @@
-/* Mobile d’abord — base de mise en page adaptée à 320 px. */
+/* Mobile d'abord — base de mise en page adaptée à 320 px. */
 @media (max-width: 700px) {
-  :root { --page-gutter: 6vw; }
+  :root { --page-gutter: 6vw; --header-offset: 64px; }
   .site-header { height: 64px; padding-right: 6vw; padding-left: 6vw; }
-  .header-note { display: none; }
+  .site-nav, .menu-link { display: none; }
+  .nav-toggle { display: flex; }
+
+  .project-modal { padding: 0; }
+  .project-modal-panel { width: 100%; height: 100dvh; max-height: none; border-radius: 0; }
+  .project-modal-meta { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .project-modal-gallery { grid-template-columns: minmax(0, 1fr); }
+  .project-modal-bts-grid { grid-template-columns: repeat(2, 1fr); }
+
   .hero { min-height: calc(88svh - 64px); padding-top: 21px; }
-  .hero-topline { font-size: 8px; }
-  .hero h1 { margin-bottom: 35px; font-size: clamp(70px, 18vw, 130px); }
+  .hero h1 { margin-bottom: 35px; }
   .hero-last { margin-left: 12vw; }
-  .hero-stamp { top: 30%; right: 7vw; width: 65px; height: 65px; font-size: 16px; }
+  .hero-stamp { top: 30%; right: 7vw; width: 65px; height: 65px; }
   .hero-bottom { grid-template-columns: minmax(0, 1fr) auto; gap: 20px; }
   .hero-role { grid-column: 1; }
-  .hero-intro { grid-column: 1 / -1; grid-row: 2; max-width: 330px; font-size: 13px; }
+  .hero-intro { grid-column: 1 / -1; grid-row: 2; max-width: 330px; }
   .round-link { grid-column: 2; grid-row: 1; }
-  .works, .expertise { padding-top: 95px; padding-bottom: 100px; }
+
+  .category-nav { gap: 16px 22px; padding-top: 16px; padding-bottom: 16px; }
+
+  .work-section, .expertise { padding-top: 85px; padding-bottom: 90px; }
   .section-heading { margin-bottom: 42px; }
-  .section-aside { max-width: 140px; font-size: 10px; }
-  .project-grid { grid-template-columns: minmax(0, 1fr); row-gap: 42px; }
-  .project-wide { grid-column: auto; }
-  .project-last { margin-top: 0; }
-  .project-image, .project-offset .project-image, .project-last .project-image { height: min(105vw, 520px); }
-  .project-wide .project-image { height: min(75vw, 360px); }
-  .project-caption h3 { font-size: 15px; }
-  .project-caption p { font-size: 9px; }
-  .project-year { font-size: 9px; }
+  .section-aside { max-width: 140px; }
+  .entry-grid { grid-template-columns: minmax(0, 1fr); row-gap: 46px; }
+  .entry:nth-child(2n) { margin-top: 0; }
+  .entry-image, .entry-more { height: min(105vw, 420px); }
+  .entry-extra p { max-width: 200px; }
+
   .about { padding-top: 90px; padding-bottom: 90px; }
   .about-layout { grid-template-columns: minmax(0, 1fr); gap: 28px; margin: 22px 0 44px; }
-  .about-copy { max-width: 460px; }
-  .about-image { height: 65vw; }
-  .expertise-list article { grid-template-columns: 35px minmax(0, 1fr) auto; gap: 10px; padding: 20px 0; }
-  .expertise-list h3 { font-size: 20px; }
+  .about-visual { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .portrait { width: 82%; height: min(100vw, 420px); max-height: none; }
+
+  .expertise-list article { grid-template-columns: 52px minmax(0, 1fr) 24px; gap: 12px; padding: 20px 0; }
+  .expertise-number { width: 52px; }
   .expertise-list p { grid-column: 2; grid-row: 2; }
   .expertise-mark { grid-column: 3; grid-row: 1; }
-  .journey { padding-top: 90px; padding-bottom: 95px; }
+
+  .parcours { padding-top: 90px; padding-bottom: 95px; }
   .timeline article { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
   .timeline article > div { grid-column: 1 / -1; grid-row: 2; }
-  .timeline-place { font-size: 8px; text-align: right; }
-  .bio { grid-template-columns: minmax(0, 1fr); gap: 42px; padding-top: 90px; padding-bottom: 100px; }
-  .bio-photo { width: 82%; height: min(115vw, 550px); max-height: none; }
-  .bio-copy { max-width: 520px; }
-  .bio h2 { margin: 23px 0; }
+
   .contact { padding-top: 75px; padding-bottom: 55px; }
   .contact-kicker { margin-top: 65px; }
-  .contact h2 { font-size: clamp(46px, 11vw, 86px); }
   .contact-bottom { display: block; margin-top: 65px; }
   .contact-links { margin-top: 30px; gap: 15px; }
   .site-footer { display: grid; padding: 18px 6vw; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); row-gap: 10px; }
-  .site-footer > :nth-child(even) { text-align: right; }
 }
+
 /* Tablette — 701 px à 1024 px : respiration et grilles compactes. */
 @media (min-width: 701px) and (max-width: 1024px) {
   :root { --page-gutter: 6vw; }
-  .hero h1 { font-size: clamp(110px, 15vw, 165px); }
   .hero-bottom { gap: 4vw; }
-  .project-grid { column-gap: 4vw; row-gap: 60px; }
+  .entry-grid { column-gap: 4vw; row-gap: 66px; }
   .about-layout { gap: 5vw; }
-  .expertise-list article { grid-template-columns: 40px 1.1fr 1fr auto; gap: 14px; }
-  .bio { gap: 7vw; }
-  .bio-photo { height: 54vw; }
+  .about-visual { gap: 6vw; }
+  .expertise-list article { grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1fr) 24px; gap: 14px; }
+  .expertise-number { width: 60px; }
+  .portrait { height: 46vw; }
 }
+
 /* Petits écrans (320 px inclus) : prévenir les débordements horizontaux. */
 @media (max-width: 360px) {
   :root { --page-gutter: 18px; }
   .site-header { padding-right: 18px; padding-left: 18px; }
-  .menu-link { max-width: 155px; font-size: 10px; text-align: right; }
-  .hero-topline span:last-child { text-align: right; }
-  .hero h1 { font-size: clamp(60px, 18vw, 68px); }
+  .menu-link { max-width: 155px; }
   .hero-last { margin-left: 8vw; }
-  .hero-stamp { right: 20px; width: 56px; height: 56px; font-size: 14px; }
-  .hero-role { font-size: 12px; }
-  .hero-intro { max-width: 100%; font-size: 12px; }
+  .hero-stamp { right: 20px; width: 56px; height: 56px; }
+  .hero-intro { max-width: 100%; }
+  .category-nav { gap: 10px 16px; }
   .section-heading { gap: 12px; }
-  .section-aside { max-width: 112px; font-size: 9px; }
-  .project-caption { gap: 6px; }
-  .project-caption h3 { max-width: 190px; font-size: 14px; }
-  .project-caption p, .project-year { font-size: 8px; }
-  .project-year i { font-size: 7px; }
-  .expertise-list h3 { font-size: 17px; }
-  .timeline-date, .timeline-place { font-size: 8px; }
-  .contact h2 { font-size: clamp(42px, 13vw, 48px); }
+  .section-aside { max-width: 112px; }
+  .entry-caption { gap: 6px; }
+  .entry-title { max-width: 190px; }
   .contact h2 a span { margin-left: 5px; }
   .contact-links { gap: 12px; }
-  .contact-links a { font-size: 9px; }
 }

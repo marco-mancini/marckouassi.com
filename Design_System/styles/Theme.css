@@ -1,13 +1,19 @@
+/* Réinitialisation et styles de base. Consomme les jetons de Tokens.css, n'en redéfinit aucun. */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-padding-top: var(--header-offset); }
 body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-}
+  -webkit-}
 img { display: block; width: 100%; height: 100%; object-fit: cover; }
 a { color: inherit; text-decoration: none; }
-button, input, textarea, select { font: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 ::selection { color: var(--paper); background: var(--accent); }
+
+/* Contenu réservé aux technologies d’assistance, invisible à l’écran. */
+.visually-hidden {
+  position: absolute; overflow: hidden;
+  width: 1px; height: 1px; margin: -1px; padding: 0;
+  border: 0; clip: rect(0, 0, 0, 0); white-space: nowrap;
+}
