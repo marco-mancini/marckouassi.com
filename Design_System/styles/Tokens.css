@@ -273,6 +273,8 @@
   --cover-edition-offset: var(--header-height);
   --introduction-mark-size: clamp(88px, 9vw, 140px);
   --introduction-claim-tracking: -.01em;
+  --introduction-visual-height: clamp(280px, 31vw, 470px);
+  --introduction-title-gap: clamp(28px, 3.4vw, 54px);
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;

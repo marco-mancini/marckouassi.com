@@ -120,7 +120,8 @@ p { line-height: var(--leading-body); }
 .cover-baseline { font-family: var(--font-display); font-size: var(--type-cover-promise); line-height: var(--leading-compact); letter-spacing: var(--cover-caption-tracking); }
 .cover-fact { font-family: var(--font-mono); font-size: var(--type-body-compact); line-height: var(--leading-compact); }
 .cover-bottom > p { font-size: var(--type-body-emphasis); }
-.introduction-lede, .introduction-detail, .contact-lead { font-size: var(--type-body-emphasis); }
+.introduction-detail, .contact-lead { font-size: var(--type-body-emphasis); }
+.introduction-lede { font-size: var(--type-title-card); }
 .introduction-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .introduction-bottom p, .about-copy p { font-size: var(--type-body-compact); line-height: var(--leading-body); }
 .about-copy .about-lead, .project-context { font-size: var(--type-body-emphasis); line-height: 1.45; }
