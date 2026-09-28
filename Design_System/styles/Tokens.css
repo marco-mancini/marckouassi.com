@@ -266,6 +266,10 @@
   --cover-baseline-offset: var(--space-4);
   --cover-fact-offset: var(--space-2);
   --cover-promise-offset: var(--space-6);
+  /* La planche de couverture demarre a 12 px du haut du viewport, sous
+     un en-tete fixe de --header-height. Sans ce degagement la mention
+     d'edition se posait a 30 px et passait derriere lui. */
+  --cover-edition-offset: var(--header-height);
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;

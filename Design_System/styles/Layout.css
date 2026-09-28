@@ -38,6 +38,7 @@
 .cover-title-block h1 { display: flex; margin: 0; flex-direction: column; font-size: var(--type-cover); line-height: var(--leading-cover); letter-spacing: var(--cover-tracking); text-transform: uppercase; }
 .cover-title-block h1 span:first-child { color: var(--olive-ghost); }
 .cover-title-block h1 span:last-child { color: var(--paper); }
+.cover-edition { margin: var(--cover-edition-offset) 0 0; color: var(--paper-on-dark); text-align: right; }
 .cover-mark-block { display: grid; align-content: start; justify-items: end; }
 .cover-baseline { margin: var(--cover-promise-offset) 0 0; color: var(--accent-gold); text-transform: uppercase; }
 .cover-mark { display: block; width: var(--cover-mark-size); }
