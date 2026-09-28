@@ -4,29 +4,34 @@
   color-scheme: light;
 
   /* Couleurs */
-  --paper: #f3efe1;
-  --ink: #211f16;
-  --muted: #7c7962;
-  --line: #d8d2b9;
-  --accent: #ca9e67;
-  --olive: #57603f;
-  --olive-deep: #3d4530;
-  --surface-alt: #e9e3cc;
-  --paper-on-dark: #cdc7a9;
+  --paper: #fffff2;
+  --ink: #505843;
+  --muted: #646c58;
+  --line: #d9dfca;
+  --accent: #7a8e5a;
+  --accent-pop: #d7e2c2;
+  --olive: #7a8e5a;
+  --olive-deep: #505843;
+  --surface-alt: #f0f3e8;
+  --paper-on-dark: #f1f4e8;
 
   /* Polices */
   --font-sans: "Avenir Next", "Segoe UI", sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, monospace;
-  --font-display: "Arial Narrow", Impact, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --font-display: "Anton", Impact, sans-serif;
 
   /* Typographie display */
   --display-leading: .94;
   --display-tracking: -.01em;
 
   /* Échelle typographique consommée par Typography.css */
-  --type-display: clamp(5.25rem, 16vw, 15rem);
+  --type-display: clamp(5rem, 18vw, 22rem);
+  --type-title-hero: clamp(5rem, 10vw, 9rem);
+  --type-cover: clamp(5rem, 18vw, 22rem);
   --type-display-contact: clamp(3.25rem, 10.5vw, 9.25rem);
-  --type-title-section: clamp(3.125rem, 7.4vw, 6.5rem);
+  --type-contact-title: clamp(4rem, 11vw, 10rem);
+  --type-title-section: clamp(3rem, 12vw, 14rem);
+  --type-project-title: clamp(3.5rem, 10vw, 10rem);
   --type-title-dialog: clamp(1.875rem, 5vw, 3.375rem);
   --type-title-card: clamp(1.25rem, 2.2vw, 1.5rem);
   --type-mobile-navigation: clamp(2rem, 11vw, 3.25rem);
@@ -43,26 +48,26 @@
   --leading-compact: 1.5;
 
   /* Fonds, accents et textes secondaires */
-  --hero-meta: rgba(243,239,225,.62);
-  --hero-eyebrow: rgba(243,239,225,.7);
-  --hero-copy: rgba(243,239,225,.82);
-  --text-subtle-heading: #8d8b83;
-  --line-subtle: #c9c6be;
-  --surface-image: #d6d2c9;
-  --surface-image-portrait: #d3d0c8;
-  --placeholder-highlight: #8d8567;
-  --placeholder-shadow: #4c4936;
-  --placeholder-text: rgba(255,255,255,.85);
-  --border-on-dark: rgba(243,239,225,.4);
-  --text-on-dark-muted: rgba(243,239,225,.55);
-  --border-on-dark-soft: rgba(243,239,225,.35);
-  --hover-on-dark: rgba(243,239,225,.12);
-  --shadow-ink-soft: rgba(33,31,22,.25);
-  --overlay-scrim: rgba(33,31,22,.68);
+  --hero-meta: rgba(241,244,232,.72);
+  --hero-eyebrow: var(--paper);
+  --hero-copy: rgba(241,244,232,.86);
+  --text-subtle-heading: #5a634d;
+  --line-subtle: #c9d2b8;
+  --surface-image: #e5ead9;
+  --surface-image-portrait: #e5ead9;
+  --placeholder-highlight: #91a577;
+  --placeholder-shadow: #505843;
+  --placeholder-text: rgba(255,255,242,.9);
+  --border-on-dark: rgba(255,255,242,.52);
+  --text-on-dark-muted: rgba(255,255,242,.72);
+  --border-on-dark-soft: rgba(255,255,242,.36);
+  --hover-on-dark: rgba(255,255,242,.14);
+  --overlay-scrim: rgba(80,88,67,.68);
 
   /* Mise en page */
-  --page-gutter: 8.2vw;
+  --page-gutter: clamp(16px, 2vw, 40px);
   --header-offset: 76px;
+  --shadow-board: rgba(80,88,67,.09);
 
   /* Mouvement */
   --ease-out: cubic-bezier(.2, .7, .2, 1);

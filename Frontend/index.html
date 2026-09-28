@@ -3,204 +3,111 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#57603f">
-  <meta name="description" content="Marc Kouassi — directeur artistique. Portfolio, parcours et univers créatif réunis en un seul lieu.">
-  <title>Marc Kouassi — Directeur artistique</title>
+  <meta name="theme-color" content="#fffff2">
+  <meta name="description" content="Le portfolio de Marc Kouassi : direction artistique, identités, campagnes, expériences numériques et parcours créatif.">
+  <title>Marc Kouassi — Portfolio de direction artistique</title>
   <link rel="stylesheet" href="Design_System/styles/Index.css">
   <script src="script.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
   <div class="scroll-progress" aria-hidden="true"></div>
-
   <div id="page">
     <header class="site-header">
-      <a class="wordmark" href="#accueil" aria-label="Marc Kouassi, accueil"><img class="wordmark-mark" src="Design_System/assets/logo-mk-header.svg" alt="" width="56" height="31"></a>
-
+      <a class="wordmark" href="#accueil" aria-label="Marc Kouassi — couverture"><img src="Design_System/assets/logo-mk-header.svg" alt="" width="56" height="31"></a>
       <nav class="site-nav" aria-label="Navigation principale">
-        <a class="nav-link" href="#travaux">Travaux</a>
-        <a class="nav-link" href="#apropos">À propos</a>
-        <a class="nav-link" href="#expertise">Expertise</a>
-        <a class="nav-link" href="#parcours">Parcours</a>
-        <a class="nav-link" href="#contact">Contact</a>
+        <a class="nav-link" href="#sommaire">Projets</a><a class="nav-link" href="#apropos">À propos</a><a class="nav-link" href="#expertise">Expertise</a><a class="nav-link" href="#parcours">Parcours</a><a class="nav-link" href="#contact">Contact</a>
       </nav>
-
-      <a class="menu-link" href="#contact">Parlons de votre projet <span aria-hidden="true">↗</span></a>
-
-      <button class="nav-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="nav-mobile">
-        <span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span></span>
-        <span class="visually-hidden">Ouvrir le menu</span>
-      </button>
+      <a class="menu-link" href="#contact">Entrer en contact <span aria-hidden="true">↗</span></a>
+      <button class="nav-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="nav-mobile"><span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span></span><span class="visually-hidden">Ouvrir le menu</span></button>
     </header>
 
-    <main>
-      <section class="hero section-pad" id="accueil">
-        <div class="hero-topline"><span>Portfolio · Abidjan &amp; partout</span><span>Identités · images · expériences</span></div>
-        <p class="eyebrow hero-eyebrow">L’image juste change tout.</p>
-        <h1><span class="hero-first">Marc</span><br><span class="hero-last">Kouassi<span class="period">.</span></span></h1>
-        <div class="hero-bottom">
-          <p class="hero-role">Directeur artistique<br>&amp; designer indépendant</p>
-          <p class="hero-intro">Je transforme des idées en identités, images et expériences visuelles.</p>
-          <a class="round-link" href="#identite" aria-label="Découvrir le travail par catégorie">↓</a>
-        </div>
-        <div class="hero-stamp" aria-hidden="true"><img class="hero-stamp-mark" src="Design_System/assets/logo-mk-seal.svg" alt=""></div>
-      </section>
-
-      <nav class="category-nav section-pad reveal" id="travaux" aria-label="Catégories de travail">
-        <a class="text-link" href="#identite">Identité de marque</a>
-        <a class="text-link" href="#campagnes">Campagnes &amp; image</a>
-        <a class="text-link" href="#edition">Édition &amp; digital</a>
-      </nav>
-
-      <section class="work-section section-pad" id="identite">
-        <div class="section-heading reveal">
-          <div><p class="eyebrow">01 — Identité de marque</p><h2>Des identités<br>qui tiennent debout.</h2></div>
-          <p class="section-aside">Systèmes visuels, logotypes<br>et univers de marque.</p>
-        </div>
-        <div class="entry-grid" data-grid="identite">
-          <div class="entry-more reveal" data-more>
-            <div class="entry-more-inner">
-              <span class="entry-more-mark" aria-hidden="true">+</span>
-              <p>D’autres identités viendront s’ajouter ici.</p>
-            </div>
+    <main id="contenu" class="portfolio-deck">
+      <section class="board-stage board-stage--cover" id="accueil" aria-labelledby="titre-accueil">
+        <div class="artboard cover-board">
+          <div class="board-topline cover-topline" aria-label="Portfolio personnel à Abidjan, direction artistique, UX/UI et création, 2026"><span>Portfolio personnel · Abidjan</span><span>Direction artistique · UX/UI · création</span><span>2026</span></div>
+          <div class="cover-layout">
+            <div class="cover-title-block"><p class="board-label">Le regard, les idées, les images</p><h1 id="titre-accueil"><span>Portfolio</span><span>créatif</span></h1><p class="cover-name">Marc Kouassi <span>— Directeur artistique &amp; designer UX/UI</span></p></div>
+            <a class="cover-mark" href="#apropos" aria-label="Découvrir le portrait de Marc"><img src="Design_System/assets/logo-mk-header.svg" alt="Monogramme MK" width="120" height="70"><span>Découvrir<br>mon univers ↘</span></a>
           </div>
+          <div class="cover-bottom"><a class="cover-preview" href="#sommaire" aria-label="Voir le sommaire illustré des projets"><img src="Public/images/Projet_FIFA26_01.png" alt="Aperçu d’un projet du portfolio : campagne Orange Sénégal pour la Coupe du monde FIFA 2026." width="3604" height="2030"><span>Explorer les projets <b aria-hidden="true">↗</b></span></a><p>Des idées fortes.<br>Des images qui restent.<br><a href="#introduction">Entrer dans le portfolio ↓</a></p><p class="cover-edition">Direction artistique<br>&amp; création visuelle<br><span>Abidjan · Côte d’Ivoire</span></p></div>
         </div>
-        <p class="provisional-note">Emplacement présenté à titre d’exemple — à remplacer par vos identités de marque réelles.</p>
       </section>
 
-      <section class="work-section section--alt section-pad" id="campagnes">
-        <div class="section-heading reveal">
-          <div><p class="eyebrow">02 — Campagnes &amp; image</p><h2>Des images<br>qui restent.</h2></div>
-          <p class="section-aside">Campagnes, production d’images<br>et univers visuels.</p>
+      <section class="board-stage" id="introduction" aria-labelledby="titre-introduction">
+        <div class="artboard introduction-board">
+          <div class="board-topline"><span>01 / Introduction</span><span>Une pratique en mouvement</span><span>Marc Kouassi</span></div>
+          <div class="introduction-title"><p class="board-label">Une idée devient image</p><h2 id="titre-introduction">Introduction</h2></div>
+          <div class="introduction-layout"><figure class="introduction-visual"><img src="Public/images/Projet_Ci20_03.jpg" alt="Un aperçu du travail de direction artistique et d’expérience numérique de Marc Kouassi." width="5906" height="4927" loading="lazy"><figcaption>Des idées fortes. Des images qui restent.</figcaption></figure><div class="introduction-story"><p>Je ne crée pas pour remplir l’espace.<br><strong>Je crée pour laisser une trace.</strong></p><p>Une marque, une campagne, une interface : chaque projet commence par une question. Qu’est-ce qu’on doit ressentir, comprendre ou retenir ?</p></div></div>
+          <div class="introduction-bottom"><p>Mon travail consiste à trouver la réponse juste, puis à lui donner une forme visuelle assez forte pour vivre partout où elle doit rencontrer son public.</p><p>Du premier regard à la dernière déclinaison, je cherche l’équilibre entre une intention claire, une forme singulière et une expérience qui reste en mémoire.</p><div class="process-line"><span>Observer</span><span>Comprendre</span><span>Imaginer</span><span>Donner forme</span></div></div>
         </div>
-        <div class="entry-grid" data-grid="campagnes">
-          <div class="entry-more reveal" data-more>
-            <div class="entry-more-inner">
-              <span class="entry-more-mark" aria-hidden="true">+</span>
-              <p>D’autres campagnes viendront s’ajouter ici.</p>
-            </div>
-          </div>
-        </div>
-        <p class="provisional-note">Emplacement présenté à titre d’exemple — à remplacer par vos campagnes réelles.</p>
       </section>
 
-      <section class="work-section section-pad" id="edition">
-        <div class="section-heading reveal">
-          <div><p class="eyebrow">03 — Édition &amp; digital</p><h2>Des supports<br>qui se lisent bien.</h2></div>
-          <p class="section-aside">Design éditorial, interfaces<br>et expériences digitales.</p>
+      <section class="board-stage" id="apropos" aria-labelledby="titre-apropos">
+        <div class="artboard about-board">
+          <div class="board-topline"><span>02 / À propos</span><span>Une curiosité sans bouton d’arrêt</span><span>Portrait</span></div>
+          <div class="about-board-heading"><p class="board-label">Passionné d’images · Insatiable d’idées</p><h2 id="titre-apropos">Le créatif<span>.</span></h2></div>
+          <div class="about-board-content"><figure class="portrait"><img src="Public/images/Photo_Marc.jpg" alt="Portrait de Marc Kouassi." width="900" height="1600" loading="lazy"><figcaption>Marc Kouassi · Abidjan</figcaption></figure><div class="about-copy"><p class="about-lead">Un peu fou quand une idée m’attrape. Insatiable devant tout ce qu’elle peut devenir.</p><p>Je ne sais pas regarder une image sans me demander pourquoi elle me retient — ou ce qui lui manque pour raconter davantage. Une couleur, un mot, un détail peuvent ouvrir une piste. Alors je creuse : je cherche le sens derrière la forme, la tension derrière le message, l’émotion qui peut rendre une idée inoubliable.</p><p>Créer, pour moi, c’est cette faim-là. Comprendre avant de dessiner, douter assez pour trouver mieux, puis pousser une intuition jusqu’à ce qu’elle prenne corps dans une identité, une campagne ou une expérience.</p><p>Du papier à l’interface, des outils traditionnels à l’intelligence artificielle, j’explore chaque terrain avec la même exigence : élargir les possibles, sans perdre le regard ni le sens.</p><span class="about-signature">Curieux par nature. Créatif par nécessité.</span></div></div>
         </div>
-        <div class="entry-grid" data-grid="edition">
-          <div class="entry-more reveal" data-more>
-            <div class="entry-more-inner">
-              <span class="entry-more-mark" aria-hidden="true">+</span>
-              <p>D’autres réalisations viendront s’ajouter ici.</p>
-            </div>
-          </div>
-        </div>
-        <p class="provisional-note">Emplacement présenté à titre d’exemple — à remplacer par vos réalisations réelles.</p>
       </section>
 
-      <section class="about section--alt section-pad" id="apropos">
-        <p class="eyebrow">04 — À propos</p>
-        <div class="about-layout">
-          <h2>Créer du sens.<br><span>Donner du relief.</span></h2>
-          <p class="about-lead">Approche, influences et éléments personnels — contenu à rédiger avec vous.</p>
-        </div>
-        <div class="about-visual reveal" style="--d:0">
-          <div class="portrait"><img src="Public/images/Photo_Marc.jpg" alt="Portrait fourni pour la page À propos, à confirmer." width="1557" height="1772" loading="lazy"><span>Portrait fourni · à confirmer</span></div>
-          <div class="about-copy">
-            <p class="entry-note">Cette section accueillera votre présentation complète : votre approche, vos influences et ce que vous souhaitez partager de votre parcours personnel.</p>
-            <p class="cv-note"><span class="dot" aria-hidden="true"></span>CV — à ajouter dès que le document est prêt.</p>
+      <section class="board-stage" id="expertise" aria-labelledby="titre-expertise">
+        <div class="artboard expertise-board">
+          <div class="board-topline"><span>03 / Savoir-faire</span><span>Penser · concevoir · diriger</span><span>Expertise</span></div>
+          <div class="expertise-masthead"><div class="expertise-image-strip"><img src="Public/images/Projet_Velanova_01.png" alt="Identité visuelle VELANOVA." width="3066" height="2402" loading="lazy"><img src="Public/images/Projet_ANACADI_01.png" alt="Support de campagne ANACADI." width="3066" height="2170" loading="lazy"><img src="Public/images/Projet_Ci20_01.png" alt="Interface de CI20 Connect." width="1181" height="663" loading="lazy"></div><h2 id="titre-expertise">Terrains<br>d’expertise</h2></div>
+          <div class="expertise-grid">
+            <article><span class="expertise-number">01</span><h3>Direction artistique</h3><p>Une idée directrice, une cohérence de bout en bout — du premier croquis à la production.</p></article>
+            <article><span class="expertise-number">02</span><h3>Identité de marque</h3><p>Des systèmes singuliers, faits pour être reconnus, compris et déclinés.</p></article>
+            <article><span class="expertise-number">03</span><h3>Campagne &amp; image</h3><p>Des récits de marque vivants, pensés pour toucher juste sur chaque support.</p></article>
+            <article><span class="expertise-number">04</span><h3>Design UX/UI</h3><p>Des parcours lisibles et des interfaces où chaque choix aide à avancer.</p></article>
+            <article><span class="expertise-number">05</span><h3>Édition &amp; supports</h3><p>Des contenus organisés pour être découverts, parcourus et mémorisés.</p></article>
+            <article><span class="expertise-number">06</span><h3>IA &amp; exploration créative</h3><p>Prompts, concepts et pistes visuelles : l’IA ouvre le champ, l’intention créative donne la direction.</p></article>
           </div>
         </div>
       </section>
 
-      <section class="expertise section-pad" id="expertise">
-        <div class="section-heading reveal">
-          <div><p class="eyebrow">05 — Expertise &amp; collaborations</p><h2>De l’idée<br>à l’impact.</h2></div>
-          <p class="section-aside">Une vision d’ensemble.<br>Le souci de chaque détail.</p>
-        </div>
-        <div class="expertise-list">
-          <article class="reveal" style="--d:0"><span class="expertise-number">01</span><h3>Direction artistique</h3><p>Vision, concept et cohérence créative à chaque point de contact.</p><span class="expertise-mark">↗</span></article>
-          <article class="reveal" style="--d:1"><span class="expertise-number">02</span><h3>Identité de marque</h3><p>Des systèmes visuels expressifs, pensés pour durer et évoluer.</p><span class="expertise-mark">↗</span></article>
-          <article class="reveal" style="--d:2"><span class="expertise-number">03</span><h3>Campagne &amp; image</h3><p>Des histoires visuelles qui captent l’attention et restent en mémoire.</p><span class="expertise-mark">↗</span></article>
-          <article class="reveal" style="--d:3"><span class="expertise-number">04</span><h3>Design éditorial &amp; digital</h3><p>Des expériences claires et généreuses, à l’écran comme sur papier.</p><span class="expertise-mark">↗</span></article>
-        </div>
-        <p class="provisional-note">Catégories indicatives, à ajuster avec vos domaines réels et les types de mission que vous souhaitez accepter.</p>
-      </section>
-
-      <section class="parcours section--alt section-pad" id="parcours">
-        <div class="section-heading reveal">
-          <div><p class="eyebrow">06 — Parcours</p><h2>Les étapes<br>qui comptent.</h2></div>
-          <p class="section-aside">Expériences, collaborations<br>et rencontres décisives.</p>
-        </div>
-        <div class="timeline">
-          <article class="reveal" style="--d:0"><span class="timeline-date">Période à confirmer</span><div><h3>Intitulé à confirmer</h3><p>Description à confirmer avec vous.</p></div><span class="timeline-place">Structure à confirmer</span></article>
-          <article class="reveal" style="--d:1"><span class="timeline-date">Période à confirmer</span><div><h3>Intitulé à confirmer</h3><p>Description à confirmer avec vous.</p></div><span class="timeline-place">Structure à confirmer</span></article>
-        </div>
-        <p class="provisional-note">Nombre d’étapes, dates et intitulés indicatifs — à construire avec le parcours réel.</p>
-      </section>
-
-      <section class="contact section-pad" id="contact">
-        <p class="eyebrow">07 — Contact</p><p class="contact-kicker">Une idée en tête ?</p><h2>Faisons-en<br><a href="mailto:marc.kouassi.da@gmail.com">quelque chose<span>↗</span></a></h2>
-        <div class="contact-bottom reveal" style="--d:0">
-          <p>Pour une collaboration, une conversation<br>ou simplement pour dire bonjour.</p>
-          <div class="contact-links">
-            <div class="contact-item"><span class="contact-label">E-mail</span><a href="mailto:marc.kouassi.da@gmail.com">marc.kouassi.da@gmail.com <span>↗</span></a></div>
-            <div class="contact-item"><span class="contact-label">Réseau</span><a href="https://www.linkedin.com/in/marc-kouassi-da/" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a></div>
-            <div class="contact-item"><span class="contact-label">WhatsApp</span><a href="https://wa.me/2250104567070" target="_blank" rel="noreferrer">+225 01 04 56 70 70 <span>↗</span></a></div>
-            <div class="contact-item contact-item--pending"><span class="contact-label">CV</span><span class="pending-value">à ajouter</span></div>
+      <section class="board-stage" id="parcours" aria-labelledby="titre-parcours">
+        <div class="artboard parcours-board">
+          <div class="board-topline"><span>04 / Parcours</span><span>Des expériences qui nourrissent le regard</span><span>Expériences</span></div>
+          <h2 id="titre-parcours">Mon parcours</h2>
+          <p class="parcours-intro">Apprendre. Diriger. Explorer.<br>De la création en agence aux expériences numériques.</p>
+          <div class="timeline">
+            <article class="timeline-item"><span class="timeline-date">2025 — aujourd’hui</span><div><h3>Project Manager &amp; Lead UX/UI</h3><p>J’accompagne plusieurs équipes projet, de la conception à la livraison, et veille à la cohérence des expériences et des produits.</p></div><span class="timeline-place">Expériences numériques</span></article>
+            <article class="timeline-item"><span class="timeline-date">2022 — 2025</span><div><h3>Fondateur &amp; directeur de création</h3><p>Avec M&amp;M Concept, je mène des projets créatifs et techniques : supports imprimés, maquettes 3D et réalisations jusqu’au bon à tirer.</p></div><span class="timeline-place">Entrepreneuriat créatif</span></article>
+            <article class="timeline-item"><span class="timeline-date">2017 — 2022</span><div><h3>Directeur artistique</h3><p>Je dirige une équipe créative, développe des campagnes et des identités, et pilote la production télévisée de la Météo RTI1 &amp; RTI2.</p></div><span class="timeline-place">Direction de création</span></article>
+            <article class="timeline-item"><span class="timeline-date">2014 — 2017</span><div><h3>Infographiste · création en agence</h3><p>Les bases du métier se construisent dans la conception de supports, la mise en page et l’exécution de projets aux univers variés.</p></div><span class="timeline-place">Les premières années</span></article>
+            <article class="timeline-item"><span class="timeline-date">2013 — 2014</span><div><h3>Premières expériences</h3><p>Je découvre le rythme des agences et la force d’une idée lorsqu’elle passe du brief à l’image.</p></div><span class="timeline-place">GBICH · Voodoo · Kaméléo</span></article>
           </div>
+        </div>
+      </section>
+
+      <section class="board-stage" id="sommaire" aria-labelledby="titre-sommaire">
+        <div class="artboard index-board">
+          <div class="board-topline"><span>05 / Mon travail</span><span>Des histoires, des marques, des images</span><span>Sommaire illustré</span></div>
+          <div class="index-heading"><div><p class="board-label">Réflexion · conception · direction artistique</p><h2 id="titre-sommaire">Mes<br>projets</h2></div><p>Chaque projet a son histoire.<br>J’ouvre les dossiers, je montre les images, j’explique les choix.</p></div>
+          <div class="project-showcase-grid" data-project-grid></div>
+        </div>
+      </section>
+
+      <section class="board-stage" id="contact" aria-labelledby="titre-contact">
+        <div class="artboard contact-board">
+          <div class="board-topline"><span>Dernière planche</span><span>Les bonnes idées commencent par une conversation</span><span>Marc Kouassi</span></div>
+          <div class="contact-board-main"><div><p class="board-label">Un projet en tête ?</p><h2 id="titre-contact">Restons<br>en contact<span>.</span></h2><p class="contact-lead">Pour une collaboration,<br>une idée à explorer ou un bonjour.</p></div><a class="contact-mark" href="#accueil" aria-label="Retour à la couverture"><img src="Design_System/assets/logo-mk-header.svg" alt="Monogramme MK" width="128" height="72"></a></div>
+          <div class="contact-board-footer"><div class="contact-link"><span>E-mail</span><a href="mailto:marc.kouassi.da@gmail.com">Écrire à Marc ↗</a></div><div class="contact-link"><span>Réseau</span><a href="https://www.linkedin.com/in/marc-kouassi-da/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div><div class="contact-link"><span>CV</span><a href="Design_System/assets/Cv_Marc.pdf" download="CV-Marc-Kouassi.pdf">Télécharger le CV ↓</a></div><p>Conçu avec intention à Abidjan.<br>© <span id="year">2026</span> Marc Kouassi</p></div>
         </div>
       </section>
     </main>
-    <footer class="site-footer"><a class="wordmark" href="#accueil">MK<span class="period">.</span></a><span>© <span id="year">2026</span> Marc Kouassi</span><a href="#accueil">Retour en haut ↑</a><span>Fait avec intention à Abidjan.</span></footer>
   </div>
+
+  <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
+    <div class="project-dialog-header"><p id="dialog-counter"></p><button class="project-dialog-close" type="button" data-dialog-close aria-label="Fermer l’étude du projet">×</button></div>
+    <div class="project-dialog-body"><div class="project-detail-copy"><p class="board-label" id="dialog-category"></p><h2 id="dialog-title"></h2><p class="project-context" id="dialog-context"></p><div class="project-meta" id="dialog-meta"></div><p class="project-copy-label">L’intention créative</p><p class="project-idea" id="dialog-idea"></p><p class="project-copy-label">La valeur du projet</p><p class="project-value" id="dialog-value"></p><a class="project-document" id="dialog-document" hidden></a></div><div class="project-detail-gallery" id="dialog-gallery" aria-label="Images du projet"></div></div>
+  </dialog>
 
   <div class="nav-mobile" id="nav-mobile" role="dialog" aria-modal="true" aria-label="Menu de navigation" inert>
-    <div class="nav-mobile-head">
-      <span class="nav-mobile-label">Menu</span>
-      <button class="nav-mobile-close" type="button" data-nav-close>✕<span class="visually-hidden">Fermer le menu</span></button>
-    </div>
-    <nav class="nav-mobile-links" aria-label="Navigation principale, mobile">
-      <a href="#travaux" data-nav-close><span>01</span>Travaux</a>
-      <a href="#apropos" data-nav-close><span>02</span>À propos</a>
-      <a href="#expertise" data-nav-close><span>03</span>Expertise</a>
-      <a href="#parcours" data-nav-close><span>04</span>Parcours</a>
-      <a href="#contact" data-nav-close><span>05</span>Contact</a>
-    </nav>
-    <a class="nav-mobile-cta" href="#contact" data-nav-close>Parlons de votre projet <span aria-hidden="true">↗</span></a>
-  </div>
-
-  <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="pm-title" inert>
-    <div class="project-modal-scrim" data-pm-close></div>
-    <div class="project-modal-panel">
-      <div class="project-modal-bar">
-        <span class="project-modal-index" id="pm-index"></span>
-        <button class="project-modal-close" type="button" data-pm-close>✕<span class="visually-hidden">Fermer la présentation</span></button>
-      </div>
-      <div class="project-modal-body" id="pm-body">
-        <header class="project-modal-header">
-          <p class="eyebrow" id="pm-category"></p>
-          <h2 id="pm-title"></h2>
-          <p class="project-modal-context" id="pm-context"></p>
-        </header>
-        <div class="project-modal-meta">
-          <div><span class="contact-label">Rôle</span><p id="pm-role"></p></div>
-          <div><span class="contact-label">Disciplines</span><p id="pm-disciplines"></p></div>
-          <div><span class="contact-label">Année</span><p id="pm-year"></p></div>
-        </div>
-        <p class="project-modal-idea" id="pm-idea"></p>
-        <div class="project-modal-gallery" id="pm-gallery"></div>
-        <div class="project-modal-bts" id="pm-bts" hidden>
-          <p class="eyebrow">Coulisses</p>
-          <div class="project-modal-bts-grid" id="pm-bts-grid"></div>
-        </div>
-      </div>
-      <div class="project-modal-nav">
-        <button class="project-modal-prev" type="button" data-pm-prev>← Projet précédent</button>
-        <button class="project-modal-next" type="button" data-pm-next>Projet suivant →</button>
-      </div>
-    </div>
+    <div class="nav-mobile-head"><span class="nav-mobile-label">Explorer</span><button class="nav-mobile-close" type="button" data-nav-close><span aria-hidden="true">×</span><span class="visually-hidden">Fermer le menu</span></button></div>
+    <nav class="nav-mobile-links" aria-label="Navigation mobile"><a href="#sommaire" data-nav-close>Projets <span>05</span></a><a href="#apropos" data-nav-close>À propos <span>02</span></a><a href="#expertise" data-nav-close>Expertise <span>03</span></a><a href="#parcours" data-nav-close>Parcours <span>04</span></a><a href="#contact" data-nav-close>Contact <span>↗</span></a></nav>
+    <a class="nav-mobile-cta" href="mailto:marc.kouassi.da@gmail.com" data-nav-close>Écrire à Marc <span aria-hidden="true">↗</span></a>
   </div>
 </body>
 </html>
