@@ -81,8 +81,8 @@
   -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
   box-shadow: 0 10px 28px -18px var(--shadow-board); }
 /* Le numero en filigrane, derriere le libelle. */
-.process-step::before { content: attr(data-rang); position: absolute; top: var(--space-2); right: var(--process-card-padding);
-  z-index: -1; color: var(--glass-ghost); font-family: var(--font-display); font-size: var(--type-process-ghost); line-height: 1; }
+.process-step::before { content: attr(data-rang); position: absolute; right: var(--process-card-padding); bottom: var(--process-card-padding);
+  z-index: -1; color: var(--glass-ghost); font-family: var(--font-display); font-size: var(--type-process-ghost); line-height: var(--leading-compact); }
 /* Le point, qui bat. */
 .process-dot { display: block; width: var(--process-dot-size); height: var(--process-dot-size); margin-bottom: var(--space-2);
   border-radius: var(--radius-full); background: var(--ink-display); }
@@ -92,7 +92,6 @@
   background: linear-gradient(100deg, transparent, var(--glass-shine), transparent); transform: skewX(-18deg); }
 /* Fleche de liaison, logee dans l'ecart entre deux cartes. */
 .process-step:not(:last-child)::after { content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap); color: var(--muted); text-align: center; transform: translate(0, -50%); }
-.process-rank { color: var(--muted); }
 .process-label { color: var(--ink-display); }
 .about-board { background: var(--olive); color: var(--paper); }
 .about-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }

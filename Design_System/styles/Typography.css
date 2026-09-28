@@ -114,7 +114,7 @@ p { line-height: var(--leading-body); }
 .contact-board-main h2 { font-size: var(--type-contact-title); }
 .board-topline, .board-label, .project-card-number,
 .timeline-date, .timeline-place, .project-meta-label, .project-copy-label, .contact-link > span,
-.cover-fact > span, .cover-edition, .process-rank, .project-dialog-header p {
+.cover-fact > span, .cover-edition, .project-dialog-header p {
   font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em;
 }
 .cover-baseline { font-family: var(--font-display); font-size: var(--type-cover-promise); line-height: var(--leading-compact); letter-spacing: var(--cover-caption-tracking); }

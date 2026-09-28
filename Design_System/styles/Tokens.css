@@ -298,7 +298,7 @@
   --process-rail-offset: var(--space-6);
   --process-column-gap: clamp(14px, 2.4vw, 34px);
   --glass-blur: 14px;
-  --process-card-padding: clamp(14px, 1.6vw, 22px);
+  --process-card-padding: clamp(12px, 1.2vw, 17px);
   --process-arrow-travel: 5px;
   --duration-process-loop: 2.4s;
   --delay-process-first: .05s;
@@ -307,8 +307,8 @@
   --delay-process-fourth: .38s;
   --duration-process-shine: 5.2s;
   --duration-process-pulse: 2.8s;
-  --type-process-ghost: clamp(3.5rem, 6vw, 5.5rem);
-  --process-card-min-height: clamp(128px, 11vw, 168px);
+  --type-process-ghost: clamp(2rem, 3.2vw, 2.9rem);
+  --process-card-min-height: clamp(68px, 5vw, 80px);
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;
