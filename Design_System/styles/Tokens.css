@@ -57,6 +57,12 @@
      l'olive clair : 3,54:1. La promesse est donc ecrite en grand texte,
      jamais sous 24 px, ce que --type-cover-promise garantit. */
   --clair-accent-gold: #e0c182;
+  /* Dore pose sur une surface CLAIRE. Le dore ci-dessus ne mesure que
+     1,72:1 sur le creme : aucune teinte doree ne peut tenir son seuil a
+     la fois sur le creme et sur l'olive, leurs luminances encadrent la
+     sienne. Il en faut donc deux, comme l'or clair et l'or fonce de
+     Racyne. Celui-ci mesure 3,84:1 sur le creme. */
+  --clair-accent-gold-deep: #a8791f;
   --clair-olive: #576740;
   --clair-olive-deep: #505843;
   --clair-olive-ghost: #b0c197;
@@ -94,6 +100,10 @@
   --sombre-accent-pop: #2c3522;
   /* En sombre, l'ocre exact du sceau passe : 4,13:1 sur l'olive sombre. */
   --sombre-accent-gold: #ca9e67;
+  /* En theme sombre les deux surfaces sont sombres : l'ocre du sceau
+     tient sur les deux, 4,13:1 sur l'olive et 7,37:1 sur le fond de
+     page. Une seule valeur suffit. */
+  --sombre-accent-gold-deep: #ca9e67;
   --sombre-olive: #3b4530;
   --sombre-olive-deep: #2a3222;
   --sombre-olive-ghost: #8fa377;
@@ -134,6 +144,7 @@
   --accent: var(--clair-accent);
   --accent-pop: var(--clair-accent-pop);
   --accent-gold: var(--clair-accent-gold);
+  --accent-gold-deep: var(--clair-accent-gold-deep);
 
   /* --- Planches olive --- */
   --olive: var(--clair-olive);
@@ -375,6 +386,8 @@
     --accent: var(--sombre-accent);
     --accent-pop: var(--sombre-accent-pop);
     --accent-gold: var(--sombre-accent-gold);
+  --accent-gold-deep: var(--sombre-accent-gold-deep);
+    --accent-gold-deep: var(--sombre-accent-gold-deep);
     --olive: var(--sombre-olive);
     --olive-deep: var(--sombre-olive-deep);
     --olive-ghost: var(--sombre-olive-ghost);
@@ -412,6 +425,7 @@
   --accent: var(--sombre-accent);
   --accent-pop: var(--sombre-accent-pop);
   --accent-gold: var(--sombre-accent-gold);
+  --accent-gold-deep: var(--sombre-accent-gold-deep);
   --olive: var(--sombre-olive);
   --olive-deep: var(--sombre-olive-deep);
   --olive-ghost: var(--sombre-olive-ghost);
@@ -456,6 +470,7 @@
   --accent: var(--clair-accent);
   --accent-pop: var(--clair-accent-pop);
   --accent-gold: var(--clair-accent-gold);
+  --accent-gold-deep: var(--clair-accent-gold-deep);
 }
 
 .ilot-olive {

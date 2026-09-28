@@ -52,13 +52,12 @@
 .cover-fact a { text-decoration: underline; text-underline-offset: var(--underline-offset); }
 .introduction-board { background: var(--surface-page); }
 .introduction-title { display: grid; margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-6); }
-/* Point de fin de titre. Il ferme chaque titre de planche sur une touche
-   de couleur. Sur une planche creme il prend --accent, sur une planche
-   olive il passe a --olive-ghost, seule teinte qui tienne son seuil de
-   grand texte sur ce fond. */
-.title-dot { color: var(--accent); font-weight: inherit; }
+/* Point de fin de titre, en dore. Deux valeurs : le dore clair sur les
+   planches olive, le dore profond sur les planches creme, faute de quoi
+   l'un des deux fonds fait tomber le point sous son seuil. */
+.title-dot { color: var(--accent-gold-deep); font-weight: inherit; }
 .cover-board .title-dot, .about-board .title-dot, .expertise-board .title-dot,
-.index-board .title-dot { color: var(--olive-ghost); }
+.index-board .title-dot { color: var(--accent-gold); }
 .introduction-title h2 { margin: 0; color: var(--ink-display); font-size: var(--type-title-section); line-height: .78; text-transform: uppercase; }
 .introduction-layout { display: grid; padding: 0 0 26px; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); align-items: stretch; gap: clamp(24px, 5vw, 88px); }
 .introduction-visual { position: relative; height: var(--introduction-visual-height); margin: 0; overflow: hidden; border-radius: var(--radius-xl); }
