@@ -63,6 +63,11 @@
   --clair-placeholder-highlight: #91a577;
   --clair-placeholder-shadow: #505843;
   --clair-shadow-board: rgba(80,88,67,.09);
+  /* Verre des cartes de la frise. Volontairement tres transparent : le
+     fond effectif sous le texte reste celui de la planche, et les
+     contrastes mesures dessus ne bougent pas. */
+  --clair-glass-surface: rgba(255,255,242,.55);
+  --clair-glass-border: rgba(80,88,67,.16);
   --clair-overlay-scrim: rgba(80,88,67,.68);
 
   /* --- Palette sombre ---
@@ -92,6 +97,8 @@
   --sombre-placeholder-highlight: #5d6b4a;
   --sombre-placeholder-shadow: #10140c;
   --sombre-shadow-board: rgba(0,0,0,.45);
+  --sombre-glass-surface: rgba(232,236,220,.06);
+  --sombre-glass-border: rgba(255,255,242,.16);
   --sombre-overlay-scrim: rgba(10,13,8,.82);
 
   /* ======================================================================
@@ -131,6 +138,8 @@
   --placeholder-highlight: var(--clair-placeholder-highlight);
   --placeholder-shadow: var(--clair-placeholder-shadow);
   --shadow-board: var(--clair-shadow-board);
+  --glass-surface: var(--clair-glass-surface);
+  --glass-border: var(--clair-glass-border);
   --overlay-scrim: var(--clair-overlay-scrim);
 
   /* ======================================================================
@@ -278,7 +287,15 @@
   --introduction-title-gap: clamp(28px, 3.4vw, 54px);
   --process-dot-size: 11px;
   --process-rail-offset: var(--space-6);
-  --process-column-gap: clamp(12px, 2vw, 32px);
+  --process-column-gap: clamp(14px, 2.4vw, 34px);
+  --glass-blur: 14px;
+  --process-card-padding: clamp(14px, 1.6vw, 22px);
+  --process-arrow-travel: 5px;
+  --duration-process-loop: 2.4s;
+  --delay-process-first: .05s;
+  --delay-process-second: .16s;
+  --delay-process-third: .27s;
+  --delay-process-fourth: .38s;
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;
@@ -351,6 +368,8 @@
     --placeholder-highlight: var(--sombre-placeholder-highlight);
     --placeholder-shadow: var(--sombre-placeholder-shadow);
     --shadow-board: var(--sombre-shadow-board);
+    --glass-surface: var(--sombre-glass-surface);
+    --glass-border: var(--sombre-glass-border);
     --overlay-scrim: var(--sombre-overlay-scrim);
   }
 }
@@ -383,6 +402,8 @@
   --placeholder-highlight: var(--sombre-placeholder-highlight);
   --placeholder-shadow: var(--sombre-placeholder-shadow);
   --shadow-board: var(--sombre-shadow-board);
+  --glass-surface: var(--sombre-glass-surface);
+  --glass-border: var(--sombre-glass-border);
   --overlay-scrim: var(--sombre-overlay-scrim);
 }
 

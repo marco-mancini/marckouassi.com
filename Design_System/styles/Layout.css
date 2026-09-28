@@ -69,9 +69,14 @@
 /* Frise des quatre temps de la methode. Un rail continu, --line, porte un
    point par etape ; le point est centre sur le rail par un decalage de la
    moitie de son diametre, et chaque etape ouvre sa colonne. */
-.process-line { display: grid; margin: 0; padding: 0; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; }
-.process-step { position: relative; display: grid; padding: var(--process-rail-offset) var(--process-column-gap) 0 0; gap: var(--space-1); border-top: var(--border-hairline) solid var(--line); }
-.process-step::before { content: ""; position: absolute; top: 0; left: 0; width: var(--process-dot-size); height: var(--process-dot-size); border-radius: var(--radius-full); background: var(--ink-display); transform: translateY(-50%); }
+.process-line { display: grid; margin: 0; padding: 0; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--process-column-gap); list-style: none; }
+.process-step { position: relative; display: grid; padding: var(--process-card-padding); gap: var(--space-1); align-content: start;
+  border: var(--border-hairline) solid var(--glass-border); border-radius: var(--radius-lg);
+  background: var(--glass-surface); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 1px 0 var(--shadow-board); }
+.process-step::before { content: ""; width: var(--process-dot-size); height: var(--process-dot-size); margin-bottom: var(--space-2); border-radius: var(--radius-full); background: var(--ink-display); }
+/* Fleche de liaison, logee dans l'ecart entre deux cartes. */
+.process-step:not(:last-child)::after { content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap); color: var(--muted); text-align: center; transform: translate(0, -50%); }
 .process-rank { color: var(--muted); }
 .process-label { color: var(--ink-display); }
 .about-board { background: var(--olive); color: var(--paper); }

@@ -26,6 +26,7 @@
   .introduction-copy { gap: var(--space-4); height: auto; }
   .introduction-bottom { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .process-line { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .process-step:not(:last-child)::after { display: none; }
   .about-board-heading { margin: 30px 0 18px; align-items: start; flex-direction: column; gap: 6px; }
   .about-board-heading h2 { max-width: 100%; text-align: left; }
   .about-board-content { grid-template-columns: minmax(0, 1fr); gap: 18px; }
