@@ -50,6 +50,13 @@
   --clair-line-subtle: #c9d2b8;
   --clair-accent: #7a8e5a;
   --clair-accent-pop: #d7e2c2;
+  /* Dore de la promesse de couverture. AUCUN jeton dore n'existait le
+     28 septembre 2026. L'ocre exact du sceau, #ca9e67, ne mesure que
+     2,51:1 sur l'olive clair, sous le seuil meme pour du grand texte.
+     Cette valeur est la plus proche de cet ocre qui atteigne 3:1 sur
+     l'olive clair : 3,54:1. La promesse est donc ecrite en grand texte,
+     jamais sous 24 px, ce que --type-cover-promise garantit. */
+  --clair-accent-gold: #e0c182;
   --clair-olive: #576740;
   --clair-olive-deep: #505843;
   --clair-olive-ghost: #b0c197;
@@ -77,6 +84,8 @@
   --sombre-line-subtle: #3a4430;
   --sombre-accent: #9db87a;
   --sombre-accent-pop: #2c3522;
+  /* En sombre, l'ocre exact du sceau passe : 4,13:1 sur l'olive sombre. */
+  --sombre-accent-gold: #ca9e67;
   --sombre-olive: #3b4530;
   --sombre-olive-deep: #2a3222;
   --sombre-olive-ghost: #8fa377;
@@ -111,6 +120,7 @@
   /* --- Accents --- */
   --accent: var(--clair-accent);
   --accent-pop: var(--clair-accent-pop);
+  --accent-gold: var(--clair-accent-gold);
 
   /* --- Planches olive --- */
   --olive: var(--clair-olive);
@@ -166,6 +176,7 @@
   --type-title-hero: clamp(5rem, 10vw, 9rem);
   --type-cover: clamp(5rem, 12vw, 22rem);
   --type-cover-caption: clamp(.85rem, 1.2vw, 1rem);
+  --type-cover-promise: clamp(1.5rem, 2.2vw, 2rem);
   --type-display-contact: clamp(3.25rem, 10.5vw, 9.25rem);
   --type-contact-title: clamp(4rem, 11vw, 10rem);
   --type-title-section: clamp(3rem, 12vw, 14rem);
@@ -242,11 +253,7 @@
   --cover-mark-scale: 78%;
   --cover-baseline-offset: var(--space-4);
   --cover-fact-offset: var(--space-2);
-  --cover-jump-width: 82px;
-  --cover-jump-height: 34px;
-  --cover-topline-offset: var(--space-5);
-  --cover-topline-gap: var(--space-6);
-  --cover-baseline-width: 22ch;
+  --cover-promise-offset: var(--space-6);
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;
@@ -312,6 +319,7 @@
     --line-subtle: var(--sombre-line-subtle);
     --accent: var(--sombre-accent);
     --accent-pop: var(--sombre-accent-pop);
+    --accent-gold: var(--sombre-accent-gold);
     --olive: var(--sombre-olive);
     --olive-deep: var(--sombre-olive-deep);
     --olive-ghost: var(--sombre-olive-ghost);
@@ -343,6 +351,7 @@
   --line-subtle: var(--sombre-line-subtle);
   --accent: var(--sombre-accent);
   --accent-pop: var(--sombre-accent-pop);
+  --accent-gold: var(--sombre-accent-gold);
   --olive: var(--sombre-olive);
   --olive-deep: var(--sombre-olive-deep);
   --olive-ghost: var(--sombre-olive-ghost);
@@ -381,6 +390,7 @@
   --line-subtle: var(--clair-line-subtle);
   --accent: var(--clair-accent);
   --accent-pop: var(--clair-accent-pop);
+  --accent-gold: var(--clair-accent-gold);
 }
 
 .ilot-olive {
