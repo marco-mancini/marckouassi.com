@@ -70,11 +70,26 @@
    point par etape ; le point est centre sur le rail par un decalage de la
    moitie de son diametre, et chaque etape ouvre sa colonne. */
 .process-line { display: grid; margin: 0; padding: 0; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--process-column-gap); list-style: none; }
-.process-step { position: relative; display: grid; padding: var(--process-card-padding); gap: var(--space-1); align-content: start;
+/* Carte de verre. Le fond superpose deux couches : un reflet clair qui
+   descend depuis le haut, --glass-highlight, et la teinte du verre,
+   --glass-surface. En theme clair la teinte est olive et non blanche :
+   une carte blanche sur une planche creme ne se voyait pas. */
+.process-step { position: relative; display: grid; min-height: var(--process-card-min-height); padding: var(--process-card-padding);
+  gap: var(--space-1); align-content: end; isolation: isolate;
   border: var(--border-hairline) solid var(--glass-border); border-radius: var(--radius-lg);
-  background: var(--glass-surface); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
-  box-shadow: 0 1px 0 var(--shadow-board); }
-.process-step::before { content: ""; width: var(--process-dot-size); height: var(--process-dot-size); margin-bottom: var(--space-2); border-radius: var(--radius-full); background: var(--ink-display); }
+  background: linear-gradient(160deg, var(--glass-highlight) 0%, transparent 62%), var(--glass-surface);
+  -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 10px 28px -18px var(--shadow-board); }
+/* Le numero en filigrane, derriere le libelle. */
+.process-step::before { content: attr(data-rang); position: absolute; top: var(--space-2); right: var(--process-card-padding);
+  z-index: -1; color: var(--glass-ghost); font-family: var(--font-display); font-size: var(--type-process-ghost); line-height: 1; }
+/* Le point, qui bat. */
+.process-dot { display: block; width: var(--process-dot-size); height: var(--process-dot-size); margin-bottom: var(--space-2);
+  border-radius: var(--radius-full); background: var(--ink-display); }
+/* Le reflet qui balaie la carte. */
+.process-glow { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.process-glow::before { content: ""; position: absolute; top: 0; left: -45%; width: 38%; height: 100%;
+  background: linear-gradient(100deg, transparent, var(--glass-shine), transparent); transform: skewX(-18deg); }
 /* Fleche de liaison, logee dans l'ecart entre deux cartes. */
 .process-step:not(:last-child)::after { content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap); color: var(--muted); text-align: center; transform: translate(0, -50%); }
 .process-rank { color: var(--muted); }

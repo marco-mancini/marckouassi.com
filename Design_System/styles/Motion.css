@@ -27,7 +27,9 @@ html.has-overlay { overflow: hidden; }
 @keyframes planche-entree { from { opacity: .65; transform: translateY(14px) scale(.995); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes couverture-revelation { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes etape-entree { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes fleche-avance { 0%, 100% { transform: translate(0, -50%); } 50% { transform: translate(var(--process-arrow-travel), -50%); } }
+@keyframes fleche-avance { 0%, 100% { transform: translate(0, -50%); opacity: .55; } 50% { transform: translate(var(--process-arrow-travel), -50%); opacity: 1; } }
+@keyframes reflet-balayage { 0% { left: -45%; } 58%, 100% { left: 135%; } }
+@keyframes point-battement { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--glass-shine); } 50% { transform: scale(1.18); box-shadow: 0 0 0 6px transparent; } }
 .artboard.is-visible { animation: planche-entree var(--duration-base) var(--ease-out) both; }
 .cover-board .board-topline, .cover-edition, .cover-title-block, .cover-mark-block, .cover-baseline, .cover-bottom > p { opacity: 0; animation: couverture-revelation var(--duration-slow) var(--ease-out) forwards; }
 .cover-board .board-topline, .cover-edition { animation-delay: var(--delay-hero-topline); }
@@ -42,10 +44,18 @@ html.has-overlay { overflow: hidden; }
 .artboard.is-visible .process-step:nth-child(3) { animation-delay: var(--delay-process-third); }
 .artboard.is-visible .process-step:nth-child(4) { animation-delay: var(--delay-process-fourth); }
 .artboard.is-visible .process-step:not(:last-child)::after { animation: fleche-avance var(--duration-process-loop) var(--ease-out) infinite; }
+.artboard.is-visible .process-glow::before { animation: reflet-balayage var(--duration-process-shine) var(--ease-out) infinite; }
+.artboard.is-visible .process-step:nth-child(2) .process-glow::before { animation-delay: var(--delay-process-second); }
+.artboard.is-visible .process-step:nth-child(3) .process-glow::before { animation-delay: var(--delay-process-third); }
+.artboard.is-visible .process-step:nth-child(4) .process-glow::before { animation-delay: var(--delay-process-fourth); }
+.artboard.is-visible .process-dot { animation: point-battement var(--duration-process-pulse) var(--ease-out) infinite; }
+.artboard.is-visible .process-step:nth-child(2) .process-dot { animation-delay: var(--delay-process-second); }
+.artboard.is-visible .process-step:nth-child(3) .process-dot { animation-delay: var(--delay-process-third); }
+.artboard.is-visible .process-step:nth-child(4) .process-dot { animation-delay: var(--delay-process-fourth); }
 .artboard.is-visible .process-step:nth-child(2)::after { animation-delay: var(--delay-process-second); }
 .artboard.is-visible .process-step:nth-child(3)::after { animation-delay: var(--delay-process-third); }
 .process-step { transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
-.process-step:hover { transform: translateY(-3px); }
+.process-step:hover { transform: translateY(-4px); box-shadow: 0 18px 38px -20px var(--shadow-board); }
 .nav-mobile-close, .menu-link, .cover-mark, .contact-mark, .project-card, .project-enter { transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
 .menu-link:hover { background: var(--olive); color: var(--paper); }
 .cover-mark:hover, .contact-mark:hover { transform: rotate(-4deg) scale(1.03); }
@@ -58,5 +68,7 @@ html.has-overlay { overflow: hidden; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: var(--duration-none) !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: var(--duration-none) !important; }
   .artboard.is-visible, .cover-board .board-topline, .cover-edition, .cover-title-block, .cover-mark-block, .cover-baseline, .cover-bottom > p, .process-step { opacity: 1; transform: none; clip-path: none; }
-  .process-step:not(:last-child)::after { transform: translate(0, -50%); }
+  .process-step:not(:last-child)::after { transform: translate(0, -50%); opacity: 1; }
+  .process-glow { display: none; }
+  .process-dot { transform: none; box-shadow: none; }
 }
