@@ -114,7 +114,7 @@ p { line-height: var(--leading-body); }
 .contact-board-main h2 { font-size: var(--type-contact-title); }
 .board-topline, .board-label, .project-card-number,
 .timeline-date, .timeline-place, .project-meta-label, .project-copy-label, .contact-link > span,
-.cover-fact > span, .cover-edition, .project-dialog-header p {
+.cover-fact > span, .cover-edition, .process-rank, .project-dialog-header p {
   font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em;
 }
 .cover-baseline { font-family: var(--font-display); font-size: var(--type-cover-promise); line-height: var(--leading-compact); letter-spacing: var(--cover-caption-tracking); }
@@ -124,6 +124,7 @@ p { line-height: var(--leading-body); }
 .introduction-lede { font-size: var(--type-introduction-lede); }
 .introduction-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .introduction-bottom p, .about-copy p { font-size: var(--type-body-compact); line-height: var(--leading-body); }
+.process-label { font-family: var(--font-display); font-size: var(--type-title-card); line-height: var(--leading-compact); text-transform: uppercase; }
 .about-copy .about-lead, .project-context { font-size: var(--type-body-emphasis); line-height: 1.45; }
 .about-signature { font-size: var(--type-title-card); }
 .expertise-grid p, .timeline-item p, .project-meta-item p { font-size: var(--type-body-compact); line-height: var(--leading-compact); }

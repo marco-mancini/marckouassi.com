@@ -66,7 +66,14 @@
 .introduction-story strong { color: var(--ink-display); }
 .introduction-bottom { display: grid; padding-top: 18px; grid-template-columns: 1fr 1fr; gap: 12px 30px; border-top: 1px solid var(--line); }
 .introduction-bottom p { margin: 0; }
-.process-line { display: flex; grid-column: 1 / -1; justify-content: space-between; gap: 10px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); }
+/* Frise des quatre temps de la methode. Un rail continu, --line, porte un
+   point par etape ; le point est centre sur le rail par un decalage de la
+   moitie de son diametre, et chaque etape ouvre sa colonne. */
+.process-line { display: grid; margin: 0; padding: 0; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; }
+.process-step { position: relative; display: grid; padding: var(--process-rail-offset) var(--process-column-gap) 0 0; gap: var(--space-1); border-top: var(--border-hairline) solid var(--line); }
+.process-step::before { content: ""; position: absolute; top: 0; left: 0; width: var(--process-dot-size); height: var(--process-dot-size); border-radius: var(--radius-full); background: var(--ink-display); transform: translateY(-50%); }
+.process-rank { color: var(--muted); }
+.process-label { color: var(--ink-display); }
 .about-board { background: var(--olive); color: var(--paper); }
 .about-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
 .about-board-heading { display: flex; margin: clamp(26px, 4vw, 56px) 0 24px; align-items: end; justify-content: space-between; gap: 24px; }

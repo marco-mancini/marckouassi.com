@@ -276,6 +276,9 @@
   --introduction-claim-tracking: -.01em;
   --introduction-visual-height: clamp(280px, 31vw, 470px);
   --introduction-title-gap: clamp(28px, 3.4vw, 54px);
+  --process-dot-size: 11px;
+  --process-rail-offset: var(--space-6);
+  --process-column-gap: clamp(12px, 2vw, 32px);
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;
