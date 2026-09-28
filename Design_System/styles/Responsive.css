@@ -74,7 +74,6 @@
 @media (min-width: 851px) and (max-width: 1080px) {
   :root { --page-gutter: 24px; --type-cover: clamp(5rem, 13vw, 8rem); --type-project-title: clamp(3rem, 6vw, 5rem); }
   .artboard { padding: 38px; }
-  .cover-layout { grid-template-columns: minmax(0, 1fr) var(--cover-mark-column-compact); }
   .project-gallery-preview { grid-auto-rows: clamp(120px, 13.5vw, 220px); }
   .project-dialog-body { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 22px; }
   .timeline-item { grid-template-columns: minmax(115px, .6fr) minmax(0, 1.5fr) minmax(95px, .6fr); gap: 14px; }

@@ -246,8 +246,6 @@
   --cover-name-offset: 18px;
   --cover-caption-offset: 10px;
   --cover-link-offset: var(--space-3);
-  --cover-mark-column: 200px;
-  --cover-mark-column-compact: 120px;
   --cover-mark-size: clamp(170px, 18vw, 280px);
   --cover-mark-padding: clamp(20px, 2vw, 34px);
   --cover-mark-scale: 78%;
