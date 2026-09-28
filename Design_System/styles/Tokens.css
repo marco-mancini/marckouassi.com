@@ -1,33 +1,171 @@
-/* Source unique de toutes les valeurs visuelles partagées. */
-/* Aucune couleur, police ou durée ne se redéclare ailleurs : tout passe par ces jetons. */
+/* ==========================================================================
+   PORTFOLIO MARC KOUASSI, TOKENS.CSS
+   Source unique et canonique de toutes les valeurs visuelles du site.
+   Zero valeur en dur dans aucune autre feuille, tout passe par ces jetons.
+
+   Mode clair par defaut. Mode sombre applique de DEUX facons, qui se
+   cumulent : automatiquement selon la preference du systeme
+   (prefers-color-scheme), et manuellement par data-theme="sombre" pose
+   sur la balise <html>. data-theme, quand il est present, l'emporte,
+   dans les deux sens : un visiteur peut forcer le clair sur un appareil
+   regle en sombre.
+
+   Structure du fichier, dans l'ordre :
+     1. Palettes sources nommees, --clair-* et --sombre-*
+     2. Jetons de theme, qui renvoient a la palette claire
+     3. Jetons FIXES, qui ne suivent jamais le theme
+     4. Jetons structurels, espacement, rayon, typographie, mouvement
+     5. Bascule sombre, automatique et manuelle
+     6. Ilots, surfaces qui gardent leur clarte quel que soit le theme
+     7. Reglages d'accessibilite du visiteur
+   ========================================================================== */
+
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
 
-  /* Couleurs */
+  /* ======================================================================
+     1. PALETTES SOURCES
+     Les deux themes sont nommes UNE FOIS ici. Les jetons de thete plus
+     bas y renvoient, et les ilots les relisent. Aucune de ces valeurs
+     n'est jamais recopiee ailleurs dans le fichier.
+
+     POURQUOI DEUX PALETTES NOMMEES, et pas seulement la claire. Une
+     propriete personnalisee ne sait pas revenir a sa valeur de :root une
+     fois qu'un ancetre l'a redefinie. Le site a DEUX cas d'ilot, pas un :
+     une surface qui reste claire en theme sombre, et surtout les
+     planches olive qui restent SOMBRES en theme clair. Sans les deux
+     palettes nommees, le second cas obligerait a recopier les valeurs.
+     ====================================================================== */
+
+  /* --- Palette claire --- */
+  --clair-surface-page: #fffff2;
+  --clair-surface-alt: #f0f3e8;
+  --clair-surface-image: #e5ead9;
+  --clair-ink: #505843;
+  --clair-ink-display: #576740;
+  --clair-ink-display-muted: #505843;
+  --clair-muted: #646c58;
+  --clair-subtle-heading: #5a634d;
+  --clair-line: #d9dfca;
+  --clair-line-subtle: #c9d2b8;
+  --clair-accent: #7a8e5a;
+  --clair-accent-pop: #d7e2c2;
+  --clair-olive: #576740;
+  --clair-olive-deep: #505843;
+  --clair-olive-ghost: #b0c197;
+  --clair-placeholder-highlight: #91a577;
+  --clair-placeholder-shadow: #505843;
+  --clair-shadow-board: rgba(80,88,67,.09);
+  --clair-overlay-scrim: rgba(80,88,67,.68);
+
+  /* --- Palette sombre ---
+     Mesuree au navigateur le 28 septembre 2026, aux deux tailles de
+     reference 1440x900 et 1280x800, avant d'etre ecrite ici. Les
+     contrastes obtenus sur --sombre-surface-page : ink 14,96, muted
+     8,14, accent 8,20, subtle-heading 10,70. Sur --sombre-olive :
+     paper 10,02, paper-on-dark 9,06, olive-ghost 3,69 (grand texte,
+     seuil 3). Aucun texte de la page sous son seuil. */
+  --sombre-surface-page: #14180f;
+  --sombre-surface-alt: #1c2117;
+  --sombre-surface-image: #242b1d;
+  --sombre-ink: #e8ecdc;
+  --sombre-ink-display: #cfdcba;
+  --sombre-ink-display-muted: #9aa88a;
+  --sombre-muted: #a8b29a;
+  --sombre-subtle-heading: #c2cbb4;
+  --sombre-line: #333c29;
+  --sombre-line-subtle: #3a4430;
+  --sombre-accent: #9db87a;
+  --sombre-accent-pop: #2c3522;
+  --sombre-olive: #3b4530;
+  --sombre-olive-deep: #2a3222;
+  --sombre-olive-ghost: #8fa377;
+  --sombre-placeholder-highlight: #5d6b4a;
+  --sombre-placeholder-shadow: #10140c;
+  --sombre-shadow-board: rgba(0,0,0,.45);
+  --sombre-overlay-scrim: rgba(10,13,8,.82);
+
+  /* ======================================================================
+     2. JETONS DE THEME
+     C'est ce que les feuilles consomment. En clair ils renvoient a la
+     palette claire, la bascule plus bas les repointe vers la sombre.
+     ====================================================================== */
+
+  /* --- Surfaces --- */
+  --surface-page: var(--clair-surface-page);
+  --surface-alt: var(--clair-surface-alt);
+  --surface-image: var(--clair-surface-image);
+  --surface-image-portrait: var(--clair-surface-image);
+
+  /* --- Textes --- */
+  --ink: var(--clair-ink);
+  --ink-display: var(--clair-ink-display);
+  --ink-display-muted: var(--clair-ink-display-muted);
+  --muted: var(--clair-muted);
+  --text-subtle-heading: var(--clair-subtle-heading);
+
+  /* --- Filets --- */
+  --line: var(--clair-line);
+  --line-subtle: var(--clair-line-subtle);
+
+  /* --- Accents --- */
+  --accent: var(--clair-accent);
+  --accent-pop: var(--clair-accent-pop);
+
+  /* --- Planches olive --- */
+  --olive: var(--clair-olive);
+  --olive-deep: var(--clair-olive-deep);
+  --olive-ghost: var(--clair-olive-ghost);
+
+  /* --- Divers --- */
+  --placeholder-highlight: var(--clair-placeholder-highlight);
+  --placeholder-shadow: var(--clair-placeholder-shadow);
+  --shadow-board: var(--clair-shadow-board);
+  --overlay-scrim: var(--clair-overlay-scrim);
+
+  /* ======================================================================
+     3. JETONS FIXES, ne suivent JAMAIS le theme
+
+     --paper est le creme de la marque. Il sert de TEXTE et de FILET sur
+     une planche olive, jamais de fond de page : le fond de page, c'est
+     --surface-page, qui lui s'assombrit. Les deux valaient la meme
+     couleur avant le 28 septembre 2026 et etaient confondus ; le mode
+     sombre a rendu la confusion intenable, un fond assombri emportait
+     avec lui le texte des planches. 21 fonds ont bascule sur
+     --surface-page, les 15 textes sont restes sur --paper.
+
+     La famille *-on-dark ecrit sur une planche olive, qui reste sombre
+     dans les deux themes. Ces jetons sont donc fixes eux aussi.
+     ====================================================================== */
   --paper: #fffff2;
-  --ink: #505843;
-  --muted: #646c58;
-  --line: #d9dfca;
-  --accent: #7a8e5a;
-  --accent-pop: #d7e2c2;
-  --olive: #7a8e5a;
-  --olive-deep: #505843;
-  --surface-alt: #f0f3e8;
   --paper-on-dark: #f1f4e8;
+  --hero-eyebrow: var(--paper);
+  --hero-meta: rgba(241,244,232,.72);
+  --hero-copy: rgba(241,244,232,.86);
+  --placeholder-text: rgba(255,255,242,.9);
+  --border-on-dark: rgba(255,255,242,.52);
+  --border-on-dark-soft: rgba(255,255,242,.36);
+  --text-on-dark-muted: rgba(255,255,242,.72);
+  --hover-on-dark: rgba(255,255,242,.14);
 
-  /* Polices */
+  /* ======================================================================
+     4. JETONS STRUCTURELS
+     Espacement, rayon, typographie, mouvement, points de rupture.
+     Independants du theme, jamais redefinis dans un bloc de bascule.
+     Valeurs reprises des usages deja presents dans les feuilles au
+     moment de la formalisation, pas une echelle inventee a vide.
+     ====================================================================== */
+
+  /* --- Polices --- */
   --font-sans: "Avenir Next", "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
   --font-display: "Anton", Impact, sans-serif;
 
-  /* Typographie display */
-  --display-leading: .94;
-  --display-tracking: -.01em;
-
-  /* Échelle typographique consommée par Typography.css */
+  /* --- Echelle typographique --- */
   --type-display: clamp(5rem, 18vw, 22rem);
   --type-title-hero: clamp(5rem, 10vw, 9rem);
-  --type-cover: clamp(5rem, 18vw, 22rem);
+  --type-cover: clamp(5rem, 12vw, 22rem);
+  --type-cover-caption: clamp(.85rem, 1.2vw, 1rem);
   --type-display-contact: clamp(3.25rem, 10.5vw, 9.25rem);
   --type-contact-title: clamp(4rem, 11vw, 10rem);
   --type-title-section: clamp(3rem, 12vw, 14rem);
@@ -43,34 +181,72 @@
   --type-index: 1rem;
   --type-icon: 1.125rem;
   --type-symbol: 1.75rem;
+
+  /* --- Interlignes --- */
   --leading-heading: 1.08;
   --leading-body: 1.6;
   --leading-compact: 1.5;
+  --leading-cover: 1.06;
+  --leading-cover-compact: 1.14;
+  --leading-cover-caption: 1.4;
+  --leading-mark: 1.35;
+  --leading-lede: 1.45;
 
-  /* Fonds, accents et textes secondaires */
-  --hero-meta: rgba(241,244,232,.72);
-  --hero-eyebrow: var(--paper);
-  --hero-copy: rgba(241,244,232,.86);
-  --text-subtle-heading: #5a634d;
-  --line-subtle: #c9d2b8;
-  --surface-image: #e5ead9;
-  --surface-image-portrait: #e5ead9;
-  --placeholder-highlight: #91a577;
-  --placeholder-shadow: #505843;
-  --placeholder-text: rgba(255,255,242,.9);
-  --border-on-dark: rgba(255,255,242,.52);
-  --text-on-dark-muted: rgba(255,255,242,.72);
-  --border-on-dark-soft: rgba(255,255,242,.36);
-  --hover-on-dark: rgba(255,255,242,.14);
-  --overlay-scrim: rgba(80,88,67,.68);
+  /* --- Interlettrages --- */
+  --display-leading: .94;
+  --display-tracking: -.01em;
+  --cover-tracking: -.035em;
+  --cover-caption-tracking: .02em;
 
-  /* Mise en page */
+  /* --- Espacement, echelle stricte --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+
+  /* --- Rayon --- */
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-full: 50%;
+
+  /* --- Epaisseurs et soulignement --- */
+  --border-hairline: 1px;
+  --border-frame: 5px;
+  --underline-offset: 4px;
+
+  /* --- Mise en page --- */
   --page-gutter: clamp(16px, 2vw, 40px);
   --header-offset: 76px;
-  --shadow-board: rgba(80,88,67,.09);
+  --header-height: 68px;
 
-  /* Mouvement */
+  /* --- Couverture --- */
+  --cover-min-height: 680px;
+  --cover-padding-top: clamp(24px, 3.5vw, 56px);
+  --cover-padding-bottom: 28px;
+  --cover-gap: var(--space-6);
+  --cover-bottom-gap: clamp(22px, 5vw, 74px);
+  --cover-name-offset: 18px;
+  --cover-caption-offset: 10px;
+  --cover-link-offset: var(--space-3);
+  --cover-mark-column: 200px;
+  --cover-mark-column-compact: 120px;
+  --cover-mark-size: clamp(170px, 18vw, 280px);
+  --cover-mark-padding: clamp(20px, 2vw, 34px);
+  --cover-mark-scale: 78%;
+  --cover-mark-size-compact: 48px;
+  --cover-mark-size-tiny: 42px;
+  --cover-mark-box-compact: 54px;
+  --cover-padding-top-compact: 50px;
+  --cover-padding-bottom-compact: var(--space-6);
+
+  /* --- Mouvement --- */
   --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --duration-none: 0s;
   --duration-fast: .25s;
   --duration-base: .6s;
   --duration-slow: .9s;
@@ -93,5 +269,168 @@
   --delay-menu-fourth: .27s;
   --delay-menu-fifth: .32s;
   --delay-menu-cta: .38s;
-  --duration-none: 0s;
+
+  /* --- Points de rupture, reference ecrite.
+     Une media query ne peut pas consommer une variable dans sa
+     condition. Ces valeurs sont la reference a recopier pour toute
+     nouvelle media query, et elles ne vivent que dans Responsive.css. */
+  --bp-xs: 380px;
+  --bp-sm: 560px;
+  --bp-md: 850px;
+  --bp-lg: 1200px;
 }
+
+/* ==========================================================================
+   5. BASCULE SOMBRE
+
+   Deux declencheurs, dans cet ordre de specificite croissante :
+     a. la preference du systeme, sauf si le visiteur a force le clair
+     b. data-theme="sombre" pose a la main, qui gagne toujours
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="clair"]) {
+    --surface-page: var(--sombre-surface-page);
+    --surface-alt: var(--sombre-surface-alt);
+    --surface-image: var(--sombre-surface-image);
+    --surface-image-portrait: var(--sombre-surface-image);
+    --ink: var(--sombre-ink);
+    --ink-display: var(--sombre-ink-display);
+    --ink-display-muted: var(--sombre-ink-display-muted);
+    --muted: var(--sombre-muted);
+    --text-subtle-heading: var(--sombre-subtle-heading);
+    --line: var(--sombre-line);
+    --line-subtle: var(--sombre-line-subtle);
+    --accent: var(--sombre-accent);
+    --accent-pop: var(--sombre-accent-pop);
+    --olive: var(--sombre-olive);
+    --olive-deep: var(--sombre-olive-deep);
+    --olive-ghost: var(--sombre-olive-ghost);
+    --placeholder-highlight: var(--sombre-placeholder-highlight);
+    --placeholder-shadow: var(--sombre-placeholder-shadow);
+    --shadow-board: var(--sombre-shadow-board);
+    --overlay-scrim: var(--sombre-overlay-scrim);
+  }
+}
+
+/* color-scheme suit le theme force, sinon le navigateur garde ses propres
+   couleurs (champs, ascenseurs, elements non stylés) dans l'autre mode.
+   Constate au banc le 28 septembre 2026 : data-theme="clair" sur un
+   appareil regle en sombre laissait onze elements non stylés en sombre. */
+:root[data-theme="clair"] { color-scheme: light; }
+:root[data-theme="sombre"] { color-scheme: dark; }
+
+:root[data-theme="sombre"] {
+  --surface-page: var(--sombre-surface-page);
+  --surface-alt: var(--sombre-surface-alt);
+  --surface-image: var(--sombre-surface-image);
+  --surface-image-portrait: var(--sombre-surface-image);
+  --ink: var(--sombre-ink);
+  --ink-display: var(--sombre-ink-display);
+  --ink-display-muted: var(--sombre-ink-display-muted);
+  --muted: var(--sombre-muted);
+  --text-subtle-heading: var(--sombre-subtle-heading);
+  --line: var(--sombre-line);
+  --line-subtle: var(--sombre-line-subtle);
+  --accent: var(--sombre-accent);
+  --accent-pop: var(--sombre-accent-pop);
+  --olive: var(--sombre-olive);
+  --olive-deep: var(--sombre-olive-deep);
+  --olive-ghost: var(--sombre-olive-ghost);
+  --placeholder-highlight: var(--sombre-placeholder-highlight);
+  --placeholder-shadow: var(--sombre-placeholder-shadow);
+  --shadow-board: var(--sombre-shadow-board);
+  --overlay-scrim: var(--sombre-overlay-scrim);
+}
+
+/* ==========================================================================
+   6. ILOTS
+
+   A poser sur toute surface qui garde sa clarte quel que soit le theme.
+   Une propriete personnalisee ne sait pas revenir a sa valeur de :root ;
+   l'ilot la lui redonne, en relisant les palettes sources du haut de ce
+   fichier. Aucune valeur n'est recopiee ici.
+
+   .ilot-clair   une carte creme deposee sur un fond sombre
+   .ilot-olive   une planche olive, qui reste sombre meme en theme clair.
+                 C'est le cas de la couverture, d'a-propos, d'expertise et
+                 du sommaire : tout composant partage monte dedans doit y
+                 lire des textes clairs, pas les textes du theme.
+   ========================================================================== */
+
+.ilot-clair {
+  --surface-page: var(--clair-surface-page);
+  --surface-alt: var(--clair-surface-alt);
+  --surface-image: var(--clair-surface-image);
+  --surface-image-portrait: var(--clair-surface-image);
+  --ink: var(--clair-ink);
+  --ink-display: var(--clair-ink-display);
+  --ink-display-muted: var(--clair-ink-display-muted);
+  --muted: var(--clair-muted);
+  --text-subtle-heading: var(--clair-subtle-heading);
+  --line: var(--clair-line);
+  --line-subtle: var(--clair-line-subtle);
+  --accent: var(--clair-accent);
+  --accent-pop: var(--clair-accent-pop);
+}
+
+.ilot-olive {
+  --ink: var(--paper);
+  --ink-display: var(--paper);
+  --ink-display-muted: var(--olive-ghost);
+  --muted: var(--paper-on-dark);
+  --text-subtle-heading: var(--paper-on-dark);
+  --line: var(--border-on-dark);
+  --line-subtle: var(--border-on-dark-soft);
+}
+
+/* ==========================================================================
+   7. REGLAGES D'ACCESSIBILITE DU VISITEUR
+
+   Ils DOUBLENT les preferences du systeme sans les contredire : un
+   visiteur peut vouloir moins de mouvement sur CE site sans le vouloir
+   partout. Aucune couleur en dur, tout passe par les jetons ci-dessus.
+   ========================================================================== */
+
+/* --- Reduire les animations ---
+   !important est necessaire ici, et c'est le seul endroit ou il l'est :
+   les animations sont declarees dans chaque feuille, et sans lui la
+   preference du visiteur perdrait contre la regle la plus specifique. */
+html[data-animations="reduites"] *,
+html[data-animations="reduites"] *::before,
+html[data-animations="reduites"] *::after {
+  animation-duration: var(--duration-none) !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: var(--duration-none) !important;
+  scroll-behavior: auto !important;
+}
+
+/* --- Contraste renforce ---
+   Ne change QUE des jetons : chaque feuille suit, aucune n'est reprise.
+
+   LE SELECTEUR EST `:root[...]`, PAS `html[...]`, et c'est indispensable.
+   Mesure au banc le 28 septembre 2026 : avec `html[data-contraste]`, de
+   specificite (0,1,1), le reglage etait MORT. Le bloc de bascule sombre,
+   `:root:not([data-theme="clair"])`, pese (0,2,0) et l'emportait ; les
+   jetons ne bougeaient pas d'un iota. `:root[...]` pese (0,2,0) lui
+   aussi, et vient apres dans le fichier : il gagne a egalite.
+   Un reglage qui ne commande rien est pire qu'un reglage absent. */
+:root[data-contraste="renforce"] {
+  --muted: var(--ink);
+  --text-subtle-heading: var(--ink);
+  --line: var(--line-subtle);
+  --olive-ghost: var(--paper);
+}
+
+/* --- Souligner les liens ---
+   Critere 1.4.1 : un lien ne se distingue pas que par sa couleur. */
+html[data-liens="soulignes"] a {
+  text-decoration: underline;
+  text-underline-offset: var(--underline-offset);
+}
+
+/* --- Taille du texte ---
+   Agit sur la racine : tout ce qui est dimensionne en rem suit, et c'est
+   le cas de l'echelle typographique. */
+html[data-taille-texte="grande"] { font-size: 112.5%; }
+html[data-taille-texte="tres_grande"] { font-size: 125%; }

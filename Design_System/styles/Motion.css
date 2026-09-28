@@ -3,7 +3,7 @@ html { scroll-behavior: smooth; }
 html.has-overlay { overflow: hidden; }
 .scroll-progress { transition: width var(--duration-progress) linear; }
 .site-header { transition: box-shadow var(--duration-fast) ease, background var(--duration-fast) ease, color var(--duration-fast) ease; }
-.site-header.is-scrolled { border-color: var(--line); background: var(--paper); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
+.site-header.is-scrolled { border-color: var(--line); background: var(--surface-page); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
 .site-header.is-scrolled .wordmark img { filter: none; }
 .site-header.is-scrolled .menu-link { border-color: var(--ink); color: var(--ink); }
 .site-header.is-scrolled .nav-toggle { color: var(--ink); }
@@ -26,13 +26,12 @@ html.has-overlay { overflow: hidden; }
 
 @keyframes planche-entree { from { opacity: .65; transform: translateY(14px) scale(.995); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes couverture-revelation { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes image-revelation { from { opacity: 0; clip-path: inset(0 0 100% 0); } to { opacity: 1; clip-path: inset(0); } }
 .artboard.is-visible { animation: planche-entree var(--duration-base) var(--ease-out) both; }
-.cover-board .board-topline, .cover-title-block, .cover-mark, .cover-preview, .cover-bottom > p { opacity: 0; animation: couverture-revelation var(--duration-slow) var(--ease-out) forwards; }
+.cover-board .board-topline, .cover-title-block, .cover-mark, .cover-name, .cover-bottom > p { opacity: 0; animation: couverture-revelation var(--duration-slow) var(--ease-out) forwards; }
 .cover-board .board-topline { animation-delay: var(--delay-hero-topline); }
 .cover-title-block { animation-delay: var(--delay-hero-first-name); }
 .cover-mark { animation-delay: var(--delay-hero-stamp); }
-.cover-preview { animation-name: image-revelation; animation-delay: var(--delay-gallery-start); }
+.cover-name { animation-delay: var(--delay-hero-bottom); }
 .cover-bottom > p { animation-delay: var(--delay-hero-bottom); }
 .nav-mobile-close, .menu-link, .cover-mark, .contact-mark, .project-card, .project-enter { transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
 .menu-link:hover { background: var(--olive); color: var(--paper); }
@@ -45,5 +44,5 @@ html.has-overlay { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: var(--duration-none) !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: var(--duration-none) !important; }
-  .artboard.is-visible, .cover-board .board-topline, .cover-title-block, .cover-mark, .cover-preview, .cover-bottom > p { opacity: 1; transform: none; clip-path: none; }
+  .artboard.is-visible, .cover-board .board-topline, .cover-title-block, .cover-mark, .cover-name, .cover-bottom > p { opacity: 1; transform: none; clip-path: none; }
 }

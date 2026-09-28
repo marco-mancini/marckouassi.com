@@ -3,7 +3,7 @@
 html { scroll-padding-top: var(--header-offset); }
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--surface-page);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
