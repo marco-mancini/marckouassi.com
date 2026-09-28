@@ -177,6 +177,7 @@
   --type-cover: clamp(5rem, 12vw, 22rem);
   --type-cover-caption: clamp(.85rem, 1.2vw, 1rem);
   --type-cover-promise: clamp(1.5rem, 2.2vw, 2rem);
+  --type-introduction-claim: clamp(1.75rem, 3.6vw, 3.25rem);
   --type-display-contact: clamp(3.25rem, 10.5vw, 9.25rem);
   --type-contact-title: clamp(4rem, 11vw, 10rem);
   --type-title-section: clamp(3rem, 12vw, 14rem);
@@ -271,6 +272,7 @@
      d'edition se posait a 30 px et passait derriere lui. */
   --cover-edition-offset: var(--header-height);
   --introduction-mark-size: clamp(88px, 9vw, 140px);
+  --introduction-claim-tracking: -.01em;
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;

@@ -56,11 +56,13 @@
 .introduction-layout { display: grid; padding: 0 0 26px; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); align-items: stretch; gap: clamp(24px, 5vw, 88px); }
 .introduction-visual { position: relative; height: clamp(260px, 39vw, 640px); margin: 0; overflow: hidden; border-radius: var(--radius-xl); }
 .introduction-visual img { width: 100%; height: 100%; object-fit: cover; }
-.introduction-story { display: grid; align-content: end; max-width: 700px; }
+.introduction-story { display: grid; max-width: 700px; }
 .introduction-mark { display: block; width: var(--introduction-mark-size); }
 .introduction-mark img { width: 100%; height: auto; object-fit: contain; }
-.introduction-story p { margin: 0 0 20px; }
-.introduction-story p:first-child { font-size: var(--type-body-emphasis); }
+.introduction-copy { display: grid; align-content: space-between; gap: var(--space-6); height: 100%; }
+.introduction-copy p { margin: 0; }
+.introduction-lede { color: var(--muted); }
+.introduction-claim { color: var(--ink-display); text-transform: uppercase; }
 .introduction-story strong { color: var(--ink-display); }
 .introduction-bottom { display: grid; padding-top: 18px; grid-template-columns: 1fr 1fr; gap: 12px 30px; border-top: 1px solid var(--line); }
 .introduction-bottom p { margin: 0; }

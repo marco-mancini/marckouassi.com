@@ -23,6 +23,7 @@
   .introduction-title h2 { max-width: 100%; }
   .introduction-visual { height: clamp(190px, 62vw, 340px); }
   .introduction-mark { display: none; }
+  .introduction-copy { gap: var(--space-4); height: auto; }
   .introduction-bottom { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .process-line { grid-column: 1; flex-wrap: wrap; justify-content: flex-start; gap: 8px 18px; }
   .about-board-heading { margin: 30px 0 18px; align-items: start; flex-direction: column; gap: 6px; }
