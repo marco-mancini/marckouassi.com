@@ -8,7 +8,7 @@
 .site-header .nav-toggle { color: var(--paper); }
 .wordmark { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; }
 .wordmark img { width: 48px; height: auto; }
-.site-nav { display: flex; align-items: center; gap: clamp(14px, 2.2vw, 32px); }
+.site-nav { display: flex; align-items: center; gap: var(--header-nav-gap); }
 .nav-link, .menu-link { display: inline-flex; min-height: 44px; align-items: center; }
 .menu-link { padding: 0 16px; gap: 10px; border: 1px solid var(--ink); border-radius: 999px; }
 .nav-toggle { display: none; width: 44px; height: 44px; padding: 0; align-items: center; justify-content: center; border: 0; background: none; color: var(--ink); }
