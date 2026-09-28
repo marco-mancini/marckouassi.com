@@ -27,10 +27,11 @@
   .introduction-bottom { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .process-line { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .process-step:not(:last-child)::after { display: none; }
-  .about-board-heading { margin: 30px 0 18px; align-items: start; flex-direction: column; gap: 6px; }
-  .about-board-heading h2 { max-width: 100%; text-align: left; }
+  .about-board-heading { margin: 30px 0 18px; grid-template-columns: minmax(0, 1fr); align-items: start; gap: var(--space-2); }
+  .about-mark { display: none; }
+
   .about-board-content { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .portrait { min-height: 0; aspect-ratio: 16 / 9; }
+  .portrait { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
   .expertise-masthead { min-height: 0; margin: 18px 0; grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .expertise-image-strip { height: clamp(90px, 30vw, 170px); }
   .expertise-masthead h2 { text-align: left; }

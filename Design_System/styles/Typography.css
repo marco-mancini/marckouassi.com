@@ -125,8 +125,9 @@ p { line-height: var(--leading-body); }
 .introduction-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .introduction-bottom p, .about-copy p { font-size: var(--type-body-compact); line-height: var(--leading-body); }
 .process-label { font-family: var(--font-display); font-size: var(--type-title-card); line-height: var(--leading-compact); text-transform: uppercase; }
-.about-copy .about-lead, .project-context { font-size: var(--type-body-emphasis); line-height: 1.45; }
-.about-signature { font-size: var(--type-title-card); }
+.project-context { font-size: var(--type-body-emphasis); line-height: var(--leading-lede); }
+.about-copy .about-lede { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }
+.about-copy .about-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .expertise-grid p, .timeline-item p, .project-meta-item p { font-size: var(--type-body-compact); line-height: var(--leading-compact); }
 .project-card-name h3 { font-size: var(--type-title-card); }
 .project-enter { font-size: var(--type-icon); }

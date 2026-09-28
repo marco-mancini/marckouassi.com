@@ -302,6 +302,12 @@
      d'edition se posait a 30 px et passait derriere lui. */
   --cover-edition-offset: var(--header-height);
   --introduction-mark-size: clamp(88px, 9vw, 140px);
+  /* La planche a-propos reprend les memes mesures que l'introduction :
+     meme sceau sur la ligne du titre, meme degagement sous lui, memes
+     trois echelles de texte. */
+  --about-mark-size: var(--introduction-mark-size);
+  --about-title-gap: var(--introduction-title-gap);
+  --portrait-min-height: clamp(280px, 30vw, 460px);
   --introduction-claim-tracking: -.01em;
   --introduction-visual-height: clamp(280px, 31vw, 470px);
   --introduction-title-gap: clamp(28px, 3.4vw, 54px);
