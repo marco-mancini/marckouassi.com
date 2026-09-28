@@ -27,11 +27,11 @@ html.has-overlay { overflow: hidden; }
 @keyframes planche-entree { from { opacity: .65; transform: translateY(14px) scale(.995); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes couverture-revelation { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 .artboard.is-visible { animation: planche-entree var(--duration-base) var(--ease-out) both; }
-.cover-board .board-topline, .cover-title-block, .cover-mark, .cover-name, .cover-bottom > p { opacity: 0; animation: couverture-revelation var(--duration-slow) var(--ease-out) forwards; }
+.cover-board .board-topline, .cover-title-block, .cover-mark-block, .cover-baseline, .cover-bottom > p { opacity: 0; animation: couverture-revelation var(--duration-slow) var(--ease-out) forwards; }
 .cover-board .board-topline { animation-delay: var(--delay-hero-topline); }
 .cover-title-block { animation-delay: var(--delay-hero-first-name); }
-.cover-mark { animation-delay: var(--delay-hero-stamp); }
-.cover-name { animation-delay: var(--delay-hero-bottom); }
+.cover-mark-block { animation-delay: var(--delay-hero-stamp); }
+.cover-baseline { animation-delay: var(--delay-hero-bottom); }
 .cover-bottom > p { animation-delay: var(--delay-hero-bottom); }
 .nav-mobile-close, .menu-link, .cover-mark, .contact-mark, .project-card, .project-enter { transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
 .menu-link:hover { background: var(--olive); color: var(--paper); }
@@ -44,5 +44,5 @@ html.has-overlay { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: var(--duration-none) !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: var(--duration-none) !important; }
-  .artboard.is-visible, .cover-board .board-topline, .cover-title-block, .cover-mark, .cover-name, .cover-bottom > p { opacity: 1; transform: none; clip-path: none; }
+  .artboard.is-visible, .cover-board .board-topline, .cover-title-block, .cover-mark-block, .cover-baseline, .cover-bottom > p { opacity: 1; transform: none; clip-path: none; }
 }

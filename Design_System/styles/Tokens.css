@@ -190,6 +190,8 @@
   --leading-cover-compact: 1.14;
   --leading-cover-caption: 1.4;
   --leading-mark: 1.35;
+  --weight-regular: 400;
+  --weight-strong: 700;
   --leading-lede: 1.45;
 
   /* --- Interlettrages --- */
@@ -238,6 +240,13 @@
   --cover-mark-size: clamp(170px, 18vw, 280px);
   --cover-mark-padding: clamp(20px, 2vw, 34px);
   --cover-mark-scale: 78%;
+  --cover-baseline-offset: var(--space-4);
+  --cover-fact-offset: var(--space-2);
+  --cover-jump-width: 82px;
+  --cover-jump-height: 34px;
+  --cover-topline-offset: var(--space-5);
+  --cover-topline-gap: var(--space-6);
+  --cover-baseline-width: 22ch;
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;

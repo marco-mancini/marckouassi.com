@@ -114,11 +114,11 @@ p { line-height: var(--leading-body); }
 .contact-board-main h2 { font-size: var(--type-contact-title); }
 .board-topline, .board-label, .project-card-number,
 .timeline-date, .timeline-place, .project-meta-label, .project-copy-label, .contact-link > span,
-.cover-edition, .project-dialog-header p {
+.cover-fact > span, .cover-jump, .project-dialog-header p {
   font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em;
 }
-.cover-name { font-family: var(--font-mono); font-size: var(--type-cover-caption); line-height: var(--leading-cover-caption); letter-spacing: var(--cover-caption-tracking); }
-.cover-name span { display: block; }
+.cover-baseline { font-family: var(--font-sans); font-size: var(--type-body-emphasis); font-weight: var(--weight-strong); line-height: var(--leading-compact); letter-spacing: var(--cover-caption-tracking); }
+.cover-fact { font-family: var(--font-mono); font-size: var(--type-body-compact); line-height: var(--leading-compact); }
 .cover-bottom > p { font-size: var(--type-body-emphasis); }
 .introduction-story p, .contact-lead { font-size: var(--type-body-emphasis); }
 .introduction-bottom p, .about-copy p { font-size: var(--type-body-compact); line-height: var(--leading-body); }

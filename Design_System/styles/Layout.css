@@ -32,23 +32,25 @@
 .cover-board .board-label { color: var(--paper-on-dark); }
 .board-return { text-decoration: underline; text-underline-offset: 3px; }
 .board-stage--cover { padding-top: 0; }
-.cover-board { display: flex; min-height: max(var(--cover-min-height), calc(100svh - var(--header-height))); padding-top: var(--border-hairline); flex-direction: column; border-top-color: transparent; background: var(--olive); color: var(--paper); }
-.cover-board .cover-topline { display: none; }
+.cover-board { display: flex; min-height: max(var(--cover-min-height), calc(100svh - var(--header-height))); padding-top: var(--cover-topline-offset); flex-direction: column; border-top-color: transparent; background: var(--olive); color: var(--paper); }
+.cover-board .cover-topline { grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--cover-topline-gap); color: var(--paper); }
+.cover-board .cover-topline > :last-child { justify-self: end; }
+.cover-credit b { font-weight: var(--weight-strong); }
+.cover-jump { display: grid; width: var(--cover-jump-width); height: var(--cover-jump-height); place-items: center; border: var(--border-hairline) solid var(--border-on-dark); border-radius: var(--radius-full); color: var(--paper); }
 .cover-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
-.cover-layout { display: grid; flex: 1; padding: var(--cover-padding-top) 0 var(--cover-padding-bottom); grid-template-columns: minmax(0, 1fr) var(--cover-mark-column); align-items: start; gap: var(--cover-gap); }
+.cover-layout { display: grid; flex: 1; align-content: center; padding: var(--cover-padding-top) 0 var(--cover-padding-bottom); grid-template-columns: minmax(0, 1fr) var(--cover-mark-column); align-items: start; gap: var(--cover-gap); }
 .cover-title-block h1 { display: flex; margin: 0; flex-direction: column; font-size: var(--type-cover); line-height: var(--leading-cover); letter-spacing: var(--cover-tracking); text-transform: uppercase; }
 .cover-title-block h1 span:first-child { color: var(--olive-ghost); }
 .cover-title-block h1 span:last-child { color: var(--paper); }
-.cover-name { margin: var(--cover-name-offset) 0 0; color: var(--paper); }
-.cover-name span { display: block; margin-top: var(--cover-caption-offset); color: var(--paper-on-dark); }
-.cover-mark { display: flex; width: var(--cover-mark-size); aspect-ratio: 1; padding: var(--cover-mark-padding); align-items: center; justify-content: space-between; flex-direction: column; border-radius: var(--radius-full); text-align: center; }
-.cover-mark img { width: var(--cover-mark-scale); height: auto; object-fit: contain; }
+.cover-mark-block { display: grid; align-content: start; justify-items: end; gap: var(--cover-baseline-offset); }
+.cover-baseline { max-width: var(--cover-baseline-width); margin: 0; color: var(--paper); text-align: right; text-transform: uppercase; }
+.cover-mark { display: block; width: var(--cover-mark-size); }
+.cover-mark img { width: 100%; height: auto; object-fit: contain; }
 .cover-mark span { line-height: var(--leading-mark); }
-.cover-bottom { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: var(--cover-bottom-gap); }
-.cover-bottom > p { margin: 0; font-size: var(--type-body-emphasis); line-height: var(--leading-lede); }
-.cover-bottom > p a { display: inline-flex; margin-top: var(--cover-link-offset); font-size: var(--type-body-compact); text-decoration: underline; text-underline-offset: var(--underline-offset); }
-.cover-edition { text-align: right; }
-.cover-edition span { color: var(--paper-on-dark); }
+.cover-bottom { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: var(--cover-bottom-gap); }
+.cover-fact { margin: 0; color: var(--paper); }
+.cover-fact > span { display: block; margin-bottom: var(--cover-fact-offset); color: var(--paper-on-dark); }
+.cover-fact a { text-decoration: underline; text-underline-offset: var(--underline-offset); }
 .introduction-board { background: var(--surface-page); }
 .introduction-title { margin: clamp(26px, 4vw, 58px) 0 28px; }
 .introduction-title h2 { margin: 0; color: var(--ink-display); font-size: var(--type-title-section); line-height: .78; text-transform: uppercase; }

@@ -17,10 +17,10 @@
   .cover-mark { position: absolute; top: var(--space-2); right: 0; display: grid; width: var(--cover-mark-box-compact); height: var(--cover-mark-box-compact); min-height: var(--cover-mark-box-compact); padding: 0; place-items: center; border-radius: var(--radius-full); }
   .cover-mark img { width: var(--cover-mark-size-compact); height: var(--cover-mark-size-compact); }
   .cover-mark span { display: none; }
-  .cover-name { margin-top: var(--space-4); }
-  .cover-bottom { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+  .cover-baseline { display: none; }
+  .cover-bottom { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4) var(--space-3); }
   .cover-bottom > p { font-size: var(--type-body-compact); }
-  .cover-edition { display: none; }
+  .cover-jump { display: none; }
   .introduction-layout { padding: 30px 0 18px; grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .introduction-title h2 { max-width: 100%; }
   .introduction-visual { height: clamp(190px, 62vw, 340px); }
