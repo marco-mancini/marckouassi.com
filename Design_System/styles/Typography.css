@@ -131,7 +131,7 @@ p { line-height: var(--leading-body); }
 .project-context { font-size: var(--type-board-copy); line-height: var(--leading-body); }
 .about-copy .about-lede { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }
 .about-copy .about-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
-.expertise-grid p, .timeline-item p, .project-meta-item p { font-size: var(--type-board-copy); line-height: var(--leading-body); }
+.timeline-item p, .project-meta-item p { font-size: var(--type-board-copy); line-height: var(--leading-body); }
 .project-card-name h3 { font-size: var(--type-title-card); }
 .project-enter { font-size: var(--type-icon); }
 .contact-link a { font-size: var(--type-body-compact); }

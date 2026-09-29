@@ -97,7 +97,7 @@
   --clair-glass-surface: rgba(87,103,64,.07);
   --clair-glass-highlight: rgba(255,255,242,.92);
   --clair-glass-border: rgba(80,88,67,.22);
-  --clair-glass-shine: rgba(255,255,242,.85);
+  --clair-glass-shine: rgba(255,255,242,.16);
   --clair-glass-ghost: rgba(87,103,64,.09);
   --clair-overlay-scrim: rgba(80,88,67,.68);
 
@@ -142,7 +142,7 @@
   --sombre-glass-surface: rgba(232,236,220,.07);
   --sombre-glass-highlight: rgba(255,255,242,.12);
   --sombre-glass-border: rgba(255,255,242,.2);
-  --sombre-glass-shine: rgba(255,255,242,.14);
+  --sombre-glass-shine: rgba(255,255,242,.16);
   --sombre-glass-ghost: rgba(232,236,220,.09);
   --sombre-overlay-scrim: rgba(10,13,8,.82);
 
@@ -390,10 +390,11 @@
   --delay-process-second: .16s;
   --delay-process-third: .27s;
   --delay-process-fourth: .38s;
-  --duration-process-shine: 5.2s;
+  --duration-process-shine: 6.5s;
   --duration-process-pulse: 2.8s;
   --type-process-ghost: clamp(2rem, 3.2vw, 2.9rem);
   --process-card-min-height: clamp(68px, 5vw, 80px);
+  --expertise-card-min-height: clamp(92px, 7vw, 116px);
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;
