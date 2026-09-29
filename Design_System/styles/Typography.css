@@ -133,7 +133,7 @@ p { line-height: var(--leading-body); }
 /* Seul paragraphe de la planche 01 depuis l'allegement : il monte d'un
    cran, a l'echelle des accroches. */
 .introduction-detail { font-size: var(--type-introduction-detail); line-height: var(--leading-body); }
-.expertise-promesse, .parcours-intro, .contact-lead { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }
+.expertise-promesse, .parcours-intro, .contact-lead, .prestations-lede { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }
 .introduction-lede { font-size: var(--type-introduction-lede); }
 .introduction-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .introduction-bottom p, .about-copy p { font-size: var(--type-board-copy); line-height: var(--leading-body); }
