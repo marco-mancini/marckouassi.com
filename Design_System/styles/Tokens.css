@@ -276,7 +276,7 @@
   /* Interlignes du composant Universal_signature. Le mot en capitales
      etroites se serre sous 1 ; la salutation cursive garde le sien, ses
      jambages descendant sous la ligne de base. */
-  --leading-signature-mot: .84;
+  --leading-signature-mot: .88;
   --leading-signature-salut: 1;
   --type-introduction-lede: clamp(1.15rem, 1.9vw, 1.65rem);
   /* Corps de lecture commun a toutes les planches. Avant harmonisation il
