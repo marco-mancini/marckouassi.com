@@ -60,7 +60,12 @@
    planches olive, le dore profond sur les planches creme, faute de quoi
    l'un des deux fonds fait tomber le point sous son seuil. */
 .introduction-title h2 { margin: 0; color: var(--ink-display); font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
-.introduction-layout { display: grid; padding: 0 0 26px; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); align-items: stretch; gap: clamp(24px, 5vw, 88px); }
+/* La colonne de texte passe legerement devant celle de l'image : le
+   paragraphe tient en trois lignes forcees, et sa ligne la plus longue
+   demande plus de largeur que le rapport d'origine n'en donnait. Balaye
+   au navigateur de 1024 a 1920 px, la coupure tient a chaque palier.
+   L'image est en object-fit: cover, elle se recadre sans se deformer. */
+.introduction-layout { display: grid; padding: 0 0 26px; grid-template-columns: minmax(0, .87fr) minmax(0, 1fr); align-items: stretch; gap: clamp(24px, 5vw, 88px); }
 .introduction-visual { position: relative; height: var(--introduction-visual-height); margin: 0; overflow: hidden; border-radius: var(--radius-xl); }
 .introduction-visual img { width: 100%; height: 100%; object-fit: cover; }
 .introduction-story { display: grid; max-width: 700px; }
@@ -69,6 +74,10 @@
 .introduction-copy { display: grid; align-content: center; gap: var(--space-6); height: 100%; }
 .introduction-copy p { margin: 0; }
 .introduction-lede { color: var(--muted); }
+/* Premiere des trois lignes du paragraphe : la capitale la detache des
+   deux suivantes sans changer de taille ni de couleur. La casse est
+   posee par le style, le texte du document reste lisible. */
+.introduction-detail-ouverture { text-transform: uppercase; }
 .introduction-claim { color: var(--accent-gold-deep); text-transform: uppercase; }
 .introduction-story strong { color: var(--ink-display); }
 .introduction-bottom { display: grid; padding-top: var(--space-5); gap: var(--space-6); border-top: var(--border-hairline) solid var(--line); }
