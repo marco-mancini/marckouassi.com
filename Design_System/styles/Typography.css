@@ -129,7 +129,10 @@ p { line-height: var(--leading-body); }
 .cover-baseline { font-family: var(--font-display); font-size: var(--type-cover-promise); line-height: var(--leading-compact); letter-spacing: var(--cover-caption-tracking); }
 .cover-fact { font-family: var(--font-mono); font-size: var(--type-body-compact); line-height: var(--leading-compact); }
 .cover-bottom > p { font-size: var(--type-body-emphasis); }
-.introduction-detail, .contact-lead, .parcours-intro, .index-heading > p { font-size: var(--type-board-copy); line-height: var(--leading-body); }
+.contact-lead, .parcours-intro, .index-heading > p { font-size: var(--type-board-copy); line-height: var(--leading-body); }
+/* Seul paragraphe de la planche 01 depuis l'allegement : il monte d'un
+   cran, a l'echelle des accroches. */
+.introduction-detail { font-size: var(--type-introduction-lede); line-height: var(--leading-body); }
 .expertise-promesse { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }
 .introduction-lede { font-size: var(--type-introduction-lede); }
 .introduction-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
