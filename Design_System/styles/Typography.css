@@ -124,6 +124,7 @@ p { line-height: var(--leading-body); }
 .introduction-lede { font-size: var(--type-introduction-lede); }
 .introduction-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .introduction-bottom p, .about-copy p { font-size: var(--type-body-compact); line-height: var(--leading-body); }
+.about-detail p { font-size: var(--type-about-detail); }
 .process-label { font-family: var(--font-display); font-size: var(--type-title-card); line-height: var(--leading-compact); text-transform: uppercase; }
 .project-context { font-size: var(--type-body-emphasis); line-height: var(--leading-lede); }
 .about-copy .about-lede { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }

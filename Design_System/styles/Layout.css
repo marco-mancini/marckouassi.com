@@ -113,7 +113,7 @@
    unique bridee laissait 432 px de vide sous le titre, mesures au
    navigateur. Chaque colonne tient seule la mesure de lecture, et le
    conteneur est borne pour qu'aucune ne s'elargisse au-dela. */
-.about-detail { max-width: var(--mesure-lecture); column-gap: var(--about-detail-gap); }
+.about-detail { max-width: var(--mesure-lecture); column-gap: var(--about-detail-gap); column-rule: var(--border-hairline) solid var(--border-on-dark-soft); }
 .about-detail p { break-inside: avoid; }
 .about-detail p + p { margin-top: var(--space-4); }
 .about-copy p { margin: 0; color: var(--paper-on-dark); }
