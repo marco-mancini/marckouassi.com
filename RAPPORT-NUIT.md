@@ -1,6 +1,6 @@
 # Rapport de la nuit du 29 septembre 2026
 
-Branche `refonte/kittl`. Douze commits poussés. `main` n'a pas été touchée,
+Branche de travail de la refonte. Douze commits poussés. `main` n'a pas été touchée,
 aucune fusion tentée.
 
 État final de la batterie, sur `_site` construit par `npm run build` :
