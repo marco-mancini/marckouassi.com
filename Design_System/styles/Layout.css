@@ -30,12 +30,6 @@
 .nav-mobile-cta { display: flex; min-height: 54px; align-items: center; justify-content: center; gap: 10px; border: 1px solid var(--paper); border-radius: 999px; }
 .portfolio-deck { padding: 0 var(--page-gutter) 54px; }
 .board-stage { scroll-margin-top: 82px; padding: clamp(22px, 4vw, 54px) 0; }
-.artboard { position: relative; width: 100%; min-height: 0; margin: 0 auto; padding: clamp(24px, 4.2vw, 76px); overflow: hidden; border: 1px solid var(--line); background: var(--surface-page); box-shadow: 0 12px 36px var(--shadow-board); }
-.board-topline { display: grid; min-height: 30px; padding-bottom: 12px; grid-template-columns: 1fr 1fr auto; align-items: start; gap: 14px; border-bottom: 1px solid var(--line); color: var(--muted); }
-.board-topline > :nth-child(2) { text-align: center; }
-.board-topline > :last-child { text-align: right; }
-.board-label { margin: 0 0 12px; color: var(--accent); text-transform: uppercase; }
-.cover-board .board-label { color: var(--paper-on-dark); }
 .board-return { text-decoration: underline; text-underline-offset: 3px; }
 .board-stage--cover { padding-top: 0; }
 .cover-board { display: flex; min-height: max(var(--cover-min-height), calc(100svh - var(--header-height))); padding-top: var(--border-hairline); flex-direction: column; border-top-color: transparent; background: var(--olive); color: var(--paper); }
@@ -61,9 +55,6 @@
 /* Point de fin de titre, en dore. Deux valeurs : le dore clair sur les
    planches olive, le dore profond sur les planches creme, faute de quoi
    l'un des deux fonds fait tomber le point sous son seuil. */
-.title-dot { color: var(--accent-gold-deep); font-weight: inherit; }
-.cover-board .title-dot, .about-board .title-dot, .expertise-board .title-dot,
-.index-board .title-dot { color: var(--accent-gold); }
 .introduction-title h2 { margin: 0; color: var(--ink-display); font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
 .introduction-layout { display: grid; padding: 0 0 26px; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); align-items: stretch; gap: clamp(24px, 5vw, 88px); }
 .introduction-visual { position: relative; height: var(--introduction-visual-height); margin: 0; overflow: hidden; border-radius: var(--radius-xl); }
@@ -88,7 +79,6 @@
 .introduction-notes p:last-child { padding-left: var(--about-detail-gap); }
 /* Fragment en relief sur une planche claire : --accent-gold-ink, seul a
    tenir le seuil du petit texte sur le creme. */
-.board-relief { color: var(--accent-gold-ink); font-weight: var(--weight-strong); }
 .introduction-bottom p { margin: 0; }
 /* Frise des quatre temps de la methode. Un rail continu, --line, porte un
    point par etape ; le point est centre sur le rail par un decalage de la
@@ -120,7 +110,6 @@
    .about-relief sert dans le texte courant, a 14 px : il lui faut
    --accent-gold-soft, seul a tenir 4,5:1 sur l'olive. */
 .about-accent { color: var(--accent-gold); font-weight: inherit; }
-.about-relief { color: var(--accent-gold-soft); font-weight: var(--weight-strong); }
 .expertise-board { background: var(--olive); color: var(--paper); }
 .expertise-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
 .expertise-masthead { margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); }

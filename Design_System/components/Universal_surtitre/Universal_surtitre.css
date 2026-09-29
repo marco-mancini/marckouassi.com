@@ -1,0 +1,10 @@
+/* ==========================================================================
+   UNIVERSAL_SURTITRE
+   Le sur-titre en petites capitales mono, pose au-dessus ou au-dessous
+   d'un titre de planche. Cinq usages.
+
+   BALISAGE
+     <p class="board-label">Une idee devient image</p>
+   ========================================================================== */
+.board-label { margin: 0 0 12px; color: var(--accent); text-transform: uppercase; }
+.cover-board .board-label { color: var(--paper-on-dark); }

@@ -1,0 +1,15 @@
+/* ==========================================================================
+   UNIVERSAL_RELIEF
+   Le fragment mis en valeur dans un texte courant : dore et gras. Deux
+   planches, a-propos et introduction.
+
+   DEUX CLASSES POUR DEUX FONDS. Le dore de l'une ne tient pas son seuil
+   sur le fond de l'autre : 1,29:1 et 3,84:1, mesures au navigateur. La
+   graisse est indispensable, la couleur seule se confondait avec le creme
+   du corps.
+
+   BALISAGE
+     <b class="about-relief">je cherche le sens derriere la forme</b>
+   ========================================================================== */
+.about-relief { color: var(--accent-gold-soft); font-weight: var(--weight-strong); }
+.board-relief { color: var(--accent-gold-ink); font-weight: var(--weight-strong); }
