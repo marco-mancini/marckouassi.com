@@ -371,6 +371,12 @@
   /* Cartes de la frise : un plein olive fixe, texte creme dessus. Fixe
      et non lie au theme, comme la famille *-on-dark : la carte reste
      verte que la planche soit creme ou sombre. */
+  /* Cartes posees SUR une planche olive. Elles prenaient --surface-page,
+     qui s'assombrit avec le theme : elles viraient au noir sur le vert,
+     1,78:1 mesure au navigateur. Ces deux valeurs creusent la planche
+     d'un cran, sans basculer dans le noir. */
+  --carte-sur-olive: #4a5936;
+  --carte-sur-olive-deep: #3f4c2e;
   --process-card-surface: #576740;
   --process-card-surface-deep: #4a5936;
   --process-dot-size: 11px;

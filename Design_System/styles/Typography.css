@@ -121,6 +121,8 @@ p { line-height: var(--leading-body); }
 .cover-fact { font-family: var(--font-mono); font-size: var(--type-body-compact); line-height: var(--leading-compact); }
 .cover-bottom > p { font-size: var(--type-body-emphasis); }
 .introduction-detail, .contact-lead, .parcours-intro, .index-heading > p { font-size: var(--type-board-copy); line-height: var(--leading-body); }
+.expertise-lede { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }
+.expertise-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .introduction-lede { font-size: var(--type-introduction-lede); }
 .introduction-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .introduction-bottom p, .about-copy p { font-size: var(--type-board-copy); line-height: var(--leading-body); }
