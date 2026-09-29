@@ -146,9 +146,9 @@
 .expertise-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
 .expertise-masthead { position: relative; display: grid; min-height: 270px; margin: 22px 0 20px; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 28px; }
 .expertise-image-strip { display: grid; height: 190px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.expertise-image-strip img { min-width: 0; height: 100%; object-fit: cover; border: 5px solid var(--paper); border-radius: 16px; }
-.expertise-masthead h2 { margin: 0; font-size: var(--type-title-section); line-height: var(--leading-board-title); text-align: center; text-transform: uppercase; }
-.expertise-title .board-label { margin: var(--space-4) 0 0; color: var(--paper-on-dark); text-align: center; }
+.expertise-image-strip img { min-width: 0; height: 100%; object-fit: cover; border-radius: var(--radius-xl); }
+.expertise-masthead h2 { margin: 0; font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
+.expertise-title .board-label { margin: var(--space-4) 0 0; color: var(--paper-on-dark); }
 /* Meme escalier que l'introduction et a-propos : accroche, affirmation,
    puis le detail, ici porte par les six cartes. */
 .expertise-copy { display: grid; max-width: var(--mesure-lecture); margin: 0 0 var(--introduction-title-gap); gap: var(--space-4); }
