@@ -106,3 +106,14 @@
 @media (max-width: 390px) {
   :root { --type-body-emphasis: 1rem; --type-title-card: 1.125rem; }
 }
+
+/* L'accroche de la planche 02 est en clamp : elle n'atteint 24 px, et
+   donc le statut de grand texte, qu'a partir de 1270 px de large,
+   mesure au navigateur par balayage de dix en dix. En dessous, son
+   seuil est 4,5:1 et --accent-gold ne rend que 3,54:1 en clair.
+   --accent-gold-soft est le jeton prevu pour le petit texte sur olive :
+   4,73:1 en clair, 7,78:1 en sombre. Au-dela de cette borne l'accroche
+   retrouve le dore valide a l'oeil sur la composition large. */
+@media (max-width: 1269px) {
+  .about-accent { color: var(--accent-gold-soft); }
+}

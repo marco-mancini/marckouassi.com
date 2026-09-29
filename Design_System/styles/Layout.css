@@ -156,7 +156,7 @@
 .project-card-number { display: grid; width: 42px; height: 42px; flex: none; place-items: center; border-radius: 50%; background: var(--olive); color: var(--paper); font-family: var(--font-mono); }
 .project-card-name { min-width: 0; }
 .project-card-name h3 { margin: 0 0 3px; }
-.project-card-name p { margin: 0; color: var(--muted); }
+.project-card-name p { margin: 0; color: var(--paper-on-dark); }
 .project-gallery-preview { position: relative; display: grid; min-width: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(150px, 22vw, 370px); gap: var(--space-3); }
 .project-image { min-width: 0; min-height: 0; margin: 0; overflow: hidden; border-radius: 22px; background: var(--surface-image); }
 .project-image img { width: 100%; height: 100%; object-fit: cover; }
