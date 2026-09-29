@@ -142,7 +142,7 @@
    separateur est genere par le style : il ne vit pas dans le texte, et il
    disparait avec lui si la feuille tombe. La phrase se replie
    naturellement sur les largeurs qui ne peuvent pas la tenir. */
-.expertise-promesse span + span::before { content: "\00b7"; padding: 0 var(--space-4); color: var(--olive-ghost); }
+.expertise-promesse span + span::before { content: "\00b7"; padding: 0 var(--space-3); color: var(--olive-ghost); }
 /* La bande d'images prend toute la largeur de la planche : depuis que
    l'accroche et l'affirmation sont retirees, rien ne lui fait face. */
 .expertise-intro { margin-bottom: var(--introduction-title-gap); }
