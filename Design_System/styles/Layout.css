@@ -180,7 +180,7 @@
 .project-meta-item { padding-top: var(--space-2); border-top: var(--border-hairline) solid var(--line); }
 .project-meta-item p { margin: var(--space-1) 0 0; }
 .project-meta-label, .project-copy-label { color: var(--accent-label); font-family: var(--font-mono); text-transform: uppercase; }
-.project-copy-label { margin: var(--space-4) 0 5px; }
+.project-copy-label { margin: var(--space-4) 0 var(--space-etiquette-projet); }
 .project-idea, .project-value { margin: 0; }
 .project-value { color: var(--muted); }
 .project-document { display: inline-flex; min-height: var(--cible-tactile); margin-top: var(--space-3); align-items: center; color: var(--ink-display); text-decoration: underline; text-underline-offset: 4px; }

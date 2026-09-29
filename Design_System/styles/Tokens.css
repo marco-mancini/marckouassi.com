@@ -355,6 +355,10 @@
   --space-6: 24px;
   --space-7: 28px;
   --space-8: 32px;
+  /* Hors echelle : ecart sous les etiquettes du dialogue projet. Le cran
+     le plus proche, --space-1, vaut 4 px et decalerait le texte d'un
+     pixel ; la valeur d'origine est conservee telle quelle. */
+  --space-etiquette-projet: 5px;
 
   /* --- Rayon --- */
   --radius-md: 12px;
