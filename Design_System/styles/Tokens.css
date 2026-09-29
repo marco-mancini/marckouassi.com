@@ -72,6 +72,19 @@
      ne mesure que 1,29:1 et --accent-gold-deep 3,84 : ni l'un ni l'autre ne
      tient le seuil du petit texte. Celui-ci mesure 4,81:1. */
   --clair-accent-gold-ink: #96691a;
+  /* Les deux lettres du monogramme. Elles vivaient dans un <style> interne
+     a chaque SVG, hors de portee de la feuille : un SVG charge en <img>
+     est un document isole. Les logos sont desormais inlines en sprite et
+     leurs fills pointent ces jetons.
+
+     LA REGLE : le M et le K ne portent JAMAIS la meme couleur, et c'est
+     le fond qui decide laquelle. Sur un fond clair, M vert et K dore
+     profond. Sur un fond sombre, M creme et K dore clair. Les valeurs
+     ci-dessous sont celles du fond de page ; les supports qui ne suivent
+     pas le theme, la barre olive et le rond du sceau, les surchargent
+     dans Layout.css. */
+  --clair-logo-lettre: #57603f;
+  --clair-logo-accent: #a8791f;
   --clair-olive: #576740;
   --clair-olive-deep: #505843;
   --clair-olive-ghost: #b0c197;
@@ -118,6 +131,8 @@
   /* En sombre la planche claire devient sombre : le dore pale reprend la
      main, 13,86:1 sur le fond de page. */
   --sombre-accent-gold-ink: #f2e0be;
+  --sombre-logo-lettre: #fffff2;
+  --sombre-logo-accent: #e0c182;
   --sombre-olive: #3b4530;
   --sombre-olive-deep: #2a3222;
   --sombre-olive-ghost: #8fa377;
@@ -161,6 +176,16 @@
   --accent-gold-deep: var(--clair-accent-gold-deep);
   --accent-gold-soft: var(--clair-accent-gold-soft);
   --accent-gold-ink: var(--clair-accent-gold-ink);
+  --logo-lettre: var(--clair-logo-lettre);
+  --logo-accent: var(--clair-logo-accent);
+  /* Le rond du sceau ne suit jamais le theme : il porte le monogramme et
+     reste creme, comme la nacre de Racyne. */
+  --logo-fond: #f3efe1;
+  /* Proportions des deux monogrammes, reprises de leur viewBox. Un <svg>
+     inline n'a pas de hauteur intrinseque : sans elles il retombe sur la
+     hauteur par defaut de 150 px, mesuree au navigateur. */
+  --logo-header-ratio: 677.5 / 381;
+  --logo-seal-ratio: 385.8 / 381;
 
   /* --- Planches olive --- */
   --olive: var(--clair-olive);
@@ -432,12 +457,22 @@
   --accent-gold-deep: var(--sombre-accent-gold-deep);
   --accent-gold-soft: var(--sombre-accent-gold-soft);
   --accent-gold-ink: var(--sombre-accent-gold-ink);
+  --logo-lettre: var(--sombre-logo-lettre);
+  --logo-accent: var(--sombre-logo-accent);
     --accent-gold-deep: var(--sombre-accent-gold-deep);
   --accent-gold-soft: var(--sombre-accent-gold-soft);
   --accent-gold-ink: var(--sombre-accent-gold-ink);
+  --logo-lettre: var(--sombre-logo-lettre);
+  --logo-accent: var(--sombre-logo-accent);
     --accent-gold-soft: var(--sombre-accent-gold-soft);
   --accent-gold-ink: var(--sombre-accent-gold-ink);
+  --logo-lettre: var(--sombre-logo-lettre);
+  --logo-accent: var(--sombre-logo-accent);
     --accent-gold-ink: var(--sombre-accent-gold-ink);
+  --logo-lettre: var(--sombre-logo-lettre);
+  --logo-accent: var(--sombre-logo-accent);
+    --logo-lettre: var(--sombre-logo-lettre);
+    --logo-accent: var(--sombre-logo-accent);
     --olive: var(--sombre-olive);
     --olive-deep: var(--sombre-olive-deep);
     --olive-ghost: var(--sombre-olive-ghost);
@@ -478,6 +513,8 @@
   --accent-gold-deep: var(--sombre-accent-gold-deep);
   --accent-gold-soft: var(--sombre-accent-gold-soft);
   --accent-gold-ink: var(--sombre-accent-gold-ink);
+  --logo-lettre: var(--sombre-logo-lettre);
+  --logo-accent: var(--sombre-logo-accent);
   --olive: var(--sombre-olive);
   --olive-deep: var(--sombre-olive-deep);
   --olive-ghost: var(--sombre-olive-ghost);
@@ -525,6 +562,16 @@
   --accent-gold-deep: var(--clair-accent-gold-deep);
   --accent-gold-soft: var(--clair-accent-gold-soft);
   --accent-gold-ink: var(--clair-accent-gold-ink);
+  --logo-lettre: var(--clair-logo-lettre);
+  --logo-accent: var(--clair-logo-accent);
+  /* Le rond du sceau ne suit jamais le theme : il porte le monogramme et
+     reste creme, comme la nacre de Racyne. */
+  --logo-fond: #f3efe1;
+  /* Proportions des deux monogrammes, reprises de leur viewBox. Un <svg>
+     inline n'a pas de hauteur intrinseque : sans elles il retombe sur la
+     hauteur par defaut de 150 px, mesuree au navigateur. */
+  --logo-header-ratio: 677.5 / 381;
+  --logo-seal-ratio: 385.8 / 381;
 }
 
 .ilot-olive {

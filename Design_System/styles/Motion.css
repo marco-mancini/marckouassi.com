@@ -4,7 +4,6 @@ html.has-overlay { overflow: hidden; }
 .scroll-progress { transition: width var(--duration-progress) linear; }
 .site-header { transition: box-shadow var(--duration-fast) ease, background var(--duration-fast) ease, color var(--duration-fast) ease; }
 .site-header.is-scrolled { border-color: var(--line); background: var(--surface-page); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
-.site-header.is-scrolled .wordmark img { filter: none; }
 .site-header.is-scrolled .menu-link { border-color: var(--ink); color: var(--ink); }
 .site-header.is-scrolled .nav-toggle { color: var(--ink); }
 .nav-link { position: relative; }

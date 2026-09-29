@@ -3,11 +3,17 @@
 .skip-link:focus { transform: translateY(0); }
 .scroll-progress { position: fixed; inset: 0 auto auto 0; z-index: 100; width: 0; height: 3px; background: var(--accent); }
 .site-header { position: sticky; top: 0; z-index: 40; display: flex; height: 68px; padding: 0 var(--page-gutter); align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-on-dark-soft); background: var(--olive); color: var(--paper); }
-.site-header .wordmark img { filter: brightness(0) invert(1); }
+/* La barre est olive tant qu'on n'a pas defile : fond sombre, donc M creme
+   et K dore clair, quel que soit le theme. */
+.site-header:not(.is-scrolled) .wordmark { --logo-lettre: var(--paper); --logo-accent: var(--accent-gold); }
+/* Le sceau pose ses lettres sur son propre rond creme, jamais sur la
+   planche : elles gardent donc les couleurs du fond clair dans les deux
+   themes. */
+.cover-mark, .introduction-mark { --logo-lettre: var(--clair-logo-lettre); --logo-accent: var(--clair-logo-accent); }
 .site-header .menu-link { border-color: var(--border-on-dark); color: var(--paper); }
 .site-header .nav-toggle { color: var(--paper); }
 .wordmark { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; }
-.wordmark img { width: 48px; height: auto; }
+.wordmark svg { width: 48px; height: auto; aspect-ratio: var(--logo-header-ratio); }
 .site-nav { display: flex; align-items: center; gap: var(--header-nav-gap); }
 .nav-link, .menu-link { display: inline-flex; min-height: 44px; align-items: center; }
 .menu-link { padding: 0 16px; gap: 10px; border: 1px solid var(--ink); border-radius: 999px; }
@@ -42,7 +48,7 @@
 .cover-mark-block { display: grid; align-content: start; justify-items: end; }
 .cover-baseline { margin: var(--cover-promise-offset) 0 0; color: var(--accent-gold); text-transform: uppercase; }
 .cover-mark { display: block; width: var(--cover-mark-size); }
-.cover-mark img { width: 100%; height: auto; object-fit: contain; }
+.cover-mark svg { width: 100%; height: auto; aspect-ratio: var(--logo-seal-ratio); }
 .cover-mark span { line-height: var(--leading-mark); }
 .cover-bottom { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: var(--cover-bottom-gap); }
 .cover-fact { margin: 0; color: var(--paper); }
@@ -64,7 +70,7 @@
 .introduction-visual img { width: 100%; height: 100%; object-fit: cover; }
 .introduction-story { display: grid; max-width: 700px; }
 .introduction-mark { display: block; width: var(--introduction-mark-size); }
-.introduction-mark img { width: 100%; height: auto; object-fit: contain; }
+.introduction-mark svg { width: 100%; height: auto; aspect-ratio: var(--logo-seal-ratio); }
 .introduction-copy { display: grid; align-content: center; gap: var(--space-6); height: 100%; }
 .introduction-copy p { margin: 0; }
 .introduction-lede { color: var(--muted); }
@@ -199,7 +205,7 @@
 .contact-board-main h2 { max-width: 980px; margin: 0; color: var(--ink-display); font-size: var(--type-contact-title); line-height: var(--leading-board-title); text-transform: uppercase; }
 .contact-lead { margin: var(--space-5) 0 0; color: var(--muted); }
 .contact-mark { display: grid; width: clamp(110px, 16vw, 210px); aspect-ratio: 1; flex: none; place-items: center; border: 1px solid var(--olive); border-radius: 50%; }
-.contact-mark img { width: 58%; height: auto; object-fit: contain; }
+.contact-mark svg { width: 58%; height: auto; aspect-ratio: var(--logo-header-ratio); }
 .contact-board-footer { display: grid; padding-top: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: 14px; border-top: 1px solid var(--line); }
 .contact-link { display: flex; flex-direction: column; gap: 4px; }
 .contact-link > span, .contact-board-footer > p { color: var(--muted); }
