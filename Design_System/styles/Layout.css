@@ -136,7 +136,13 @@
    planche 02 se pose sous la signature : meme echelle, meme bride de
    mesure, meme degagement, meme alignement a gauche. Les deux planches
    doivent se lire de la meme facon. */
-.expertise-promesse { max-width: var(--mesure-accroche); margin: var(--about-title-gap) 0 0; color: var(--paper); text-align: left; }
+.expertise-promesse { margin: var(--about-title-gap) 0 0; color: var(--paper); text-align: left; }
+/* Les trois temps se suivent sur une ligne, separes par le point median
+   deja employe par les barres hautes et la frise du parcours. Le
+   separateur est genere par le style : il ne vit pas dans le texte, et il
+   disparait avec lui si la feuille tombe. La phrase se replie
+   naturellement sur les largeurs qui ne peuvent pas la tenir. */
+.expertise-promesse span + span::before { content: "\00b7"; padding: 0 var(--space-4); color: var(--olive-ghost); }
 /* La bande d'images prend toute la largeur de la planche : depuis que
    l'accroche et l'affirmation sont retirees, rien ne lui fait face. */
 .expertise-intro { margin-bottom: var(--introduction-title-gap); }
@@ -150,8 +156,12 @@
 .expertise-title .board-label { color: var(--paper-on-dark); }
 .expertise-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
 .parcours-board { background: var(--surface-page); }
-.parcours-board > h2 { margin: clamp(28px, 4vw, 56px) 0 var(--space-3); color: var(--ink-display); font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
-.parcours-intro { max-width: var(--mesure-lecture-large); margin: 0 0 clamp(24px, 3vw, 40px); color: var(--muted); }
+.parcours-board > h2 { margin: clamp(28px, 4vw, 56px) 0 0; color: var(--ink-display); font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
+/* Meme lecture que les accroches des planches 02 et 03 : meme echelle,
+   meme bride de mesure, meme degagement sous le titre, meme alignement.
+   L'encre est celle d'une planche creme, --ink, la ou les deux planches
+   olive portent --paper. */
+.parcours-intro { max-width: var(--mesure-accroche); margin: var(--about-title-gap) 0 clamp(24px, 3vw, 40px); color: var(--ink); }
 .timeline { border-top: var(--border-hairline) solid var(--line); }
 .timeline-item { display: grid; min-height: 76px; padding: var(--space-6) 0; grid-template-columns: minmax(125px, .58fr) minmax(0, 1.7fr) minmax(120px, .7fr); align-items: start; gap: var(--space-5); border-bottom: var(--border-hairline) solid var(--line); }
 .timeline-item h3 { margin: 0 0 var(--space-1); }
