@@ -191,3 +191,33 @@
 .contact-link > span, .contact-board-footer > p { color: var(--muted); }
 .contact-link a { display: inline-flex; min-height: 44px; align-items: center; }
 .contact-board-footer > p { margin: 0; text-align: right; }
+
+/* --- 06 / Prestations -------------------------------------------------
+   Reprise de la planche tarifaire de la reference : titre plein cadre
+   avec l'esperluette en contour, puis quatre cartes a en-tete colore qui
+   alternent le dore et le creme. La pastille de prix deborde le bas de
+   la carte, comme sur le modele.
+   Motif propre a cette seule planche : il reste ici tant qu'une seconde
+   planche ne l'emploie pas. */
+.prestations-board { background: var(--olive); color: var(--paper); }
+.prestations-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
+.prestations-masthead { display: grid; margin: clamp(26px, 4vw, 56px) 0 clamp(24px, 3.5vw, 48px); justify-items: center; gap: var(--prestations-masthead-gap); text-align: center; }
+.prestations-masthead h2 { margin: 0; color: var(--accent-gold); font-size: var(--type-prestations-titre); line-height: var(--leading-prestations-titre); text-transform: uppercase; }
+/* L'esperluette est evidee : c'est le seul signe du titre qui ne soit pas
+   plein, et c'est ce qui le tient. */
+.prestations-et { color: transparent; font-weight: inherit; -webkit-text-stroke: var(--prestation-contour-epaisseur) var(--paper); }
+.prestations-lede { max-width: var(--mesure-accroche); margin: 0; color: var(--paper); }
+.prestations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--prestations-grid-min), 1fr)); align-items: stretch; gap: var(--space-6); }
+.prestation { display: grid; align-content: start; overflow: visible; border-radius: var(--radius-lg); }
+.prestation-titre { margin: 0; padding: var(--prestation-entete-padding); border-radius: var(--radius-lg) var(--radius-lg) 0 0; font-size: var(--type-body-emphasis); line-height: var(--leading-compact); text-align: center; text-transform: uppercase; }
+.prestation-liste { display: grid; margin: 0; padding: var(--prestation-corps-padding); padding-bottom: calc(var(--prestation-corps-padding) * 2.4); align-content: start; gap: var(--space-3); border: var(--border-hairline) solid; border-top: 0; border-radius: 0 0 var(--radius-lg) var(--radius-lg); color: var(--paper); font-size: var(--type-body-compact); list-style: none; }
+.prestation-liste li { position: relative; padding-left: var(--space-5); }
+.prestation-liste li::before { content: "\2022"; position: absolute; left: 0; }
+.prestation-prix { display: grid; justify-self: center; margin: var(--prestation-prix-decalage) 0 0; padding: var(--space-3) var(--space-6); justify-items: center; gap: var(--space-1); border-radius: var(--radius-md); color: var(--prestation-encre); text-align: center; }
+.prestation-prix span { font-size: var(--type-body-compact); font-style: italic; }
+.prestation-prix b { font-size: var(--type-body-emphasis); font-weight: var(--weight-strong); text-transform: uppercase; }
+
+.prestation--or .prestation-titre, .prestation--or .prestation-prix { background: var(--prestation-fond-or); color: var(--prestation-encre); }
+.prestation--or .prestation-liste { border-color: var(--prestation-fond-or); }
+.prestation--clair .prestation-titre, .prestation--clair .prestation-prix { background: var(--prestation-fond-clair); color: var(--prestation-encre); }
+.prestation--clair .prestation-liste { border-color: var(--prestation-fond-clair); }

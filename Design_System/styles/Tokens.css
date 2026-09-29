@@ -219,6 +219,12 @@
      ====================================================================== */
   --paper: #fffff2;
   --paper-on-dark: #f1f4e8;
+  /* Encre posee SUR un aplat dore ou creme. Fixe comme la famille
+     *-on-dark : l'aplat ne suit pas le theme, l'encre non plus.
+     L'olive y echouait a 4,13:1 sur le dore, sous le 4,5 du petit texte.
+     Mesures de cette valeur : 7,69:1 sur le dore clair, 5,46:1 sur le
+     dore sombre, 13,23:1 sur le creme. */
+  --encre-sur-aplat: #2a3220;
   --hero-eyebrow: var(--paper);
   --hero-meta: rgba(241,244,232,.72);
   --hero-copy: rgba(241,244,232,.86);
@@ -272,6 +278,13 @@
   --type-display-contact: clamp(3.25rem, 10.5vw, 9.25rem);
   --type-contact-title: clamp(4rem, 11vw, 10rem);
   --type-title-section: clamp(3rem, 12vw, 14rem);
+  /* Le titre de la planche 06 tient sur une ligne au-dela de 1400 px, ce
+     qui est l'effet de la reference. En dessous il passe a deux lignes :
+     --leading-board-title a .82 les faisait alors se chevaucher de
+     138 px, mesure au Range, l'esperluette d'Anton montant bien au-dessus
+     des capitales. Cet interligne-la lui est donc propre. */
+  --type-prestations-titre: clamp(2.6rem, 10.2vw, 12rem);
+  --leading-prestations-titre: 1.02;
   --type-project-title: clamp(3.5rem, 10vw, 10rem);
   --type-title-dialog: clamp(1.875rem, 5vw, 3.375rem);
   --type-title-card: clamp(1.25rem, 2.2vw, 1.5rem);
@@ -347,6 +360,11 @@
   --header-nav-gap: clamp(20px, 4.4vw, 64px);
 
   /* --- Couverture --- */
+  --prestations-grid-min: 250px;
+  --prestations-masthead-gap: clamp(16px, 2.5vw, 30px);
+  --prestation-entete-padding: var(--space-5) var(--space-6);
+  --prestation-corps-padding: var(--space-6);
+  --prestation-prix-decalage: calc(var(--space-6) * -1);
   --cover-min-height: 680px;
   /* Part de l'ecran que la couverture occupe. En dessous de 100 pour que
      la planche suivante affleure en bas : une couverture pleine page
@@ -374,7 +392,7 @@
      meme sceau sur la ligne du titre, meme degagement sous lui, memes
      trois echelles de texte. */
   --about-title-gap: var(--introduction-title-gap);
-  --about-photo-column: clamp(220px, 26vw, 400px);
+  --about-photo-column: clamp(260px, 32vw, 520px);
   /* Bride de la colonne de lecture. Sans elle les lignes de la planche
      a-propos atteignaient 115 caracteres, mesures au navigateur, tres
      au-dela des 45 a 75 qui se lisent sans perdre la ligne. */
@@ -396,6 +414,14 @@
      qui s'assombrit avec le theme : elles viraient au noir sur le vert,
      1,78:1 mesure au navigateur. Ces deux valeurs creusent la planche
      d'un cran, sans basculer dans le noir. */
+  /* Planche 06 / Prestations. Les deux fonds de carte alternent sur
+     l'olive : le dore plein et le creme. Ils viennent des palettes, pas
+     d'une teinte inventee pour l'occasion. */
+  --prestation-fond-or: var(--accent-gold);
+  --prestation-fond-clair: var(--paper);
+  --prestation-encre: var(--encre-sur-aplat);
+  --prestation-contour-epaisseur: 2px;
+
   --carte-sur-olive: #4a5936;
   --carte-sur-olive-deep: #3f4c2e;
   --Universal_carte-surface: #576740;
