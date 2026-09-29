@@ -2,8 +2,6 @@
 @media (max-width: 850px) {
   :root { --page-gutter: 14px; --header-offset: 62px; --type-cover: clamp(3.05rem, 15vw, 5rem); --type-title-section: clamp(2.6rem, 11vw, 4.6rem); --type-project-title: clamp(2.5rem, 10vw, 4.8rem); --type-contact-title: clamp(3rem, 13vw, 6rem); }
   .site-header { height: 62px; padding-right: var(--page-gutter); padding-left: var(--page-gutter); }
-  .site-nav, .menu-link { display: none; }
-  .nav-toggle { display: flex; }
   .portfolio-deck { padding: var(--space-2) var(--page-gutter) 30px; }
   .board-stage { padding: var(--space-3) 0; scroll-margin-top: var(--header-height); }
   .board-stage--cover { padding-top: 0; }
@@ -75,6 +73,23 @@
   .expertise-grid { grid-template-columns: minmax(0, 1fr); }
   .board-topline { font-size: var(--type-micro); }
   .project-detail-gallery { grid-auto-rows: clamp(100px, 30vw, 160px); }
+}
+
+/* Seuil du menu burger. Il valait 850 px ; la barre porte sept liens
+   depuis le 29 septembre 2026 et, sous 1000 px, elle touchait le
+   monogramme et le bouton de contact, 0 px de degagement mesure au
+   navigateur, les libelles se comprimant pour tenir. */
+@media (max-width: 999px) {
+  .site-nav, .menu-link { display: none; }
+  .nav-toggle { display: flex; }
+}
+
+/* Ecart des liens de navigation entre le seuil du menu burger et 1200 px.
+   La barre porte sept liens depuis le 29 septembre 2026 : avec l'ecart
+   plein, mesure au navigateur, elle touchait le monogramme a gauche et le
+   bouton de contact a droite, 0 px de degagement de 851 a 1080. */
+@media (min-width: 851px) and (max-width: 1199px) {
+  :root { --header-nav-gap: clamp(16px, 2.2vw, 30px); }
 }
 
 @media (min-width: 851px) and (max-width: 1080px) {
