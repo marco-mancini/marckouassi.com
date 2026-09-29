@@ -225,6 +225,14 @@
      Mesures de cette valeur : 7,69:1 sur le dore clair, 5,46:1 sur le
      dore sombre, 13,23:1 sur le creme. */
   --encre-sur-aplat: #2a3220;
+
+  /* Ombre portee des deux registres de la signature, le mot du dessus et
+     la salutation cursive. Elle detache les lignes qui se chevauchent,
+     la ou desserrer l'interligne cassait la composition. Fixe, comme
+     --encre-sur-aplat, l'ilot restant olive dans les deux themes. */
+  --shadow-signature: rgba(26, 32, 19, .55);
+  --shadow-signature-y: 6px;
+  --shadow-signature-flou: 14px;
   --hero-eyebrow: var(--paper);
   --hero-meta: rgba(241,244,232,.72);
   --hero-copy: rgba(241,244,232,.86);
