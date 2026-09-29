@@ -24,7 +24,8 @@
   .introduction-visual { height: clamp(190px, 62vw, 340px); }
   .introduction-mark { display: none; }
   .introduction-copy { gap: var(--space-4); height: auto; }
-  .introduction-bottom { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .introduction-bottom { gap: var(--space-4); }
+  .introduction-notes { max-width: var(--mesure-lecture); columns: 1; }
   .process-line { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .process-step:not(:last-child)::after { display: none; }
 
@@ -91,5 +92,6 @@
    par ligne a 1440. La borne double garantit que chacune reste a la
    mesure. */
 @media (min-width: 1200px) {
-  .about-detail { max-width: calc(2 * var(--mesure-lecture) + var(--about-detail-gap)); columns: 2; }
+  .about-detail,
+  .introduction-notes { max-width: calc(2 * var(--mesure-lecture) + var(--about-detail-gap)); columns: 2; }
 }

@@ -68,6 +68,10 @@
      tient le seuil du grand texte, 3, mais pas celui du petit, 4,5.
      Celui-ci mesure 4,73:1 sur l'olive clair. */
   --clair-accent-gold-soft: #f2e0be;
+  /* Dore de relief sur une surface CLAIRE. Sur le creme, --accent-gold-soft
+     ne mesure que 1,29:1 et --accent-gold-deep 3,84 : ni l'un ni l'autre ne
+     tient le seuil du petit texte. Celui-ci mesure 4,81:1. */
+  --clair-accent-gold-ink: #96691a;
   --clair-olive: #576740;
   --clair-olive-deep: #505843;
   --clair-olive-ghost: #b0c197;
@@ -111,6 +115,9 @@
   --sombre-accent-gold-deep: #ca9e67;
   /* Sur l'olive sombre la meme valeur mesure 7,78:1. */
   --sombre-accent-gold-soft: #f2e0be;
+  /* En sombre la planche claire devient sombre : le dore pale reprend la
+     main, 13,86:1 sur le fond de page. */
+  --sombre-accent-gold-ink: #f2e0be;
   --sombre-olive: #3b4530;
   --sombre-olive-deep: #2a3222;
   --sombre-olive-ghost: #8fa377;
@@ -153,6 +160,7 @@
   --accent-gold: var(--clair-accent-gold);
   --accent-gold-deep: var(--clair-accent-gold-deep);
   --accent-gold-soft: var(--clair-accent-gold-soft);
+  --accent-gold-ink: var(--clair-accent-gold-ink);
 
   /* --- Planches olive --- */
   --olive: var(--clair-olive);
@@ -215,7 +223,9 @@
   --type-cover-caption: clamp(.85rem, 1.2vw, 1rem);
   --type-cover-promise: clamp(1.5rem, 2.2vw, 2rem);
   --type-introduction-lede: clamp(1.15rem, 1.9vw, 1.65rem);
-  --type-about-detail: clamp(1.0625rem, 1.15vw, 1.3125rem);
+  /* Corps de lecture commun a toutes les planches. Avant harmonisation il
+     variait de 12 a 19 px selon la planche, releve au navigateur. */
+  --type-board-copy: clamp(1.0625rem, 1.15vw, 1.3125rem);
   --type-introduction-claim: clamp(1.75rem, 3.6vw, 3.25rem);
   --type-display-contact: clamp(3.25rem, 10.5vw, 9.25rem);
   --type-contact-title: clamp(4rem, 11vw, 10rem);
@@ -245,6 +255,9 @@
   --leading-cover: 1.08;
   --leading-cover-compact: 1.2;
   --leading-cover-caption: 1.4;
+  /* Interligne commun aux titres de planche. Ils portaient .78, .82 et .84
+     selon la planche. */
+  --leading-board-title: .82;
   --leading-mark: 1.35;
   --weight-regular: 400;
   --weight-strong: 700;
@@ -418,9 +431,13 @@
     --accent-gold: var(--sombre-accent-gold);
   --accent-gold-deep: var(--sombre-accent-gold-deep);
   --accent-gold-soft: var(--sombre-accent-gold-soft);
+  --accent-gold-ink: var(--sombre-accent-gold-ink);
     --accent-gold-deep: var(--sombre-accent-gold-deep);
   --accent-gold-soft: var(--sombre-accent-gold-soft);
+  --accent-gold-ink: var(--sombre-accent-gold-ink);
     --accent-gold-soft: var(--sombre-accent-gold-soft);
+  --accent-gold-ink: var(--sombre-accent-gold-ink);
+    --accent-gold-ink: var(--sombre-accent-gold-ink);
     --olive: var(--sombre-olive);
     --olive-deep: var(--sombre-olive-deep);
     --olive-ghost: var(--sombre-olive-ghost);
@@ -460,6 +477,7 @@
   --accent-gold: var(--sombre-accent-gold);
   --accent-gold-deep: var(--sombre-accent-gold-deep);
   --accent-gold-soft: var(--sombre-accent-gold-soft);
+  --accent-gold-ink: var(--sombre-accent-gold-ink);
   --olive: var(--sombre-olive);
   --olive-deep: var(--sombre-olive-deep);
   --olive-ghost: var(--sombre-olive-ghost);
@@ -506,6 +524,7 @@
   --accent-gold: var(--clair-accent-gold);
   --accent-gold-deep: var(--clair-accent-gold-deep);
   --accent-gold-soft: var(--clair-accent-gold-soft);
+  --accent-gold-ink: var(--clair-accent-gold-ink);
 }
 
 .ilot-olive {
