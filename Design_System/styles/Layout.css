@@ -77,12 +77,15 @@
 .introduction-claim { color: var(--accent-gold-deep); text-transform: uppercase; }
 .introduction-story strong { color: var(--ink-display); }
 .introduction-bottom { display: grid; padding-top: var(--space-5); gap: var(--space-6); border-top: var(--border-hairline) solid var(--line); }
-/* Meme flux que .about-detail : deux colonnes separees d'un filet, chacune
-   a la mesure de lecture. Le doublement se declare au seuil, dans
-   Responsive.css. */
-.introduction-notes { max-width: var(--mesure-lecture); column-gap: var(--about-detail-gap); column-rule: var(--border-hairline) solid var(--line); }
-.introduction-notes p { break-inside: avoid; }
-.introduction-notes p + p { margin-top: var(--space-4); }
+/* Deux colonnes qui prennent toute la largeur, separees par un filet pose
+   au milieu exact. Ce n'est pas un flux multi-colonnes mais une grille :
+   le filet tombe ainsi a 50 % quelle que soit la longueur des textes, et
+   chaque paragraphe garde sa mesure de lecture a l'interieur de sa
+   colonne. Le doublement se declare au seuil, dans Responsive.css. */
+.introduction-notes { display: grid; }
+.introduction-notes p { max-width: var(--mesure-lecture); margin: 0; }
+.introduction-notes p:first-child { padding-right: var(--about-detail-gap); }
+.introduction-notes p:last-child { padding-left: var(--about-detail-gap); }
 /* Fragment en relief sur une planche claire : --accent-gold-ink, seul a
    tenir le seuil du petit texte sur le creme. */
 .board-relief { color: var(--accent-gold-ink); font-weight: var(--weight-strong); }
