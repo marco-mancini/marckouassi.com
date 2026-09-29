@@ -63,6 +63,11 @@
      sienne. Il en faut donc deux, comme l'or clair et l'or fonce de
      Racyne. Celui-ci mesure 3,84:1 sur le creme. */
   --clair-accent-gold-deep: #a8791f;
+  /* Dore de relief, pour les fragments mis en valeur DANS le texte
+     courant. --clair-accent-gold ne mesure que 3,54:1 sur l'olive : il
+     tient le seuil du grand texte, 3, mais pas celui du petit, 4,5.
+     Celui-ci mesure 4,73:1 sur l'olive clair. */
+  --clair-accent-gold-soft: #f2e0be;
   --clair-olive: #576740;
   --clair-olive-deep: #505843;
   --clair-olive-ghost: #b0c197;
@@ -104,6 +109,8 @@
      tient sur les deux, 4,13:1 sur l'olive et 7,37:1 sur le fond de
      page. Une seule valeur suffit. */
   --sombre-accent-gold-deep: #ca9e67;
+  /* Sur l'olive sombre la meme valeur mesure 7,78:1. */
+  --sombre-accent-gold-soft: #f2e0be;
   --sombre-olive: #3b4530;
   --sombre-olive-deep: #2a3222;
   --sombre-olive-ghost: #8fa377;
@@ -145,6 +152,7 @@
   --accent-pop: var(--clair-accent-pop);
   --accent-gold: var(--clair-accent-gold);
   --accent-gold-deep: var(--clair-accent-gold-deep);
+  --accent-gold-soft: var(--clair-accent-gold-soft);
 
   /* --- Planches olive --- */
   --olive: var(--clair-olive);
@@ -311,7 +319,7 @@
      a-propos atteignaient 115 caracteres, mesures au navigateur, tres
      au-dela des 45 a 75 qui se lisent sans perdre la ligne. */
   --mesure-lecture: 52ch;
-  --mesure-accroche: 34ch;
+  --mesure-accroche: 48ch;
   --about-detail-gap: var(--space-8);
   /* Hauteur du portrait. Sans elle la figure prenait la hauteur naturelle
      d'une image 900x1600 etiree sur 571 px de large, soit 1123 px, et la
@@ -403,7 +411,10 @@
     --accent-pop: var(--sombre-accent-pop);
     --accent-gold: var(--sombre-accent-gold);
   --accent-gold-deep: var(--sombre-accent-gold-deep);
+  --accent-gold-soft: var(--sombre-accent-gold-soft);
     --accent-gold-deep: var(--sombre-accent-gold-deep);
+  --accent-gold-soft: var(--sombre-accent-gold-soft);
+    --accent-gold-soft: var(--sombre-accent-gold-soft);
     --olive: var(--sombre-olive);
     --olive-deep: var(--sombre-olive-deep);
     --olive-ghost: var(--sombre-olive-ghost);
@@ -442,6 +453,7 @@
   --accent-pop: var(--sombre-accent-pop);
   --accent-gold: var(--sombre-accent-gold);
   --accent-gold-deep: var(--sombre-accent-gold-deep);
+  --accent-gold-soft: var(--sombre-accent-gold-soft);
   --olive: var(--sombre-olive);
   --olive-deep: var(--sombre-olive-deep);
   --olive-ghost: var(--sombre-olive-ghost);
@@ -487,6 +499,7 @@
   --accent-pop: var(--clair-accent-pop);
   --accent-gold: var(--clair-accent-gold);
   --accent-gold-deep: var(--clair-accent-gold-deep);
+  --accent-gold-soft: var(--clair-accent-gold-soft);
 }
 
 .ilot-olive {

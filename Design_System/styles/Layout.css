@@ -119,6 +119,13 @@
 .about-copy p { margin: 0; color: var(--paper-on-dark); }
 .about-copy .about-lede { color: var(--paper); }
 .about-copy .about-claim { color: var(--paper); text-transform: uppercase; }
+/* Deux niveaux de dore, et leur seuil dicte lequel va ou.
+   .about-accent ne sert que dans l'accroche et l'affirmation, jamais
+   sous 24 px : --accent-gold y tient son seuil de grand texte.
+   .about-relief sert dans le texte courant, a 14 px : il lui faut
+   --accent-gold-soft, seul a tenir 4,5:1 sur l'olive. */
+.about-accent { color: var(--accent-gold); font-weight: inherit; }
+.about-relief { color: var(--accent-gold-soft); font-weight: var(--weight-strong); }
 .expertise-board { background: var(--olive); color: var(--paper); }
 .expertise-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
 .expertise-masthead { position: relative; display: grid; min-height: 270px; margin: 22px 0 20px; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 28px; }
