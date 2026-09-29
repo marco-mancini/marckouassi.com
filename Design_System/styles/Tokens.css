@@ -330,6 +330,11 @@
   --introduction-claim-tracking: -.01em;
   --introduction-visual-height: clamp(280px, 31vw, 470px);
   --introduction-title-gap: clamp(28px, 3.4vw, 54px);
+  /* Cartes de la frise : un plein olive fixe, texte creme dessus. Fixe
+     et non lie au theme, comme la famille *-on-dark : la carte reste
+     verte que la planche soit creme ou sombre. */
+  --process-card-surface: #576740;
+  --process-card-surface-deep: #4a5936;
   --process-dot-size: 11px;
   --process-rail-offset: var(--space-6);
   --process-column-gap: clamp(14px, 2.4vw, 34px);
