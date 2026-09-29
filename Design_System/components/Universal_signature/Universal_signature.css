@@ -1,0 +1,56 @@
+/* ======================================================================
+   Universal_signature
+
+   Le titre en deux registres de la reference Kittl : une salutation
+   manuscrite, posee en cursive, qui chevauche par le bas deux mots en
+   capitales etroites. Le contraste entre les deux graisses fait tout
+   l'effet ; il ne se reproduit pas avec une seule fonte.
+
+   Employe sur deux planches : la couverture et 02 / A propos. C'est ce
+   second emploi qui l'a sorti de Layout.css, un motif ecrit deux fois
+   etant deja en train de deriver.
+
+   Le chevauchement est une marge negative en em : il suit donc la taille
+   de la salutation, et le reglage tient a une seule valeur quelle que
+   soit l'echelle de la planche.
+
+   Balisage minimal :
+
+     <h2 class="Universal_signature">
+       <span class="Universal_signature-salut">Bonjour, je suis</span>
+       <span class="Universal_signature-mot Universal_signature-mot--accent">Marc</span>
+       <span class="Universal_signature-mot">Kouassi<b class="title-dot" aria-hidden="true">.</b></span>
+     </h2>
+
+   L'echelle se pose par l'appelant, sur deux proprietes locales :
+   --Universal_signature-taille et --Universal_signature-taille-salut.
+   ====================================================================== */
+
+.Universal_signature {
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  font-size: var(--Universal_signature-taille, var(--type-title-section));
+  line-height: var(--leading-signature-mot);
+  letter-spacing: var(--cover-tracking);
+  text-transform: uppercase;
+}
+
+.Universal_signature-salut {
+  z-index: 1;
+  margin-bottom: var(--Universal_signature-chevauchement);
+  color: var(--paper);
+  font-family: var(--font-script);
+  font-size: var(--Universal_signature-taille-salut, var(--type-section-signature));
+  font-weight: var(--weight-regular);
+  letter-spacing: 0;
+  line-height: var(--leading-signature-salut);
+  text-transform: none;
+}
+
+.Universal_signature-mot { color: var(--paper); }
+.Universal_signature-mot--accent { color: var(--accent-gold); }
+
+/* Alignement a droite : la planche A propos pose son titre contre le
+   bord, la couverture le pose contre la photo. */
+.Universal_signature--droite { align-items: flex-end; text-align: right; }

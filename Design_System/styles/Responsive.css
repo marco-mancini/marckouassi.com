@@ -93,7 +93,6 @@
    par ligne a 1440. La borne double garantit que chacune reste a la
    mesure. */
 @media (min-width: 1200px) {
-  .about-detail { max-width: calc(2 * var(--mesure-lecture) + var(--about-detail-gap)); columns: 2; }
   .introduction-notes { grid-template-columns: 1fr 1fr; }
   .introduction-notes p:last-child { border-left: var(--border-hairline) solid var(--line); }
 }
