@@ -387,6 +387,8 @@
 
   --border-hairline: 1px;
   --border-frame: 5px;
+  /* Contour d'une image encadree, la bande de la planche 03. */
+  --border-image: 2px;
   --underline-offset: 4px;
 
   /* --- Mise en page --- */

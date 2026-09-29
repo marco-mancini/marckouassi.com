@@ -151,7 +151,10 @@
    intrinseque et debordent la bande : 227 px dans une bande de 150,
    mesure au navigateur. */
 .expertise-image-strip { display: grid; height: var(--expertise-bande-hauteur); grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); gap: var(--space-2); }
-.expertise-image-strip img { min-width: 0; height: 100%; object-fit: cover; border-radius: var(--radius-xl); }
+/* Cadre creme autour de chaque image : il les detache de la planche
+   olive, sur laquelle elles se posaient sans limite nette. --paper ne
+   suit pas le theme, le cadre reste clair en sombre comme en clair. */
+.expertise-image-strip img { min-width: 0; height: 100%; object-fit: cover; border: var(--border-image) solid var(--paper); border-radius: var(--radius-xl); }
 .expertise-masthead h2 { margin: 0; font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
 .expertise-title .board-label { color: var(--paper-on-dark); }
 .expertise-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
