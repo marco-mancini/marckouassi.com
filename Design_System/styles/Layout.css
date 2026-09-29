@@ -144,14 +144,17 @@
 .about-relief { color: var(--accent-gold-soft); font-weight: var(--weight-strong); }
 .expertise-board { background: var(--olive); color: var(--paper); }
 .expertise-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
-.expertise-masthead { position: relative; display: grid; min-height: 270px; margin: 22px 0 20px; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 28px; }
+.expertise-masthead { margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); }
+/* L'accroche et l'affirmation a gauche, la bande d'images en face, comme
+   la photo de l'introduction fait face a son texte. */
+.expertise-intro { display: grid; margin-bottom: var(--introduction-title-gap); grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); align-items: center; gap: clamp(24px, 5vw, 88px); }
 .expertise-image-strip { display: grid; height: 190px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .expertise-image-strip img { min-width: 0; height: 100%; object-fit: cover; border-radius: var(--radius-xl); }
 .expertise-masthead h2 { margin: 0; font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
-.expertise-title .board-label { margin: var(--space-4) 0 0; color: var(--paper-on-dark); }
+.expertise-title .board-label { color: var(--paper-on-dark); }
 /* Meme escalier que l'introduction et a-propos : accroche, affirmation,
    puis le detail, ici porte par les six cartes. */
-.expertise-copy { display: grid; max-width: var(--mesure-lecture); margin: 0 0 var(--introduction-title-gap); gap: var(--space-4); }
+.expertise-copy { display: grid; max-width: var(--mesure-lecture); align-content: center; gap: var(--space-4); }
 .expertise-copy p { margin: 0; }
 .expertise-lede { color: var(--paper-on-dark); }
 .expertise-claim { color: var(--paper); text-transform: uppercase; }
