@@ -370,12 +370,14 @@
     var dialog = document.getElementById("project-dialog");
     if (!dialog) return;
     var opened = false;
+    var lastTrigger = null; // la carte d'ou l'on vient, pour y rendre le focus
     document.addEventListener("click", function (event) {
       var trigger = event.target.closest ? event.target.closest("[data-project-open]") : null;
       if (trigger) {
         var index = PROJECTS.findIndex(function (project) { return project.id === trigger.dataset.projectOpen; });
         if (index < 0) return;
         fillProjectDialog(PROJECTS[index], index);
+        lastTrigger = trigger;
         dialog.showModal();
         opened = true;
         lockScroll();
@@ -388,6 +390,14 @@
     });
     dialog.addEventListener("close", function () {
       if (opened) { opened = false; unlockScroll(); }
+      /* Le focus repart sur la carte d'ou l'on venait. Sans cela il
+         retombe sur <body> et la navigation au clavier recommence en
+         haut de page, quelle que soit la facon dont le dialogue a ete
+         ferme : croix, Echap ou clic sur le fond. */
+      if (lastTrigger && lastTrigger.isConnected) {
+        lastTrigger.focus({ preventScroll: true });
+      }
+      lastTrigger = null;
     });
   }
 
