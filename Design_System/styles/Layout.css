@@ -121,18 +121,22 @@
    .about-relief sert dans le texte courant, a 14 px : il lui faut
    --accent-gold-soft, seul a tenir 4,5:1 sur l'olive. */
 .about-accent { color: var(--accent-gold); font-weight: inherit; }
-/* La duree reste d'un seul tenant et en gras dans l'accroche : coupee en
-   deux elle se lisait comme deux fragments. */
-.about-lede .about-accent { font-weight: var(--weight-strong); white-space: nowrap; }
+/* Le fragment dore est en gras dans les accroches des planches 02 et 03.
+   La regle ne vaut pas pour .about-accent en general : l'affirmation
+   l'emploie en Anton, une fonte qui n'a que la graisse normale. */
+.about-lede .about-accent, .expertise-promesse .about-accent { font-weight: var(--weight-strong); }
+/* La duree reste en plus d'un seul tenant : coupee entre « de » et « 12 »
+   elle se lisait comme deux fragments. */
+.about-lede .about-accent { white-space: nowrap; }
 .expertise-board { background: var(--olive); color: var(--paper); }
 .expertise-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
-.expertise-masthead { display: grid; margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-6); }
+.expertise-masthead { margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); }
 /* Les trois temps du savoir-faire : diriger, signer, faire passer. Ils
-   tiennent la ligne de base du titre de planche, a l'oppose, et disent en
-   une phrase ce que les six cartes detaillent ensuite. Places pleine
-   largeur et non dans la colonne de gauche : celle-ci est retrecie par la
-   bande d'images, le titre y tombait a six lignes. */
-.expertise-promesse { max-width: var(--mesure-accroche); margin: 0; color: var(--paper-on-dark); text-align: right; }
+   se posent sous le titre de planche, exactement comme l'accroche de la
+   planche 02 se pose sous la signature : meme echelle, meme bride de
+   mesure, meme degagement, meme alignement a gauche. Les deux planches
+   doivent se lire de la meme facon. */
+.expertise-promesse { max-width: var(--mesure-accroche); margin: var(--about-title-gap) 0 0; color: var(--paper); text-align: left; }
 /* La bande d'images prend toute la largeur de la planche : depuis que
    l'accroche et l'affirmation sont retirees, rien ne lui fait face. */
 .expertise-intro { margin-bottom: var(--introduction-title-gap); }
