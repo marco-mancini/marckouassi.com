@@ -13,8 +13,6 @@ Les principaux projets présentés sur le site s’appuient sur les visuels et l
 - AUREX, FEROV, VOON et TP Solutions — périodes estimées à partir du parcours professionnel de Marc.
 - CI20 Connect — expérience UX/UI ; période estimée : 2025–2026.
 
-L’astérisque visible sur certaines périodes indique qu’il s’agit d’une estimation cohérente avec le parcours, pas d’une date de projet attestée.
-
 ## Informations personnelles
 
 - La biographie est éditoriale et porte sur la curiosité créative de Marc ; elle ne remplace pas les dates et postes détaillés dans le CV.

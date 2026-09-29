@@ -91,7 +91,7 @@
     },
     {
       id: "world-cola", grid: "campagnes", category: "Campagne de marque · Ramadan",
-      title: "World Cola · Ramadan", year: "2024*",
+      title: "World Cola · Ramadan", year: "2024–2025",
       context: "Au Bénin, World Cola est la boisson gazeuse pétillante aux arômes de cola de SOBEBRA. Pour le Ramadan, la campagne l’installe dans les moments de partage, les gestes familiers et les retrouvailles qui donnent à cette période toute sa chaleur.",
       role: "Direction artistique · réflexion · conception de campagne",
       disciplines: "Concept · création publicitaire · supports de campagne",
@@ -101,7 +101,7 @@
     },
     {
       id: "beninoise", grid: "campagnes", category: "Campagne de marque · bière",
-      title: "La Béninoise · La bière du Bénin", year: "2023*",
+      title: "La Béninoise · La bière du Bénin", year: "2024–2025",
       context: "Bière blonde de type lager, La Béninoise est une marque emblématique et populaire au Bénin, associée à la signature « La bière du Bénin ». La campagne devait faire vivre cette proximité à travers des prises de parole visibles, festives et immédiatement liées à la marque.",
       role: "Direction artistique · réflexion · conception de campagne",
       disciplines: "Territoire visuel · créations publicitaires · déclinaisons",
@@ -111,7 +111,7 @@
     },
     {
       id: "anacadi", grid: "campagnes", category: "Campagne événementielle · supports",
-      title: "ANACADI · Journée d’excellence du Gbêkê", year: "2024*",
+      title: "ANACADI · Journée d’excellence du Gbêkê", year: "2025",
       context: "La Journée d’excellence de la Région du Gbêkê célèbre les parcours et les réussites qui font avancer le territoire. Pour ANACADI, la communication devait donner à cet événement une présence digne de sa portée et lisible sur des supports variés.",
       role: "Direction artistique · réflexion · conception de campagne",
       disciplines: "Univers de campagne · emballages · supports de communication",
@@ -121,7 +121,7 @@
     },
     {
       id: "ceeli", grid: "identite", category: "Identité de marque · charte complète",
-      title: "CEELI Group · construire un système de marque", year: "2023*",
+      title: "CEELI Group · construire un système de marque", year: "2023",
       context: "Une marque solide doit rester juste dans toutes ses expressions. Pour CEELI Group, le travail a pris la forme d’une charte graphique complète : un cadre commun pour rendre l’identité claire, cohérente et durable à travers ses usages.",
       role: "Direction artistique · réflexion · conception de l’identité",
       disciplines: "Système de marque · logotype · couleurs · typographie · règles d’usage",
@@ -141,7 +141,7 @@
     },
     {
       id: "aurex", grid: "identite", category: "Identité de marque · charte graphique",
-      title: "AUREX · un signe qui prend sa place", year: "2024–2025*",
+      title: "AUREX · un signe qui prend sa place", year: "2023",
       context: "Les pièces présentées montrent une identité pensée pour vivre au-delà du logo : charte, supports de campagne et applications sur différents formats. L’enjeu est de garder la marque identifiable dans des contextes très différents.",
       role: "Direction artistique · réflexion · conception graphique",
       disciplines: "Logotype · charte · supports de communication · applications",
@@ -151,7 +151,7 @@
     },
     {
       id: "ferov", grid: "identite", category: "Identité de marque · mode",
-      title: "FEROV · une signature assumée", year: "2023–2025*",
+      title: "FEROV · une signature assumée", year: "2023",
       context: "Les visuels FEROV explorent une identité de marque associée au vêtement et à son expression. Il fallait donner au nom une présence forte, capable de vivre sur le textile comme dans les supports de présentation.",
       role: "Direction artistique · réflexion · conception de l’identité",
       disciplines: "Logotype · univers visuel · déclinaisons",
@@ -161,7 +161,7 @@
     },
     {
       id: "voon", grid: "identite", category: "Identité de marque · accessoires",
-      title: "VOON · faire du nom un signe", year: "2023–2025*",
+      title: "VOON · faire du nom un signe", year: "2022",
       context: "Pour VOON, les images montrent une signature destinée à s’exprimer sur des accessoires et des supports de marque. Le défi est de créer un signe assez distinctif pour être reconnu, même à petite échelle.",
       role: "Direction artistique · réflexion · conception de l’identité",
       disciplines: "Logotype · déclinaisons · applications de marque",
@@ -171,7 +171,7 @@
     },
     {
       id: "tp-solutions", grid: "campagnes", category: "Édition · communication d’entreprise",
-      title: "TP Solutions · rendre l’offre lisible", year: "2022–2025*",
+      title: "TP Solutions · rendre l’offre lisible", year: "2023",
       context: "Présenter une entreprise, ses services et ses partenaires demande plus qu’une accumulation d’informations. Les supports TP Solutions organisent le discours pour accompagner une découverte rapide, puis une lecture plus détaillée.",
       role: "Direction artistique · réflexion · conception graphique",
       disciplines: "Brochure · supports éditoriaux · communication imprimée",
@@ -181,7 +181,7 @@
     },
     {
       id: "ci20-connect", grid: "numerique", category: "Expérience numérique · UX/UI",
-      title: "CI20 Connect · relier les ambitions", year: "2025–2026*",
+      title: "CI20 Connect · relier les ambitions", year: "2025–2026",
       context: "CI20 Connect veut rapprocher les entrepreneurs des ressources qui peuvent les faire avancer : réseau, formation, mentorat et opportunités. L’expérience doit rendre ces possibilités compréhensibles et aider chacun à identifier sa prochaine étape.",
       role: "Direction visuelle · conception UX/UI",
       disciplines: "Interface · parcours numériques · communication digitale",

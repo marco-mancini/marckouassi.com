@@ -16,7 +16,7 @@ Public/images/        Emplacement des visuels locaux
 
 Le site est statique et ne nécessite aucune dépendance à installer. Les feuilles de style sont organisées dans le système de design. Le flux de publication assemble l’interface du site, le système de design et les visuels publics dans l’artefact GitHub Pages. Les composants React sont des bases réutilisables pour une évolution ultérieure ; ils ne sont pas nécessaires à la publication de la page actuelle.
 
-Le portfolio présente les projets à partir des visuels fournis, avec des récits éditoriaux centrés sur la démarche créative. Les périodes estimées sont signalées par un astérisque. La biographie, les expertises UX/UI et IA et les projets sont documentés dans la [liste des contenus](Docs/CONTENT_CHECKLIST.md).
+Le portfolio présente les projets à partir des visuels fournis, avec des récits éditoriaux centrés sur la démarche créative. La biographie, les expertises UX/UI et IA et les projets sont documentés dans la [liste des contenus](Docs/CONTENT_CHECKLIST.md).
 
 ## Conventions
 
