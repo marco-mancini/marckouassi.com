@@ -305,13 +305,13 @@
   /* La planche a-propos reprend les memes mesures que l'introduction :
      meme sceau sur la ligne du titre, meme degagement sous lui, memes
      trois echelles de texte. */
-  --about-mark-size: var(--introduction-mark-size);
   --about-title-gap: var(--introduction-title-gap);
+  --about-photo-column: clamp(220px, 26vw, 400px);
   /* Hauteur du portrait. Sans elle la figure prenait la hauteur naturelle
      d'une image 900x1600 etiree sur 571 px de large, soit 1123 px, et la
      planche depassait l'introduction de 488 px. Le texte, lui, ne pesait
      que 393 px. */
-  --portrait-height: clamp(260px, 44vw, 640px);
+  --portrait-min-height: clamp(260px, 34vw, 520px);
   --introduction-claim-tracking: -.01em;
   --introduction-visual-height: clamp(280px, 31vw, 470px);
   --introduction-title-gap: clamp(28px, 3.4vw, 54px);

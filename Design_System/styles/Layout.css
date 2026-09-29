@@ -101,16 +101,13 @@
 .process-label { color: var(--ink-display); }
 .about-board { background: var(--olive); color: var(--paper); }
 .about-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
-.about-board-heading { display: grid; margin: clamp(26px, 4vw, 56px) 0 var(--about-title-gap); grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: var(--space-6); }
-.about-board-intro { display: grid; justify-items: start; gap: var(--space-4); }
-.about-mark { display: block; width: var(--about-mark-size); }
-.about-mark img { width: 100%; height: auto; object-fit: contain; }
-.about-board-heading .board-label { color: var(--paper-on-dark); }
-.about-board-heading h2 { margin: 0; color: var(--paper); font-size: var(--type-title-section); line-height: .82; text-align: right; text-transform: uppercase; }
-.about-board-content { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: stretch; gap: clamp(24px, 4vw, 60px); }
-.portrait { position: relative; height: var(--portrait-height); margin: 0; overflow: hidden; border-radius: var(--radius-xl); background: var(--olive-deep); }
+.about-main .board-label { margin: var(--space-4) 0 0; color: var(--paper-on-dark); text-align: right; }
+.about-main h2 { margin: 0; color: var(--paper); font-size: var(--type-title-section); line-height: .82; text-align: right; text-transform: uppercase; }
+.about-board-content { display: grid; margin-top: clamp(26px, 4vw, 56px); grid-template-columns: var(--about-photo-column) minmax(0, 1fr); align-items: stretch; gap: clamp(24px, 4vw, 60px); }
+.about-main { display: grid; align-content: start; }
+.portrait { position: relative; height: 100%; min-height: var(--portrait-min-height); margin: 0; overflow: hidden; border-radius: var(--radius-xl); background: var(--olive-deep); }
 .portrait img { width: 100%; height: 100%; object-fit: cover; }
-.about-copy { display: grid; align-content: center; gap: var(--space-6); }
+.about-copy { display: grid; margin-top: var(--about-title-gap); align-content: start; gap: var(--space-6); }
 .about-copy p { margin: 0; color: var(--paper-on-dark); }
 .about-copy .about-lede { color: var(--paper); }
 .about-copy .about-claim { color: var(--paper); text-transform: uppercase; }

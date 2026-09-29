@@ -27,10 +27,9 @@
   .introduction-bottom { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .process-line { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .process-step:not(:last-child)::after { display: none; }
-  .about-board-heading { margin: 30px 0 18px; grid-template-columns: minmax(0, 1fr); align-items: start; gap: var(--space-2); }
-  .about-mark { display: none; }
 
   .about-board-content { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .about-main h2, .about-main .board-label { text-align: left; }
   .portrait { height: auto; aspect-ratio: 4 / 3; }
   .expertise-masthead { min-height: 0; margin: 18px 0; grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .expertise-image-strip { height: clamp(90px, 30vw, 170px); }
