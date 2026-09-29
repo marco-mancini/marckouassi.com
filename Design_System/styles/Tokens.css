@@ -437,6 +437,7 @@
   /* Bride de la colonne de lecture. Sans elle les lignes de la planche
      a-propos atteignaient 115 caracteres, mesures au navigateur, tres
      au-dela des 45 a 75 qui se lisent sans perdre la ligne. */
+  --mesure-copie: 44rem;
   --mesure-lecture: 52ch;
   /* Mesure haute, pour un paragraphe seul qui doit remplir la largeur
      d'une planche plutot que laisser un vide a cote. 72 caracteres reste

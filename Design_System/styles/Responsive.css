@@ -95,3 +95,14 @@
   .introduction-notes { grid-template-columns: 1fr 1fr; }
   .introduction-notes p:last-child { border-left: var(--border-hairline) solid var(--line); }
 }
+
+/* Echelle typographique aux petites largeurs. Deplacee depuis
+   Typography.css le 29 septembre 2026 : les points de rupture vivent
+   ici et nulle part ailleurs. Bornes et valeurs inchangees. */
+@media (max-width: 760px) {
+  :root { --type-body-emphasis: 1.0625rem; --type-title-card: 1.2rem; }
+}
+
+@media (max-width: 390px) {
+  :root { --type-body-emphasis: 1rem; --type-title-card: 1.125rem; }
+}

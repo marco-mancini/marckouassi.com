@@ -148,10 +148,3 @@ p { line-height: var(--leading-body); }
 .nav-mobile-links a { font-family: var(--font-display); font-size: var(--type-mobile-navigation); line-height: 1; letter-spacing: var(--display-tracking); text-transform: uppercase; }
 .portrait figcaption { font-family: var(--font-mono); font-size: var(--type-label); }
 
-@media (max-width: 760px) {
-  :root { --type-body-emphasis: 1.0625rem; --type-title-card: 1.2rem; }
-}
-@media (max-width: 390px) {
-  :root { --type-body-emphasis: 1rem; --type-title-card: 1.125rem; }
-  .board-topline { font-size: var(--type-micro); }
-}
