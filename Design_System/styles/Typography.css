@@ -122,7 +122,8 @@ p { line-height: var(--leading-body); }
 .contact-board-main h2 { font-size: var(--type-contact-title); }
 .board-topline, .board-label, .project-card-number,
 .timeline-date, .timeline-place, .project-meta-label, .project-copy-label, .contact-link > span,
-.cover-fact > span, .cover-edition, .project-dialog-header p {
+.cover-fact > span, .cover-edition, .project-dialog-header p,
+.board-passage-promesse, .board-passage-lien, .cover-role {
   font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em;
 }
 .cover-baseline { font-family: var(--font-display); font-size: var(--type-cover-promise); line-height: var(--leading-compact); letter-spacing: var(--cover-caption-tracking); }
@@ -130,6 +131,7 @@ p { line-height: var(--leading-body); }
 .cover-bottom > p { font-size: var(--type-body-emphasis); }
 .introduction-detail, .contact-lead, .parcours-intro, .index-heading > p { font-size: var(--type-board-copy); line-height: var(--leading-body); }
 .expertise-lede { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }
+.expertise-promesse, .parcours-conclusion { font-size: var(--type-introduction-lede); line-height: var(--leading-compact); }
 .expertise-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }
 .introduction-lede { font-size: var(--type-introduction-lede); }
 .introduction-claim { font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); letter-spacing: var(--introduction-claim-tracking); }

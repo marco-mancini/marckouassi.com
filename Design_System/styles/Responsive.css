@@ -35,7 +35,9 @@
   .about-copy { justify-items: start; }
   .about-copy .about-lede { max-width: none; text-align: left; }
   .portrait { height: auto; aspect-ratio: 4 / 3; }
-  .expertise-masthead { margin: 18px 0; }
+  .expertise-masthead { margin: 18px 0; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+  .expertise-promesse { max-width: none; text-align: left; }
+  .board-passage { flex-direction: column; align-items: start; gap: var(--space-2); }
   .expertise-intro { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .expertise-image-strip { height: clamp(90px, 30vw, 170px); }
   .expertise-masthead h2 { text-align: left; }

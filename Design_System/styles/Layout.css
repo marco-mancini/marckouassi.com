@@ -40,6 +40,9 @@
 .cover-title-block .Universal_signature { --Universal_signature-taille: var(--type-cover); --Universal_signature-taille-salut: var(--type-cover-signature); --Universal_signature-chevauchement: var(--cover-signature-chevauchement); }
 .cover-edition { margin: var(--cover-edition-offset) 0 0; color: var(--paper-on-dark); text-align: right; }
 .cover-mark-block { display: grid; align-content: start; justify-items: end; }
+/* Le positionnement, entre la signature et la promesse : on sait qui
+   parle avant de lire ce qu'il promet. */
+.cover-role { margin: var(--cover-role-offset) 0 0; color: var(--paper-on-dark); text-transform: uppercase; }
 .cover-baseline { margin: var(--cover-promise-offset) 0 0; color: var(--accent-gold); text-transform: uppercase; }
 .cover-mark { display: block; width: var(--cover-mark-size); }
 .cover-mark svg { width: 100%; height: auto; aspect-ratio: var(--logo-seal-ratio); }
@@ -120,7 +123,13 @@
 .about-accent { color: var(--accent-gold); font-weight: inherit; }
 .expertise-board { background: var(--olive); color: var(--paper); }
 .expertise-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
-.expertise-masthead { margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); }
+.expertise-masthead { display: grid; margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-6); }
+/* Les trois temps du savoir-faire : diriger, signer, faire passer. Ils
+   tiennent la ligne de base du titre de planche, a l'oppose, et disent en
+   une phrase ce que les six cartes detaillent ensuite. Places pleine
+   largeur et non dans la colonne de gauche : celle-ci est retrecie par la
+   bande d'images, le titre y tombait a six lignes. */
+.expertise-promesse { max-width: var(--mesure-accroche); margin: 0; color: var(--paper-on-dark); text-align: right; }
 /* L'accroche et l'affirmation a gauche, la bande d'images en face, comme
    la photo de l'introduction fait face a son texte. */
 .expertise-intro { display: grid; margin-bottom: var(--introduction-title-gap); grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr); align-items: center; gap: clamp(24px, 5vw, 88px); }
@@ -140,14 +149,20 @@
 .expertise-claim { color: var(--paper); text-transform: uppercase; }
 .expertise-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
 .parcours-board { background: var(--surface-page); }
-.parcours-board > h2 { margin: clamp(28px, 4vw, 56px) 0 8px; color: var(--ink-display); font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
-.parcours-intro { margin: 0 0 26px; color: var(--muted); }
+/* Le sur-titre prend le degagement qui appartenait au titre : depuis
+   qu'il existe sur cette planche, c'est lui qui suit la barre haute. */
+.parcours-board .board-label { margin-top: clamp(28px, 4vw, 56px); }
+.parcours-board > h2 { margin: 0 0 var(--space-3); color: var(--ink-display); font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
+.parcours-intro { max-width: var(--mesure-lecture-large); margin: 0 0 clamp(24px, 3vw, 40px); color: var(--muted); }
 .timeline { border-top: var(--border-hairline) solid var(--line); }
 .timeline-item { display: grid; min-height: 76px; padding: 14px 0; grid-template-columns: minmax(125px, .58fr) minmax(0, 1.7fr) minmax(120px, .7fr); align-items: start; gap: var(--space-5); border-bottom: var(--border-hairline) solid var(--line); }
 .timeline-item h3 { margin: 0 0 var(--space-1); }
 .timeline-item p { max-width: 690px; margin: 0; color: var(--muted); }
 .timeline-date, .timeline-place { color: var(--muted); }
 .timeline-place { text-align: right; }
+/* La phrase qui ferme le parcours, posee apres la frise comme une
+   reponse a son titre. */
+.parcours-conclusion { max-width: var(--mesure-lecture-large); margin: clamp(24px, 3vw, 40px) 0 0; color: var(--muted); }
 .index-board { background: var(--olive); color: var(--paper); }
 .index-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
 .index-heading { display: flex; margin: clamp(25px, 4vw, 54px) 0 26px; align-items: end; justify-content: space-between; gap: var(--space-7); }
