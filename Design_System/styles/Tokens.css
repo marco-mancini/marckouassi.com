@@ -49,6 +49,12 @@
   --clair-line: #d9dfca;
   --clair-line-subtle: #c9d2b8;
   --clair-accent: #7a8e5a;
+  /* Olive d'etiquette, pour le TEXTE seul sur fond clair. --clair-accent
+     reste ce qu'il est, il sert de surface a la barre de progression et
+     a la selection ; mais a 12 px sur le creme il rendait 3,57:1, sous
+     le 4,5 du petit texte. Celui-ci est le meme vert, assombri jusqu'a
+     passer le seuil. */
+  --clair-accent-label: #5f7040;
   --clair-accent-pop: #d7e2c2;
   /* Dore de la promesse de couverture. AUCUN jeton dore n'existait le
      28 septembre 2026. L'ocre exact du sceau, #ca9e67, ne mesure que
@@ -119,6 +125,9 @@
   --sombre-line: #333c29;
   --sombre-line-subtle: #3a4430;
   --sombre-accent: #9db87a;
+  /* Sur fond sombre l'accent passe deja : l'etiquette le reprend tel
+     quel, mesure sans echec dans ce mode. */
+  --sombre-accent-label: #9db87a;
   --sombre-accent-pop: #2c3522;
   /* En sombre, l'ocre exact du sceau passe : 4,13:1 sur l'olive sombre. */
   --sombre-accent-gold: #ca9e67;
@@ -171,6 +180,7 @@
 
   /* --- Accents --- */
   --accent: var(--clair-accent);
+  --accent-label: var(--clair-accent-label);
   --accent-pop: var(--clair-accent-pop);
   --accent-gold: var(--clair-accent-gold);
   --accent-gold-deep: var(--clair-accent-gold-deep);
@@ -518,6 +528,7 @@
     --line: var(--sombre-line);
     --line-subtle: var(--sombre-line-subtle);
     --accent: var(--sombre-accent);
+    --accent-label: var(--sombre-accent-label);
     --accent-pop: var(--sombre-accent-pop);
     --accent-gold: var(--sombre-accent-gold);
   --accent-gold-deep: var(--sombre-accent-gold-deep);
@@ -574,6 +585,7 @@
   --line: var(--sombre-line);
   --line-subtle: var(--sombre-line-subtle);
   --accent: var(--sombre-accent);
+  --accent-label: var(--sombre-accent-label);
   --accent-pop: var(--sombre-accent-pop);
   --accent-gold: var(--sombre-accent-gold);
   --accent-gold-deep: var(--sombre-accent-gold-deep);
@@ -623,6 +635,7 @@
   --line: var(--clair-line);
   --line-subtle: var(--clair-line-subtle);
   --accent: var(--clair-accent);
+  --accent-label: var(--clair-accent-label);
   --accent-pop: var(--clair-accent-pop);
   --accent-gold: var(--clair-accent-gold);
   --accent-gold-deep: var(--clair-accent-gold-deep);
