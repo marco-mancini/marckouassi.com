@@ -13,5 +13,5 @@
   .u-justify-between { justify-content: space-between; }
   .u-gap-4 { gap: var(--space-4); }
   .u-text-muted { color: var(--muted); }
-  .u-text-accent { color: var(--accent); }
+  .u-text-accent { color: var(--accent-label); }
 }

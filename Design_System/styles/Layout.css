@@ -179,7 +179,7 @@
 .project-meta { display: grid; margin: var(--space-5) 0; gap: var(--space-2); }
 .project-meta-item { padding-top: var(--space-2); border-top: var(--border-hairline) solid var(--line); }
 .project-meta-item p { margin: var(--space-1) 0 0; }
-.project-meta-label, .project-copy-label { color: var(--accent); font-family: var(--font-mono); text-transform: uppercase; }
+.project-meta-label, .project-copy-label { color: var(--accent-label); font-family: var(--font-mono); text-transform: uppercase; }
 .project-copy-label { margin: var(--space-4) 0 5px; }
 .project-idea, .project-value { margin: 0; }
 .project-value { color: var(--muted); }
