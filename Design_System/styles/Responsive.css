@@ -117,3 +117,9 @@
 @media (max-width: 1269px) {
   .about-accent { color: var(--accent-gold-soft); }
 }
+
+/* Page CV : la colonne des informations passe a cote des experiences au
+   meme seuil que la navigation complete de l'en-tete. */
+@media (min-width: 851px) {
+  .cv-colonnes { grid-template-columns: var(--cv-colonne-laterale) minmax(0, 1fr); }
+}

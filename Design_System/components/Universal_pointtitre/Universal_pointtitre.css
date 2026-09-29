@@ -15,4 +15,4 @@
    rendait 1,58:1 en theme clair, le dore profond etant pose sur l'olive
    au lieu du creme. Une enumeration de selecteurs meurt en silence. */
 .cover-board .title-dot, .about-board .title-dot, .expertise-board .title-dot,
-.index-board .title-dot, .prestations-board .title-dot { color: var(--accent-gold); }
+.index-board .title-dot, .prestations-board .title-dot, .cv-entete .title-dot { color: var(--accent-gold); }

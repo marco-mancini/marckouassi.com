@@ -397,6 +397,14 @@
   --dialogue-entete-hauteur: 58px;
   --contact-hauteur-min: 700px;
   --contact-degagement: 90px;
+  /* Page CV, Design_System/assets/Cv_Marc.html. Largeur de lecture du
+     document, colonne des informations a cote des experiences, largeur
+     mini d'une carte avant que la grille ne passe a la ligne. */
+  --cv-largeur-max: 1120px;
+  --cv-colonne-laterale: 20rem;
+  --cv-carte-min: 15rem;
+  --cv-sceau-taille: clamp(64px, 10vw, 128px);
+  --type-cv-nom: clamp(2.5rem, 7vw, 5.5rem);
   /* Ecart des liens de navigation. Il vivait en dur dans Layout.css,
      clamp(14px, 2.2vw, 32px), et donnait 32 px a 1440. Double le
      28 septembre 2026 : la barre en occupait 421 px sur les 1080 px
