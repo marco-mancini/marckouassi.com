@@ -1,5 +1,13 @@
 /* Échelle typographique unique du portfolio. Les autres feuilles règlent la mise en page, pas les caractères. */
 @font-face {
+  font-family: "Reey";
+  src: url("../assets/Fonts/Reey-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Anton";
   src: url("../assets/Fonts/Anton-Regular.woff2") format("woff2");
   font-style: normal;

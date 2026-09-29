@@ -32,12 +32,18 @@
 .board-stage { scroll-margin-top: 82px; padding: clamp(22px, 4vw, 54px) 0; }
 .board-return { text-decoration: underline; text-underline-offset: 3px; }
 .board-stage--cover { padding-top: 0; }
-.cover-board { display: flex; min-height: max(var(--cover-min-height), calc(100svh - var(--header-height))); padding-top: var(--border-hairline); flex-direction: column; border-top-color: transparent; background: var(--olive); color: var(--paper); }
+.cover-board { display: flex; min-height: max(var(--cover-min-height), calc(var(--cover-hauteur-ecran) - var(--header-height))); padding-top: var(--border-hairline); flex-direction: column; border-top-color: transparent; background: var(--olive); color: var(--paper); }
 .cover-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
 .cover-layout { display: grid; flex: 1; align-content: center; padding: var(--cover-padding-top) 0 var(--cover-padding-bottom); grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: var(--cover-gap); }
 .cover-title-block h1 { display: flex; margin: 0; flex-direction: column; font-size: var(--type-cover); line-height: var(--leading-cover); letter-spacing: var(--cover-tracking); text-transform: uppercase; }
-.cover-title-block h1 span:first-child { color: var(--olive-ghost); }
-.cover-title-block h1 span:last-child { color: var(--paper); }
+/* ESSAI : le nom en cursive chevauche les deux mots en capitales, comme sur
+   la reference. A retirer d'un bloc si la piste n'est pas retenue. */
+.cover-titre--essai { line-height: var(--cover-mot-leading); }
+.cover-signature { z-index: 1; margin-bottom: var(--cover-signature-chevauchement);
+  color: var(--paper); font-family: var(--font-script); font-size: var(--type-cover-signature);
+  font-weight: var(--weight-regular); letter-spacing: 0; line-height: 1; text-transform: none; }
+.cover-mot { color: var(--paper); }
+.cover-mot--accent { color: var(--accent-gold); }
 .cover-edition { margin: var(--cover-edition-offset) 0 0; color: var(--paper-on-dark); text-align: right; }
 .cover-mark-block { display: grid; align-content: start; justify-items: end; }
 .cover-baseline { margin: var(--cover-promise-offset) 0 0; color: var(--accent-gold); text-transform: uppercase; }
