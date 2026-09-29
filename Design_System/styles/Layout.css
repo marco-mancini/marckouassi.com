@@ -164,7 +164,7 @@
    different, et c'est force : la frise pose ses cartes sur une planche
    creme, celle-ci sur une planche olive, ou son vert serait invisible,
    1:1 mesure au navigateur. --carte-sur-olive creuse donc la planche. */
-.expertise-grid article { position: relative; display: grid; align-content: end; min-height: var(--expertise-card-min-height); padding: var(--process-card-padding); gap: var(--space-1); isolation: isolate;
+.expertise-grid article { position: relative; display: grid; align-content: end; min-height: var(--process-card-min-height); padding: var(--process-card-padding); gap: var(--space-1); isolation: isolate;
   border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--radius-lg);
   background: linear-gradient(160deg, var(--carte-sur-olive) 0%, var(--carte-sur-olive-deep) 100%); color: var(--paper); }
 .expertise-grid article::before { content: attr(data-rang); position: absolute; right: var(--process-card-padding); bottom: var(--process-card-padding);

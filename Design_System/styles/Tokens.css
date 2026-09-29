@@ -394,7 +394,6 @@
   --duration-process-pulse: 2.8s;
   --type-process-ghost: clamp(2rem, 3.2vw, 2.9rem);
   --process-card-min-height: clamp(68px, 5vw, 80px);
-  --expertise-card-min-height: clamp(92px, 7vw, 116px);
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;
