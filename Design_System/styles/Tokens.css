@@ -453,6 +453,15 @@
   /* Positionnement sous la signature de couverture. */
   --cover-role-offset: var(--space-4);
   --introduction-mark-size: clamp(88px, 9vw, 140px);
+  /* Sceau de la planche 05, pose devant le titre. Plus petit que celui
+     des planches 01 et 02 : il partage sa ligne avec le titre, qui prend
+     presque toute la largeur de la planche. */
+  --index-mark-size: clamp(56px, 6vw, 110px);
+  /* Titre de la planche 05. Il vaut --type-title-section ailleurs ; ici
+     il cede au sceau la largeur qu'il lui faut pour tenir sur une seule
+     ligne. Mesure au navigateur : a 12vw le titre seul occupait deja
+     1259 px sur les 1253 disponibles a 1440 px. */
+  --type-titre-sommaire: clamp(2.35rem, 10vw, 12rem);
   --about-mark-size: clamp(88px, 9vw, 150px);
   /* La planche a-propos reprend les memes mesures que l'introduction :
      meme sceau sur la ligne du titre, meme degagement sous lui, memes

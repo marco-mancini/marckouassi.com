@@ -20,7 +20,7 @@
   .introduction-layout { padding: 30px 0 18px; grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .introduction-title h2 { max-width: 100%; }
   .introduction-visual { height: clamp(190px, 62vw, 340px); }
-  .introduction-mark { display: none; }
+  .introduction-mark, .index-mark { display: none; }
   .introduction-copy { gap: var(--space-4); height: auto; }
   .introduction-bottom { gap: var(--space-4); }
   .process-line { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }

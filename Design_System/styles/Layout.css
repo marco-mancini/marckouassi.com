@@ -9,7 +9,7 @@
 /* Le sceau pose ses lettres sur son propre rond creme, jamais sur la
    planche : elles gardent donc les couleurs du fond clair dans les deux
    themes. */
-.cover-mark, .introduction-mark, .about-mark { --logo-lettre: var(--clair-logo-lettre); --logo-accent: var(--clair-logo-accent); }
+.cover-mark, .introduction-mark, .about-mark, .index-mark { --logo-lettre: var(--clair-logo-lettre); --logo-accent: var(--clair-logo-accent); }
 .site-header .menu-link { border-color: var(--border-on-dark); color: var(--paper); }
 .site-header .nav-toggle { color: var(--paper); }
 .wordmark { display: inline-flex; min-width: var(--cible-tactile); min-height: var(--cible-tactile); align-items: center; }
@@ -187,10 +187,13 @@
 .timeline-place { text-align: right; }
 .index-board { background: var(--olive); color: var(--paper); }
 .index-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
-/* Il ne reste que le titre : le sur-titre et le paragraphe disaient ce
-   que les onze projets montrent. */
-.index-heading { margin: clamp(25px, 4vw, 54px) 0 var(--introduction-title-gap); }
-.index-heading h2 { margin: 0; font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
+/* Le sceau puis le titre, sur une seule ligne. Le sur-titre et le
+   paragraphe ont ete retires : ils disaient ce que les onze projets
+   montrent. */
+.index-heading { display: flex; margin: clamp(25px, 4vw, 54px) 0 var(--introduction-title-gap); align-items: center; gap: var(--space-6); }
+.index-mark { display: block; flex: none; width: var(--index-mark-size); }
+.index-mark svg { width: 100%; height: auto; aspect-ratio: var(--logo-seal-ratio); }
+.index-heading h2 { margin: 0; font-size: var(--type-titre-sommaire); line-height: var(--leading-board-title); text-transform: uppercase; }
 .project-showcase-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(34px, 5vw, 72px); }
 .project-card { min-width: 0; padding: 0; }
 .project-card-heading { display: flex; min-height: 78px; padding: 14px 2px 2px; align-items: center; gap: var(--space-3); }
