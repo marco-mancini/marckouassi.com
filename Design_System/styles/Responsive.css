@@ -92,7 +92,7 @@
   .artboard { padding: 38px; }
   .project-gallery-preview { grid-auto-rows: clamp(120px, 13.5vw, 220px); }
   .project-dialog-body { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 22px; }
-  .timeline-item { grid-template-columns: minmax(115px, .6fr) minmax(0, 1.5fr) minmax(95px, .6fr); gap: 14px; }
+  .timeline-item { grid-template-columns: var(--parcours-colonne-periode) minmax(0, 1.5fr) minmax(95px, .6fr); gap: 14px; }
 }
 
 /* Echelle typographique aux petites largeurs. Deplacee depuis

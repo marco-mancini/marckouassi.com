@@ -471,6 +471,13 @@
      planche depassait l'introduction de 488 px. Le texte, lui, ne pesait
      que 393 px. */
   --portrait-min-height: clamp(260px, 34vw, 520px);
+  /* Colonne des periodes de la frise du parcours. Chaque entree est une
+     grille a elle seule : une colonne en max-content se reglait sur SON
+     jalon et les cinq titres partaient de cinq abscisses differentes,
+     303 et 269 px mesures au navigateur. Une largeur fixe les realigne.
+     Les cinq jalons mesurent 107 px depuis qu'ils portent tous deux
+     millesimes. */
+  --parcours-colonne-periode: 116px;
   --introduction-claim-tracking: -.01em;
   --introduction-visual-height: clamp(280px, 31vw, 470px);
   /* Bande des trois images de la planche 03. Depuis qu'elle occupe toute

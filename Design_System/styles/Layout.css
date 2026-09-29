@@ -165,11 +165,15 @@
    L'encre est celle d'une planche creme, --ink, la ou les deux planches
    olive portent --paper. */
 .parcours-intro { max-width: var(--mesure-accroche); margin: var(--about-title-gap) 0 clamp(24px, 3vw, 40px); color: var(--ink); }
-/* Meme cadre que la bande d'images de la planche 03 : meme epaisseur,
-   meme rayon. La couleur est --olive et non --paper, la planche etant
+/* Meme cadre que la bande d'images de la planche 03, au trait pres : il
+   ceint toute une frise et non une image, et l'epaisseur de celle-ci y
+   pesait trop. La couleur est --olive et non --paper, la planche etant
    creme : le jeton suit le theme et reste visible dans les deux modes. */
-.timeline { padding: 0 var(--space-6); border: var(--border-image) solid var(--olive); border-radius: var(--radius-xl); }
-.timeline-item { display: grid; min-height: 76px; padding: var(--space-6) 0; grid-template-columns: minmax(125px, .58fr) minmax(0, 1.7fr) minmax(120px, .7fr); align-items: start; gap: var(--space-5); border-bottom: var(--border-hairline) solid var(--line); }
+.timeline { padding: 0 var(--space-6); border: var(--border-hairline) solid var(--olive); border-radius: var(--radius-xl); }
+/* La colonne des periodes se regle sur le plus large des jalons et non
+   sur une fraction de la ligne : elle laissait 113 px de vide entre la
+   pastille et le titre, mesures au navigateur. */
+.timeline-item { display: grid; min-height: 76px; padding: var(--space-6) 0; grid-template-columns: var(--parcours-colonne-periode) minmax(0, 1.7fr) minmax(120px, .7fr); align-items: start; gap: var(--space-5); border-bottom: var(--border-hairline) solid var(--line); }
 /* Le dernier filet se confondrait avec le bas du cadre. */
 .timeline-item:last-child { border-bottom: 0; }
 .timeline-item h3 { margin: 0 0 var(--space-1); }
@@ -179,7 +183,7 @@
    numerotee du sommaire : meme olive, meme creme, meme mono. Elle etait
    un texte gris de 12 px, indistinct du reste de la ligne, alors que
    c'est elle qui donne le rythme de la frise. */
-.timeline-date { display: inline-flex; min-height: var(--space-7); padding: 0 var(--space-3); align-items: center; justify-self: start; border-radius: var(--radius-pill); background: var(--olive); color: var(--paper); }
+.timeline-date { display: inline-flex; min-height: var(--space-7); padding: 0 var(--space-3); align-items: center; justify-self: start; border-radius: var(--radius-pill); background: var(--olive); color: var(--paper); white-space: nowrap; }
 .timeline-place { text-align: right; }
 .index-board { background: var(--olive); color: var(--paper); }
 .index-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
