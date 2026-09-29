@@ -40,7 +40,7 @@
   .timeline-date { grid-column: 1; }
   .timeline-place { grid-column: 2; grid-row: 1; max-width: 140px; }
   .timeline-item > div { grid-column: 1 / -1; grid-row: 2; }
-  .index-heading { margin: var(--space-7) 0 18px; align-items: start; flex-direction: column; gap: var(--space-3); }
+  .index-heading { margin: var(--space-7) 0 18px; }
   .project-showcase-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
   .project-gallery-preview { grid-auto-rows: clamp(82px, 27vw, 150px); gap: 6px; }
   .project-image { border-radius: 14px; }

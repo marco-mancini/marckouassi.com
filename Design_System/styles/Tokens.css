@@ -299,7 +299,11 @@
   --type-board-copy: clamp(1.0625rem, 1.15vw, 1.3125rem);
   --type-introduction-claim: clamp(1.75rem, 3.6vw, 3.25rem);
   --type-display-contact: clamp(3.25rem, 10.5vw, 9.25rem);
-  --type-contact-title: clamp(4rem, 11vw, 10rem);
+  /* Titre de la planche 07. Il tenait en trois mots ; il en porte cinq
+     depuis le 29 septembre 2026, et a l'ancienne echelle les trois lignes
+     d'Anton se chevauchaient. */
+  --type-contact-title: clamp(2.4rem, 6.4vw, 5.5rem);
+  --leading-contact-titre: .94;
   --type-title-section: clamp(3rem, 12vw, 14rem);
   /* Le titre de la planche 06 tient sur une ligne au-dela de 1400 px, ce
      qui est l'effet de la reference. En dessous il passe a deux lignes :
