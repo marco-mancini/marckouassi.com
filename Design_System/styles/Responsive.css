@@ -118,6 +118,14 @@
   .about-accent { color: var(--accent-gold-soft); }
 }
 
+/* Meme raison pour l'accroche de la planche 03. Balayage de dix en dix au
+   navigateur : elle passe 24 px, et donc le statut de grand texte, entre
+   1260 px (23,94) et 1270 px (24,13). En dessous son seuil est 4,5:1 et
+   --accent-gold ne rend que 3,54:1 sur l'olive. */
+@media (max-width: 1269px) {
+  .expertise-lede { color: var(--accent-gold-soft); }
+}
+
 /* Page CV : la colonne des informations passe a cote des experiences au
    meme seuil que la navigation complete de l'en-tete. */
 @media (min-width: 851px) {

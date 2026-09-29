@@ -6,6 +6,9 @@ type ProprietesCarte = {
   rang: string;
   /** Libelle de la carte. */
   libelle: ReactNode;
+  /** Phrase qui explique le libelle, posee sous lui en dore pale. Optionnelle :
+      la frise de la methode n'en porte pas, la grille du savoir-faire si. */
+  note?: ReactNode;
   /** Fond de la planche qui porte la carte. */
   surOlive?: boolean;
   /** Balise racine : li dans une frise, article dans une grille. */
@@ -17,6 +20,7 @@ type ProprietesCarte = {
 export function Universal_carte({
   rang,
   libelle,
+  note,
   surOlive = false,
   balise: Racine = "article",
   baliseLibelle: Libelle = "span",
@@ -30,6 +34,7 @@ export function Universal_carte({
       <span className="Universal_carte-reflet" aria-hidden="true" />
       <span className="Universal_carte-point" aria-hidden="true" />
       <Libelle className="Universal_carte-libelle">{libelle}</Libelle>
+      {note ? <p className="Universal_carte-note">{note}</p> : null}
     </Racine>
   );
 }

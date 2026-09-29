@@ -464,6 +464,9 @@
   --portrait-min-height: clamp(260px, 34vw, 520px);
   --introduction-claim-tracking: -.01em;
   --introduction-visual-height: clamp(280px, 31vw, 470px);
+  /* Bande des trois images de la planche 03. Elle valait 190 px en dur
+     dans Layout.css. */
+  --expertise-bande-hauteur: 150px;
   --introduction-title-gap: clamp(28px, 3.4vw, 54px);
   /* Cartes de la frise : un plein olive fixe, texte creme dessus. Fixe
      et non lie au theme, comme la famille *-on-dark : la carte reste
@@ -485,6 +488,14 @@
   --Universal_carte-surface: #576740;
   --Universal_carte-surface-deep: #4a5936;
   --Universal_carte-point-size: 11px;
+  /* Gouttiere de la note optionnelle. Elle la tient a l'ecart du numero
+     en filigrane, pose dans le coin bas droit de la carte. Mesure au
+     navigateur le 29 septembre 2026, a 46,4 px de fonte : le 1 d'Anton
+     est etroit et 01 ne fait que 38,3 px, mais TOUS les autres couples
+     de chiffres font 45,9 px, soit 0,99 de la taille de fonte. C'est ce
+     pire cas qui commande. 1,15 laisse 7 px de degagement et suit le
+     clamp de --type-process-ghost. */
+  --Universal_carte-gouttiere-filigrane: calc(var(--type-process-ghost) * 1.15);
   --process-rail-offset: var(--space-6);
   --process-column-gap: clamp(14px, 2.4vw, 34px);
   --glass-blur: 14px;

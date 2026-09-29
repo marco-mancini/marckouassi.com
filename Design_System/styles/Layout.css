@@ -123,8 +123,12 @@
 .expertise-masthead { margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); }
 /* L'accroche et l'affirmation a gauche, la bande d'images en face, comme
    la photo de l'introduction fait face a son texte. */
-.expertise-intro { display: grid; margin-bottom: var(--introduction-title-gap); grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); align-items: center; gap: clamp(24px, 5vw, 88px); }
-.expertise-image-strip { display: grid; height: 190px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+.expertise-intro { display: grid; margin-bottom: var(--introduction-title-gap); grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr); align-items: center; gap: clamp(24px, 5vw, 88px); }
+/* La rangee est bornee explicitement. Sans cela elle vaut auto, la hauteur
+   100 % des images ne se resout pas, elles reprennent leur hauteur
+   intrinseque et debordent la bande : 227 px dans une bande de 150,
+   mesure au navigateur. */
+.expertise-image-strip { display: grid; height: var(--expertise-bande-hauteur); grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); gap: var(--space-2); }
 .expertise-image-strip img { min-width: 0; height: 100%; object-fit: cover; border-radius: var(--radius-xl); }
 .expertise-masthead h2 { margin: 0; font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
 .expertise-title .board-label { color: var(--paper-on-dark); }
@@ -132,7 +136,7 @@
    puis le detail, ici porte par les six cartes. */
 .expertise-copy { display: grid; max-width: var(--mesure-lecture); align-content: center; gap: var(--space-4); }
 .expertise-copy p { margin: 0; }
-.expertise-lede { color: var(--paper-on-dark); }
+.expertise-lede { color: var(--accent-gold); }
 .expertise-claim { color: var(--paper); text-transform: uppercase; }
 .expertise-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
 .parcours-board { background: var(--surface-page); }

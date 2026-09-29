@@ -13,7 +13,11 @@
        <span class="Universal_carte-reflet" aria-hidden="true"></span>
        <span class="Universal_carte-point" aria-hidden="true"></span>
        <h3 class="Universal_carte-libelle">Direction artistique</h3>
+       <p class="Universal_carte-note">Donner une ame aux idees.</p>
      </article>
+
+   La note est OPTIONNELLE : la frise de la methode n'en porte pas, la
+   grille du savoir-faire si.
 
    MODIFICATEUR
    --sur-olive, pour une carte posee sur une planche olive. Il ne change
@@ -33,6 +37,11 @@
 .Universal_carte-point { display: block; width: var(--Universal_carte-point-size); height: var(--Universal_carte-point-size); margin-bottom: var(--space-2);
   border-radius: var(--radius-full); background: var(--paper); }
 .Universal_carte-libelle { margin: 0; color: var(--paper); }
+/* Note optionnelle : une phrase qui explique le libelle, en dore pale.
+   --accent-gold-soft est le seul dore qui tienne le seuil du petit texte
+   sur ce fond ; il vaut la meme valeur dans les deux themes, et le fond
+   de la carte ne suit pas le theme non plus. */
+.Universal_carte-note { margin: 0; padding-right: var(--Universal_carte-gouttiere-filigrane); color: var(--accent-gold-soft); }
 /* La couche de reflet, contenue par son propre overflow pour ne pas rogner
    la fleche posee hors de la carte. */
 .Universal_carte-reflet { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
