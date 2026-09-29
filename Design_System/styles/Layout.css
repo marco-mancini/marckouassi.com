@@ -103,11 +103,19 @@
 .about-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
 .about-main .board-label { margin: var(--space-4) 0 0; color: var(--paper-on-dark); text-align: right; }
 .about-main h2 { margin: 0; color: var(--paper); font-size: var(--type-title-section); line-height: .82; text-align: right; text-transform: uppercase; }
-.about-board-content { display: grid; margin-top: clamp(26px, 4vw, 56px); grid-template-columns: var(--about-photo-column) minmax(0, 1fr); align-items: start; gap: clamp(24px, 4vw, 60px); }
+.about-board-content { display: grid; margin-top: clamp(26px, 4vw, 56px); grid-template-columns: var(--about-photo-column) minmax(0, 1fr); align-items: stretch; gap: clamp(24px, 4vw, 60px); }
 .about-main { display: grid; align-content: start; justify-items: end; }
-.portrait { position: relative; height: var(--portrait-min-height); margin: 0; overflow: hidden; border-radius: var(--radius-xl); background: var(--olive-deep); }
+.portrait { position: relative; height: 100%; min-height: var(--portrait-min-height); margin: 0; overflow: hidden; border-radius: var(--radius-xl); background: var(--olive-deep); }
 .portrait img { width: 100%; height: 100%; object-fit: cover; }
-.about-copy { display: grid; justify-self: end; max-width: var(--mesure-lecture); margin-top: var(--about-title-gap); align-content: start; gap: var(--space-6); }
+.about-copy { display: grid; justify-items: end; width: 100%; margin-top: var(--about-title-gap); align-content: start; gap: var(--space-6); }
+.about-copy .about-lede { max-width: var(--mesure-accroche); text-align: right; }
+/* Les trois paragraphes coulent en colonnes : a grande largeur une colonne
+   unique bridee laissait 432 px de vide sous le titre, mesures au
+   navigateur. Chaque colonne tient seule la mesure de lecture, et le
+   conteneur est borne pour qu'aucune ne s'elargisse au-dela. */
+.about-detail { max-width: var(--mesure-lecture); column-gap: var(--about-detail-gap); }
+.about-detail p { break-inside: avoid; }
+.about-detail p + p { margin-top: var(--space-4); }
 .about-copy p { margin: 0; color: var(--paper-on-dark); }
 .about-copy .about-lede { color: var(--paper); }
 .about-copy .about-claim { color: var(--paper); text-transform: uppercase; }

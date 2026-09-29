@@ -30,6 +30,8 @@
 
   .about-board-content { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .about-main h2, .about-main .board-label { text-align: left; }
+  .about-copy { justify-items: start; }
+  .about-copy .about-lede { max-width: none; text-align: left; }
   .portrait { height: auto; aspect-ratio: 4 / 3; }
   .expertise-masthead { min-height: 0; margin: 18px 0; grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .expertise-image-strip { height: clamp(90px, 30vw, 170px); }
@@ -80,4 +82,14 @@
   .project-gallery-preview { grid-auto-rows: clamp(120px, 13.5vw, 220px); }
   .project-dialog-body { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 22px; }
   .timeline-item { grid-template-columns: minmax(115px, .6fr) minmax(0, 1.5fr) minmax(95px, .6fr); gap: 14px; }
+}
+
+/* Deux colonnes de lecture pour le detail de la planche a-propos.
+   Le seuil est mesure : sous 1200 px la colonne de contenu ne peut pas
+   loger deux fois --mesure-lecture, et le navigateur retombait sur une
+   colonne unique qui prenait toute la largeur, jusqu'a 115 caracteres
+   par ligne a 1440. La borne double garantit que chacune reste a la
+   mesure. */
+@media (min-width: 1200px) {
+  .about-detail { max-width: calc(2 * var(--mesure-lecture) + var(--about-detail-gap)); columns: 2; }
 }
