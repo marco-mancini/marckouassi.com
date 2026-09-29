@@ -101,7 +101,7 @@
 /* Le detail tient en un seul paragraphe court depuis l'allegement du
    29 septembre 2026 : plus rien a repartir, la mise en colonnes est
    retiree ici et au point de rupture de 1200 px. */
-.about-detail { max-width: var(--mesure-lecture); }
+.about-detail { max-width: var(--mesure-lecture-large); text-align: justify; }
 .about-detail p { break-inside: avoid; }
 .about-detail p + p { margin-top: var(--space-4); }
 .about-copy p { margin: 0; color: var(--paper-on-dark); }

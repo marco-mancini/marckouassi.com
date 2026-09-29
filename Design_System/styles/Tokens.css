@@ -264,7 +264,7 @@
   --type-cover-signature: clamp(3rem, 8vw, 9rem);
   --type-section-signature: clamp(2.2rem, 5vw, 4.6rem);
   --cover-signature-chevauchement: -.32em;
-  --about-signature-chevauchement: -.28em;
+  --about-signature-chevauchement: -.06em;
   /* Interlignes du composant Universal_signature. Le mot en capitales
      etroites se serre sous 1 ; la salutation cursive garde le sien, ses
      jambages descendant sous la ligne de base. */
@@ -397,6 +397,10 @@
      a-propos atteignaient 115 caracteres, mesures au navigateur, tres
      au-dela des 45 a 75 qui se lisent sans perdre la ligne. */
   --mesure-lecture: 52ch;
+  /* Mesure haute, pour un paragraphe seul qui doit remplir la largeur
+     d'une planche plutot que laisser un vide a cote. 72 caracteres reste
+     dans la plage confortable, la borne usuelle etant 75. */
+  --mesure-lecture-large: 72ch;
   --mesure-accroche: 48ch;
   --about-detail-gap: clamp(28px, 3.2vw, 52px);
   /* Hauteur du portrait. Sans elle la figure prenait la hauteur naturelle
