@@ -165,8 +165,13 @@
    L'encre est celle d'une planche creme, --ink, la ou les deux planches
    olive portent --paper. */
 .parcours-intro { max-width: var(--mesure-accroche); margin: var(--about-title-gap) 0 clamp(24px, 3vw, 40px); color: var(--ink); }
-.timeline { border-top: var(--border-hairline) solid var(--line); }
+/* Meme cadre que la bande d'images de la planche 03 : meme epaisseur,
+   meme rayon. La couleur est --olive et non --paper, la planche etant
+   creme : le jeton suit le theme et reste visible dans les deux modes. */
+.timeline { padding: 0 var(--space-6); border: var(--border-image) solid var(--olive); border-radius: var(--radius-xl); }
 .timeline-item { display: grid; min-height: 76px; padding: var(--space-6) 0; grid-template-columns: minmax(125px, .58fr) minmax(0, 1.7fr) minmax(120px, .7fr); align-items: start; gap: var(--space-5); border-bottom: var(--border-hairline) solid var(--line); }
+/* Le dernier filet se confondrait avec le bas du cadre. */
+.timeline-item:last-child { border-bottom: 0; }
 .timeline-item h3 { margin: 0 0 var(--space-1); }
 .timeline-item p { max-width: 690px; margin: 0; color: var(--muted); }
 .timeline-date, .timeline-place { color: var(--muted); }
