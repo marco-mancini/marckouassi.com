@@ -31,7 +31,7 @@
   .about-mark { display: none; }
 
   .about-board-content { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .portrait { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
+  .portrait { height: auto; aspect-ratio: 4 / 3; }
   .expertise-masthead { min-height: 0; margin: 18px 0; grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .expertise-image-strip { height: clamp(90px, 30vw, 170px); }
   .expertise-masthead h2 { text-align: left; }

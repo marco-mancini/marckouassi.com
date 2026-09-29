@@ -108,7 +108,7 @@
 .about-board-heading .board-label { color: var(--paper-on-dark); }
 .about-board-heading h2 { margin: 0; color: var(--paper); font-size: var(--type-title-section); line-height: .82; text-align: right; text-transform: uppercase; }
 .about-board-content { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: stretch; gap: clamp(24px, 4vw, 60px); }
-.portrait { position: relative; min-height: var(--portrait-min-height); height: 100%; margin: 0; overflow: hidden; border-radius: var(--radius-xl); background: var(--olive-deep); }
+.portrait { position: relative; height: var(--portrait-height); margin: 0; overflow: hidden; border-radius: var(--radius-xl); background: var(--olive-deep); }
 .portrait img { width: 100%; height: 100%; object-fit: cover; }
 .about-copy { display: grid; align-content: center; gap: var(--space-6); }
 .about-copy p { margin: 0; color: var(--paper-on-dark); }
