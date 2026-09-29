@@ -187,10 +187,10 @@
 .timeline-place { text-align: right; }
 .index-board { background: var(--olive); color: var(--paper); }
 .index-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
-/* Le sceau puis le titre, sur une seule ligne. Le sur-titre et le
-   paragraphe ont ete retires : ils disaient ce que les onze projets
-   montrent. */
-.index-heading { display: flex; margin: clamp(25px, 4vw, 54px) 0 var(--introduction-title-gap); align-items: center; gap: var(--space-6); }
+/* Le titre, puis le sceau a l'oppose, comme sur les planches 01 et 02.
+   Le sur-titre et le paragraphe ont ete retires : ils disaient ce que les
+   onze projets montrent. */
+.index-heading { display: grid; margin: clamp(25px, 4vw, 54px) 0 var(--introduction-title-gap); grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-6); }
 .index-mark { display: block; flex: none; width: var(--index-mark-size); }
 .index-mark svg { width: 100%; height: auto; aspect-ratio: var(--logo-seal-ratio); }
 .index-heading h2 { margin: 0; font-size: var(--type-titre-sommaire); line-height: var(--leading-board-title); text-transform: uppercase; }
