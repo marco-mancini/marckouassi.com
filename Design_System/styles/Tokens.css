@@ -361,11 +361,20 @@
   --radius-lg: 14px;
   --radius-xl: 16px;
   --radius-full: 50%;
+  /* Rayon d'une pilule : un rayon plus grand que la moitie de la hauteur
+     donne toujours le demi-cercle, quelle que soit celle-ci. Il etait
+     ecrit 999px ou 1000px selon les endroits. */
+  --radius-pill: 999px;
 
   /* --- Epaisseurs et soulignement --- */
   /* Cote minimum d'une zone tactile, impose par AGENTS.md. Il etait
      ecrit huit fois en clair dans Layout.css. */
   --cible-tactile: 44px;
+
+  /* --- Epaisseurs de trait --- */
+  --outline-focus: 2px;
+  --outline-focus-offset: 4px;
+  --barre-progression-hauteur: 3px;
 
   --border-hairline: 1px;
   --border-frame: 5px;
