@@ -363,6 +363,10 @@
   --radius-full: 50%;
 
   /* --- Epaisseurs et soulignement --- */
+  /* Cote minimum d'une zone tactile, impose par AGENTS.md. Il etait
+     ecrit huit fois en clair dans Layout.css. */
+  --cible-tactile: 44px;
+
   --border-hairline: 1px;
   --border-frame: 5px;
   --underline-offset: 4px;
