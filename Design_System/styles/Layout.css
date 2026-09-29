@@ -93,28 +93,39 @@
 /* Frise des quatre temps de la methode. Un rail continu, --line, porte un
    point par etape ; le point est centre sur le rail par un decalage de la
    moitie de son diametre, et chaque etape ouvre sa colonne. */
-.process-line { display: grid; margin: 0; padding: 0; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--process-column-gap); list-style: none; }
-/* Carte de la frise : un plein olive, texte creme, degrade de reflet en
-   tete. Le plein est fixe, il ne suit pas le theme. */
-.process-step { position: relative; display: grid; min-height: var(--process-card-min-height); padding: var(--process-card-padding);
-  gap: var(--space-1); align-content: end; isolation: isolate;
+/* ==========================================================================
+   CARTE JALON, .step-card
+   Un seul composant pour les quatre temps de la methode et les six
+   domaines de savoir-faire. Il porte son point, son numero en filigrane
+   tire de data-rang, sa couche de reflet et son libelle.
+
+   Le fond passe par --step-card-surface et --step-card-surface-deep :
+   c'est le seul reglage qui change d'une planche a l'autre. Sur une
+   planche creme la carte est verte ; sur une planche olive ce vert
+   serait invisible, 1:1, et le modificateur --sur-olive creuse alors la
+   planche d'un cran.
+   ========================================================================== */
+.step-card { position: relative; display: grid; align-content: end; min-height: var(--step-card-min-height);
+  padding: var(--step-card-padding); gap: var(--space-1); isolation: isolate;
   border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--radius-lg);
-  background: linear-gradient(160deg, var(--process-card-surface) 0%, var(--process-card-surface-deep) 100%);
-  -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
-  box-shadow: 0 10px 28px -18px var(--shadow-board); }
-/* Le numero en filigrane, derriere le libelle. */
-.process-step::before { content: attr(data-rang); position: absolute; right: var(--process-card-padding); bottom: var(--process-card-padding);
+  background: linear-gradient(160deg, var(--step-card-surface) 0%, var(--step-card-surface-deep) 100%);
+  color: var(--paper); }
+.step-card--sur-olive { --step-card-surface: var(--carte-sur-olive); --step-card-surface-deep: var(--carte-sur-olive-deep); }
+/* Le numero en filigrane, derriere le libelle, aligne sur sa base. */
+.step-card::before { content: attr(data-rang); position: absolute; right: var(--step-card-padding); bottom: var(--step-card-padding);
   z-index: -1; color: var(--border-on-dark-soft); font-family: var(--font-display); font-size: var(--type-process-ghost); line-height: var(--leading-compact); }
-/* Le point, qui bat. */
-.process-dot { display: block; width: var(--process-dot-size); height: var(--process-dot-size); margin-bottom: var(--space-2);
+.step-card-dot { display: block; width: var(--step-card-dot-size); height: var(--step-card-dot-size); margin-bottom: var(--space-2);
   border-radius: var(--radius-full); background: var(--paper); }
-/* Le reflet qui balaie la carte. */
-.process-glow { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
-.process-glow::before { content: ""; position: absolute; top: 0; left: -60%; width: 55%; height: 100%;
+.step-card-label { margin: 0; color: var(--paper); }
+/* La couche de reflet, contenue par son propre overflow pour ne pas rogner
+   la fleche posee hors de la carte. */
+.step-card-glow { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.step-card-glow::before { content: ""; position: absolute; top: 0; left: -60%; width: 55%; height: 100%;
   background: linear-gradient(100deg, transparent, var(--glass-shine) 45%, var(--glass-shine) 55%, transparent); transform: skewX(-14deg); }
-/* Fleche de liaison, logee dans l'ecart entre deux cartes. */
-.process-step:not(:last-child)::after { content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap); color: var(--muted); text-align: center; transform: translate(0, -50%); }
-.process-label { color: var(--paper); }
+/* Fleche de liaison, logee dans l'ecart entre deux cartes de la frise. */
+.process-line .step-card:not(:last-child)::after { content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap);
+  color: var(--muted); text-align: center; transform: translate(0, -50%); }
+.process-line { display: grid; margin: 0; padding: 0; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--process-column-gap); list-style: none; }
 .about-board { background: var(--olive); color: var(--paper); }
 .about-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }
 .about-main .board-label { margin: var(--space-4) 0 0; color: var(--paper-on-dark); text-align: right; }
@@ -159,17 +170,6 @@
 .expertise-lede { color: var(--paper-on-dark); }
 .expertise-claim { color: var(--paper); text-transform: uppercase; }
 .expertise-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
-/* Meme carte que celles de la frise : degrade, reflet balayant, numero en
-   filigrane, meme rayon et meme bordure. Seules les deux valeurs de fond
-   different, et c'est force : la frise pose ses cartes sur une planche
-   creme, celle-ci sur une planche olive, ou son vert serait invisible,
-   1:1 mesure au navigateur. --carte-sur-olive creuse donc la planche. */
-.expertise-grid article { position: relative; display: grid; align-content: end; min-height: var(--process-card-min-height); padding: var(--process-card-padding); gap: var(--space-1); isolation: isolate;
-  border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--radius-lg);
-  background: linear-gradient(160deg, var(--carte-sur-olive) 0%, var(--carte-sur-olive-deep) 100%); color: var(--paper); }
-.expertise-grid article::before { content: attr(data-rang); position: absolute; right: var(--process-card-padding); bottom: var(--process-card-padding);
-  z-index: -1; color: var(--border-on-dark-soft); font-family: var(--font-display); font-size: var(--type-process-ghost); line-height: var(--leading-compact); }
-.expertise-grid h3 { margin: 0; }
 .parcours-board { background: var(--surface-page); }
 .parcours-board > h2 { margin: clamp(28px, 4vw, 56px) 0 8px; color: var(--ink-display); font-size: var(--type-title-section); line-height: var(--leading-board-title); text-transform: uppercase; }
 .parcours-intro { margin: 0 0 26px; color: var(--muted); }
