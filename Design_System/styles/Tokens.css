@@ -377,13 +377,13 @@
      d'un cran, sans basculer dans le noir. */
   --carte-sur-olive: #4a5936;
   --carte-sur-olive-deep: #3f4c2e;
-  --step-card-surface: #576740;
-  --step-card-surface-deep: #4a5936;
-  --step-card-dot-size: 11px;
+  --Universal_carte-surface: #576740;
+  --Universal_carte-surface-deep: #4a5936;
+  --Universal_carte-point-size: 11px;
   --process-rail-offset: var(--space-6);
   --process-column-gap: clamp(14px, 2.4vw, 34px);
   --glass-blur: 14px;
-  --step-card-padding: clamp(12px, 1.2vw, 17px);
+  --Universal_carte-padding: clamp(12px, 1.2vw, 17px);
   --process-arrow-travel: 5px;
   --duration-process-loop: 2.4s;
   --delay-process-first: .05s;
@@ -393,7 +393,7 @@
   --duration-process-shine: 6.5s;
   --duration-process-pulse: 2.8s;
   --type-process-ghost: clamp(2rem, 3.2vw, 2.9rem);
-  --step-card-min-height: clamp(68px, 5vw, 80px);
+  --Universal_carte-min-height: clamp(68px, 5vw, 80px);
   --cover-mark-size-compact: 48px;
   --cover-mark-size-tiny: 42px;
   --cover-mark-box-compact: 54px;

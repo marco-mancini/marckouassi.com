@@ -36,26 +36,6 @@ html.has-overlay { overflow: hidden; }
 .cover-mark-block { animation-delay: var(--delay-hero-stamp); }
 .cover-baseline { animation-delay: var(--delay-hero-bottom); }
 .cover-bottom > p { animation-delay: var(--delay-hero-bottom); }
-.step-card { opacity: 0; transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
-.artboard.is-visible .step-card { animation: etape-entree var(--duration-base) var(--ease-out) forwards; }
-.artboard.is-visible .step-card:nth-child(1) { animation-delay: var(--delay-process-first); }
-.artboard.is-visible .step-card:nth-child(2) { animation-delay: var(--delay-process-second); }
-.artboard.is-visible .step-card:nth-child(3) { animation-delay: var(--delay-process-third); }
-.artboard.is-visible .step-card:nth-child(4) { animation-delay: var(--delay-process-fourth); }
-.artboard.is-visible .step-card:nth-child(5) { animation-delay: var(--delay-process-third); }
-.artboard.is-visible .step-card:nth-child(6) { animation-delay: var(--delay-process-fourth); }
-.step-card:hover { transform: translateY(-4px); box-shadow: 0 18px 38px -20px var(--shadow-board); }
-.artboard.is-visible .step-card-glow::before { animation: reflet-balayage var(--duration-process-shine) var(--ease-out) infinite; }
-.artboard.is-visible .step-card:nth-child(2) .step-card-glow::before { animation-delay: var(--delay-process-second); }
-.artboard.is-visible .step-card:nth-child(3) .step-card-glow::before { animation-delay: var(--delay-process-third); }
-.artboard.is-visible .step-card:nth-child(4) .step-card-glow::before { animation-delay: var(--delay-process-fourth); }
-.artboard.is-visible .step-card-dot { animation: point-battement var(--duration-process-pulse) var(--ease-out) infinite; }
-.artboard.is-visible .step-card:nth-child(2) .step-card-dot { animation-delay: var(--delay-process-second); }
-.artboard.is-visible .step-card:nth-child(3) .step-card-dot { animation-delay: var(--delay-process-third); }
-.artboard.is-visible .step-card:nth-child(4) .step-card-dot { animation-delay: var(--delay-process-fourth); }
-.artboard.is-visible .process-line .step-card:not(:last-child)::after { animation: fleche-avance var(--duration-process-loop) var(--ease-out) infinite; }
-.artboard.is-visible .process-line .step-card:nth-child(2)::after { animation-delay: var(--delay-process-second); }
-.artboard.is-visible .process-line .step-card:nth-child(3)::after { animation-delay: var(--delay-process-third); }
 .nav-mobile-close, .menu-link, .cover-mark, .contact-mark, .project-card, .project-enter { transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
 .menu-link:hover { background: var(--olive); color: var(--paper); }
 .cover-mark:hover, .contact-mark:hover { transform: rotate(-4deg) scale(1.03); }

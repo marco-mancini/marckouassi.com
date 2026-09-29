@@ -93,38 +93,6 @@
 /* Frise des quatre temps de la methode. Un rail continu, --line, porte un
    point par etape ; le point est centre sur le rail par un decalage de la
    moitie de son diametre, et chaque etape ouvre sa colonne. */
-/* ==========================================================================
-   CARTE JALON, .step-card
-   Un seul composant pour les quatre temps de la methode et les six
-   domaines de savoir-faire. Il porte son point, son numero en filigrane
-   tire de data-rang, sa couche de reflet et son libelle.
-
-   Le fond passe par --step-card-surface et --step-card-surface-deep :
-   c'est le seul reglage qui change d'une planche a l'autre. Sur une
-   planche creme la carte est verte ; sur une planche olive ce vert
-   serait invisible, 1:1, et le modificateur --sur-olive creuse alors la
-   planche d'un cran.
-   ========================================================================== */
-.step-card { position: relative; display: grid; align-content: end; min-height: var(--step-card-min-height);
-  padding: var(--step-card-padding); gap: var(--space-1); isolation: isolate;
-  border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--radius-lg);
-  background: linear-gradient(160deg, var(--step-card-surface) 0%, var(--step-card-surface-deep) 100%);
-  color: var(--paper); }
-.step-card--sur-olive { --step-card-surface: var(--carte-sur-olive); --step-card-surface-deep: var(--carte-sur-olive-deep); }
-/* Le numero en filigrane, derriere le libelle, aligne sur sa base. */
-.step-card::before { content: attr(data-rang); position: absolute; right: var(--step-card-padding); bottom: var(--step-card-padding);
-  z-index: -1; color: var(--border-on-dark-soft); font-family: var(--font-display); font-size: var(--type-process-ghost); line-height: var(--leading-compact); }
-.step-card-dot { display: block; width: var(--step-card-dot-size); height: var(--step-card-dot-size); margin-bottom: var(--space-2);
-  border-radius: var(--radius-full); background: var(--paper); }
-.step-card-label { margin: 0; color: var(--paper); }
-/* La couche de reflet, contenue par son propre overflow pour ne pas rogner
-   la fleche posee hors de la carte. */
-.step-card-glow { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
-.step-card-glow::before { content: ""; position: absolute; top: 0; left: -60%; width: 55%; height: 100%;
-  background: linear-gradient(100deg, transparent, var(--glass-shine) 45%, var(--glass-shine) 55%, transparent); transform: skewX(-14deg); }
-/* Fleche de liaison, logee dans l'ecart entre deux cartes de la frise. */
-.process-line .step-card:not(:last-child)::after { content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap);
-  color: var(--muted); text-align: center; transform: translate(0, -50%); }
 .process-line { display: grid; margin: 0; padding: 0; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--process-column-gap); list-style: none; }
 .about-board { background: var(--olive); color: var(--paper); }
 .about-board .board-topline { border-color: var(--border-on-dark-soft); color: var(--paper-on-dark); }

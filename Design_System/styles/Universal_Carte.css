@@ -1,0 +1,64 @@
+/* ==========================================================================
+   UNIVERSAL_CARTE
+   Carte jalon reutilisable : un point, un libelle, un numero en
+   filigrane tire de data-rang, une couche de reflet qui balaie.
+
+   Elle sert aux quatre temps de la methode sur la planche introduction
+   et aux six domaines de la planche savoir-faire. Le balisage racine est
+   libre, <li>, <article> ou <div>, et le libelle peut etre un <h3> quand
+   c'est un vrai titre.
+
+   BALISAGE MINIMAL
+     <article class="Universal_carte Universal_carte--sur-olive" data-rang="01">
+       <span class="Universal_carte-reflet" aria-hidden="true"></span>
+       <span class="Universal_carte-point" aria-hidden="true"></span>
+       <h3 class="Universal_carte-libelle">Direction artistique</h3>
+     </article>
+
+   MODIFICATEUR
+   --sur-olive, pour une carte posee sur une planche olive. Il ne change
+   que les deux valeurs de fond : le vert par defaut y serait invisible,
+   1:1 mesure au navigateur. Tout le reste est commun.
+   ========================================================================== */
+
+.Universal_carte { position: relative; display: grid; align-content: end; min-height: var(--Universal_carte-min-height);
+  padding: var(--Universal_carte-padding); gap: var(--space-1); isolation: isolate;
+  border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--Universal_carte-surface) 0%, var(--Universal_carte-surface-deep) 100%);
+  color: var(--paper); }
+.Universal_carte--sur-olive { --Universal_carte-surface: var(--carte-sur-olive); --Universal_carte-surface-deep: var(--carte-sur-olive-deep); }
+/* Le numero en filigrane, derriere le libelle, aligne sur sa base. */
+.Universal_carte::before { content: attr(data-rang); position: absolute; right: var(--Universal_carte-padding); bottom: var(--Universal_carte-padding);
+  z-index: -1; color: var(--border-on-dark-soft); font-family: var(--font-display); font-size: var(--type-process-ghost); line-height: var(--leading-compact); }
+.Universal_carte-point { display: block; width: var(--Universal_carte-point-size); height: var(--Universal_carte-point-size); margin-bottom: var(--space-2);
+  border-radius: var(--radius-full); background: var(--paper); }
+.Universal_carte-libelle { margin: 0; color: var(--paper); }
+/* La couche de reflet, contenue par son propre overflow pour ne pas rogner
+   la fleche posee hors de la carte. */
+.Universal_carte-reflet { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.Universal_carte-reflet::before { content: ""; position: absolute; top: 0; left: -60%; width: 55%; height: 100%;
+  background: linear-gradient(100deg, transparent, var(--glass-shine) 45%, var(--glass-shine) 55%, transparent); transform: skewX(-14deg); }
+/* Fleche de liaison, logee dans l'ecart entre deux cartes de la frise. */
+.process-line .Universal_carte:not(:last-child)::after { content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap);
+  color: var(--muted); text-align: center; transform: translate(0, -50%); }
+/* ===== Mouvement ===== */
+.Universal_carte { opacity: 0; transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
+.artboard.is-visible .Universal_carte { animation: etape-entree var(--duration-base) var(--ease-out) forwards; }
+.artboard.is-visible .Universal_carte:nth-child(1) { animation-delay: var(--delay-process-first); }
+.artboard.is-visible .Universal_carte:nth-child(2) { animation-delay: var(--delay-process-second); }
+.artboard.is-visible .Universal_carte:nth-child(3) { animation-delay: var(--delay-process-third); }
+.artboard.is-visible .Universal_carte:nth-child(4) { animation-delay: var(--delay-process-fourth); }
+.artboard.is-visible .Universal_carte:nth-child(5) { animation-delay: var(--delay-process-third); }
+.artboard.is-visible .Universal_carte:nth-child(6) { animation-delay: var(--delay-process-fourth); }
+.Universal_carte:hover { transform: translateY(-4px); box-shadow: 0 18px 38px -20px var(--shadow-board); }
+.artboard.is-visible .Universal_carte-reflet::before { animation: reflet-balayage var(--duration-process-shine) var(--ease-out) infinite; }
+.artboard.is-visible .Universal_carte:nth-child(2) .Universal_carte-reflet::before { animation-delay: var(--delay-process-second); }
+.artboard.is-visible .Universal_carte:nth-child(3) .Universal_carte-reflet::before { animation-delay: var(--delay-process-third); }
+.artboard.is-visible .Universal_carte:nth-child(4) .Universal_carte-reflet::before { animation-delay: var(--delay-process-fourth); }
+.artboard.is-visible .Universal_carte-point { animation: point-battement var(--duration-process-pulse) var(--ease-out) infinite; }
+.artboard.is-visible .Universal_carte:nth-child(2) .Universal_carte-point { animation-delay: var(--delay-process-second); }
+.artboard.is-visible .Universal_carte:nth-child(3) .Universal_carte-point { animation-delay: var(--delay-process-third); }
+.artboard.is-visible .Universal_carte:nth-child(4) .Universal_carte-point { animation-delay: var(--delay-process-fourth); }
+.artboard.is-visible .process-line .Universal_carte:not(:last-child)::after { animation: fleche-avance var(--duration-process-loop) var(--ease-out) infinite; }
+.artboard.is-visible .process-line .Universal_carte:nth-child(2)::after { animation-delay: var(--delay-process-second); }
+.artboard.is-visible .process-line .Universal_carte:nth-child(3)::after { animation-delay: var(--delay-process-third); }

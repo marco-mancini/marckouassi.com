@@ -30,7 +30,7 @@
   .introduction-notes p:last-child { padding-left: 0; }
   .introduction-notes p + p { margin-top: var(--space-4); }
   .process-line { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .process-line .step-card:not(:last-child)::after { display: none; }
+  .process-line .Universal_carte:not(:last-child)::after { display: none; }
 
   .about-board-content { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .about-main h2, .about-main .board-label { text-align: left; }
