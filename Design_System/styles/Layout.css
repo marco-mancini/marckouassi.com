@@ -1,8 +1,8 @@
 /* Composition générale : chaque planche est un cadre autonome de présentation. */
 .skip-link { position: fixed; top: 8px; left: 8px; z-index: 120; transform: translateY(-160%); padding: var(--space-3) var(--space-4); background: var(--surface-page); color: var(--ink); }
 .skip-link:focus { transform: translateY(0); }
-.scroll-progress { position: fixed; inset: 0 auto auto 0; z-index: 100; width: 0; height: 3px; background: var(--accent); }
-.site-header { position: sticky; top: 0; z-index: 40; display: flex; height: 68px; padding: 0 var(--page-gutter); align-items: center; justify-content: space-between; border-bottom: var(--border-hairline) solid var(--border-on-dark-soft); background: var(--olive); color: var(--paper); }
+.scroll-progress { position: fixed; inset: 0 auto auto 0; z-index: 100; width: 0; height: var(--barre-progression-hauteur); background: var(--accent); }
+.site-header { position: sticky; top: 0; z-index: 40; display: flex; height: var(--header-height); padding: 0 var(--page-gutter); align-items: center; justify-content: space-between; border-bottom: var(--border-hairline) solid var(--border-on-dark-soft); background: var(--olive); color: var(--paper); }
 /* La barre est olive tant qu'on n'a pas defile : fond sombre, donc M creme
    et K dore clair, quel que soit le theme. */
 .site-header:not(.is-scrolled) .wordmark { --logo-lettre: var(--paper); --logo-accent: var(--accent-gold); }
@@ -23,7 +23,7 @@
 .nav-toggle-bars span:first-child { top: 0; }
 .nav-toggle-bars span:last-child { bottom: 0; }
 .nav-mobile { position: fixed; inset: 0; z-index: 80; display: flex; padding: 0 var(--page-gutter) 36px; flex-direction: column; background: var(--olive-deep); color: var(--paper); }
-.nav-mobile-head { display: flex; height: 68px; align-items: center; justify-content: space-between; }
+.nav-mobile-head { display: flex; height: var(--header-height); align-items: center; justify-content: space-between; }
 .nav-mobile-close { display: grid; width: var(--cible-tactile); height: var(--cible-tactile); place-items: center; border: var(--border-hairline) solid var(--border-on-dark); border-radius: 50%; background: none; color: var(--paper); }
 .nav-mobile-links { display: flex; flex: 1; margin-top: var(--space-3); flex-direction: column; justify-content: center; gap: var(--space-2); }
 .nav-mobile-links a { display: flex; min-height: var(--cible-tactile); padding-block: var(--space-1); align-items: baseline; gap: var(--space-4); }
@@ -168,12 +168,12 @@
 .project-detail-image { min-width: 0; min-height: 0; margin: 0; overflow: hidden; border-radius: 16px; background: var(--surface-image); }
 .project-detail-image img { width: 100%; height: 100%; object-fit: contain; }
 .project-detail-image--lead { grid-column: 1 / -1; }
-.project-dialog { width: min(1320px, calc(100vw - 40px)); max-width: none; max-height: min(92vh, var(--radius-pill)); padding: 0; overflow: hidden; border: var(--border-hairline) solid var(--line); border-radius: 14px; background: var(--surface-page); color: var(--ink); }
+.project-dialog { width: min(var(--dialogue-largeur-max), calc(100vw - var(--dialogue-marge-ecran))); max-width: none; max-height: min(92vh, var(--dialogue-hauteur-max)); padding: 0; overflow: hidden; border: var(--border-hairline) solid var(--line); border-radius: 14px; background: var(--surface-page); color: var(--ink); }
 .project-dialog::backdrop { background: var(--overlay-scrim); backdrop-filter: blur(5px); }
-.project-dialog-header { position: sticky; top: 0; z-index: 2; display: flex; min-height: 58px; padding: var(--space-2) 18px; align-items: center; justify-content: space-between; border-bottom: var(--border-hairline) solid var(--line); background: var(--surface-page); }
+.project-dialog-header { position: sticky; top: 0; z-index: 2; display: flex; min-height: var(--dialogue-entete-hauteur); padding: var(--space-2) var(--space-5); align-items: center; justify-content: space-between; border-bottom: var(--border-hairline) solid var(--line); background: var(--surface-page); }
 .project-dialog-header p { margin: 0; color: var(--muted); font-family: var(--font-mono); font-size: var(--type-label); }
 .project-dialog-close { display: grid; width: var(--cible-tactile); height: var(--cible-tactile); place-items: center; border: var(--border-hairline) solid var(--line); border-radius: 50%; background: var(--surface-page); color: var(--ink); font-size: var(--type-symbol); cursor: pointer; }
-.project-dialog-body { display: grid; max-height: calc(min(92vh, var(--radius-pill)) - 58px); padding: clamp(20px, 3vw, 42px); grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr); gap: clamp(20px, 3vw, 42px); overflow-y: auto; }
+.project-dialog-body { display: grid; max-height: calc(min(92vh, var(--dialogue-hauteur-max)) - var(--dialogue-entete-hauteur)); padding: clamp(20px, 3vw, 42px); grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr); gap: clamp(20px, 3vw, 42px); overflow-y: auto; }
 .project-detail-copy h2 { margin: var(--space-1) 0 var(--space-3); color: var(--ink-display); font-size: var(--type-project-title); line-height: var(--leading-board-title); text-transform: uppercase; }
 .project-context { color: var(--muted); }
 .project-meta { display: grid; margin: var(--space-5) 0; gap: var(--space-2); }
@@ -185,7 +185,7 @@
 .project-value { color: var(--muted); }
 .project-document { display: inline-flex; min-height: var(--cible-tactile); margin-top: var(--space-3); align-items: center; color: var(--ink-display); text-decoration: underline; text-underline-offset: 4px; }
 .project-document[hidden] { display: none; }
-.contact-board { display: flex; min-height: min(700px, calc(100svh - 90px)); flex-direction: column; background: var(--surface-page); }
+.contact-board { display: flex; min-height: min(var(--contact-hauteur-min), calc(100svh - var(--contact-degagement))); flex-direction: column; background: var(--surface-page); }
 .contact-board-main { display: flex; flex: 1; padding: clamp(44px, 7vw, 100px) 0; align-items: center; justify-content: space-between; gap: 40px; }
 .contact-board-main h2 { max-width: 980px; margin: 0; color: var(--ink-display); font-size: var(--type-contact-title); line-height: var(--leading-board-title); text-transform: uppercase; }
 .contact-lead { margin: var(--space-5) 0 0; color: var(--muted); }

@@ -384,6 +384,15 @@
   --page-gutter: clamp(16px, 2vw, 40px);
   --header-offset: 76px;
   --header-height: 68px;
+  /* Bornes du dialogue de projet. 1000px y etait une HAUTEUR maximale ;
+     un remplacement automatique par valeur l'avait confondue avec le
+     rayon de pilule, qui vaut 999px. Deux roles, deux jetons. */
+  --dialogue-largeur-max: 1320px;
+  --dialogue-hauteur-max: 1000px;
+  --dialogue-marge-ecran: 40px;
+  --dialogue-entete-hauteur: 58px;
+  --contact-hauteur-min: 700px;
+  --contact-degagement: 90px;
   /* Ecart des liens de navigation. Il vivait en dur dans Layout.css,
      clamp(14px, 2.2vw, 32px), et donnait 32 px a 1440. Double le
      28 septembre 2026 : la barre en occupait 421 px sur les 1080 px
