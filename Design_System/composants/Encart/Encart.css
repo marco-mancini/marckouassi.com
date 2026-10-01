@@ -1,0 +1,44 @@
+/* ==========================================================================
+   ENCART — boite titree : en-tete, corps, pied optionnel
+   or / clair : en-tete en aplat, corps borde de la meme teinte, pied qui
+                chevauche le bas (prestations).
+   contour    : cadre fin, en-tete separe par un filet (cartes du CV,
+                sections de formulaire du back-office).
+   bandeau    : en-tete en bande olive, corps libre (sections du CV).
+   ========================================================================== */
+.encart { display: grid; min-width: 0; margin: 0; grid-template-rows: auto 1fr auto; }
+.encart__titre { margin: 0; }
+.encart__corps { min-width: 0; }
+
+/* --- Aplats : or et clair --- */
+.encart--or, .encart--clair { --encart-teinte: var(--prestation-fond-or); overflow: visible; border-radius: var(--radius-lg); }
+.encart--clair { --encart-teinte: var(--prestation-fond-clair); }
+.encart--or > .encart__titre, .encart--clair > .encart__titre {
+  padding: var(--prestation-entete-padding); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--encart-teinte); color: var(--prestation-encre);
+  font-family: var(--font-display); font-size: var(--type-body-emphasis); font-weight: var(--weight-regular);
+  line-height: var(--leading-compact); letter-spacing: -.025em; text-align: center; text-transform: uppercase;
+}
+.encart--or > .encart__corps, .encart--clair > .encart__corps {
+  padding: var(--prestation-corps-padding); padding-bottom: calc(var(--prestation-corps-padding) * 2.4);
+  border: var(--border-hairline) solid var(--encart-teinte); border-top: 0; border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: var(--texte); font-size: var(--type-body-compact);
+}
+.encart--or > .encart__pied, .encart--clair > .encart__pied { justify-self: center; margin-top: var(--prestation-prix-decalage); }
+
+/* --- Contour --- */
+.encart--contour { border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-md); }
+.encart--contour > .encart__titre {
+  padding: var(--space-2) var(--space-4); border-bottom: var(--border-hairline) solid var(--filet);
+  color: var(--texte-etiquette); font-family: var(--font-mono); font-size: var(--type-body-compact);
+  font-weight: var(--weight-strong); line-height: var(--leading-compact); letter-spacing: normal;
+}
+.encart--contour > .encart__corps { padding: var(--space-4); }
+.encart--contour > .encart__pied { padding: 0 var(--space-4) var(--space-4); }
+
+/* --- Bandeau --- */
+.encart--bandeau > .encart__titre {
+  margin-bottom: var(--space-5); padding: var(--space-2) var(--space-4); border-radius: var(--radius-md);
+  background: var(--olive); color: var(--paper); font-family: var(--font-mono); font-size: var(--type-body-compact);
+  font-weight: var(--weight-strong); line-height: var(--leading-compact); letter-spacing: normal;
+}

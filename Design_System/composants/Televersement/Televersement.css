@@ -1,0 +1,20 @@
+/* ==========================================================================
+   TELEVERSEMENT — deposer, choisir, suivre, remplacer
+   Le champ fichier reste dans le document et focusable (clavier) ; son
+   libelle sert de zone de depot.
+   ========================================================================== */
+.televersement { display: grid; gap: var(--space-3); }
+.televersement__apercu { height: clamp(140px, 22vw, 220px); }
+.televersement__zone {
+  display: grid; min-height: 7rem; padding: var(--space-5); place-content: center; gap: var(--space-1); text-align: center;
+  border: var(--border-image) dashed var(--filet); border-radius: var(--radius-md); color: var(--texte); cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+.televersement__zone:hover, .televersement__zone.est-survole { border-color: var(--accent); background: var(--surface-alt); }
+.televersement__action { font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .03em; text-transform: uppercase; text-decoration: underline; text-underline-offset: var(--underline-offset); }
+.televersement__consigne, .televersement__aide { color: var(--texte-discret); font-size: var(--type-body-compact); }
+/* Masque a l'ecran mais focusable : le focus se voit sur la zone. */
+.televersement__fichier { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.televersement__fichier:focus-visible + progress, .televersement:focus-within .televersement__zone { outline: var(--outline-focus) solid var(--accent); outline-offset: var(--outline-focus-offset); }
+.televersement.est-en-erreur .televersement__zone { border-color: var(--erreur); }
+.televersement.est-en-cours .televersement__zone { cursor: progress; opacity: .7; }

@@ -1,0 +1,57 @@
+/* ==========================================================================
+   MOTION — keyframes, decalage par indice, reduction des animations
+   Les composants declarent QUAND ils s'animent ; les courbes, durees et
+   mouvements vivent ici et dans Tokens.css.
+
+   PRINCIPE DE VISIBILITE : le HTML est visible par defaut. Un element
+   n'est masque en attente d'apparition que si html porte .js-anime,
+   classe posee par le script une fois TOUT initialise. Script absent,
+   bloque ou en erreur : rien n'est jamais masque.
+   ========================================================================== */
+html { scroll-behavior: smooth; }
+html.has-overlay { overflow: hidden; }
+
+@keyframes planche-entree { from { opacity: .65; transform: translateY(14px) scale(.995); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes couverture-revelation { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes etape-entree { from { opacity: 0; transform: translateY(var(--space-4)) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes fleche-avance { 0%, 100% { transform: translate(0, -50%); opacity: .55; } 50% { transform: translate(var(--process-arrow-travel), -50%); opacity: 1; } }
+@keyframes reflet-balayage { 0% { left: -60%; } 55%, 100% { left: 140%; } }
+@keyframes point-battement { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--glass-shine); } 50% { transform: scale(1.18); box-shadow: 0 0 0 6px transparent; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  /* Le delai aussi : avec fill « both », un element attend sinon invisible pendant tout son delai. */
+  *, *::before, *::after { animation-duration: var(--duration-none) !important; animation-delay: var(--duration-none) !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: var(--duration-none) !important; transition-delay: var(--duration-none) !important; }
+}
+
+/* Reglage visiteur : moins de mouvement sur CE site, sans le vouloir partout.
+   !important est necessaire ici, et c'est le seul endroit ou il l'est :
+   les animations sont declarees dans chaque feuille, et sans lui la
+   preference du visiteur perdrait contre la regle la plus specifique. */
+html[data-animations="reduites"] *,
+html[data-animations="reduites"] *::before,
+html[data-animations="reduites"] *::after {
+  animation-duration: var(--duration-none) !important;
+  animation-delay: var(--duration-none) !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: var(--duration-none) !important;
+  transition-delay: var(--duration-none) !important;
+  scroll-behavior: auto !important;
+}
+
+
+/* --- Apparition generique ---
+   Direction portee par deux proprietes locales : --apparition-x et
+   --apparition-y (distance de depart). Decalage : --i x pas. */
+@keyframes apparition {
+  from { opacity: 0; transform: translate(var(--apparition-x, 0), var(--apparition-y, var(--apparition-distance))); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+@keyframes rideau-ouverture { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+@keyframes rideau-fermeture { from { clip-path: inset(0); } to { clip-path: inset(100% 0 0 0); } }
+@keyframes clignement { 50% { opacity: 0; } }
+@keyframes sceau-ouverture { from { opacity: 0; transform: scale(.85) rotate(-12deg); } to { opacity: 1; transform: none; } }
+/* Indicateur de chargement : seule rotation continue du systeme, parce
+   qu'elle signale une attente en cours (exemptee du critere 2.2.2). */
+@keyframes rotation { to { transform: rotate(360deg); } }
+@keyframes message-entree { from { opacity: 0; transform: translateY(var(--space-3)); } to { opacity: 1; transform: none; } }

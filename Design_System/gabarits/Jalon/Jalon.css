@@ -1,0 +1,25 @@
+/* ==========================================================================
+   JALON — une etape du parcours
+   La colonne des periodes a une largeur fixe : les intitules partent
+   tous de la meme abscisse.
+   ========================================================================== */
+.jalon {
+  display: grid; min-height: 76px; padding: var(--space-6) 0; align-items: start; gap: var(--space-5);
+  grid-template-columns: var(--parcours-colonne-periode) minmax(0, 1.7fr) minmax(120px, .7fr);
+  border-bottom: var(--border-hairline) solid var(--filet);
+}
+.jalon:last-child { border-bottom: 0; }
+.jalon > .pastille { justify-self: start; }
+.jalon__titre { margin: 0 0 var(--space-1); font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-regular); line-height: var(--leading-heading); letter-spacing: -.025em; }
+.jalon__recit { max-width: 690px; margin: 0; color: var(--texte-discret); font-size: var(--type-board-copy); line-height: var(--leading-body); }
+.jalon__lieu { color: var(--texte-discret); text-align: right; }
+
+@media (min-width: 851px) and (max-width: 1080px) {
+  .jalon { grid-template-columns: var(--parcours-colonne-periode) minmax(0, 1.5fr) minmax(95px, .6fr); gap: 14px; }
+}
+@media (max-width: 850px) {
+  .jalon { min-height: 0; padding: var(--space-3) 0; grid-template-columns: minmax(0, 1fr) auto; gap: 5px 10px; }
+  .jalon > .pastille { grid-column: 1; }
+  .jalon__lieu { grid-column: 2; grid-row: 1; max-width: 140px; }
+  .jalon__texte { grid-column: 1 / -1; grid-row: 2; }
+}

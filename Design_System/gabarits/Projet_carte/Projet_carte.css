@@ -1,0 +1,11 @@
+/* ==========================================================================
+   PROJET_CARTE — disposition de la carte d'un projet
+   ========================================================================== */
+.projet-carte { min-width: 0; transition: transform var(--duration-fast) var(--ease-out); }
+.projet-carte:hover { transform: translateY(-3px); }
+.projet-carte__entete { display: flex; min-height: 78px; padding: 14px 2px 2px; align-items: center; gap: var(--space-3); }
+.projet-carte__nom { min-width: 0; }
+.projet-carte__titre { margin: 0 0 3px; font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-regular); line-height: var(--leading-heading); letter-spacing: -.025em; }
+.projet-carte__categorie { margin: 0; color: var(--texte-discret); }
+
+@media (max-width: 850px) { .projet-carte__entete { min-height: 60px; padding-top: var(--space-2); } }

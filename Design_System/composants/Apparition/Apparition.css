@@ -1,0 +1,17 @@
+/* ==========================================================================
+   APPARITION — entree animee, decalee par rang
+   Masquage en attente UNIQUEMENT sous html.js-anime : sans script, ou si
+   le script echoue avant la fin de son initialisation, tout est visible.
+   « douce » (planches) n'est jamais masquee : elle part de .65.
+   ========================================================================== */
+html.js-anime [data-apparition]:not([data-apparition="douce"]):not(.est-apparu) { opacity: 0; }
+
+[data-apparition].est-apparu {
+  animation: apparition var(--apparition-duree) var(--ease-out) calc(var(--apparition-base) + var(--i, 0) * var(--apparition-pas)) both;
+}
+[data-apparition="haut"] { --apparition-y: calc(var(--apparition-distance) * -1); }
+[data-apparition="gauche"] { --apparition-x: calc(var(--apparition-distance) * -2); --apparition-y: 0px; }
+[data-apparition="droite"] { --apparition-x: calc(var(--apparition-distance) * 2); --apparition-y: 0px; }
+[data-apparition="fondu"] { --apparition-y: 0px; }
+[data-apparition="douce"].est-apparu { animation: planche-entree var(--duration-base) var(--ease-out) both; }
+[data-apparition="rideau"].est-apparu { animation: rideau-ouverture var(--duration-slow) var(--ease-out) both; }

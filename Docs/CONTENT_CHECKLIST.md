@@ -24,4 +24,17 @@ Les principaux projets présentés sur le site s’appuient sur les visuels et l
 
 - ANACADI et CEELI Group sont présentés comme deux projets distincts.
 - La couverture affichée pour CEELI est un aperçu de la première page de la charte ; le document complet reste accessible en PDF.
-- Les images sont locales dans `Public/images/` et les ressources sont assemblées à la racine de l’artefact GitHub Pages.
+- Les images sont locales dans `Public/images/` ; le build les optimise (WebP, 1600 px au plus). Les fichiers déposés depuis le back-office sont stockés chez Supabase puis publiés de la même façon.
+
+## Où modifier le contenu
+
+- Avant la mise en service du back-office : fichiers de `content/` (un texte = `{ "fr": …, "en": … }`).
+- Ensuite : le back-office `/admin/`, qui enregistre le même contenu chez Supabase.
+- Un champ sans version anglaise est signalé « À traduire » dans le back-office et dans le rapport du build.
+
+## Points à confirmer
+
+- Périodes : trois projets diffèrent entre cette liste et les données du site, reprises telles quelles de l’ancienne page. À trancher par Marc, sans rien modifier d’ici là :
+  - World Cola : liste 2024, site 2024–2025 ;
+  - La Béninoise : liste 2023, site 2024–2025 ;
+  - ANACADI : liste 2024, site 2025.

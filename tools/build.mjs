@@ -1,233 +1,127 @@
 /**
- * Construction du site publiable.
+ * BUILD — génère le site public statique à partir des DONNÉES.
  *
- * Assemble le contenu de `Frontend/`, `Design_System/` et `Public/images/`
- * dans un dossier `_site`, en compressant automatiquement chaque visuel.
+ *   données (content/ ou dernière publication)
+ *     → validation
+ *     → médias optimisés (Sharp, avec cache)
+ *     → pages rendues par les gabarits, une par langue (/ et /en/)
+ *     → sitemap, robots, version
  *
- * Les images d'origine ne sont jamais modifiées : on dépose ce qu'on veut
- * dans `Public/images` (PNG, JPEG, WebP, quelle que soit la taille), et la
- * compression se fait ici, à chaque publication. Les références aux images
- * sont réécrites au passage pour pointer vers les versions allégées.
+ * Le site produit n'appelle aucun service à la lecture : il reste
+ * disponible même si le back-office ou Supabase ne l'est pas.
+ *
+ * Variables d'environnement (flux de publication uniquement) :
+ *   CONTENU_SOURCE=publication, SUPABASE_URL, SUPABASE_CLE_PUBLIQUE, PUBLICATION_VERSION (facultatif)
+ *   ADMIN_SUPABASE_URL / ADMIN_SUPABASE_CLE_PUBLIQUE : configuration du back-office
  */
-
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import sharp from "sharp";
+import { cheminLangue, creerContexte } from "../Design_System/i18n/langue.js";
+import { formaterErreurs } from "../Design_System/gabarits/donnees.js";
+import { cheminsPages, contextePage, rendrePage } from "./pages.mjs";
+import { chargerFichiers, chargerPublication, valider, referencesMedias } from "./contenu.mjs";
+import { publierMedias, sourceLocale, sourceDistante, lireJeton } from "./medias.mjs";
+import { construireAdmin } from "./admin.mjs";
 
 const RACINE = process.cwd();
 const SORTIE = path.join(RACINE, "_site");
 
-const LARGEUR_MAX = 1600;   // au-delà, inutile pour un affichage écran
-const QUALITE_WEBP = 78;
-const FOND = { r: 255, g: 255, b: 242 }; // crème du site, pour aplatir la transparence
-const EXTENSIONS_IMAGE = new Set([".png", ".jpg", ".jpeg", ".webp"]);
-
-async function viderDossier(cible) {
-  await fs.rm(cible, { recursive: true, force: true });
-  await fs.mkdir(cible, { recursive: true });
+async function copier(source, destination, filtre = () => true) {
+  await fs.cp(path.join(RACINE, source), path.join(SORTIE, destination), { recursive: true, filter: (chemin) => filtre(chemin) });
 }
 
-async function listerFichiers(racine) {
-  const resultats = [];
-  async function parcourir(dossier) {
-    let entrees;
-    try {
-      entrees = await fs.readdir(dossier, { withFileTypes: true });
-    } catch {
-      return;
-    }
-    for (const entree of entrees) {
-      const complet = path.join(dossier, entree.name);
-      if (entree.isDirectory()) await parcourir(complet);
-      else resultats.push(complet);
-    }
-  }
-  await parcourir(racine);
-  return resultats.sort();
-}
-
-async function copierDossier(source, destination) {
-  await fs.cp(source, destination, { recursive: true });
-}
-
-/**
- * Compresse une image vers WebP et renvoie son poids ET ses dimensions
- * reelles.
- *
- * Les dimensions sont celles du fichier ECRIT, pas celles de la source :
- * le redimensionnement a 1600 px les change, et c'est le fichier servi
- * que le navigateur doit reserver.
- */
-async function compresserImage(source, destination) {
-  const image = sharp(source, { failOn: "none" }).rotate(); // rotate() applique l'orientation EXIF
-  const meta = await image.metadata();
-
-  const { data, info } = await image
-    .resize({
-      width: Math.min(LARGEUR_MAX, meta.width || LARGEUR_MAX),
-      withoutEnlargement: true,
-    })
-    .flatten({ background: FOND })
-    .webp({ quality: QUALITE_WEBP, effort: 5 })
-    .toBuffer({ resolveWithObject: true });
-
-  await fs.mkdir(path.dirname(destination), { recursive: true });
-  await fs.writeFile(destination, data);
-  return { poids: data.length, largeur: info.width, hauteur: info.height };
-}
-
-/**
- * Réécrit les références d'images vers le format compressé.
- * On ne touche qu'aux chemins situés sous Public/images pour ne pas
- * affecter les polices, le CV ou les logos SVG.
- */
-function reecrireReferences(texte) {
-  return texte.replace(
-    /(Public\/images\/[^"'`)\s]+?)\.(png|jpe?g)\b/gi,
-    (_, base) => `${base}.webp`
-  ).replace(
-    // script.js construit certains noms par concaténation : prefixe + numero + ".png"
-    /(["'])\.(png|jpe?g)\1/gi,
-    (_, guillemet) => `${guillemet}.webp${guillemet}`
-  );
-}
-
-/**
- * Aligne les attributs width/height des balises <img> du HTML sur les
- * dimensions du fichier WebP reellement produit.
- *
- * Les sources declarent la taille de l'image d'origine ; le build la
- * redimensionne a 1600 px. Le ratio survit au redimensionnement, mais
- * pas toujours : une source dont les dimensions declarees a la main ne
- * correspondaient deja plus au fichier reservait une boite au mauvais
- * rapport, et la page sautait au chargement.
- */
-function reecrireDimensionsHtml(texte, dimensions) {
-  let corrigees = 0;
-  const sortie = texte.replace(/<img\b[^>]*>/g, (balise) => {
-    const src = balise.match(/\bsrc="([^"]+)"/);
-    if (!src) return balise;
-    const taille = dimensions.get(src[1]);
-    if (!taille) return balise;
-    let touchee = false;
-    const neuve = balise
-      .replace(/\bwidth="\d+"/, () => { touchee = true; return `width="${taille[0]}"`; })
-      .replace(/\bheight="\d+"/, () => `height="${taille[1]}"`);
-    if (touchee && neuve !== balise) corrigees += 1;
-    return neuve;
-  });
-  return { texte: sortie, corrigees };
-}
-
-/**
- * Injecte la table des dimensions reelles en tete du script, et branche
- * la creation des images dessus.
- *
- * On ne touche NI aux donnees des projets, NI aux fonctions qui les
- * construisent : la table sert de correction au dernier moment, quand
- * l'element <img> est fabrique. Une image absente de la table garde les
- * valeurs declarees.
- */
-function injecterTableDimensions(texte, dimensions) {
-  const table = JSON.stringify(Object.fromEntries(dimensions));
-  const entete =
-    "/* Genere au build : dimensions reelles des fichiers WebP servis. */\n" +
-    "var DIMENSIONS_SERVIES = " + table + ";\n";
-
-  const avant = 'image.width = asset.width;\n    image.height = asset.height;';
-  const apres =
-    'var tailleServie = DIMENSIONS_SERVIES[asset.src];\n' +
-    '    image.width = tailleServie ? tailleServie[0] : asset.width;\n' +
-    '    image.height = tailleServie ? tailleServie[1] : asset.height;';
-  if (!texte.includes(avant)) {
-    throw new Error(
-      "Le point d'insertion des dimensions a disparu de script.js. " +
-      "Sans lui, le site publierait des tailles d'image fausses en silence."
-    );
-  }
-  return entete + texte.replace(avant, apres);
+async function ecrire(chemin, contenu) {
+  const cible = path.join(SORTIE, chemin);
+  await fs.mkdir(path.dirname(cible), { recursive: true });
+  await fs.writeFile(cible, contenu, "utf8");
 }
 
 async function main() {
   const debut = Date.now();
-  await viderDossier(SORTIE);
+  const env = process.env;
 
-  // 1. Système de design (styles, polices, logos) copié tel quel.
-  await copierDossier(path.join(RACINE, "Design_System"), path.join(SORTIE, "Design_System"));
+  // 1. Données
+  let contenu; let version = new Date().toISOString(); let lireSource = sourceLocale(RACINE);
+  const publication = env.CONTENU_SOURCE === "publication"
+    ? await chargerPublication({ url: env.SUPABASE_URL, cle: env.SUPABASE_CLE_PUBLIQUE, version: env.PUBLICATION_VERSION || null })
+    : null;
+  if (publication) {
+    contenu = publication.contenu;
+    version = String(publication.version);
+    lireSource = sourceDistante({ racine: RACINE, url: env.SUPABASE_URL });
+    console.log(`Données : publication n° ${publication.version}`);
+  } else {
+    contenu = await chargerFichiers(RACINE);
+    console.log(env.CONTENU_SOURCE === "publication" ? "Données : aucune publication encore, content/ du dépôt" : "Données : content/");
+  }
+  const erreurs = valider(contenu);
+  if (erreurs.length) {
+    const admin = creerContexte({ langue: "fr", langueParDefaut: "fr", dictionnaires: { fr: JSON.parse(await fs.readFile(path.join(RACINE, "Design_System/i18n/admin.fr.json"), "utf8")) } });
+    throw new Error(`Contenu invalide :\n  - ${formaterErreurs(erreurs, admin.t).join("\n  - ")}`);
+  }
 
-  // 2. Visuels : compression de chaque image, copie simple pour le reste.
-  //    On releve au passage les dimensions reelles de chaque WebP ecrit.
-  const sourceImages = path.join(RACINE, "Public", "images");
-  const sortieImages = path.join(SORTIE, "Public", "images");
-  const fichiers = await listerFichiers(sourceImages);
+  await fs.rm(SORTIE, { recursive: true, force: true });
+  await fs.mkdir(SORTIE, { recursive: true });
 
-  let poidsAvant = 0;
-  let poidsApres = 0;
-  let compressees = 0;
-  const echecs = [];
-  const dimensions = new Map(); // chemin web servi -> [largeur, hauteur]
+  // 2. Médias
+  const { table: medias } = await publierMedias({ references: referencesMedias(contenu), racine: RACINE, sortie: SORTIE, lireSource });
 
-  for (const fichier of fichiers) {
-    const relatif = path.relative(sourceImages, fichier);
-    const extension = path.extname(fichier).toLowerCase();
-    const taille = (await fs.stat(fichier)).size;
-    poidsAvant += taille;
+  // 3. Pages
+  const { site } = contenu;
+  const defaut = site.langueParDefaut;
+  const dictionnaires = {};
+  for (const langue of site.langues) dictionnaires[langue] = JSON.parse(await fs.readFile(path.join(RACINE, "Design_System/i18n", `${langue}.json`), "utf8"));
+  const sprite = await fs.readFile(path.join(RACINE, "Design_System/assets/logos-sprite.svg"), "utf8");
+  const couleurTheme = await lireJeton(RACINE, "--clair-surface-page");
+  const annee = new Date().getFullYear();
+  const pages = cheminsPages(contenu);
+  const ressources = { sprite, couleurTheme, annee };
+  const manquants = [];
 
-    if (!EXTENSIONS_IMAGE.has(extension)) continue; // on ignore les fichiers non-image
-
-    const sansExtension = relatif.slice(0, relatif.length - extension.length);
-    const destination = path.join(sortieImages, sansExtension + ".webp");
-
-    try {
-      const rendu = await compresserImage(fichier, destination);
-      poidsApres += rendu.poids;
-      compressees += 1;
-      dimensions.set(
-        "Public/images/" + sansExtension.split(path.sep).join("/") + ".webp",
-        [rendu.largeur, rendu.hauteur]
-      );
-    } catch (erreur) {
-      echecs.push(`${relatif} : ${erreur.message}`);
+  for (const langue of site.langues) {
+    for (const chemin of pages) {
+      const ctx = contextePage({ site, langue, chemin, dictionnaires, medias, ressources });
+      await ecrire(path.join(cheminLangue(langue, defaut, chemin), "index.html"), String(rendrePage({ contenu, ctx, chemin })));
+      manquants.push(...ctx.manquants);
     }
   }
 
-  // 3. Page et script : références réécrites vers les WebP, puis
-  //    dimensions alignées sur les fichiers réellement produits.
-  //    Cet ordre est obligatoire : les dimensions sont indexées sur les
-  //    chemins .webp, qui n'existent qu'après la réécriture.
-  let dimensionsCorrigees = 0;
-  for (const fichier of ["index.html", "script.js"]) {
-    const contenu = await fs.readFile(path.join(RACINE, "Frontend", fichier), "utf8");
-    let sortie = reecrireReferences(contenu);
-    if (fichier === "index.html") {
-      const r = reecrireDimensionsHtml(sortie, dimensions);
-      sortie = r.texte;
-      dimensionsCorrigees += r.corrigees;
-    } else {
-      sortie = injecterTableDimensions(sortie, dimensions);
-    }
-    await fs.writeFile(path.join(SORTIE, fichier), sortie, "utf8");
-  }
+  // 4. Fichiers statiques : Design System et script du site
+  // Ni documentation (.md) ni page HTML : le Design System ne publie que des ressources.
+  await copier("Design_System", "Design_System", (chemin) => !/\.(md|html)$/.test(chemin));
+  await copier("Frontend/site.js", "Frontend/site.js");
+  await construireAdmin({ racine: RACINE, sortie: SORTIE, env, contenu, sprite });
 
-  // 4. Nécessaire pour que GitHub Pages ne filtre pas les dossiers.
-  await fs.writeFile(path.join(SORTIE, ".nojekyll"), "");
+  // 5. Référencement et version
+  const urls = site.langues.flatMap((langue) => pages.map((chemin) => ({ langue, chemin })));
+  await ecrire("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls.map(({ langue, chemin }) => `  <url>
+    <loc>${site.url}/${cheminLangue(langue, defaut, chemin)}</loc>
+${site.langues.map((code) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${site.url}/${cheminLangue(code, defaut, chemin)}"/>`).join("\n")}
+    <xhtml:link rel="alternate" hreflang="x-default" href="${site.url}/${cheminLangue(defaut, defaut, chemin)}"/>
+  </url>`).join("\n")}
+</urlset>
+`);
+  await ecrire("robots.txt", `User-agent: *\nDisallow: /admin/\nSitemap: ${site.url}/sitemap.xml\n`);
+  await ecrire("version.json", JSON.stringify({ version, date: new Date().toISOString() }));
+  await ecrire(".nojekyll", "");
 
-  const mo = (octets) => (octets / 1024 / 1024).toFixed(1);
-  console.log(`Images compressées : ${compressees}/${fichiers.length}`);
-  console.log(`Poids des visuels  : ${mo(poidsAvant)} Mo → ${mo(poidsApres)} Mo`);
-  if (poidsAvant > 0) {
-    console.log(`Réduction          : ${Math.round(100 - (poidsApres / poidsAvant) * 100)} %`);
+  // 6. Rapport des traductions manquantes (hors site publié)
+  const manquantsContenu = [...new Map(manquants.filter((m) => m.type === "contenu").map((m) => [`${m.langue}:${m.cle}`, m])).values()];
+  await fs.mkdir(path.join(RACINE, ".cache"), { recursive: true });
+  await fs.writeFile(path.join(RACINE, ".cache", "traductions-manquantes.json"), JSON.stringify(manquantsContenu, null, 2));
+  console.log(`Pages : ${urls.length} (${site.langues.join(", ")}) ; à traduire : ${manquantsContenu.length} champ(s) de contenu`);
+  const parGroupe = new Map();
+  for (const { langue, cle } of manquantsContenu) {
+    const groupe = `${langue} · ${cle.split(".").slice(0, 2).join(".")}`;
+    parGroupe.set(groupe, (parGroupe.get(groupe) || 0) + 1);
   }
-  console.log(`Dimensions alignées: ${dimensionsCorrigees} balise(s) <img>, ${dimensions.size} entrées pour le script`);
-  console.log(`Durée              : ${Math.round((Date.now() - debut) / 1000)} s`);
-
-  if (echecs.length) {
-    console.log(`\n${echecs.length} image(s) non traitée(s) :`);
-    for (const echec of echecs) console.log(`  - ${echec}`);
-  }
+  for (const [groupe, nombre] of parGroupe) console.log(`  - ${groupe} : ${nombre}`);
+  console.log(`Durée : ${Math.round((Date.now() - debut) / 1000)} s`);
 }
 
 main().catch((erreur) => {
-  console.error("Échec de la construction :", erreur);
+  console.error("Échec de la construction :", erreur.message);
   process.exit(1);
 });

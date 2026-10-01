@@ -1,0 +1,97 @@
+name: Publier le site (Cloudflare Pages)
+
+# Déclencheurs :
+#   - « publier » envoyé par l'Edge Function quand Marc clique sur Publier ;
+#   - lancement manuel ;
+#   - chaque jour : une lecture légère garde le projet Supabase actif
+#     (l'offre gratuite met en pause un projet inactif une semaine).
+# Tant que la variable CLOUDFLARE_PROJET n'est pas définie, rien n'est déployé.
+on:
+  repository_dispatch:
+    types: [publier]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 5 * * *"
+
+permissions:
+  contents: read
+
+# Une publication à la fois, sans annuler celle en cours.
+concurrency:
+  group: publier
+  cancel-in-progress: false
+
+jobs:
+  maintenir:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lire la dernière publication (maintien de Supabase)
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_CLE_PUBLIQUE: ${{ vars.SUPABASE_CLE_PUBLIQUE }}
+        run: |
+          if [ -z "$SUPABASE_URL" ]; then echo "Supabase n'est pas encore configuré."; exit 0; fi
+          curl -fsS "$SUPABASE_URL/rest/v1/publications?select=version&limit=1" \
+            -H "apikey: $SUPABASE_CLE_PUBLIQUE" -H "Authorization: Bearer $SUPABASE_CLE_PUBLIQUE" > /dev/null
+
+  publier:
+    if: github.event_name != 'schedule' && vars.CLOUDFLARE_PROJET != ''
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.event.client_payload.version }}
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      # Les images déjà optimisées ne sont pas recalculées : le cache est
+      # restauré, complété, puis sauvegardé sous une nouvelle clé.
+      - name: Restaurer le cache des médias
+        uses: actions/cache@v4
+        with:
+          path: .cache/medias
+          key: medias-${{ github.run_id }}
+          restore-keys: medias-
+
+      - name: Vérifier le code
+        run: npm test
+
+      - name: Construire le site
+        env:
+          CONTENU_SOURCE: publication
+          PUBLICATION_VERSION: ${{ env.VERSION }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_CLE_PUBLIQUE: ${{ vars.SUPABASE_CLE_PUBLIQUE }}
+        run: npm run build
+
+      - name: Déployer sur Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy _site --project-name=${{ vars.CLOUDFLARE_PROJET }} --branch=main
+
+      # Le back-office affiche le résultat : en ligne, ou échec avec le motif.
+      - name: Signaler le résultat au back-office
+        if: always() && env.VERSION != ''
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_CLE_PUBLIQUE: ${{ vars.SUPABASE_CLE_PUBLIQUE }}
+          PUBLICATION_SECRET: ${{ secrets.PUBLICATION_SECRET }}
+          RESULTAT: ${{ job.status }}
+        run: |
+          case "$VERSION" in ''|*[!0-9]*) echo "Version invalide"; exit 1;; esac
+          STATUT=$([ "$RESULTAT" = "success" ] && echo en_ligne || echo echec)
+          curl -fsS -X POST "$SUPABASE_URL/functions/v1/publier" \
+            -H "Content-Type: application/json" -H "apikey: $SUPABASE_CLE_PUBLIQUE" \
+            -H "x-publication-secret: $PUBLICATION_SECRET" \
+            -d "{\"action\":\"statut\",\"version\":$VERSION,\"statut\":\"$STATUT\",\"message\":\"$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID\"}"

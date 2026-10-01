@@ -1,1 +1,0 @@
-:where(.menu-link, .round-link, .text-link, .expertise-mark, .contact-links a, .site-footer a) { -webkit-tap-highlight-color: transparent; }

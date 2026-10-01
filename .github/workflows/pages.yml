@@ -22,13 +22,27 @@ jobs:
         uses: actions/checkout@v4
       - name: Configurer GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Préparer le site statique
-        run: |
-          mkdir -p _site/Design_System _site/Public/images
-          cp Frontend/index.html Frontend/script.js _site/
-          cp -R Design_System/. _site/Design_System/
-          cp -R Public/images/. _site/Public/images/
-          touch _site/.nojekyll
+      - name: Installer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Installer les dépendances
+        run: npm ci
+      - name: Restaurer le cache des médias
+        uses: actions/cache@v4
+        with:
+          path: .cache/medias
+          key: medias-pages-${{ github.run_id }}
+          restore-keys: medias-
+      - name: Vérifier le code
+        run: npm test
+      # Le site est GÉNÉRÉ à partir de content/ par les gabarits du Design System.
+      - name: Construire le site
+        env:
+          ADMIN_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          ADMIN_SUPABASE_CLE_PUBLIQUE: ${{ vars.SUPABASE_CLE_PUBLIQUE }}
+        run: npm run build
       - name: Téléverser le site statique
         uses: actions/upload-pages-artifact@v3
         with:

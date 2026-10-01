@@ -1,0 +1,79 @@
+{
+  "_role": "Interface and accessibility labels of the public site, in English. Editorial content is NOT here: it lives in content/.",
+  "_statut": "À relire : traduction des libellés d'interface uniquement, proposée le 30 septembre 2026, en attente de validation.",
+  "langue": {
+    "code": "EN",
+    "nom": "English",
+    "locale": "en_US",
+    "selecteur": "Choose language"
+  },
+  "accessibilite": {
+    "allerAuContenu": "Skip to content",
+    "marque": "{nom} — cover",
+    "monogramme": "MK monogram",
+    "retourCouverture": "Back to the cover",
+    "navigationPrincipale": "Main navigation",
+    "navigationMobile": "Mobile navigation",
+    "menu": "Navigation menu",
+    "ouvrirMenu": "Open the menu",
+    "fermerMenu": "Close the menu",
+    "explorer": "Explore"
+  },
+  "projet": {
+    "compteur": "Project {numero} / {total}",
+    "ouvrir": "Open the project {titre} to see the full case study and all its images",
+    "fermer": "Close the case study",
+    "images": "Project images",
+    "role": "My role",
+    "disciplines": "Disciplines",
+    "periode": "Period",
+    "intention": "Creative intent",
+    "valeur": "What the project brings",
+    "retour": "Back to projects",
+    "document": "View the document"
+  },
+  "intro": {
+    "etiquette": "Welcome",
+    "passer": "Skip the introduction",
+    "choisirLangue": "Choose your language",
+    "entrer": "Enter the portfolio"
+  },
+  "cv": {
+    "retour": "Back to the portfolio",
+    "telecharger": "Download the CV"
+  },
+  "pied": {
+    "droits": "© {annee} {nom}"
+  },
+  "nombres": [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+    "twenty"
+  ],
+  "formats": {
+    "plageProjet": "{debut}–{fin}",
+    "plageParcours": "{debut} — {fin}",
+    "plageSelection": "{debut} — {fin}",
+    "selection": "{nombre} projects · {plage}",
+    "categorieEtPeriode": "{categorie} · {periode}",
+    "rubrique": "{numero} / {nom}"
+  }
+}

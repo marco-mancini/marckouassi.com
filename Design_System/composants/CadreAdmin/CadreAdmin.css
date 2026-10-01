@@ -1,0 +1,27 @@
+/* ==========================================================================
+   CADRE ADMIN — mise en page des ecrans du back-office
+   ========================================================================== */
+.cadre-admin {
+  display: grid; min-height: 100dvh;
+  grid-template-columns: var(--admin-colonne) minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "entete entete" "navigation principal" "navigation barre";
+  background: var(--surface-alt);
+  /* Messages sous l'en-tete : la barre de publication reste libre. */
+  --messages-haut: calc(var(--header-height) + var(--space-4));
+  --messages-bas: auto;
+}
+.cadre-admin > .en-tete { grid-area: entete; }
+.cadre-admin__navigation { grid-area: navigation; padding: var(--space-5) var(--space-3); border-right: var(--border-hairline) solid var(--filet); background: var(--fond); }
+.cadre-admin__principal { grid-area: principal; min-width: 0; padding: clamp(var(--space-5), 3vw, var(--space-8)); }
+.cadre-admin__principal:focus { outline: 0; }
+.cadre-admin__barre {
+  position: sticky; bottom: 0; z-index: 30; grid-area: barre; display: flex; padding: var(--space-3) clamp(var(--space-5), 3vw, var(--space-8));
+  align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;
+  border-top: var(--border-hairline) solid var(--filet); background: var(--fond);
+}
+
+@media (max-width: 850px) {
+  .cadre-admin { grid-template-columns: minmax(0, 1fr); grid-template-areas: "entete" "principal" "barre"; }
+  .cadre-admin__navigation { display: none; }
+}

@@ -1,25 +1,55 @@
-/* Point d’entrée unique des modules du système de design. */
-@import url("Tokens.css");
-@import url("Theme.css");
-@import url("Typography.css");
+/* ==========================================================================
+   INDEX.CSS — point d'entree CSS unique du site et du back-office
+   Chaque page charge ce seul fichier. Ordre, et il compte :
+     1. fondations : jetons, theme, typographie (aucun selecteur de page)
+     2. composants : chacun ne depend que des fondations
+     3. gabarits : composition des planches, jamais l'interieur d'un
+        composant
+     4. mouvement puis responsive : ils viennent en dernier car ils
+        modulent ce qui precede
+   Un composant ou un gabarit nouveau s'ajoute dans sa section ; aucune
+   feuille ne vit hors de ce point d'entree.
+   ========================================================================== */
+@import url("../fondations/Tokens.css");
+@import url("../fondations/Theme.css");
+@import url("../fondations/Typography.css");
 
-/* Composants universels, un dossier chacun dans Design_System/components.
-   Ils sont importes AVANT Layout.css : les planches y surchargent leur fond
-   et leurs filets a specificite egale, .cover-board contre .artboard, et
-   c'est le dernier declare qui gagne. Importes apres, ils repeignaient les
-   planches olive en creme. */
-@import url("../components/Universal_planche/Universal_planche.css");
-@import url("../components/Universal_topline/Universal_topline.css");
-@import url("../components/Universal_surtitre/Universal_surtitre.css");
-@import url("../components/Universal_pointtitre/Universal_pointtitre.css");
-@import url("../components/Universal_relief/Universal_relief.css");
-@import url("../components/Universal_carte/Universal_carte.css");
-@import url("../components/Universal_signature/Universal_signature.css");
-@import url("../components/Gabarit_Projet/Gabarit_Projet.css");
-@import url("Layout.css");
-@import url("Cv.css");
+/* 2. Composants du Design System : chacun ne depend que des fondations. */
+@import url("../composants/Planche/Planche.css");
+@import url("../composants/Encart/Encart.css");
+@import url("../composants/Grille/Grille.css");
+@import url("../composants/Pile/Pile.css");
+@import url("../composants/Titre/Titre.css");
+@import url("../composants/Signature/Signature.css");
+@import url("../composants/Accent/Accent.css");
+@import url("../composants/Champ/Champ.css");
+@import url("../composants/Pastille/Pastille.css");
+@import url("../composants/Bouton/Bouton.css");
+@import url("../composants/Saisie/Saisie.css");
+@import url("../composants/Liste/Liste.css");
+@import url("../composants/Televersement/Televersement.css");
+@import url("../composants/Media/Media.css");
+@import url("../composants/Galerie/Galerie.css");
+@import url("../composants/Sceau/Sceau.css");
+@import url("../composants/Carte/Carte.css");
+@import url("../composants/Modale/Modale.css");
+@import url("../composants/Message/Message.css");
+@import url("../composants/Navigation/Navigation.css");
+@import url("../composants/EnTete/EnTete.css");
+@import url("../composants/Segments/Segments.css");
+@import url("../composants/CadreAdmin/CadreAdmin.css");
+@import url("../composants/Apparition/Apparition.css");
+@import url("../composants/TexteProgressif/TexteProgressif.css");
 
-@import url("Icones.css");
-@import url("Motion.css");
-@import url("Tailwind.css");
-@import url("Responsive.css");
+/* 3. Gabarits : composition des pages, jamais l'interieur d'un composant. */
+@import url("../gabarits/Projet_carte/Projet_carte.css");
+@import url("../gabarits/Projet_etude/Projet_etude.css");
+@import url("../gabarits/Jalon/Jalon.css");
+@import url("../gabarits/Intro/Intro.css");
+@import url("../gabarits/sections/sections.css");
+@import url("../gabarits/Gabarit_Bo/Gabarit_Bo.css");
+@import url("../gabarits/Admin/Editeur.css");
+
+/* 4. Mouvement et responsive : en dernier, ils modulent ce qui precede. */
+@import url("../fondations/Motion.css");
+@import url("../fondations/Responsive.css");

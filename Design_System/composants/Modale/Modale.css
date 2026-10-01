@@ -1,0 +1,39 @@
+/* ==========================================================================
+   MODALE — <dialog> natif : focus piege, Echap, couche superieure
+   centre       : etude de projet, confirmation.
+   plein-ecran  : menu mobile du site et navigation du back-office sous
+                  850 px, un seul et meme mecanisme.
+   ========================================================================== */
+html.has-overlay { overflow: hidden; }
+
+.modale { max-width: none; padding: 0; overflow: hidden; border: var(--border-hairline) solid var(--filet); color: var(--texte); background: var(--fond); }
+.modale::backdrop { background: var(--overlay-scrim); backdrop-filter: blur(5px); }
+.modale__entete { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+
+/* --- Centre --- */
+.modale--centre { width: min(var(--dialogue-largeur-max), calc(100vw - var(--dialogue-marge-ecran))); max-height: min(92vh, var(--dialogue-hauteur-max)); border-radius: 14px; }
+.modale--centre .modale__entete {
+  position: sticky; top: 0; z-index: 2; min-height: var(--dialogue-entete-hauteur); padding: var(--space-2) var(--space-5);
+  border-bottom: var(--border-hairline) solid var(--filet); background: var(--fond);
+  color: var(--texte-discret); font-family: var(--font-mono); font-size: var(--type-label);
+}
+.modale--centre .modale__corps { max-height: calc(min(92vh, var(--dialogue-hauteur-max)) - var(--dialogue-entete-hauteur)); padding: clamp(20px, 3vw, 42px); overflow-y: auto; }
+
+/* --- Plein ecran --- */
+.modale--plein-ecran {
+  --fond: var(--olive-deep);
+  width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border: 0;
+  padding: 0 var(--page-gutter) var(--space-7);
+}
+.modale--plein-ecran[open] { display: flex; flex-direction: column; animation: rideau-ouverture var(--duration-slow) var(--ease-out) both; }
+/* Sortie en rideau : posee par le code juste avant close(). */
+.modale--plein-ecran.est-sortie { animation: rideau-fermeture var(--duration-slow) var(--ease-out) both; }
+.modale--plein-ecran::backdrop { background: var(--olive-deep); }
+.modale--plein-ecran .modale__entete { height: var(--header-height); flex-direction: row-reverse; justify-content: space-between; }
+.modale--plein-ecran .modale__corps { display: flex; flex: 1; flex-direction: column; justify-content: center; gap: var(--space-6); }
+
+@media (max-width: 850px) {
+  .modale--centre { width: min(100vw - 16px, 720px); max-height: 94dvh; border-radius: 12px; }
+  .modale--centre .modale__corps { max-height: calc(94dvh - var(--dialogue-entete-hauteur)); padding: 18px; }
+  .modale--plein-ecran { padding: 0 22px var(--space-7); }
+}

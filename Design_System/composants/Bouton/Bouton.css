@@ -1,0 +1,61 @@
+/* ==========================================================================
+   BOUTON — toute action, bouton ou lien
+   Zone tactile minimale de 44 px (--cible-tactile). Les couleurs viennent
+   des roles : un bouton pose sur une surface olive suit le contexte sans
+   selecteur parent.
+   ========================================================================== */
+.bouton {
+  display: inline-flex; min-height: var(--cible-tactile); align-items: center; justify-content: center; gap: 10px;
+  border: var(--border-hairline) solid transparent; background: none; color: var(--texte);
+  font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .03em; text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.bouton--pilule { padding: 0 var(--space-4); border-radius: var(--radius-pill); }
+.bouton--rond { width: var(--cible-tactile); height: var(--cible-tactile); padding: 0; border-radius: var(--radius-full); }
+.bouton--libre { padding: 0; }
+.bouton--grand { min-height: var(--bouton-grand); }
+
+.bouton--principal { background: var(--texte); color: var(--fond); }
+.bouton--contour { border-color: var(--bordure-controle); }
+.bouton--filet { border-color: var(--filet); }
+/* Lien texte : il garde sa hauteur de ligne dans le flux, la cible de
+   44 px est portee par un pseudo-element (la boite visible ne bouge pas). */
+.bouton--texte { display: inline; position: relative; min-height: 0; font: inherit; letter-spacing: inherit; text-decoration: underline; text-underline-offset: var(--underline-offset); }
+/* Lien nu : le lien d'origine des coordonnees, sans soulignement, sur une
+   ligne de 44 px ; la fleche suit le mot a une espace. */
+.bouton--nu, .bouton--lien { justify-content: flex-start; font: inherit; letter-spacing: inherit; }
+/* Lien souligne sur 44 px : coordonnees et retour du CV. */
+.bouton--lien { overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: var(--underline-offset); }
+.bouton--texte::before { content: ""; position: absolute; top: 50%; left: 0; width: 100%; min-width: var(--cible-tactile); height: var(--cible-tactile); transform: translateY(-50%); }
+.bouton--surface { border-color: var(--ink-display); background: var(--surface-page); color: var(--ink-display); }
+.bouton--surface.bouton--rond { width: var(--bouton-rond-surface); height: var(--bouton-rond-surface); font-size: var(--type-icon); }
+
+.bouton__icone--fermer { font-size: var(--type-symbol); line-height: 1; }
+.bouton--texte .bouton__icone, .bouton--nu .bouton__icone, .bouton--lien .bouton__icone { font-size: inherit; }
+
+/* Survol et focus clavier : meme retour, pour la souris comme pour le clavier. */
+.bouton--contour:hover, .bouton--filet:hover { background: var(--olive); color: var(--paper); }
+.bouton--principal:hover { background: var(--olive); color: var(--paper); }
+.bouton--surface:hover, .bouton--surface:focus-visible { background: var(--olive); color: var(--paper); transform: rotate(45deg); }
+
+/* Etats : desactive, chargement. */
+.bouton:disabled, .bouton[aria-disabled="true"] { cursor: not-allowed; opacity: .55; }
+.bouton[aria-busy="true"] { cursor: progress; }
+.bouton[aria-busy="true"]::after {
+  content: ""; width: 1em; height: 1em; border: var(--border-image) solid currentColor; border-right-color: transparent;
+  border-radius: var(--radius-full); animation: rotation var(--duration-slow) linear infinite;
+}
+
+/* Icone du menu : deux barres qui se croisent quand le menu est ouvert. */
+.bouton__barres { position: relative; display: block; width: 20px; height: 14px; }
+.bouton__barres span { position: absolute; left: 0; width: 100%; height: 1.5px; background: currentColor; transition: transform var(--duration-fast) var(--ease-out), top var(--duration-fast) var(--ease-out), bottom var(--duration-fast) var(--ease-out); }
+.bouton__barres span:first-child { top: 0; }
+.bouton__barres span:last-child { bottom: 0; }
+.bouton[aria-expanded="true"] .bouton__barres span:first-child { top: 6px; transform: rotate(45deg); }
+.bouton[aria-expanded="true"] .bouton__barres span:last-child { bottom: 6px; transform: rotate(-45deg); }
+
+@media (max-width: 850px) {
+  .bouton--surface.bouton--rond { width: var(--bouton-rond-surface-compact); height: var(--bouton-rond-surface-compact); }
+}

@@ -1,0 +1,22 @@
+/* ==========================================================================
+   GRILLE — colonnes fixes (large / compact / telephone) ou auto-fit
+   Le nombre de colonnes et l'espace sont passes en proprietes locales :
+   la grille ne connait ni page ni contenu.
+   ========================================================================== */
+.grille {
+  display: grid; min-width: 0; margin: 0; padding: 0; list-style: none;
+  grid-template-columns: repeat(var(--grille-colonnes, 1), minmax(0, 1fr));
+  gap: var(--grille-espace, var(--space-5));
+}
+.grille--auto { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grille-min)), 1fr)); }
+.grille--debut { align-items: start; }
+.grille--fin { align-items: end; }
+.grille--etirer { align-items: stretch; }
+
+@media (max-width: 850px) {
+  .grille { gap: var(--grille-espace-compact, var(--grille-espace)); }
+  .grille:not(.grille--auto) { grid-template-columns: repeat(var(--grille-colonnes-compact, 1), minmax(0, 1fr)); }
+}
+@media (max-width: 390px) {
+  .grille:not(.grille--auto) { grid-template-columns: repeat(var(--grille-colonnes-telephone, 1), minmax(0, 1fr)); }
+}

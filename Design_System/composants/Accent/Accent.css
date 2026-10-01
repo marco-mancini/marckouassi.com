@@ -1,0 +1,9 @@
+/* ==========================================================================
+   ACCENT — fragment dore et gras dans un texte courant
+   Deux seuils de contraste, deux roles : --accent-texte pour le petit
+   texte (4,5:1), --accent-texte-grand pour 24 px et plus (3:1). Le
+   contexte (.ilot-olive, page) choisit la teinte ; la graisse est
+   indispensable, la couleur seule se confondait avec le corps.
+   ========================================================================== */
+.accent { color: var(--accent-texte); font-weight: var(--weight-strong); }
+.accent--grand { color: var(--accent-texte-grand); }

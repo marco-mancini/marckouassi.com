@@ -1,5 +1,11 @@
-# Interface du site
+# Script du site public
 
-La page publiée se trouve dans `index.html`. Elle présente les travaux par catégories et ouvre chaque réalisation dans une présentation détaillée. Le script `script.js` gère les interactions et contient une liste unique des projets. Pour ajouter un projet, déposer ses visuels dans `Public/images/`, puis renseigner son entrée dans `PROJECTS` avec le chemin, le texte alternatif, les dimensions et les informations confirmées. Les contenus inconnus restent clairement provisoires.
+Les pages ne sont plus écrites à la main : `npm run build` les génère
+à partir de `content/` avec les gabarits du Design System (voir
+`Deploy/README.md`).
 
-Toutes les pages chargent une seule feuille CSS : `Design_System/styles/Index.css`. Elle importe les modules du système ; toutes les animations et transitions sont définies dans `Design_System/styles/Motion.css`.
+`site.js` est le seul script des pages publiques. Il branche les
+comportements sur le HTML déjà rendu (modales, en-tête, section
+courante, études de projet, apparitions, accueil animé), puis pose
+`html.js-anime`. S'il ne se charge pas ou échoue, tout le contenu reste
+visible et utilisable : c'est vérifié par `npm run test:navigateur`.

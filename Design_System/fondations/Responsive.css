@@ -1,0 +1,41 @@
+/* ==========================================================================
+   RESPONSIVE — jetons qui changent avec la largeur
+   Seuils documentes dans Tokens.css (--bp-*). Ici, uniquement des
+   redefinitions de JETONS (:root, roles de contexte) : les composants
+   et gabarits se dimensionnent d'eux-memes a partir de ces valeurs.
+   ========================================================================== */
+@media (max-width: 850px) {
+  :root { --page-gutter: 14px; --header-offset: 62px; --type-cover: clamp(3.05rem, 15vw, 5rem); --type-title-section: clamp(2.6rem, 11vw, 4.6rem); --type-project-title: clamp(2.5rem, 10vw, 4.8rem); --type-contact-title: clamp(3rem, 13vw, 6rem); }
+}
+
+@media (max-width: 390px) {
+  :root { --page-gutter: 10px; --type-cover: clamp(3.35rem, 18vw, 4.5rem); --type-title-section: clamp(2.35rem, 10.5vw, 3.4rem); --type-project-title: clamp(2.25rem, 10vw, 3.2rem); --type-contact-title: clamp(2.7rem, 12vw, 4rem); }
+}
+
+/* Ecart des liens de navigation entre le seuil du menu et 1200 px :
+   la barre porte sept liens ; avec l'ecart plein, mesure au navigateur,
+   elle touchait le monogramme et le bouton de contact de 851 a 1080 px. */
+@media (min-width: 851px) and (max-width: 1199px) {
+  :root { --header-nav-gap: clamp(16px, 2.2vw, 30px); }
+}
+
+@media (min-width: 851px) and (max-width: 1080px) {
+  :root { --page-gutter: 24px; --type-cover: clamp(5rem, 13vw, 8rem); --type-project-title: clamp(3rem, 6vw, 5rem); }
+}
+
+/* Echelle typographique aux petites largeurs. */
+@media (max-width: 760px) {
+  :root { --type-body-emphasis: 1.0625rem; --type-title-card: 1.2rem; }
+}
+
+@media (max-width: 390px) {
+  :root { --type-body-emphasis: 1rem; --type-title-card: 1.125rem; }
+}
+
+/* Accent en grand texte sur olive : sous 1270 px l'accroche n'atteint
+   plus 24 px, elle repasse au seuil du petit texte (4,5:1) et prend le
+   dore pale (4,73:1 en clair, 7,78:1 en sombre). Porte par le role,
+   donc par tout composant du contexte. */
+@media (max-width: 1269px) {
+  .ilot-olive { --accent-texte-grand: var(--accent-gold-soft); }
+}

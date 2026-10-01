@@ -1,0 +1,25 @@
+/* ==========================================================================
+   EDITEUR — formulaire genere a partir des donnees (gabarit du back-office)
+   ========================================================================== */
+.editeur { display: grid; gap: var(--space-5); }
+.editeur__groupe, .editeur__traduisible, .editeur__media, .editeur__collection {
+  display: grid; min-width: 0; margin: 0; padding: var(--space-4); gap: var(--space-4);
+  border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-md); background: var(--fond);
+}
+.editeur__traduisible.est-a-traduire { border-color: var(--accent-gold-deep); }
+.editeur__legende { display: inline-flex; padding: 0 var(--space-2); align-items: center; gap: var(--space-3); font-weight: var(--weight-strong); }
+.editeur__statut[hidden] { display: none; }
+/* Langue d'edition (Segments FR/EN de la tete) : une seule langue a la
+   fois ; sans choix, les deux restent visibles cote a cote. */
+.editeur[data-langue-edition="fr"] [data-langue-champ="en"],
+.editeur[data-langue-edition="en"] [data-langue-champ="fr"] { display: none; }
+/* FR et EN cote a cote quand la place le permet */
+.editeur__langues { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.editeur__case { display: flex; min-height: var(--cible-tactile); align-items: center; gap: var(--space-3); }
+.editeur__technique { padding: var(--space-1) var(--space-2); border-radius: var(--radius-md); background: var(--surface-alt); font-family: var(--font-mono); overflow-wrap: anywhere; }
+.editeur__fichier { margin: 0; overflow-wrap: anywhere; }
+.editeur__element { min-width: 0; }
+.editeur__resume { display: flex; min-height: var(--cible-tactile); align-items: center; cursor: pointer; font-weight: var(--weight-strong); }
+.editeur__element[open] > .editeur__resume { margin-bottom: var(--space-4); }
+.editeur__element > :not(summary) + :not(summary) { margin-top: var(--space-4); }
+.editeur__collection > .bouton { justify-self: start; }

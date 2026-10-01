@@ -1,0 +1,27 @@
+/* ==========================================================================
+   CHAMP — etiquette au-dessus, contenu dessous
+   Lecture (simple, fait, meta) ou edition (formulaire). Couleurs par les
+   roles, donc justes sur creme comme sur olive.
+   ========================================================================== */
+.champ { display: flex; min-width: 0; margin: 0; flex-direction: column; gap: var(--space-1); }
+.champ__etiquette { color: var(--texte-discret); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em; }
+.champ__valeur { color: var(--texte); }
+.champ--simple .champ__valeur { font-size: var(--type-body-compact); }
+
+/* Fait : information de couverture, valeur en mono. */
+.champ--fait { gap: var(--space-2); }
+.champ--fait { line-height: var(--leading-compact); }
+.champ--fait .champ__valeur { font-family: var(--font-mono); font-size: var(--type-body-emphasis); line-height: var(--leading-compact); }
+
+/* Meta : fiche projet, filet au-dessus et etiquette accentuee. */
+.champ--meta { padding-top: var(--space-2); border-top: var(--border-hairline) solid var(--filet); }
+.champ--meta .champ__etiquette { color: var(--texte-etiquette); text-transform: uppercase; }
+.champ--meta .champ__valeur { font-size: var(--type-board-copy); line-height: var(--leading-body); }
+
+/* Formulaire : libelle, controle, aide, erreur. */
+.champ--formulaire { gap: var(--space-2); }
+.champ--formulaire .champ__etiquette { color: var(--texte); text-transform: uppercase; }
+.champ__aide { margin: 0; color: var(--texte-discret); font-size: var(--type-body-compact); }
+.champ__erreur { margin: 0; color: var(--erreur); font-size: var(--type-body-compact); font-weight: var(--weight-strong); }
+
+@media (max-width: 850px) { .champ--fait .champ__valeur { font-size: var(--type-body-compact); } }
