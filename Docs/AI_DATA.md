@@ -14,6 +14,11 @@ produit le site.
 
 ## Ce qui existe déjà dans Supabase
 
+> **Question ouverte (1er octobre 2026)** : Supabase a été écarté pour le
+> back-office et aucun projet n'existe. La source des données de NéO —
+> Supabase ou JSON statique produit au build — est à trancher le jour de
+> l'implémentation : voir [Q-1](AI_ARCHITECTURE.md#q-1--source-des-données--supabase-ou-fichier-json-produit-au-build).
+
 Schéma : `supabase/migrations/20261001000000_back_office.sql`.
 
 | Table | Lecture publique (clé publique, rôle `anon`) | Utilité pour NéO |

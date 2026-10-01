@@ -1,6 +1,6 @@
 # NéO, assistant du portfolio — architecture
 
-Statut : **architecture validée, non implémentée**. Rédigé et vérifié le
+Statut : **architecture validée, non implémentée** ; deux questions ouvertes (Q-1, Q-2, en fin de document). Rédigé et vérifié le
 1er octobre 2026. Aucune clé, aucun identifiant de compte n'existe dans le dépôt.
 
 Documents liés :
@@ -241,6 +241,34 @@ affiche « 10 $/mo in API credits ». Limites et budgets : voir
 | D-9 | Message d'accueil, exemples de questions, mention de confidentialité | À rédiger par Marc (contenu), jamais par l'IA |
 | D-10 | Journaux | Métadonnées seulement, jamais le texte des questions |
 | D-11 | Refus d'usage des données pour l'entraînement chez Mistral | À désactiver dans la console (Admin › Privacy) avant la mise en ligne |
+
+## Questions ouvertes, à trancher le jour de l'implémentation
+
+Notées le 1er octobre 2026. Rien n'a été changé dans l'architecture
+ci-dessus : ces points se décident au démarrage de l'implémentation.
+
+### Q-1 — Source des données : Supabase ou fichier JSON produit au build
+
+L'architecture actée lit la dernière publication `en_ligne` dans Supabase.
+Depuis, Supabase a été écarté pour le back-office : le contenu vit dans
+`content/`, édité par un CMS Git, et le projet Supabase n'existe pas. Un
+projet gratuit est en outre mis en pause après 7 jours sans activité.
+
+Option déjà prévue dans [AI_DATA.md](AI_DATA.md) : un JSON statique produit
+au build (`SOURCE_CONTEXTE=statique`), calculé par la même liste blanche
+(`connaissance.js`), publié avec le site et lu par le Worker. Conséquences à
+examiner : aucune base, aucune clé Supabase, aucune mise en veille ; la base
+de NéO suit chaque déploiement Vercel ; le fichier serait public, comme le
+contenu du site dont il est extrait (la liste blanche exclut déjà les
+données personnelles).
+
+### Q-2 — Hébergement de l'endpoint sans domaine
+
+D-7 suppose une zone DNS `marckouassi.com` chez Cloudflare pour router
+`/api/*` sur le même domaine que le site. Le domaine n'est pas acheté et le
+site est servi par Vercel : l'endpoint serait sur `workers.dev`, donc sur
+une autre origine que le site (CORS à autoriser pour l'adresse publique de
+`content/site.json`). Voir [Hébergement de l'endpoint](#hébergement-de-lendpoint).
 
 ## Sources (consultées le 1er octobre 2026)
 

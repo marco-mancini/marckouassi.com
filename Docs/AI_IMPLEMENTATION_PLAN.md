@@ -3,11 +3,12 @@
 Rédigé le 1er octobre 2026. L'architecture est fixée dans
 [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) ; ce plan ne la rediscute pas.
 
-Branche de travail : `version-finale/portfolio-bo`. Chaque phase se termine par
+Branche de travail : à créer depuis `main` le jour de l'implémentation
+(questions ouvertes Q-1 et Q-2 de l'architecture à trancher d'abord). Chaque phase se termine par
 `npm test`, `npm run build`, `npm run test:navigateur`,
 `npm run comparer-reference` (aucune dérive du site), puis commit et push
-(autorisation de sauvegarde déjà donnée). Jamais de fusion vers `main` sans
-Preview Ready.
+(selon l'autorisation donnée ce jour-là). Jamais de fusion vers `main` sans
+déploiement d'aperçu Vercel « Ready ».
 
 ## Prérequis
 
@@ -17,7 +18,7 @@ Preview Ready.
 | Compte Cloudflare + jeton d'API Wrangler + identifiant de compte | Marc | IA-12 (déploiement) ; le développement local n'en a pas besoin |
 | Clé API Mistral (espace de travail dédié, plafond de dépense posé) | Marc | IA-05 |
 | Clé API Gemini (projet avec facturation, D-2) | Marc | IA-07 |
-| URL Supabase + clé **publique** | Marc (déjà prévues pour le back-office) | IA-06 |
+| URL Supabase + clé **publique** — seulement si Q-1 retient Supabase | Marc | IA-06 |
 | Zone DNS marckouassi.com chez Cloudflare | Marc | IA-12 |
 
 Aucune clé secrète Supabase n'est demandée.
