@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 1er octobre 2026, de PM-004 à PM-040 : 33 issues ouvertes, 1 fermée.
+État au 1er octobre 2026, de PM-004 à PM-040 : 30 issues ouvertes, 4 fermées.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
@@ -20,7 +20,7 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-005 | [#5](https://github.com/marco-mancini/marckouassi.com/issues/5) | Faire une première modification réelle depuis /admin/ | decision-marc, cms, urgent, blocage | PM-004 | ouverte |
 | PM-006 | [#6](https://github.com/marco-mancini/marckouassi.com/issues/6) | Supprimer les anciens déploiements Vercel qui contiennent le PDF du CV | decision-marc, securite, urgent | — | ouverte |
 | PM-007 | [#7](https://github.com/marco-mancini/marckouassi.com/issues/7) | Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues | decision-marc, infrastructure, blocage | — | ouverte |
-| PM-008 | [#8](https://github.com/marco-mancini/marckouassi.com/issues/8) | Créer et tenir l'index Docs/ISSUES.md | documentation | — | ouverte |
+| PM-008 | [#8](https://github.com/marco-mancini/marckouassi.com/issues/8) | Créer et tenir l'index Docs/ISSUES.md | documentation | — | fermée — index fusionné par la PR #41 |
 | PM-009 | [#9](https://github.com/marco-mancini/marckouassi.com/issues/9) | Acheter marckouassi.com puis changer url dans site.json | decision-marc, infrastructure | — | ouverte |
 | PM-010 | [#10](https://github.com/marco-mancini/marckouassi.com/issues/10) | Refaire le PDF du CV sans données personnelles | decision-marc, contenu | — | ouverte |
 | PM-011 | [#11](https://github.com/marco-mancini/marckouassi.com/issues/11) | Réécrire le résumé du CV | decision-marc, contenu | — | ouverte |
@@ -28,10 +28,10 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-013 | [#13](https://github.com/marco-mancini/marckouassi.com/issues/13) | Supprimer les 8 branches obsolètes | decision-marc, infrastructure | PM-012 | ouverte |
 | PM-014 | [#14](https://github.com/marco-mancini/marckouassi.com/issues/14) | Envoyer le lien du site à l'auteur de la police Reey | decision-marc | — | ouverte |
 | PM-015 | [#15](https://github.com/marco-mancini/marckouassi.com/issues/15) | Vérifier l'orthographe des 20 noms de référence du CV | decision-marc, contenu | — | ouverte |
-| PM-016 | [#16](https://github.com/marco-mancini/marckouassi.com/issues/16) | Traduire en anglais la phrase « depuis 13 ans » de l'accueil | contenu | — | ouverte |
+| PM-016 | [#16](https://github.com/marco-mancini/marckouassi.com/issues/16) | Traduire en anglais la phrase « depuis 13 ans » de l'accueil | contenu, decision-marc | — | ouverte |
 | PM-017 | [#17](https://github.com/marco-mancini/marckouassi.com/issues/17) | Renommer les fichiers d'images fragiles (espace, « WoldCola ») | contenu, dette | — | ouverte |
 | PM-018 | [#18](https://github.com/marco-mancini/marckouassi.com/issues/18) | Corriger le décalage des ancres sous l'en-tête | decision-marc, dette | — | ouverte |
-| PM-019 | [#19](https://github.com/marco-mancini/marckouassi.com/issues/19) | Passer en jetons les 7 valeurs d'animation de Motion.css | dette | — | ouverte |
+| PM-019 | [#19](https://github.com/marco-mancini/marckouassi.com/issues/19) | Passer en jetons les 7 valeurs d'animation de Motion.css | dette, decision-marc | — | ouverte |
 | PM-020 | [#20](https://github.com/marco-mancini/marckouassi.com/issues/20) | Remplacer les 14px en dur par des jetons | dette | — | ouverte |
 | PM-021 | [#21](https://github.com/marco-mancini/marckouassi.com/issues/21) | Stabiliser la durée d'installation de Chromium dans « Vérifier » | infrastructure, dette | — | ouverte |
 | PM-022 | [#22](https://github.com/marco-mancini/marckouassi.com/issues/22) | Statuer sur les 22 tests de l'ancien back-office retirés de la vérification | dette | PM-032 | ouverte |
@@ -46,7 +46,7 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-031 | [#31](https://github.com/marco-mancini/marckouassi.com/issues/31) | Décider des deux appels extérieurs de la page du CMS | decision-marc, cms, securite | — | ouverte |
 | PM-032 | [#32](https://github.com/marco-mancini/marckouassi.com/issues/32) | Décider du sort de l'ancien back-office Supabase | decision-marc, dette | — | ouverte |
 | PM-033 | [#33](https://github.com/marco-mancini/marckouassi.com/issues/33) | Mettre à jour Docs/CONTENT_CHECKLIST.md, périmé depuis le CMS | documentation | — | ouverte |
-| PM-034 | [#34](https://github.com/marco-mancini/marckouassi.com/issues/34) | Corriger la note périmée d'AGENTS.md sur les polices système | documentation, decision-marc | — | ouverte |
-| PM-035 | [#35](https://github.com/marco-mancini/marckouassi.com/issues/35) | Inscrire la méthode issues, branches et pull requests dans AGENTS.md | documentation, decision-marc | — | ouverte |
+| PM-034 | [#34](https://github.com/marco-mancini/marckouassi.com/issues/34) | Corriger la note périmée d'AGENTS.md sur les polices système | documentation, decision-marc | — | fermée — réglée par la PR #39 |
+| PM-035 | [#35](https://github.com/marco-mancini/marckouassi.com/issues/35) | Inscrire la méthode issues, branches et pull requests dans AGENTS.md | documentation, decision-marc | — | fermée — réglée par la PR #39 |
 | PM-038 | [#38](https://github.com/marco-mancini/marckouassi.com/issues/38) | Réécrire AGENTS.md | documentation | — | fermée — terminée par la PR #39 |
 | PM-040 | [#40](https://github.com/marco-mancini/marckouassi.com/issues/40) | Animation Motion Design de la couverture | decision-marc, documentation | — | ouverte |
