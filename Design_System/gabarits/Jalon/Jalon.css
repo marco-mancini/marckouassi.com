@@ -15,7 +15,7 @@
 .jalon__lieu { color: var(--texte-discret); text-align: right; }
 
 @media (min-width: 851px) and (max-width: 1080px) {
-  .jalon { grid-template-columns: var(--parcours-colonne-periode) minmax(0, 1.5fr) minmax(95px, .6fr); gap: 14px; }
+  .jalon { grid-template-columns: var(--parcours-colonne-periode) minmax(0, 1.5fr) minmax(95px, .6fr); gap: var(--jalon-espace-moyen); }
 }
 @media (max-width: 850px) {
   .jalon { min-height: 0; padding: var(--space-3) 0; grid-template-columns: minmax(0, 1fr) auto; gap: 5px 10px; }

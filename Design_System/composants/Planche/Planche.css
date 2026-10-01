@@ -17,7 +17,7 @@
 /* Ligne de credit : rubrique a gauche, mention au centre, signature a droite. */
 .planche__credit {
   display: grid; min-height: 30px; padding-bottom: var(--space-3);
-  grid-template-columns: 1fr 1fr auto; align-items: start; gap: 14px;
+  grid-template-columns: 1fr 1fr auto; align-items: start; gap: var(--planche-credit-espace);
   border-bottom: var(--border-hairline) solid var(--filet); color: var(--texte-discret);
   font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em;
 }
@@ -38,6 +38,6 @@
   .planche__credit--deux > :last-child { grid-row: 1 / span 2; }
 }
 @media (max-width: 390px) {
-  .planche { padding: 14px; }
+  .planche { padding: var(--planche-padding-etroit); }
   .planche__credit { font-size: var(--type-micro); }
 }

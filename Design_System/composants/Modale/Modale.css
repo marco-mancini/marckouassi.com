@@ -11,7 +11,7 @@ html.has-overlay { overflow: hidden; }
 .modale__entete { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
 
 /* --- Centre --- */
-.modale--centre { width: min(var(--dialogue-largeur-max), calc(100vw - var(--dialogue-marge-ecran))); max-height: min(92vh, var(--dialogue-hauteur-max)); border-radius: 14px; }
+.modale--centre { width: min(var(--dialogue-largeur-max), calc(100vw - var(--dialogue-marge-ecran))); max-height: min(92vh, var(--dialogue-hauteur-max)); border-radius: var(--radius-lg); }
 .modale--centre .modale__entete {
   position: sticky; top: 0; z-index: 2; min-height: var(--dialogue-entete-hauteur); padding: var(--space-2) var(--space-5);
   border-bottom: var(--border-hairline) solid var(--filet); background: var(--fond);

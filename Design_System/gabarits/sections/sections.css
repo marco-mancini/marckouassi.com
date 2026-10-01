@@ -83,7 +83,7 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 /* --- Contact : fait office de pied de page --- */
 .contact { display: flex; min-height: min(var(--contact-hauteur-min), calc(100svh - var(--contact-degagement))); flex-direction: column; }
 .contact__principal { display: flex; flex: 1; padding: clamp(44px, 7vw, 100px) 0; align-items: center; justify-content: space-between; gap: 40px; }
-.contact__pied { display: grid; padding-top: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: 14px; border-top: var(--border-hairline) solid var(--filet); }
+.contact__pied { display: grid; padding-top: var(--contact-pied-marge-haute); grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: var(--contact-pied-espace); border-top: var(--border-hairline) solid var(--filet); }
 .contact__credits { margin: 0; color: var(--texte-discret); line-height: var(--leading-compact); letter-spacing: normal; text-align: right; }
 
 /* --- Page projet --- */

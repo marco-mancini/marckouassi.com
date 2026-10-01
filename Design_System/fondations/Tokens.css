@@ -392,6 +392,10 @@
   --dialogue-entete-hauteur: 58px;
   --contact-hauteur-min: 700px;
   --contact-degagement: 90px;
+  /* Pied du contact : ecart entre le filet et le pied, puis entre ses
+     colonnes. Meme valeur, deux roles, deux jetons. */
+  --contact-pied-marge-haute: 14px;
+  --contact-pied-espace: 14px;
   /* Page CV (gabarit PageCv). Largeur de lecture du
      document, colonne des informations a cote des experiences, largeur
      mini d'une carte avant que la grille ne passe a la ligne. */
@@ -460,6 +464,8 @@
      Les cinq jalons mesurent 107 px depuis qu'ils portent tous deux
      millesimes. */
   --parcours-colonne-periode: 116px;
+  /* Ecart de la grille d'un jalon entre 851 et 1080 px. */
+  --jalon-espace-moyen: 14px;
   --introduction-claim-tracking: -.01em;
   --introduction-visual-height: clamp(280px, 31vw, 470px);
   /* Bande des trois images de la planche 03. Depuis qu'elle occupe toute
@@ -506,6 +512,10 @@
      Valeurs propres aux composants du Design System. Elles portent le
      nom du composant, jamais celui d'une page ou d'une planche. */
   --planche-bordure: var(--line);
+  /* Ecart des colonnes de la ligne de credit d'une planche. */
+  --planche-credit-espace: 14px;
+  /* Marge interieure d'une planche sous 390 px. */
+  --planche-padding-etroit: 14px;
   --bordure-controle: var(--ink);
   --carte-surface: var(--clair-olive);
   --carte-surface-profonde: var(--carte-sur-olive);
@@ -529,14 +539,21 @@
   --bouton-rond-surface: 58px;
   --bouton-rond-surface-compact: 46px;
   --bouton-grand: 54px;
+  /* Hauteur de l'icone du menu (deux barres). */
+  --bouton-barres-hauteur: 14px;
   --galerie-rangee-apercu: clamp(150px, 22vw, 370px);
   --galerie-rangee-apercu-seule: clamp(160px, 22vw, 310px);
   --galerie-rangee-detail: clamp(140px, 17vw, 250px);
   --galerie-espace-detail: 10px;
+  /* Decalage, depuis le coin haut droit de l'image, de l'element pose
+     dessus. */
+  --galerie-superposition-decalage: 14px;
   --admin-colonne: 16rem;
   /* Espace entre les projets du sommaire, et en compact. */
   --projets-espace: clamp(34px, 5vw, 72px);
   --projets-espace-compact: 30px;
+  /* Marge haute de l'en-tete d'une carte de projet. */
+  --projet-carte-entete-marge-haute: 14px;
   --page-bas: 54px;
   --page-bas-compact: 30px;
   --texte-progressif-curseur: .08em;

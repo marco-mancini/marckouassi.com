@@ -18,7 +18,7 @@
 
 .galerie--bande { height: var(--expertise-bande-hauteur); grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); gap: var(--space-2); }
 
-.galerie__superposition { position: absolute; top: 14px; right: 14px; z-index: 2; }
+.galerie__superposition { position: absolute; top: var(--galerie-superposition-decalage); right: var(--galerie-superposition-decalage); z-index: 2; }
 
 @media (min-width: 851px) and (max-width: 1080px) { .galerie--apercu { grid-auto-rows: clamp(120px, 13.5vw, 220px); } }
 @media (max-width: 850px) {
