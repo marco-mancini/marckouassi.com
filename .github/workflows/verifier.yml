@@ -1,0 +1,58 @@
+name: Vérifier
+
+# Chaque push (toutes branches) et chaque pull request : installation propre,
+# tests unitaires, construction, contrôle de _site, tests navigateur.
+# Une étape en échec fait échouer le workflow : aucune régression silencieuse.
+# Ce workflow ne publie rien : Vercel construit et publie de son côté.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Un nouveau push sur la même branche remplace la vérification en cours.
+concurrency:
+  group: verifier-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v6
+
+      - name: Installer Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances (package-lock.json, sans mise à jour)
+        run: npm ci
+
+      # Les images déjà optimisées ne sont pas recalculées : le cache est
+      # restauré, complété par le build, puis sauvegardé sous une nouvelle clé.
+      - name: Restaurer le cache des médias
+        uses: actions/cache@v5
+        with:
+          path: .cache/medias
+          key: medias-verifier-${{ github.run_id }}
+          restore-keys: medias-
+
+      # Contient le contrôle de vercel.json (commande npm run build, dossier _site).
+      - name: Tests unitaires
+        run: npm test
+
+      - name: Construire le site
+        run: npm run build
+
+      - name: Installer Chromium pour les tests navigateur
+        run: npx playwright install --with-deps chromium
+
+      # Contient le contrôle de _site : toutes les pages, plan du site, ressources.
+      - name: Tests navigateur
+        run: npm run test:navigateur
