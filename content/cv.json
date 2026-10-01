@@ -50,10 +50,10 @@
       "type": "email"
     },
     {
-      "type": "linkedin",
       "valeur": {
         "fr": "LinkedIn"
-      }
+      },
+      "type": "linkedin"
     }
   ],
   "competences": {

@@ -1,7 +1,7 @@
 [
   {
-    "id": "accueil",
     "type": "couverture",
+    "id": "accueil",
     "edition": {
       "fr": "Édition 2026"
     },
@@ -51,8 +51,8 @@
     ]
   },
   {
-    "id": "introduction",
     "type": "introduction",
+    "id": "introduction",
     "navigation": {
       "fr": "Introduction"
     },
@@ -100,22 +100,8 @@
     }
   },
   {
-    "id": "apropos",
     "type": "apropos",
-    "navigation": {
-      "fr": "À propos"
-    },
-    "credit": {
-      "signature": {
-        "fr": "Portrait"
-      }
-    },
-    "portrait": {
-      "src": "Public/images/Photo_Marc.jpg",
-      "alt": {
-        "fr": "Portrait de Marc Kouassi."
-      }
-    },
+    "id": "apropos",
     "signature": {
       "salutation": {
         "fr": "Bonjour, je suis"
@@ -127,19 +113,33 @@
         "fr": "Kouassi"
       }
     },
+    "navigation": {
+      "fr": "À propos"
+    },
+    "credit": {
+      "signature": {
+        "fr": "Portrait"
+      }
+    },
     "accroche": {
       "fr": "Basé à Abidjan, je conçois des identités, des campagnes et des expériences visuelles **depuis plus de 13 ans.**"
     },
-    "affirmation": {
-      "fr": "Directeur **artistique.**"
-    },
     "detail": {
       "fr": "J’aime partir d’une idée simple, **lui trouver le bon langage** et construire autour d’elle **un univers cohérent**."
+    },
+    "portrait": {
+      "src": "Public/images/Photo_Marc.jpg",
+      "alt": {
+        "fr": "Portrait de Marc Kouassi."
+      }
+    },
+    "affirmation": {
+      "fr": "Directeur **artistique.**"
     }
   },
   {
-    "id": "expertise",
     "type": "savoirfaire",
+    "id": "expertise",
     "navigation": {
       "fr": "Savoir-faire"
     },
@@ -237,8 +237,8 @@
     ]
   },
   {
-    "id": "parcours",
     "type": "parcours",
+    "id": "parcours",
     "navigation": {
       "fr": "Parcours"
     },
@@ -335,8 +335,8 @@
     ]
   },
   {
-    "id": "sommaire",
     "type": "projets",
+    "id": "sommaire",
     "navigation": {
       "fr": "Mes projets"
     },
@@ -353,8 +353,8 @@
     }
   },
   {
-    "id": "prestations",
     "type": "prestations",
+    "id": "prestations",
     "navigation": {
       "fr": "Prestations"
     },
@@ -461,8 +461,8 @@
     ]
   },
   {
-    "id": "contact",
     "type": "contact",
+    "id": "contact",
     "navigation": {
       "fr": "Contact"
     },

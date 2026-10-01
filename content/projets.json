@@ -377,9 +377,6 @@
       "debut": 2025,
       "fin": 2025
     },
-    "periode": {
-      "fr": "Février 2025"
-    },
     "contexte": {
       "fr": "Un entrepreneur prépare le lancement d’une activité d’équipements sportifs. Au moment où une idée devient un projet concret, l’identité doit apporter un premier repère : une présence claire, crédible et assez souple pour accompagner la suite."
     },
@@ -432,7 +429,10 @@
       {
         "src": "Public/images/Projet_Velanova_11.png"
       }
-    ]
+    ],
+    "periode": {
+      "fr": "Février 2025"
+    }
   },
   {
     "id": "aurex",

@@ -1,9 +1,5 @@
 {
   "_role": "Paramètres généraux du site : identité, SEO, coordonnées, navigation, accueil animé. Toute valeur { fr, en } est traduisible ; les autres sont communes. « url » est l'adresse publique du site (canonique, partages, sitemap, robots) : le jour où un domaine est acheté, c'est la seule valeur à changer. Sans « contact.cv » (PDF), le lien CV du contact mène à la page /cv/.",
-  "langues": [
-    "fr",
-    "en"
-  ],
   "langueParDefaut": "fr",
   "url": "https://marckouassi-com.vercel.app",
   "identite": {
@@ -15,8 +11,7 @@
     },
     "description": {
       "fr": "Le portfolio de Marc Kouassi : direction artistique, identités, campagnes, expériences numériques et parcours créatif."
-    },
-    "image": null
+    }
   },
   "contact": {
     "email": "marc.kouassi.da@gmail.com",
@@ -64,5 +59,9 @@
         "fr": "Donner forme"
       }
     ]
-  }
+  },
+  "langues": [
+    "fr",
+    "en"
+  ]
 }
