@@ -21,6 +21,15 @@ a.sceau { border-radius: var(--radius-full); }
 
 /* Ouverture de l'experience d'accueil. */
 .sceau--anime { animation: sceau-ouverture var(--duration-slow) var(--ease-out) both; }
+/* Trace : les proprietes de contour sont heritees jusqu'aux formes du
+   sprite ; hors animation l'epaisseur vaut 0, le sceau reste identique. */
+.sceau--anime svg {
+  --trace-epaisseur: var(--trace-epaisseur-anime);
+  stroke-dasharray: var(--trace-longueur);
+  animation: trace var(--duration-trace) var(--ease-out) both, trace-remplissage var(--duration-trace) linear both;
+}
+@media (prefers-reduced-motion: reduce) { .sceau--anime svg { --trace-epaisseur: 0; animation: none; } }
+html[data-animations="reduites"] .sceau--anime svg { --trace-epaisseur: 0; animation: none; }
 
 @media (max-width: 850px) { .sceau--couverture { width: var(--sceau-couverture-compact); } }
 @media (max-width: 390px) { .sceau--couverture { width: var(--sceau-couverture-telephone); } }

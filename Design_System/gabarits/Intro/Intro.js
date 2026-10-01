@@ -46,6 +46,12 @@ export function Intro({ intro, ctx, langues }) {
 
 const CLE = "mk-intro-vue";
 const pause = (ms) => new Promise((r) => setTimeout(r, ms));
+/** Durée d'un jeton de mouvement (« 1.6s », « 400ms ») en millisecondes. */
+const dureeJeton = (nom, repli) => {
+  const valeur = getComputedStyle(document.documentElement).getPropertyValue(nom).trim();
+  const nombre = parseFloat(valeur);
+  return Number.isFinite(nombre) ? (valeur.endsWith("ms") ? nombre : nombre * 1000) : repli;
+};
 
 function dejaVue(frequence) {
   try {
@@ -97,7 +103,8 @@ export async function lancerIntro({ reduit = false } = {}) {
 
   if (!reduit) {
     montrer("ouverture");
-    await pause(900);
+    // Le sceau trace son monogramme : l'étape dure le temps du tracé.
+    await pause(dureeJeton("--duration-trace", 900));
     if (terminee) return;
     montrer("bienvenue");
     reveler(etape("bienvenue"));

@@ -555,6 +555,11 @@
      Un element anime recoit --i (0, 1, 2...) : son delai vaut
      base + i x pas, plutot qu'un delai nomme par element. Un conteneur
      peut resserrer le pas. */
+  /* Trace du sceau de l'accueil : longueur superieure au plus long contour
+     du monogramme (unites du viewBox), duree, epaisseur pendant le trace. */
+  --trace-longueur: 3200;
+  --duration-trace: 1.6s;
+  --trace-epaisseur-anime: 2;
   --apparition-base: .05s;
   --apparition-pas: .11s;
   --apparition-pas-serre: .05s;
