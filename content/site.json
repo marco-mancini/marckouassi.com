@@ -1,11 +1,11 @@
 {
-  "_role": "Paramètres généraux du site : identité, SEO, coordonnées, navigation, accueil animé. Toute valeur { fr, en } est traduisible ; les autres sont communes.",
+  "_role": "Paramètres généraux du site : identité, SEO, coordonnées, navigation, accueil animé. Toute valeur { fr, en } est traduisible ; les autres sont communes. « url » est l'adresse publique du site (canonique, partages, sitemap, robots) : le jour où un domaine est acheté, c'est la seule valeur à changer.",
   "langues": [
     "fr",
     "en"
   ],
   "langueParDefaut": "fr",
-  "url": "https://marckouassi.com",
+  "url": "https://marckouassi-com.vercel.app",
   "identite": {
     "nom": "Marc Kouassi"
   },
