@@ -64,3 +64,27 @@ Deux voies :
 Leçon de la nuit du 29 septembre : un remplacement **par valeur** confond
 deux rôles qui partagent un nombre (1000 px y était à la fois un rayon et une
 hauteur). Chaque remplacement se relit.
+
+## 4. Installation de Chromium dans « Vérifier » — lenteur intermittente, rien modifié
+
+Constat du 1er octobre 2026, journaux de GitHub Actions à l'appui. L'étape
+« Installer Chromium » a duré 20 s (run 1), 4 min 41 s (run 3), 22 s (run 5)
+et 10 min 01 s (run 6).
+
+- Chromium lui-même se télécharge en quelques secondes (run 6 : 8 s, depuis
+  `cdn.playwright.dev`).
+- Le temps part dans `--with-deps`, qui installe des paquets Ubuntu (polices,
+  Mesa) depuis le miroir `azure.archive.ubuntu.com` : au run 6,
+  « Fetched 32.1 MB in 10min 0s (53.5 kB/s) », alors que le même miroir
+  avait servi l'index à 9 168 kB/s une seconde plus tôt.
+- `verifier.yml` ne met pas Chromium en cache. Un cache de
+  `~/.cache/ms-playwright` n'y changerait rien : la partie lente est
+  l'installation des paquets système, que ce cache ne couvre pas.
+
+Consigne de Marc pour un incident passager : le noter, ne pas toucher au
+workflow. La cause est extérieure (miroir Ubuntu), `verifier.yml` reste tel
+quel. Le délai
+maximal du job (30 min) laisse de la marge. Si la lenteur devient la règle,
+pistes à évaluer : n'installer que Chromium sans `--with-deps` (vérifier que
+les tests passent sur l'image GitHub), ou lancer le job dans l'image
+officielle de Playwright.
