@@ -9,7 +9,7 @@
 | `marque` | `{href, libelle}` | Lien de la marque ; `libelle` est son nom accessible, issu du contenu. |
 | `navigation` | HTML | Une `Navigation` horizontale. |
 | `actions` | `{large, compact}` | `large` : visible au-dessus de 1000 px. `compact` : en dessous (bouton de menu, sélecteur de langue). |
-| `variante` | `site` \| `admin` | `site` : fond olive jusqu'au premier défilement. |
+| `variante` | `site` \| `document` \| `admin` | `site` : fond olive jusqu'au premier défilement ; `document` : barre olive fixe dont les actions restent visibles à toutes les largeurs (page CV) ; `admin` : barre de Gabarit_Bo, bouton de menu sous 850 px. |
 
 ## Comportement
 

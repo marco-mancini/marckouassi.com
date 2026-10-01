@@ -41,4 +41,6 @@
 /* Variante document (page CV) : barre olive fixe, ses quelques actions
    restent visibles a toutes les largeurs, comme dans la reference. */
 html .en-tete--document .en-tete__large { display: flex; }
+/* Survol du retour sur la barre olive : teinte de la reference (.cv-retour). */
+.en-tete--document { --bouton-survol: var(--hover-on-dark); }
 html .en-tete--document .en-tete__compact { display: none; }

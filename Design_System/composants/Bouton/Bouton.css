@@ -36,7 +36,7 @@
 .bouton--texte .bouton__icone, .bouton--nu .bouton__icone, .bouton--lien .bouton__icone { font-size: inherit; }
 
 /* Survol et focus clavier : meme retour, pour la souris comme pour le clavier. */
-.bouton--contour:hover, .bouton--filet:hover { background: var(--olive); color: var(--paper); }
+.bouton--contour:hover, .bouton--filet:hover { background: var(--bouton-survol, var(--olive)); color: var(--paper); }
 .bouton--principal:hover { background: var(--olive); color: var(--paper); }
 .bouton--surface:hover, .bouton--surface:focus-visible { background: var(--olive); color: var(--paper); transform: rotate(45deg); }
 

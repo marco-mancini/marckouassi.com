@@ -55,7 +55,7 @@ export function PageProjet({ contenu, ctx, projet }) {
   const { entete, menu } = enTeteEtMenu({ contenu, ctx, versAccueil });
   const titre = ctx.c(projet.titre, `projets.${projet.id}.titre`);
   return Document({
-    ctx, meta: { ...meta(contenu, ctx, { titre: `${titre} — ${contenu.site.identite.nom}`, description: ctx.c(projet.contexte, `projets.${projet.id}.contexte`), chemin: ctx.chemin }), type: "article" },
+    ctx, meta: { ...meta(contenu, ctx, { titre: ctx.t("formats.titrePage", { titre, nom: contenu.site.identite.nom }), description: ctx.c(projet.contexte, `projets.${projet.id}.contexte`), chemin: ctx.chemin }), type: "article" },
     corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1"><section class="planche-scene" aria-labelledby="etude-${projet.id}"><div class="planche page-projet">${Bouton({ texte: ctx.t("projet.retour"), variante: "texte", href: `${versAccueil}#${contenu.sections.find((s) => s.type === "projets")?.id ?? ""}`, options: { icone: "retour" } })}${Projet_etude({ projet, ctx, niveau: 1 })}</div></section></main>${menu}`,
   });
 }

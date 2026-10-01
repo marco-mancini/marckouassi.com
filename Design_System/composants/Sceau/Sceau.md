@@ -6,10 +6,10 @@
 
 | Prop | Type | Défaut | Rôle |
 |---|---|---|---|
-| `taille` | `couverture` \| `grand` \| `moyen` \| `petit` | `moyen` | Taille, par jeton `--sceau-*`. |
+| `taille` | `couverture` \| `grand` \| `moyen` \| `petit` \| `document` | `moyen` | Taille, par jeton `--sceau-*` ; `document` : en-tête du CV. |
 | `lien` | URL \| `null` | `null` | Rend un `<a>`. |
 | `libelle` | chaîne \| `null` | `null` | Nom accessible (du dictionnaire). Sans lui, le sceau est `aria-hidden`. |
-| `anime` | booléen | `false` | Ouverture animée de l'expérience d'accueil. |
+| `anime` | booléen | `false` | Expérience d'accueil : le sceau apparaît, son contour et son monogramme se tracent (`--duration-trace`), puis se remplissent. Hors animation, l'épaisseur du tracé vaut 0 : les autres sceaux sont inchangés. Mouvement réduit : pas de tracé. |
 
 ## États
 

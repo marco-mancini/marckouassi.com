@@ -73,6 +73,7 @@
     "plageSelection": "{debut} — {fin}",
     "selection": "{nombre} projets · {plage}",
     "categorieEtPeriode": "{categorie} · {periode}",
-    "rubrique": "{numero} / {nom}"
+    "rubrique": "{numero} / {nom}",
+    "titrePage": "{titre} — {nom}"
   }
 }

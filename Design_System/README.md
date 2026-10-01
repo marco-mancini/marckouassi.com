@@ -8,7 +8,8 @@ Design_System/
 ├── fondations/   jetons (Tokens.css), thème, typographie, mouvement, responsive,
 │                 moteur de rendu (rendu.js : gabarit html qui échappe tout)
 ├── composants/   25 composants : Nom.css + Nom.js (rendu pur) + Nom.md (contrat)
-├── gabarits/     assemblages : sections du site, pages, projet, Intro, back-office
+├── gabarits/     assemblages : sections du site, pages, projet, Intro ;
+│                 Gabarit_Bo (coquille unique du back-office) et écrans Admin
 │                 + données partagées (donnees.js, pages.js, outils.js)
 ├── i18n/         dictionnaires d'interface (fr, en ; admin.fr, admin.en) et langue.js
 ├── styles/       Index.css, point d'entrée CSS unique

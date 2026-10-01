@@ -26,7 +26,12 @@ npm ci
 npm test                 # rendu, langues, résistance, rien en dur, back-office, Edge Function
 npm run build            # génère _site/ (pages FR et EN, médias optimisés, sitemap)
 npm run test:navigateur  # Chromium : accessibilité, responsive, sans JS, back-office
+npm run comparer-reference  # fidélité au design de référence (71cfb9d), 320 à 1440 px, clair et sombre
 ```
+
+Le design de 71cfb9d est la référence visuelle : la refonte est architecturale,
+pas graphique. Le back-office passe entièrement par `Gabarit_Bo`
+(`Design_System/gabarits/Gabarit_Bo/Gabarit_Bo.md`).
 
 Le site publié est statique : pages générées en français (`/`) et en
 anglais (`/en/`). Un texte sans traduction anglaise s'affiche en

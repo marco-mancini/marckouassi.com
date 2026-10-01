@@ -26,4 +26,4 @@
 /* Zone des toasts : coin bas droit, au-dessus du contenu. */
 /* Position reglable par le contexte (le back-office les place sous l'en-tete, loin de sa barre d'actions). */
 .messages { position: fixed; top: var(--messages-haut, auto); right: var(--space-5); bottom: var(--messages-bas, var(--space-5)); z-index: 90; display: grid; width: min(24rem, calc(100vw - 2 * var(--space-5))); gap: var(--space-2); }
-.message--toast { box-shadow: 0 12px 36px var(--shadow-board); animation: message-entree var(--duration-base) var(--ease-out) both; }
+.message--toast { animation: message-entree var(--duration-base) var(--ease-out) both; }
