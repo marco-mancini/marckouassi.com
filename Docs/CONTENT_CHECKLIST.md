@@ -23,18 +23,19 @@ Les principaux projets présentés sur le site s’appuient sur les visuels et l
 ## Médias
 
 - ANACADI et CEELI Group sont présentés comme deux projets distincts.
-- La couverture affichée pour CEELI est un aperçu de la première page de la charte ; le document complet reste accessible en PDF.
-- Les images sont locales dans `Public/images/` ; le build les optimise (WebP, 1600 px au plus). Les fichiers déposés depuis le back-office sont stockés chez Supabase puis publiés de la même façon.
+- La couverture affichée pour CEELI est un aperçu de la première page de la charte. Aucun PDF de la charte n'est publié : le dépôt n'en contient pas et le projet n'a pas de champ `document`. Pour en joindre un : champ « document » du projet dans le CMS.
+- Les images sont locales dans `Public/images/` ; le build les optimise (WebP, 1600 px au plus). Les fichiers déposés depuis le CMS sont commités dans `Public/images/` puis publiés de la même façon.
 
 ## Où modifier le contenu
 
-- Avant la mise en service du back-office : fichiers de `content/` (un texte = `{ "fr": …, "en": … }`).
-- Ensuite : le back-office `/admin/`, qui enregistre le même contenu chez Supabase.
-- Un champ sans version anglaise est signalé « À traduire » dans le back-office et dans le rapport du build.
+- `content/` est la seule source du contenu (un texte = `{ "fr": …, "en": … }`).
+- On le modifie depuis le CMS Git (Sveltia) à `/admin/`, qui commite dans `content/` ; Vercel reconstruit alors le site. Voir [CMS.md](CMS.md).
+- L'ancien back-office Supabase est en sommeil : il n'enregistre ni ne publie rien. Voir [ADMIN_EN_SOMMEIL.md](ADMIN_EN_SOMMEIL.md).
+- Un champ sans version anglaise est compté « à traduire » dans le rapport du build ; le CMS n'affiche pas cet état.
 
 ## Points à confirmer
 
-- Périodes : trois projets diffèrent entre cette liste et les données du site, reprises telles quelles de l’ancienne page. À trancher par Marc, sans rien modifier d’ici là :
+- Périodes : trois projets diffèrent entre cette liste et les données du site, reprises telles quelles de l’ancienne page. À trancher par Marc, sans rien modifier d’ici là (PM-029, #29) :
   - World Cola : liste 2024, site 2024–2025 ;
   - La Béninoise : liste 2023, site 2024–2025 ;
   - ANACADI : liste 2024, site 2025.
