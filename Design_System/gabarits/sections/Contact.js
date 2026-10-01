@@ -17,7 +17,10 @@ export function Contact({ section, contenu, ctx }) {
   const cibles = {
     email: { href: `mailto:${contact.email}`, icone: "externe" },
     linkedin: { href: contact.linkedin, icone: "externe", attributs: { target: "_blank", rel: "noreferrer" } },
-    cv: { href: contact.cv ? ctx.media(contact.cv.src).src : null, icone: "bas", attributs: { download: contact.cv ? ctx.c(contact.cv.nomTelechargement, "site.contact.cv.nomTelechargement") : null } },
+    // Sans PDF déclaré dans site.contact.cv, le lien mène à la page CV du site.
+    cv: contact.cv
+      ? { href: ctx.media(contact.cv.src).src, icone: "bas", attributs: { download: ctx.c(contact.cv.nomTelechargement, "site.contact.cv.nomTelechargement") } }
+      : { href: ctx.pageCv(), icone: "externe" },
   };
   // Le rang est celui des données (avant filtrage) : c'est lui qui désigne le champ à traduire.
   const liens = section.liens.map((lien, rang) => ({ lien, rang })).filter(({ lien }) => cibles[lien.type]?.href).map(({ lien, rang }) => {

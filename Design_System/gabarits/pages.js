@@ -34,6 +34,7 @@ export function contextePage({ site, langue, chemin, dictionnaires, medias, ress
     pageDansLangue: (code) => racine + cheminLangue(code, defaut, chemin),
     pageAccueil: () => racine + cheminLangue(langue, defaut, ""),
     pageProjet: (projet) => racine + cheminLangue(langue, defaut, `projets/${projet.id}/`),
+    pageCv: () => racine + cheminLangue(langue, defaut, "cv/"),
     alternatives: site.langues.map((code) => ({ langue: code, href: `${site.url}/${cheminLangue(code, defaut, chemin)}` })),
   });
 }

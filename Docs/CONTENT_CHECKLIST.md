@@ -18,7 +18,7 @@ Les principaux projets présentés sur le site s’appuient sur les visuels et l
 - La biographie est éditoriale et porte sur la curiosité créative de Marc ; elle ne remplace pas les dates et postes détaillés dans le CV.
 - L’expertise UX/UI et l’usage créatif de l’intelligence artificielle figurent dans des rubriques dédiées.
 - Les coordonnées et liens de contact doivent rester ceux confirmés par Marc.
-- Le CV PDF est fourni dans `Design_System/assets/Cv_Marc.pdf`.
+- Le CV PDF a été retiré du site le 1er octobre 2026 (données privées, ancienne adresse e-mail) ; Marc le refera. Pour le republier : ajouter le fichier, puis déclarer `site.contact.cv` (`src`, `nomTelechargement`) dans `content/site.json`.
 
 ## Médias
 
