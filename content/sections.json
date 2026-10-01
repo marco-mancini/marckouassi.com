@@ -1,0 +1,510 @@
+[
+  {
+    "id": "accueil",
+    "type": "couverture",
+    "edition": {
+      "fr": "Édition 2026"
+    },
+    "signature": {
+      "salutation": {
+        "fr": "Marc Kouassi"
+      },
+      "accent": {
+        "fr": "Portfolio"
+      },
+      "mot": {
+        "fr": "Design"
+      }
+    },
+    "role": {
+      "fr": "Directeur artistique"
+    },
+    "promesse": {
+      "fr": "Des idées fortes. Des images qui restent."
+    },
+    "faits": [
+      {
+        "etiquette": {
+          "fr": "Basé à"
+        },
+        "valeur": {
+          "fr": "Abidjan, Côte d’Ivoire"
+        }
+      },
+      {
+        "etiquette": {
+          "fr": "Sélection"
+        },
+        "calcul": "selection"
+      },
+      {
+        "etiquette": {
+          "fr": "Entrer"
+        },
+        "lien": {
+          "texte": {
+            "fr": "Le portfolio"
+          },
+          "cible": "introduction"
+        }
+      }
+    ]
+  },
+  {
+    "id": "introduction",
+    "type": "introduction",
+    "navigation": {
+      "fr": "Introduction"
+    },
+    "credit": {
+      "mention": {
+        "fr": "Une pratique en mouvement"
+      },
+      "signature": {
+        "fr": "Marc Kouassi"
+      }
+    },
+    "titre": {
+      "fr": "Introduction"
+    },
+    "image": {
+      "src": "Public/images/Image_04.png",
+      "alt": {
+        "fr": "Un aperçu du travail de direction artistique et d’expérience numérique de Marc Kouassi."
+      }
+    },
+    "accroche": {
+      "fr": "Créer, c’est donner une forme aux idées…"
+    },
+    "detail": {
+      "fr": "Une marque, une campagne, une interface :\nchaque projet commence par une question.\n**Qu’est-ce qu’on doit ressentir, comprendre ou retenir ?**"
+    },
+    "methode": {
+      "etiquette": {
+        "fr": "Les quatre temps de ma méthode"
+      },
+      "etapes": [
+        {
+          "fr": "Observer"
+        },
+        {
+          "fr": "Comprendre"
+        },
+        {
+          "fr": "Imaginer"
+        },
+        {
+          "fr": "Donner forme"
+        }
+      ]
+    }
+  },
+  {
+    "id": "apropos",
+    "type": "apropos",
+    "navigation": {
+      "fr": "À propos"
+    },
+    "credit": {
+      "signature": {
+        "fr": "Portrait"
+      }
+    },
+    "portrait": {
+      "src": "Public/images/Photo_Marc.jpg",
+      "alt": {
+        "fr": "Portrait de Marc Kouassi."
+      }
+    },
+    "signature": {
+      "salutation": {
+        "fr": "Bonjour, je suis"
+      },
+      "accent": {
+        "fr": "Marc"
+      },
+      "mot": {
+        "fr": "Kouassi"
+      }
+    },
+    "accroche": {
+      "fr": "Basé à Abidjan, je conçois des identités, des campagnes et des expériences visuelles **depuis plus de 12 ans.**"
+    },
+    "affirmation": {
+      "fr": "Directeur **artistique.**"
+    },
+    "detail": {
+      "fr": "J’aime partir d’une idée simple, **lui trouver le bon langage** et construire autour d’elle **un univers cohérent**."
+    }
+  },
+  {
+    "id": "expertise",
+    "type": "savoirfaire",
+    "navigation": {
+      "fr": "Savoir-faire"
+    },
+    "credit": {
+      "mention": {
+        "fr": "Penser · concevoir · diriger"
+      },
+      "signature": {
+        "fr": "Expertise"
+      }
+    },
+    "titre": {
+      "fr": "Savoir-faire"
+    },
+    "promesse": [
+      {
+        "fr": "Donner une direction"
+      },
+      {
+        "fr": "Créer une signature"
+      },
+      {
+        "fr": "**Faire passer une idée**"
+      }
+    ],
+    "images": [
+      {
+        "src": "Public/images/Image_05.jpg",
+        "alt": {
+          "fr": "Portrait d’enfant aux yeux fermés, fondu dans un ciel et des aplats de couleur."
+        }
+      },
+      {
+        "src": "Public/images/Image_06.jpg",
+        "alt": {
+          "fr": "Écran de retouche d’image dans un atelier, une photographie en cours de traitement."
+        }
+      },
+      {
+        "src": "Public/images/Image_07.jpg",
+        "alt": {
+          "fr": "Feuille de maquettes d’écrans dessinées à la main, tenue devant un poste de travail."
+        }
+      }
+    ],
+    "domaines": [
+      {
+        "libelle": {
+          "fr": "Direction artistique"
+        },
+        "note": {
+          "fr": "Donner une âme aux idées."
+        }
+      },
+      {
+        "libelle": {
+          "fr": "Identité de marque"
+        },
+        "note": {
+          "fr": "Faire naître une signature."
+        }
+      },
+      {
+        "libelle": {
+          "fr": "Campagne & image"
+        },
+        "note": {
+          "fr": "Transformer les idées en images."
+        }
+      },
+      {
+        "libelle": {
+          "fr": "Design UX/UI"
+        },
+        "note": {
+          "fr": "Dessiner des expériences évidentes."
+        }
+      },
+      {
+        "libelle": {
+          "fr": "Édition & supports"
+        },
+        "note": {
+          "fr": "Du concept au réel."
+        }
+      },
+      {
+        "libelle": {
+          "fr": "IA & exploration créative"
+        },
+        "note": {
+          "fr": "Imaginer ce qui n’existe pas encore."
+        }
+      }
+    ]
+  },
+  {
+    "id": "parcours",
+    "type": "parcours",
+    "navigation": {
+      "fr": "Parcours"
+    },
+    "credit": {
+      "mention": {
+        "fr": "Des expériences qui nourrissent le regard"
+      },
+      "signature": {
+        "fr": "Expériences"
+      }
+    },
+    "titre": {
+      "fr": "Mon parcours"
+    },
+    "accroche": {
+      "fr": "Un parcours fait de projets, de rencontres et d’expériences."
+    },
+    "etapes": [
+      {
+        "annees": {
+          "debut": 2025,
+          "fin": 2026
+        },
+        "titre": {
+          "fr": "Project Manager & Lead UX/UI"
+        },
+        "texte": {
+          "fr": "J’accompagne plusieurs équipes projet, de la conception à la livraison, et veille à la cohérence des expériences et des produits."
+        },
+        "lieu": {
+          "fr": "Expériences numériques"
+        }
+      },
+      {
+        "annees": {
+          "debut": 2022,
+          "fin": 2025
+        },
+        "titre": {
+          "fr": "Fondateur & directeur de création"
+        },
+        "texte": {
+          "fr": "Avec M&M Concept, je mène des projets créatifs et techniques : supports imprimés, maquettes 3D et réalisations jusqu’au bon à tirer."
+        },
+        "lieu": {
+          "fr": "Entrepreneuriat créatif"
+        }
+      },
+      {
+        "annees": {
+          "debut": 2017,
+          "fin": 2022
+        },
+        "titre": {
+          "fr": "Directeur artistique"
+        },
+        "texte": {
+          "fr": "Je dirige une équipe créative, développe des campagnes et des identités, et pilote la production télévisée de la Météo RTI1 & RTI2."
+        },
+        "lieu": {
+          "fr": "Direction de création"
+        }
+      },
+      {
+        "annees": {
+          "debut": 2014,
+          "fin": 2017
+        },
+        "titre": {
+          "fr": "Infographiste · création en agence"
+        },
+        "texte": {
+          "fr": "Les bases du métier se construisent dans la conception de supports, la mise en page et l’exécution de projets aux univers variés."
+        },
+        "lieu": {
+          "fr": "Les premières années"
+        }
+      },
+      {
+        "annees": {
+          "debut": 2013,
+          "fin": 2014
+        },
+        "titre": {
+          "fr": "Premières expériences"
+        },
+        "texte": {
+          "fr": "Je découvre le rythme des agences et la force d’une idée lorsqu’elle passe du brief à l’image."
+        },
+        "lieu": {
+          "fr": "GBICH · Voodoo · Kaméléo"
+        }
+      }
+    ]
+  },
+  {
+    "id": "sommaire",
+    "type": "projets",
+    "navigation": {
+      "fr": "Mes projets"
+    },
+    "credit": {
+      "mention": {
+        "fr": "Des histoires, des marques, des images"
+      },
+      "signature": {
+        "fr": "Sommaire illustré"
+      }
+    },
+    "titre": {
+      "fr": "Mes projets"
+    }
+  },
+  {
+    "id": "prestations",
+    "type": "prestations",
+    "navigation": {
+      "fr": "Prestations"
+    },
+    "credit": {
+      "mention": {
+        "fr": "Ce que je prends en charge"
+      },
+      "signature": {
+        "fr": "Tarifs"
+      }
+    },
+    "titre": {
+      "fr": "Prestations & tarifs"
+    },
+    "accroche": {
+      "fr": "{nombre} façons de travailler ensemble."
+    },
+    "offres": [
+      {
+        "titre": {
+          "fr": "Identité de marque"
+        },
+        "points": [
+          {
+            "fr": "Plateforme de marque et territoire visuel"
+          },
+          {
+            "fr": "Logotype et système de déclinaisons"
+          },
+          {
+            "fr": "Charte graphique : couleurs, typographies, usages"
+          },
+          {
+            "fr": "Kit de premiers supports"
+          }
+        ],
+        "prix": {
+          "fr": "Sur devis"
+        }
+      },
+      {
+        "titre": {
+          "fr": "Direction artistique"
+        },
+        "points": [
+          {
+            "fr": "Concept et intention de campagne"
+          },
+          {
+            "fr": "Direction des prises de vue"
+          },
+          {
+            "fr": "Déclinaisons print et réseaux"
+          },
+          {
+            "fr": "Suivi jusqu’au support fini"
+          }
+        ],
+        "prix": {
+          "fr": "Sur devis"
+        }
+      },
+      {
+        "titre": {
+          "fr": "Design UX/UI"
+        },
+        "points": [
+          {
+            "fr": "Architecture et parcours"
+          },
+          {
+            "fr": "Maquettes écran par écran"
+          },
+          {
+            "fr": "Système de composants réutilisables"
+          },
+          {
+            "fr": "Remise prêtes à intégrer"
+          }
+        ],
+        "prix": {
+          "fr": "Sur devis"
+        }
+      },
+      {
+        "titre": {
+          "fr": "Édition & supports"
+        },
+        "points": [
+          {
+            "fr": "Mise en page et chemin de fer"
+          },
+          {
+            "fr": "Affiches, brochures, packaging"
+          },
+          {
+            "fr": "Préparation des fichiers d’impression"
+          }
+        ],
+        "prix": {
+          "fr": "Sur devis"
+        }
+      }
+    ]
+  },
+  {
+    "id": "contact",
+    "type": "contact",
+    "navigation": {
+      "fr": "Contact"
+    },
+    "credit": {
+      "signature": {
+        "fr": "Marc Kouassi"
+      }
+    },
+    "titre": {
+      "fr": "Parlons de votre\nprochaine idée"
+    },
+    "liens": [
+      {
+        "type": "email",
+        "etiquette": {
+          "fr": "E-mail"
+        },
+        "texte": {
+          "fr": "Écrire à Marc"
+        }
+      },
+      {
+        "type": "linkedin",
+        "etiquette": {
+          "fr": "Réseau"
+        },
+        "texte": {
+          "fr": "LinkedIn"
+        }
+      },
+      {
+        "type": "cv",
+        "etiquette": {
+          "fr": "CV"
+        },
+        "texte": {
+          "fr": "Télécharger le CV"
+        }
+      }
+    ],
+    "pied": {
+      "fr": "Conçu avec intention à Abidjan."
+    }
+  }
+]

@@ -1,2 +1,5 @@
 .DS_Store
 _site/
+Public/images/*Behance.html
+node_modules/
+.cache/

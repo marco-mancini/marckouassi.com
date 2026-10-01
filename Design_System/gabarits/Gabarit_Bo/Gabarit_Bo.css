@@ -1,0 +1,38 @@
+/* ==========================================================================
+   GABARIT_BO — coquille unique du back-office
+   Seul endroit ou la structure des ecrans est decidee : fond, tete,
+   espacements entre zones, surcouches. Les ecrans n'ajoutent aucun style.
+   Jetons uniquement.
+   ========================================================================== */
+.page-admin { background: var(--surface-alt); }
+
+/* Accueil (connexion) : une planche olive centree, lisible des 320 px */
+.gabarit-bo--accueil { display: grid; min-height: 100dvh; padding: var(--space-5) var(--page-gutter); place-items: center; }
+.gabarit-bo--accueil > .planche-scene { width: min(100%, var(--cv-largeur-max)); padding: 0; }
+/* Colonne bornee : la Signature garde son echelle sans elargir la grille. */
+.gabarit-bo--accueil .planche { display: grid; gap: var(--space-6); grid-template-columns: minmax(0, 1fr); }
+.gabarit-bo--accueil form { width: min(100%, 28rem); }
+
+/* Tete d'ecran */
+.gabarit-bo__tete { display: grid; gap: var(--space-3); margin-bottom: var(--space-6); justify-items: start; }
+.gabarit-bo__titre { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); }
+.gabarit-bo__intro { max-width: 60ch; margin: 0; color: var(--texte-discret); }
+.gabarit-bo__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.cadre-admin__principal > .message { margin-bottom: var(--space-5); }
+.gabarit-bo__contenu { display: grid; gap: var(--space-6); min-width: 0; }
+.gabarit-bo__contenu form { display: grid; gap: var(--space-5); }
+.gabarit-bo__contenu .encart--contour { background: var(--fond); }
+
+/* Barre de publication (zone d'action du CadreAdmin) */
+.gabarit-bo__statut { margin: 0; }
+.gabarit-bo__barre-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+/* Surcouches communes */
+.gabarit-bo__menu-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); margin-top: var(--space-7); }
+.gabarit-bo__apercu { width: 100%; height: min(80dvh, 60rem); border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-md); background: var(--surface-page); }
+.gabarit-bo__confirmation { margin: 0 0 var(--space-5); }
+.gabarit-bo__confirmation-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-3); }
+
+/* Inventaire des medias */
+.gabarit-bo__media { display: grid; min-width: 0; margin: 0; gap: var(--space-2); }
+.gabarit-bo__media figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); }

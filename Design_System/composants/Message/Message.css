@@ -1,0 +1,29 @@
+/* ==========================================================================
+   MESSAGE — information, succes, erreur, attention, chargement, vide
+   Le type n'est jamais porte par la seule couleur : il est dans le texte.
+   ========================================================================== */
+.message {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;
+  padding: var(--space-4) var(--space-5); border: var(--border-hairline) solid var(--filet);
+  border-left: var(--border-frame) solid var(--message-teinte, var(--filet)); border-radius: var(--radius-md);
+  background: var(--fond); color: var(--texte);
+}
+.message p { margin: 0; }
+.message__titre { font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em; text-transform: uppercase; }
+.message--succes { --message-teinte: var(--succes); }
+.message--erreur { --message-teinte: var(--erreur); }
+.message--attention { --message-teinte: var(--accent-gold-deep); }
+.message--info, .message--chargement { --message-teinte: var(--accent); }
+.message--vide { justify-content: center; flex-direction: column; padding: var(--space-8) var(--space-5); border-left-width: var(--border-hairline); border-style: dashed; text-align: center; }
+.message--chargement .message__texte { display: flex; align-items: center; gap: var(--space-2); }
+.message--chargement .message__texte::before {
+  flex: none;
+  content: ""; width: 1em; height: 1em;
+  border: var(--border-image) solid currentColor; border-right-color: transparent; border-radius: var(--radius-full);
+  animation: rotation var(--duration-slow) linear infinite;
+}
+
+/* Zone des toasts : coin bas droit, au-dessus du contenu. */
+/* Position reglable par le contexte (le back-office les place sous l'en-tete, loin de sa barre d'actions). */
+.messages { position: fixed; top: var(--messages-haut, auto); right: var(--space-5); bottom: var(--messages-bas, var(--space-5)); z-index: 90; display: grid; width: min(24rem, calc(100vw - 2 * var(--space-5))); gap: var(--space-2); }
+.message--toast { animation: message-entree var(--duration-base) var(--ease-out) both; }

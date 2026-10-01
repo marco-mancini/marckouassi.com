@@ -1,0 +1,45 @@
+/* ==========================================================================
+   CARTE — jalon numerote
+   Surface par les roles --carte-surface / --carte-surface-profonde : le
+   contexte .ilot-olive creuse la teinte d'un cran, sans variante ni
+   selecteur parent. Les animations decoratives demarrent quand la carte
+   elle-meme est apparue, et s'arretent apres --cycles-decoratifs.
+   ========================================================================== */
+.carte {
+  position: relative; display: grid; min-height: var(--carte-hauteur-min); padding: var(--carte-rembourrage);
+  align-content: end; gap: var(--space-1); isolation: isolate;
+  border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--carte-surface) 0%, var(--carte-surface-profonde) 100%);
+  color: var(--paper); text-decoration: none;
+  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+}
+/* Rang en filigrane, derriere le libelle. */
+.carte::before {
+  content: attr(data-rang); position: absolute; right: var(--carte-rembourrage); bottom: var(--carte-rembourrage); z-index: -1;
+  color: var(--border-on-dark-soft); font-family: var(--font-display); font-size: var(--type-process-ghost); line-height: var(--leading-compact);
+}
+.carte__point { display: block; width: var(--carte-point-taille); height: var(--carte-point-taille); margin-bottom: var(--space-2); border-radius: var(--radius-full); background: var(--paper); }
+.carte__libelle { margin: 0; color: var(--paper); font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-regular); line-height: var(--leading-compact); text-transform: uppercase; }
+h3.carte__libelle { letter-spacing: -.025em; }
+/* Note : --accent-gold-soft est le seul dore qui tienne 4,5:1 sur ce fond. */
+.carte__note { margin: 0; padding-right: var(--carte-gouttiere-filigrane); color: var(--accent-gold-soft); font-size: var(--type-body-emphasis); line-height: var(--leading-compact); }
+.carte__reflet { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.carte__reflet::before {
+  content: ""; position: absolute; top: 0; left: -60%; width: 55%; height: 100%; transform: skewX(-14deg);
+  background: linear-gradient(100deg, transparent, var(--glass-shine) 45%, var(--glass-shine) 55%, transparent);
+}
+
+/* Fleche de liaison, logee dans l'ecart avec la carte suivante. */
+.carte--liee:not(:last-child)::after {
+  content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap);
+  color: var(--muted); text-align: center; transform: translate(0, -50%);
+}
+
+.carte:hover, .carte--lien:focus-visible { transform: translateY(-4px); box-shadow: 0 18px 38px -20px var(--shadow-board); }
+
+/* Mouvement decoratif, borne. Delai tire du rang d'apparition --i. */
+.carte.est-apparu .carte__reflet::before { animation: reflet-balayage var(--duration-process-shine) var(--ease-out) calc(var(--i, 0) * var(--apparition-pas)) var(--cycles-decoratifs); }
+.carte.est-apparu .carte__point { animation: point-battement var(--duration-process-pulse) var(--ease-out) calc(var(--i, 0) * var(--apparition-pas)) var(--cycles-decoratifs); }
+.carte--liee.est-apparu:not(:last-child)::after { animation: fleche-avance var(--duration-process-loop) var(--ease-out) calc(var(--i, 0) * var(--apparition-pas)) var(--cycles-decoratifs); }
+
+@media (max-width: 850px) { .carte--liee::after { display: none; } }

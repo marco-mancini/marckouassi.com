@@ -1,0 +1,19 @@
+/* ==========================================================================
+   LISTE — lignes avec actions, reordonnables au glisser et au clavier
+   ========================================================================== */
+.liste { display: grid; margin: 0; padding: 0; gap: var(--space-2); list-style: none; }
+.liste__ligne {
+  display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3);
+  border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-md); background: var(--fond);
+  transition: border-color var(--duration-fast) var(--ease-out), opacity var(--duration-fast) var(--ease-out);
+}
+.liste__ligne:hover { border-color: var(--texte-discret); }
+.liste__contenu { display: flex; min-width: 0; flex: 1; align-items: center; gap: var(--space-3); }
+.liste__actions { display: flex; flex: none; align-items: center; gap: var(--space-1); }
+.liste__poignee { color: var(--texte-discret); font-size: var(--type-icon); cursor: grab; }
+.liste__ligne.est-glisse { border-style: dashed; border-color: var(--accent); opacity: .5; }
+
+@media (max-width: 390px) {
+  .liste__ligne { flex-wrap: wrap; }
+  .liste__actions { width: 100%; justify-content: flex-end; }
+}

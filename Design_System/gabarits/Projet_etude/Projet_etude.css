@@ -1,0 +1,17 @@
+/* ==========================================================================
+   PROJET_ETUDE — disposition de l'etude : texte a gauche, galerie a droite
+   ========================================================================== */
+.projet-etude { display: grid; grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr); gap: clamp(20px, 3vw, 42px); }
+.projet-etude__texte { min-width: 0; }
+.projet-etude__rubrique { margin: 0 0 var(--space-3); color: var(--texte-etiquette); text-transform: uppercase; }
+.projet-etude__titre { margin: var(--space-1) 0 var(--space-3); }
+.projet-etude__contexte { margin: 0; color: var(--texte-discret); }
+.projet-etude__meta { display: grid; margin: var(--space-5) 0; gap: var(--space-2); }
+.projet-etude__libelle { margin: var(--space-4) 0 var(--space-etiquette-projet); color: var(--texte-etiquette); text-transform: uppercase; }
+.projet-etude__idee, .projet-etude__valeur { margin: 0; }
+.projet-etude__valeur { color: var(--texte-discret); }
+.projet-etude__texte > .bouton { margin-top: var(--space-3); }
+.projet-etude__compteur { margin: 0; }
+
+@media (min-width: 851px) and (max-width: 1080px) { .projet-etude { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 22px; } }
+@media (max-width: 850px) { .projet-etude { display: flex; flex-direction: column; gap: 18px; } }

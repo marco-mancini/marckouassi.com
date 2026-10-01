@@ -1,0 +1,25 @@
+/* ==========================================================================
+   TITRE — titre de planche ou d'ecran
+   Couleur par le role --texte-titre, point par --point-titre : le point
+   dore change avec le fond sans aucune enumeration de planches.
+   ========================================================================== */
+.titre {
+  margin: 0; color: var(--texte-titre);
+  font-family: var(--font-display); font-weight: var(--weight-regular);
+  line-height: var(--leading-board-title); text-transform: uppercase; text-wrap: balance;
+}
+.titre--section { font-size: var(--type-title-section); }
+.titre--compacte { font-size: var(--type-titre-sommaire); }
+.titre--appel { max-width: 980px; font-size: var(--type-contact-title); line-height: var(--leading-contact-titre); }
+.titre--affiche { color: var(--accent-gold); font-size: var(--type-prestations-titre); line-height: var(--leading-prestations-titre); text-align: center; }
+.titre--etude { font-size: var(--type-project-title); }
+.titre--document { font-size: var(--type-cv-nom); line-height: var(--leading-heading); letter-spacing: var(--display-tracking); }
+.titre--interface { font-size: var(--type-introduction-claim); line-height: var(--leading-heading); text-transform: none; }
+
+.titre__point { color: var(--point-titre); font-weight: inherit; }
+/* Esperluette evidee : seul signe creux du titre affiche. */
+.titre__esperluette { color: transparent; font-weight: inherit; -webkit-text-stroke: var(--prestation-contour-epaisseur) var(--paper); }
+
+/* Titre et sceau a l'oppose, alignes sur la base. */
+.titre-ligne { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-6); }
+@media (max-width: 850px) { .titre-ligne__sceau { display: none; } }

@@ -1,0 +1,31 @@
+/* ==========================================================================
+   SIGNATURE — salutation cursive posee sur deux mots en capitales
+   Le chevauchement est une marge negative en em : il suit la taille de la
+   salutation. L'echelle est une variante, jamais un reglage du parent.
+   ========================================================================== */
+.signature {
+  --signature-taille: var(--type-title-section);
+  --signature-taille-salut: var(--type-section-signature);
+  --signature-chevauchement: var(--about-signature-chevauchement);
+  --signature-interligne: var(--leading-signature-mot);
+  display: flex; margin: 0; flex-direction: column;
+  font-family: var(--font-display); font-size: var(--signature-taille); font-weight: var(--weight-regular);
+  line-height: var(--signature-interligne); letter-spacing: var(--cover-tracking); text-transform: uppercase;
+}
+.signature--couverture {
+  --signature-taille: var(--type-cover);
+  --signature-taille-salut: var(--type-cover-signature);
+  --signature-chevauchement: var(--cover-signature-chevauchement);
+}
+.signature__salut {
+  z-index: 3; margin-bottom: var(--signature-chevauchement); color: var(--texte);
+  font-family: var(--font-script); font-size: var(--signature-taille-salut); font-weight: var(--weight-regular);
+  letter-spacing: 0; line-height: var(--leading-signature-salut); text-transform: none;
+  text-shadow: 0 var(--shadow-signature-y) var(--shadow-signature-flou) var(--shadow-signature);
+}
+.signature__mot { z-index: 1; color: var(--texte); }
+/* L'ombre separe les registres qui se chevauchent par construction. */
+.signature__mot--accent { z-index: 2; color: var(--accent-gold); text-shadow: 0 var(--shadow-signature-y) var(--shadow-signature-flou) var(--shadow-signature); }
+.signature__point { color: var(--point-titre); font-weight: inherit; }
+
+@media (max-width: 850px) { .signature--couverture { --signature-interligne: var(--leading-cover-compact); } }

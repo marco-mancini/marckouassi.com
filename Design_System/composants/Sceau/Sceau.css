@@ -1,0 +1,35 @@
+/* ==========================================================================
+   SCEAU — monogramme MK sur son rond creme
+   Le rond ne suit jamais le theme : les lettres gardent les couleurs du
+   fond clair, quel que soit le contexte ou le theme.
+   ========================================================================== */
+.sceau {
+  --logo-lettre: var(--clair-logo-lettre);
+  --logo-accent: var(--clair-logo-accent);
+  display: block; flex: none; width: var(--sceau-moyen);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+/* SVG en ligne, comme dans la reference : l'interligne sous le dessin
+   fait partie de l'encombrement du sceau et cale sa position. */
+.sceau svg { width: 100%; height: auto; aspect-ratio: var(--logo-seal-ratio); }
+.sceau--couverture { width: var(--sceau-couverture); }
+.sceau--grand { width: var(--sceau-grand); }
+.sceau--petit { width: var(--sceau-petit); }
+.sceau--document { width: var(--sceau-document); }
+.sceau--couverture:hover, a.sceau:hover { transform: rotate(-4deg) scale(1.03); }
+a.sceau { border-radius: var(--radius-full); }
+
+/* Ouverture de l'experience d'accueil. */
+.sceau--anime { animation: sceau-ouverture var(--duration-slow) var(--ease-out) both; }
+/* Trace : les proprietes de contour sont heritees jusqu'aux formes du
+   sprite ; hors animation l'epaisseur vaut 0, le sceau reste identique. */
+.sceau--anime svg {
+  --trace-epaisseur: var(--trace-epaisseur-anime);
+  stroke-dasharray: var(--trace-longueur);
+  animation: trace var(--duration-trace) var(--ease-out) both, trace-remplissage var(--duration-trace) linear both;
+}
+@media (prefers-reduced-motion: reduce) { .sceau--anime svg { --trace-epaisseur: 0; animation: none; } }
+html[data-animations="reduites"] .sceau--anime svg { --trace-epaisseur: 0; animation: none; }
+
+@media (max-width: 850px) { .sceau--couverture { width: var(--sceau-couverture-compact); } }
+@media (max-width: 390px) { .sceau--couverture { width: var(--sceau-couverture-telephone); } }

@@ -1,0 +1,46 @@
+/* ==========================================================================
+   EN-TETE — marque, navigation, actions
+   Variante site : contexte .ilot-olive tant qu'on n'a pas defile, puis
+   surface de page. Sous 1000 px le bouton de menu remplace la navigation,
+   mais seulement si le script a demarre (html.js-anime) : sinon la
+   navigation reste accessible en rangee defilante, a hauteur egale.
+   ========================================================================== */
+.en-tete {
+  position: sticky; top: 0; z-index: 40; display: flex; height: var(--header-height); padding: 0 var(--page-gutter);
+  align-items: center; justify-content: space-between; gap: var(--space-4);
+  border-bottom: var(--border-hairline) solid var(--filet); background: var(--fond); color: var(--texte);
+  transition: box-shadow var(--duration-fast) ease, background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+.en-tete.est-defile { box-shadow: 0 var(--border-hairline) 0 var(--line); }
+.en-tete__marque { display: inline-flex; min-width: var(--cible-tactile); min-height: var(--cible-tactile); flex: none; align-items: center; }
+.en-tete__marque svg { width: 48px; height: auto; aspect-ratio: var(--logo-header-ratio); }
+.en-tete__navigation { min-width: 0; }
+.en-tete__actions { display: flex; flex: none; align-items: center; gap: var(--space-3); }
+.en-tete__large, .en-tete__compact { display: flex; align-items: center; gap: var(--space-3); }
+.en-tete__compact { display: none; }
+
+@media (max-width: 999px) {
+  html.js-anime .en-tete__navigation, .en-tete__large { display: none; }
+  html.js-anime .en-tete__compact { display: flex; }
+  html:not(.js-anime) .en-tete__navigation { flex: 1; overflow-x: auto; scrollbar-width: none; }
+  html:not(.js-anime) .en-tete__navigation .navigation { gap: var(--space-4); white-space: nowrap; }
+}
+@media (max-width: 850px) { .en-tete { height: 62px; } }
+
+/* Variante admin : la navigation est dans la barre laterale du CadreAdmin,
+   qui ne disparait que sous 850 px ; le bouton de menu suit ce seuil. */
+@media (min-width: 851px) {
+  html .en-tete--admin .en-tete__large { display: flex; }
+  html .en-tete--admin .en-tete__compact { display: none; }
+}
+@media (max-width: 850px) {
+  html .en-tete--admin .en-tete__large { display: none; }
+  html .en-tete--admin .en-tete__compact { display: flex; }
+}
+
+/* Variante document (page CV) : barre olive fixe, ses quelques actions
+   restent visibles a toutes les largeurs, comme dans la reference. */
+html .en-tete--document .en-tete__large { display: flex; }
+/* Survol du retour sur la barre olive : teinte de la reference (.cv-retour). */
+.en-tete--document { --bouton-survol: var(--hover-on-dark); }
+html .en-tete--document .en-tete__compact { display: none; }

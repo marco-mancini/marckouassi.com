@@ -1,0 +1,72 @@
+{
+  "_role": "Paramètres généraux du site : identité, SEO, coordonnées, navigation, accueil animé. Toute valeur { fr, en } est traduisible ; les autres sont communes.",
+  "langues": [
+    "fr",
+    "en"
+  ],
+  "langueParDefaut": "fr",
+  "url": "https://marckouassi.com",
+  "identite": {
+    "nom": "Marc Kouassi"
+  },
+  "seo": {
+    "titre": {
+      "fr": "Marc Kouassi — Portfolio de direction artistique"
+    },
+    "description": {
+      "fr": "Le portfolio de Marc Kouassi : direction artistique, identités, campagnes, expériences numériques et parcours créatif."
+    },
+    "image": null
+  },
+  "contact": {
+    "email": "marc.kouassi.da@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/marc-kouassi-da/",
+    "cv": {
+      "src": "Design_System/assets/Cv_Marc.pdf",
+      "nomTelechargement": "CV-Marc-Kouassi.pdf"
+    }
+  },
+  "navigation": {
+    "cta": {
+      "texte": {
+        "fr": "Entrer en contact"
+      }
+    },
+    "ecrire": {
+      "fr": "Écrire à Marc"
+    }
+  },
+  "intro": {
+    "active": true,
+    "frequence": "session",
+    "_origine": "Textes repris du site existant (signature de couverture, promesse, temps de la méthode) : aucun texte inventé. À valider ou remplacer depuis le back-office.",
+    "signature": {
+      "salutation": {
+        "fr": "Marc Kouassi"
+      },
+      "accent": {
+        "fr": "Portfolio"
+      },
+      "mot": {
+        "fr": "Design"
+      }
+    },
+    "transition": {
+      "fr": "Des idées fortes. Des images qui restent."
+    },
+    "mots": [
+      {
+        "fr": "Observer"
+      },
+      {
+        "fr": "Comprendre"
+      },
+      {
+        "fr": "Imaginer"
+      },
+      {
+        "fr": "Donner forme"
+      }
+    ]
+  }
+}

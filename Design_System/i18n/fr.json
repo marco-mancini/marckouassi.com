@@ -1,0 +1,79 @@
+{
+  "_role": "Textes d'interface et d'accessibilite du site public, en francais. Le contenu editorial n'est PAS ici : il vit dans content/.",
+  "langue": {
+    "code": "FR",
+    "nom": "Français",
+    "locale": "fr_FR",
+    "selecteur": "Choisir la langue"
+  },
+  "accessibilite": {
+    "allerAuContenu": "Aller au contenu",
+    "marque": "{nom} — couverture",
+    "monogramme": "Monogramme MK",
+    "retourCouverture": "Retour à la couverture",
+    "navigationPrincipale": "Navigation principale",
+    "navigationMobile": "Navigation mobile",
+    "menu": "Menu de navigation",
+    "ouvrirMenu": "Ouvrir le menu",
+    "fermerMenu": "Fermer le menu",
+    "explorer": "Explorer"
+  },
+  "projet": {
+    "compteur": "Projet {numero} / {total}",
+    "ouvrir": "Entrer dans le projet {titre} pour voir l’étude complète et toutes ses images",
+    "fermer": "Fermer l’étude du projet",
+    "images": "Images du projet",
+    "role": "Mon rôle",
+    "disciplines": "Disciplines",
+    "periode": "Période",
+    "intention": "L’intention créative",
+    "valeur": "La valeur du projet",
+    "retour": "Retour aux projets",
+    "document": "Consulter le document"
+  },
+  "intro": {
+    "etiquette": "Accueil",
+    "passer": "Passer l’introduction",
+    "choisirLangue": "Choisissez votre langue",
+    "entrer": "Entrer dans le portfolio"
+  },
+  "cv": {
+    "retour": "Retour au portfolio",
+    "telecharger": "Télécharger le CV"
+  },
+  "pied": {
+    "droits": "© {annee} {nom}"
+  },
+  "nombres": [
+    "zéro",
+    "un",
+    "deux",
+    "trois",
+    "quatre",
+    "cinq",
+    "six",
+    "sept",
+    "huit",
+    "neuf",
+    "dix",
+    "onze",
+    "douze",
+    "treize",
+    "quatorze",
+    "quinze",
+    "seize",
+    "dix-sept",
+    "dix-huit",
+    "dix-neuf",
+    "vingt"
+  ],
+  "formats": {
+    "plageProjet": "{debut}–{fin}",
+    "plageParcours": "{debut} — {fin}",
+    "plageSelection": "{debut} — {fin}",
+    "selection": "{nombre} projets · {plage}",
+    "categorieEtPeriode": "{categorie} · {periode}",
+    "rubrique": "{numero} / {nom}",
+    "titrePage": "{titre} — {nom}"
+  }
+}

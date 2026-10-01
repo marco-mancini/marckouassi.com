@@ -1,0 +1,58 @@
+/* ==========================================================================
+   THEME — reset et comportements globaux
+   Reset, focus, masquage accessible, lien d'evitement, liens, listes,
+   <progress>, [hidden]. Consomme les jetons de Tokens.css et n'en
+   redefinit aucun. Aucun texte ici : les libelles viennent des
+   dictionnaires i18n.
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: var(--header-offset); }
+body {
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: var(--outline-focus) solid var(--accent); outline-offset: var(--outline-focus-offset); }
+::selection { color: var(--paper); background: var(--accent); }
+
+/* Contenu réservé aux technologies d’assistance, invisible à l’écran. */
+.visually-hidden {
+  position: absolute; overflow: hidden;
+  width: 1px; height: 1px; margin: -1px; padding: 0;
+  border: 0; clip: rect(0, 0, 0, 0); white-space: nowrap;
+}
+
+/* --- Souligner les liens ---
+   Critere 1.4.1 : un lien ne se distingue pas que par sa couleur. */
+html[data-liens="soulignes"] a {
+  text-decoration: underline;
+  text-underline-offset: var(--underline-offset);
+}
+
+/* --- Lien d'evitement : premier element focusable de chaque page. --- */
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 120; transform: translateY(-160%); padding: var(--space-3) var(--space-4); background: var(--surface-page); color: var(--ink); }
+.skip-link:focus { transform: translateY(0); }
+
+/* --- [hidden] l'emporte sur tout display pose par un composant ---
+   !important est la seule facon de garantir la semantique HTML de
+   l'attribut quand un composant fixe display sur le meme element. */
+[hidden] { display: none !important; }
+
+/* --- Liste a puces de base ---
+   Puce typographique posee par le style : elle ne vit pas dans le texte
+   et n'est pas annoncee deux fois par les lecteurs d'ecran. */
+.liste-puces { display: grid; margin: 0; padding: 0; gap: var(--space-3); list-style: none; }
+.liste-puces > li { position: relative; padding-left: var(--space-5); }
+.liste-puces > li::before { content: "\2022"; position: absolute; left: 0; color: var(--puce-couleur, currentColor); }
+/* Puce creuse : celle d'une liste imbriquee (points des experiences du CV). */
+.liste-puces--cercle > li::before { content: "\25E6"; }
+
+/* --- Barre de progression native, pour les televersements --- */
+progress { width: 100%; height: var(--barre-progression-hauteur); border: 0; -webkit-appearance: none; appearance: none; background: var(--filet); color: var(--accent); }
+progress::-webkit-progress-bar { background: var(--filet); }
+progress::-webkit-progress-value { background: var(--accent); }
+progress::-moz-progress-bar { background: var(--accent); }

@@ -1,0 +1,16 @@
+/* ==========================================================================
+   SAISIE — controle de formulaire
+   Etats : focus (anneau global), invalide (aria-invalid), desactive.
+   ========================================================================== */
+.saisie {
+  width: 100%; min-height: var(--cible-tactile); padding: var(--space-2) var(--space-3);
+  border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-md);
+  background: var(--fond); color: var(--texte); font: inherit; line-height: var(--leading-body);
+}
+.saisie:hover { border-color: var(--texte-discret); }
+.saisie:focus-visible { border-color: var(--accent); }
+.saisie[aria-invalid="true"] { border-color: var(--erreur); border-width: var(--border-image); }
+.saisie:disabled { cursor: not-allowed; opacity: .55; }
+.saisie--long { min-height: 7rem; resize: vertical; }
+.saisie--choix { cursor: pointer; }
+.saisie--case { width: 22px; min-height: 22px; height: 22px; margin: 11px 0; padding: 0; accent-color: var(--olive); }

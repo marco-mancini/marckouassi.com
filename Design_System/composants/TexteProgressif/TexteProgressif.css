@@ -1,0 +1,9 @@
+/* ==========================================================================
+   TEXTE PROGRESSIF — ecriture caractere par caractere
+   Le curseur n'existe que pendant l'ecriture.
+   ========================================================================== */
+.texte-progressif { margin: 0; }
+.texte-progressif.est-en-cours .texte-progressif__visible::after {
+  content: ""; display: inline-block; width: var(--texte-progressif-curseur); height: 1em; margin-left: .06em;
+  background: currentColor; vertical-align: -.1em; animation: clignement 1s steps(1) infinite;
+}

@@ -1,0 +1,6 @@
+# Configuration Supabase du portfolio (CLI : supabase link, db push, functions deploy).
+# La fonction vérifie elle-même la session de l'administrateur ou le secret
+# du flux GitHub : la vérification automatique du jeton est donc désactivée
+# pour qu'elle accepte aussi l'appel de retour du flux.
+[functions.publier]
+verify_jwt = false

@@ -1,0 +1,23 @@
+/* ==========================================================================
+   PASTILLE — periode, numero, reference, prix, statut (site et
+   back-office)
+   ========================================================================== */
+.pastille {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em; line-height: 1.2; white-space: nowrap;
+}
+.pastille--pilule { min-height: var(--space-7); padding: 0 var(--space-3); border-radius: var(--radius-pill); }
+.pastille--rond { width: var(--pastille-rond); height: var(--pastille-rond); border-radius: var(--radius-full); }
+.pastille--bloc {
+  padding: var(--space-3) var(--space-6); border-radius: var(--radius-md);
+  font-family: var(--font-sans); font-size: var(--type-body-emphasis); font-weight: var(--weight-strong);
+  letter-spacing: normal; line-height: var(--leading-body); text-transform: uppercase;
+}
+
+.pastille--plein { background: var(--olive); color: var(--paper); }
+.pastille--contour { min-height: 0; padding: var(--space-1) var(--space-3); border: var(--border-hairline) solid var(--filet); font-size: var(--type-body-compact); letter-spacing: normal; line-height: var(--leading-body); }
+.pastille--or { background: var(--prestation-fond-or); color: var(--prestation-encre); }
+.pastille--clair { background: var(--prestation-fond-clair); color: var(--prestation-encre); }
+.pastille--attention { border: var(--border-hairline) solid var(--erreur); color: var(--erreur); }
+
+@media (max-width: 850px) { .pastille--rond { width: var(--pastille-rond-compact); height: var(--pastille-rond-compact); } }

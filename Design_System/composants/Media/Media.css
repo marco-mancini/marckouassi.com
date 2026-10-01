@@ -1,0 +1,21 @@
+/* ==========================================================================
+   MEDIA — image, video ou emplacement vide
+   Le fond --surface-image reste visible si le fichier manque ou echoue :
+   l'emplacement ne s'effondre pas, la mise en page ne saute pas.
+   ========================================================================== */
+.media { position: relative; min-width: 0; min-height: 0; height: 100%; margin: 0; overflow: hidden; background: var(--surface-image); }
+.media img, .media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.media--contenir img, .media--contenir video { object-fit: contain; }
+
+.media--arrondi { border-radius: var(--radius-xl); }
+.media--vignette { border-radius: var(--rayon-vignette); }
+.media--detail { border-radius: var(--rayon-detail); }
+.media--passe-partout { border: var(--border-image) solid var(--paper); border-radius: var(--radius-xl); }
+
+.media--zoom img { transition: transform var(--duration-slow) var(--ease-out), filter var(--duration-base) var(--ease-out); }
+.media--zoom:hover img { transform: scale(1.035); }
+
+@media (max-width: 850px) {
+  .media--vignette { border-radius: var(--rayon-vignette-compact); }
+  .media--detail { border-radius: var(--radius-md); }
+}
