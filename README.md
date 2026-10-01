@@ -17,7 +17,7 @@ tests/                Tests (npm test) et tests navigateur (npm run test:navigat
 Public/images/        Visuels des projets
 Deploy/               Mise en service du back-office Supabase (en sommeil)
 Docs/                 Documentation : déploiement, contenus, assistant NéO
-.github/workflows/    verifier.yml (tests à chaque push) ; pages.yml abandonné ; publier.yml en sommeil
+.github/workflows/    verifier.yml : tests et build à chaque push et pull request
 ```
 
 ## Commandes

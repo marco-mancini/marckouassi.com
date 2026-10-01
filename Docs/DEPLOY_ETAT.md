@@ -38,8 +38,8 @@ content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  �
 
 | Élément | État | Remarque |
 |---|---|---|
-| GitHub Pages (`.github/workflows/pages.yml`) | **abandonné** | échoue à chaque push à l'étape `configure-pages` (Pages non activé) ; suppression à décider |
-| Cloudflare Pages (`.github/workflows/publier.yml`) | en sommeil | ne publie rien tant que `CLOUDFLARE_PROJET` n'existe pas ; le run quotidien ne fait rien sans Supabase |
+| GitHub Pages (`pages.yml`) | **abandonné**, workflow retiré | voir [RETIRES.md](RETIRES.md) pour le rétablir |
+| Cloudflare Pages (`publier.yml`) | **abandonné**, workflow retiré | voir [RETIRES.md](RETIRES.md) pour le rétablir |
 | Back-office Supabase (`Admin/`, `supabase/`) | en sommeil | jamais relié ; remplacé par le CMS Git à venir |
 | Domaine `marckouassi.com` | non acheté | NXDOMAIN ; à l'achat, changer seulement `url` dans `content/site.json`, puis ajouter le domaine dans Vercel (Settings → Domains) |
 
@@ -51,6 +51,4 @@ content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  �
 2. **Anciens déploiements Vercel** : ils restent accessibles à leur propre
    adresse et contiennent l'ancien PDF du CV. Les supprimer dans
    Vercel → Deployments.
-3. **`pages.yml`** : à supprimer une fois la décision prise ; rien n'en
-   dépend.
-4. **CMS Git** : à installer après validation de la proposition.
+3. **CMS Git** : à installer après validation de la proposition.

@@ -145,7 +145,4 @@ test("aucun texte en dur dans le script et les services du back-office", () => {
   }
 });
 
-test("aucune clé ni secret dans les fichiers suivis du back-office et de Supabase", () => {
-  const fichiers = ["Admin/app.js", "Admin/services/supabase.js", "supabase/functions/publier/index.ts", "supabase/migrations/20261001000000_back_office.sql", ".github/workflows/publier.yml", ".github/workflows/pages.yml"];
-  for (const f of fichiers) assert.doesNotMatch(fs.readFileSync(f, "utf8"), /eyJ[a-zA-Z0-9_-]{20,}|sb_secret_[a-zA-Z0-9]|sb_publishable_[a-zA-Z0-9]|ghp_[a-zA-Z0-9]{20,}|github_pat_/, f);
-});
+// Recherche de clés et de jetons : tests/secrets.test.mjs (tous les fichiers suivis).

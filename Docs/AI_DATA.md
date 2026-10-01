@@ -135,6 +135,7 @@ restent identiques d'une question à l'autre.
 
 ## Supabase gratuit : rester actif
 
-Un projet Free est mis en pause après une faible activité sur 7 jours. Le flux
-`.github/workflows/publier.yml` lit déjà une ligne chaque jour ; NéO
-ajoute des lectures réelles. Restauration possible pendant 90 jours.
+Un projet Free est mis en pause après une faible activité sur 7 jours ;
+restauration possible pendant 90 jours. Le flux `publier.yml`, qui lisait une
+ligne chaque jour pour l'éviter, a été retiré le 1er octobre 2026 (voir
+[RETIRES.md](RETIRES.md)). Si Q-1 retient Supabase, ce maintien est à prévoir.
