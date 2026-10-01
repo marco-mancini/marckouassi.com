@@ -4,7 +4,7 @@ Applique ces règles à chaque modification de ce portfolio.
 
 ## Structure et réutilisation
 - Conserve le portfolio publié sous forme de site statique, sauf demande explicite de migration vers un framework. N'ajoute pas de dépendances React uniquement pour utiliser le composant de départ.
-- `content/` (site, sections, projets, cv) est la seule source du contenu. Le site est généré par `npm run build` dans `_site/`, puis publié par Vercel à chaque push sur `main`. Un CMS Git, à venir, écrira dans `content/` : ne crée aucune copie du contenu ailleurs.
+- `content/` (site, sections, projets, cv) est la seule source du contenu. Le site est généré par `npm run build` dans `_site/`, puis publié par Vercel à chaque push sur `main`. Un CMS Git, installé à /admin/ (voir Docs/CMS.md), écrit dans `content/` : ne crée aucune copie du contenu ailleurs.
 - Réutilise les structures de page et les styles du système de design. Évite les pages HTML en double dans `Design_System/styles/`.
 - Place les modules CSS dans `Design_System/styles/`. `Index.css` est leur point d'entrée unique.
 - Centralise les valeurs visuelles partagées dans `Design_System/styles/Tokens.css`. Déclare chaque couleur et chaque jeton de design une seule fois ; ne redéfinis pas la palette dans `Theme.css` ni dans les styles des composants.
