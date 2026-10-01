@@ -73,9 +73,10 @@ export function PageCv({ contenu, ctx }) {
   const liste = (elements, chemin, classe = "liste-puces") => html`<ul class="${classe}">${elements.map((valeur, rang) => html`<li>${element(valeur, `cv.${chemin}.${rang}`)}</li>`)}</ul>`;
   const bandeau = (titre, chemin, corps) => Encart({ ton: "bandeau", niveau: 2, titre: c(titre, chemin), contenu: corps });
   // Une information peut référencer une coordonnée commune du site (type) : elle n'est jamais recopiée.
-  const email = contenu.site.contact.email;
+  const { email, linkedin } = contenu.site.contact;
   const informations = html`<ul class="cv__informations">${cv.informations.map((info, rang) => {
     if (info.type === "email") return html`<li>${Bouton({ texte: email, variante: "lien", href: `mailto:${email}` })}</li>`;
+    if (info.type === "linkedin") return linkedin ? html`<li>${Bouton({ texte: ctx.c(info.valeur, `cv.informations.${rang}.valeur`), variante: "lien", href: linkedin, options: { attributs: { target: "_blank", rel: "noreferrer" } } })}</li>` : "";
     if (info.lien) return html`<li>${Bouton({ texte: ctx.c(info.valeur, `cv.informations.${rang}.valeur`), variante: "lien", href: info.lien })}</li>`;
     return html`<li>${c(info.valeur, `informations.${rang}.valeur`)}</li>`;
   })}</ul>`;

@@ -1,5 +1,5 @@
 {
-  "_role": "Contenu de la page CV. Données personnelles reprises à l'identique du CV publié (date de naissance, téléphone, quartier) : leur publication reste à confirmer par Marc.",
+  "_role": "Contenu de la page CV. À la demande de Marc, la page ne publie ni date de naissance, ni téléphone, ni quartier : seulement la ville, l'e-mail et LinkedIn (coordonnées communes du site).",
   "seo": {
     "titre": {
       "fr": "Marc Kouassi — CV"
@@ -43,20 +43,17 @@
   "informations": [
     {
       "valeur": {
-        "fr": "Abidjan - Cocody Angré"
-      }
-    },
-    {
-      "valeur": {
-        "fr": "10 Aout 1992"
+        "fr": "Abidjan, Côte d’Ivoire"
       }
     },
     {
       "type": "email"
     },
     {
-      "valeur": "(+225) 01 04 56 70 70",
-      "lien": "tel:+2250104567070"
+      "type": "linkedin",
+      "valeur": {
+        "fr": "LinkedIn"
+      }
     }
   ],
   "competences": {
