@@ -43,11 +43,11 @@ content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  �
 | Back-office Supabase (`Admin/`, `supabase/`) | en sommeil | jamais relié ; remplacé par le CMS Git à venir |
 | Domaine `marckouassi.com` | non acheté | NXDOMAIN ; à l'achat, changer seulement `url` dans `content/site.json`, puis ajouter le domaine dans Vercel (Settings → Domains) |
 
-## À faire ou à décider (Marc)
+## Décisions et suites (Marc)
 
-1. **Conditions de Vercel** : l'offre Hobby est réservée à un usage
-   personnel ou non commercial ; la section Prestations mentionne devis et
-   tarifs. Décision à prendre (voir le rapport du 1er octobre).
+1. **Conditions de Vercel** : décidé le 1er octobre 2026, Marc reste sur
+   Hobby et assume le risque ; textes et options dans
+   [HEBERGEMENT.md](HEBERGEMENT.md).
 2. **Anciens déploiements Vercel** : ils restent accessibles à leur propre
    adresse et contiennent l'ancien PDF du CV. Les supprimer dans
    Vercel → Deployments.
