@@ -1,4 +1,4 @@
-# Assistant — plan d'implémentation
+# NéO — plan d'implémentation
 
 Rédigé le 1er octobre 2026. L'architecture est fixée dans
 [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) ; ce plan ne la rediscute pas.
@@ -60,7 +60,7 @@ Aucune clé secrète Supabase n'est demandée.
   pas écrit l'accueil) ; éditable dans Paramètres via `Gabarit_Bo`.
 - Build : `ASSISTANT_URL` optionnelle ; sans elle, rien n'est rendu.
 - Tests : rien en dur (tests existants étendus), rendu sans JS, `comparer-reference`
-  inchangé quand l'assistant est désactivé.
+  inchangé quand NéO est désactivé.
 
 ### IA-05 — Mistral (clé Mistral)
 - Vérifier l'identifiant exact avec `GET /v1/models` ; l'écrire **une seule fois**
@@ -125,7 +125,7 @@ facturation), IA-08 (compte Cloudflare), IA-12 (Cloudflare, DNS).
 ## Ce qu'il ne faut pas faire
 
 - Mettre une clé dans le navigateur, le dépôt, une URL, un journal ou `vars`.
-- Appeler Mistral, Gemini ou Supabase depuis le navigateur pour l'assistant.
+- Appeler Mistral, Gemini ou Supabase depuis le navigateur pour NéO.
 - Utiliser une clé secrète Supabase ou le rôle `service_role`.
 - Basculer vers Gemini sur n'importe quelle erreur (requête invalide, clé
   invalide, blocage de modération).

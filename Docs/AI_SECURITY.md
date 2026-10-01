@@ -1,4 +1,4 @@
-# Assistant — sécurité, abus et coûts
+# NéO — sécurité, abus et coûts
 
 Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md) et les
 [données](AI_DATA.md).
@@ -8,7 +8,7 @@ Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md) et les
 1. Aucune clé dans le navigateur, dans le dépôt, dans une URL ou dans un journal.
    Les clés vivent uniquement dans les **secrets du Worker** (`wrangler secret put`).
    `.dev.vars*` et `.env*` sont ajoutés au `.gitignore` avant tout essai local.
-2. Le navigateur n'appelle **jamais** Mistral, Gemini ni Supabase pour l'assistant.
+2. Le navigateur n'appelle **jamais** Mistral, Gemini ni Supabase pour NéO.
 3. Aucune clé secrète Supabase n'est nécessaire : la publication se lit avec la
    clé publique (voir [données](AI_DATA.md)).
 4. La réponse du modèle est **du texte** : jamais insérée comme HTML.
@@ -85,7 +85,7 @@ des questions et réponses, IP en clair, en-têtes d'authentification.
 |---|---|---|
 | Jetons de réponse | `max_tokens` 400 (Mistral), `maxOutputTokens` 400 (Gemini) | `vars` |
 | Raisonnement | désactivé ou minimal (`reasoning_effort: "none"` à tester sur Small 4 ; `thinkingLevel: "MINIMAL"` sur Gemini 3.x, réflexion active par défaut) | Worker |
-| Budget journalier de l'assistant | 500 questions par jour, approximatif (compteur par emplacement) | `vars` |
+| Budget journalier de NéO | 500 questions par jour, approximatif (compteur par emplacement) | `vars` |
 | Plafond de dépense Mistral | à fixer dans la console (l'accès est suspendu au plafond) | console Mistral |
 | Plafond Gemini | palier 1 : plafond de facturation de 250 $ et limite de 10 $ par 10 minutes ; alerte budgétaire Google Cloud | console Google |
 | Disjoncteur | après capacité Mistral épuisée : Gemini direct pendant ≤ 10 min | Worker |

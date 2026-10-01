@@ -1,14 +1,14 @@
-# Assistant — données, Supabase et cache
+# NéO — données, Supabase et cache
 
 Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md).
 
 ## Principe
 
-L'assistant répond **uniquement** à partir du contenu déjà publié sur le site,
+NéO répond **uniquement** à partir du contenu déjà publié sur le site,
 réduit par une **liste blanche** de champs. Il ne lit ni le brouillon, ni les
 tables d'administration, ni le stockage des médias, ni les comptes.
 
-Il n'existe **aucune copie** du contenu dans le code de l'assistant : la base de
+Il n'existe **aucune copie** du contenu dans le code de NéO : la base de
 connaissance est calculée à partir de la même publication que celle qui a
 produit le site.
 
@@ -16,20 +16,20 @@ produit le site.
 
 Schéma : `supabase/migrations/20261001000000_back_office.sql`.
 
-| Table | Lecture publique (clé publique, rôle `anon`) | Utilité pour l'assistant |
+| Table | Lecture publique (clé publique, rôle `anon`) | Utilité pour NéO |
 |---|---|---|
 | `publications` | **oui**, uniquement les lignes `statut in ('en_attente','en_ligne')` | **source** : colonne `instantane` (site, sections, projets, cv) |
 | `documents` | non (administrateurs) | aucune : c'est le brouillon |
 | `medias` | non (administrateurs) | aucune |
 | `administrateurs` | non | aucune |
-| seau `medias` | fichiers publics | aucune (l'assistant ne lit pas d'images) |
+| seau `medias` | fichiers publics | aucune (NéO ne lit pas d'images) |
 
 Conséquence : le Worker lit la publication **avec la clé publique**, comme le
 build. Aucune clé secrète Supabase (`sb_secret_…`, rôle `service_role`, qui
 contourne la RLS) n'est nécessaire, ni dans le Worker ni ailleurs.
 
 Le Worker filtre sur `statut=eq.en_ligne` : une version `en_attente` n'est pas
-encore sur le site, l'assistant ne doit pas en parler avant elle.
+encore sur le site, NéO ne doit pas en parler avant elle.
 
 Lectures (API REST, sans dépendance) :
 
@@ -50,7 +50,7 @@ ajouter une vue `security_invoker` ou une fonction SQL qui renvoie la base
 réduite, avec `grant select` au rôle `anon`. Ce n'est pas nécessaire au départ :
 la liste blanche du Worker suffit et elle est testée.
 
-## Liste blanche : ce que l'assistant connaît
+## Liste blanche : ce que NéO connaît
 
 Construite par un module pur partagé, `Design_System/gabarits/connaissance.js`
 (même principe que `donnees.js`) : entrée = publication, sortie = base réduite,
@@ -70,10 +70,10 @@ en français et, quand elle existe, en anglais.
 | Pages | adresses internes (`/`, `/cv/`, `/projets/{id}/`, ancres de section) | calculées comme le build (`pages.js`) |
 
 Les valeurs calculées (période d'un projet, nombre de projets, plage d'années)
-viennent des **mêmes fonctions** que le site (`outils.js`) : l'assistant ne
+viennent des **mêmes fonctions** que le site (`outils.js`) : NéO ne
 recompte rien lui-même.
 
-## Ce que l'assistant ne connaît pas
+## Ce que NéO ne connaît pas
 
 - Toute clé, secret, jeton, identifiant de compte, adresse de projet Supabase.
 - Le brouillon (`documents`), les publications non en ligne, l'historique.
@@ -84,7 +84,7 @@ recompte rien lui-même.
   (`cv.informations`). Ils sont publics sur le CV, mais un assistant n'a pas à
   les diffuser ; il renvoie vers la page CV.
 - Ce qui n'est écrit nulle part : chiffres, résultats, clients, dates, avis.
-  L'assistant dit qu'il ne sait pas.
+  NéO dit qu'il ne sait pas.
 
 ## Langues
 
@@ -131,5 +131,5 @@ restent identiques d'une question à l'autre.
 ## Supabase gratuit : rester actif
 
 Un projet Free est mis en pause après une faible activité sur 7 jours. Le flux
-`.github/workflows/publier.yml` lit déjà une ligne chaque jour ; l'assistant
+`.github/workflows/publier.yml` lit déjà une ligne chaque jour ; NéO
 ajoute des lectures réelles. Restauration possible pendant 90 jours.

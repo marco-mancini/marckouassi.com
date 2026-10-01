@@ -1,4 +1,4 @@
-# Assistant du portfolio — architecture
+# NéO, assistant du portfolio — architecture
 
 Statut : **architecture validée, non implémentée**. Rédigé et vérifié le
 1er octobre 2026. Aucune clé, aucun identifiant de compte n'existe dans le dépôt.
@@ -13,8 +13,17 @@ Documents liés :
 Permettre à un visiteur de poser des questions sur Marc Kouassi, son parcours,
 ses projets, ses compétences et ses prestations, et d'obtenir des réponses
 courtes, exactes et **uniquement fondées sur le contenu publié du portfolio**.
-L'assistant est une fonction du portfolio, pas un widget ajouté : il réutilise
+NéO est une fonction du portfolio, pas un widget ajouté : il réutilise
 le Design System et ne crée aucun langage graphique.
+
+## Nom officiel
+
+L'assistant s'appelle **NéO** : N majuscule, é accentué, O majuscule. Aucune
+autre graphie n'est un nom officiel. Ce nom est un texte affiché : il vient du
+contenu (`content/site.json`, clé `assistant`) et des dictionnaires, jamais du
+code. Les identifiants techniques restent neutres et en ASCII (`assistant`,
+`/api/assistant`, `worker/assistant/`, `ASSISTANT_URL`, gabarit `Assistant`) ;
+ce ne sont pas des noms.
 
 ## Schéma
 
@@ -22,7 +31,7 @@ le Design System et ne crée aucun langage graphique.
  [Visiteur]
      │  navigateur : pages statiques (_site), aucune clé
      ▼
- [Assistant du portfolio]  gabarit Assistant = Modale + Conversation + Champ/Saisie + Bouton + Message
+ [NéO, dans le portfolio]  gabarit Assistant = Modale + Conversation + Champ/Saisie + Bouton + Message
      │  HTTPS  POST /api/assistant   (JSON, sans clé, Origin contrôlée)
      ▼
  [Cloudflare Worker « assistant »]
@@ -36,10 +45,10 @@ le Design System et ne crée aucun langage graphique.
      │           ───────────────────────────────────────────────────► [Gemini]   generateContent (repli)
      └─ 6. réponse normalisée : { texte, liens internes validés, fournisseur }
      ▼
- [Assistant du portfolio]  affiche le texte (jamais en HTML), liens internes uniquement
+ [NéO, dans le portfolio]  affiche le texte (jamais en HTML), liens internes uniquement
 ```
 
-Le navigateur ne parle **jamais** à Mistral, à Gemini ni, pour l'assistant, à
+Le navigateur ne parle **jamais** à Mistral, à Gemini ni, pour NéO, à
 Supabase. Toutes les clés vivent dans les secrets du Worker.
 
 ## Décisions
@@ -63,7 +72,7 @@ au moment de l'implémentation (phase IA-05 et IA-07).
 
 ## Flux d'une requête
 
-1. Le visiteur ouvre l'assistant (bouton du portfolio) ; le navigateur affiche le
+1. Le visiteur ouvre NéO (bouton du portfolio) ; le navigateur affiche le
    message d'accueil, tiré du contenu `site.assistant` (voir [AI_UX.md](AI_UX.md)).
 2. Il envoie une question (500 caractères au plus). Le navigateur envoie :
 
@@ -188,7 +197,7 @@ Variables (`vars`) : `MISTRAL_MODELE`, `GEMINI_MODELE`, `ORIGINES_AUTORISEES`,
 Secrets : `MISTRAL_CLE`, `GEMINI_CLE`, `SUPABASE_CLE_PUBLIQUE`.
 
 Le site connaît seulement l'**adresse** de l'endpoint, injectée au build
-(`ASSISTANT_URL`). Sans elle, l'assistant n'est pas rendu.
+(`ASSISTANT_URL`). Sans elle, NéO n'est pas rendu.
 
 ## Hébergement de l'endpoint
 
@@ -224,7 +233,7 @@ affiche « 10 $/mo in API credits ». Limites et budgets : voir
 | D-1 | Basculer vers Gemini aussi en cas de **panne** Mistral (5xx, délai) | Non par défaut (`REPLI_SUR_INDISPONIBILITE=false`), pour respecter « repli sur quota uniquement » |
 | D-2 | Activer la **facturation** Gemini | Obligatoire : les conditions Gemini n'autorisent que les services payants pour servir des visiteurs de l'EEE, de Suisse et du Royaume-Uni |
 | D-3 | Exclure de la base téléphone, adresse précise et date de naissance | Oui (voir [AI_DATA.md](AI_DATA.md)) |
-| D-4 | Emplacement de l'entrée de l'assistant | Section Contact et menu ; pas de bulle flottante (voir [AI_UX.md](AI_UX.md)) |
+| D-4 | Emplacement de l'entrée de NéO | Section Contact et menu ; pas de bulle flottante (voir [AI_UX.md](AI_UX.md)) |
 | D-5 | Turnstile (script distant de Cloudflare) | Pas au lancement : AGENTS.md interdit les nouvelles ressources distantes ; à décider si un abus est constaté |
 | D-6 | Plan Workers Paid (5 $/mois) | Si le binding Rate Limiting n'est pas disponible sur Free (non publié) |
 | D-7 | DNS et hébergement de production | Zone Cloudflare pour router `/api/*` |
