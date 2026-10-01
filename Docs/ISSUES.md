@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 1er octobre 2026, de PM-004 à PM-040 : 30 issues ouvertes, 4 fermées.
+État au 1er octobre 2026, de PM-004 à PM-040 : 29 issues ouvertes, 5 fermées.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
@@ -45,7 +45,7 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-030 | [#30](https://github.com/marco-mancini/marckouassi.com/issues/30) | Traduire les 296 champs de contenu sans version anglaise | decision-marc, contenu | PM-016 | ouverte |
 | PM-031 | [#31](https://github.com/marco-mancini/marckouassi.com/issues/31) | Décider des deux appels extérieurs de la page du CMS | decision-marc, cms, securite | — | ouverte |
 | PM-032 | [#32](https://github.com/marco-mancini/marckouassi.com/issues/32) | Décider du sort de l'ancien back-office Supabase | decision-marc, dette | — | ouverte |
-| PM-033 | [#33](https://github.com/marco-mancini/marckouassi.com/issues/33) | Mettre à jour Docs/CONTENT_CHECKLIST.md, périmé depuis le CMS | documentation | — | ouverte |
+| PM-033 | [#33](https://github.com/marco-mancini/marckouassi.com/issues/33) | Mettre à jour Docs/CONTENT_CHECKLIST.md, périmé depuis le CMS | documentation | — | fermée — réglée par la PR #42 |
 | PM-034 | [#34](https://github.com/marco-mancini/marckouassi.com/issues/34) | Corriger la note périmée d'AGENTS.md sur les polices système | documentation, decision-marc | — | fermée — réglée par la PR #39 |
 | PM-035 | [#35](https://github.com/marco-mancini/marckouassi.com/issues/35) | Inscrire la méthode issues, branches et pull requests dans AGENTS.md | documentation, decision-marc | — | fermée — réglée par la PR #39 |
 | PM-038 | [#38](https://github.com/marco-mancini/marckouassi.com/issues/38) | Réécrire AGENTS.md | documentation | — | fermée — terminée par la PR #39 |
