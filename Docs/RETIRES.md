@@ -30,7 +30,7 @@ git show <commit>:<chemin> > <chemin>
 `publier.yml` publiait `_site/` sur Cloudflare Pages quand le back-office
 Supabase demandait une publication, et lisait Supabase chaque jour pour
 éviter la mise en pause du projet gratuit. Il ne sert qu'avec le
-back-office Supabase, en sommeil.
+back-office Supabase, en sommeil (voir [ADMIN_EN_SOMMEIL.md](ADMIN_EN_SOMMEIL.md)).
 
 1. `git show 2b5487f:.github/workflows/publier.yml > .github/workflows/publier.yml`
 2. Variables du dépôt (Settings → Secrets and variables → Actions) :

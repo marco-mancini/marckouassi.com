@@ -20,8 +20,8 @@ content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  �
 - **Vérification** : le workflow `.github/workflows/verifier.yml` lance
   tests unitaires, build et tests navigateur à chaque push et pull request.
   Il ne publie rien.
-- **Édition** : directement dans `content/` (GitHub ou poste local). Un CMS
-  Git est **à venir** : il écrira dans `content/`, Vercel reconstruira.
+- **Édition** : CMS Git (Sveltia) à `/admin/`, qui commite dans `content/` ;
+  Vercel reconstruit. Voir [CMS.md](CMS.md).
 
 ## Vérifié le 1er octobre 2026
 
@@ -40,7 +40,7 @@ content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  �
 |---|---|---|
 | GitHub Pages (`pages.yml`) | **abandonné**, workflow retiré | voir [RETIRES.md](RETIRES.md) pour le rétablir |
 | Cloudflare Pages (`publier.yml`) | **abandonné**, workflow retiré | voir [RETIRES.md](RETIRES.md) pour le rétablir |
-| Back-office Supabase (`Admin/`, `supabase/`) | en sommeil | jamais relié ; remplacé par le CMS Git à venir |
+| Back-office Supabase (`Admin/`, `supabase/`) | en sommeil | jamais relié ; remplacé par le CMS Git ; voir [ADMIN_EN_SOMMEIL.md](ADMIN_EN_SOMMEIL.md) |
 | Domaine `marckouassi.com` | non acheté | NXDOMAIN ; à l'achat, changer seulement `url` dans `content/site.json`, puis ajouter le domaine dans Vercel (Settings → Domains) |
 
 ## Décisions et suites (Marc)
@@ -51,4 +51,5 @@ content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  �
 2. **Anciens déploiements Vercel** : ils restent accessibles à leur propre
    adresse et contiennent l'ancien PDF du CV. Les supprimer dans
    Vercel → Deployments.
-3. **CMS Git** : à installer après validation de la proposition.
+3. **CMS Git** : installé le 1er octobre 2026 à `/admin/` ; il reste à créer le
+   jeton GitHub et à se connecter : [CMS.md](CMS.md).

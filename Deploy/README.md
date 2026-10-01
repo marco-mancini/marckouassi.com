@@ -1,5 +1,11 @@
 # Déploiement et back-office
 
+> **En sommeil depuis le 1er octobre 2026.** Ce document décrit l'ancien
+> back-office Supabase et la publication Cloudflare, abandonnés. Le site est
+> publié par Vercel ([Docs/DEPLOY_VERCEL.md](../Docs/DEPLOY_VERCEL.md)) et
+> édité par le CMS Git ([Docs/CMS.md](../Docs/CMS.md)). État et réveil :
+> [Docs/ADMIN_EN_SOMMEIL.md](../Docs/ADMIN_EN_SOMMEIL.md).
+
 Ce document décrit comment le site est construit et publié, et comment
 relier le back-office (`/admin/`) à Supabase. Les étapes marquées
 **action humaine** demandent un compte ou une décision que le dépôt ne

@@ -5,14 +5,14 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { creerContexte, estTraduisible } from "../Design_System/i18n/langue.js";
-import { Editeur, elementVide, compterATraduire, nomElement } from "../Design_System/gabarits/Admin/Editeur.js";
-import { Connexion, BarrePublication, TableauDeBord, EcranProjets, EcranSections, EcranDocument, EcranMedias, PageAdmin, liensAdmin } from "../Design_System/gabarits/Admin/Ecrans.js";
-import { Gabarit_Bo } from "../Design_System/gabarits/Gabarit_Bo/Gabarit_Bo.js";
-import { valider, formaterErreurs, DOCUMENTS } from "../Design_System/gabarits/donnees.js";
-import { estCleSecrete } from "../tools/admin.mjs";
-import { chargerFichiers } from "../tools/contenu.mjs";
-import { textesLitteraux } from "./textes.mjs";
+import { creerContexte, estTraduisible } from "../../Design_System/i18n/langue.js";
+import { Editeur, elementVide, compterATraduire, nomElement } from "../../Design_System/gabarits/Admin/Editeur.js";
+import { Connexion, BarrePublication, TableauDeBord, EcranProjets, EcranSections, EcranDocument, EcranMedias, PageAdmin, liensAdmin } from "../../Design_System/gabarits/Admin/Ecrans.js";
+import { Gabarit_Bo } from "../../Design_System/gabarits/Gabarit_Bo/Gabarit_Bo.js";
+import { valider, formaterErreurs, DOCUMENTS } from "../../Design_System/gabarits/donnees.js";
+import { estCleSecrete } from "../../tools/admin.mjs";
+import { chargerFichiers } from "../../tools/contenu.mjs";
+import { textesLitteraux } from "../textes.mjs";
 
 const fr = JSON.parse(fs.readFileSync("Design_System/i18n/admin.fr.json", "utf8"));
 const en = JSON.parse(fs.readFileSync("Design_System/i18n/admin.en.json", "utf8"));
@@ -20,18 +20,6 @@ const ctx = creerContexte({ langue: "fr", langueParDefaut: "fr", dictionnaires: 
 const contenu = await chargerFichiers(process.cwd());
 
 const cles = (objet, prefixe = "") => Object.entries(objet).flatMap(([k, v]) => (k.startsWith("_") ? [] : v && typeof v === "object" && !Array.isArray(v) ? cles(v, `${prefixe}${k}.`) : [`${prefixe}${k}`]));
-
-test("dictionnaires du back-office : mêmes clés en FR et en EN", () => {
-  assert.deepEqual(cles(en).sort(), cles(fr).sort());
-});
-
-test("estTraduisible : un objet { fr, en } oui ; une donnée qui porte « id » non (régression)", () => {
-  assert.ok(estTraduisible({ fr: "a", en: "b" }));
-  assert.ok(estTraduisible({ fr: "a" }));
-  assert.ok(!estTraduisible({ id: "fifa26", titre: { fr: "x" } }));
-  assert.ok(!estTraduisible({ id: "x" }));
-  assert.ok(!estTraduisible(["fr"]));
-});
 
 test("éditeur : chaque clé du contenu a un libellé du dictionnaire, chaque contrôle un label relié", () => {
   for (const cle of DOCUMENTS) {
@@ -145,4 +133,5 @@ test("aucun texte en dur dans le script et les services du back-office", () => {
   }
 });
 
+// Parité des dictionnaires admin et estTraduisible : tests/cms.test.mjs (toujours vérifiés).
 // Recherche de clés et de jetons : tests/secrets.test.mjs (tous les fichiers suivis).

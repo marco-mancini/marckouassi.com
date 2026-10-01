@@ -12,8 +12,22 @@ import { DOCUMENTS } from "../Design_System/gabarits/donnees.js";
 
 export async function chargerFichiers(racine) {
   const contenu = {};
-  for (const nom of DOCUMENTS) contenu[nom] = JSON.parse(await fs.readFile(path.join(racine, "content", `${nom}.json`), "utf8"));
+  for (const nom of DOCUMENTS) contenu[nom] = normaliserChemins(JSON.parse(await fs.readFile(path.join(racine, "content", `${nom}.json`), "utf8")));
   return contenu;
+}
+
+/**
+ * Le CMS écrit le chemin d'une image depuis la racine du dépôt, avec une
+ * barre oblique initiale (« /Public/images/x.png ») ; le build et les
+ * gabarits utilisent la forme relative (« Public/images/x.png »). Les deux
+ * désignent le même fichier : on ramène la première à la seconde.
+ */
+const CHEMIN_CMS = /^\/Public\/[^\n]+\.(png|jpe?g|webp|gif|avif|mp4|webm|pdf)$/i;
+export function normaliserChemins(valeur) {
+  if (typeof valeur === "string") return CHEMIN_CMS.test(valeur) ? valeur.slice(1) : valeur;
+  if (Array.isArray(valeur)) return valeur.map(normaliserChemins);
+  if (valeur && typeof valeur === "object") return Object.fromEntries(Object.entries(valeur).map(([cle, v]) => [cle, normaliserChemins(v)]));
+  return valeur;
 }
 
 /**

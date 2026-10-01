@@ -7,7 +7,7 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { servir, lancer, ouvrir } from "./outils.mjs";
+import { servir, lancer, ouvrir } from "../navigateur/outils.mjs";
 
 const axe = fs.readFileSync("node_modules/axe-core/axe.min.js", "utf8");
 const PNG = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", "base64");

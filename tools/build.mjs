@@ -21,7 +21,7 @@ import { formaterErreurs } from "../Design_System/gabarits/donnees.js";
 import { cheminsPages, contextePage, rendrePage } from "./pages.mjs";
 import { chargerFichiers, chargerPublication, valider, referencesMedias } from "./contenu.mjs";
 import { publierMedias, sourceLocale, sourceDistante, lireJeton } from "./medias.mjs";
-import { construireAdmin } from "./admin.mjs";
+import { construireCms } from "./cms.mjs";
 
 const RACINE = process.cwd();
 const SORTIE = path.join(RACINE, "_site");
@@ -90,7 +90,8 @@ async function main() {
   // Ni documentation (.md) ni page HTML : le Design System ne publie que des ressources.
   await copier("Design_System", "Design_System", (chemin) => !/\.(md|html)$/.test(chemin));
   await copier("Frontend/site.js", "Frontend/site.js");
-  await construireAdmin({ racine: RACINE, sortie: SORTIE, env, contenu, sprite });
+  // /admin/ : CMS Git (Sveltia). L'ancien back-office Supabase (tools/admin.mjs) est en sommeil.
+  await construireCms({ racine: RACINE, sortie: SORTIE, contenu });
 
   // 5. Référencement et version
   const urls = site.langues.flatMap((langue) => pages.map((chemin) => ({ langue, chemin })));

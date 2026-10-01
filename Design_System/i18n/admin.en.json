@@ -249,5 +249,9 @@
     "en": "English"
   },
   "evitement": "Skip to content",
-  "nonConfigure": "The back office is not connected to Supabase yet. See Deploy/README.md."
+  "nonConfigure": "The back office is not connected to Supabase yet. See Deploy/README.md.",
+  "cms": {
+    "collection": "Site content",
+    "section": "Section"
+  }
 }

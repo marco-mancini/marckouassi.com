@@ -248,5 +248,9 @@
     "en": "English"
   },
   "evitement": "Aller au contenu",
-  "nonConfigure": "Le back-office n’est pas encore relié à Supabase. Voir Deploy/README.md."
+  "nonConfigure": "Le back-office n’est pas encore relié à Supabase. Voir Deploy/README.md.",
+  "cms": {
+    "collection": "Contenu du site",
+    "section": "Section"
+  }
 }
