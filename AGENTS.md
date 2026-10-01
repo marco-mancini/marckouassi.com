@@ -4,6 +4,7 @@ Applique ces règles à chaque modification de ce portfolio.
 
 ## Structure et réutilisation
 - Conserve le portfolio publié sous forme de site statique, sauf demande explicite de migration vers un framework. N'ajoute pas de dépendances React uniquement pour utiliser le composant de départ.
+- `content/` (site, sections, projets, cv) est la seule source du contenu. Le site est généré par `npm run build` dans `_site/`, puis publié par Vercel à chaque push sur `main`. Un CMS Git, à venir, écrira dans `content/` : ne crée aucune copie du contenu ailleurs.
 - Réutilise les structures de page et les styles du système de design. Évite les pages HTML en double dans `Design_System/styles/`.
 - Place les modules CSS dans `Design_System/styles/`. `Index.css` est leur point d'entrée unique.
 - Centralise les valeurs visuelles partagées dans `Design_System/styles/Tokens.css`. Déclare chaque couleur et chaque jeton de design une seule fois ; ne redéfinis pas la palette dans `Theme.css` ni dans les styles des composants.
@@ -23,15 +24,15 @@ Applique ces règles à chaque modification de ce portfolio.
 ## Contenus et vérifications
 - N'invente pas d'expérience professionnelle, de faits sur les projets ni de coordonnées. Signale clairement les informations non confirmées comme provisoires.
 - Rédige et relis en français tous les textes destinés aux visiteurs et les documents du dépôt.
-- Avant d'intégrer une modification visuelle, vérifie le véritable point d'entrée publié et les chemins des ressources produits par le flux de publication GitHub Pages, pas uniquement un aperçu local ou une page en double.
-- Examine la page à 320 px, sur tablette et sur ordinateur. Vérifie que les images et les feuilles de style se chargent depuis le site assemblé pour GitHub Pages.
+- Avant d'intégrer une modification visuelle, vérifie le véritable point d'entrée publié et les chemins des ressources produits par `npm run build` dans `_site/`, le dossier que publie Vercel, pas uniquement un aperçu local ou une page en double.
+- Examine la page à 320 px, sur tablette et sur ordinateur. Vérifie que les images et les feuilles de style se chargent depuis `_site/`, puis sur le déploiement Vercel.
 
 ## Méthode de travail
 - Aucune action Git (commit, push, création ou fusion de pull request) sans accord explicite. Un brief qui autorise clairement le commit et le push vaut accord pour ces deux gestes, et seulement pour eux.
 - Dès qu'une session reçoit plus d'une tâche, liste-les avant de commencer et tiens la liste à jour à chaque changement d'état.
 
 ## Run nocturne
-Ce mot-clé, écrit tel quel, bascule la session en travail autonome et prolongé : plus de question intermédiaire, plus d'attente de confirmation entre les tâches. Le brief qui déclenche la nuit dit ce qui est autorisé au-delà du commit et du push sur la branche de travail ; sans mention explicite, la création de pull request est permise mais sa fusion vers `main` ne l'est pas, puisque `main` publie directement sur marckouassi.com.
+Ce mot-clé, écrit tel quel, bascule la session en travail autonome et prolongé : plus de question intermédiaire, plus d'attente de confirmation entre les tâches. Le brief qui déclenche la nuit dit ce qui est autorisé au-delà du commit et du push sur la branche de travail ; sans mention explicite, la création de pull request est permise mais sa fusion vers `main` ne l'est pas, puisque `main` publie directement en production sur Vercel (https://marckouassi-com.vercel.app).
 
 **Ce qui ne justifie pas de s'arrêter** : une tâche plus longue que prévu se borne, se commite jusqu'où elle est allée, et le point d'arrêt est noté. Une tâche qui appelle un choix de contenu, de police ou de couleur non reçu se consigne comme décision en attente, sans être devinée, et la session passe à la suivante. Une approche qui ne fonctionne pas s'abandonne pour une autre. Un visuel ou un texte manquant se remplace par un espace réservé signalé comme provisoire, jamais par une invention.
 
@@ -41,4 +42,4 @@ Toute décision prise seule pendant la nuit reste provisoire, jamais acquise : e
 
 **Le rapport du matin** est court : ce qui a été fait, les décisions prises seul avec leur motif, ce qui est bloqué et ce qu'il manque pour continuer, l'état de la branche.
 
-**Une nuit ne modifie jamais** ce fichier `AGENTS.md`, ni le flux de publication `.github/workflows/pages.yml`.
+**Une nuit ne modifie jamais** ce fichier `AGENTS.md`, ni `vercel.json`, ni le workflow `.github/workflows/verifier.yml`.
