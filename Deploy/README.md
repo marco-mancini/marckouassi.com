@@ -56,6 +56,15 @@ ADMIN_DEMO=1 npm run build
 python3 -m http.server -d _site 8080   # puis http://localhost:8080/admin/
 ```
 
+## Vercel (aperçus)
+
+`vercel.json` déclare la commande de build (`npm run build`) et le dossier
+de sortie (`_site`). Sans ce fichier, Vercel cherche un dossier `public` et
+l'échec est « No Output Directory named "public" found ». Le build Vercel
+part de `content/` (aucune variable requise) ; `/admin/` y affiche « pas
+encore relié à Supabase » tant que les variables `ADMIN_SUPABASE_*` ne sont
+pas définies dans le projet Vercel.
+
 ## Flux GitHub
 
 - `.github/workflows/pages.yml` — **publication actuelle** : à chaque
