@@ -1,31 +1,33 @@
-# Déploiement Vercel (aperçus)
+# Déploiement Vercel (production)
 
-Vérifié le 1er octobre 2026 sur `version-finale/portfolio-bo` au commit `5e31048`.
-L'état « Ready » d'un déploiement **n'a pas pu être constaté** : cette session n'a
-accès ni au tableau de bord Vercel ni aux statuts que Vercel publie sur les
-commits GitHub. Ce document décrit ce qui a été vérifié dans le dépôt et
-comment conclure côté Vercel.
+Mis à jour le 1er octobre 2026. Vercel est l'hébergeur de production du
+portfolio : https://marckouassi-com.vercel.app. GitHub Pages est abandonné ;
+Cloudflare Pages n'est qu'une piste en sommeil (voir [DEPLOY_ETAT.md](DEPLOY_ETAT.md)).
 
-## Architecture actuelle
+## Architecture
 
 ```text
 content/*.json ─┐
-Design_System/ ─┼─► npm run build (node tools/build.mjs) ─► _site/ ─► Vercel (aperçus)
-Frontend/      ─┤                                                ├─► GitHub Pages (.github/workflows/pages.yml)
-Admin/         ─┘                                                └─► Cloudflare Pages (.github/workflows/publier.yml, cible)
+Design_System/ ─┼─► npm run build (node tools/build.mjs) ─► _site/ ─► Vercel
+Frontend/      ─┘
 ```
 
-Le site est **statique** : `tools/build.mjs` génère toutes les pages dans `_site/`.
-Le même dossier est publié par les trois chemins ci-dessus ; aucun n'utilise
-`public/`.
+- Push sur `main` → build et déploiement de **production**.
+- Push sur une autre branche → déploiement d'**aperçu** (adresse propre).
+- Le site est **statique** : `tools/build.mjs` génère toutes les pages dans
+  `_site/` et compresse les images (Sharp, WebP). Aucun serveur à
+  l'affichage.
+- Les tests ne tournent pas chez Vercel : c'est le workflow
+  `.github/workflows/verifier.yml` (GitHub Actions) qui les lance à chaque push.
 
 | Fichier | Rôle | Valeur |
 |---|---|---|
 | `package.json` | script `build` | `node tools/build.mjs` ; `engines.node` : `>=22.6` |
 | `tools/build.mjs` | dossier produit | `const SORTIE = path.join(RACINE, "_site")` |
 | `vercel.json` | consignes Vercel | `buildCommand: "npm run build"`, `outputDirectory: "_site"`, `framework: null` |
+| `content/site.json` | adresse publique | `url` : `https://marckouassi-com.vercel.app` |
 
-## Problème rencontré
+## Historique : l'erreur « public » (résolue)
 
 Sur les commits `3da45af`, `e37f493` et `32650b7`, Vercel échouait avec :
 
@@ -33,7 +35,7 @@ Sur les commits `3da45af`, `e37f493` et `32650b7`, Vercel échouait avec :
 > the Output Directory in your Project Settings. Alternatively, configure
 > vercel.json#outputDirectory.
 
-## Cause
+### Cause
 
 `vercel.json` avait été ajouté au commit `dbfab94` (« Corriger le déploiement
 Vercel… ») précisément pour indiquer `_site`. Le nettoyage du commit `3da45af`
@@ -44,7 +46,7 @@ du dépôt (visuels sources, avec une majuscule) n'est pas ce dossier : Vercel
 construit sous Linux, où la casse compte, et il ne contient de toute façon
 pas le site.
 
-## Correction (commit `5e31048`)
+### Correction (commit `5e31048`)
 
 - `vercel.json` restauré **à l'identique** de `dbfab94`.
 - Test `tests/deploiement.test.mjs` : il échoue si `vercel.json` disparaît ou si
@@ -76,13 +78,26 @@ Réglages du projet Vercel (Project Settings) :
 | Node.js Version | 22.x ou plus récent (le build exige Node 22.6 au minimum) |
 | Variables d'environnement | aucune n'est requise (voir ci-dessous) |
 
-Variables lues par le build, **toutes facultatives** :
-`CONTENU_SOURCE`, `PUBLICATION_VERSION`, `SUPABASE_URL`, `SUPABASE_CLE_PUBLIQUE`,
-`ADMIN_SUPABASE_URL`, `ADMIN_SUPABASE_CLE_PUBLIQUE`, `ADMIN_DEMO`.
-Sans elles, le build lit `content/` et `/admin/` affiche « pas encore relié à
-Supabase ». Ne jamais y mettre une clé secrète : le build la refuse.
+Aucune variable d'environnement n'est nécessaire : le build lit `content/`.
+Les variables `CONTENU_SOURCE`, `PUBLICATION_VERSION`, `SUPABASE_*`,
+`ADMIN_SUPABASE_*` et `ADMIN_DEMO` ne servent qu'au back-office Supabase,
+en sommeil. Ne jamais y mettre une clé secrète : le build la refuse.
 
-## Vérifications locales (1er octobre 2026)
+## Domaine personnalisé (le jour de l'achat)
+
+1. Dans `content/site.json`, remplacer `url` par l'adresse du domaine : c'est
+   la seule valeur du dépôt à changer.
+2. Dans Vercel → Settings → Domains, ajouter le domaine et suivre les
+   enregistrements DNS que Vercel affiche.
+
+## Fichiers retirés du dépôt
+
+Un fichier retiré du dépôt disparaît du déploiement de production suivant,
+mais **les anciens déploiements restent accessibles** à leur propre adresse
+(par exemple l'ancien PDF du CV). Pour les faire disparaître : Vercel →
+Deployments, supprimer les déploiements concernés.
+
+## Vérifications locales (1er octobre 2026, avant le passage en production)
 
 | Vérification | Résultat |
 |---|---|
@@ -97,15 +112,14 @@ Supabase ». Ne jamais y mettre une clé secrète : le build la refuse.
 | `npm run comparer-reference` | aucune dérive par rapport à 71cfb9d |
 | Changements inutiles pour Vercel | aucun : seul `vercel.json` (et son test, sa note) |
 
-## Ce qui reste à vérifier dans Vercel
+## Contrôler un déploiement
 
-1. Onglet **Deployments** : le Preview du commit `5e31048` (ou suivant) est **Ready**.
+1. Onglet **Deployments** : le déploiement du dernier commit est **Ready**.
 2. Journal de build : la ligne `Pages : 26 (fr, en)` apparaît et aucune erreur ne suit.
-3. Sur l'URL de Preview : `/`, `/en/`, `/cv/`, `/projets/aurex/`, `/admin/`
-   répondent, les styles et images se chargent.
-4. Ne fusionner vers `main` qu'une fois le Preview **Ready**.
+3. Sur le site : `/`, `/en/`, `/cv/`, `/projets/aurex/` répondent, les styles
+   et images se chargent ; `/version.json` porte l'heure du build.
 
-## Si le Preview échoue encore
+## Si un déploiement échoue
 
 | Symptôme dans le journal | Cause probable | Réglage à vérifier |
 |---|---|---|

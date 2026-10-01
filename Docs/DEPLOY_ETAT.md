@@ -1,84 +1,56 @@
-# État du déploiement de marckouassi.com
+# État du déploiement
 
-Constaté le 1er octobre 2026 sur `main` au commit `2a6b9c6`. Ce document décrit
-ce qui a été vérifié, ce qui bloque et ce qu'il reste à faire. Aucun résultat
-n'y est supposé : chaque point indique sa source.
+Mis à jour le 1er octobre 2026. Chaque point indique s'il a été **vérifié**
+(constaté) ou s'il reste **à faire**.
 
-## Ce qui fonctionne
-
-| Élément | État | Vérification |
-|---|---|---|
-| Build | `npm run build` produit `_site/` | exécuté dans le dépôt |
-| Tests | `npm test` et `npm run test:navigateur` passent | exécutés dans le dépôt |
-| `vercel.json` | `buildCommand: "npm run build"`, `outputDirectory: "_site"`, `framework: null` | lu dans le dépôt |
-| Workflow Pages | `.github/workflows/pages.yml` : push sur `main`, `npm ci`, `npm test`, `npm run build`, envoi de `_site/` | lu dans le dépôt |
-| `main` | contient la version finale (`2a6b9c6`) | `git log` |
-
-## Ce qui bloque
-
-### 1. Le nom de domaine n'existe pas
-
-- DNS public (Google, 1er octobre 2026) : `marckouassi.com` → **NXDOMAIN**,
-  réponse faite par les serveurs de la zone `.com` (`a.gtld-servers.net`).
-- Registre RDAP de Verisign (`rdap.verisign.com/com/v1/domain/marckouassi.com`) :
-  **404**, aucun enregistrement.
-
-Le domaine n'est donc pas enregistré, ou son enregistrement a expiré. Aucun
-réglage du dépôt ne peut le rendre accessible.
-
-### 2. GitHub Pages n'est pas activé sur le dépôt
-
-Le run 82 du workflow « Publier le portfolio sur GitHub Pages » (commit
-`2a6b9c6`) échoue à l'étape `actions/configure-pages@v5` :
+## Architecture réelle
 
 ```text
-Get Pages site failed. Please verify that the repository has Pages enabled and
-configured to build using GitHub Actions […] Error: Not Found
+content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  ──►  Vercel
+(seule source)       pages FR/EN, images compressées                   https://marckouassi-com.vercel.app
 ```
 
-Les runs 76, 80 et 81 ont échoué pour la même raison. Le build et les tests ne
-sont pas en cause : le job s'arrête avant eux. Le workflow n'est pas à modifier.
+- **Hébergeur** : Vercel, offre Hobby. Chaque push sur `main` déclenche un
+  build de production ; les autres branches produisent des aperçus.
+  Réglages : [DEPLOY_VERCEL.md](DEPLOY_VERCEL.md).
+- **Source du contenu** : `content/` (site, sections, projets, cv). Rien
+  d'autre n'alimente le site publié.
+- **Adresse publique** : `url` dans `content/site.json`. Canonical, og:url,
+  hreflang, plan du site et robots.txt en sont dérivés.
+- **Vérification** : le workflow `.github/workflows/verifier.yml` lance
+  tests unitaires, build et tests navigateur à chaque push et pull request.
+  Il ne publie rien.
+- **Édition** : directement dans `content/` (GitHub ou poste local). Un CMS
+  Git est **à venir** : il écrira dans `content/`, Vercel reconstruira.
 
-Le dépôt n'est pas visible sans connexion (page GitHub en 404) : il est donc
-privé. GitHub Pages sur un dépôt privé demande une offre payante (GitHub Pro,
-Team ou Enterprise) ; sinon, le dépôt doit être rendu public, ou le site publié
-par Vercel.
+## Vérifié le 1er octobre 2026
 
-### 3. Vercel et Cloudflare : état inconnu ou futur
+| Point | Constat |
+|---|---|
+| Site en ligne | `https://marckouassi-com.vercel.app` répond, version de `main` |
+| Adresse canonique | pointe vers `https://marckouassi-com.vercel.app` |
+| Données personnelles | `/cv/` ne publie ni date de naissance, ni quartier, ni téléphone |
+| PDF du CV | retiré ; `/Design_System/assets/Cv_Marc.pdf` répond 404 en production |
+| Build | `npm run build` produit `_site/` ; images : 330 Mo d'originaux → 9 Mo publiés |
+| Tests | unitaires, navigateur et contrôle de `_site` passent en local |
 
-- Vercel : cette session n'a accès ni au tableau de bord ni aux statuts de
-  déploiement. La configuration du dépôt est correcte (voir
-  [DEPLOY_VERCEL.md](DEPLOY_VERCEL.md)).
-- Cloudflare Pages : prévu seulement. `.github/workflows/publier.yml` reste
-  inactif tant que la variable `CLOUDFLARE_PROJET` n'existe pas.
+## Abandonné ou en sommeil
 
-## Actions à effectuer (Marc)
+| Élément | État | Remarque |
+|---|---|---|
+| GitHub Pages (`.github/workflows/pages.yml`) | **abandonné** | échoue à chaque push à l'étape `configure-pages` (Pages non activé) ; suppression à décider |
+| Cloudflare Pages (`.github/workflows/publier.yml`) | en sommeil | ne publie rien tant que `CLOUDFLARE_PROJET` n'existe pas ; le run quotidien ne fait rien sans Supabase |
+| Back-office Supabase (`Admin/`, `supabase/`) | en sommeil | jamais relié ; remplacé par le CMS Git à venir |
+| Domaine `marckouassi.com` | non acheté | NXDOMAIN ; à l'achat, changer seulement `url` dans `content/site.json`, puis ajouter le domaine dans Vercel (Settings → Domains) |
 
-1. **Enregistrer ou renouveler `marckouassi.com`** chez un registraire.
-   Vérification : `https://rdap.verisign.com/com/v1/domain/marckouassi.com`
-   renvoie une fiche au lieu d'une erreur 404.
-2. **Activer GitHub Pages** : dépôt → *Settings* → *Pages* → *Build and
-   deployment* → *Source* : **GitHub Actions**. Si l'option n'est pas
-   proposée, le dépôt est privé sans offre compatible (voir plus haut).
-3. **Relancer la publication** : *Actions* → « Publier le portfolio sur GitHub
-   Pages » → *Run workflow* sur `main`. Vérification : le run est vert et
-   `https://marco-mancini.github.io/marckouassi.com/` affiche le site.
-4. **Déclarer le domaine** : *Settings* → *Pages* → *Custom domain* :
-   `marckouassi.com`, puis, une fois le certificat émis, **Enforce HTTPS**.
-5. **Configurer le DNS** chez le registraire (valeurs publiées par GitHub) :
+## À faire ou à décider (Marc)
 
-   | Nom | Type | Valeur |
-   |---|---|---|
-   | `@` | A | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
-   | `@` | AAAA | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
-   | `www` | CNAME | `marco-mancini.github.io` |
-
-   Vérification : `dig marckouassi.com +short` renvoie les quatre adresses,
-   puis `https://marckouassi.com` affiche le site avec un certificat valide.
-
-Avec un workflow GitHub Actions, le domaine se déclare dans les réglages : aucun
-fichier `CNAME` n'est nécessaire dans le dépôt.
-
-Si le site doit plutôt être servi par Vercel, l'étape 2 est remplacée par
-l'ajout du domaine dans le projet Vercel (*Settings* → *Domains*), et l'étape 5
-par les enregistrements que Vercel affiche alors.
+1. **Conditions de Vercel** : l'offre Hobby est réservée à un usage
+   personnel ou non commercial ; la section Prestations mentionne devis et
+   tarifs. Décision à prendre (voir le rapport du 1er octobre).
+2. **Anciens déploiements Vercel** : ils restent accessibles à leur propre
+   adresse et contiennent l'ancien PDF du CV. Les supprimer dans
+   Vercel → Deployments.
+3. **`pages.yml`** : à supprimer une fois la décision prise ; rien n'en
+   dépend.
+4. **CMS Git** : à installer après validation de la proposition.
