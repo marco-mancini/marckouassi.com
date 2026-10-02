@@ -1,11 +1,17 @@
 # Dette technique
 
 Trois points repris de `RAPPORT-NUIT.md` (nuit du 29 septembre 2026, supprimé
-le 1er octobre 2026), revérifiés sur le code de `main` le 1er octobre 2026.
-Aucun n'est corrigé : chacun attend une décision de Marc. Ce document dit
-lesquels changent le rendu.
+le 1er octobre 2026), revérifiés sur le code de `main` le 1er octobre 2026,
+plus un constat sur la vérification continue. Ce document dit lesquels
+changent le rendu. Chaque point est suivi par une issue (voir
+[ISSUES.md](ISSUES.md)).
+
+Mis à jour le 2 octobre 2026 : le point 3 est réglé (PM-020, PM-045) ; les
+points 1 et 2 attendent une décision de Marc ; le point 4 est en veille.
 
 ## 1. Décalage des ancres — change le rendu
+
+Suivi : PM-018 (#18), `decision-marc`. Non réglé.
 
 Un saut vers une section (menu, lien « Le portfolio ↓ ») additionne deux
 dégagements :
@@ -25,6 +31,8 @@ section. Corriger déplace le point d'arrivée de chaque ancre.
 
 ## 2. Sept valeurs de géométrie d'animation — ne change pas le rendu
 
+Suivi : PM-019 (#19), `decision-marc`. Non réglé.
+
 `Design_System/fondations/Motion.css`, images-clés :
 
 | Animation | Valeurs écrites en dur |
@@ -39,10 +47,26 @@ Aucune famille de jetons ne couvre une distance ou une échelle de mouvement.
 Décision attendue : ouvrir une famille `--motion-*` dans `Tokens.css` (à
 valeurs identiques, aucun changement visible) ou les laisser.
 
-## 3. La valeur `14px` répétée — ne change le rendu que si on l'aligne
+## 3. La valeur `14px` répétée — réglé
 
-Elle n'appartient pas à l'échelle d'espacement (4 à 32 par pas de 4).
-Occurrences hors `Tokens.css` :
+**Réglé le 2 octobre 2026** par PM-020 (#20, PR #47) : chaque `14px` a été
+remplacé **à valeur égale** par un jeton nommé selon son rôle, déclaré dans
+`Tokens.css` (`--radius-lg` pour le rayon de la Modale), sans changement de
+rendu (`getComputedStyle` identique avant et après, 7 largeurs, clair et
+sombre). Les valeurs en dur voisines (barres du menu, marges et ombre de la
+Planche, carte de projet) ont suivi par PM-045 (#45, PR #51).
+
+Restent en dur, volontairement :
+
+- `fondations/Responsive.css` : `--page-gutter: 14px` sous 850 px. Ce
+  fichier est une couche de redéfinition de jetons ; décision de Marc du
+  2 octobre 2026 ;
+- `fondations/Motion.css` : voir point 2 ;
+- `gabarits/Projet_carte/Projet_carte.css` : `translateY(-3px)` au survol,
+  géométrie de mouvement de la même famille que le point 2.
+
+Elle n'appartenait pas à l'échelle d'espacement (4 à 32 par pas de 4).
+Occurrences relevées le 1er octobre 2026, hors `Tokens.css` :
 
 | Fichier | Usage |
 |---|---|
@@ -56,9 +80,10 @@ Occurrences hors `Tokens.css` :
 | `fondations/Responsive.css` | `--page-gutter` sous 850 px |
 | `fondations/Motion.css` | voir point 2 |
 
-Deux voies :
+Deux voies étaient possibles :
 
 - **remplacer par des jetons de même valeur** : aucun changement visible ;
+  c'est la voie retenue ;
 - **aligner sur l'échelle** (12 ou 16 px) : le rendu bouge.
 
 Leçon de la nuit du 29 septembre : un remplacement **par valeur** confond
@@ -66,6 +91,10 @@ deux rôles qui partagent un nombre (1000 px y était à la fois un rayon et une
 hauteur). Chaque remplacement se relit.
 
 ## 4. Installation de Chromium dans « Vérifier » — lenteur intermittente, rien modifié
+
+Suivi : PM-021 (#21). En veille : critère d'ouverture (3 runs sur les 10
+derniers au-dessus de 3 minutes) non atteint. Mesuré le 2 octobre 2026 sur
+les 10 derniers runs : de 21 à 30 s, aucun au-dessus de 3 minutes.
 
 Constat du 1er octobre 2026, journaux de GitHub Actions à l'appui. L'étape
 « Installer Chromium » a duré 20 s (run 1), 4 min 41 s (run 3), 22 s (run 5)
