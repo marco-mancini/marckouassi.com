@@ -50,6 +50,48 @@ test("EN : un texte français n'apparaît que pour un champ non traduit (rapport
   }
 });
 
+// Le sélecteur de langue est fait de liens vers les pages statiques /en/ :
+// chaque point d'entrée doit mener à la page anglaise correspondante.
+test("bascule FR → EN depuis chaque point d'entrée : page anglaise, lang=en, aucune erreur", async () => {
+  const cas = [
+    { depart: "/", largeur: 1440, zone: ".en-tete__large", arrivee: "/en/" },
+    { depart: "/", largeur: 375, zone: ".en-tete__compact", arrivee: "/en/" },
+    { depart: "/", largeur: 375, zone: "#menu", menu: true, arrivee: "/en/" },
+    { depart: "/cv/", largeur: 375, zone: ".cv__pied", arrivee: "/en/cv/" },
+    { depart: "/projets/aurex/", largeur: 1440, zone: "body", arrivee: "/en/projets/aurex/" },
+  ];
+  for (const { depart, largeur, zone, menu, arrivee } of cas) {
+    const page = await ouvrir(nav, serveur.url + depart, { largeur });
+    if (menu) await page.click('[data-modale-ouvrir="menu"]');
+    await page.locator(`${zone} .segments__option[lang="en"]`).filter({ visible: true }).first().click();
+    await page.waitForURL(serveur.url + arrivee);
+    assert.equal(await page.getAttribute("html", "lang"), "en", `${depart} ${zone}`);
+    assert.equal(await page.textContent(".skip-link"), "Skip to content", `${depart} ${zone}`);
+    assert.deepEqual(page.erreurs, [], `${depart} ${zone}`);
+    await page.fermer();
+  }
+});
+
+// AGENTS.md §3.4 : toute zone interactive mesure au moins 44 × 44 px. On
+// mesure la zone qui reçoit réellement le clic (elementFromPoint), pas la
+// boîte dessinée : un pseudo-élément peut l'agrandir sans changer le dessin.
+test("sélecteur de langue : chaque option reçoit le clic sur 44 × 44 px", async () => {
+  for (const largeur of [375, 1440]) {
+    const page = await ouvrir(nav, serveur.url + "/", { largeur });
+    const manques = await page.evaluate(() => {
+      const cible = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--cible-tactile"));
+      return [...document.querySelectorAll(".en-tete .segments__option")].filter((o) => o.getClientRects().length && o.getBoundingClientRect().width).flatMap((o) => {
+        const r = o.getBoundingClientRect(); const cx = r.left + r.width / 2; const cy = r.top + r.height / 2; const demi = cible / 2 - 0.5;
+        return [[cx, cy - demi], [cx, cy + demi], [cx - demi, cy], [cx + demi, cy]]
+          .filter(([x, y]) => document.elementFromPoint(x, y)?.closest(".segments__option") !== o)
+          .map(([x, y]) => `${o.textContent.trim()} (${Math.round(x)}, ${Math.round(y)})`);
+      });
+    });
+    assert.deepEqual(manques, [], `${largeur}px`);
+    await page.fermer();
+  }
+});
+
 test("le contenu est visible sans JavaScript, avec un script en échec et avec animations réduites", async () => {
   const cas = [{ js: false }, { bloquerScript: true }, { reduit: true, defile: true }, { defile: true }];
   for (const options of cas) {

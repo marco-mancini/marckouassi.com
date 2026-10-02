@@ -7,6 +7,11 @@
   align-items: center; justify-content: center; border: 0; border-radius: var(--radius-pill);
   background: none; color: var(--texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-commande);
   text-decoration: none; cursor: pointer; transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  position: relative;
 }
+/* Cible tactile : l'option est dessinée plus basse que la cible (retrait,
+   pour tenir dans la pilule) ; sa zone cliquable, elle, garde toute la
+   hauteur de la cible, sans rien changer au dessin (AGENTS.md §3.4). */
+.segments__option::after { content: ""; position: absolute; inset: calc(var(--segments-option-retrait) / -2) 0; }
 .segments__option:hover { background: var(--hover-on-dark); }
 .segments__option[aria-current="true"], .segments__option[aria-pressed="true"] { background: var(--texte); color: var(--fond); }
