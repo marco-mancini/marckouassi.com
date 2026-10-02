@@ -11,12 +11,12 @@
 html { scroll-behavior: smooth; }
 html.has-overlay { overflow: hidden; }
 
-@keyframes planche-entree { from { opacity: .65; transform: translateY(14px) scale(.995); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes couverture-revelation { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes etape-entree { from { opacity: 0; transform: translateY(var(--space-4)) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes planche-entree { from { opacity: .65; transform: translateY(var(--motion-planche-montee)) scale(var(--motion-planche-echelle)); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes couverture-revelation { from { opacity: 0; transform: translateY(var(--motion-couverture-montee)); } to { opacity: 1; transform: translateY(0); } }
+@keyframes etape-entree { from { opacity: 0; transform: translateY(var(--space-4)) scale(var(--motion-etape-echelle)); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes fleche-avance { 0%, 100% { transform: translate(0, -50%); opacity: .55; } 50% { transform: translate(var(--process-arrow-travel), -50%); opacity: 1; } }
 @keyframes reflet-balayage { 0% { left: -60%; } 55%, 100% { left: 140%; } }
-@keyframes point-battement { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--glass-shine); } 50% { transform: scale(1.18); box-shadow: 0 0 0 6px transparent; } }
+@keyframes point-battement { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--glass-shine); } 50% { transform: scale(var(--motion-point-echelle)); box-shadow: 0 0 0 var(--motion-point-halo) transparent; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -53,7 +53,7 @@ html[data-animations="reduites"] *::after {
 /* Trace du monogramme (accueil) : le contour se dessine, puis la forme se remplit. */
 @keyframes trace { from { stroke-dashoffset: var(--trace-longueur); } to { stroke-dashoffset: 0; } }
 @keyframes trace-remplissage { 0%, 55% { fill-opacity: 0; } 100% { fill-opacity: 1; } }
-@keyframes sceau-ouverture { from { opacity: 0; transform: scale(.85) rotate(-12deg); } to { opacity: 1; transform: none; } }
+@keyframes sceau-ouverture { from { opacity: 0; transform: scale(var(--motion-sceau-echelle)) rotate(var(--motion-sceau-rotation)); } to { opacity: 1; transform: none; } }
 /* Indicateur de chargement : seule rotation continue du systeme, parce
    qu'elle signale une attente en cours (exemptee du critere 2.2.2). */
 @keyframes rotation { to { transform: rotate(360deg); } }
