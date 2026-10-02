@@ -79,4 +79,5 @@ ce glossaire.
 | e-mail | email |
 | vue {numero} (texte alternatif) | view {numero} |
 | Coupe du monde | World Cup |
+| football | football (pas *soccer* : public international) |
 | Observer · Comprendre · Imaginer · Donner forme | Observe · Understand · Imagine · Give form |
