@@ -3,3 +3,5 @@ _site/
 Public/images/*Behance.html
 node_modules/
 .cache/
+.dev.vars*
+.env*

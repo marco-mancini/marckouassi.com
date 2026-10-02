@@ -1,0 +1,101 @@
+// Configuration du Worker « assistant » de MarcoS.
+//
+// Format JSONC, recommandé par Cloudflare pour les nouveaux projets : il
+// accepte les commentaires, et chaque réglage de ce fichier a besoin du sien.
+//
+// RÈGLE : tout ce qui est réglable vit ICI, jamais dans le code. Modèle,
+// limites, délais, origines. Un nom de modèle écrit à deux endroits finit par
+// diverger, et c'est l'origine la plus banale d'une panne un vendredi soir.
+//
+// ATTENTION, PIÈGE DE WRANGLER : `vars`, `secrets` et bindings ne sont PAS
+// hérités par les environnements. Tout ce qui doit valoir en `preview` et en
+// `production` est redéclaré dans chacun. C'est verbeux, et c'est voulu : un
+// héritage silencieux ferait déployer la production avec les réglages d'essai.
+//
+// Décisions appliquées (Docs/MARCOS_DECISIONS.md) :
+//   #24, D-7 : workers.dev, offre Free. Aucune route de domaine.
+//   D-2      : un seul fournisseur. Un seul secret : MISTRAL_CLE.
+//   D-6      : pas de Workers Paid. Le binding Rate Limiting est déclaré, mais
+//              son absence sur Free est gérée au lieu d'être payée.
+//   D-18     : budget journalier de 100 questions, aucun moyen de paiement.
+//   verbosité : MAX_JETONS_REPONSE = 180.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "marcos-assistant",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+
+  // Journaux : métadonnées seulement (décision D-10). Jamais le texte des
+  // questions ni des réponses, jamais l'IP en clair.
+  "observability": { "enabled": true },
+
+  // `workers.dev` est l'adresse de production (décision #24). Le jour où un
+  // domaine existe, une route `<domaine>/api/*` s'ajoute ici — et le code ne
+  // change pas.
+  "workers_dev": true,
+
+  "vars": {
+    "MISTRAL_MODELE": "mistral-small-2603",
+    "ORIGINES_AUTORISEES": "http://localhost:*",
+    "CONNAISSANCE_URL": "http://localhost:4173",
+    "LIMITE_MESSAGE": "500",
+    "LIMITE_HISTORIQUE": "2000",
+    "MAX_ECHANGES": "4",
+    "MAX_OCTETS": "16384",
+    "MAX_JETONS_REPONSE": "180",
+    "DELAI_FOURNISSEUR_MS": "15000",
+    "BUDGET_TEMPS_MS": "20000",
+    "BUDGET_JOURNALIER": "100",
+    "RETRY_APRES_S": "60"
+  },
+
+  "env": {
+    "preview": {
+      "vars": {
+        "MISTRAL_MODELE": "mistral-small-2603",
+        // À remplacer par l'URL de Preview Vercel au moment du déploiement.
+        "ORIGINES_AUTORISEES": "https://marckouassi-com.vercel.app",
+        "CONNAISSANCE_URL": "https://marckouassi-com.vercel.app",
+        "LIMITE_MESSAGE": "500",
+        "LIMITE_HISTORIQUE": "2000",
+        "MAX_ECHANGES": "4",
+        "MAX_OCTETS": "16384",
+        "MAX_JETONS_REPONSE": "180",
+        "DELAI_FOURNISSEUR_MS": "15000",
+        "BUDGET_TEMPS_MS": "20000",
+        // Budget plus bas en preview : un essai n'a pas à consommer la journée.
+        "BUDGET_JOURNALIER": "20",
+        "RETRY_APRES_S": "60"
+      }
+    },
+    "production": {
+      "vars": {
+        "MISTRAL_MODELE": "mistral-small-2603",
+        // Doit valoir exactement `url` de content/site.json.
+        "ORIGINES_AUTORISEES": "https://marckouassi-com.vercel.app",
+        "CONNAISSANCE_URL": "https://marckouassi-com.vercel.app",
+        "LIMITE_MESSAGE": "500",
+        "LIMITE_HISTORIQUE": "2000",
+        "MAX_ECHANGES": "4",
+        "MAX_OCTETS": "16384",
+        "MAX_JETONS_REPONSE": "180",
+        "DELAI_FOURNISSEUR_MS": "15000",
+        "BUDGET_TEMPS_MS": "20000",
+        "BUDGET_JOURNALIER": "100",
+        "RETRY_APRES_S": "60"
+      }
+    }
+  }
+
+  // NON DÉCLARÉS ICI, ET C'EST VOLONTAIRE :
+  //
+  // `unsafe.bindings` (Rate Limiting) — le binding se nomme LIMITEUR dans le
+  // code, et son absence est GÉRÉE (limites.js). Le déclarer avant de savoir
+  // s'il est accepté sur l'offre Free ferait échouer le déploiement, et D-6
+  // interdit de payer pour l'éviter. Il s'ajoutera en phase IA-07, après
+  // constat, avec sa forme exacte.
+  //
+  // `secrets` — un secret ne s'écrit jamais dans un fichier suivi. Il se pose
+  // par `wrangler secret put MISTRAL_CLE`, par environnement. Le seul secret du
+  // projet est celui-là (décision D-2).
+}
