@@ -9,7 +9,9 @@ import { html, attributs, classes } from "../../fondations/rendu.js";
  *          alt?:string, poster?:string, lang?:string, pistes?:Array}} p.media
  *        `lang` : langue du texte alternatif quand il vient d'une autre langue que la page
  * @param {"recadrer"|"contenir"} [p.ajustement]
- * @param {"aucun"|"arrondi"|"vignette"|"detail"|"passe-partout"} [p.cadre]
+ * @param {"aucun"|"arrondi"|"vignette"|"detail"|"passe-partout"|"detoure"} [p.cadre]
+ *        `detoure` : ni fond ni rayon, pour une image à transparence qui doit
+ *        poser directement sur le fond de la section.
  * @param {boolean} [p.zoom]        léger agrandissement au survol
  * @param {boolean} [p.priorite]    image visible au chargement : pas de chargement différé
  */

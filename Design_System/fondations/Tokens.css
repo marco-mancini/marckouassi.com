@@ -663,7 +663,7 @@
   --introduction-visuel-hauteur-compact: clamp(190px, 62vw, 340px); /* hauteur du visuel de l'introduction sous 850 px */
   /* sections : apropos */
   --apropos-disposition-marge-haute: clamp(26px, 4vw, 56px); /* marge haute de la disposition « À propos » */
-  --apropos-espace: clamp(24px, 4vw, 60px); /* écart entre portrait et texte « À propos » */
+  --apropos-espace: clamp(20px, 2vw, 32px); /* écart entre portrait et texte « À propos » */
   --apropos-espace-compact: 18px; /* écart portrait / texte « À propos » sous 850 px */
   /* sections : savoirfaire */
   --savoirfaire-tete-marge-haute: clamp(26px, 4vw, 58px); /* marge haute de la tête « Savoir-faire » */
