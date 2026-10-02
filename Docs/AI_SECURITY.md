@@ -41,7 +41,7 @@ choisir.
 | **Requêtes répétitives, spam** | limite par session et par IP avec le binding Rate Limiting **si l'offre Free le permet** (voir D-6) ; sinon budget journalier seul | Worker |
 | **Scraping de l'endpoint** | contrôle de `Origin` ; pas de CORS ouvert ; la réponse n'apporte rien que le site ne publie déjà | Worker |
 | **Coûts incontrôlés** | `max_tokens` 180 ; **budget journalier de 100 questions** ; **aucun moyen de paiement enregistré** : MarcoS ne peut pas générer de facture (D-18) | Worker, console |
-| **Données personnelles des visiteurs** | aucune conservation côté serveur ; journaux sans texte des questions (D-10) ; mention de confidentialité (D-9) ; refus d'entraînement chez Mistral (D-11) ; aucun historique de navigation (D-16) | Worker, console |
+| **Données personnelles des visiteurs** | aucune conservation côté serveur ; journaux sans texte des questions (D-10) ; mention de confidentialité **qui dit la vérité sur le réglage réellement appliqué** (D-9) ; refus d'entraînement chez Mistral, **gratuit** (D-11) ; aucun historique de navigation (D-16) | Worker, console |
 
 ### Contrôle de `Origin` et CORS
 
@@ -136,16 +136,56 @@ paiement enregistré, le pire cas est l'indisponibilité, jamais la dépense.
   origine étrangère, JSON malformé, **et réponse qui dépasse trois phrases**.
 - **Aucun moyen de paiement enregistré** chez Mistral — à vérifier, c'est la
   traduction opérationnelle du budget 0 €.
+- **Bascule `Anonymous improvement data` désactivée** (Admin → Privacy), et la
+  variante de mention de confidentialité **choisie en conséquence**.
 - Binding Rate Limiting : constater s'il fonctionne sur Free, et appliquer le
   repli ci-dessus si non.
 
-## Un point bloquant à lever
+## D-11 — refus d'entraînement : gratuit, et à faire par Marc
 
-**D-11, refus d'usage des données pour l'entraînement chez Mistral.** Marc
-l'accepte et le veut activé avant la première question réelle. Mais si ce refus
-exige une formule **payante**, il entre en conflit direct avec le budget 0 €, et
-Marc a dit que ce point est **bloquant** : constater dans la console, le lui
-signaler, et **ne rien mettre en ligne** entre-temps.
+**Ce point n'est plus bloquant.** Il l'était par une confusion de ce document,
+corrigée le 2 octobre 2026.
 
-C'est le seul endroit de ce document où une décision peut encore être renversée
-par un fait extérieur.
+### Deux contrôles distincts, qu'il ne faut plus confondre
+
+| Contrôle | Ce qu'il fait | Disponibilité |
+|---|---|---|
+| **Rétention zéro (ZDR)** | les entrées et sorties ne sont pas conservées après la réponse | **payante** — « ZDR is available on paid plans » |
+| **Refus d'entraînement** | les données ne servent pas à améliorer les modèles | **gratuite** |
+
+La documentation de Mistral est explicite : « ZDR and training opt-out are
+**separate controls** […] **You do not need ZDR to opt out of model training**. »
+
+**Ce document renvoyait à la page « rétention zéro » pour parler du refus
+d'entraînement.** D'où un faux blocage, et une décision de repli que Marc a dû
+prendre pour rien. L'erreur vient d'ici, pas de Mistral.
+
+### L'état par défaut, et ce qu'il faut faire
+
+En mode gratuit, les données **sont utilisées par défaut** : « As stated during
+subscription, we may use your data (input and output) to train our artificial
+intelligence models. » Mais le refus est ouvert à tout moment : « You have the
+right to opt out of this program at any time. »
+
+**Pas à pas, pour Marc, après création du compte :**
+
+1. ouvrir le panneau Admin : <https://admin.mistral.ai/> ;
+2. menu **Privacy**, dans la barre de navigation de gauche ;
+3. section **`Anonymous improvement data`** : **désactiver la bascule**.
+
+Attention : les bascules **Vibe** et **API** sont séparées. Seule celle de l'API
+concerne MarcoS — c'est celle de la section `Anonymous improvement data`.
+
+### L'ordre des choses compte
+
+**Tant que la bascule n'est pas désactivée, l'état honnête est « usage
+possible ».** La mention de confidentialité affichée au visiteur se choisit sur
+un **réglage effectivement appliqué**, jamais sur une intention. Les deux
+variantes sont prêtes dans
+[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#11-brouillons-de-la-mention-de-confidentialité-d-9) ;
+la variante « refus actif » ne se publie qu'après vérification dans la console.
+
+**Décision de repli, consignée.** Si Mistral rendait un jour ce refus payant,
+Marc a tranché d'avance : on accepte l'usage éventuel et on le dit honnêtement,
+parce que le budget 0 € prime et que les questions posées à un assistant de
+portfolio sont de nature publique ([DECISIONS.md](DECISIONS.md)).

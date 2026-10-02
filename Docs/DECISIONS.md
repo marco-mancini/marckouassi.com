@@ -12,6 +12,76 @@ Règles :
 
 ---
 
+## 2026-10-02 — D-11 : accepter l'usage éventuel des données, et le dire honnêtement
+
+Décision de Marc · issue [#91](https://github.com/marco-mancini/marckouassi.com/issues/91) · complète la décision du même jour sur [MarcoS](#2026-10-02--marcos--budget-0--un-seul-fournisseur-contexte-minimal).
+
+**Problème.** La décision D-11 voulait refuser l'usage des questions des visiteurs
+pour l'entraînement des modèles de Mistral. Le dossier d'arbitrage la signalait
+comme **potentiellement bloquante** : si ce refus exigeait une formule payante,
+il entrait en conflit direct avec la contrainte **budget 0 €**, qui prime sur
+tout.
+
+**Options.**
+
+1. Accepter l'usage éventuel des données sur l'offre gratuite, et le dire dans la
+   mention de confidentialité.
+2. Renoncer à MarcoS tant que le refus n'est pas gratuit.
+3. Payer le minimum pour obtenir le refus.
+
+**Choix de Marc : option 1.** On accepte l'usage éventuel, **et on le dit
+honnêtement** au visiteur.
+
+**Motif de Marc.** Le budget 0 € est la contrainte qui prime. Les questions
+posées à un assistant de portfolio sont **de nature publique** — « quels projets
+avez-vous réalisés », « quelles sont ses compétences ». L'enjeu de
+confidentialité est faible, et il ne justifie pas une dépense.
+
+**Constat qui rend la décision sans objet.** Marc a demandé de vérifier si le
+refus était disponible gratuitement, en précisant : « si oui, on l'active et
+cette décision devient sans objet ». **Il l'est**, et la documentation du projet
+se trompait sur ce point. Relevé dans la documentation publique de Mistral le
+2 octobre 2026 :
+
+- **la rétention zéro (ZDR) et le refus d'entraînement sont deux contrôles
+  distincts.** La documentation de Mistral l'écrit : « ZDR and training opt-out
+  are **separate controls** […] **You do not need ZDR to opt out of model
+  training.** » La ZDR, elle, est bien réservée aux offres payantes — mais ce
+  n'est pas ce que D-11 demandait ;
+- en **mode gratuit**, les données sont utilisées par défaut, **et le refus est
+  ouvert** : « You have the right to opt out of this program at any time » ;
+- la procédure, pour l'API : panneau Admin → menu **Privacy** → section
+  `Anonymous improvement data` → **désactiver la bascule**. Aucune mention de
+  plan payant.
+
+**La documentation du projet confondait les deux contrôles.** `AI_SECURITY.md`
+renvoyait à la page « rétention zéro » pour parler du refus d'entraînement, ce
+qui a fait naître un faux blocage. L'erreur est corrigée.
+
+**Impact.**
+
+- **D-11 n'est plus un point bloquant.** Le refus sera activé, gratuitement, et
+  MarcoS pourra annoncer que les questions ne servent pas à l'entraînement.
+- La décision de Marc **reste consignée** : elle décrit ce qu'on aurait fait si
+  le refus avait été payant, et elle sert de position de repli si Mistral changeait
+  ses conditions.
+- **Deux variantes** de la mention de confidentialité sont préparées, FR et EN,
+  dans [MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#11-brouillons-de-la-mention-de-confidentialité-d-9) :
+  « refus actif » et « usage possible ». Marc choisira selon le constat réel.
+- **L'état honnête tant que la bascule n'est pas désactivée est « usage
+  possible »**, pas « refus actif ». La variante ne se choisit pas sur une
+  intention, elle se choisit sur un réglage effectivement appliqué.
+
+**Réversibilité.** Totale, dans les deux sens : la bascule se réactive et se
+désactive à tout moment dans le panneau Admin, et la mention de confidentialité
+est un texte de `content/`, éditable au CMS.
+
+**Ce qui reste à Marc.** Créer le compte Mistral, puis désactiver la bascule
+`Anonymous improvement data` dans Admin → Privacy. Le pas à pas est dans
+[AI_SECURITY.md](AI_SECURITY.md).
+
+---
+
 ## 2026-10-02 — MarcoS : budget 0 €, un seul fournisseur, contexte minimal
 
 Décisions de Marc, prises en une passe sur le

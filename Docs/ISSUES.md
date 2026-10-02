@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-081 : 20 issues ouvertes, 34 fermées.
+État au 2 octobre 2026, de PM-004 à PM-091 : 21 issues ouvertes, 34 fermées.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -72,3 +72,4 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-075 | [#75](https://github.com/marco-mancini/marckouassi.com/issues/75) | Acter marckouassi-com.vercel.app comme adresse officielle (PM-009 suspendue) | documentation, infrastructure | — | fermée — réglée par la PR #77 |
 | PM-076 | [#76](https://github.com/marco-mancini/marckouassi.com/issues/76) | Spécification des fichiers de l'avatar 3D de MarcoS (Docs/MARCOS_AVATAR.md) | documentation | — | fermée — réglée par la PR #78 |
 | PM-081 | [#81](https://github.com/marco-mancini/marckouassi.com/issues/81) | État de fin de session du 2 octobre 2026 | documentation | — | fermée — réglée par la PR #82 |
+| PM-091 | [#91](https://github.com/marco-mancini/marckouassi.com/issues/91) | D-11 : le refus d'entraînement Mistral est gratuit, lever le blocage et préparer la mention | documentation | — | ouverte |
