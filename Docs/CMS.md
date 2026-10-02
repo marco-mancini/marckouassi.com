@@ -3,6 +3,15 @@
 Mis en place le 1er octobre 2026. Adresse : https://marckouassi-com.vercel.app/admin/
 (non indexée, interdite aux robots).
 
+> **Chaîne éprouvée de bout en bout le 2 octobre 2026.** Marc a créé le jeton à
+> portée fine, s'est connecté à `/admin/`, modifié un contenu, enregistré, et
+> vérifié que le changement est bien en ligne après reconstruction. Le commit
+> produit par le CMS est
+> [`f951375`](https://github.com/marco-mancini/marckouassi.com/commit/f9513752e7b13dbf780d6f77da382e8f741a3b85)
+> — « Contenu : modifier Contenu du site « sections » », 13:57:34 UTC, **un seul
+> fichier, une seule ligne**. Issues PM-004 (#4) et PM-005 (#5), fermées.
+> Ce n'est plus une marche à suivre théorique.
+
 ## La chaîne
 
 ```text
@@ -22,8 +31,18 @@ Marc modifie dans /admin/ ──► « Save » = un commit sur main (content/*.j
 
 ## Se connecter : jeton GitHub, sans serveur
 
-Sur l'écran d'accueil du CMS : **Sign In Using Access Token**. Le CMS
-propose un lien vers la page de création du jeton sur GitHub.
+**Utiliser « Se connecter avec un jeton d'accès » (*Sign In Using Access
+Token*), jamais le bouton GitHub.**
+
+C'est le point sur lequel on se trompe une fois et une seule. L'écran d'accueil
+du CMS propose deux entrées :
+
+| Entrée | Résultat |
+|---|---|
+| Bouton **GitHub** (connexion OAuth) | **Ne fonctionne pas ici.** Il attend un *proxy* OAuth, c'est-à-dire un petit service tiers qui détient le secret d'une application GitHub et effectue l'échange. Ce projet n'en a pas, et n'en veut pas : le CMS est précisément choisi parce qu'il fonctionne **sans serveur**. |
+| **Se connecter avec un jeton d'accès** (*Sign In Using Access Token*) | **C'est la bonne.** Le jeton est saisi directement, aucun service intermédiaire n'intervient. |
+
+Le CMS propose un lien vers la page de création du jeton sur GitHub.
 
 Créer un jeton à portée fine (GitHub → Settings → Developer settings →
 Personal access tokens → **Fine-grained tokens** → Generate new token,
@@ -39,6 +58,11 @@ https://github.com/settings/personal-access-tokens/new) :
 Le jeton est gardé dans le navigateur où il a été saisi (stockage local),
 jamais dans le dépôt. Le test `tests/secrets.test.mjs` échoue si un jeton
 GitHub apparaît dans un fichier suivi.
+
+**Pensez à l'échéance.** Le jeton a une date d'expiration : le jour où elle
+tombe, l'enregistrement échoue dans `/admin/` sans que rien d'autre ne le
+signale. Il suffit alors d'en créer un nouveau avec les mêmes réglages et de se
+reconnecter.
 
 ### Révoquer le jeton
 

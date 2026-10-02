@@ -12,20 +12,20 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-081 : 25 issues ouvertes, 29 fermées.
+État au 2 octobre 2026, de PM-004 à PM-081 : 23 issues ouvertes, 31 fermées.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
-| PM-004 | [#4](https://github.com/marco-mancini/marckouassi.com/issues/4) | Créer le jeton GitHub et se connecter à /admin/ | decision-marc, cms, urgent | — | ouverte |
-| PM-005 | [#5](https://github.com/marco-mancini/marckouassi.com/issues/5) | Faire une première modification réelle depuis /admin/ | decision-marc, cms, urgent, blocage | PM-004 | ouverte |
+| PM-004 | [#4](https://github.com/marco-mancini/marckouassi.com/issues/4) | Créer le jeton GitHub et se connecter à /admin/ | decision-marc, cms, urgent | — | fermée — jeton créé et connexion faite par Marc le 2 octobre 2026 ; preuve : le commit `f951375` du CMS |
+| PM-005 | [#5](https://github.com/marco-mancini/marckouassi.com/issues/5) | Faire une première modification réelle depuis /admin/ | decision-marc, cms, urgent, blocage | — | fermée — chaîne CMS → GitHub → Vercel → site prouvée de bout en bout le 2 octobre 2026 (commit `f951375`) |
 | PM-006 | [#6](https://github.com/marco-mancini/marckouassi.com/issues/6) | Supprimer les anciens déploiements Vercel qui contiennent le PDF du CV | decision-marc, securite, urgent | — | ouverte |
 | PM-007 | [#7](https://github.com/marco-mancini/marckouassi.com/issues/7) | Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues | decision-marc, infrastructure, blocage | — | ouverte |
 | PM-008 | [#8](https://github.com/marco-mancini/marckouassi.com/issues/8) | Créer et tenir l'index Docs/ISSUES.md | documentation | — | fermée — index fusionné par la PR #41 |
 | PM-009 | [#9](https://github.com/marco-mancini/marckouassi.com/issues/9) | Acheter marckouassi.com puis changer url dans site.json | decision-marc, infrastructure | — | ouverte — suspendue par décision de Marc du 2 octobre 2026 (PM-075) |
-| PM-010 | [#10](https://github.com/marco-mancini/marckouassi.com/issues/10) | Refaire le PDF du CV sans données personnelles | decision-marc, contenu | — | ouverte |
-| PM-011 | [#11](https://github.com/marco-mancini/marckouassi.com/issues/11) | Réécrire le résumé du CV | decision-marc, contenu | — | ouverte |
+| PM-010 | [#10](https://github.com/marco-mancini/marckouassi.com/issues/10) | Refaire le PDF du CV sans données personnelles | decision-marc, contenu | — | ouverte — plus de dépendance technique : le CMS est éprouvé (PM-005) |
+| PM-011 | [#11](https://github.com/marco-mancini/marckouassi.com/issues/11) | Réécrire le résumé du CV | decision-marc, contenu | — | ouverte — plus de dépendance technique : le CMS est éprouvé (PM-005) |
 | PM-012 | [#12](https://github.com/marco-mancini/marckouassi.com/issues/12) | Poser les étiquettes d'archive des 8 branches obsolètes | decision-marc, infrastructure | — | fermée — 8 étiquettes annotées sur le distant, 8/8 sur le SHA attendu ([BRANCHES.md](BRANCHES.md)) |
 | PM-013 | [#13](https://github.com/marco-mancini/marckouassi.com/issues/13) | Supprimer les 8 branches obsolètes | decision-marc, infrastructure | — | ouverte — débloquée : les étiquettes d'archive sont posées (PM-012) ; la suppression reste à Marc |
 | PM-014 | [#14](https://github.com/marco-mancini/marckouassi.com/issues/14) | Envoyer le lien du site à l'auteur de la police Reey | decision-marc | — | ouverte |
