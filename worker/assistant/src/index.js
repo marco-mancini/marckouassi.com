@@ -22,6 +22,7 @@
 import { erreur, STATUTS } from "./erreurs.js";
 import { validerRequete, entetesCors } from "./requete.js";
 import { limiterDebit, creerBudget } from "./limites.js";
+import { extraireLiens } from "./prompt.js";
 
 /**
  * Crée le gestionnaire. L'injection des dépendances n'est pas de la cérémonie :
@@ -30,7 +31,7 @@ import { limiterDebit, creerBudget } from "./limites.js";
  *
  * @param {object} [deps]
  * @param {import("./fournisseur.js").Fournisseur} [deps.fournisseur]
- * @param {(p: {langue: string}) => Promise<string>} [deps.contexte]   IA-06
+ * @param {(p: {langue: string}) => Promise<object>} [deps.contexte]   base de la langue (IA-06)
  * @param {(p: object) => {systeme: string, messages: Array}} [deps.assembler]  IA-03
  * @param {ReturnType<typeof creerBudget>} [deps.budget]
  * @param {(entree: object) => void} [deps.journaliser]
@@ -76,23 +77,29 @@ export function creerGestionnaire(deps = {}) {
         return erreur("indisponible", { entetes: cors });
       }
 
-      const contexte = await deps.contexte({ langue: requete.langue });
-      const { systeme, messages } = deps.assembler({ requete, contexte });
-      const reponse = await deps.fournisseur.repondre({
+      const base = await deps.contexte({ langue: requete.langue });
+      const { systeme, messages } = deps.assembler({ requete, base });
+      const brute = await deps.fournisseur.repondre({
         systeme,
         messages,
         maxJetons: Number(env.MAX_JETONS_REPONSE ?? 180),
       });
 
+      // La réponse du modèle n'est JAMAIS rendue telle quelle : les références
+      // internes sont validées contre la base, et toute adresse qu'il aurait
+      // écrite est retirée (IA-03).
+      const { texte, liens } = extraireLiens(brute.texte, base);
+
       deps.journaliser?.({
         ...journal,
         sortie: 200,
-        jetonsEntree: reponse.jetonsEntree,
-        jetonsSortie: reponse.jetonsSortie,
+        jetonsEntree: brute.jetonsEntree,
+        jetonsSortie: brute.jetonsSortie,
+        liens: liens.length,
         ms: Date.now() - debut,
       });
 
-      return new Response(JSON.stringify({ texte: reponse.texte, liens: reponse.liens ?? [] }), {
+      return new Response(JSON.stringify({ texte, liens }), {
         status: 200,
         headers: { "content-type": "application/json; charset=utf-8", ...cors },
       });
