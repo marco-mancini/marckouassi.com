@@ -3,7 +3,9 @@
 **À remplir par Marc.** Ce dossier rassemble **toutes** les décisions qui bloquent
 le démarrage de MarcoS, pour qu'elles soient prises en une seule fois.
 
-Rédigé le 2 octobre 2026, à partir de `main` au commit `b616544`. Il traite
+Rédigé le 2 octobre 2026, à partir de `main` au commit `b616544`, **mis à jour le
+même jour sur `main` au commit `abd9924`** (chaîne du CMS éprouvée, version
+anglaise vérifiée en production). Il traite
 [#23](https://github.com/marco-mancini/marckouassi.com/issues/23) (source des
 données), [#24](https://github.com/marco-mancini/marckouassi.com/issues/24)
 (hébergement de l'endpoint),
@@ -66,6 +68,8 @@ Rien n'est codé. Mesuré sur `main` au commit `b616544`, le 2 octobre 2026 :
 | Compte Cloudflare, clé Mistral, clé Gemini | aucun |
 | Domaine `marckouassi.com` | non acheté, achat **suspendu** (ta décision du 2 octobre) |
 | Adresse du site | `https://marckouassi-com.vercel.app`, Vercel offre **Hobby** |
+| CMS Git (`/admin/`) | **éprouvé de bout en bout le 2 octobre 2026** : jeton créé, connexion faite, contenu modifié, publié, vérifié en ligne (commit `f951375`). PM-004 et PM-005 fermées. |
+| Version anglaise du site | **vérifiée en production par Marc** le 2 octobre 2026 |
 
 Et une mesure qui change deux chiffres de la documentation :
 
@@ -412,7 +416,7 @@ répondre en anglais **depuis des faits écrits en anglais**, validés et publi�
 
 | Option | Conséquence |
 |---|---|
-| **a. Répondre en anglais depuis les faits anglais** (possible depuis le 2 octobre) | Le modèle n'a plus à traduire : il reprend des phrases déjà relues et publiées. Moins de risque de dérive de sens, meilleure qualité. Si un champ perdait un jour sa version anglaise, repli sur le français. |
+| **a. Répondre en anglais depuis les faits anglais** (possible depuis le 2 octobre) | Le modèle n'a plus à traduire : il reprend des phrases déjà relues, publiées, et **vérifiées en production par Marc le 2 octobre**. Moins de risque de dérive de sens, meilleure qualité. Si un champ perdait un jour sa version anglaise, repli sur le français. |
 | **b. Reformuler les faits français en anglais** (la proposition d'origine) | Le modèle traduit à la volée, à chaque question, un texte qui existe déjà en anglais à côté. Travail inutile et risque de traduction approximative. |
 
 **Recommandation : a.** **Motif :** la traduction est faite, relue et en ligne ; la
@@ -434,6 +438,15 @@ aucun ne peut être écrit par une IA ni par moi.
 **Conséquence si ce n'est pas écrit :** `assistant.active` reste `false` et MarcoS
 **n'est pas rendu du tout**. C'est le seul verrou de ce dossier qui ne peut pas
 être levé par une décision : il demande de l'écriture.
+
+**Bonne nouvelle depuis le 2 octobre : tu pourras les écrire toi-même, sans
+moi.** La chaîne du CMS est éprouvée de bout en bout (PM-005, commit `f951375`).
+Ces trois textes vivent dans `content/site.json`, clé `assistant`, et
+`tools/cms.mjs` génère la configuration du CMS à partir de la forme des données :
+le jour où le champ existe, il **apparaît de lui-même** dans l'écran
+« Paramètres » de `/admin/`, en français et en anglais, sans qu'une ligne de
+configuration soit écrite à la main. Tu enregistres, le site se reconstruit. Pas
+de branche, pas de pull request, pas d'intermédiaire.
 
 **Recommandation : à toi, et tu peux l'écrire après.** **Motif :** tout le reste de
 MarcoS — base de connaissance, endpoint, interface, tests — se construit et se
@@ -727,7 +740,7 @@ des issues #23, #24 et #25.
 | **D-6** | Payer Workers Paid (5 $/mois) pour la limitation de débit ? | **Non, vérifier Free d'abord** — c'est un fait à constater, pas une préférence | |
 | **D-7** | DNS et hébergement de production (= #24) | **`workers.dev`**, bascule sur une route du domaine le jour de l'achat, sans changer le code | |
 | **D-8** | MarcoS répond-il en anglais depuis les faits anglais ou français ? | **Depuis l'anglais** — la traduction est faite, mesurée complète le 2 octobre | |
-| **D-9** | Accueil, exemples de questions, mention de confidentialité | **À écrire par toi** ; ne bloque pas le développement (`active: false`). Brouillons possibles sur demande | |
+| **D-9** | Accueil, exemples de questions, mention de confidentialité | **À écrire par toi**, directement dans `/admin/` → Paramètres dès que le champ existe ; ne bloque pas le développement (`active: false`). Brouillons possibles sur demande | |
 | **D-10** | Les journaux contiennent-ils le texte des questions ? | **Non, métadonnées seulement** | |
 | **D-11** | Refuser l'usage des données pour l'entraînement chez Mistral ? | **Oui**, avant la première question réelle | |
 | **D-12** | Envoyer une ou deux langues dans le contexte ? | **Une seule** — divise le coût par deux sans rien retirer | |
