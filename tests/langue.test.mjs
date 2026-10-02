@@ -58,3 +58,22 @@ test("typographie française : espace insécable avant : ; ? ! », apostrophe ty
   }
   assert.deepEqual(fautes, []);
 });
+
+test("typographie anglaise : guillemets “…”, aucune espace devant : ; ? !, apostrophe typographique", async () => {
+  const fs = await import("node:fs");
+  const fautes = [];
+  const verifier = (texte, ou) => {
+    if (/[«»]/.test(texte)) fautes.push(`${ou} : guillemets français dans un texte anglais — « ${texte.slice(0, 60)} »`);
+    if (/[\s  ][:;?!]/.test(texte)) fautes.push(`${ou} : espace devant une ponctuation haute — « ${texte.slice(0, 60)} »`);
+    if (/[A-Za-z]'[A-Za-z]/.test(texte)) fautes.push(`${ou} : apostrophe droite — « ${texte.slice(0, 60)} »`);
+  };
+  const parcourir = (v, ou, enEn) => {
+    if (typeof v === "string") { if (enEn) verifier(v, ou); return; }
+    if (Array.isArray(v)) return v.forEach((x, i) => parcourir(x, `${ou}.${i}`, enEn));
+    if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) if (!k.startsWith("_") && k !== "fr") parcourir(x, `${ou}.${k}`, enEn || k === "en");
+  };
+  for (const [f, toutEn] of [["Design_System/i18n/en.json", true], ["content/site.json", false], ["content/sections.json", false], ["content/projets.json", false], ["content/cv.json", false]]) {
+    parcourir(JSON.parse(fs.readFileSync(f, "utf8")), f, toutEn);
+  }
+  assert.deepEqual(fautes, []);
+});

@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-076 : 31 issues ouvertes, 22 fermées.
+État au 2 octobre 2026, de PM-004 à PM-076 : 29 issues ouvertes, 24 fermées.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
@@ -64,8 +64,8 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-064 | [#64](https://github.com/marco-mancini/marckouassi.com/issues/64) | Traduction anglaise, lot 3 : CV (75 champs) | contenu | — | fermée — réglée par la PR #69 |
 | PM-065 | [#65](https://github.com/marco-mancini/marckouassi.com/issues/65) | Traduction anglaise, lot 4 : textes d'interface | contenu | — | fermée — réglée par la PR #70 |
 | PM-066 | [#66](https://github.com/marco-mancini/marckouassi.com/issues/66) | Traduction anglaise, lot 5 : métadonnées et SEO, puis vérification complète | contenu | — | fermée — réglée par la PR #71 |
-| PM-072 | [#72](https://github.com/marco-mancini/marckouassi.com/issues/72) | Diagnostic : « le toggle vers l'anglais ne fonctionne pas » | bug | — | ouverte |
-| PM-073 | [#73](https://github.com/marco-mancini/marckouassi.com/issues/73) | Anglais : guillemets français dans deux champs en de projets.json | contenu | — | ouverte |
+| PM-072 | [#72](https://github.com/marco-mancini/marckouassi.com/issues/72) | Diagnostic : « le toggle vers l'anglais ne fonctionne pas » | bug | — | fermée — mécanisme hors de cause ; garde-fous par les PR #79 et #80 |
+| PM-073 | [#73](https://github.com/marco-mancini/marckouassi.com/issues/73) | Anglais : guillemets français dans deux champs en de projets.json | contenu | — | fermée — réglée par la PR #80 |
 | PM-074 | [#74](https://github.com/marco-mancini/marckouassi.com/issues/74) | Sélecteur de langue : zone cliquable de 44 × 38 px, sous le minimum de 44 × 44 | accessibilite, bug | — | fermée — réglée par la PR #79 |
 | PM-075 | [#75](https://github.com/marco-mancini/marckouassi.com/issues/75) | Acter marckouassi-com.vercel.app comme adresse officielle (PM-009 suspendue) | documentation, infrastructure | — | fermée — réglée par la PR #77 |
 | PM-076 | [#76](https://github.com/marco-mancini/marckouassi.com/issues/76) | Spécification des fichiers de l'avatar 3D de MarcoS (Docs/MARCOS_AVATAR.md) | documentation | — | fermée — réglée par la PR #78 |

@@ -28,11 +28,13 @@ ce glossaire.
     experience ») ;
   - noms d'événements et d'émissions : *Journée d'excellence du Gbêkê*,
     *Météo RTI1 & RTI2* ;
-  - signatures de marque citées : « La bière du Bénin ».
+  - signatures de marque citées : *La bière du Bénin*.
 - **Mise en forme conservée** : `**gras**`, retours à la ligne,
   variables `{nombre}`, `{numero}`.
 - **Dates** : mois en anglais, même format (*February 2025*, *January
   2025 — Present*) ; les années restent telles quelles.
+- **Typographie anglaise** : guillemets “…” (jamais « … »), pas
+  d'espace avant « : ; ! ? » (PM-073, #73).
 
 ## Termes récurrents
 
