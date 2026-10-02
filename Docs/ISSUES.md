@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-066 : 31 issues ouvertes, 17 fermées.
+État au 2 octobre 2026, de PM-004 à PM-066 : 29 issues ouvertes, 19 fermées.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
@@ -57,10 +57,10 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-053 | [#53](https://github.com/marco-mancini/marckouassi.com/issues/53) | Mettre à jour Docs/DETTE_TECHNIQUE.md après PM-020 et PM-045 | documentation | — | fermée — réglée par la PR #56 |
 | PM-054 | [#54](https://github.com/marco-mancini/marckouassi.com/issues/54) | Mettre à jour l'inventaire des branches (Docs/BRANCHES.md) | documentation | — | fermée — réglée par la PR #57 |
 | PM-058 | [#58](https://github.com/marco-mancini/marckouassi.com/issues/58) | Passer en jetons les valeurs en dur restantes du Design System | dette | — | fermée — réglée par la PR #59 |
-| PM-060 | [#60](https://github.com/marco-mancini/marckouassi.com/issues/60) | Diagnostic : la version anglaise du site reste en français | contenu | — | ouverte |
+| PM-060 | [#60](https://github.com/marco-mancini/marckouassi.com/issues/60) | Diagnostic : la version anglaise du site reste en français | contenu | — | fermée — réglée par la PR #71 |
 | PM-061 | [#61](https://github.com/marco-mancini/marckouassi.com/issues/61) | Fautes et incohérences du texte français relevées pendant la traduction | decision-marc, contenu | — | ouverte |
 | PM-062 | [#62](https://github.com/marco-mancini/marckouassi.com/issues/62) | Traduction anglaise, lot 1 : sections (116 champs) et glossaire | contenu | — | fermée — réglée par la PR #67 |
 | PM-063 | [#63](https://github.com/marco-mancini/marckouassi.com/issues/63) | Traduction anglaise, lot 2 : projets (91 champs) | contenu | — | fermée — réglée par la PR #68 |
 | PM-064 | [#64](https://github.com/marco-mancini/marckouassi.com/issues/64) | Traduction anglaise, lot 3 : CV (75 champs) | contenu | — | fermée — réglée par la PR #69 |
 | PM-065 | [#65](https://github.com/marco-mancini/marckouassi.com/issues/65) | Traduction anglaise, lot 4 : textes d'interface | contenu | — | fermée — réglée par la PR #70 |
-| PM-066 | [#66](https://github.com/marco-mancini/marckouassi.com/issues/66) | Traduction anglaise, lot 5 : métadonnées et SEO, puis vérification complète | contenu | — | ouverte |
+| PM-066 | [#66](https://github.com/marco-mancini/marckouassi.com/issues/66) | Traduction anglaise, lot 5 : métadonnées et SEO, puis vérification complète | contenu | — | fermée — réglée par la PR #71 |

@@ -131,7 +131,16 @@ test("nouveau projet sans traduction EN : page EN générée, champs balisés en
 });
 
 test("chaque champ « à traduire » désigne un chemin réel des données (pour le back-office)", () => {
+  // Le contenu réel est entièrement traduit : on retire l'anglais de la copie
+  // pour que chaque texte traduisible devienne un champ « à traduire ».
+  const sansAnglais = (o) => {
+    if (Array.isArray(o)) return o.forEach(sansAnglais);
+    if (!o || typeof o !== "object") return;
+    if ("fr" in o && "en" in o) delete o.en;
+    Object.values(o).forEach(sansAnglais);
+  };
   const contenu = copie();
+  sansAnglais(contenu);
   const valeurA = (chemin) => lire(contenu, chemin);
   const signales = new Set();
   for (const chemin of cheminsPages(contenu)) for (const m of rendre(contenu, { langue: "en", chemin }).ctx.manquants) if (m.type === "contenu") signales.add(m.cle);

@@ -2,10 +2,12 @@
   "_role": "Contenu de la page CV. À la demande de Marc, la page ne publie ni date de naissance, ni téléphone, ni quartier : seulement la ville, l'e-mail et LinkedIn (coordonnées communes du site).",
   "seo": {
     "titre": {
-      "fr": "Marc Kouassi — CV"
+      "fr": "Marc Kouassi — CV",
+      "en": "Marc Kouassi — Résumé"
     },
     "description": {
-      "fr": "Curriculum vitæ de Marc Kouassi, directeur artistique : branding, print et communication 360°."
+      "fr": "Curriculum vitæ de Marc Kouassi, directeur artistique : branding, print et communication 360°.",
+      "en": "Résumé of Marc Kouassi, art director: branding, print and 360° communication."
     }
   },
   "nom": {
