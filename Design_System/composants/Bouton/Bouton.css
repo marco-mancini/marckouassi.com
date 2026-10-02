@@ -49,12 +49,12 @@
 }
 
 /* Icone du menu : deux barres qui se croisent quand le menu est ouvert. */
-.bouton__barres { position: relative; display: block; width: 20px; height: var(--bouton-barres-hauteur); }
-.bouton__barres span { position: absolute; left: 0; width: 100%; height: 1.5px; background: currentColor; transition: transform var(--duration-fast) var(--ease-out), top var(--duration-fast) var(--ease-out), bottom var(--duration-fast) var(--ease-out); }
+.bouton__barres { position: relative; display: block; width: var(--bouton-barres-largeur); height: var(--bouton-barres-hauteur); }
+.bouton__barres span { position: absolute; left: 0; width: 100%; height: var(--bouton-barres-epaisseur); background: currentColor; transition: transform var(--duration-fast) var(--ease-out), top var(--duration-fast) var(--ease-out), bottom var(--duration-fast) var(--ease-out); }
 .bouton__barres span:first-child { top: 0; }
 .bouton__barres span:last-child { bottom: 0; }
-.bouton[aria-expanded="true"] .bouton__barres span:first-child { top: 6px; transform: rotate(45deg); }
-.bouton[aria-expanded="true"] .bouton__barres span:last-child { bottom: 6px; transform: rotate(-45deg); }
+.bouton[aria-expanded="true"] .bouton__barres span:first-child { top: var(--bouton-barres-croisement); transform: rotate(45deg); }
+.bouton[aria-expanded="true"] .bouton__barres span:last-child { bottom: var(--bouton-barres-croisement); transform: rotate(-45deg); }
 
 @media (max-width: 850px) {
   .bouton--surface.bouton--rond { width: var(--bouton-rond-surface-compact); height: var(--bouton-rond-surface-compact); }
