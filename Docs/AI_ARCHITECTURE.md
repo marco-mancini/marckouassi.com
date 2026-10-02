@@ -3,6 +3,11 @@
 Statut : **architecture validée, non implémentée** ; deux questions ouvertes (Q-1, Q-2, en fin de document). Rédigé et vérifié le
 1er octobre 2026. Aucune clé, aucun identifiant de compte n'existe dans le dépôt.
 
+**Toutes les décisions en attente de Marc — Q-1, Q-2, D-1 à D-11, et huit points
+que cette documentation suppose sans les avoir tranchés — sont rassemblées, avec
+leurs options, leurs conséquences et une recommandation motivée, dans
+[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md). C'est là que Marc répond.**
+
 Documents liés :
 [données](AI_DATA.md) · [sécurité](AI_SECURITY.md) · [interface](AI_UX.md) ·
 [prompt système](AI_SYSTEM_PROMPT.md) · [plan d'implémentation](AI_IMPLEMENTATION_PLAN.md) ·
@@ -59,7 +64,7 @@ Supabase. Toutes les clés vivent dans les secrets du Worker.
 | Identifiant du modèle | **épinglé** (pas d'alias `-latest`) | Mistral avertit que les alias exposent à des « silent updates in model behavior and pricing » |
 | Repli | **Gemini**, modèle **`gemini-3.5-flash-lite`** | Stable depuis le 21/07/2026, sans date d'arrêt annoncée ; « fastest, most cost-effective 3.5 model » |
 | Bascule vers Gemini | uniquement si la capacité Mistral est épuisée (voir [flux de repli](#flux-en-cas-de-quota-mistral)) | Gemini n'est pas un second fournisseur « à tout faire » |
-| Base de connaissance | tout le contenu **publié et autorisé**, envoyé en entier (≈ 5 000 jetons) | Le contenu actuel fait ≈ 17 000 caractères : pas besoin de recherche vectorielle |
+| Base de connaissance | tout le contenu **publié et autorisé**, envoyé en entier | Taille remesurée le 2 octobre 2026 : ≈ 9 800 jetons en deux langues, ≈ 5 100 en français seul ([AI_DATA.md](AI_DATA.md#taille)) ; pas besoin de recherche vectorielle. Une ou deux langues par requête : décision D-12 |
 | Source des données | dernière publication `en_ligne` de Supabase, lue avec la **clé publique** | La table `publications` est déjà lisible publiquement pour le contenu publié ; aucune clé secrète Supabase dans le Worker |
 | Cache | Cache API du Worker, clé = numéro de version de la publication | Évite un appel Supabase par question ; KV inutile (écritures limitées) |
 | Réponse | **non diffusée en flux** en V1 | Réponses courtes ; une seule annonce accessible ; décision de repli prise avant tout envoi. Le flux reste possible plus tard (phase IA-11) |
@@ -215,21 +220,35 @@ tant qu'il n'est pas acheté (D-7, Q-2, PM-024).
 
 ## Coûts (ordres de grandeur)
 
-Calcul à partir des prix officiels relevés le 1er octobre 2026, pour une question
-type : ≈ 5 500 jetons en entrée (prompt + contexte + historique), ≈ 300 en sortie.
+Prix unitaires relevés le 1er octobre 2026. **Les coûts par question ont été
+recalculés le 2 octobre 2026** sur la taille de base **remesurée** : la
+traduction anglaise étant terminée (PM-030), le contexte est passé de ≈ 5 000 à
+≈ 9 800 jetons en deux langues.
 
 | Poste | Prix officiel | Coût d'une question |
 |---|---|---|
-| Mistral Small 4 | 0,15 $ entrée / 0,60 $ sortie par million ; entrée en cache 0,015 $ | ≈ 0,001 $ (≈ 0,0003 $ si le contexte est servi depuis le cache de prompt) |
-| Gemini 3.5 Flash-Lite (payant) | 0,30 $ / 2,50 $ par million | ≈ 0,0024 $ |
+| Mistral Small 4 | 0,15 $ entrée / 0,60 $ sortie par million ; entrée en cache 0,015 $ | **0,0019 $** en deux langues ; **0,0012 $** en une langue ; **0,0004 $** avec le cache de prompt |
+| Gemini 3.5 Flash-Lite (payant) | 0,30 $ / 2,50 $ par million | **0,0028 $** en une langue, soit ≈ 2,3 fois Mistral |
 | Cloudflare Workers | Free : 100 000 requêtes/jour, 10 ms CPU ; Paid : 5 $/mois, 10 M requêtes incluses | 0 $ sur Free à ce volume |
-| Supabase | Free : 500 Mo de base, 5 Go d'egress | ≈ 0 $ (une lecture par version, mise en cache) |
+| Supabase | Free : 500 Mo de base, 5 Go d'egress | ≈ 0 $ (une lecture par version, mise en cache) — et 0 requête si Q-1 retient le JSON au build |
 
-Soit environ **1 $ pour 1 000 questions** avec Mistral. L'offre Free de Mistral
-affiche « 10 $/mo in API credits ». Limites et budgets : voir
-[AI_SECURITY.md](AI_SECURITY.md#coûts-et-limites).
+Entrée retenue pour le calcul : base mesurée + prompt système et liste des pages
+(≈ 700 jetons) + historique borné (≈ 1 100) ; sortie plafonnée à 300.
+
+Soit environ **1,20 $ pour 1 000 questions** en une langue, **1,90 $** en deux.
+L'offre Free de Mistral affiche « 10 $/mo in API credits ». Le détail du calcul,
+les plafonds proposés et ce qu'il faut revérifier avant d'engager de l'argent
+sont dans [MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#7-ce-quil-faut-revérifier-avant-dengager-de-largent).
+Limites et budgets : voir [AI_SECURITY.md](AI_SECURITY.md#coûts-et-limites).
 
 ## Décisions qui demandent l'accord de Marc
+
+La colonne « Proposition » ci-dessous est l'intention du 1er octobre 2026. Pour
+chacune, les **options**, la **conséquence de chaque option**, une
+**recommandation motivée** et la case où Marc répond sont dans
+[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#5-arbitrage-c--25--les-onze-décisions-d-1-à-d-11).
+D-8 y est rouverte : sa prémisse est périmée depuis que la traduction anglaise
+est terminée (PM-030).
 
 | # | Décision | Proposition |
 |---|---|---|
@@ -249,6 +268,10 @@ affiche « 10 $/mo in API credits ». Limites et budgets : voir
 
 Notées le 1er octobre 2026. Rien n'a été changé dans l'architecture
 ci-dessus : ces points se décident au démarrage de l'implémentation.
+
+**Les deux sont instruites, chiffrées et accompagnées d'une recommandation dans
+[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md) : Q-1 à l'arbitrage A, Q-2 à
+l'arbitrage B.** Elles restent ouvertes ici tant que Marc n'a pas répondu.
 
 ### Q-1 — Source des données : Supabase ou fichier JSON produit au build
 
