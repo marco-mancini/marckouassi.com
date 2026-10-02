@@ -7,10 +7,12 @@
   },
   "seo": {
     "titre": {
-      "fr": "Marc Kouassi — Portfolio de direction artistique"
+      "fr": "Marc Kouassi — Portfolio de direction artistique",
+      "en": "Marc Kouassi — Art Direction Portfolio"
     },
     "description": {
-      "fr": "Le portfolio de Marc Kouassi : direction artistique, identités, campagnes, expériences numériques et parcours créatif."
+      "fr": "Le portfolio de Marc Kouassi : direction artistique, identités, campagnes, expériences numériques et parcours créatif.",
+      "en": "The portfolio of Marc Kouassi: art direction, identities, campaigns, digital experiences and creative journey."
     }
   },
   "contact": {
