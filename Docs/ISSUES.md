@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-049 : 30 issues ouvertes, 7 fermées.
+État au 2 octobre 2026, de PM-004 à PM-049 : 29 issues ouvertes, 8 fermées.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
@@ -51,5 +51,5 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-038 | [#38](https://github.com/marco-mancini/marckouassi.com/issues/38) | Réécrire AGENTS.md | documentation | — | fermée — terminée par la PR #39 |
 | PM-040 | [#40](https://github.com/marco-mancini/marckouassi.com/issues/40) | Animation Motion Design de la couverture | decision-marc, documentation | — | ouverte |
 | PM-045 | [#45](https://github.com/marco-mancini/marckouassi.com/issues/45) | Passer en jetons les valeurs en dur relevées autour des 14px | dette | — | ouverte |
-| PM-046 | [#46](https://github.com/marco-mancini/marckouassi.com/issues/46) | La référence 71cfb9d de comparer-reference est périmée (14 écarts) | dette | — | ouverte |
+| PM-046 | [#46](https://github.com/marco-mancini/marckouassi.com/issues/46) | La référence 71cfb9d de comparer-reference est périmée (14 écarts) | dette | — | fermée — réglée par la PR #48 |
 | PM-049 | [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) | Avatar 3D de MarcoS | decision-marc, documentation | — | ouverte |
