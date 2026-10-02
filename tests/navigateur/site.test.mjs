@@ -7,6 +7,8 @@ import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { servir, lancer, ouvrir, defiler } from "./outils.mjs";
+import { chargerFichiers } from "../../tools/contenu.mjs";
+import { lire } from "../../Design_System/i18n/langue.js";
 
 const axe = fs.readFileSync("node_modules/axe-core/axe.min.js", "utf8");
 let serveur; let nav;
@@ -26,12 +28,26 @@ test("pages FR et EN : lang, canonique, hreflang, og:locale, aucune erreur", asy
   }
 });
 
-test("EN : un texte non traduit est affiché en français et balisé lang=fr (jamais inventé)", async () => {
-  const page = await ouvrir(nav, `${serveur.url}/en/`);
-  const balises = await page.$$eval('main [lang="fr"]', (l) => l.length);
-  assert.ok(balises > 0);
-  assert.equal(await page.textContent(".skip-link"), "Skip to content");
-  await page.fermer();
+// Le repli lui-même (FR balisé lang=fr, jamais inventé) est éprouvé par
+// tests/langue.test.mjs et tests/resistance.test.mjs. Ici, sur le site
+// réellement généré : un texte français n'apparaît sur une page anglaise
+// QUE pour un champ sans traduction consigné par le build. Site traduit :
+// aucun texte français.
+test("EN : un texte français n'apparaît que pour un champ non traduit (rapport du build)", async () => {
+  const sansEspace = (t) => String(t).replaceAll("**", "").replace(/\s+/g, "");
+  const contenu = await chargerFichiers(process.cwd());
+  const manquants = JSON.parse(fs.readFileSync(".cache/traductions-manquantes.json", "utf8")).filter((m) => m.langue === "en");
+  const francais = manquants.map((m) => sansEspace(lire(contenu, m.cle)?.fr ?? "")).filter(Boolean);
+  for (const chemin of ["/en/", "/en/cv/", "/en/projets/fifa26/"]) {
+    const page = await ouvrir(nav, serveur.url + chemin);
+    // Le sélecteur de langue nomme chaque langue dans sa propre langue : « FR Français » est voulu.
+    const textes = await page.$$eval('main [lang="fr"]', (l) => l.filter((e) => !e.closest(".segments")).map((e) => e.textContent));
+    const inattendus = textes.map(sansEspace).filter((t) => t && !francais.some((f) => f.includes(t)));
+    assert.deepEqual(inattendus, [], chemin);
+    if (!manquants.length) assert.deepEqual(textes, [], `${chemin} : site traduit, aucun texte français attendu`);
+    assert.equal(await page.textContent(".skip-link"), "Skip to content", chemin);
+    await page.fermer();
+  }
 });
 
 test("le contenu est visible sans JavaScript, avec un script en échec et avec animations réduites", async () => {
