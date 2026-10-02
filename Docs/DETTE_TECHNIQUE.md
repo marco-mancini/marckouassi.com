@@ -6,8 +6,9 @@ plus un constat sur la vérification continue. Ce document dit lesquels
 changent le rendu. Chaque point est suivi par une issue (voir
 [ISSUES.md](ISSUES.md)).
 
-Mis à jour le 2 octobre 2026 : le point 3 est réglé (PM-020, PM-045) ; les
-points 1 et 2 attendent une décision de Marc ; le point 4 est en veille.
+Mis à jour le 2 octobre 2026 : les points 2 et 3 sont réglés (PM-019 ;
+PM-020 et PM-045) ; le point 1 attend une décision de Marc ; le point 4 est
+en veille, son critère d'ouverture mesuré non atteint.
 
 ## 1. Décalage des ancres — change le rendu
 
@@ -29,23 +30,40 @@ de cet écart.
 Décision attendue : l'espace voulu entre l'en-tête et le titre d'une
 section. Corriger déplace le point d'arrivée de chaque ancre.
 
-## 2. Sept valeurs de géométrie d'animation — ne change pas le rendu
+## 2. Sept valeurs de géométrie d'animation — réglé
 
-Suivi : PM-019 (#19), `decision-marc`. Non réglé.
+**Réglé le 2 octobre 2026** par PM-019 (#19, PR #84), sur autorisation
+explicite de Marc malgré l'étiquette `decision-marc`. Une famille
+`--motion-*` est ouverte dans `Tokens.css`, nommée par rôle, aux valeurs
+reprises au caractère :
 
-`Design_System/fondations/Motion.css`, images-clés :
+| Animation | Avant, en dur | Après |
+|---|---|---|
+| `planche-entree` | `translateY(14px)`, `scale(.995)` | `--motion-planche-montee`, `--motion-planche-echelle` |
+| `couverture-revelation` | `translateY(22px)` | `--motion-couverture-montee` |
+| `etape-entree` | `scale(.97)` | `--motion-etape-echelle` |
+| `point-battement` | `scale(1.18)`, ombre `6px` | `--motion-point-echelle`, `--motion-point-halo` |
+| `sceau-ouverture` | `scale(.85)`, `rotate(-12deg)` | `--motion-sceau-echelle`, `--motion-sceau-rotation` |
 
-| Animation | Valeurs écrites en dur |
-|---|---|
-| `planche-entree` | `translateY(14px)`, `scale(.995)` |
-| `couverture-revelation` | `translateY(22px)` |
-| `etape-entree` | `scale(.97)` |
-| `point-battement` | `scale(1.18)`, ombre `6px` |
-| `sceau-ouverture` | `scale(.85)`, `rotate(-12deg)` |
+Aucun changement de rendu, mesuré et non estimé : keyframes résolues
+(`effect.getKeyframes()`, `var()` substituées) et interpolation figée à 0 %,
+50 % et 100 %, sur 7 largeurs × 2 modes, au repos, en survol, en focus et
+menu ouvert — **0 différence** sur 1216 animations. `sceau-ouverture` a été
+reprise avec l'animation d'accueil jouée, et `etape-entree` sur un élément
+injecté : 14 contextes chacune, 0 différence. `comparer-reference` sans
+dérive, 58/58 et 21/21 tests verts.
 
-Aucune famille de jetons ne couvre une distance ou une échelle de mouvement.
-Décision attendue : ouvrir une famille `--motion-*` dans `Tokens.css` (à
-valeurs identiques, aucun changement visible) ou les laisser.
+Restent en dur dans `Motion.css`, volontairement : les états d'arrivée
+`translateY(0)` et `scale(1)`, valeurs neutres de la propriété, et
+`rotate(360deg)` de l'indicateur de chargement, un tour entier.
+
+**Reste de la même famille, non traité :** `translateY(-3px)` au survol dans
+`gabarits/Projet_carte/Projet_carte.css`. Ce n'est pas une image-clé et ce
+n'était pas dans le périmètre de PM-019 ; sans suivi dédié à ce jour.
+
+**Code mort relevé au passage :** `etape-entree` n'est référencée par aucune
+règle de `Design_System`, `Frontend` ni `tools`. La mettre en jetons ne la
+réveille pas. Rien n'a été supprimé ; son sort est une décision de Marc.
 
 ## 3. La valeur `14px` répétée — réglé
 
@@ -61,7 +79,7 @@ Restent en dur, volontairement :
 - `fondations/Responsive.css` : `--page-gutter: 14px` sous 850 px. Ce
   fichier est une couche de redéfinition de jetons ; décision de Marc du
   2 octobre 2026 ;
-- `fondations/Motion.css` : voir point 2 ;
+- `fondations/Motion.css` : plus rien depuis PM-019 (point 2) ;
 - `gabarits/Projet_carte/Projet_carte.css` : `translateY(-3px)` au survol,
   géométrie de mouvement de la même famille que le point 2.
 
@@ -78,7 +96,7 @@ Occurrences relevées le 1er octobre 2026, hors `Tokens.css` :
 | `gabarits/Projet_carte/Projet_carte.css` | marge haute de l'en-tête de carte |
 | `gabarits/Jalon/Jalon.css` | espacement de grille |
 | `fondations/Responsive.css` | `--page-gutter` sous 850 px |
-| `fondations/Motion.css` | voir point 2 |
+| `fondations/Motion.css` | réglé par PM-019 (point 2) |
 
 Deux voies étaient possibles :
 

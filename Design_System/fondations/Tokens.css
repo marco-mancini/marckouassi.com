@@ -721,6 +721,28 @@
   /* Frappe du texte progressif, par caractere. */
   --texte-progressif-pas: 28ms;
 
+  /* --- Geometrie des images-cles ---
+     Les distances, echelles et rotations de depart des animations de
+     Motion.css. Elles etaient ecrites en clair dans les keyframes, seule
+     famille de valeurs du mouvement a y echapper encore (PM-019, #19).
+     Nommees par ROLE, jamais par valeur : le jeton dit QUI bouge et
+     COMMENT, pas de combien.
+
+     Valeurs reprises a l'identique, au caractere : la mise en jetons ne
+     change rien a l'ecran, elle deplace la source. Les etats d'arrivee
+     (translateY(0), scale(1)) restent en clair : ce sont les valeurs
+     neutres de la propriete, pas un reglage du site. La rotation complete
+     de l'indicateur de chargement (360deg) reste en clair pour la meme
+     raison, c'est un tour entier. */
+  --motion-planche-montee: 14px; /* de combien une planche remonte en entrant */
+  --motion-planche-echelle: .995; /* retrait d'echelle d'une planche en entrant */
+  --motion-couverture-montee: 22px; /* de combien la couverture remonte en se revelant */
+  --motion-etape-echelle: .97; /* retrait d'echelle d'une etape en entrant */
+  --motion-point-echelle: 1.18; /* gonflement du point au sommet de son battement */
+  --motion-point-halo: 6px; /* portee du halo du point, au sommet de son battement */
+  --motion-sceau-echelle: .85; /* echelle de depart du sceau qui s'ouvre */
+  --motion-sceau-rotation: -12deg; /* rotation de depart du sceau qui s'ouvre */
+
   /* --- Points de rupture, reference ecrite ---
      Une media query ne peut pas lire une variable : ces valeurs sont la
      reference, les requetes vivent dans Responsive.css. Ce sont les
