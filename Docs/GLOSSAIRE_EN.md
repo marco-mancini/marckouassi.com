@@ -23,7 +23,9 @@ ce glossaire.
   - **titres de postes** (consigne de Marc) : *Directeur artistique*,
     *Fondateur & directeur de création*, *Infographiste*, *Project
     Manager & Lead UX/UI*, *Fondateur & CEO* restent dans leur langue
-    d'origine ;
+    d'origine. Dans une phrase, le métier se traduit (« Directeur
+    artistique, 13 ans d'expérience » → « Art director with 13 years of
+    experience ») ;
   - noms d'événements et d'émissions : *Journée d'excellence du Gbêkê*,
     *Météo RTI1 & RTI2* ;
   - signatures de marque citées : « La bière du Bénin ».
@@ -76,6 +78,12 @@ ce glossaire.
 | encadrer, diriger (une équipe) | lead, manage |
 | sommaire illustré | illustrated contents |
 | CV | résumé |
+| informations (CV) | details |
+| compétences clés | key skills |
+| formation (diplômes) / formation (stages) | education / training |
+| Aujourd'hui (dans une période) | Present |
+| BTS | BTS (two-year higher technical diploma) |
+| Baccalauréat, Série A2 | inchangé (nom du diplôme) |
 | e-mail | email |
 | vue {numero} (texte alternatif) | view {numero} |
 | Coupe du monde | World Cup |
