@@ -36,7 +36,7 @@ recrée depuis la sienne.
 | `pm-008-index-issues` | `c98110c` | 1er oct. | **1** | aucune | PR #37 **fermée sans fusion** ; son index a été repris puis complété sur `main` (PR #41) |
 | `design/olive-editorial-identity` | `3276af7` | 24 sept. | 0 | `archive/design/olive-editorial-identity` | fusionnée (PR #2) ; supprimable |
 | `refonte/editorial-final` | `d5407b9` | 29 sept. | 0 | `archive/refonte/editorial-final` | supprimable |
-| `refonte/editorial-final-v2` | `71cfb9d` | 29 sept. | 0 | `archive/refonte/editorial-final-v2` | supprimable ; ancienne référence de `npm run comparer-reference`, remplacée par `9d51394` (voir plus bas) |
+| `refonte/editorial-final-v2` | `71cfb9d` | 29 sept. | 0 | `archive/refonte/editorial-final-v2` | supprimable ; ancienne référence de `npm run comparer-reference`, remplacée par `9d51394` puis `e8b729c` (voir plus bas) |
 | `refonte/kittl` | `3a6a903` | 29 sept. | 0 | `archive/refonte/kittl` | fusionnée (PR #3) ; supprimable |
 | `refonte/storytelling-01-04` | `1d44c40` | 29 sept. | 0 | `archive/refonte/storytelling-01-04` | supprimable |
 | `refonte/storytelling-01-04-v2` | `440cd35` | 29 sept. | 0 | `archive/refonte/storytelling-01-04-v2` | supprimable |
@@ -110,12 +110,21 @@ Typography) et `Frontend/index.html`, un fichier qui n'existe plus sur `main`.
 ## `refonte/editorial-final-v2` et la comparaison visuelle
 
 `tools/comparer-reference.mjs` reconstruit un commit avec `git archive` : il
-lit le commit, pas la branche. Depuis PM-046 (#46), la référence par défaut
-est `9d51394`, sur `main` ; `71cfb9d` reste comparable en le passant en
-argument (`npm run comparer-reference -- 71cfb9d`). Supprimer la branche ne
-casse pas la comparaison tant que le commit reste accessible, ce qui est le
-cas puisqu'il est dans l'historique de `main` — et désormais aussi par
-l'étiquette `archive/refonte/editorial-final-v2`.
+lit le commit, pas la branche. **Toute référence passée reste comparable** en
+la donnant en argument — c'est ce qui rend un changement de référence
+vérifiable au lieu d'être un effacement.
+
+| Référence | Depuis | Pourquoi la précédente a été remplacée |
+|---|---|---|
+| `71cfb9d` | origine | sur `refonte/editorial-final-v2` |
+| `9d51394` | PM-046 (#46) | 14 écarts, tous dus à trois changements de contenu validés |
+| **`e8b729c`** | **PM-100 (#100)** | portrait détouré (PM-097) : le ratio passe de 0,563 à 0,623, la section « À propos » perd 56 px à 1024 et 79 px à 1440 |
+
+Chacune se rejoue : `npm run comparer-reference -- 9d51394` rend aujourd'hui
+les mêmes 4 écarts, à l'identique. Supprimer une branche ne casse pas la
+comparaison tant que le commit reste accessible, ce qui est le cas puisqu'il
+est dans l'historique de `main` — et désormais aussi par l'étiquette
+`archive/refonte/editorial-final-v2`.
 
 ## Étiquettes d'archive — posées le 2 octobre 2026
 
