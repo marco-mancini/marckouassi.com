@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-076 : 29 issues ouvertes, 24 fermées.
+État au 2 octobre 2026, de PM-004 à PM-081 : 29 issues ouvertes, 25 fermées.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
@@ -69,3 +69,4 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-074 | [#74](https://github.com/marco-mancini/marckouassi.com/issues/74) | Sélecteur de langue : zone cliquable de 44 × 38 px, sous le minimum de 44 × 44 | accessibilite, bug | — | fermée — réglée par la PR #79 |
 | PM-075 | [#75](https://github.com/marco-mancini/marckouassi.com/issues/75) | Acter marckouassi-com.vercel.app comme adresse officielle (PM-009 suspendue) | documentation, infrastructure | — | fermée — réglée par la PR #77 |
 | PM-076 | [#76](https://github.com/marco-mancini/marckouassi.com/issues/76) | Spécification des fichiers de l'avatar 3D de MarcoS (Docs/MARCOS_AVATAR.md) | documentation | — | fermée — réglée par la PR #78 |
+| PM-081 | [#81](https://github.com/marco-mancini/marckouassi.com/issues/81) | État de fin de session du 2 octobre 2026 | documentation | — | fermée — réglée par la PR #82 |
