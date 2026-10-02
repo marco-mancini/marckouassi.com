@@ -1,4 +1,4 @@
-# NéO, assistant du portfolio — architecture
+# MarcoS, assistant du portfolio — architecture
 
 Statut : **architecture validée, non implémentée** ; deux questions ouvertes (Q-1, Q-2, en fin de document). Rédigé et vérifié le
 1er octobre 2026. Aucune clé, aucun identifiant de compte n'existe dans le dépôt.
@@ -13,12 +13,12 @@ Documents liés :
 Permettre à un visiteur de poser des questions sur Marc Kouassi, son parcours,
 ses projets, ses compétences et ses prestations, et d'obtenir des réponses
 courtes, exactes et **uniquement fondées sur le contenu publié du portfolio**.
-NéO est une fonction du portfolio, pas un widget ajouté : il réutilise
+MarcoS est une fonction du portfolio, pas un widget ajouté : il réutilise
 le Design System et ne crée aucun langage graphique.
 
 ## Nom officiel
 
-L'assistant s'appelle **NéO** : N majuscule, é accentué, O majuscule. Aucune
+L'assistant s'appelle **MarcoS** : N majuscule, é accentué, O majuscule. Aucune
 autre graphie n'est un nom officiel. Ce nom est un texte affiché : il vient du
 contenu (`content/site.json`, clé `assistant`) et des dictionnaires, jamais du
 code. Les identifiants techniques restent neutres et en ASCII (`assistant`,
@@ -31,7 +31,7 @@ ce ne sont pas des noms.
  [Visiteur]
      │  navigateur : pages statiques (_site), aucune clé
      ▼
- [NéO, dans le portfolio]  gabarit Assistant = Modale + Conversation + Champ/Saisie + Bouton + Message
+ [MarcoS, dans le portfolio]  gabarit Assistant = Modale + Conversation + Champ/Saisie + Bouton + Message
      │  HTTPS  POST /api/assistant   (JSON, sans clé, Origin contrôlée)
      ▼
  [Cloudflare Worker « assistant »]
@@ -45,10 +45,10 @@ ce ne sont pas des noms.
      │           ───────────────────────────────────────────────────► [Gemini]   generateContent (repli)
      └─ 6. réponse normalisée : { texte, liens internes validés, fournisseur }
      ▼
- [NéO, dans le portfolio]  affiche le texte (jamais en HTML), liens internes uniquement
+ [MarcoS, dans le portfolio]  affiche le texte (jamais en HTML), liens internes uniquement
 ```
 
-Le navigateur ne parle **jamais** à Mistral, à Gemini ni, pour NéO, à
+Le navigateur ne parle **jamais** à Mistral, à Gemini ni, pour MarcoS, à
 Supabase. Toutes les clés vivent dans les secrets du Worker.
 
 ## Décisions
@@ -72,7 +72,7 @@ au moment de l'implémentation (phase IA-05 et IA-07).
 
 ## Flux d'une requête
 
-1. Le visiteur ouvre NéO (bouton du portfolio) ; le navigateur affiche le
+1. Le visiteur ouvre MarcoS (bouton du portfolio) ; le navigateur affiche le
    message d'accueil, tiré du contenu `site.assistant` (voir [AI_UX.md](AI_UX.md)).
 2. Il envoie une question (500 caractères au plus). Le navigateur envoie :
 
@@ -197,7 +197,7 @@ Variables (`vars`) : `MISTRAL_MODELE`, `GEMINI_MODELE`, `ORIGINES_AUTORISEES`,
 Secrets : `MISTRAL_CLE`, `GEMINI_CLE`, `SUPABASE_CLE_PUBLIQUE`.
 
 Le site connaît seulement l'**adresse** de l'endpoint, injectée au build
-(`ASSISTANT_URL`). Sans elle, NéO n'est pas rendu.
+(`ASSISTANT_URL`). Sans elle, MarcoS n'est pas rendu.
 
 ## Hébergement de l'endpoint
 
@@ -233,7 +233,7 @@ affiche « 10 $/mo in API credits ». Limites et budgets : voir
 | D-1 | Basculer vers Gemini aussi en cas de **panne** Mistral (5xx, délai) | Non par défaut (`REPLI_SUR_INDISPONIBILITE=false`), pour respecter « repli sur quota uniquement » |
 | D-2 | Activer la **facturation** Gemini | Obligatoire : les conditions Gemini n'autorisent que les services payants pour servir des visiteurs de l'EEE, de Suisse et du Royaume-Uni |
 | D-3 | Exclure de la base téléphone, adresse précise et date de naissance | Oui (voir [AI_DATA.md](AI_DATA.md)) |
-| D-4 | Emplacement de l'entrée de NéO | Section Contact et menu ; pas de bulle flottante (voir [AI_UX.md](AI_UX.md)) |
+| D-4 | Emplacement de l'entrée de MarcoS | Section Contact et menu ; pas de bulle flottante (voir [AI_UX.md](AI_UX.md)) |
 | D-5 | Turnstile (script distant de Cloudflare) | Pas au lancement : AGENTS.md interdit les nouvelles ressources distantes ; à décider si un abus est constaté |
 | D-6 | Plan Workers Paid (5 $/mois) | Si le binding Rate Limiting n'est pas disponible sur Free (non publié) |
 | D-7 | DNS et hébergement de production | Zone Cloudflare pour router `/api/*` |
@@ -258,7 +258,7 @@ Option déjà prévue dans [AI_DATA.md](AI_DATA.md) : un JSON statique produit
 au build (`SOURCE_CONTEXTE=statique`), calculé par la même liste blanche
 (`connaissance.js`), publié avec le site et lu par le Worker. Conséquences à
 examiner : aucune base, aucune clé Supabase, aucune mise en veille ; la base
-de NéO suit chaque déploiement Vercel ; le fichier serait public, comme le
+de MarcoS suit chaque déploiement Vercel ; le fichier serait public, comme le
 contenu du site dont il est extrait (la liste blanche exclut déjà les
 données personnelles).
 

@@ -16,7 +16,7 @@ tools/                Build : validation, médias (Sharp), pages, CMS (cms.mjs)
 tests/                Tests (npm test) et tests navigateur (npm run test:navigateur)
 Public/images/        Visuels des projets
 Deploy/               Mise en service du back-office Supabase (en sommeil)
-Docs/                 Documentation : déploiement, contenus, assistant NéO
+Docs/                 Documentation : déploiement, contenus, assistant MarcoS
 .github/workflows/    verifier.yml : tests et build à chaque push et pull request
 ```
 

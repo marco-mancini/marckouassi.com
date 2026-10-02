@@ -1,4 +1,4 @@
-# NéO — interface et accessibilité
+# MarcoS — interface et accessibilité
 
 Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md).
 
@@ -6,7 +6,7 @@ Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md).
 
 Répondre vite à une question sur Marc, ses projets, son parcours, ses
 compétences ou ses prestations, puis renvoyer vers la page qui en parle.
-NéO **appartient au portfolio** : mêmes polices, couleurs, filets,
+MarcoS **appartient au portfolio** : mêmes polices, couleurs, filets,
 rayons et boutons. Il n'apporte aucun élément graphique nouveau : ni bulle
 flottante, ni avatar, ni robot, ni dégradé, ni lueur, ni effet de frappe.
 
@@ -16,7 +16,7 @@ Tous les éléments existent déjà, sauf la liste des échanges.
 
 | Besoin | Composant existant | Variante |
 |---|---|---|
-| Ouvrir NéO | `Bouton` | `nu` dans la section Contact (même ligne que les autres liens) ; lien du menu |
+| Ouvrir MarcoS | `Bouton` | `nu` dans la section Contact (même ligne que les autres liens) ; lien du menu |
 | Fenêtre | `Modale` | `centre`, comme l'étude de projet (focus piégé, Échap, retour du focus déjà gérés) |
 | Message d'accueil, aide | paragraphe `texte-corps` | — |
 | Exemples de questions | `Bouton` dans une `Pile` | `filet`, `direction: "ligne"` |
@@ -55,7 +55,7 @@ Assemblage pur (`Design_System/gabarits/Assistant/`) : Modale + Conversation +
 formulaire + messages. Comportement séparé (`activerAssistant`), comme les
 études de projet. Il ne redéfinit l'intérieur d'aucun composant.
 
-Le back-office n'a pas d'écran propre : les textes éditoriaux de NéO
+Le back-office n'a pas d'écran propre : les textes éditoriaux de MarcoS
 vivent dans `content/site.json` (`assistant`) et s'éditent dans **Paramètres**,
 par l'éditeur généré de `Gabarit_Bo`. Seuls des libellés de champs sont à ajouter
 au dictionnaire admin.
@@ -68,15 +68,15 @@ au dictionnaire admin.
 | Exemples de questions | `assistant.exemples[]` (FR/EN) | Marc (D-9) |
 | Mention de confidentialité | `assistant.confidentialite` (FR/EN) | Marc (D-9) |
 | Activation | `assistant.active` (booléen) | Marc, dans Paramètres |
-| Libellés (Envoyer, Fermer, Vous, NéO, erreurs…) | `Design_System/i18n/fr.json` et `en.json`, clé `assistant` | interface |
+| Libellés (Envoyer, Fermer, Vous, MarcoS, erreurs…) | `Design_System/i18n/fr.json` et `en.json`, clé `assistant` | interface |
 
 Aucun de ces textes n'est rédigé par une IA. Tant que l'accueil n'est pas
-écrit, `assistant.active` reste `false` et NéO n'est pas rendu. Sans
+écrit, `assistant.active` reste `false` et MarcoS n'est pas rendu. Sans
 exemples, la zone d'exemples n'apparaît pas.
 
 ## Parcours
 
-1. **Ouverture** : le lien « Contact » de NéO ouvre la Modale ; le focus
+1. **Ouverture** : le lien « Contact » de MarcoS ouvre la Modale ; le focus
    va dans le champ de question.
 2. **Accueil** : message d'accueil, exemples de questions, mention de
    confidentialité.
@@ -86,7 +86,7 @@ exemples, la zone d'exemples n'apparaît pas.
 4. **Attente** : le tour du visiteur s'ajoute au journal ; `Message chargement`
    sous le journal ; le bouton Envoyer passe à l'état `chargement` ; le champ
    reste modifiable.
-5. **Réponse** : le tour de NéO s'ajoute au journal (une seule annonce) ;
+5. **Réponse** : le tour de MarcoS s'ajoute au journal (une seule annonce) ;
    les liens internes s'affichent sous la réponse.
 6. **Erreur** : `Message erreur` avec « Réessayer » qui renvoie la même question ;
    la question n'est pas perdue.
@@ -136,9 +136,9 @@ Seules les animations existantes de la Modale. Aucun effet de frappe, aucune
 pulsation, aucun indicateur décoratif. `prefers-reduced-motion` et
 `data-animations="reduites"` sont déjà gérés par la Modale.
 
-## Sans JavaScript, ou si NéO est indisponible
+## Sans JavaScript, ou si MarcoS est indisponible
 
-- Sans JavaScript : NéO n'est pas rendu (gabarit dans un `<template>`,
+- Sans JavaScript : MarcoS n'est pas rendu (gabarit dans un `<template>`,
   comme l'accueil animé) ; le lien d'ouverture est masqué hors `html.js-anime`.
   La section Contact garde ses liens habituels.
 - Sans adresse d'endpoint au build (`ASSISTANT_URL` absente) ou si

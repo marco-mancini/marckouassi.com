@@ -1,40 +1,40 @@
-# NéO — données, Supabase et cache
+# MarcoS — données, Supabase et cache
 
 Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md).
 
 ## Principe
 
-NéO répond **uniquement** à partir du contenu déjà publié sur le site,
+MarcoS répond **uniquement** à partir du contenu déjà publié sur le site,
 réduit par une **liste blanche** de champs. Il ne lit ni le brouillon, ni les
 tables d'administration, ni le stockage des médias, ni les comptes.
 
-Il n'existe **aucune copie** du contenu dans le code de NéO : la base de
+Il n'existe **aucune copie** du contenu dans le code de MarcoS : la base de
 connaissance est calculée à partir de la même publication que celle qui a
 produit le site.
 
 ## Ce qui existe déjà dans Supabase
 
 > **Question ouverte (1er octobre 2026)** : Supabase a été écarté pour le
-> back-office et aucun projet n'existe. La source des données de NéO —
+> back-office et aucun projet n'existe. La source des données de MarcoS —
 > Supabase ou JSON statique produit au build — est à trancher le jour de
 > l'implémentation : voir [Q-1](AI_ARCHITECTURE.md#q-1--source-des-données--supabase-ou-fichier-json-produit-au-build).
 
 Schéma : `supabase/migrations/20261001000000_back_office.sql`.
 
-| Table | Lecture publique (clé publique, rôle `anon`) | Utilité pour NéO |
+| Table | Lecture publique (clé publique, rôle `anon`) | Utilité pour MarcoS |
 |---|---|---|
 | `publications` | **oui**, uniquement les lignes `statut in ('en_attente','en_ligne')` | **source** : colonne `instantane` (site, sections, projets, cv) |
 | `documents` | non (administrateurs) | aucune : c'est le brouillon |
 | `medias` | non (administrateurs) | aucune |
 | `administrateurs` | non | aucune |
-| seau `medias` | fichiers publics | aucune (NéO ne lit pas d'images) |
+| seau `medias` | fichiers publics | aucune (MarcoS ne lit pas d'images) |
 
 Conséquence : le Worker lit la publication **avec la clé publique**, comme le
 build. Aucune clé secrète Supabase (`sb_secret_…`, rôle `service_role`, qui
 contourne la RLS) n'est nécessaire, ni dans le Worker ni ailleurs.
 
 Le Worker filtre sur `statut=eq.en_ligne` : une version `en_attente` n'est pas
-encore sur le site, NéO ne doit pas en parler avant elle.
+encore sur le site, MarcoS ne doit pas en parler avant elle.
 
 Lectures (API REST, sans dépendance) :
 
@@ -55,7 +55,7 @@ ajouter une vue `security_invoker` ou une fonction SQL qui renvoie la base
 réduite, avec `grant select` au rôle `anon`. Ce n'est pas nécessaire au départ :
 la liste blanche du Worker suffit et elle est testée.
 
-## Liste blanche : ce que NéO connaît
+## Liste blanche : ce que MarcoS connaît
 
 Construite par un module pur partagé, `Design_System/gabarits/connaissance.js`
 (même principe que `donnees.js`) : entrée = publication, sortie = base réduite,
@@ -75,10 +75,10 @@ en français et, quand elle existe, en anglais.
 | Pages | adresses internes (`/`, `/cv/`, `/projets/{id}/`, ancres de section) | calculées comme le build (`pages.js`) |
 
 Les valeurs calculées (période d'un projet, nombre de projets, plage d'années)
-viennent des **mêmes fonctions** que le site (`outils.js`) : NéO ne
+viennent des **mêmes fonctions** que le site (`outils.js`) : MarcoS ne
 recompte rien lui-même.
 
-## Ce que NéO ne connaît pas
+## Ce que MarcoS ne connaît pas
 
 - Toute clé, secret, jeton, identifiant de compte, adresse de projet Supabase.
 - Le brouillon (`documents`), les publications non en ligne, l'historique.
@@ -89,7 +89,7 @@ recompte rien lui-même.
   (`cv.informations`). Ils sont publics sur le CV, mais un assistant n'a pas à
   les diffuser ; il renvoie vers la page CV.
 - Ce qui n'est écrit nulle part : chiffres, résultats, clients, dates, avis.
-  NéO dit qu'il ne sait pas.
+  MarcoS dit qu'il ne sait pas.
 
 ## Langues
 
