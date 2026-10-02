@@ -22,6 +22,7 @@ import { cheminsPages, contextePage, rendrePage } from "./pages.mjs";
 import { chargerFichiers, chargerPublication, valider, referencesMedias } from "./contenu.mjs";
 import { publierMedias, sourceLocale, sourceDistante, lireJeton } from "./medias.mjs";
 import { construireCms } from "./cms.mjs";
+import { baseConnaissance, mesurer, PLAFOND_JETONS } from "../Design_System/gabarits/connaissance.js";
 
 const RACINE = process.cwd();
 const SORTIE = path.join(RACINE, "_site");
@@ -107,6 +108,23 @@ ${site.langues.map((code) => `    <xhtml:link rel="alternate" hreflang="${code}"
   await ecrire("robots.txt", `User-agent: *\nDisallow: /admin/\nSitemap: ${site.url}/sitemap.xml\n`);
   await ecrire("version.json", JSON.stringify({ version, date: new Date().toISOString() }));
   await ecrire(".nojekyll", "");
+
+  // 5 bis. Base de connaissance de MarcoS, une par langue.
+  // C'est la SOURCE de l'assistant (décision #23 : pas de base de données).
+  // Publiée avec le site : elle suit chaque déploiement, sans clé ni compte.
+  const tailles = [];
+  for (const langue of site.langues) {
+    const base = baseConnaissance({ contenu, langue });
+    await ecrire(`connaissance.${langue}.json`, JSON.stringify(base));
+    const { jetons } = mesurer(base);
+    tailles.push(`${langue} ${jetons}`);
+    // Le plafond se défend ici : un contenu qui gonfle casse le build, il ne
+    // dégrade pas silencieusement la facture et la latence de MarcoS.
+    if (jetons > PLAFOND_JETONS) {
+      throw new Error(`Base de connaissance ${langue} : ${jetons} jetons, plafond ${PLAFOND_JETONS}. Réduire la liste blanche ou décider de relever le plafond (Docs/MARCOS_DECISIONS.md).`);
+    }
+  }
+  console.log(`MarcoS : base de connaissance publiée (jetons du fichier — ${tailles.join(", ")} ; plafond ${PLAFOND_JETONS})`);
 
   // 6. Rapport des traductions manquantes (hors site publié)
   const manquantsContenu = [...new Map(manquants.filter((m) => m.type === "contenu").map((m) => [`${m.langue}:${m.cle}`, m])).values()];

@@ -850,18 +850,23 @@ ci-dessus.
 
 ### Le contexte complet, avant et après
 
+> **Chiffres corrigés le 2 octobre 2026, après l'implémentation (phase IA-01).**
+> Les valeurs annoncées plus tôt dans la journée étaient calculées sur le **texte
+> brut** du contenu, ce qui sous-estimait le contexte réel : la structure coûte
+> aussi — noms de champs, lignes, en-têtes. Les deux colonnes ci-dessous sont
+> mesurées **sur le même rendu**, seul le périmètre change. L'écart est de +8 %
+> sur la base ; il ne change aucune décision, mais un chiffre faux ne reste pas.
+
 | Poste | Avant | Après | Comment |
 |---|---|---|---|
-| Base de connaissance | 4 557 | **2 842** | trois champs retirés, **et une seule langue** au lieu de deux (D-12) |
+| Base de connaissance | 9 911 | **3 302** | trois champs retirés, **et une seule langue** au lieu de deux (D-12) |
 | Prompt système | 698 | **396** | réécrit court, version 0.2 : habillage verbeux retiré, consignes redondantes fondues |
-| Liste des pages | 157 | 157 | 21 entrées, inchangé |
 | Historique borné | 1 143 | **571** | 4 échanges et 2 000 caractères, au lieu de 6 et 4 000 |
-| **Entrée totale** | **6 555** | **3 966** | **−2 589 jetons, soit −39 %** |
+| **Entrée totale** | **11 752** | **4 269** | **−7 483 jetons, soit −64 %** |
 | **Sortie (`max_tokens`)** | 400 | **180** | voir ci-dessous |
 
-Et si l'on compare à la base **deux langues** mesurée la veille — 9 806 jetons
-pour la seule connaissance — l'entrée passe de **11 606 à 3 966 jetons, soit
-−66 %**.
+La liste des pages citables est désormais **dans** la base, elle n'est plus
+comptée à part.
 
 ### `max_tokens` : la valeur retenue est **180**
 
@@ -881,9 +886,9 @@ test de la phase IA-09 pose la question « Raconte-moi tout sur FIFA 26 » et
 
 | | Par question | À 100 questions/jour |
 |---|---|---|
-| Avant | 0,0012 $ | 3,49 $/mois |
-| **Après** | **0,0007 $** | **2,06 $/mois** |
-| **Après, avec le cache de prompt** | **0,0002 $** | **0,69 $/mois** |
+| Avant | 0,00194 $ | 5,83 $/mois |
+| **Après** | **0,00073 $** | **2,19 $/mois** |
+| **Après, avec le cache de prompt** | **0,00023 $** | **0,69 $/mois** |
 
 L'offre gratuite de Mistral affiche « 10 $/mo in API credits ». **Le plafond de
 D-18 tient dans les crédits gratuits**, et comme aucun moyen de paiement n'est

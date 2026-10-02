@@ -155,10 +155,41 @@ enregistrée par MarcoS.
 Relevé sur `content/` le 2 octobre 2026, liste blanche appliquée champ par
 champ.
 
-| Périmètre | Avant les décisions | Après |
+> **Correction du 2 octobre 2026, après l'implémentation (IA-01).** Les chiffres
+> publiés plus haut dans la journée étaient calculés sur le **texte brut** du
+> contenu, ce qui sous-estime le contexte réel : la structure coûte aussi
+> (noms de champs, lignes, en-têtes). Les valeurs ci-dessous sont **mesurées sur
+> ce que le module produit vraiment**. L'écart est de +8 % sur la base, il ne
+> change aucune décision, mais un chiffre faux ne reste pas dans un document.
+
+| Périmètre | Mesure |
+|---|---|
+| **Fichier publié** (`connaissance.fr.json`) | 13 911 car. · **3 834 jetons** |
+| **Fichier publié** (`connaissance.en.json`) | 12 918 car. · **3 644 jetons** |
+| Base envoyée au modèle, français (rendu texte, IA-03) | **3 302 jetons** |
+| Base envoyée au modèle, anglais | **3 114 jetons** |
+| Texte brut du contenu retenu, pour mémoire | 9 948 car. · 2 842 jetons |
+
+Le **fichier** est du JSON : il se versionne, se teste et se compare. Ce que le
+**modèle** reçoit sera plus léger — le Worker rendra la base en lignes
+« clé: valeur » plutôt qu'en JSON, ce qui économise l'enveloppe : **532 jetons**
+en français, mesurés. Ce rendu appartient au Worker et arrive en phase IA-03.
+
+### Avant et après, sur la même méthode de mesure
+
+Comparer un « avant » en texte brut et un « après » en rendu réel ne voudrait
+rien dire. Les deux colonnes ci-dessous sont mesurées **sur le même rendu**,
+seul le périmètre change : deux langues et trois champs de plus à gauche, une
+langue et la liste blanche réduite à droite.
+
+| Poste | Avant | Après |
 |---|---|---|
-| Base, français seul | 15 950 car. · **4 557 jetons** | 9 948 car. · **2 842 jetons** |
-| Base, français **+** anglais | ≈ 34 300 car. · ≈ 9 800 jetons | **sans objet** : une seule langue est envoyée (D-12) |
+| Base de connaissance | 9 911 | **3 302** |
+| Prompt système | 698 | **396** |
+| Historique borné | 1 143 | **571** |
+| **Entrée totale** | **11 752** | **4 269** |
+
+**Réduction : 7 483 jetons, soit 64 %.**
 
 Détail de la base retenue, en français :
 
@@ -170,10 +201,14 @@ Détail de la base retenue, en français :
 | Identité et contact | 81 | **23** |
 | **Total** | **9 948** | **2 842** |
 
-Avec le prompt système (396), la liste des pages (157) et l'historique borné
-(571), l'**entrée totale passe de 6 555 à 3 966 jetons, soit −39 %**. Sortie
-plafonnée à **180 jetons**. Détail dans
+La liste des pages citables est **dans** la base (section « pages ») : elle
+n'est plus comptée à part. Sortie plafonnée à **180 jetons**. Détail dans
 l'[architecture](AI_ARCHITECTURE.md#taille-du-contexte-mesurée).
+
+Le **plafond est défendu par le build** : `PLAFOND_JETONS = 4200` sur le fichier
+publié. Un contenu qui gonfle casse la construction au lieu de dégrader en
+silence la latence et le coût. Relever ce plafond est une décision, pas un
+ajustement.
 
 La base est envoyée **en entier** : pas de recherche vectorielle, pas de
 découpage. Si elle dépassait un jour 30 000 jetons — on en est loin — on

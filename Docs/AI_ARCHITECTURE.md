@@ -91,16 +91,30 @@ Relevé le 2 octobre 2026 sur `content/`, liste blanche appliquée champ par
 champ. Le détail des retraits est dans
 [MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#9-réduction-de-la-base-de-connaissance-mesurée).
 
-| Poste | Avant les décisions | Après |
+> **Chiffres corrigés le 2 octobre 2026, après l'implémentation (IA-01).** Les
+> premières valeurs de la journée étaient calculées sur le **texte brut** du
+> contenu, ce qui sous-estimait le contexte réel : la structure coûte aussi. Les
+> valeurs ci-dessous sont mesurées sur ce que le code produit, et l'avant comme
+> l'après sont mesurés **sur la même méthode** — seul le périmètre change.
+
+| Poste | Avant | Après |
 |---|---|---|
-| Base de connaissance (français seul) | 4 557 jetons | **2 842** |
+| Base de connaissance (une langue, liste blanche réduite) | 9 911 jetons (deux langues, trois champs de plus) | **3 302** |
 | Prompt système | 698 jetons | **396** |
-| Liste des pages (21 entrées) | 157 jetons | 157 |
 | Historique borné | 1 143 jetons (6 échanges, 4 000 car.) | **571** (4 échanges, 2 000 car.) |
-| **Entrée totale** | **6 555 jetons** | **3 966** |
+| **Entrée totale** | **11 752 jetons** | **4 269** |
 | Sortie (`max_tokens`) | 400 | **180** |
 
-**Réduction de l'entrée : 2 589 jetons, soit 39 %.**
+**Réduction de l'entrée : 7 483 jetons, soit 64 %.**
+
+La liste des pages citables est désormais **dans** la base, elle n'est plus
+comptée à part. Le **fichier publié** pèse davantage que ce qui est envoyé — 3 834
+jetons en français — parce que le JSON porte son enveloppe ; le Worker rend la
+base en lignes « clé: valeur », ce qui économise 532 jetons mesurés (phase IA-03).
+
+Un **plafond** est défendu par le build (`PLAFOND_JETONS = 4200` sur le fichier) :
+un contenu qui gonfle casse la construction au lieu de dégrader en silence la
+latence et la facture.
 
 **Pourquoi `max_tokens` = 180.** Une phrase française de dix-huit mots pèse
 environ 25 à 30 jetons. Trois phrases en font 90. 180 laisse le double de marge
@@ -245,16 +259,17 @@ sur le plan gratuit. Côté dépôt : `url` dans `content/site.json` et
 
 Prix unitaires relevés le 1er octobre 2026 ; **à revérifier avant tout
 engagement** ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#7-ce-quil-faut-revérifier-avant-la-mise-en-ligne)).
-Entrée 3 966 jetons, sortie 150 jetons en pratique (plafond 180).
+Entrée **4 269 jetons mesurés**, sortie 150 jetons en pratique (plafond 180).
 
 | Poste | Prix officiel | Coût d'une question |
 |---|---|---|
-| Mistral Small 4 | 0,15 $ entrée / 0,60 $ sortie par million ; entrée en cache 0,015 $ | **0,0007 $**, ou **0,0002 $** avec le cache de prompt |
+| Mistral Small 4 | 0,15 $ entrée / 0,60 $ sortie par million ; entrée en cache 0,015 $ | **0,00073 $**, ou **0,00023 $** avec le cache de prompt |
 | Cloudflare Workers Free | 100 000 requêtes/jour, 10 ms CPU | **0 $** |
 | Base de connaissance | fichier publié avec le site | **0 $** |
 
-**À 100 questions par jour, plafond de D-18 : ≈ 2,10 $ par mois, ou ≈ 0,70 $
-avec le cache de prompt.** L'offre gratuite de Mistral affiche « 10 $/mo in API
+**À 100 questions par jour, plafond de D-18 : ≈ 2,19 $ par mois, ou ≈ 0,69 $
+avec le cache de prompt.** Pour mémoire, sans les décisions de réduction, le même
+volume aurait coûté ≈ 5,83 $ par mois. L'offre gratuite de Mistral affiche « 10 $/mo in API
 credits » : le plafond de Marc tient dans les crédits gratuits, et **aucun moyen
 de paiement n'est enregistré**. Si les crédits sont épuisés, MarcoS répond
 `quota_journalier` — il ne peut pas générer de facture.
