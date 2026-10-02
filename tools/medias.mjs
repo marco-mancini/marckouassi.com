@@ -15,6 +15,37 @@ import crypto from "node:crypto";
 import sharp from "sharp";
 
 export const REGLAGES = { largeurMax: 1600, qualite: 78, effort: 5 };
+
+/**
+ * Part de pixels non opaques au-delà de laquelle on GARDE la transparence au
+ * lieu de l'aplatir.
+ *
+ * Pourquoi un seuil, et pourquoi celui-là. Mesuré sur les 115 images du dépôt
+ * le 2 octobre 2026 : 64 portent un canal alpha **inutilisé** — un export qui
+ * traîne un canal entièrement opaque — et 4 seulement ont un pixel non opaque.
+ * Sur ces 4, trois sont à 0,0 %, 0,0 % et 0,9 % : de l'anticrénelage de bord.
+ * La quatrième, le portrait détouré, est à **49,2 %**.
+ *
+ * Le seuil est donc posé dans un intervalle de 48 points où rien ne vit. Il
+ * sépare une image réellement découpée d'un canal alpha résiduel, sans avoir à
+ * déclarer quoi que ce soit dans le contenu.
+ */
+export const SEUIL_TRANSPARENCE = 0.05;
+
+/**
+ * Part de pixels non opaques d'une image, mesurée sur une réduction : on
+ * cherche la PRÉSENCE de transparence, pas sa carte exacte.
+ */
+export async function partTransparente(entree) {
+  const { data, info } = await sharp(entree, { failOn: "none" })
+    .resize({ width: 400, withoutEnlargement: true })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  let nonOpaques = 0;
+  for (let i = 3; i < data.length; i += info.channels) if (data[i] < 250) nonOpaques += 1;
+  return nonOpaques / (info.width * info.height);
+}
 const IMAGES = new Set([".png", ".jpg", ".jpeg", ".webp"]);
 export const PREFIXE_STOCKAGE = "stockage:";
 
@@ -58,7 +89,11 @@ export async function publierMedias({ references, racine, sortie, lireSource, jo
         bilan.copies += 1;
         continue;
       }
-      const cle = crypto.createHash("sha1").update(`${src}|${source.empreinte}|${JSON.stringify(REGLAGES)}|${JSON.stringify(fond)}`).digest("hex");
+      // La décision de garder l'alpha entre dans la clé de cache : sans cela, une
+      // image déjà aplatie serait resservie telle quelle.
+      const transparence = await partTransparente(source.contenu).catch(() => 0);
+      const garderAlpha = transparence >= SEUIL_TRANSPARENCE;
+      const cle = crypto.createHash("sha1").update(`${src}|${source.empreinte}|${JSON.stringify(REGLAGES)}|${JSON.stringify(fond)}|alpha:${garderAlpha}`).digest("hex");
       const enCache = path.join(cache, `${cle}.webp`);
       const meta = path.join(cache, `${cle}.json`);
       let dimensions;
@@ -69,9 +104,12 @@ export async function publierMedias({ references, racine, sortie, lireSource, jo
       } catch {
         const image = sharp(source.contenu, { failOn: "none" }).rotate();
         const info = await image.metadata();
-        const { data, info: ecrit } = await image
-          .resize({ width: Math.min(REGLAGES.largeurMax, info.width || REGLAGES.largeurMax), withoutEnlargement: true })
-          .flatten({ background: fond })
+        let rendu = image.resize({ width: Math.min(REGLAGES.largeurMax, info.width || REGLAGES.largeurMax), withoutEnlargement: true });
+        // Une image réellement détourée garde sa transparence : elle se pose sur
+        // `--surface-image`, qui suit le thème. L'aplatir sur la couleur papier
+        // mettrait un rectangle clair derrière le sujet en mode sombre.
+        if (!garderAlpha) rendu = rendu.flatten({ background: fond });
+        const { data, info: ecrit } = await rendu
           .webp({ quality: REGLAGES.qualite, effort: REGLAGES.effort })
           .toBuffer({ resolveWithObject: true });
         await fs.writeFile(enCache, data);
