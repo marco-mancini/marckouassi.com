@@ -243,6 +243,9 @@
   --shadow-signature: rgba(26, 32, 19, .55);
   --shadow-signature-y: 6px;
   --shadow-signature-flou: 14px;
+  /* Geometrie de l'ombre d'une planche : decalage vertical et flou. */
+  --shadow-board-y: 12px;
+  --shadow-board-flou: 36px;
   --border-on-dark: rgba(255,255,242,.52);
   --border-on-dark-soft: rgba(255,255,242,.36);
   --hover-on-dark: rgba(255,255,242,.14);
@@ -516,6 +519,12 @@
   --planche-credit-espace: 14px;
   /* Marge interieure d'une planche sous 390 px. */
   --planche-padding-etroit: 14px;
+  /* Marges interieures d'une planche entre 851 et 1080 px, puis sous
+     850 px. */
+  --planche-padding-tablette: 38px;
+  --planche-padding-mobile: 18px;
+  /* Ecart lignes / colonnes de la ligne de credit sous 850 px. */
+  --planche-credit-espace-compact: 5px 10px;
   --bordure-controle: var(--ink);
   --carte-surface: var(--clair-olive);
   --carte-surface-profonde: var(--carte-sur-olive);
@@ -541,6 +550,11 @@
   --bouton-grand: 54px;
   /* Hauteur de l'icone du menu (deux barres). */
   --bouton-barres-hauteur: 14px;
+  --bouton-barres-largeur: 20px;
+  --bouton-barres-epaisseur: 1.5px;
+  /* Descente de chaque barre pour qu'elles se croisent au centre quand
+     le menu est ouvert. */
+  --bouton-barres-croisement: 6px;
   --galerie-rangee-apercu: clamp(150px, 22vw, 370px);
   --galerie-rangee-apercu-seule: clamp(160px, 22vw, 310px);
   --galerie-rangee-detail: clamp(140px, 17vw, 250px);
@@ -554,6 +568,10 @@
   --projets-espace-compact: 30px;
   /* Marge haute de l'en-tete d'une carte de projet. */
   --projet-carte-entete-marge-haute: 14px;
+  /* Retrait fin, a droite et en bas, de l'en-tete de carte. */
+  --projet-carte-entete-retrait: 2px;
+  --projet-carte-entete-hauteur-min: 78px;
+  --projet-carte-titre-marge-basse: 3px;
   --page-bas: 54px;
   --page-bas-compact: 30px;
   --texte-progressif-curseur: .08em;
