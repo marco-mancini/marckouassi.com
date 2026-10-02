@@ -53,9 +53,19 @@ test("aucun gabarit ni script du site ne contient de texte en dur", () => {
   for (const fichier of fichiers) assert.deepEqual(textesLitteraux(fs.readFileSync(fichier, "utf8")), [], fichier);
 });
 
-test("aucune feuille de gabarit ne contient de couleur brute", () => {
-  const css = fs.readdirSync("Design_System/gabarits", { recursive: true }).filter((f) => f.endsWith(".css"));
-  for (const f of css) assert.doesNotMatch(fs.readFileSync(`Design_System/gabarits/${f}`, "utf8").replace(/\/\*[\s\S]*?\*\//g, ""), /#[0-9a-f]{3,8}\b|rgba?\(|hsla?\(/i, f);
+// AGENTS.md 3.3 : une couleur ne s'écrit en clair que dans Tokens.css.
+const COULEUR_BRUTE = /#[0-9a-f]{3,8}\b|rgba?\(|hsla?\(/i;
+const sansCommentaires = (css) => css.replace(/\/\*[\s\S]*?\*\//g, "");
+
+test("aucune feuille du Design System, hors Tokens.css, ne contient de couleur brute", () => {
+  const css = fs.readdirSync("Design_System", { recursive: true }).filter((f) => f.endsWith(".css") && f !== "fondations/Tokens.css");
+  assert.ok(css.some((f) => f.startsWith("composants/")) && css.some((f) => f.startsWith("fondations/")) && css.some((f) => f.startsWith("gabarits/")), "composants, fondations et gabarits sont tous couverts");
+  for (const f of css) assert.doesNotMatch(sansCommentaires(fs.readFileSync(`Design_System/${f}`, "utf8")), COULEUR_BRUTE, f);
+});
+
+test("le contrôle des couleurs brutes détecte bien une couleur (témoin)", () => {
+  for (const brute of [".a { color: #fff; }", ".a { color: #576740; }", ".a { background: rgba(0,0,0,.5); }", ".a { color: hsl(90 20% 30%); }"]) assert.match(sansCommentaires(brute), COULEUR_BRUTE, brute);
+  for (const propre of [".a { color: var(--texte); }", "/* #fff */ .a { color: var(--texte); }", "#ancre { color: var(--texte); }"]) assert.doesNotMatch(sansCommentaires(propre), COULEUR_BRUTE, propre);
 });
 
 test("le contrôle des pages détecte bien un texte en dur (témoin)", () => {
