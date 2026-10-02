@@ -43,6 +43,7 @@ traduction n'est inventée.
 
 Contenu et projets : [liste des contenus](Docs/CONTENT_CHECKLIST.md).
 Déploiement : [état](Docs/DEPLOY_ETAT.md) et [Vercel](Docs/DEPLOY_VERCEL.md).
+Suivi : [index des issues](Docs/ISSUES.md) et [journal des décisions](Docs/DECISIONS.md).
 
 ## Conventions
 

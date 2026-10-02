@@ -19,7 +19,7 @@ déploiement d'aperçu Vercel « Ready ».
 | Clé API Mistral (espace de travail dédié, plafond de dépense posé) | Marc | IA-05 |
 | Clé API Gemini (projet avec facturation, D-2) | Marc | IA-07 |
 | URL Supabase + clé **publique** — seulement si Q-1 retient Supabase | Marc | IA-06 |
-| Zone DNS marckouassi.com chez Cloudflare | Marc | IA-12 |
+| Zone DNS marckouassi.com chez Cloudflare — seulement si le domaine est acheté (PM-009, suspendue le 2 octobre 2026) | Marc | IA-12 |
 
 Aucune clé secrète Supabase n'est demandée.
 
@@ -108,7 +108,8 @@ Aucune clé secrète Supabase n'est demandée.
   le justifie et sans dégrader l'annonce accessible.
 
 ### IA-12 — Production
-- DNS (D-7), route `marckouassi.com/api/*` ou sous-domaine, secrets de production,
+- DNS (D-7), route `marckouassi.com/api/*` ou sous-domaine si le domaine est acheté,
+  sinon `workers.dev` (Q-2) ; secrets de production,
   `wrangler deploy --env production`.
 - Refus d'entraînement Mistral activé (D-11), journaux sans contenu (D-10).
 - Activation : `assistant.active: true` dans Paramètres, publication.

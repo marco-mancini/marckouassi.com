@@ -1,6 +1,6 @@
 # État du déploiement
 
-Mis à jour le 1er octobre 2026. Chaque point indique s'il a été **vérifié**
+Mis à jour le 2 octobre 2026. Chaque point indique s'il a été **vérifié**
 (constaté) ou s'il reste **à faire**.
 
 ## Architecture réelle
@@ -15,8 +15,11 @@ content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  �
   Réglages : [DEPLOY_VERCEL.md](DEPLOY_VERCEL.md).
 - **Source du contenu** : `content/` (site, sections, projets, cv). Rien
   d'autre n'alimente le site publié.
-- **Adresse publique** : `url` dans `content/site.json`. Canonical, og:url,
-  hreflang, plan du site et robots.txt en sont dérivés.
+- **Adresse publique** : `https://marckouassi-com.vercel.app`, adresse
+  officielle jusqu'à nouvel ordre de Marc (décision du 2 octobre 2026,
+  [DECISIONS.md](DECISIONS.md)). Elle se lit à un seul endroit : `url` dans
+  `content/site.json`. Canonical, og:url, hreflang, plan du site et
+  robots.txt en sont dérivés.
 - **Vérification** : le workflow `.github/workflows/verifier.yml` lance
   tests unitaires, build et tests navigateur à chaque push et pull request.
   Il ne publie rien.
@@ -41,15 +44,18 @@ content/*.json  ──►  npm run build (tools/build.mjs)  ──►  _site/  �
 | GitHub Pages (`pages.yml`) | **abandonné**, workflow retiré | voir [RETIRES.md](RETIRES.md) pour le rétablir |
 | Cloudflare Pages (`publier.yml`) | **abandonné**, workflow retiré | voir [RETIRES.md](RETIRES.md) pour le rétablir |
 | Back-office Supabase (`Admin/`, `supabase/`) | en sommeil | jamais relié ; remplacé par le CMS Git ; voir [ADMIN_EN_SOMMEIL.md](ADMIN_EN_SOMMEIL.md) |
-| Domaine `marckouassi.com` | non acheté | NXDOMAIN ; à l'achat, changer seulement `url` dans `content/site.json`, puis ajouter le domaine dans Vercel (Settings → Domains) |
+| Domaine `marckouassi.com` | **suspendu** (décision de Marc du 2 octobre 2026), pas abandonné ; non acheté (NXDOMAIN) | PM-009 ([#9](https://github.com/marco-mancini/marckouassi.com/issues/9)) en attente de Marc ; à l'achat, changer seulement `url` dans `content/site.json`, puis ajouter le domaine dans Vercel (Settings → Domains) |
 
 ## Décisions et suites (Marc)
 
-1. **Conditions de Vercel** : décidé le 1er octobre 2026, Marc reste sur
+1. **Adresse officielle** : décidé le 2 octobre 2026, le site reste à
+   `https://marckouassi-com.vercel.app` jusqu'à nouvel ordre ; l'achat du
+   domaine est suspendu. Motif : [DECISIONS.md](DECISIONS.md).
+2. **Conditions de Vercel** : décidé le 1er octobre 2026, Marc reste sur
    Hobby et assume le risque ; textes et options dans
    [HEBERGEMENT.md](HEBERGEMENT.md).
-2. **Anciens déploiements Vercel** : ils restent accessibles à leur propre
+3. **Anciens déploiements Vercel** : ils restent accessibles à leur propre
    adresse et contiennent l'ancien PDF du CV. Les supprimer dans
    Vercel → Deployments.
-3. **CMS Git** : installé le 1er octobre 2026 à `/admin/` ; il reste à créer le
+4. **CMS Git** : installé le 1er octobre 2026 à `/admin/` ; il reste à créer le
    jeton GitHub et à se connecter : [CMS.md](CMS.md).
