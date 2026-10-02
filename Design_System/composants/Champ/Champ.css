@@ -4,7 +4,7 @@
    roles, donc justes sur creme comme sur olive.
    ========================================================================== */
 .champ { display: flex; min-width: 0; margin: 0; flex-direction: column; gap: var(--space-1); }
-.champ__etiquette { color: var(--texte-discret); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em; }
+.champ__etiquette { color: var(--texte-discret); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-etiquette); }
 .champ__valeur { color: var(--texte); }
 .champ--simple .champ__valeur { font-size: var(--type-body-compact); }
 

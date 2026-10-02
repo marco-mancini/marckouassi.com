@@ -5,7 +5,7 @@
 .projet-carte:hover { transform: translateY(-3px); }
 .projet-carte__entete { display: flex; min-height: var(--projet-carte-entete-hauteur-min); padding: var(--projet-carte-entete-marge-haute) var(--projet-carte-entete-retrait) var(--projet-carte-entete-retrait); align-items: center; gap: var(--space-3); }
 .projet-carte__nom { min-width: 0; }
-.projet-carte__titre { margin: 0 0 var(--projet-carte-titre-marge-basse); font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-regular); line-height: var(--leading-heading); letter-spacing: -.025em; }
+.projet-carte__titre { margin: 0 0 var(--projet-carte-titre-marge-basse); font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-regular); line-height: var(--leading-heading); letter-spacing: var(--interlettrage-titre); }
 .projet-carte__categorie { margin: 0; color: var(--texte-discret); }
 
-@media (max-width: 850px) { .projet-carte__entete { min-height: 60px; padding-top: var(--space-2); } }
+@media (max-width: 850px) { .projet-carte__entete { min-height: var(--projet-carte-entete-hauteur-min-compact); padding-top: var(--space-2); } }

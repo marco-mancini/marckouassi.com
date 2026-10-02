@@ -41,17 +41,17 @@
 html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edition, .couverture__faits) { animation: none; }
 
 /* --- Introduction --- */
-.introduction__titre { margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); }
-.introduction__disposition { display: grid; padding: 0 0 26px; grid-template-columns: minmax(0, .87fr) minmax(0, 1fr); align-items: stretch; gap: clamp(24px, 5vw, 88px); }
+.introduction__titre { margin: var(--introduction-titre-marge-haute) 0 var(--introduction-title-gap); }
+.introduction__disposition { display: grid; padding: 0 0 var(--introduction-disposition-marge-basse); grid-template-columns: minmax(0, .87fr) minmax(0, 1fr); align-items: stretch; gap: var(--introduction-espace); }
 .introduction__visuel { height: var(--introduction-visual-height); }
-.introduction__recit { display: grid; max-width: 700px; align-content: center; gap: var(--space-6); }
+.introduction__recit { display: grid; max-width: var(--introduction-recit-largeur-max); align-content: center; gap: var(--space-6); }
 .introduction__recit p { margin: 0; }
 .introduction__accroche { color: var(--accent-texte-grand); }
 .introduction__ouverture { text-transform: uppercase; }
 .introduction__bas { padding-top: var(--space-5); border-top: var(--border-hairline) solid var(--filet); }
 
 /* --- A propos --- */
-.apropos__disposition { display: grid; margin-top: clamp(26px, 4vw, 56px); grid-template-columns: var(--about-photo-column) minmax(0, 1fr); align-items: stretch; gap: clamp(24px, 4vw, 60px); }
+.apropos__disposition { display: grid; margin-top: var(--apropos-disposition-marge-haute); grid-template-columns: var(--about-photo-column) minmax(0, 1fr); align-items: stretch; gap: var(--apropos-espace); }
 .apropos__portrait { min-height: var(--portrait-min-height); }
 .apropos__texte { display: grid; align-content: start; }
 .apropos__tete { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-6); }
@@ -62,27 +62,27 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .apropos__detail { color: var(--texte-discret); }
 
 /* --- Savoir-faire --- */
-.savoirfaire__tete { margin: clamp(26px, 4vw, 58px) 0 var(--introduction-title-gap); }
+.savoirfaire__tete { margin: var(--savoirfaire-tete-marge-haute) 0 var(--introduction-title-gap); }
 .savoirfaire__promesse { margin: var(--about-title-gap) 0 0; color: var(--texte); }
 /* Separateur genere par le style : il ne vit pas dans le texte. */
 .savoirfaire__promesse span + span::before { content: "\00b7"; padding: 0 var(--space-3); color: var(--olive-ghost); }
 .savoirfaire__images { margin-bottom: var(--introduction-title-gap); }
 
 /* --- Parcours --- */
-.parcours__titre { margin: clamp(28px, 4vw, 56px) 0 0; }
-.parcours__accroche { max-width: var(--mesure-accroche); margin: var(--about-title-gap) 0 clamp(24px, 3vw, 40px); color: var(--texte); }
+.parcours__titre { margin: var(--parcours-titre-marge-haute) 0 0; }
+.parcours__accroche { max-width: var(--mesure-accroche); margin: var(--about-title-gap) 0 var(--parcours-accroche-marge-basse); color: var(--texte); }
 .parcours__frise { padding: 0 var(--space-6); border: var(--border-hairline) solid var(--olive); border-radius: var(--radius-xl); }
 
 /* --- Projets --- */
-.projets__tete { margin: clamp(25px, 4vw, 54px) 0 var(--introduction-title-gap); }
+.projets__tete { margin: var(--projets-tete-marge-haute) 0 var(--introduction-title-gap); }
 
 /* --- Prestations --- */
-.prestations__tete { display: grid; margin: clamp(26px, 4vw, 56px) 0 clamp(24px, 3.5vw, 48px); justify-items: center; gap: var(--prestations-masthead-gap); text-align: center; }
+.prestations__tete { display: grid; margin: var(--prestations-tete-marge-haute) 0 var(--prestations-tete-marge-basse); justify-items: center; gap: var(--prestations-masthead-gap); text-align: center; }
 .prestations__accroche { max-width: var(--mesure-accroche); margin: 0; color: var(--texte); }
 
 /* --- Contact : fait office de pied de page --- */
 .contact { display: flex; min-height: min(var(--contact-hauteur-min), calc(100svh - var(--contact-degagement))); flex-direction: column; }
-.contact__principal { display: flex; flex: 1; padding: clamp(44px, 7vw, 100px) 0; align-items: center; justify-content: space-between; gap: 40px; }
+.contact__principal { display: flex; flex: 1; padding: var(--contact-principal-padding) 0; align-items: center; justify-content: space-between; gap: var(--contact-principal-espace); }
 .contact__pied { display: grid; padding-top: var(--contact-pied-marge-haute); grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: var(--contact-pied-espace); border-top: var(--border-hairline) solid var(--filet); }
 .contact__credits { margin: 0; color: var(--texte-discret); line-height: var(--leading-compact); letter-spacing: normal; text-align: right; }
 
@@ -92,7 +92,7 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 
 /* --- Page CV --- */
 /* Les planches du CV forment un seul document : espacees de 24 px. */
-.page-cv { display: grid; padding-top: clamp(22px, 4vw, 54px); padding-bottom: calc(var(--page-bas) + clamp(22px, 4vw, 54px)); gap: var(--space-6); --accent-texte: var(--texte); }
+.page-cv { display: grid; padding-top: var(--page-cv-respiration); padding-bottom: calc(var(--page-bas) + var(--page-cv-respiration)); gap: var(--space-6); --accent-texte: var(--texte); }
 .page-cv .planche-scene { width: 100%; max-width: var(--cv-largeur-max); margin: 0 auto; padding: 0; }
 .cv-entete { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: var(--space-6); }
 .cv-entete__titre { margin: var(--space-4) 0; color: var(--texte-discret); font-family: var(--font-mono); font-size: var(--type-body-compact); font-weight: var(--weight-strong); line-height: var(--leading-compact); }
@@ -128,18 +128,18 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .page-cv { padding-top: calc(var(--space-2) + var(--space-3)); padding-bottom: calc(var(--page-bas-compact) + var(--space-3)); }
   .couverture { min-height: auto; }
   .couverture__disposition { min-height: 0; padding: var(--cover-padding-top-compact) 0 var(--cover-padding-bottom-compact); gap: var(--space-4); }
-  .introduction__disposition { padding: 30px 0 18px; grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .introduction__visuel { height: clamp(190px, 62vw, 340px); }
+  .introduction__disposition { padding: var(--introduction-disposition-marge-haute-compact) 0 var(--introduction-disposition-marge-basse-compact); grid-template-columns: minmax(0, 1fr); gap: var(--introduction-espace-compact); }
+  .introduction__visuel { height: var(--introduction-visuel-hauteur-compact); }
   .introduction__recit { gap: var(--space-4); }
   .introduction__bas { gap: var(--space-4); }
-  .apropos__disposition { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .apropos__disposition { grid-template-columns: minmax(0, 1fr); gap: var(--apropos-espace-compact); }
   .apropos__portrait { height: auto; aspect-ratio: 4 / 3; }
   .apropos__accroche { max-width: none; }
-  .savoirfaire__tete { margin: 26px 0 18px; }
-  .parcours__titre { margin-top: 30px; }
-  .projets__tete { margin: var(--space-7) 0 18px; }
-  .contact { min-height: 620px; }
-  .contact__principal { padding: 38px 0; align-items: start; flex-direction: column; gap: var(--space-6); }
+  .savoirfaire__tete { margin: var(--savoirfaire-tete-marge-haute-compact) 0 var(--savoirfaire-tete-marge-basse-compact); }
+  .parcours__titre { margin-top: var(--parcours-titre-marge-haute-compact); }
+  .projets__tete { margin: var(--space-7) 0 var(--projets-tete-marge-basse-compact); }
+  .contact { min-height: var(--contact-hauteur-min-compact); }
+  .contact__principal { padding: var(--contact-principal-padding-compact) 0; align-items: start; flex-direction: column; gap: var(--space-6); }
   .contact__pied { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
-  .contact__credits { grid-column: 1 / -1; padding-top: 6px; text-align: left; }
+  .contact__credits { grid-column: 1 / -1; padding-top: var(--contact-credits-marge-haute-compact); text-align: left; }
 }

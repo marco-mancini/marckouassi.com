@@ -342,6 +342,14 @@
      MARC KOUASSI, et les lettres se touchaient. */
   --cover-tracking: -.015em;
   --cover-caption-tracking: .02em;
+  /* Interlettrages communs, auparavant ecrits en clair dans chaque
+     composant (PM-058). */
+  /* interlettrage mono des commandes (boutons, navigation, segments) */
+  --interlettrage-commande: .03em;
+  /* interlettrage des titres courts en police d'affichage (h3, cartes, jalons, encarts) */
+  --interlettrage-titre: -.025em;
+  /* interlettrage mono des étiquettes */
+  --interlettrage-etiquette: .025em;
 
   /* --- Espacement, echelle stricte --- */
   --space-1: 4px;
@@ -576,6 +584,110 @@
   --page-bas-compact: 30px;
   --texte-progressif-curseur: .08em;
 
+  /* --- Valeurs propres aux composants et gabarits ---
+     Auparavant ecrites en clair dans leur feuille (PM-058, #58).
+     Une valeur = un role ; meme valeur, roles differents : deux jetons. */
+  /* Bouton */
+  --bouton-espace: 10px; /* écart entre le texte et l'icône d'un bouton */
+  --bouton-attente-taille: 1em; /* taille de l'indicateur d'attente du bouton */
+  /* Carte */
+  --carte-degrade-angle: 160deg; /* orientation du dégradé de fond de carte */
+  --carte-reflet-angle: 100deg; /* orientation du reflet de carte */
+  --carte-ombre-survol-y: 18px; /* ombre de carte au survol : décalage vertical */
+  --carte-ombre-survol-flou: 38px; /* ombre de carte au survol : flou */
+  --carte-ombre-survol-retrait: -20px; /* ombre de carte au survol : retrait */
+  /* EnTete */
+  --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
+  --en-tete-hauteur-compact: 62px; /* hauteur de l'en-tête sous 850 px */
+  /* Galerie */
+  --galerie-rangee-apercu-tablette: clamp(120px, 13.5vw, 220px); /* hauteur des rangées de la galerie d'aperçu, 851 à 1080 px */
+  --galerie-rangee-apercu-mobile: clamp(82px, 27vw, 150px); /* rangées de la galerie d'aperçu sous 850 px */
+  --galerie-espace-apercu-mobile: 6px; /* écart de la galerie d'aperçu sous 850 px */
+  --galerie-rangee-detail-mobile: clamp(110px, 34vw, 220px); /* rangées de la galerie de détail sous 850 px */
+  --galerie-espace-detail-mobile: 7px; /* écart de la galerie de détail sous 850 px */
+  --galerie-bande-hauteur-mobile: clamp(90px, 30vw, 170px); /* hauteur de la galerie en bande sous 850 px */
+  --galerie-superposition-decalage-mobile: 8px; /* décalage de l'élément posé sur l'image, sous 850 px */
+  --galerie-rangee-apercu-etroit: clamp(64px, 21vw, 86px); /* rangées de la galerie d'aperçu sous 390 px */
+  --galerie-rangee-detail-etroit: clamp(100px, 30vw, 160px); /* rangées de la galerie de détail sous 390 px */
+  /* Modale */
+  --modale-fond-flou: 5px; /* flou du fond derrière la modale */
+  --dialogue-hauteur-ecran: 92vh; /* part de la hauteur d'écran occupée par la modale centrée */
+  --modale-corps-padding: clamp(20px, 3vw, 42px); /* marge intérieure du corps de la modale centrée */
+  --dialogue-marge-ecran-mobile: 16px; /* marge totale autour de la modale centrée sous 850 px */
+  --dialogue-largeur-max-mobile: 720px; /* largeur maximale de la modale centrée sous 850 px */
+  --dialogue-hauteur-ecran-mobile: 94dvh; /* hauteur d'écran occupée par la modale centrée sous 850 px */
+  --modale-corps-padding-mobile: 18px; /* marge intérieure du corps de la modale centrée sous 850 px */
+  --modale-plein-ecran-gouttiere-mobile: 22px; /* marges latérales de la modale plein écran sous 850 px */
+  /* Navigation */
+  --navigation-soulignement-decalage: 5px; /* hauteur du soulignement d'un lien de navigation sous le texte */
+  /* Planche */
+  --planche-scene-padding: clamp(22px, 4vw, 54px); /* respiration verticale autour d'une planche */
+  --planche-padding: clamp(24px, 4.2vw, 76px); /* marge intérieure d'une planche */
+  --planche-credit-hauteur-min: 30px; /* hauteur minimale de la ligne de crédit d'une planche */
+  /* Segments */
+  --segments-padding: 2px; /* marge intérieure du sélecteur à segments */
+  --segments-espace: 2px; /* écart entre deux segments */
+  --segments-option-retrait: 6px; /* retrait de hauteur d'une option par rapport à la cible tactile */
+  /* TexteProgressif */
+  --texte-progressif-curseur-hauteur: 1em; /* hauteur du curseur du texte progressif */
+  --texte-progressif-curseur-marge: .06em; /* écart entre le texte et le curseur */
+  --texte-progressif-curseur-alignement: -.1em; /* alignement vertical du curseur */
+  /* Titre */
+  --titre-appel-largeur-max: 980px; /* largeur maximale du titre d'appel (contact) */
+  /* Theme */
+  --skip-link-decalage: 8px; /* position du lien d'évitement depuis le coin de l'écran */
+  /* Intro */
+  --intro-largeur-max: 60rem; /* largeur maximale de la scène d'introduction */
+  /* Jalon */
+  --jalon-hauteur-min: 76px; /* hauteur minimale d'un jalon */
+  --jalon-colonne-lieu-min: 120px; /* largeur minimale de la colonne du lieu */
+  --jalon-recit-largeur-max: 690px; /* largeur maximale du récit d'un jalon */
+  --jalon-colonne-lieu-min-moyen: 95px; /* largeur minimale de la colonne du lieu, 851 à 1080 px */
+  --jalon-espace-compact: 5px 10px; /* écart lignes / colonnes d'un jalon sous 850 px */
+  --jalon-lieu-largeur-max-compact: 140px; /* largeur maximale du lieu d'un jalon sous 850 px */
+  /* Projet_carte */
+  --projet-carte-entete-hauteur-min-compact: 60px; /* hauteur minimale de l'en-tête de carte sous 850 px */
+  /* Projet_etude */
+  --projet-etude-colonne-texte-min: 260px; /* largeur minimale de la colonne de texte de l'étude */
+  --projet-etude-espace: clamp(20px, 3vw, 42px); /* écart entre texte et images de l'étude */
+  --projet-etude-espace-tablette: 22px; /* écart de l'étude, 851 à 1080 px */
+  --projet-etude-espace-mobile: 18px; /* écart de l'étude sous 850 px */
+  /* sections : introduction */
+  --introduction-titre-marge-haute: clamp(26px, 4vw, 58px); /* marge haute du titre de l'introduction */
+  --introduction-disposition-marge-basse: 26px; /* marge basse de la disposition de l'introduction */
+  --introduction-espace: clamp(24px, 5vw, 88px); /* écart entre texte et visuel de l'introduction */
+  --introduction-recit-largeur-max: 700px; /* largeur maximale du récit de l'introduction */
+  --introduction-disposition-marge-haute-compact: 30px; /* marge haute de l'introduction sous 850 px */
+  --introduction-disposition-marge-basse-compact: 18px; /* marge basse de l'introduction sous 850 px */
+  --introduction-espace-compact: 18px; /* écart texte / visuel de l'introduction sous 850 px */
+  --introduction-visuel-hauteur-compact: clamp(190px, 62vw, 340px); /* hauteur du visuel de l'introduction sous 850 px */
+  /* sections : apropos */
+  --apropos-disposition-marge-haute: clamp(26px, 4vw, 56px); /* marge haute de la disposition « À propos » */
+  --apropos-espace: clamp(24px, 4vw, 60px); /* écart entre portrait et texte « À propos » */
+  --apropos-espace-compact: 18px; /* écart portrait / texte « À propos » sous 850 px */
+  /* sections : savoirfaire */
+  --savoirfaire-tete-marge-haute: clamp(26px, 4vw, 58px); /* marge haute de la tête « Savoir-faire » */
+  --savoirfaire-tete-marge-haute-compact: 26px; /* marge haute de la tête « Savoir-faire » sous 850 px */
+  --savoirfaire-tete-marge-basse-compact: 18px; /* marge basse de la tête « Savoir-faire » sous 850 px */
+  /* sections : parcours */
+  --parcours-titre-marge-haute: clamp(28px, 4vw, 56px); /* marge haute du titre « Parcours » */
+  --parcours-accroche-marge-basse: clamp(24px, 3vw, 40px); /* marge basse de l'accroche « Parcours » */
+  --parcours-titre-marge-haute-compact: 30px; /* marge haute du titre « Parcours » sous 850 px */
+  /* sections : projets */
+  --projets-tete-marge-haute: clamp(25px, 4vw, 54px); /* marge haute de la tête « Projets » */
+  --projets-tete-marge-basse-compact: 18px; /* marge basse de la tête « Projets » sous 850 px */
+  /* sections : prestations */
+  --prestations-tete-marge-haute: clamp(26px, 4vw, 56px); /* marge haute de la tête « Prestations » */
+  --prestations-tete-marge-basse: clamp(24px, 3.5vw, 48px); /* marge basse de la tête « Prestations » */
+  /* sections : contact */
+  --contact-principal-padding: clamp(44px, 7vw, 100px); /* respiration verticale du bloc principal du contact */
+  --contact-principal-espace: 40px; /* écart entre titre et actions du contact */
+  --contact-hauteur-min-compact: 620px; /* hauteur minimale du contact sous 850 px */
+  --contact-principal-padding-compact: 38px; /* respiration verticale du contact sous 850 px */
+  --contact-credits-marge-haute-compact: 6px; /* marge haute des crédits du contact sous 850 px */
+  /* sections : page */
+  --page-cv-respiration: clamp(22px, 4vw, 54px); /* respiration verticale de la page CV, en haut et en bas */
+
   /* --- Mouvement --- */
   --ease-out: cubic-bezier(.2, .7, .2, 1);
   --duration-none: 0s;
@@ -594,6 +706,8 @@
      du monogramme (unites du viewBox), duree, epaisseur pendant le trace. */
   --trace-longueur: 3200;
   --duration-trace: 1.6s;
+  /* période de clignement du curseur */
+  --duration-clignement: 1s;
   --trace-epaisseur-anime: 2;
   --apparition-base: .05s;
   --apparition-pas: .11s;

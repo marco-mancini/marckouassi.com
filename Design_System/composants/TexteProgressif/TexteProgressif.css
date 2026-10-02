@@ -4,6 +4,6 @@
    ========================================================================== */
 .texte-progressif { margin: 0; }
 .texte-progressif.est-en-cours .texte-progressif__visible::after {
-  content: ""; display: inline-block; width: var(--texte-progressif-curseur); height: 1em; margin-left: .06em;
-  background: currentColor; vertical-align: -.1em; animation: clignement 1s steps(1) infinite;
+  content: ""; display: inline-block; width: var(--texte-progressif-curseur); height: var(--texte-progressif-curseur-hauteur); margin-left: var(--texte-progressif-curseur-marge);
+  background: currentColor; vertical-align: var(--texte-progressif-curseur-alignement); animation: clignement var(--duration-clignement) steps(1) infinite;
 }

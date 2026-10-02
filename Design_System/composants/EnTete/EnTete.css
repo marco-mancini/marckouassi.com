@@ -13,7 +13,7 @@
 }
 .en-tete.est-defile { box-shadow: 0 var(--border-hairline) 0 var(--line); }
 .en-tete__marque { display: inline-flex; min-width: var(--cible-tactile); min-height: var(--cible-tactile); flex: none; align-items: center; }
-.en-tete__marque svg { width: 48px; height: auto; aspect-ratio: var(--logo-header-ratio); }
+.en-tete__marque svg { width: var(--en-tete-marque-largeur); height: auto; aspect-ratio: var(--logo-header-ratio); }
 .en-tete__navigation { min-width: 0; }
 .en-tete__actions { display: flex; flex: none; align-items: center; gap: var(--space-3); }
 .en-tete__large, .en-tete__compact { display: flex; align-items: center; gap: var(--space-3); }
@@ -25,7 +25,7 @@
   html:not(.js-anime) .en-tete__navigation { flex: 1; overflow-x: auto; scrollbar-width: none; }
   html:not(.js-anime) .en-tete__navigation .navigation { gap: var(--space-4); white-space: nowrap; }
 }
-@media (max-width: 850px) { .en-tete { height: 62px; } }
+@media (max-width: 850px) { .en-tete { height: var(--en-tete-hauteur-compact); } }
 
 /* Variante admin : la navigation est dans la barre laterale du CadreAdmin,
    qui ne disparait que sous 850 px ; le bouton de menu suit ce seuil. */
