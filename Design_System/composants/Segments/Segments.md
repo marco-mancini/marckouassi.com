@@ -20,7 +20,7 @@ Sert au sélecteur de langue public (FR/EN), au choix de langue de l'accueil, à
 | `liens` | `<nav>`, `aria-current="true"` sur la langue affichée, `hreflang` et `lang` sur chaque lien |
 | `boutons` | `role="group"`, `aria-pressed` |
 
-Chaque option fait au moins 44 px de large.
+Chaque option reçoit le clic sur au moins 44 × 44 px (`--cible-tactile`). Elle est dessinée moins haute (`--segments-option-retrait`) pour tenir dans la pilule ; un pseudo-élément transparent rend à sa zone cliquable toute la hauteur de la cible, sans changer le dessin. Test : « sélecteur de langue : chaque option reçoit le clic sur 44 × 44 px » (`tests/navigateur/site.test.mjs`).
 
 ## Règle FR/EN
 
