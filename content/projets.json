@@ -9,6 +9,10 @@
       "fr": "Campagne publicitaire · sport",
       "en": "Advertising campaign · sport"
     },
+    "categories": [
+      "campagne-publicitaire",
+      "direction-artistique"
+    ],
     "annees": {
       "debut": 2026,
       "fin": 2026
@@ -89,6 +93,10 @@
       "fr": "Campagne de marque · Ramadan",
       "en": "Brand campaign · Ramadan"
     },
+    "categories": [
+      "campagne-publicitaire",
+      "direction-artistique"
+    ],
     "annees": {
       "debut": 2024,
       "fin": 2025
@@ -145,6 +153,10 @@
       "fr": "Campagne de marque · bière",
       "en": "Brand campaign · beer"
     },
+    "categories": [
+      "campagne-publicitaire",
+      "direction-artistique"
+    ],
     "annees": {
       "debut": 2024,
       "fin": 2025
@@ -210,6 +222,11 @@
       "fr": "Campagne événementielle · supports",
       "en": "Event campaign · materials"
     },
+    "categories": [
+      "campagne-publicitaire",
+      "direction-artistique",
+      "print-edition"
+    ],
     "annees": {
       "debut": 2025,
       "fin": 2025
@@ -284,6 +301,10 @@
       "fr": "Identité de marque · charte complète",
       "en": "Brand identity · complete guidelines"
     },
+    "categories": [
+      "identite-charte",
+      "logotype"
+    ],
     "annees": {
       "debut": 2023,
       "fin": 2023
@@ -415,6 +436,11 @@
       "fr": "Identité de lancement · sport",
       "en": "Launch identity · sport"
     },
+    "categories": [
+      "identite-charte",
+      "logotype",
+      "direction-artistique"
+    ],
     "annees": {
       "debut": 2025,
       "fin": 2025
@@ -493,6 +519,11 @@
       "fr": "Identité de marque · charte graphique",
       "en": "Brand identity · brand guidelines"
     },
+    "categories": [
+      "identite-charte",
+      "logotype",
+      "print-edition"
+    ],
     "annees": {
       "debut": 2023,
       "fin": 2023
@@ -561,6 +592,11 @@
       "fr": "Identité de marque · mode",
       "en": "Brand identity · fashion"
     },
+    "categories": [
+      "identite-charte",
+      "logotype",
+      "direction-artistique"
+    ],
     "annees": {
       "debut": 2023,
       "fin": 2023
@@ -617,6 +653,10 @@
       "fr": "Identité de marque · accessoires",
       "en": "Brand identity · accessories"
     },
+    "categories": [
+      "identite-charte",
+      "logotype"
+    ],
     "annees": {
       "debut": 2022,
       "fin": 2022
@@ -667,6 +707,9 @@
       "fr": "Édition · communication d’entreprise",
       "en": "Editorial design · corporate communication"
     },
+    "categories": [
+      "print-edition"
+    ],
     "annees": {
       "debut": 2023,
       "fin": 2023
@@ -729,6 +772,9 @@
       "fr": "Expérience numérique · UX/UI",
       "en": "Digital experience · UX/UI"
     },
+    "categories": [
+      "digital-ui-ux"
+    ],
     "annees": {
       "debut": 2025,
       "fin": 2026

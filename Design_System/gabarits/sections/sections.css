@@ -89,6 +89,10 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 
 /* --- Projets --- */
 .projets__tete { margin: var(--projets-tete-marge-haute) 0 var(--introduction-title-gap); }
+/* Le filtre reste secondaire : il s'aligne sur le titre, se tient a distance
+   de la grille, et n'est pose par le script que s'il peut agir. */
+.projets__filtres { margin: 0 0 var(--projets-filtres-marge-basse); }
+.projets__vide { margin: 0 0 var(--projets-filtres-marge-basse); color: var(--texte-discret); }
 
 /* --- Prestations --- */
 .prestations__tete { display: grid; margin: var(--prestations-tete-marge-haute) 0 var(--prestations-tete-marge-basse); justify-items: center; gap: var(--prestations-masthead-gap); text-align: center; }
@@ -99,10 +103,6 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .contact__principal { display: flex; flex: 1; padding: var(--contact-principal-padding) 0; align-items: center; justify-content: space-between; gap: var(--contact-principal-espace); }
 .contact__pied { display: grid; padding-top: var(--contact-pied-marge-haute); grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: var(--contact-pied-espace); border-top: var(--border-hairline) solid var(--filet); }
 .contact__credits { margin: 0; color: var(--texte-discret); line-height: var(--leading-compact); letter-spacing: normal; text-align: right; }
-
-/* --- Page projet --- */
-.page-projet { display: grid; gap: var(--space-5); }
-.page-projet > .bouton { justify-self: start; }
 
 /* --- Page CV --- */
 /* Les planches du CV forment un seul document : espacees de 24 px. */
@@ -156,6 +156,17 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .savoirfaire__tete { margin: var(--savoirfaire-tete-marge-haute-compact) 0 var(--savoirfaire-tete-marge-basse-compact); }
   .parcours__titre { margin-top: var(--parcours-titre-marge-haute-compact); }
   .projets__tete { margin: var(--space-7) 0 var(--projets-tete-marge-basse-compact); }
+  .projets__filtres, .projets__vide { margin-bottom: var(--projets-filtres-marge-basse-compact); }
+  /* Sous 850 px, sept disciplines sur plusieurs rangs poussaient le premier
+     projet 268 px plus bas. Elles tiennent desormais sur UNE rangee qui
+     defile : aucune ne disparait, chacune reste atteignable au doigt comme
+     au clavier (le focus amene son option dans le champ). La marge verticale
+     laisse passer le contour de focus et la cible tactile de 44 px, que
+     `overflow-x` couperait sinon. La barre de defilement native est retiree :
+     c'est la derniere option a demi coupee qui dit qu'il y a une suite. */
+  .projets__filtres { padding-block: var(--projets-filtres-marge-defilement); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+  .projets__filtres::-webkit-scrollbar { display: none; }
+  .projets__filtres .segments--nue { flex-wrap: nowrap; }
   .contact { min-height: var(--contact-hauteur-min-compact); }
   .contact__principal { padding: var(--contact-principal-padding-compact) 0; align-items: start; flex-direction: column; gap: var(--space-6); }
   .contact__pied { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }

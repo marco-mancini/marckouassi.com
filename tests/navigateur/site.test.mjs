@@ -234,3 +234,206 @@ test("accessibilité (axe-core) : aucune violation grave ou critique", async () 
     }
   }
 });
+
+/**
+ * FILTRE PAR DISCIPLINE — ce que seul un vrai navigateur peut dire :
+ * que le clic masque les bonnes cartes, que le clavier fait la même chose
+ * que la souris, que rien ne déborde sur un téléphone, et que les cartes
+ * masquées sortent aussi de l'arbre d'accessibilité.
+ *
+ * Les disciplines et les projets sont relus dans content/ : ce fichier ne
+ * nomme ni l'un ni l'autre. Si Marc ajoute une discipline, le test la
+ * couvre sans retouche.
+ */
+const catalogueDuContenu = async () => {
+  const contenu = await chargerFichiers(process.cwd());
+  const catalogue = contenu.sections.find((s) => Array.isArray(s.categories)).categories;
+  return catalogue
+    .map((d) => ({ id: d.id, attendus: contenu.projets.filter((p) => (p.categories ?? []).includes(d.id)).length }))
+    .filter((d) => d.attendus > 0);
+};
+
+test("filtre des projets : chaque discipline ne laisse que ses cartes, « Tous » les rend toutes", async () => {
+  const disciplines = await catalogueDuContenu();
+  const page = await ouvrir(nav, serveur.url + "/");
+  const visibles = () => page.$$eval(".projets .projet-carte", (l) => l.filter((e) => !e.hidden).length);
+  const total = await page.$$eval(".projets .projet-carte", (l) => l.length);
+
+  assert.equal(await visibles(), total, "au chargement, tout est visible");
+  assert.equal(await page.getAttribute('[data-segments="projets"] [data-valeur=""]', "aria-pressed"), "true");
+
+  for (const { id, attendus } of disciplines) {
+    await page.locator(`[data-segments="projets"] [data-valeur="${id}"]`).click();
+    assert.equal(await visibles(), attendus, `discipline « ${id} »`);
+    // Chaque carte restée visible porte bien la discipline : pas de survivante.
+    const intruses = await page.$$eval(".projets .projet-carte", (l, d) => l.filter((e) => !e.hidden && !e.dataset.disciplines.split(" ").includes(d)).length, id);
+    assert.equal(intruses, 0, `une carte sans « ${id} » est restée visible`);
+    assert.equal(await page.getAttribute(`[data-segments="projets"] [data-valeur="${id}"]`, "aria-pressed"), "true");
+    const presses = await page.$$eval('[data-segments="projets"] .segments__option', (l) => l.filter((e) => e.getAttribute("aria-pressed") === "true").length);
+    assert.equal(presses, 1, "une seule discipline active à la fois");
+  }
+
+  await page.locator('[data-segments="projets"] [data-valeur=""]').click();
+  assert.equal(await visibles(), total, "« Tous » rend toutes les cartes");
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
+
+test("filtre des projets : une carte masquée sort aussi de l'arbre d'accessibilité", async () => {
+  const [premiere] = await catalogueDuContenu();
+  const page = await ouvrir(nav, serveur.url + "/");
+  await page.locator(`[data-segments="projets"] [data-valeur="${premiere.id}"]`).click();
+  // `hidden` retire l'élément du rendu ET de l'arbre : un lecteur d'écran ne
+  // doit pas annoncer un projet que l'œil ne voit plus.
+  const fantomes = await page.$$eval(".projets .projet-carte[hidden] a", (l) => l.filter((a) => a.offsetParent !== null).length);
+  assert.equal(fantomes, 0, "un lien de carte masquée reste atteignable");
+  const tabulables = await page.$$eval(".projets .projet-carte[hidden]", (l) => l.filter((e) => e.querySelector("a,button")?.matches(":not([inert]) *") && e.getClientRects().length).length);
+  assert.equal(tabulables, 0, "une carte masquée garde une zone cliquable");
+  await page.fermer();
+});
+
+test("filtre des projets : le clavier seul fait exactement ce que fait la souris", async () => {
+  const [premiere] = await catalogueDuContenu();
+  const page = await ouvrir(nav, serveur.url + "/");
+  const bouton = page.locator(`[data-segments="projets"] [data-valeur="${premiere.id}"]`);
+  await bouton.scrollIntoViewIfNeeded();
+  await bouton.focus();
+  assert.equal(await page.evaluate(() => document.activeElement.dataset.valeur), premiere.id, "l'option prend le focus");
+  await page.keyboard.press("Enter");
+  assert.equal(await page.$$eval(".projets .projet-carte", (l) => l.filter((e) => !e.hidden).length), premiere.attendus);
+  await page.keyboard.press("Space");
+  assert.equal(await page.$$eval(".projets .projet-carte", (l) => l.filter((e) => !e.hidden).length), premiere.attendus, "la barre d'espace ne doit pas inverser l'état");
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
+
+test("filtre des projets : aucun débordement et cible de 44 px, de 320 à 1440 px", async () => {
+  for (const largeur of [320, 375, 768, 1024, 1440]) {
+    const page = await ouvrir(nav, serveur.url + "/", { largeur });
+    await page.locator('[data-segments="projets"]').scrollIntoViewIfNeeded();
+    const debordement = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    assert.ok(debordement <= 0, `${largeur}px : débordement de ${debordement}px`);
+    // Sous 850 px la rangée défile : une option hors champ n'est pas
+    // atteignable par elementFromPoint tant qu'elle n'a pas été amenée dans
+    // le champ. On la fait défiler AVANT de sonder, comme le ferait un doigt
+    // ou la tabulation — sinon on mesurerait l'absence d'écran, pas la cible.
+    const manques = await page.evaluate(() => {
+      const cible = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--cible-tactile"));
+      const options = [...document.querySelectorAll('[data-segments="projets"] .segments__option')];
+      const absents = [];
+      for (const o of options) {
+        o.scrollIntoView({ block: "nearest", inline: "center" });
+        const r = o.getBoundingClientRect(); const cx = r.left + r.width / 2; const cy = r.top + r.height / 2; const demi = cible / 2 - 0.5;
+        for (const [x, y] of [[cx, cy - demi], [cx, cy + demi]]) {
+          if (document.elementFromPoint(x, y)?.closest(".segments__option") !== o) {
+            absents.push(`${o.textContent.trim()} (${Math.round(x)}, ${Math.round(y)})`);
+          }
+        }
+      }
+      return absents;
+    });
+    assert.deepEqual(manques, [], `${largeur}px`);
+    await page.fermer();
+  }
+});
+
+test("filtre des projets : en anglais, mêmes identifiants et mêmes comptes", async () => {
+  const disciplines = await catalogueDuContenu();
+  const page = await ouvrir(nav, serveur.url + "/en/");
+  for (const { id, attendus } of disciplines) {
+    await page.locator(`[data-segments="projets"] [data-valeur="${id}"]`).click();
+    assert.equal(await page.$$eval(".projets .projet-carte", (l) => l.filter((e) => !e.hidden).length), attendus, `EN · ${id}`);
+  }
+  await page.fermer();
+});
+
+test("sans JavaScript, le filtre n'est pas posé et les projets restent tous là", async () => {
+  // Un bouton de filtre inerte serait pire que pas de bouton : il promet une
+  // action qu'il ne peut pas rendre.
+  const page = await ouvrir(nav, serveur.url + "/", { js: false });
+  assert.equal(await page.locator('[data-segments="projets"]').count(), 0, "le filtre ne doit pas être posé sans script");
+  const contenu = await chargerFichiers(process.cwd());
+  assert.equal(await page.$$eval(".projets .projet-carte", (l) => l.filter((e) => !e.hidden).length), contenu.projets.length);
+  await page.fermer();
+});
+
+test("filtre des projets : sous 850 px, une seule rangée qui défile, sans rien perdre", async () => {
+  // Avant ce comportement, sept disciplines s'empilaient sur jusqu'à six
+  // rangs à 320 px et repoussaient le premier projet de 268 px.
+  const disciplines = await catalogueDuContenu();
+  for (const largeur of [320, 375, 768]) {
+    const page = await ouvrir(nav, serveur.url + "/", { largeur });
+    const m = await page.evaluate(() => {
+      const bloc = document.querySelector(".projets__filtres");
+      const groupe = bloc.querySelector('[data-segments="projets"]');
+      const options = [...groupe.children];
+      return {
+        rangs: new Set(options.map((o) => Math.round(o.getBoundingClientRect().top))).size,
+        options: options.length,
+        defile: bloc.scrollWidth > bloc.clientWidth,
+        hauteur: Math.round(bloc.getBoundingClientRect().height),
+        enveloppe: Math.round(document.querySelector(".projets").getBoundingClientRect().width),
+      };
+    });
+    assert.equal(m.rangs, 1, `${largeur}px : ${m.rangs} rangs au lieu d'un seul`);
+    assert.equal(m.options, disciplines.length + 1, `${largeur}px : une option manque`);
+    // Toutes les options restent atteignables : celles qui dépassent se
+    // rejoignent en faisant défiler la rangée, jamais en les supprimant.
+    for (const { id } of disciplines) {
+      const atteinte = await page.evaluate((cible) => {
+        const option = document.querySelector(`[data-segments="projets"] [data-valeur="${cible}"]`);
+        if (!option) return false;
+        option.scrollIntoView({ block: "nearest", inline: "center" });
+        const r = option.getBoundingClientRect();
+        const bloc = document.querySelector(".projets__filtres").getBoundingClientRect();
+        return r.left >= bloc.left - 1 && r.right <= bloc.right + 1;
+      }, id);
+      assert.ok(atteinte, `${largeur}px : « ${id} » reste hors d'atteinte`);
+    }
+    await page.fermer();
+  }
+});
+
+test("filtre des projets : la rangée qui défile ne coupe ni le contour de focus ni la cible de 44 px", async () => {
+  // `overflow-x: auto` rend aussi l'axe vertical scrollable : sans marge, le
+  // contour de focus et la zone cliquable étendue seraient rognés.
+  for (const largeur of [320, 375]) {
+    const page = await ouvrir(nav, serveur.url + "/", { largeur });
+    const m = await page.evaluate(() => {
+      const bloc = document.querySelector(".projets__filtres");
+      const option = bloc.querySelector(".segments__option");
+      option.focus();
+      const style = getComputedStyle(document.documentElement);
+      const contour = parseFloat(style.getPropertyValue("--outline-focus")) + parseFloat(style.getPropertyValue("--outline-focus-offset"));
+      const marge = parseFloat(getComputedStyle(bloc).paddingTop);
+      const r = option.getBoundingClientRect();
+      const b = bloc.getBoundingClientRect();
+      return {
+        focusVisible: option.matches(":focus-visible"),
+        margeSuffisante: marge >= contour,
+        hautRogne: r.top - contour < b.top - 0.5,
+        basRogne: r.bottom + contour > b.bottom + 0.5,
+        defilementVertical: bloc.scrollHeight > bloc.clientHeight + 1,
+      };
+    });
+    assert.ok(m.focusVisible, `${largeur}px : le focus clavier n'est pas visible`);
+    assert.ok(m.margeSuffisante, `${largeur}px : la marge verticale ne couvre pas le contour de focus`);
+    assert.ok(!m.hautRogne && !m.basRogne, `${largeur}px : le contour de focus déborde du conteneur qui défile`);
+    assert.ok(!m.defilementVertical, `${largeur}px : la rangée défile aussi verticalement, ce qu'elle ne doit pas`);
+    await page.fermer();
+  }
+});
+
+test("filtre des projets : le défilement de la rangée ne déborde jamais sur la page", async () => {
+  // Une rangée qui défile mal poussée élargit le document entier.
+  for (const largeur of [320, 375, 768, 1024, 1440]) {
+    const page = await ouvrir(nav, serveur.url + "/", { largeur });
+    const m = await page.evaluate(() => {
+      const bloc = document.querySelector(".projets__filtres");
+      bloc.scrollLeft = bloc.scrollWidth; // poussée à fond, le pire cas
+      return { debordement: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+    });
+    assert.ok(m.debordement <= 0, `${largeur}px : débordement de ${m.debordement}px`);
+    await page.fermer();
+  }
+});

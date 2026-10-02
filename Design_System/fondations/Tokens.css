@@ -627,6 +627,7 @@
   /* Segments */
   --segments-padding: 2px; /* marge intérieure du sélecteur à segments */
   --segments-espace: 2px; /* écart entre deux segments */
+  --segments-espace-nue: 8px; /* écart entre deux segments, variante nue (sans enveloppe) */
   --segments-option-retrait: 6px; /* retrait de hauteur d'une option par rapport à la cible tactile */
   /* TexteProgressif */
   --texte-progressif-curseur-hauteur: 1em; /* hauteur du curseur du texte progressif */
@@ -676,6 +677,9 @@
   /* sections : projets */
   --projets-tete-marge-haute: clamp(25px, 4vw, 54px); /* marge haute de la tête « Projets » */
   --projets-tete-marge-basse-compact: 18px; /* marge basse de la tête « Projets » sous 850 px */
+  --projets-filtres-marge-basse: clamp(28px, 3vw, 48px); /* écart entre le filtre par discipline et la grille */
+  --projets-filtres-marge-basse-compact: 22px; /* le même, sous 850 px */
+  --projets-filtres-marge-defilement: 8px; /* marge verticale de la rangée qui défile : laisse passer le contour de focus (2 + 4 px) et la cible tactile */
   /* sections : prestations */
   --prestations-tete-marge-haute: clamp(26px, 4vw, 56px); /* marge haute de la tête « Prestations » */
   --prestations-tete-marge-basse: clamp(24px, 3.5vw, 48px); /* marge basse de la tête « Prestations » */

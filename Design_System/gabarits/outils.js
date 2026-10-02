@@ -66,3 +66,62 @@ export function media(ctx, entree, { motifAlt = null, rang = 0, chemin = "", che
 export function ancre(section) {
   return `#${section.id}`;
 }
+
+/* --------------------------------------------------------------------------
+   DISCIPLINES DES PROJETS — le filtre du sommaire.
+
+   Deux sources, et aucune liste ici :
+     - le CATALOGUE vit dans la section qui porte le filtre
+       (`sections[sommaire].categories`) : un identifiant stable et un
+       libellé traduisible par discipline ;
+     - le RATTACHEMENT vit dans chaque projet (`projets[].categories`) :
+       des identifiants, jamais des libellés.
+
+   Un projet appartient à plusieurs disciplines sans être dupliqué : il
+   porte simplement plusieurs identifiants.
+   -------------------------------------------------------------------------- */
+
+/** Identifiants de discipline d'un projet, dédoublonnés, dans l'ordre des données. */
+export function disciplinesDe(projet) {
+  return [...new Set(projet?.categories ?? [])];
+}
+
+/**
+ * Disciplines réellement proposées au visiteur : celles du catalogue qui
+ * comptent au moins un projet, dans l'ordre du catalogue.
+ *
+ * Une discipline déclarée mais vide n'est PAS affichée : un filtre qui ne
+ * rend rien n'est pas une proposition, c'est une impasse. Elle réapparaît
+ * d'elle-même dès qu'un projet la revendique — rien à toucher dans le code.
+ *
+ * @param {Array<{id: string, libelle: object}>} catalogue  sections[sommaire].categories
+ * @param {Array<object>} projets
+ * @returns {Array<{id: string, libelle: object, rang: number, total: number}>}
+ */
+export function disciplinesProposees(catalogue, projets) {
+  const comptes = new Map();
+  for (const projet of projets ?? []) {
+    for (const id of disciplinesDe(projet)) comptes.set(id, (comptes.get(id) ?? 0) + 1);
+  }
+  return (catalogue ?? [])
+    .map((discipline, rang) => ({ ...discipline, rang, total: comptes.get(discipline.id) ?? 0 }))
+    .filter((discipline) => discipline.total > 0);
+}
+
+/**
+ * Projets d'une discipline. `null` — l'état « tous » — les rend tous, dans
+ * leur ordre d'origine : le filtre ne réordonne jamais rien.
+ */
+export function projetsDeLaDiscipline(projets, id = null) {
+  return id === null ? [...(projets ?? [])] : (projets ?? []).filter((p) => disciplinesDe(p).includes(id));
+}
+
+/** Identifiants rattachés à un projet mais absents du catalogue. Vide = données saines. */
+export function disciplinesInconnues(catalogue, projets) {
+  const connus = new Set((catalogue ?? []).map((d) => d.id));
+  const inconnus = new Set();
+  for (const projet of projets ?? []) {
+    for (const id of disciplinesDe(projet)) if (!connus.has(id)) inconnus.add(id);
+  }
+  return [...inconnus];
+}

@@ -20,6 +20,11 @@
   },
   "projet": {
     "compteur": "Projet {numero} / {total}",
+    "filtres": {
+      "etiquette": "Filtrer les projets par discipline",
+      "tous": "Tous",
+      "aucun": "Aucun projet dans cette discipline pour le moment."
+    },
     "ouvrir": "Entrer dans le projet {titre} pour voir l’étude complète et toutes ses images",
     "fermer": "Fermer l’étude du projet",
     "images": "Images du projet",

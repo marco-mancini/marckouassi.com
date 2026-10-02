@@ -13,7 +13,7 @@ import { Pastille } from "../../composants/Pastille/Pastille.js";
 import { Sceau } from "../../composants/Sceau/Sceau.js";
 import { Segments } from "../../composants/Segments/Segments.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
-import { Projet_etude, ModaleEtude } from "../Projet_etude/Projet_etude.js";
+import { Gabarit_Projet, vueProjet } from "../Gabarit_Projet/Gabarit_Projet.js";
 import { Intro } from "../Intro/Intro.js";
 import { Document, enTeteEtMenu, enTeteDocument, optionsLangues } from "./commun.js";
 import { Couverture } from "./Couverture.js";
@@ -45,7 +45,7 @@ export function PageAccueil({ contenu, ctx }) {
     .map((section) => GABARITS_SECTIONS[section.type]?.({ section, contenu, ctx }) ?? "");
   return Document({
     ctx, meta: meta(contenu, ctx),
-    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${ModaleEtude({ ctx })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx) })}`,
+    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx) })}`,
   });
 }
 
@@ -53,10 +53,13 @@ export function PageAccueil({ contenu, ctx }) {
 export function PageProjet({ contenu, ctx, projet }) {
   const versAccueil = ctx.pageAccueil();
   const { entete, menu } = enTeteEtMenu({ contenu, ctx, versAccueil });
-  const titre = ctx.c(projet.titre, `projets.${projet.id}.titre`);
+  // Le titre et la description viennent de la VUE du projet, comme partout
+  // ailleurs : la page ne recalcule plus ce que le gabarit central résout.
+  const vue = vueProjet({ projet, ctx });
+  const retour = `${versAccueil}#${contenu.sections.find((s) => s.type === "projets")?.id ?? ""}`;
   return Document({
-    ctx, meta: { ...meta(contenu, ctx, { titre: ctx.t("formats.titrePage", { titre, nom: contenu.site.identite.nom }), description: ctx.c(projet.contexte, `projets.${projet.id}.contexte`), chemin: ctx.chemin }), type: "article" },
-    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1"><section class="planche-scene" aria-labelledby="etude-${projet.id}"><div class="planche page-projet">${Bouton({ texte: ctx.t("projet.retour"), variante: "texte", href: `${versAccueil}#${contenu.sections.find((s) => s.type === "projets")?.id ?? ""}`, options: { icone: "retour" } })}${Projet_etude({ projet, ctx, niveau: 1 })}</div></section></main>${menu}`,
+    ctx, meta: { ...meta(contenu, ctx, { titre: ctx.t("formats.titrePage", { titre: vue.titre, nom: contenu.site.identite.nom }), description: vue.description, chemin: ctx.chemin }), type: "article" },
+    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${Gabarit_Projet({ projet, ctx, mode: "page", options: { retour } })}</main>${menu}`,
   });
 }
 

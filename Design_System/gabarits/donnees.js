@@ -29,6 +29,18 @@ export function valider(contenu) {
     ids.add(section.id);
     if (section.type !== "couverture") requis(section.navigation, `sections.${section.id}.navigation`);
   }
+  // Catalogue des disciplines : il vit dans la section qui porte le filtre.
+  // Un identifiant mal formé ou en double y est une erreur, pas une variante.
+  const sommaire = contenu.sections.find((s) => Array.isArray(s.categories));
+  const disciplines = new Set();
+  (sommaire?.categories ?? []).forEach((discipline, rang) => {
+    const base = `sections.${sommaire.id}.categories.${rang}`;
+    if (!/^[a-z0-9-]+$/.test(discipline.id || "")) erreurs.push({ code: "identifiant", chemin: `${base}.id` });
+    if (disciplines.has(discipline.id)) erreurs.push({ code: "doublon", chemin: `${base}.id` });
+    disciplines.add(discipline.id);
+    requis(discipline.libelle, `${base}.libelle`);
+  });
+
   const idsProjets = new Set();
   contenu.projets.forEach((projet, rang) => {
     const base = projet.id ? `projets.${projet.id}` : `projets.${rang}`;
@@ -37,6 +49,11 @@ export function valider(contenu) {
     idsProjets.add(projet.id);
     for (const champ of ["titre", "categorie", "contexte", "role", "disciplines", "idee", "valeur"]) requis(projet[champ], `${base}.${champ}`);
     if (!projet.annees?.debut) erreurs.push({ code: "annee", chemin: `${base}.annees.debut` });
+    // Un projet se rattache au catalogue par des IDENTIFIANTS, jamais par un
+    // libellé : un rattachement inconnu ne s'affiche nulle part, il se signale.
+    (projet.categories ?? []).forEach((id, i) => {
+      if (!disciplines.has(id)) erreurs.push({ code: "identifiant", chemin: `${base}.categories.${i}` });
+    });
   });
   return erreurs;
 }

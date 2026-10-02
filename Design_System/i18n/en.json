@@ -21,6 +21,11 @@
   },
   "projet": {
     "compteur": "Project {numero} / {total}",
+    "filtres": {
+      "etiquette": "Filter projects by discipline",
+      "tous": "All",
+      "aucun": "No project in this discipline yet."
+    },
     "ouvrir": "Open the project {titre} to see the full case study and all its images",
     "fermer": "Close the case study",
     "images": "Project images",

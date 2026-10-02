@@ -54,6 +54,12 @@ const long = (t) => typeof t === "string" && (t.length > 80 || t.includes("\n"))
 export function configurationCms({ contenu, fr }) {
   const libelle = (cle) => ({ fr: fr.editeur.francais, en: fr.editeur.anglais })[cle] ?? fr.champs[cle] ?? cle;
 
+  /* Catalogue des disciplines, lu dans la section qui porte le filtre : il
+     devient la liste de choix du champ « categories » d'un projet. Aucune
+     discipline n'est écrite ici — ajouter une ligne au catalogue suffit. */
+  const disciplines = ((contenu.sections ?? []).find((s) => Array.isArray(s.categories))?.categories ?? [])
+    .map((d) => ({ value: d.id, label: d.libelle?.fr ?? d.id }));
+
   /* Champs facultatifs que les gabarits savent lire mais que les données
      peuvent ne pas contenir (un champ vide n'est pas enregistré) : déclarés
      ici pour rester proposés dans le CMS même vides. Chemin → champs. */
@@ -73,7 +79,19 @@ export function configurationCms({ contenu, fr }) {
     const base = { name: cle, label: libelle(cle), required: presentes.length === valeurs.length && presentes.length > 0 };
 
     if (TECHNIQUES.has(cle)) return { name: cle, widget: "hidden" };
-    if (cle === "id") return { ...base, widget: "string", hint: fr.editeur.aideIdentifiant };
+    // L'aide de l'identifiant dépend de ce qu'il identifie : celui d'un projet
+    // forme l'adresse de sa page, celui d'une catégorie ne forme aucune adresse
+    // — il sert à rattacher les projets. Dire l'un pour l'autre induit en erreur.
+    if (cle === "id") {
+      const categorie = /\.categories\b/.test(chemin);
+      return { ...base, widget: "string", hint: categorie ? fr.editeur.aideIdentifiantCategorie : fr.editeur.aideIdentifiant };
+    }
+    // Disciplines d'un projet : une liste d'identifiants du catalogue. Saisie
+    // libre, elle produirait des rattachements morts ; en choix multiple, les
+    // options sont le catalogue lui-même, libellés compris.
+    if (cle === "categories" && chemin.startsWith("projets")) {
+      return { ...base, required: false, widget: "select", multiple: true, options: disciplines };
+    }
     if (cle === "frequence") return { ...base, widget: "select", options: Object.entries(fr.frequences).map(([value, label]) => ({ value, label })) };
     if (natures.has("liste")) return liste(base, valeurs.flatMap((v) => (Array.isArray(v) ? [v] : [])), chemin);
     if (natures.size === 1 && natures.has("traduisible")) return traduisible(base, presentes);

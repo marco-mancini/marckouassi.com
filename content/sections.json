@@ -428,7 +428,65 @@
     "titre": {
       "fr": "Mes projets",
       "en": "My projects"
-    }
+    },
+    "categories": [
+      {
+        "id": "logotype",
+        "libelle": {
+          "fr": "Logotype",
+          "en": "Logotype"
+        }
+      },
+      {
+        "id": "identite-charte",
+        "libelle": {
+          "fr": "Identité & charte",
+          "en": "Brand identity"
+        }
+      },
+      {
+        "id": "campagne-publicitaire",
+        "libelle": {
+          "fr": "Campagnes publicitaires",
+          "en": "Advertising campaigns"
+        }
+      },
+      {
+        "id": "direction-artistique",
+        "libelle": {
+          "fr": "Direction artistique",
+          "en": "Art direction"
+        }
+      },
+      {
+        "id": "digital-ui-ux",
+        "libelle": {
+          "fr": "Design digital & UI/UX",
+          "en": "Digital design & UI/UX"
+        }
+      },
+      {
+        "id": "print-edition",
+        "libelle": {
+          "fr": "Print & édition",
+          "en": "Print & editorial"
+        }
+      },
+      {
+        "id": "3d-production",
+        "libelle": {
+          "fr": "3D & production",
+          "en": "3D & production"
+        }
+      },
+      {
+        "id": "motion-audiovisuel",
+        "libelle": {
+          "fr": "Motion & audiovisuel",
+          "en": "Motion & audiovisual"
+        }
+      }
+    ]
   },
   {
     "type": "prestations",
