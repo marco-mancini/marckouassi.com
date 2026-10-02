@@ -1,6 +1,10 @@
 # MarcoS — données, Supabase et cache
 
-Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md).
+Vérifié le 1er octobre 2026 ; **taille de la base et complétude des langues
+remesurées le 2 octobre 2026** (sections « Langues » et « Taille »). Voir
+l'[architecture](AI_ARCHITECTURE.md) et le
+[dossier d'arbitrage](MARCOS_DECISIONS.md), qui rassemble toutes les décisions
+en attente de Marc.
 
 ## Principe
 
@@ -14,10 +18,12 @@ produit le site.
 
 ## Ce qui existe déjà dans Supabase
 
-> **Question ouverte (1er octobre 2026)** : Supabase a été écarté pour le
-> back-office et aucun projet n'existe. La source des données de MarcoS —
-> Supabase ou JSON statique produit au build — est à trancher le jour de
-> l'implémentation : voir [Q-1](AI_ARCHITECTURE.md#q-1--source-des-données--supabase-ou-fichier-json-produit-au-build).
+> **Question ouverte** : Supabase a été écarté pour le back-office et aucun
+> projet n'existe. La source des données de MarcoS — Supabase ou JSON statique
+> produit au build — reste à trancher par Marc : voir
+> [Q-1](AI_ARCHITECTURE.md#q-1--source-des-données--supabase-ou-fichier-json-produit-au-build)
+> et, pour les options chiffrées et la recommandation,
+> [MARCOS_DECISIONS.md, arbitrage A](MARCOS_DECISIONS.md#3-arbitrage-a--23--où-marcos-lit-il-le-contenu-du-portfolio).
 
 Schéma : `supabase/migrations/20261001000000_back_office.sql`.
 
@@ -93,19 +99,39 @@ recompte rien lui-même.
 
 ## Langues
 
-Le contenu de référence est en français. 296 champs n'ont pas encore de version
-anglaise. La base transmet, pour chaque champ, le français et l'anglais quand il
-existe. Une question en anglais reçoit une réponse en anglais **reformulant les
-faits français, sans rien ajouter** (décision D-8) ; aucune traduction n'est
-enregistrée dans le contenu.
+Le contenu de référence est en français. **Mesuré le 2 octobre 2026 : les
+282 champs bilingues du périmètre de la liste blanche ont tous leur version
+anglaise, 0 manquant** — la traduction a été terminée par PM-030 (#30). La base
+transmet, pour chaque champ, le français et l'anglais.
+
+Conséquence : la prémisse de la décision D-8 (« réponses en anglais à partir de
+faits rédigés en français ») est périmée. MarcoS peut répondre en anglais depuis
+des faits **écrits et relus en anglais**. D-8 est donc rouverte dans le
+[dossier d'arbitrage](MARCOS_DECISIONS.md#d-8--comment-marcos-répond-il-en-anglais),
+avec une décision nouvelle, D-12 : n'envoyer qu'une langue à la fois. Dans tous
+les cas, aucune traduction n'est produite à la volée ni enregistrée dans le
+contenu par MarcoS.
 
 ## Taille
 
-Mesure faite sur `content/` le 1er octobre 2026, liste blanche appliquée :
-≈ 17 000 caractères (projets 10 000, sections 3 100, CV 3 700, identité 200),
-soit **≈ 5 000 jetons**. La base est envoyée **en entier** à chaque requête :
-pas de recherche vectorielle, pas de découpage. Si elle dépasse un jour
-30 000 jetons, on passera à une sélection par projet (voir plan, phase IA-11).
+**Remesuré sur `content/` le 2 octobre 2026**, liste blanche appliquée,
+589 valeurs de texte retenues :
+
+| Périmètre | Caractères | Jetons (≈ car. ÷ 3,5) |
+|---|---|---|
+| Français seul | 17 928 (projets 10 751, sections 3 410, CV 3 686, identité et contact 81) | ≈ 5 100 |
+| Anglais seul | 16 395 | ≈ 4 700 |
+| **Français + anglais** | **34 323** | **≈ 9 800** |
+
+Le relevé du 1er octobre annonçait ≈ 17 000 caractères et ≈ 5 000 jetons : il ne
+comptait que le français, l'anglais n'existant pas encore. **La base a donc
+doublé le 2 octobre**, ce qui double aussi la part « contexte » du coût de chaque
+question. C'est l'objet de la décision D-12 du
+[dossier d'arbitrage](MARCOS_DECISIONS.md#d-12--envoyer-une-seule-langue-à-la-fois-ou-les-deux).
+
+La base est envoyée **en entier** à chaque requête : pas de recherche
+vectorielle, pas de découpage. Si elle dépasse un jour 30 000 jetons, on passera
+à une sélection par projet (voir plan, phase IA-11).
 
 ## Cache : options comparées
 
