@@ -185,7 +185,7 @@ pas comme temps CPU d'un Worker (documentation Cloudflare).
 |---|---|---|---|
 | local | `wrangler dev`, secrets dans `.dev.vars` (ignoré par Git) | `http://localhost:*` | fournisseurs simulés par défaut ; vraies clés possibles |
 | preview | `wrangler deploy --env preview` | URL de Preview (Vercel ou Pages) | Mistral et Gemini, budgets bas |
-| production | `wrangler deploy --env production` | `https://marckouassi.com` | Mistral et Gemini |
+| production | `wrangler deploy --env production` | adresse publique de `content/site.json` (aujourd'hui `https://marckouassi-com.vercel.app`) | Mistral et Gemini |
 
 `vars`, secrets et bindings sont **redéclarés dans chaque environnement**
 (Wrangler ne les hérite pas). Les secrets attendus sont listés dans
@@ -207,8 +207,11 @@ Le site connaît seulement l'**adresse** de l'endpoint, injectée au build
 | Domaine `assistant.marckouassi.com` | zone Cloudflare ; impossible sur un nom qui a déjà un CNAME | production si le site reste ailleurs |
 | `*.workers.dev` | aucune | preview et essais (Cloudflare le traite comme un site Free, pas pour la production) |
 
-Le site est aujourd'hui publié par GitHub Pages ; l'état du DNS de
-marckouassi.com chez Cloudflare n'est pas vérifié (décision D-7).
+Le site est publié par Vercel à `https://marckouassi-com.vercel.app`, adresse
+officielle jusqu'à nouvel ordre de Marc ; l'achat de marckouassi.com est
+suspendu (décision du 2 octobre 2026, [DECISIONS.md](DECISIONS.md)). Les deux
+premières lignes du tableau supposent ce domaine : elles ne s'appliquent pas
+tant qu'il n'est pas acheté (D-7, Q-2, PM-024).
 
 ## Coûts (ordres de grandeur)
 

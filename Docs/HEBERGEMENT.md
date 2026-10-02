@@ -6,6 +6,16 @@
 Hobby, en connaissance de cause, et d'en assumer le risque.** La section
 Prestations du site n'est pas modifiée.
 
+## Adresse officielle
+
+**Le 2 octobre 2026, Marc décide que `https://marckouassi-com.vercel.app/`
+reste l'adresse officielle du site jusqu'à nouvel ordre.** L'achat du domaine
+`marckouassi.com` (PM-009, [#9](https://github.com/marco-mancini/marckouassi.com/issues/9))
+est **suspendu, pas abandonné**. Motif et impact :
+[DECISIONS.md](DECISIONS.md#2026-10-02--adresse-officielle--marckouassi-comvercelapp).
+
+L'adresse se lit à un seul endroit : `url` dans `content/site.json`.
+
 ## Le texte en cause (relevé le 1er octobre 2026)
 
 Conditions d'utilisation de Vercel (https://vercel.com/legal/terms) :
@@ -47,7 +57,8 @@ jours de préavis :
 | e. GitHub Pages | 0 | dépôt public, puis rétablir `pages.yml` (voir [RETIRES.md](RETIRES.md)) | exige un dépôt public sur un compte gratuit |
 
 Dans tous les cas, l'adresse publique se change à un seul endroit :
-`url` dans `content/site.json`.
+`url` dans `content/site.json`. Pour d et e, l'adresse officielle changerait :
+c'est une nouvelle décision de Marc, à inscrire au journal des décisions.
 
 ## Si Vercel envoie une notification
 

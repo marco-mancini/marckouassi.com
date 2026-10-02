@@ -38,14 +38,16 @@ Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md) et les
 
 ### Contrôle de `Origin` et CORS
 
-- `ORIGINES_AUTORISEES` : liste exacte par environnement (`https://marckouassi.com`,
+- `ORIGINES_AUTORISEES` : liste exacte par environnement (adresse publique de
+  `content/site.json`, aujourd'hui `https://marckouassi-com.vercel.app`,
   URL de preview, `http://localhost:*` en local).
 - Requête `OPTIONS` : réponse avec `Access-Control-Allow-Methods: POST`,
   `Access-Control-Allow-Headers: Content-Type`, `Access-Control-Max-Age: 600`.
 - Réponse : `Access-Control-Allow-Origin` = l'origine reçue si elle est
   autorisée, et `Vary: Origin`. Jamais `*`.
-- En production derrière la route `marckouassi.com/api/*`, l'appel est de même
-  origine : CORS n'intervient pas, mais le contrôle de `Origin` reste.
+- Si le site obtient un domaine propre (PM-009, suspendue le 2 octobre 2026) et
+  que l'endpoint passe derrière la route `<domaine>/api/*`, l'appel devient de
+  même origine : CORS n'intervient plus, mais le contrôle de `Origin` reste.
 
 `Origin` peut être falsifié hors navigateur : c'est une protection contre
 l'intégration sur un autre site, pas contre un script. Les limites de débit

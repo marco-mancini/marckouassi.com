@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-066 : 29 issues ouvertes, 19 fermées.
+État au 2 octobre 2026, de PM-004 à PM-076 : 33 issues ouvertes, 20 fermées.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
@@ -21,7 +21,7 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-006 | [#6](https://github.com/marco-mancini/marckouassi.com/issues/6) | Supprimer les anciens déploiements Vercel qui contiennent le PDF du CV | decision-marc, securite, urgent | — | ouverte |
 | PM-007 | [#7](https://github.com/marco-mancini/marckouassi.com/issues/7) | Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues | decision-marc, infrastructure, blocage | — | ouverte |
 | PM-008 | [#8](https://github.com/marco-mancini/marckouassi.com/issues/8) | Créer et tenir l'index Docs/ISSUES.md | documentation | — | fermée — index fusionné par la PR #41 |
-| PM-009 | [#9](https://github.com/marco-mancini/marckouassi.com/issues/9) | Acheter marckouassi.com puis changer url dans site.json | decision-marc, infrastructure | — | ouverte |
+| PM-009 | [#9](https://github.com/marco-mancini/marckouassi.com/issues/9) | Acheter marckouassi.com puis changer url dans site.json | decision-marc, infrastructure | — | ouverte — suspendue par décision de Marc du 2 octobre 2026 (PM-075) |
 | PM-010 | [#10](https://github.com/marco-mancini/marckouassi.com/issues/10) | Refaire le PDF du CV sans données personnelles | decision-marc, contenu | — | ouverte |
 | PM-011 | [#11](https://github.com/marco-mancini/marckouassi.com/issues/11) | Réécrire le résumé du CV | decision-marc, contenu | — | ouverte |
 | PM-012 | [#12](https://github.com/marco-mancini/marckouassi.com/issues/12) | Poser les étiquettes d'archive des 8 branches obsolètes | decision-marc, infrastructure | — | ouverte |
@@ -64,3 +64,8 @@ Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 | PM-064 | [#64](https://github.com/marco-mancini/marckouassi.com/issues/64) | Traduction anglaise, lot 3 : CV (75 champs) | contenu | — | fermée — réglée par la PR #69 |
 | PM-065 | [#65](https://github.com/marco-mancini/marckouassi.com/issues/65) | Traduction anglaise, lot 4 : textes d'interface | contenu | — | fermée — réglée par la PR #70 |
 | PM-066 | [#66](https://github.com/marco-mancini/marckouassi.com/issues/66) | Traduction anglaise, lot 5 : métadonnées et SEO, puis vérification complète | contenu | — | fermée — réglée par la PR #71 |
+| PM-072 | [#72](https://github.com/marco-mancini/marckouassi.com/issues/72) | Diagnostic : « le toggle vers l'anglais ne fonctionne pas » | bug | — | ouverte |
+| PM-073 | [#73](https://github.com/marco-mancini/marckouassi.com/issues/73) | Anglais : guillemets français dans deux champs en de projets.json | contenu | — | ouverte |
+| PM-074 | [#74](https://github.com/marco-mancini/marckouassi.com/issues/74) | Sélecteur de langue : zone cliquable de 44 × 38 px, sous le minimum de 44 × 44 | accessibilite, bug | — | ouverte |
+| PM-075 | [#75](https://github.com/marco-mancini/marckouassi.com/issues/75) | Acter marckouassi-com.vercel.app comme adresse officielle (PM-009 suspendue) | documentation, infrastructure | — | fermée — réglée par la PR #77 |
+| PM-076 | [#76](https://github.com/marco-mancini/marckouassi.com/issues/76) | Spécification des fichiers de l'avatar 3D de MarcoS (Docs/MARCOS_AVATAR.md) | documentation | — | ouverte |
