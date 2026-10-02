@@ -3,47 +3,58 @@
     "type": "couverture",
     "id": "accueil",
     "edition": {
-      "fr": "Édition 2026"
+      "fr": "Édition 2026",
+      "en": "2026 Edition"
     },
     "signature": {
       "salutation": {
-        "fr": "Marc Kouassi"
+        "fr": "Marc Kouassi",
+        "en": "Marc Kouassi"
       },
       "accent": {
-        "fr": "Portfolio"
+        "fr": "Portfolio",
+        "en": "Portfolio"
       },
       "mot": {
-        "fr": "Design"
+        "fr": "Design",
+        "en": "Design"
       }
     },
     "role": {
-      "fr": "Directeur artistique"
+      "fr": "Directeur artistique",
+      "en": "Directeur artistique"
     },
     "promesse": {
-      "fr": "Des idées fortes. Des images qui restent."
+      "fr": "Des idées fortes. Des images qui restent.",
+      "en": "Strong ideas. Images that stay."
     },
     "faits": [
       {
         "etiquette": {
-          "fr": "Basé à"
+          "fr": "Basé à",
+          "en": "Based in"
         },
         "valeur": {
-          "fr": "Abidjan, Côte d’Ivoire"
+          "fr": "Abidjan, Côte d’Ivoire",
+          "en": "Abidjan, Côte d’Ivoire"
         }
       },
       {
         "etiquette": {
-          "fr": "Sélection"
+          "fr": "Sélection",
+          "en": "Selection"
         },
         "calcul": "selection"
       },
       {
         "etiquette": {
-          "fr": "Entrer"
+          "fr": "Entrer",
+          "en": "Enter"
         },
         "lien": {
           "texte": {
-            "fr": "Le portfolio"
+            "fr": "Le portfolio",
+            "en": "The portfolio"
           },
           "cible": "introduction"
         }
@@ -54,47 +65,59 @@
     "type": "introduction",
     "id": "introduction",
     "navigation": {
-      "fr": "Introduction"
+      "fr": "Introduction",
+      "en": "Introduction"
     },
     "credit": {
       "mention": {
-        "fr": "Une pratique en mouvement"
+        "fr": "Une pratique en mouvement",
+        "en": "A practice in motion"
       },
       "signature": {
-        "fr": "Marc Kouassi"
+        "fr": "Marc Kouassi",
+        "en": "Marc Kouassi"
       }
     },
     "titre": {
-      "fr": "Introduction"
+      "fr": "Introduction",
+      "en": "Introduction"
     },
     "image": {
       "src": "Public/images/Image_04.png",
       "alt": {
-        "fr": "Un aperçu du travail de direction artistique et d’expérience numérique de Marc Kouassi."
+        "fr": "Un aperçu du travail de direction artistique et d’expérience numérique de Marc Kouassi.",
+        "en": "A glimpse of Marc Kouassi’s work in art direction and digital experience."
       }
     },
     "accroche": {
-      "fr": "Créer, c’est donner une forme aux idées…"
+      "fr": "Créer, c’est donner une forme aux idées…",
+      "en": "To create is to give ideas a shape…"
     },
     "detail": {
-      "fr": "Une marque, une campagne, une interface :\nchaque projet commence par une question.\n**Qu’est-ce qu’on doit ressentir, comprendre ou retenir ?**"
+      "fr": "Une marque, une campagne, une interface :\nchaque projet commence par une question.\n**Qu’est-ce qu’on doit ressentir, comprendre ou retenir ?**",
+      "en": "A brand, a campaign, an interface:\nevery project starts with a question.\n**What should people feel, understand or remember?**"
     },
     "methode": {
       "etiquette": {
-        "fr": "Les quatre temps de ma méthode"
+        "fr": "Les quatre temps de ma méthode",
+        "en": "The four stages of my method"
       },
       "etapes": [
         {
-          "fr": "Observer"
+          "fr": "Observer",
+          "en": "Observe"
         },
         {
-          "fr": "Comprendre"
+          "fr": "Comprendre",
+          "en": "Understand"
         },
         {
-          "fr": "Imaginer"
+          "fr": "Imaginer",
+          "en": "Imagine"
         },
         {
-          "fr": "Donner forme"
+          "fr": "Donner forme",
+          "en": "Give form"
         }
       ]
     }
@@ -104,134 +127,165 @@
     "id": "apropos",
     "signature": {
       "salutation": {
-        "fr": "Bonjour, je suis"
+        "fr": "Bonjour, je suis",
+        "en": "Hello, I’m"
       },
       "accent": {
-        "fr": "Marc"
+        "fr": "Marc",
+        "en": "Marc"
       },
       "mot": {
-        "fr": "Kouassi"
+        "fr": "Kouassi",
+        "en": "Kouassi"
       }
     },
     "navigation": {
-      "fr": "À propos"
+      "fr": "À propos",
+      "en": "About"
     },
     "credit": {
       "signature": {
-        "fr": "Portrait"
+        "fr": "Portrait",
+        "en": "Portrait"
       }
     },
     "accroche": {
-      "fr": "Basé à Abidjan, je conçois des identités, des campagnes et des expériences visuelles **depuis 13 ans.**"
+      "fr": "Basé à Abidjan, je conçois des identités, des campagnes et des expériences visuelles **depuis 13 ans.**",
+      "en": "Based in Abidjan, I have been designing identities, campaigns and visual experiences **for 13 years.**"
     },
     "detail": {
-      "fr": "J’aime partir d’une idée simple, **lui trouver le bon langage** et construire autour d’elle **un univers cohérent**."
+      "fr": "J’aime partir d’une idée simple, **lui trouver le bon langage** et construire autour d’elle **un univers cohérent**.",
+      "en": "I like to start from a simple idea, **find the right language for it** and build **a coherent world** around it."
     },
     "portrait": {
       "src": "Public/images/Photo_Marc.jpg",
       "alt": {
-        "fr": "Portrait de Marc Kouassi."
+        "fr": "Portrait de Marc Kouassi.",
+        "en": "Portrait of Marc Kouassi."
       }
     },
     "affirmation": {
-      "fr": "Directeur **artistique.**"
+      "fr": "Directeur **artistique.**",
+      "en": "Directeur **artistique.**"
     }
   },
   {
     "type": "savoirfaire",
     "id": "expertise",
     "navigation": {
-      "fr": "Savoir-faire"
+      "fr": "Savoir-faire",
+      "en": "Expertise"
     },
     "credit": {
       "mention": {
-        "fr": "Penser · concevoir · diriger"
+        "fr": "Penser · concevoir · diriger",
+        "en": "Think · design · direct"
       },
       "signature": {
-        "fr": "Expertise"
+        "fr": "Expertise",
+        "en": "Expertise"
       }
     },
     "titre": {
-      "fr": "Savoir-faire"
+      "fr": "Savoir-faire",
+      "en": "Expertise"
     },
     "promesse": [
       {
-        "fr": "Donner une direction"
+        "fr": "Donner une direction",
+        "en": "Set a direction"
       },
       {
-        "fr": "Créer une signature"
+        "fr": "Créer une signature",
+        "en": "Create a signature"
       },
       {
-        "fr": "**Faire passer une idée**"
+        "fr": "**Faire passer une idée**",
+        "en": "**Get an idea across**"
       }
     ],
     "images": [
       {
         "src": "Public/images/Image_05.jpg",
         "alt": {
-          "fr": "Portrait d’enfant aux yeux fermés, fondu dans un ciel et des aplats de couleur."
+          "fr": "Portrait d’enfant aux yeux fermés, fondu dans un ciel et des aplats de couleur.",
+          "en": "Portrait of a child with closed eyes, blending into a sky and flat fields of color."
         }
       },
       {
         "src": "Public/images/Image_06.jpg",
         "alt": {
-          "fr": "Écran de retouche d’image dans un atelier, une photographie en cours de traitement."
+          "fr": "Écran de retouche d’image dans un atelier, une photographie en cours de traitement.",
+          "en": "An image-retouching screen in a studio, with a photograph being edited."
         }
       },
       {
         "src": "Public/images/Image_07.jpg",
         "alt": {
-          "fr": "Feuille de maquettes d’écrans dessinées à la main, tenue devant un poste de travail."
+          "fr": "Feuille de maquettes d’écrans dessinées à la main, tenue devant un poste de travail.",
+          "en": "A sheet of hand-drawn screen mock-ups, held up in front of a workstation."
         }
       }
     ],
     "domaines": [
       {
         "libelle": {
-          "fr": "Direction artistique"
+          "fr": "Direction artistique",
+          "en": "Art direction"
         },
         "note": {
-          "fr": "Donner une âme aux idées."
+          "fr": "Donner une âme aux idées.",
+          "en": "Giving ideas a soul."
         }
       },
       {
         "libelle": {
-          "fr": "Identité de marque"
+          "fr": "Identité de marque",
+          "en": "Brand identity"
         },
         "note": {
-          "fr": "Faire naître une signature."
+          "fr": "Faire naître une signature.",
+          "en": "Bringing a signature to life."
         }
       },
       {
         "libelle": {
-          "fr": "Campagne & image"
+          "fr": "Campagne & image",
+          "en": "Campaign & imagery"
         },
         "note": {
-          "fr": "Transformer les idées en images."
+          "fr": "Transformer les idées en images.",
+          "en": "Turning ideas into images."
         }
       },
       {
         "libelle": {
-          "fr": "Design UX/UI"
+          "fr": "Design UX/UI",
+          "en": "UX/UI design"
         },
         "note": {
-          "fr": "Dessiner des expériences évidentes."
+          "fr": "Dessiner des expériences évidentes.",
+          "en": "Designing experiences that feel obvious."
         }
       },
       {
         "libelle": {
-          "fr": "Édition & supports"
+          "fr": "Édition & supports",
+          "en": "Editorial & print"
         },
         "note": {
-          "fr": "Du concept au réel."
+          "fr": "Du concept au réel.",
+          "en": "From concept to the real thing."
         }
       },
       {
         "libelle": {
-          "fr": "IA & exploration créative"
+          "fr": "IA & exploration créative",
+          "en": "AI & creative exploration"
         },
         "note": {
-          "fr": "Imaginer ce qui n’existe pas encore."
+          "fr": "Imaginer ce qui n’existe pas encore.",
+          "en": "Imagining what does not exist yet."
         }
       }
     ]
@@ -240,21 +294,26 @@
     "type": "parcours",
     "id": "parcours",
     "navigation": {
-      "fr": "Parcours"
+      "fr": "Parcours",
+      "en": "Journey"
     },
     "credit": {
       "mention": {
-        "fr": "Des expériences qui nourrissent le regard"
+        "fr": "Des expériences qui nourrissent le regard",
+        "en": "Experiences that sharpen the eye"
       },
       "signature": {
-        "fr": "Expériences"
+        "fr": "Expériences",
+        "en": "Experience"
       }
     },
     "titre": {
-      "fr": "Mon parcours"
+      "fr": "Mon parcours",
+      "en": "My journey"
     },
     "accroche": {
-      "fr": "Un parcours fait de projets, de rencontres et d’expériences."
+      "fr": "Un parcours fait de projets, de rencontres et d’expériences.",
+      "en": "A journey shaped by projects, encounters and experiences."
     },
     "etapes": [
       {
@@ -263,13 +322,16 @@
           "fin": 2026
         },
         "titre": {
-          "fr": "Project Manager & Lead UX/UI"
+          "fr": "Project Manager & Lead UX/UI",
+          "en": "Project Manager & Lead UX/UI"
         },
         "texte": {
-          "fr": "J’accompagne plusieurs équipes projet, de la conception à la livraison, et veille à la cohérence des expériences et des produits."
+          "fr": "J’accompagne plusieurs équipes projet, de la conception à la livraison, et veille à la cohérence des expériences et des produits.",
+          "en": "I support several project teams from design to delivery, and make sure experiences and products stay consistent."
         },
         "lieu": {
-          "fr": "Expériences numériques"
+          "fr": "Expériences numériques",
+          "en": "Digital experiences"
         }
       },
       {
@@ -278,13 +340,16 @@
           "fin": 2025
         },
         "titre": {
-          "fr": "Fondateur & directeur de création"
+          "fr": "Fondateur & directeur de création",
+          "en": "Fondateur & directeur de création"
         },
         "texte": {
-          "fr": "Avec M&M Concept, je mène des projets créatifs et techniques : supports imprimés, maquettes 3D et réalisations jusqu’au bon à tirer."
+          "fr": "Avec M&M Concept, je mène des projets créatifs et techniques : supports imprimés, maquettes 3D et réalisations jusqu’au bon à tirer.",
+          "en": "With M&M Concept, I lead creative and technical projects: printed materials, 3D mock-ups and builds all the way to final proof."
         },
         "lieu": {
-          "fr": "Entrepreneuriat créatif"
+          "fr": "Entrepreneuriat créatif",
+          "en": "Creative entrepreneurship"
         }
       },
       {
@@ -293,13 +358,16 @@
           "fin": 2022
         },
         "titre": {
-          "fr": "Directeur artistique"
+          "fr": "Directeur artistique",
+          "en": "Directeur artistique"
         },
         "texte": {
-          "fr": "Je dirige une équipe créative, développe des campagnes et des identités, et pilote la production télévisée de la Météo RTI1 & RTI2."
+          "fr": "Je dirige une équipe créative, développe des campagnes et des identités, et pilote la production télévisée de la Météo RTI1 & RTI2.",
+          "en": "I lead a creative team, develop campaigns and identities, and oversee the TV production of Météo RTI1 & RTI2."
         },
         "lieu": {
-          "fr": "Direction de création"
+          "fr": "Direction de création",
+          "en": "Creative direction"
         }
       },
       {
@@ -308,13 +376,16 @@
           "fin": 2017
         },
         "titre": {
-          "fr": "Infographiste · création en agence"
+          "fr": "Infographiste · création en agence",
+          "en": "Infographiste · agency work"
         },
         "texte": {
-          "fr": "Les bases du métier se construisent dans la conception de supports, la mise en page et l’exécution de projets aux univers variés."
+          "fr": "Les bases du métier se construisent dans la conception de supports, la mise en page et l’exécution de projets aux univers variés.",
+          "en": "The foundations of the craft are built through designing materials, layout and delivering projects across very different worlds."
         },
         "lieu": {
-          "fr": "Les premières années"
+          "fr": "Les premières années",
+          "en": "The early years"
         }
       },
       {
@@ -323,13 +394,16 @@
           "fin": 2014
         },
         "titre": {
-          "fr": "Premières expériences"
+          "fr": "Premières expériences",
+          "en": "First experiences"
         },
         "texte": {
-          "fr": "Je découvre le rythme des agences et la force d’une idée lorsqu’elle passe du brief à l’image."
+          "fr": "Je découvre le rythme des agences et la force d’une idée lorsqu’elle passe du brief à l’image.",
+          "en": "I discover the pace of agencies and the strength of an idea as it travels from brief to image."
         },
         "lieu": {
-          "fr": "GBICH · Voodoo · Kaméléo"
+          "fr": "GBICH · Voodoo · Kaméléo",
+          "en": "GBICH · Voodoo · Kaméléo"
         }
       }
     ]
@@ -338,124 +412,156 @@
     "type": "projets",
     "id": "sommaire",
     "navigation": {
-      "fr": "Mes projets"
+      "fr": "Mes projets",
+      "en": "My projects"
     },
     "credit": {
       "mention": {
-        "fr": "Des histoires, des marques, des images"
+        "fr": "Des histoires, des marques, des images",
+        "en": "Stories, brands, images"
       },
       "signature": {
-        "fr": "Sommaire illustré"
+        "fr": "Sommaire illustré",
+        "en": "Illustrated contents"
       }
     },
     "titre": {
-      "fr": "Mes projets"
+      "fr": "Mes projets",
+      "en": "My projects"
     }
   },
   {
     "type": "prestations",
     "id": "prestations",
     "navigation": {
-      "fr": "Prestations"
+      "fr": "Prestations",
+      "en": "Services"
     },
     "credit": {
       "mention": {
-        "fr": "Ce que je prends en charge"
+        "fr": "Ce que je prends en charge",
+        "en": "What I take on"
       },
       "signature": {
-        "fr": "Tarifs"
+        "fr": "Tarifs",
+        "en": "Rates"
       }
     },
     "titre": {
-      "fr": "Prestations & tarifs"
+      "fr": "Prestations & tarifs",
+      "en": "Services & rates"
     },
     "accroche": {
-      "fr": "{nombre} façons de travailler ensemble."
+      "fr": "{nombre} façons de travailler ensemble.",
+      "en": "{nombre} ways to work together."
     },
     "offres": [
       {
         "titre": {
-          "fr": "Identité de marque"
+          "fr": "Identité de marque",
+          "en": "Brand identity"
         },
         "points": [
           {
-            "fr": "Plateforme de marque et territoire visuel"
+            "fr": "Plateforme de marque et territoire visuel",
+            "en": "Brand platform and visual territory"
           },
           {
-            "fr": "Logotype et système de déclinaisons"
+            "fr": "Logotype et système de déclinaisons",
+            "en": "Logotype and variation system"
           },
           {
-            "fr": "Charte graphique : couleurs, typographies, usages"
+            "fr": "Charte graphique : couleurs, typographies, usages",
+            "en": "Brand guidelines: colors, typefaces, usage"
           },
           {
-            "fr": "Kit de premiers supports"
+            "fr": "Kit de premiers supports",
+            "en": "Starter kit of first materials"
           }
         ],
         "prix": {
-          "fr": "Sur devis"
+          "fr": "Sur devis",
+          "en": "On request"
         }
       },
       {
         "titre": {
-          "fr": "Direction artistique"
+          "fr": "Direction artistique",
+          "en": "Art direction"
         },
         "points": [
           {
-            "fr": "Concept et intention de campagne"
+            "fr": "Concept et intention de campagne",
+            "en": "Campaign concept and intent"
           },
           {
-            "fr": "Direction des prises de vue"
+            "fr": "Direction des prises de vue",
+            "en": "Photo shoot direction"
           },
           {
-            "fr": "Déclinaisons print et réseaux"
+            "fr": "Déclinaisons print et réseaux",
+            "en": "Print and social media roll-outs"
           },
           {
-            "fr": "Suivi jusqu’au support fini"
+            "fr": "Suivi jusqu’au support fini",
+            "en": "Follow-through to the finished piece"
           }
         ],
         "prix": {
-          "fr": "Sur devis"
+          "fr": "Sur devis",
+          "en": "On request"
         }
       },
       {
         "titre": {
-          "fr": "Design UX/UI"
+          "fr": "Design UX/UI",
+          "en": "UX/UI design"
         },
         "points": [
           {
-            "fr": "Architecture et parcours"
+            "fr": "Architecture et parcours",
+            "en": "Architecture and user journeys"
           },
           {
-            "fr": "Maquettes écran par écran"
+            "fr": "Maquettes écran par écran",
+            "en": "Screen-by-screen mock-ups"
           },
           {
-            "fr": "Système de composants réutilisables"
+            "fr": "Système de composants réutilisables",
+            "en": "Reusable component system"
           },
           {
-            "fr": "Remise prêtes à intégrer"
+            "fr": "Remise prêtes à intégrer",
+            "en": "Developer-ready handoff"
           }
         ],
         "prix": {
-          "fr": "Sur devis"
+          "fr": "Sur devis",
+          "en": "On request"
         }
       },
       {
         "titre": {
-          "fr": "Édition & supports"
+          "fr": "Édition & supports",
+          "en": "Editorial & print"
         },
         "points": [
           {
-            "fr": "Mise en page et chemin de fer"
+            "fr": "Mise en page et chemin de fer",
+            "en": "Layout and flatplan"
           },
           {
-            "fr": "Affiches, brochures, packaging"
+            "fr": "Affiches, brochures, packaging",
+            "en": "Posters, brochures, packaging"
           },
           {
-            "fr": "Préparation des fichiers d’impression"
+            "fr": "Préparation des fichiers d’impression",
+            "en": "Print-ready file preparation"
           }
         ],
         "prix": {
-          "fr": "Sur devis"
+          "fr": "Sur devis",
+          "en": "On request"
         }
       }
     ]
@@ -464,47 +570,57 @@
     "type": "contact",
     "id": "contact",
     "navigation": {
-      "fr": "Contact"
+      "fr": "Contact",
+      "en": "Contact"
     },
     "credit": {
       "signature": {
-        "fr": "Marc Kouassi"
+        "fr": "Marc Kouassi",
+        "en": "Marc Kouassi"
       }
     },
     "titre": {
-      "fr": "Parlons de votre\nprochaine idée"
+      "fr": "Parlons de votre\nprochaine idée",
+      "en": "Let’s talk about your\nnext idea"
     },
     "liens": [
       {
         "type": "email",
         "etiquette": {
-          "fr": "E-mail"
+          "fr": "E-mail",
+          "en": "Email"
         },
         "texte": {
-          "fr": "Écrire à Marc"
+          "fr": "Écrire à Marc",
+          "en": "Write to Marc"
         }
       },
       {
         "type": "linkedin",
         "etiquette": {
-          "fr": "Réseau"
+          "fr": "Réseau",
+          "en": "Network"
         },
         "texte": {
-          "fr": "LinkedIn"
+          "fr": "LinkedIn",
+          "en": "LinkedIn"
         }
       },
       {
         "type": "cv",
         "etiquette": {
-          "fr": "CV"
+          "fr": "CV",
+          "en": "Résumé"
         },
         "texte": {
-          "fr": "Voir le CV"
+          "fr": "Voir le CV",
+          "en": "View the résumé"
         }
       }
     ],
     "pied": {
-      "fr": "Conçu avec intention à Abidjan."
+      "fr": "Conçu avec intention à Abidjan.",
+      "en": "Designed with intent in Abidjan."
     }
   }
 ]
