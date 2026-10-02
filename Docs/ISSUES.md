@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-093 : 21 issues ouvertes, 35 fermées.
+État au 2 octobre 2026, de PM-004 à PM-100 : 21 issues ouvertes, 39 fermées.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -73,4 +73,8 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-076 | [#76](https://github.com/marco-mancini/marckouassi.com/issues/76) | Spécification des fichiers de l'avatar 3D de MarcoS (Docs/MARCOS_AVATAR.md) | documentation | — | fermée — réglée par la PR #78 |
 | PM-081 | [#81](https://github.com/marco-mancini/marckouassi.com/issues/81) | État de fin de session du 2 octobre 2026 | documentation | — | fermée — réglée par la PR #82 |
 | PM-091 | [#91](https://github.com/marco-mancini/marckouassi.com/issues/91) | D-11 : le refus d'entraînement Mistral est gratuit, lever le blocage et préparer la mention | documentation | — | fermée — réglée par la PR #92 |
-| PM-093 | [#93](https://github.com/marco-mancini/marckouassi.com/issues/93) | IA-01 : base de connaissance de MarcoS, réduite et publiée au build | documentation | — | ouverte |
+| PM-093 | [#93](https://github.com/marco-mancini/marckouassi.com/issues/93) | IA-01 : base de connaissance de MarcoS, réduite et publiée au build | documentation | — | fermée — réglée par la PR #94 |
+| PM-095 | [#95](https://github.com/marco-mancini/marckouassi.com/issues/95) | IA-02 : squelette du Worker, validations et codes d'erreur | documentation | — | fermée — réglée par la PR #96 |
+| PM-097 | [#97](https://github.com/marco-mancini/marckouassi.com/issues/97) | Remplacer le portrait de la section À propos par la version détourée | contenu | — | fermée — réglée par la PR #98 ; la transparence survit désormais au build |
+| PM-099 | [#99](https://github.com/marco-mancini/marckouassi.com/issues/99) | Sous 850 px, le portrait de « À propos » coupe le visage | decision-marc, bug | — | ouverte — défaut **préexistant**, pas une régression ; trois options chiffrées, Marc tranche |
+| PM-100 | [#100](https://github.com/marco-mancini/marckouassi.com/issues/100) | Mettre à jour la référence de comparaison après le changement de portrait | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `9d51394` → `e8b729c` |

@@ -6,16 +6,22 @@
  * npm run build. Code de sortie 1 au moindre écart : toute différence avec
  * la référence est inattendue.
  *
- *   npm run comparer-reference            (référence par défaut : 9d51394)
+ *   npm run comparer-reference            (référence par défaut : e8b729c)
  *   npm run comparer-reference -- <commit>
  *
- * Référence : 9d51394 (main, 2 octobre 2026), depuis PM-046 (#46). Elle
- * remplace 71cfb9d (refonte/editorial-final-v2, 29 septembre 2026),
- * périmée depuis e80cfae : les 14 écarts relevés venaient tous de trois
- * changements de contenu validés (e80cfae, dfd3091, 49db593), preuve faite
- * en annulant ces trois commits sur main (0 écart). Changer de référence
- * après tout changement de rendu voulu et validé, jamais pour faire taire
- * un écart inexpliqué.
+ * Référence : e8b729c (main, 2 octobre 2026), depuis PM-100 (#100). Elle
+ * remplace 9d51394, périmée par le remplacement du portrait de « À propos »
+ * par sa version détourée (PM-097, #97) : le ratio de l'image passe de 0,563
+ * à 0,623, donc la section est plus courte de 56 px à 1024 et de 79 px à
+ * 1440. Changement de rendu demandé par Marc, écart entièrement expliqué par
+ * le ratio, et reproductible — `npm run comparer-reference -- 9d51394` le
+ * rejoue à l'identique.
+ *
+ * 9d51394 remplaçait elle-même 71cfb9d (refonte/editorial-final-v2,
+ * 29 septembre 2026) depuis PM-046 (#46).
+ *
+ * RÈGLE : changer de référence après tout changement de rendu voulu et
+ * validé, JAMAIS pour faire taire un écart inexpliqué.
  *
  * Un commit de l'architecture actuelle est généré avec son propre build
  * (copie du cache des médias : clé = chemin + empreinte + réglages). Un
@@ -29,7 +35,7 @@ import os from "node:os";
 import path from "node:path";
 import { servir, lancer, ouvrir, defiler } from "../tests/navigateur/outils.mjs";
 
-const COMMIT = process.argv[2] || "9d51394";
+const COMMIT = process.argv[2] || "e8b729c";
 const RACINE = process.cwd();
 const dossier = fs.mkdtempSync(path.join(os.tmpdir(), "reference-"));
 const source = path.join(dossier, "source");
