@@ -59,7 +59,7 @@ offre gratuite seulement). Trois ont été **modifiées** : D-9, D-14, D-18.
 
 La [section 9](#9-réduction-de-la-base-de-connaissance-mesurée) répond à la
 demande chiffrée de D-12, et la
-[section 10](#10-les-deux-points-quil-reste-à-lever-et-ils-peuvent-te-revenir)
+[section 10](#10-les-points-à-lever--un-seul-subsiste)
 signale les deux points qui peuvent encore revenir à Marc.
 
 ---
@@ -738,7 +738,7 @@ ces prix unitaires avec la taille de base **mesurée le 2 octobre**.
 plus, et il n'y a plus rien à « engager » puisque le budget est de 0 € et
 qu'aucun moyen de paiement ne sera enregistré. Restent des **faits à constater**,
 dont deux peuvent revenir à Marc
-([section 10](#10-les-deux-points-quil-reste-à-lever-et-ils-peuvent-te-revenir)) :
+([section 10](#10-les-points-à-lever--un-seul-subsiste)) :
 
 | À vérifier | Où | Pourquoi |
 |---|---|---|
@@ -748,7 +748,7 @@ dont deux peuvent revenir à Marc
 | Binding Rate Limiting disponible sur Workers Free | documentation et console Cloudflare | décide D-6, donc 0 ou 5 $/mois |
 | Quotas Workers Free (100 000 req/jour, 10 ms CPU) | limites Cloudflare | dimensionnement |
 | Comportement de la Cache API sur `workers.dev` | documentation Cloudflare | réserve de l'arbitrage B |
-| **Le refus d'entraînement est-il gratuit ?** | console Mistral, Admin › Privacy | **bloquant** — voir section 10 |
+| ~~Le refus d'entraînement est-il gratuit ?~~ | — | **vérifié le 2 octobre : oui, et gratuit.** Reste à l'activer dans Admin → Privacy ([section 10](#10-les-points-à-lever--un-seul-subsiste)) |
 | Crédits gratuits réellement disponibles (« 10 $/mo » annoncés) | console Mistral | marge réelle face au plafond de 100 questions/jour |
 
 ---
@@ -772,7 +772,7 @@ Réponses de Marc du 2 octobre 2026. **A** = recommandation acceptée,
 | **D-8** | MarcoS répond-il en anglais depuis les faits anglais ou français ? | **Depuis l'anglais** — la traduction est faite, mesurée complète le 2 octobre |  **A — accepté.** Depuis les faits anglais. |
 | **D-9** | Accueil, exemples de questions, mention de confidentialité | **À écrire par toi**, directement dans `/admin/` → Paramètres dès que le champ existe ; ne bloque pas le développement (`active: false`). Brouillons possibles sur demande |  **M — je les écrirai moi-même dans `/admin/`.** Préparer le champ, laisser `assistant.active` à `false`. Brouillons marqués comme tels acceptés ; je tranche. |
 | **D-10** | Les journaux contiennent-ils le texte des questions ? | **Non, métadonnées seulement** |  **A — accepté.** Métadonnées seulement. |
-| **D-11** | Refuser l'usage des données pour l'entraînement chez Mistral ? | **Oui**, avant la première question réelle |  **A — accepté.** Refuser dans la console. **Si ce refus exige une formule payante : me le signaler avant d'aller plus loin, c'est bloquant.** |
+| **D-11** | Refuser l'usage des données pour l'entraînement chez Mistral ? | **Oui**, avant la première question réelle |  **A — accepté, puis vérifié.** Marc avait d'abord accepté l'usage éventuel si le refus était payant (budget 0 € prime, questions de nature publique). **Vérification du 2 octobre : le refus est GRATUIT** et distinct de la rétention zéro, qui est payante. **Blocage levé** : on l'active. Reste à faire par Marc dans Admin → Privacy. |
 | **D-12** | Envoyer une ou deux langues dans le contexte ? | **Une seule** — divise le coût par deux sans rien retirer |  **A — accepté, et élargi.** Une seule langue à la fois. **Et réduire la base au strict nécessaire** — proposition mesurée demandée, rendue en [section 9](#9-réduction-de-la-base-de-connaissance-mesurée). |
 | **D-13** | Figurine 3D et présence flottante : MARCOS.md ou AI_UX.md ? | **Deux étapes**, et AI_UX.md doit écrire « pas en V1 » au lieu de « jamais » |  **A — accepté.** V1 sans avatar, V2 avec. `AI_UX.md` réécrit : « pas en V1 », plus « jamais ». |
 | **D-14** | MarcoS connaît-il ton profil comportemental et personnel (MARCOS.md §18-25) ? | **Un tri, par toi** : méthode de travail en contenu public, confidences hors base |  **M — option a pour l'instant : hors base.** Les sections 18 à 25 de `MARCOS.md` restent un document de conception interne. Le tri sera tranché plus tard, une fois MarcoS en service. |
@@ -832,8 +832,11 @@ contexte envoyé au modèle.
 | `couverture.faits` | −22 | Négligeable |
 | **Total** | **−363** | **8 % de gain pour cinq questions légitimes rendues sans réponse.** Mauvais rapport |
 
-Si tu veux quand même ce palier, dis-le : c'est une ligne dans la liste blanche.
-Je ne le recommande pas.
+**Marc a répondu le 2 octobre 2026 : non, garder le palier actuel.** Son motif,
+mot pour mot : « cinq questions légitimes sans réponse pour 363 jetons, c'est un
+mauvais échange. » Le palier est donc **définitivement écarté**, il n'est pas
+simplement « non recommandé » : la liste blanche reste celle du tableau
+ci-dessus.
 
 ### La base retenue
 
@@ -888,11 +891,12 @@ enregistré, le pire cas est l'indisponibilité — jamais la dépense.
 
 ---
 
-## 10. Les deux points qu'il reste à lever, et ils peuvent te revenir
+## 10. Les points à lever — un seul subsiste
 
-Tu as demandé qu'on te signale toute option sans variante gratuite. Il y en a
-deux, et **aucune des deux ne peut être tranchée depuis le dépôt** : elles se
-constatent dans une console.
+Tu avais demandé qu'on te signale toute option sans variante gratuite. Il y en
+avait deux. **Le 2 octobre 2026, l'une est levée** (D-11 : le refus
+d'entraînement est gratuit) ; l'autre se constatera à l'implémentation sans rien
+te demander (D-6).
 
 ### D-6 — le binding Rate Limiting est-il gratuit ?
 
@@ -912,31 +916,106 @@ budget du jour. Il ne peut pas coûter plus que ce budget, et le budget ne peut
 pas coûter d'argent. Le risque est une indisponibilité de quelques heures, pas
 une facture.
 
-### D-11 — le refus d'entraînement est-il gratuit ? **Potentiellement bloquant**
+### D-11 — le refus d'entraînement est **gratuit**. Blocage levé le 2 octobre 2026
 
-Tu as accepté D-11 et demandé qu'on te signale le cas où ce refus exigerait une
-formule payante. **Je dois te le signaler maintenant, par prudence et non par
-constat :** je n'ai pas pu le vérifier, et c'est le seul endroit où tes deux
-contraintes peuvent se heurter.
+Ce point était signalé comme potentiellement bloquant. **Il ne l'est plus**, et
+la documentation du projet se trompait.
 
-- La documentation du projet renvoie à la page « rétention zéro » de Mistral,
-  une fonction qui, chez la plupart des fournisseurs, relève des offres
-  d'entreprise.
-- Les offres gratuites d'API s'accompagnent souvent, en contrepartie, d'une
-  autorisation d'usage des données.
+Marc a d'abord tranché : « on accepte l'usage éventuel des données, et on le dit
+honnêtement », motif que le budget 0 € prime et que les questions posées à un
+assistant de portfolio sont de nature publique. Puis il a demandé de vérifier,
+en précisant que **si le refus était gratuit, on l'activerait et cette décision
+deviendrait sans objet**. C'est le cas.
 
-Si c'est le cas chez Mistral, **budget 0 € et refus d'entraînement ne peuvent
-pas tenir ensemble**, et il faudra choisir :
+**Ce que la documentation publique de Mistral établit, relevé le 2 octobre 2026 :**
 
-| Option | Conséquence |
+| Contrôle | Disponibilité |
 |---|---|
-| **a. Accepter l'usage des données sur l'offre gratuite** | MarcoS existe, gratuitement. La mention de confidentialité de D-9 doit alors le **dire honnêtement** : ce sont les questions de tes visiteurs |
-| **b. Renoncer à MarcoS** tant que le refus n'est pas gratuit | Aucune dépense, aucune donnée cédée, aucun assistant |
-| **c. Payer le minimum pour obtenir le refus** | Contredit la contrainte budget 0 € : **c'est à toi, pas à moi** |
+| **Rétention zéro (ZDR)** | **payante** — « ZDR is available on paid plans » |
+| **Refus d'entraînement** | **gratuit, et c'est un contrôle distinct** — « ZDR and training opt-out are **separate controls** […] **You do not need ZDR to opt out of model training** » |
 
-**Je ne tranche pas.** La vérification se fait dans la console Mistral au moment
-de créer la clé (phase IA-05), et **rien ne sera mis en ligne avant que tu aies
-répondu** sur ce point. C'est exactement le « bloquant » que tu as demandé.
+En mode gratuit, les données sont utilisées **par défaut**, mais le refus est
+ouvert : « You have the right to opt out of this program at any time ». Procédure
+pour l'API : panneau **Admin → Privacy → section `Anonymous improvement data` →
+désactiver la bascule**. Aucune mention de plan payant.
+
+**Où était l'erreur.** `AI_SECURITY.md` renvoyait à la page « rétention zéro »
+pour parler du refus d'entraînement. Les deux ont été confondus, d'où un faux
+blocage. Corrigé.
+
+**Ce qu'il reste à faire, et c'est à Marc :** créer le compte, puis désactiver la
+bascule. Le pas à pas est dans [AI_SECURITY.md](AI_SECURITY.md).
+
+**Attention à l'ordre des choses.** Tant que la bascule n'est pas désactivée,
+l'état honnête est « usage possible », pas « refus actif » : la variante de la
+mention de confidentialité se choisit sur un **réglage effectivement appliqué**,
+jamais sur une intention. Les deux variantes sont prêtes
+([section 11](#11-brouillons-de-la-mention-de-confidentialité-d-9)).
+
+La décision de Marc reste consignée dans [DECISIONS.md](DECISIONS.md) : elle
+décrit ce qu'on aurait fait si le refus avait été payant, et elle sert de
+position de repli si Mistral changeait ses conditions.
+
+---
+
+## 11. Brouillons de la mention de confidentialité (D-9)
+
+**Ce sont des BROUILLONS.** D-9 réserve ces textes à Marc : rien ici ne part en
+ligne sans sa version. Trois phrases au plus, comme demandé, en français et en
+anglais. La variante se choisit sur le **réglage réellement appliqué** dans la
+console Mistral, pas sur l'intention.
+
+### Variante A — « refus actif » : la bascule est désactivée
+
+À utiliser **après** avoir désactivé `Anonymous improvement data` dans Admin →
+Privacy.
+
+**Français**
+
+> Votre question est transmise à Mistral, qui produit la réponse. Elle n'est
+> conservée ni sur ce site ni dans ses journaux, et Mistral ne l'utilise pas pour
+> entraîner ses modèles. La conversation reste dans cet onglet et disparaît
+> lorsque vous le fermez.
+
+**Anglais**
+
+> Your question is sent to Mistral, which produces the answer. It is kept neither
+> on this site nor in its logs, and Mistral does not use it to train its models.
+> The conversation stays in this tab and disappears when you close it.
+
+### Variante B — « usage possible » : la bascule est encore active
+
+C'est l'état **par défaut** d'un compte gratuit, donc l'état honnête tant que
+rien n'a été changé.
+
+**Français**
+
+> Votre question est transmise à Mistral, qui produit la réponse. Elle n'est
+> conservée ni sur ce site ni dans ses journaux, mais Mistral peut l'utiliser pour
+> améliorer ses modèles. La conversation reste dans cet onglet et disparaît
+> lorsque vous le fermez.
+
+**Anglais**
+
+> Your question is sent to Mistral, which produces the answer. It is kept neither
+> on this site nor in its logs, but Mistral may use it to improve its models. The
+> conversation stays in this tab and disappears when you close it.
+
+### Ce que ces trois phrases disent, et pourquoi dans cet ordre
+
+| Phrase | Ce qu'elle règle |
+|---|---|
+| 1. « transmise à Mistral » | **le fait principal** : la question quitte le site. Le visiteur doit l'apprendre en premier, pas en dernier |
+| 2. « ni conservée, ni dans les journaux » **+** le sort chez Mistral | ce que **nous** garantissons (D-10 : métadonnées seulement) et ce que **nous ne garantissons pas**. C'est la seule phrase qui change entre les deux variantes |
+| 3. « reste dans cet onglet » | `sessionStorage`, effacé à la fermeture. Répond à « est-ce que ça me suit ? » sans jargon |
+
+Ce qui est **volontairement absent** : le nom du modèle, la géographie des
+serveurs, et toute promesse de conformité. Trois phrases ne peuvent pas les
+porter honnêtement, et une approximation vaut moins que le silence.
+
+**Les deux autres textes de D-9** — message d'accueil et exemples de questions —
+ne sont pas brouillonnés ici : tu ne les as pas demandés, et ils portent le ton
+de MarcoS plus que des faits. Dis-le si tu veux des propositions.
 
 ### Ce qui reste hors de ce dossier
 

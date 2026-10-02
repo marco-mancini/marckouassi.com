@@ -277,7 +277,7 @@ Le tableau complet, avec options, conséquences et motifs, est dans
 | D-8 | réponses anglaises depuis les faits anglais |
 | D-9 | les trois textes écrits par Marc dans `/admin/` ; `assistant.active` reste `false` |
 | D-10 | journaux : métadonnées seulement |
-| D-11 | refus d'entraînement activé chez Mistral — **bloquant s'il exige une formule payante** |
+| D-11 | refus d'entraînement activé chez Mistral — **gratuit, vérifié le 2 octobre** ; reste à faire dans la console |
 | D-12 | une seule langue par requête, et base réduite |
 | D-13 | avatar : **pas en V1**, prévu en V2 |
 | D-14 | profil personnel de MARCOS.md §18-25 : **hors base** pour l'instant |
@@ -287,19 +287,22 @@ Le tableau complet, avec options, conséquences et motifs, est dans
 | D-18 | 100 questions/jour, aucune dépense possible |
 | D-19 | identifiant de modèle revérifié à l'implémentation |
 
-## Deux points à lever avant la mise en ligne
+## Points à lever avant la mise en ligne
 
-Ils découlent de la contrainte « budget 0 € » et **ne peuvent pas être tranchés
-depuis le dépôt** :
+Ils découlaient de la contrainte « budget 0 € ». **Le second est levé** ; le
+premier se constatera à l'implémentation sans rien demander à Marc :
 
 1. **D-6, limitation de débit.** La disponibilité du binding Rate Limiting sur
    l'offre Workers Free n'est pas publiée. Si elle manque, **on ne paie pas** :
    on se replie sur le budget journalier plafonné, et la protection par IP est
    assurée plus tard par une règle WAF, le jour où le domaine arrive.
-2. **D-11, refus d'entraînement chez Mistral.** Si ce refus exige une formule
-   payante, il entre en conflit direct avec le budget 0 €. Marc a dit que ce
-   point est **bloquant** : constater d'abord, décider ensuite, ne rien mettre
-   en ligne entre-temps.
+2. **D-11, refus d'entraînement chez Mistral : levé le 2 octobre 2026.** Le refus
+   est **gratuit** et distinct de la rétention zéro, qui est payante — la
+   documentation du projet confondait les deux. Il reste à Marc de désactiver la
+   bascule `Anonymous improvement data` dans Admin → Privacy ; le pas à pas est
+   dans [AI_SECURITY.md](AI_SECURITY.md#d-11--refus-dentraînement--gratuit-et-à-faire-par-marc).
+   Tant que ce n'est pas fait, la mention de confidentialité affichée doit dire
+   « usage possible ».
 
 ## Sources (consultées le 1er octobre 2026)
 
