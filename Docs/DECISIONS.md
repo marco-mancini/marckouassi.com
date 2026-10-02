@@ -12,6 +12,100 @@ Règles :
 
 ---
 
+## 2026-10-02 — MarcoS : budget 0 €, un seul fournisseur, contexte minimal
+
+Décisions de Marc, prises en une passe sur le
+[dossier d'arbitrage](MARCOS_DECISIONS.md) · issues
+[#23](https://github.com/marco-mancini/marckouassi.com/issues/23),
+[#24](https://github.com/marco-mancini/marckouassi.com/issues/24),
+[#25](https://github.com/marco-mancini/marckouassi.com/issues/25).
+
+**Problème.** MarcoS était documenté mais vingt-et-une décisions le bloquaient :
+source des données, hébergement, fournisseur de secours, données personnelles,
+entrée dans l'interface, longueur des réponses, personne grammaticale, plafonds.
+Chaque document du dossier `Docs/AI_*` en supposait certaines sans les avoir
+tranchées, et deux documents se contredisaient ouvertement.
+
+**Options.** Pour chacune des vingt-et-une, les options sont conservées en entier
+dans [MARCOS_DECISIONS.md](MARCOS_DECISIONS.md), sections 3 à 6, avec la
+conséquence de chaque branche et la recommandation motivée qui a été soumise.
+
+**Choix.** Deux contraintes directrices, posées par Marc, qui **priment sur
+toute recommandation** :
+
+1. **Budget 0 €** — aucun compte payant, aucune carte bancaire, aucun
+   abonnement. Une option qui coûte, même peu, est refusée au profit de sa
+   variante gratuite ; sans variante gratuite, on signale au lieu de choisir.
+2. **Verbosité minimale** — réponses de deux à trois phrases, contexte tenu au
+   plus petit, comme critère de conception.
+
+Deux recommandations ont été **refusées** à ce titre :
+
+- **D-2, facturation Gemini → refusée. Pas de Gemini du tout.** Mistral seul,
+  sur ses crédits gratuits. Quota atteint, MarcoS répond « indisponible ».
+- **D-6, Workers Paid à 5 $/mois → refusée par principe.** Offre gratuite
+  seulement ; si le binding Rate Limiting n'y est pas disponible, repli sur le
+  budget journalier plafonné, sans payer.
+
+Trois ont été **modifiées** : D-9 (Marc écrit les trois textes lui-même dans
+`/admin/`), D-14 (profil personnel hors base pour l'instant), D-18 (plafond le
+plus bas possible, aucun moyen de paiement enregistré).
+
+**Motif.** Le budget 0 € n'est pas une économie de bout de chandelle : c'est ce
+qui garantit que **MarcoS ne peut pas générer de facture**. Sans moyen de
+paiement enregistré, le pire cas d'un abus est une indisponibilité de quelques
+heures, jamais une dépense. La verbosité minimale, elle, sert la fonction : un
+assistant de portfolio doit répondre court et renvoyer vers la page, pas tenir
+un discours.
+
+**Impact.**
+
+- **Gemini disparaît du projet.** Matrice de repli, disjoncteur, secours, clé,
+  coûts : retirés de `AI_ARCHITECTURE.md`, `AI_SECURITY.md`,
+  `AI_IMPLEMENTATION_PLAN.md` et `MARCOS.md`. Une phase entière du plan
+  (l'ancienne IA-07) est supprimée. Le contenu retiré reste dans l'historique
+  Git ; ce journal garde le pourquoi.
+- **Supabase n'est plus la source.** La base de connaissance est un fichier
+  produit au build et publié avec le site. Il n'y a plus qu'**un seul secret
+  dans tout le projet**, `MISTRAL_CLE`. #32 et #22 redeviennent indépendantes de
+  MarcoS.
+- **Contexte réduit de 39 %** : 6 555 → 3 966 jetons d'entrée, mesuré. Trois
+  champs retirés de la liste blanche (`projets[].valeur`, `projets[].contexte`,
+  `sections[parcours].etapes`, ce dernier étant un doublon de `cv.experience`),
+  une seule langue par requête, prompt système réécrit court (698 → 396 jetons),
+  historique ramené à 4 échanges et 2 000 caractères. `max_tokens` passe de 400
+  à **180**.
+- **Deux contradictions entre documents sont tranchées** : l'avatar
+  (`AI_UX.md` écrivait « jamais », `MARCOS.md` le demandait → « pas en V1 »,
+  prévu en V2) et la personne grammaticale (le prompt disait « troisième
+  personne », les exemples de `MARCOS.md` écrivaient « mon travail » et
+  tutoyaient → troisième personne et vouvoiement, exemples réécrits).
+- **Deux contradictions supplémentaires ont été relevées et corrigées au
+  passage** : `AI_UX.md` renvoyait les textes de MarcoS à l'éditeur de l'ancien
+  back-office en sommeil au lieu du CMS en service, et `AI_ARCHITECTURE.md`
+  décrivait la graphie du nom comme « N majuscule, é accentué, O majuscule » —
+  un reste de l'ancien nom « NéO ».
+
+**Réversibilité.** Variable selon les points.
+
+- **Totale** : D-1, D-12, D-15, D-16, D-17, et les plafonds de D-18 — ce sont
+  des réglages ou des textes.
+- **Peu coûteuse** : #23, revenir à Supabase demanderait une variable
+  (`SOURCE_CONTEXTE`) et une clé, la liste blanche étant la même ; #24, basculer
+  sur une route du domaine ne change pas une ligne de code.
+- **Coûteuse** : D-2. Réintroduire un second fournisseur demanderait de récrire
+  la matrice de repli et le disjoncteur retirés. C'est le prix assumé de la
+  simplification.
+- **Suspendue à un fait extérieur** : **D-11**. Si le refus d'usage des données
+  pour l'entraînement exige une formule payante chez Mistral, il entre en
+  conflit direct avec le budget 0 €. Marc a posé ce point comme **bloquant** :
+  rien ne sera mis en ligne avant qu'il ait répondu.
+
+**Ce que cette décision n'autorise pas.** L'implémentation. Elle reste une
+décision distincte, que Marc n'a pas donnée.
+
+---
+
 ## 2026-10-02 — Ne pas utiliser le dépôt local `PORTOFOLIO_MARCO_KITTL`
 
 Décision technique de l'agent, consignée pendant le nettoyage de la roadmap.

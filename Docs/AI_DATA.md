@@ -1,167 +1,200 @@
-# MarcoS — données, Supabase et cache
+# MarcoS — données, base de connaissance et cache
 
-Vérifié le 1er octobre 2026 ; **taille de la base et complétude des langues
-remesurées le 2 octobre 2026** (sections « Langues » et « Taille »). Voir
-l'[architecture](AI_ARCHITECTURE.md) et le
-[dossier d'arbitrage](MARCOS_DECISIONS.md), qui rassemble toutes les décisions
-en attente de Marc.
+Arrêté le 2 octobre 2026 par les décisions de Marc
+([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)). Mesures faites sur `content/` le
+même jour. Voir l'[architecture](AI_ARCHITECTURE.md).
+
+Trois décisions commandent tout ce document :
+
+- **#23** : la source est un **fichier JSON produit au build**, pas Supabase ;
+- **D-12** : **une seule langue** par requête, et la base est **réduite au
+  strict nécessaire** ;
+- **D-3** : téléphone, adresse précise et date de naissance sont **exclus**.
 
 ## Principe
 
 MarcoS répond **uniquement** à partir du contenu déjà publié sur le site,
 réduit par une **liste blanche** de champs. Il ne lit ni le brouillon, ni les
-tables d'administration, ni le stockage des médias, ni les comptes.
+médias, ni un quelconque compte.
 
-Il n'existe **aucune copie** du contenu dans le code de MarcoS : la base de
-connaissance est calculée à partir de la même publication que celle qui a
-produit le site.
+Il n'existe **aucune copie** du contenu dans le code de MarcoS : la base est
+calculée par le build, depuis `content/`, par les mêmes fonctions que le site.
 
-## Ce qui existe déjà dans Supabase
-
-> **Question ouverte** : Supabase a été écarté pour le back-office et aucun
-> projet n'existe. La source des données de MarcoS — Supabase ou JSON statique
-> produit au build — reste à trancher par Marc : voir
-> [Q-1](AI_ARCHITECTURE.md#q-1--source-des-données--supabase-ou-fichier-json-produit-au-build)
-> et, pour les options chiffrées et la recommandation,
-> [MARCOS_DECISIONS.md, arbitrage A](MARCOS_DECISIONS.md#3-arbitrage-a--23--où-marcos-lit-il-le-contenu-du-portfolio).
-
-Schéma : `supabase/migrations/20261001000000_back_office.sql`.
-
-| Table | Lecture publique (clé publique, rôle `anon`) | Utilité pour MarcoS |
-|---|---|---|
-| `publications` | **oui**, uniquement les lignes `statut in ('en_attente','en_ligne')` | **source** : colonne `instantane` (site, sections, projets, cv) |
-| `documents` | non (administrateurs) | aucune : c'est le brouillon |
-| `medias` | non (administrateurs) | aucune |
-| `administrateurs` | non | aucune |
-| seau `medias` | fichiers publics | aucune (MarcoS ne lit pas d'images) |
-
-Conséquence : le Worker lit la publication **avec la clé publique**, comme le
-build. Aucune clé secrète Supabase (`sb_secret_…`, rôle `service_role`, qui
-contourne la RLS) n'est nécessaire, ni dans le Worker ni ailleurs.
-
-Le Worker filtre sur `statut=eq.en_ligne` : une version `en_attente` n'est pas
-encore sur le site, MarcoS ne doit pas en parler avant elle.
-
-Lectures (API REST, sans dépendance) :
+## La source : un fichier produit au build
 
 ```text
-GET {SUPABASE_URL}/rest/v1/publications?select=version&statut=eq.en_ligne&order=version.desc&limit=1
-GET {SUPABASE_URL}/rest/v1/publications?select=version,instantane&version=eq.{version}
-En-tête : apikey: {SUPABASE_CLE_PUBLIQUE}
+CMS Git (/admin/) ──► content/*.json ──► npm run build
+                                          ├─► _site/ (le site)
+                                          └─► _site/connaissance.json (la base de MarcoS)
+                                                      │
+                                                      ▼  HTTPS, fichier statique
+                                            [Worker] lit, met en cache par version
 ```
 
-Les nouvelles clés publiques (`sb_publishable_…`) se passent **seulement** dans
-l'en-tête `apikey` ; ce ne sont pas des JWT (documentation Supabase).
+| Propriété | Conséquence |
+|---|---|
+| Coût | **0 $**, aucun compte, aucune clé |
+| Fraîcheur | suit chaque déploiement Vercel, donc chaque enregistrement du CMS |
+| Panne | le fichier est servi par l'hébergement du site : s'il tombe, le site est déjà tombé. **Aucun point de panne supplémentaire** |
+| Lecture | une requête HTTP vers un fichier de CDN, mise en cache ensuite — plus rapide qu'une base de données |
+| Visibilité | le fichier est **public**, comme le contenu dont il est extrait. La liste blanche exclut déjà les données personnelles (D-3). Point accepté en connaissance de cause : on publie une version lisible par machine de ce qui est déjà lisible par un humain |
 
-### Durcissement possible (sans urgence)
+Le fichier est produit **par langue** (`connaissance.fr.json`,
+`connaissance.en.json`) ou avec une clé de langue, pour que le Worker n'envoie
+que celle de la question (D-12).
 
-La publication contient aussi le CV complet, qui est déjà public sur `/cv/`.
-Si l'on veut que Supabase lui-même ne serve que les champs utiles, on peut
-ajouter une vue `security_invoker` ou une fonction SQL qui renvoie la base
-réduite, avec `grant select` au rôle `anon`. Ce n'est pas nécessaire au départ :
-la liste blanche du Worker suffit et elle est testée.
+### Supabase a été écarté
+
+L'architecture du 1er octobre lisait la table `publications` d'un projet
+Supabase. **Décision #23 du 2 octobre : non.** Motifs, en bref :
+
+- **aucun projet Supabase n'a jamais été créé** et la table n'a jamais été
+  remplie : rien ne l'alimenterait sans réveiller l'ancien back-office ;
+- un projet gratuit est **mis en pause après 7 jours** de faible activité ;
+- cela aurait tranché [#32](https://github.com/marco-mancini/marckouassi.com/issues/32)
+  et [#22](https://github.com/marco-mancini/marckouassi.com/issues/22) par effet
+  de bord, ce qui n'était pas la question posée ;
+- cela aurait ajouté un point de panne : MarcoS tombe alors que le site va bien.
+
+Le schéma existe toujours dans le dépôt
+(`supabase/migrations/20261001000000_back_office.sql`) et rien n'a été supprimé ;
+il n'a simplement plus de rôle pour MarcoS. Voir
+[ADMIN_EN_SOMMEIL.md](ADMIN_EN_SOMMEIL.md) et le **pourquoi** dans
+[DECISIONS.md](DECISIONS.md).
+
+Si la décision changeait un jour, le réglage `SOURCE_CONTEXTE`
+(`statique` / `supabase`) est prévu et la liste blanche est la **même** dans les
+deux cas : une variable et une clé.
 
 ## Liste blanche : ce que MarcoS connaît
 
 Construite par un module pur partagé, `Design_System/gabarits/connaissance.js`
-(même principe que `donnees.js`) : entrée = publication, sortie = base réduite,
-en français et, quand elle existe, en anglais.
+(même principe que `donnees.js`) : entrée = contenu, sortie = base réduite, dans
+une langue.
 
-| Domaine | Champs retenus | Origine dans le contenu |
+| Domaine | Champs retenus | Origine |
 |---|---|---|
 | Identité | nom, titre professionnel | `site.identite`, `cv.titre` |
 | Présentation | introduction, à propos (accroche, affirmation, détail) | `sections[type=introduction]`, `sections[type=apropos]` |
 | Savoir-faire | promesse, domaines, méthode | `sections[type=savoirfaire]`, `sections[type=introduction].methode` |
-| Parcours | étapes (années, titre, texte, lieu) | `sections[type=parcours].etapes` |
-| Projets | id, titre, catégorie, période (calculée), contexte, rôle, disciplines, idée, valeur, **lien de la page** | `projets[]` |
+| Projets | id, titre, catégorie, période (calculée), **rôle, disciplines, idée**, lien de la page | `projets[]` |
 | Prestations | titres, points, prix affiché | `sections[type=prestations].offres` |
-| CV | résumé, expériences (titre, lieu, points), compétences, formation, compétences IA, forces | `cv` |
+| CV | résumé, **expériences** (titre, lieu, points), compétences, formation, compétences IA, forces | `cv` |
 | Références | clients et structures cités | `cv.references` |
 | Contact professionnel | e-mail, LinkedIn, lien du CV PDF | `site.contact` |
 | Pages | adresses internes (`/`, `/cv/`, `/projets/{id}/`, ancres de section) | calculées comme le build (`pages.js`) |
 
 Les valeurs calculées (période d'un projet, nombre de projets, plage d'années)
-viennent des **mêmes fonctions** que le site (`outils.js`) : MarcoS ne
-recompte rien lui-même.
+viennent des **mêmes fonctions** que le site (`outils.js`) : MarcoS ne recompte
+rien lui-même.
+
+### Ce qui a été retiré de la liste blanche le 2 octobre
+
+Décision D-12, « réduis la base au strict nécessaire ». Mesuré champ par champ,
+en français :
+
+| Retiré | Gain | Pourquoi c'est sans perte |
+|---|---|---|
+| `projets[].valeur` | **−743 jetons** | Ce champ reformule l'enjeu que `contexte` posait et que `idee` résout. Une réponse de deux à trois phrases n'a pas la place de le citer |
+| `projets[].contexte` | **−725 jetons** | Le client et la nature du projet sont **déjà** dans `titre` (« Orange Sénégal · FIFA 26 ») et `categorie` (« Campagne publicitaire · sport ») |
+| `sections[type=parcours].etapes` | **−246 jetons** | **Doublon** de `cv.experience`, qui décrit le même parcours en plus factuel : employeur, dates, lieu, points. On garde le CV, on retire le récit |
+| **Total** | **−1 715 jetons, soit −38 %** | |
+
+Ce qui reste par projet : **titre, catégorie, période, rôle, disciplines, idée,
+lien**. C'est exactement ce qu'il faut pour deux à trois phrases suivies d'un
+renvoi vers la page du projet — le comportement voulu, pas une dégradation.
+
+Un palier supplémentaire a été mesuré puis **écarté** : retirer
+`cv.formation` (−170), `cv.ia` (−64), `cv.forces` (−54), `cv.references` (−53)
+et `couverture.faits` (−22) n'économiserait que **363 jetons** tout en rendant
+MarcoS muet sur des questions légitimes — la formation et les références sont ce
+qu'un recruteur demande en premier. Mauvais rapport, refusé.
 
 ## Ce que MarcoS ne connaît pas
 
-- Toute clé, secret, jeton, identifiant de compte, adresse de projet Supabase.
-- Le brouillon (`documents`), les publications non en ligne, l'historique.
-- Les tables `medias`, `administrateurs`, `auth.users`.
-- Les chemins de fichiers, les noms d'origine des médias, les textes alternatifs.
+- Toute clé, secret, jeton, identifiant de compte.
+- Les médias : chemins de fichiers, noms d'origine, textes alternatifs.
 - Les métadonnées internes (`_role`, `_origine`, `_statut`).
-- **Par défaut (décision D-3)** : téléphone, adresse précise, date de naissance
+- **Décision D-3** : téléphone, adresse précise, date de naissance
   (`cv.informations`). Ils sont publics sur le CV, mais un assistant n'a pas à
-  les diffuser ; il renvoie vers la page CV.
+  les réciter ; il renvoie vers la page CV. L'exclusion est **structurelle** —
+  les champs ne sont pas dans les données transmises — donc aucune injection ne
+  peut les faire sortir.
+- **Décision D-14** : le profil comportemental et personnel de
+  [MARCOS.md](MARCOS.md) §18 à §25. Il reste un **document de conception
+  interne**, hors base. Le tri entre ce qui pourrait devenir du contenu public
+  et ce qui doit rester privé sera fait plus tard, une fois MarcoS en service.
+- Les pages visitées par le visiteur (**D-16**) : seule la **page courante** est
+  transmise, dans le champ `page` de la requête.
 - Ce qui n'est écrit nulle part : chiffres, résultats, clients, dates, avis.
   MarcoS dit qu'il ne sait pas.
 
 ## Langues
 
-Le contenu de référence est en français. **Mesuré le 2 octobre 2026 : les
-282 champs bilingues du périmètre de la liste blanche ont tous leur version
-anglaise, 0 manquant** — la traduction a été terminée par PM-030 (#30). La base
-transmet, pour chaque champ, le français et l'anglais.
+**Mesuré le 2 octobre 2026 : les 282 champs bilingues du périmètre ont tous
+leur version anglaise, 0 manquant** — la traduction a été terminée par PM-030
+(#30), et Marc l'a vérifiée en production.
 
-Conséquence : la prémisse de la décision D-8 (« réponses en anglais à partir de
-faits rédigés en français ») est périmée. MarcoS peut répondre en anglais depuis
-des faits **écrits et relus en anglais**. D-8 est donc rouverte dans le
-[dossier d'arbitrage](MARCOS_DECISIONS.md#d-8--comment-marcos-répond-il-en-anglais),
-avec une décision nouvelle, D-12 : n'envoyer qu'une langue à la fois. Dans tous
-les cas, aucune traduction n'est produite à la volée ni enregistrée dans le
-contenu par MarcoS.
+**Décision D-12 : une seule langue par requête.** La base n'est plus envoyée en
+deux langues : le Worker transmet celle de la question. Conséquences :
 
-## Taille
+- contexte divisé par deux, latence et coût avec lui ;
+- le modèle n'a sous les yeux que des faits dans la langue où il doit répondre,
+  donc pas de panachage ;
+- la clé de cache de prompt porte la langue
+  (`connaissance-{version}-{langue}`) ;
+- si un champ perdait un jour sa version anglaise, **repli explicite sur le
+  français** pour ce champ, et le rapport du build le signale déjà.
 
-**Remesuré sur `content/` le 2 octobre 2026**, liste blanche appliquée,
-589 valeurs de texte retenues :
+**Décision D-8 : une réponse anglaise se fonde sur les faits anglais**, pas sur
+une traduction à la volée du français. Aucune traduction n'est produite ni
+enregistrée par MarcoS.
 
-| Périmètre | Caractères | Jetons (≈ car. ÷ 3,5) |
+## Taille, mesurée
+
+Relevé sur `content/` le 2 octobre 2026, liste blanche appliquée champ par
+champ.
+
+| Périmètre | Avant les décisions | Après |
 |---|---|---|
-| Français seul | 17 928 (projets 10 751, sections 3 410, CV 3 686, identité et contact 81) | ≈ 5 100 |
-| Anglais seul | 16 395 | ≈ 4 700 |
-| **Français + anglais** | **34 323** | **≈ 9 800** |
+| Base, français seul | 15 950 car. · **4 557 jetons** | 9 948 car. · **2 842 jetons** |
+| Base, français **+** anglais | ≈ 34 300 car. · ≈ 9 800 jetons | **sans objet** : une seule langue est envoyée (D-12) |
 
-Le relevé du 1er octobre annonçait ≈ 17 000 caractères et ≈ 5 000 jetons : il ne
-comptait que le français, l'anglais n'existant pas encore. **La base a donc
-doublé le 2 octobre**, ce qui double aussi la part « contexte » du coût de chaque
-question. C'est l'objet de la décision D-12 du
-[dossier d'arbitrage](MARCOS_DECISIONS.md#d-12--envoyer-une-seule-langue-à-la-fois-ou-les-deux).
+Détail de la base retenue, en français :
 
-La base est envoyée **en entier** à chaque requête : pas de recherche
-vectorielle, pas de découpage. Si elle dépasse un jour 30 000 jetons, on passera
-à une sélection par projet (voir plan, phase IA-11).
+| Domaine | Caractères | Jetons |
+|---|---|---|
+| Projets (titre, catégorie, rôle, disciplines, idée) | 4 713 | **1 347** |
+| CV (résumé, expériences, compétences, formation, IA, forces, références) | 3 391 | **969** |
+| Sections (hors `parcours.etapes`, retiré) | 1 763 | **504** |
+| Identité et contact | 81 | **23** |
+| **Total** | **9 948** | **2 842** |
 
-## Cache : options comparées
+Avec le prompt système (396), la liste des pages (157) et l'historique borné
+(571), l'**entrée totale passe de 6 555 à 3 966 jetons, soit −39 %**. Sortie
+plafonnée à **180 jetons**. Détail dans
+l'[architecture](AI_ARCHITECTURE.md#taille-du-contexte-mesurée).
 
-| Option | Fraîcheur | Charge Supabase | Complexité | Verdict |
-|---|---|---|---|---|
-| Lire Supabase à chaque question | immédiate | 1 à 2 requêtes par question | faible | à éviter : latence, quota, dépendance |
-| KV (Workers) | jusqu'à 60 s de propagation | faible | moyenne | inutile : 1 000 écritures/jour en Free, cohérence lente |
-| **Cache API, clé = version publiée** | ≤ 60 s après une publication | 1 petite requête/min par centre de données + 1 lecture par version | faible | **retenue** |
-| JSON statique produit au build | à chaque build | nulle | faible | **mode de secours et de développement** (`SOURCE_CONTEXTE=statique`) |
+La base est envoyée **en entier** : pas de recherche vectorielle, pas de
+découpage. Si elle dépassait un jour 30 000 jetons — on en est loin — on
+passerait à une sélection par projet.
 
-Fonctionnement retenu :
+## Cache
 
-1. Numéro de version `en_ligne` : mis en cache **60 s**.
-2. Base de connaissance de cette version : mise en cache **24 h** sous la clé
-   `connaissance:{version}`. Une nouvelle publication change la clé : pas
-   d'invalidation à gérer.
-3. Si Supabase ne répond pas : dernière base en cache si elle existe, sinon
-   `503 indisponible`.
+| Étape | Durée | Clé |
+|---|---|---|
+| Base de connaissance | 24 h | `connaissance:{version}:{langue}` |
+| Version publiée | 60 s | lecture de l'empreinte du fichier |
 
-La Cache API est locale à chaque centre de données et fonctionne sur un
-domaine personnalisé ; sur `workers.dev`, son comportement n'est pas publié
-(voir [architecture](AI_ARCHITECTURE.md#hébergement-de-lendpoint)).
+Une nouvelle publication change la version, donc la clé : **pas d'invalidation à
+gérer**. Si le fichier est illisible, le Worker sert la dernière base en cache
+si elle existe, sinon `503 indisponible`.
+
+La Cache API est locale à chaque centre de données ; son comportement sur
+`workers.dev` n'est pas publié. L'impact est faible : la source est un fichier
+statique de CDN, pas une base de données — c'est l'une des raisons pour
+lesquelles la décision #23 et la décision #24 vont bien ensemble.
 
 Le cache de prompt de Mistral (`prompt_cache_key`, entrée facturée 10 %) est
-utilisé avec la clé `connaissance-{version}` : le prompt système et la base
-restent identiques d'une question à l'autre.
-
-## Supabase gratuit : rester actif
-
-Un projet Free est mis en pause après une faible activité sur 7 jours ;
-restauration possible pendant 90 jours. Le flux `publier.yml`, qui lisait une
-ligne chaque jour pour l'éviter, a été retiré le 1er octobre 2026 (voir
-[RETIRES.md](RETIRES.md)). Si Q-1 retient Supabase, ce maintien est à prévoir.
+utilisé avec la clé `connaissance-{version}-{langue}` : le prompt système et la
+base restent identiques d'une question à l'autre.

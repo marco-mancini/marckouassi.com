@@ -1,14 +1,46 @@
 # MarcoS — interface et accessibilité
 
-Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md).
+Arrêté le 2 octobre 2026 par les décisions de Marc
+([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)). Voir
+l'[architecture](AI_ARCHITECTURE.md).
+
+Quatre décisions commandent ce document : **D-4** (entrée dans Contact et le
+menu en V1), **D-13** (avatar **pas en V1**, prévu en V2), **D-15** (troisième
+personne, vouvoiement) et **D-17** (exemples de questions seuls).
 
 ## Intention
 
-Répondre vite à une question sur Marc, ses projets, son parcours, ses
-compétences ou ses prestations, puis renvoyer vers la page qui en parle.
-MarcoS **appartient au portfolio** : mêmes polices, couleurs, filets,
-rayons et boutons. Il n'apporte aucun élément graphique nouveau : ni bulle
-flottante, ni avatar, ni robot, ni dégradé, ni lueur, ni effet de frappe.
+Répondre **en deux à trois phrases** à une question sur Marc, ses projets, son
+parcours, ses compétences ou ses prestations, puis renvoyer vers la page qui en
+parle. MarcoS **appartient au portfolio** : mêmes polices, couleurs, filets,
+rayons et boutons.
+
+**En V1, il n'apporte aucun élément graphique nouveau** : pas de présence
+flottante, pas d'avatar, pas de robot, pas de dégradé, pas de lueur, pas d'effet
+de frappe.
+
+### « Pas en V1 », et non « jamais » — décision D-13
+
+Ce document interdisait l'avatar et la présence flottante sans réserve, alors
+que [MARCOS.md](MARCOS.md) §3 et §5 les demandent : une figurine 3D et une
+« présence discrète en bas à droite » dont « la figurine est le point d'entrée ».
+Les deux documents se contredisaient.
+
+**Marc a tranché le 2 octobre : deux étapes.**
+
+| Version | Entrée de MarcoS | Avatar |
+|---|---|---|
+| **V1** | section Contact (`Bouton nu`) et lien du menu | **aucun** |
+| **V2** | **présence discrète en bas à droite**, portant la figurine | la figurine 3D de MARCOS.md §3, quand [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) est tranchée et les fichiers produits |
+
+La V2 n'est **pas abandonnée** : elle attend l'avatar, qui attend cinq décisions
+de Marc (photo de référence, style, angles, outil, format). Tant que ces
+décisions ne sont pas prises, aucune présence flottante n'est développée — mais
+rien dans ce document ne doit laisser croire qu'elle est exclue par principe.
+
+Ce qui reste interdit **sans réserve et dans toutes les versions** : dégradé,
+glassmorphism, lueur, néon, effet de frappe, carte générique de SaaS, couleur ou
+typographie étrangère au Design System.
 
 ## Réutilisation du Design System
 
@@ -55,10 +87,18 @@ Assemblage pur (`Design_System/gabarits/Assistant/`) : Modale + Conversation +
 formulaire + messages. Comportement séparé (`activerAssistant`), comme les
 études de projet. Il ne redéfinit l'intérieur d'aucun composant.
 
-Le back-office n'a pas d'écran propre : les textes éditoriaux de MarcoS
-vivent dans `content/site.json` (`assistant`) et s'éditent dans **Paramètres**,
-par l'éditeur généré de `Gabarit_Bo`. Seuls des libellés de champs sont à ajouter
-au dictionnaire admin.
+Aucun écran d'administration propre : les textes éditoriaux de MarcoS vivent
+dans `content/site.json` (`assistant`) et s'éditent dans **Paramètres**, au
+**CMS Git (Sveltia) de `/admin/`**. `tools/cms.mjs` génère la configuration du
+CMS à partir de la forme des données : le champ apparaît de lui-même au build
+suivant, sans configuration écrite à la main.
+
+> **Corrigé le 2 octobre 2026.** Ce paragraphe renvoyait à « l'éditeur généré de
+> `Gabarit_Bo` », c'est-à-dire à l'ancien back-office Supabase — **en sommeil
+> depuis le 1er octobre, et qui n'a jamais servi**
+> ([ADMIN_EN_SOMMEIL.md](ADMIN_EN_SOMMEIL.md)). Suivre cette indication aurait
+> conduit à préparer un écran dans un back-office éteint. Le CMS en service est
+> Sveltia, et sa chaîne est éprouvée de bout en bout (PM-005).
 
 ## Contenu et textes
 
@@ -74,6 +114,23 @@ Aucun de ces textes n'est rédigé par une IA. Tant que l'accueil n'est pas
 écrit, `assistant.active` reste `false` et MarcoS n'est pas rendu. Sans
 exemples, la zone d'exemples n'apparaît pas.
 
+**Décision D-9 :** Marc écrit ces trois textes **lui-même, dans `/admin/` →
+Paramètres**. Le champ `assistant` apparaîtra de lui-même dans l'éditeur dès
+qu'il existera dans `content/site.json` : `tools/cms.mjs` génère la
+configuration du CMS à partir de la forme des données. La chaîne est éprouvée
+depuis le 2 octobre (PM-005). Ni branche, ni pull request, ni intermédiaire.
+
+**Décision D-17 : les exemples de questions suffisent.** `MARCOS.md` §6
+prévoyait trois actions d'accueil distinctes — « Découvrir mon travail », « Voir
+mon parcours », « Me poser une question ». Elles **sont** des questions
+déguisées : un second mécanisme à concevoir, tester et traduire pour le même
+résultat. Les trois intentions se réécrivent en exemples, à la troisième
+personne et au vouvoiement (D-15).
+
+**Décision D-15 : MarcoS parle de Marc à la troisième personne et vouvoie le
+visiteur.** Les libellés du dictionnaire et les textes de Marc suivent cette
+règle. MarcoS ne dit jamais « mon travail » : il n'est pas Marc.
+
 ## Parcours
 
 1. **Ouverture** : le lien « Contact » de MarcoS ouvre la Modale ; le focus
@@ -87,13 +144,24 @@ exemples, la zone d'exemples n'apparaît pas.
    sous le journal ; le bouton Envoyer passe à l'état `chargement` ; le champ
    reste modifiable.
 5. **Réponse** : le tour de MarcoS s'ajoute au journal (une seule annonce) ;
-   les liens internes s'affichent sous la réponse.
+   les liens internes s'affichent sous la réponse. **Deux à trois phrases, pas
+   plus** : la réponse tient dans un paragraphe court, et le renvoi vers la page
+   porte le reste. C'est un critère de conception, pas une préférence de mise en
+   page — `max_tokens` vaut 180.
 6. **Erreur** : `Message erreur` avec « Réessayer » qui renvoie la même question ;
    la question n'est pas perdue.
 7. **Fermeture** : Échap, bouton Fermer ou clic hors de la fenêtre ; le focus
    revient au bouton d'ouverture. La conversation est gardée dans
    `sessionStorage` (onglet courant seulement) ; « Effacer la conversation »
    la supprime. Jamais `localStorage`, jamais de stockage serveur.
+
+**Décision D-16 : aucune mémoire de navigation.** Seule la **page courante** est
+transmise au Worker, dans le champ `page`. MarcoS peut donc dire « vous regardez
+le projet Orange, je peux… », mais il ne garde pas la liste des pages visitées et
+ne propose pas de suggestions fondées sur elle. La mémoire de navigation
+envisagée par `MARCOS.md` §10 est une décision à part, à rouvrir une fois MarcoS
+en service : c'est la première fonction qui constituerait un profil de
+comportement, même local.
 
 ## États
 

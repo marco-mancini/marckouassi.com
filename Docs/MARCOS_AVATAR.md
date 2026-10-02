@@ -8,6 +8,16 @@ Ce qui est dit de l'avatar lui-même (ressemblance, style, absence de costume, a
 
 ---
 
+> **Statut au 2 octobre 2026 — décision D-13.** L'avatar n'est **pas en V1** :
+> MarcoS se lance sans figurine, avec une entrée dans la section Contact et le
+> menu. Ce document décrit donc la **V2**, et il reste une **proposition** : le
+> format ci-dessous est celui que je recommande, **il n'est pas validé par
+> Marc**. Les cinq décisions de
+> [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) — photo de
+> référence, référence de style 3D, angles et poses, outil ou prestataire,
+> validation du format — lui appartiennent toujours. Lire « retenu » ci-dessous
+> comme « retenu parmi les options techniques comparées », pas comme « arrêté ».
+
 ## 1. Format retenu : séquences d'images à transparence
 
 **Ce qu'il faut livrer :** pour chaque état, une **séquence d'images PNG à transparence**, une image par fichier, numérotées.

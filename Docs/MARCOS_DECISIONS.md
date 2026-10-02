@@ -1,7 +1,27 @@
 # MarcoS — dossier d'arbitrage
 
-**À remplir par Marc.** Ce dossier rassemble **toutes** les décisions qui bloquent
-le démarrage de MarcoS, pour qu'elles soient prises en une seule fois.
+**RÉPONDU PAR MARC LE 2 OCTOBRE 2026.** Ce dossier rassemblait toutes les
+décisions qui bloquaient le démarrage de MarcoS ; elles sont **toutes prises**.
+La colonne « Décision de Marc » du [récapitulatif](#8-récapitulatif-rempli) est
+remplie, et les documents d'architecture, de données, de sécurité, d'interface,
+de prompt et d'implémentation ont été mis à jour en conséquence.
+
+**L'implémentation n'est pas autorisée pour autant** : c'est une décision
+distincte, et Marc ne l'a pas donnée.
+
+## Les deux contraintes directrices
+
+Elles **priment sur toute recommandation de ce dossier**, y compris les miennes.
+
+1. **Budget 0 €.** Aucun compte payant, aucune carte bancaire, aucun abonnement.
+   Toute option qui implique une dépense, même minime, est refusée au profit de
+   sa variante gratuite. S'il n'existe pas de variante gratuite, on **signale**
+   au lieu de choisir. Deux recommandations de ce dossier ont été refusées à ce
+   titre : **D-2** (facturation Gemini) et **D-6** (Workers Paid).
+2. **Verbosité minimale.** MarcoS répond en **deux à trois phrases**, pas cinq.
+   Son contexte est tenu au plus petit. C'est un critère de conception, pas un
+   réglage d'après-coup. Conséquences chiffrées en
+   [section 9](#9-réduction-de-la-base-de-connaissance-mesurée).
 
 Rédigé le 2 octobre 2026, à partir de `main` au commit `b616544`, **mis à jour le
 même jour sur `main` au commit `abd9924`** (chaîne du CMS éprouvée, version
@@ -22,19 +42,25 @@ Marc » du récapitulatif final soit remplie.**
 
 ---
 
-## Comment remplir ce dossier
+## Comment lire ce dossier
 
-Chaque décision a : la **question en une phrase**, les **options**, la
-**conséquence de chaque option**, et une **recommandation motivée**. Le
-récapitulatif de la fin rassemble tout avec une colonne vide.
+Les sections 3 à 6 sont conservées **telles qu'elles ont été soumises** :
+question, options, conséquence de chaque option, recommandation motivée. Elles
+gardent la trace de ce qui a été pesé, y compris les options écartées — c'est
+le **pourquoi**, et il ne se reconstruit pas après coup.
 
-Trois façons de répondre, dans le récapitulatif ou en commentaire d'issue :
-**« accepté »** (la recommandation), **« refusé »** (dire quelle option à la
-place), **« modifié »** (dire quoi). Pour D-9, ce sont des textes à écrire.
+Ce qui a été **décidé** est dans le [récapitulatif](#8-récapitulatif-rempli),
+dernière colonne. En cas d'écart entre une recommandation du corps du dossier et
+la colonne, **la colonne gagne** : c'est la décision de Marc.
 
-Les recommandations sont **provisoires** jusqu'à ta réponse. Aucune n'engage
-d'argent avant la section « Ce qu'il faut revérifier avant d'engager de
-l'argent ».
+Deux recommandations ont été **refusées**, toutes deux au titre du budget 0 € :
+**D-2** (facturation Gemini → pas de Gemini du tout) et **D-6** (Workers Paid →
+offre gratuite seulement). Trois ont été **modifiées** : D-9, D-14, D-18.
+
+La [section 9](#9-réduction-de-la-base-de-connaissance-mesurée) répond à la
+demande chiffrée de D-12, et la
+[section 10](#10-les-deux-points-quil-reste-à-lever-et-ils-peuvent-te-revenir)
+signale les deux points qui peuvent encore revenir à Marc.
 
 ---
 
@@ -702,72 +728,227 @@ constatées, et ne jamais écrire un identifiant de modèle à deux endroits.**
 
 ---
 
-## 7. Ce qu'il faut revérifier avant d'engager de l'argent
+## 7. Ce qu'il faut revérifier avant la mise en ligne
 
-Aucun chiffre de prix de ce dossier n'a été vérifié aujourd'hui : ils viennent
-tous de la documentation du projet, **relevés le 1er octobre 2026**. Mes calculs
-recomposent ces prix unitaires avec la taille de base **mesurée le 2 octobre**.
-Avant tout engagement :
+Aucun chiffre de prix de ce dossier n'a été vérifié : ils viennent tous de la
+documentation du projet, **relevés le 1er octobre 2026**. Mes calculs recomposent
+ces prix unitaires avec la taille de base **mesurée le 2 octobre**.
+
+**Depuis les décisions, cette liste a fondu** : Gemini et Supabase n'y figurent
+plus, et il n'y a plus rien à « engager » puisque le budget est de 0 € et
+qu'aucun moyen de paiement ne sera enregistré. Restent des **faits à constater**,
+dont deux peuvent revenir à Marc
+([section 10](#10-les-deux-points-quil-reste-à-lever-et-ils-peuvent-te-revenir)) :
 
 | À vérifier | Où | Pourquoi |
 |---|---|---|
 | Prix de Mistral Small (0,15 $ / 0,60 $ par million, cache 10 %) | tarifs Mistral | tous les coûts en dépendent |
-| Prix de Gemini 3.5 Flash-Lite (0,30 $ / 2,50 $ par million) | tarifs Gemini | coût du secours |
-| Identifiants exacts des deux modèles | `GET /v1/models`, page des modèles Gemini | un identifiant retiré = MarcoS muet (D-19) |
+| Identifiant exact du modèle Mistral | `GET /v1/models` | un identifiant retiré = `404` et MarcoS muet (D-19) |
+| **Qu'aucun moyen de paiement n'est enregistré** chez Mistral | console Mistral | c'est la traduction opérationnelle du budget 0 € |
 | Binding Rate Limiting disponible sur Workers Free | documentation et console Cloudflare | décide D-6, donc 0 ou 5 $/mois |
 | Quotas Workers Free (100 000 req/jour, 10 ms CPU) | limites Cloudflare | dimensionnement |
 | Comportement de la Cache API sur `workers.dev` | documentation Cloudflare | réserve de l'arbitrage B |
-| Conditions Gemini pour l'EEE, la Suisse et le Royaume-Uni | conditions Gemini | décide D-2 |
-| Possibilité de refuser l'entraînement selon l'offre Mistral | console Mistral, Admin › Privacy | décide D-11 |
-| Si tu choisis l'option Vercel de l'arbitrage B : durée max et nombre d'appels sur Hobby | limites Vercel | le budget de 25 s doit y tenir |
+| **Le refus d'entraînement est-il gratuit ?** | console Mistral, Admin › Privacy | **bloquant** — voir section 10 |
+| Crédits gratuits réellement disponibles (« 10 $/mo » annoncés) | console Mistral | marge réelle face au plafond de 100 questions/jour |
 
 ---
 
-## 8. Récapitulatif à remplir
+## 8. Récapitulatif rempli
 
-Une ligne par décision. **Remplis la dernière colonne**, ici ou en commentaire
-des issues #23, #24 et #25.
+Réponses de Marc du 2 octobre 2026. **A** = recommandation acceptée,
+**R** = refusée, **M** = modifiée.
 
 | # | La question, en une ligne | Ma recommandation | Décision de Marc |
 |---|---|---|---|
-| **A (#23)** | Où MarcoS lit-il le contenu : Supabase ou JSON produit au build ? | **JSON au build** — Supabase n'a aucune donnée, impose de réveiller #32, et ajoute un point de panne | |
-| **B (#24)** | Sur quelle adresse publier l'endpoint sans domaine ? | **Cloudflare Worker sur `workers.dev`** — viable aujourd'hui, 0 $, n'aggrave pas le risque Vercel Hobby | |
-| **D-1** | Basculer sur Gemini aussi en cas de **panne** Mistral, pas seulement de quota ? | **Non** — une panne ne doit pas se transformer en facture non décidée | |
-| **D-2** | Activer la facturation Gemini ? | **Oui** si tu veux un secours (l'offre gratuite ne couvre pas les visiteurs de l'EEE) ; **sinon renonce à Gemini**, c'est défendable | |
-| **D-3** | Exclure téléphone, adresse précise et date de naissance de la base ? | **Oui, exclure** — exclusion structurelle, aucune injection ne peut les faire sortir | |
-| **D-4** | Où est l'entrée de MarcoS dans le site ? | **Contact + menu en V1, présence flottante en V2** quand l'avatar existe | |
-| **D-5** | Ajouter Turnstile (anti-robot) dès le lancement ? | **Non** — pas de script distant contre un abus non constaté ; le plafond protège | |
-| **D-6** | Payer Workers Paid (5 $/mois) pour la limitation de débit ? | **Non, vérifier Free d'abord** — c'est un fait à constater, pas une préférence | |
-| **D-7** | DNS et hébergement de production (= #24) | **`workers.dev`**, bascule sur une route du domaine le jour de l'achat, sans changer le code | |
-| **D-8** | MarcoS répond-il en anglais depuis les faits anglais ou français ? | **Depuis l'anglais** — la traduction est faite, mesurée complète le 2 octobre | |
-| **D-9** | Accueil, exemples de questions, mention de confidentialité | **À écrire par toi**, directement dans `/admin/` → Paramètres dès que le champ existe ; ne bloque pas le développement (`active: false`). Brouillons possibles sur demande | |
-| **D-10** | Les journaux contiennent-ils le texte des questions ? | **Non, métadonnées seulement** | |
-| **D-11** | Refuser l'usage des données pour l'entraînement chez Mistral ? | **Oui**, avant la première question réelle | |
-| **D-12** | Envoyer une ou deux langues dans le contexte ? | **Une seule** — divise le coût par deux sans rien retirer | |
-| **D-13** | Figurine 3D et présence flottante : MARCOS.md ou AI_UX.md ? | **Deux étapes**, et AI_UX.md doit écrire « pas en V1 » au lieu de « jamais » | |
-| **D-14** | MarcoS connaît-il ton profil comportemental et personnel (MARCOS.md §18-25) ? | **Un tri, par toi** : méthode de travail en contenu public, confidences hors base | |
-| **D-15** | Troisième personne ou « je » de Marc ? Tutoiement ou vouvoiement ? | **Troisième personne, vouvoiement** ; les exemples de MARCOS.md §6-8 sont à réécrire | |
-| **D-16** | MarcoS se souvient-il des pages visitées ? | **Page courante seulement en V1** ; l'historique est une décision à part | |
-| **D-17** | Trois actions d'accueil distinctes, ou exemples de questions ? | **Exemples de questions seuls** — les trois actions sont des questions déguisées | |
-| **D-18** | Quels plafonds de dépense, et qui ouvre les comptes ? | **100 questions/jour, plafond Mistral 5 $/mois** pour commencer ; comptes à ouvrir par toi | |
-| **D-19** | Les identifiants de modèles sont-ils encore valides ? | **À revérifier à l'implémentation**, jamais écrits à deux endroits | |
+| **A (#23)** | Où MarcoS lit-il le contenu : Supabase ou JSON produit au build ? | **JSON au build** — Supabase n'a aucune donnée, impose de réveiller #32, et ajoute un point de panne |  **A — accepté.** JSON produit au build. **Pas de Supabase.** |
+| **B (#24)** | Sur quelle adresse publier l'endpoint sans domaine ? | **Cloudflare Worker sur `workers.dev`** — viable aujourd'hui, 0 $, n'aggrave pas le risque Vercel Hobby |  **A — accepté.** Cloudflare Worker sur `workers.dev`, **offre gratuite**. |
+| **D-1** | Basculer sur Gemini aussi en cas de **panne** Mistral, pas seulement de quota ? | **Non** — une panne ne doit pas se transformer en facture non décidée |  **A — accepté.** Non. |
+| **D-2** | Activer la facturation Gemini ? | **Oui** si tu veux un secours (l'offre gratuite ne couvre pas les visiteurs de l'EEE) ; **sinon renonce à Gemini**, c'est défendable |  **R — REFUSÉ. Option c : pas de Gemini du tout.** Aucune carte bancaire. Mistral seul, sur ses crédits gratuits. Quota atteint → « indisponible » + e-mail. Toute la matière Gemini est retirée de l'architecture : matrice de repli, disjoncteur, secours, clé, coûts. **Simplification voulue.** |
+| **D-3** | Exclure téléphone, adresse précise et date de naissance de la base ? | **Oui, exclure** — exclusion structurelle, aucune injection ne peut les faire sortir |  **A — accepté.** Exclure. |
+| **D-4** | Où est l'entrée de MarcoS dans le site ? | **Contact + menu en V1, présence flottante en V2** quand l'avatar existe |  **A — accepté.** Contact et menu en V1. |
+| **D-5** | Ajouter Turnstile (anti-robot) dès le lancement ? | **Non** — pas de script distant contre un abus non constaté ; le plafond protège |  **A — accepté.** Pas au lancement. |
+| **D-6** | Payer Workers Paid (5 $/mois) pour la limitation de débit ? | **Non, vérifier Free d'abord** — c'est un fait à constater, pas une préférence |  **R — REFUSÉ par principe.** Offre gratuite uniquement. Si le binding Rate Limiting n'est pas disponible sur Free : **ne pas payer**, se rabattre sur le budget journalier plafonné, **et me le signaler**. |
+| **D-7** | DNS et hébergement de production (= #24) | **`workers.dev`**, bascule sur une route du domaine le jour de l'achat, sans changer le code |  **A — accepté.** `workers.dev`. |
+| **D-8** | MarcoS répond-il en anglais depuis les faits anglais ou français ? | **Depuis l'anglais** — la traduction est faite, mesurée complète le 2 octobre |  **A — accepté.** Depuis les faits anglais. |
+| **D-9** | Accueil, exemples de questions, mention de confidentialité | **À écrire par toi**, directement dans `/admin/` → Paramètres dès que le champ existe ; ne bloque pas le développement (`active: false`). Brouillons possibles sur demande |  **M — je les écrirai moi-même dans `/admin/`.** Préparer le champ, laisser `assistant.active` à `false`. Brouillons marqués comme tels acceptés ; je tranche. |
+| **D-10** | Les journaux contiennent-ils le texte des questions ? | **Non, métadonnées seulement** |  **A — accepté.** Métadonnées seulement. |
+| **D-11** | Refuser l'usage des données pour l'entraînement chez Mistral ? | **Oui**, avant la première question réelle |  **A — accepté.** Refuser dans la console. **Si ce refus exige une formule payante : me le signaler avant d'aller plus loin, c'est bloquant.** |
+| **D-12** | Envoyer une ou deux langues dans le contexte ? | **Une seule** — divise le coût par deux sans rien retirer |  **A — accepté, et élargi.** Une seule langue à la fois. **Et réduire la base au strict nécessaire** — proposition mesurée demandée, rendue en [section 9](#9-réduction-de-la-base-de-connaissance-mesurée). |
+| **D-13** | Figurine 3D et présence flottante : MARCOS.md ou AI_UX.md ? | **Deux étapes**, et AI_UX.md doit écrire « pas en V1 » au lieu de « jamais » |  **A — accepté.** V1 sans avatar, V2 avec. `AI_UX.md` réécrit : « pas en V1 », plus « jamais ». |
+| **D-14** | MarcoS connaît-il ton profil comportemental et personnel (MARCOS.md §18-25) ? | **Un tri, par toi** : méthode de travail en contenu public, confidences hors base |  **M — option a pour l'instant : hors base.** Les sections 18 à 25 de `MARCOS.md` restent un document de conception interne. Le tri sera tranché plus tard, une fois MarcoS en service. |
+| **D-15** | Troisième personne ou « je » de Marc ? Tutoiement ou vouvoiement ? | **Troisième personne, vouvoiement** ; les exemples de MARCOS.md §6-8 sont à réécrire |  **A — accepté.** Troisième personne, vouvoiement. Exemples de `MARCOS.md` §6 à §8 réécrits. |
+| **D-16** | MarcoS se souvient-il des pages visitées ? | **Page courante seulement en V1** ; l'historique est une décision à part |  **A — accepté.** Page courante seulement. |
+| **D-17** | Trois actions d'accueil distinctes, ou exemples de questions ? | **Exemples de questions seuls** — les trois actions sont des questions déguisées |  **A — accepté.** Les exemples suffisent. |
+| **D-18** | Quels plafonds de dépense, et qui ouvre les comptes ? | **100 questions/jour, plafond Mistral 5 $/mois** pour commencer ; comptes à ouvrir par toi |  **M — plafond le plus bas possible.** 100 questions/jour, et **plafond de dépense Mistral à 0 $** tant que les crédits gratuits suffisent. **MarcoS ne doit jamais pouvoir générer une facture.** |
+| **D-19** | Les identifiants de modèles sont-ils encore valides ? | **À revérifier à l'implémentation**, jamais écrits à deux endroits |  **A — accepté.** Vérifier à l'implémentation. |
 
-### Ce qui se débloque selon tes réponses
+### Ce que ces réponses ont débloqué, et ce qu'elles ont retiré
 
-| Si tu réponds | Alors |
+| Effet | Détail |
 |---|---|
-| A, B, D-1 à D-8, D-10 à D-13, D-15 à D-17, D-19 | Les phases sans clé peuvent démarrer : liste blanche, squelette de l'endpoint, prompt, interface, tests. **C'est l'essentiel du travail.** |
-| D-14 | La liste blanche peut être écrite dans sa forme définitive |
-| D-9 | MarcoS peut être **activé** et devenir visible |
-| D-18 + comptes ouverts | Les phases avec clé peuvent démarrer : Mistral, secours, protection anti-abus, mise en production |
-| D-2 = « pas de Gemini » | La matrice de repli et le disjoncteur disparaissent : moins de code, moins de tests, un compte en moins |
+| **Les phases sans clé sont prêtes** | liste blanche, squelette de l'endpoint, prompt, interface, tests. C'est l'essentiel du travail — il attend seulement l'ordre de démarrer |
+| **La liste blanche a sa forme définitive** | D-14 la ferme : profil personnel hors base. D-12 la réduit : trois champs retirés |
+| **Une phase entière disparaît** | l'ancienne IA-07, « Repli Gemini ». Plus de matrice de repli, plus de disjoncteur, plus de `REPLI_SUR_INDISPONIBILITE`, plus de second compte |
+| **Une phase change de nature** | l'ancienne IA-06, « Supabase », devient « lecture d'un fichier publié » : plus de clé, plus de base, plus de mise en pause à surveiller |
+| **Une phase est reportée sans date** | l'ancienne IA-11, réponse en flux : elle n'a pas de sens pour deux à trois phrases |
+| **Un seul secret dans tout le projet** | `MISTRAL_CLE`. Ni Supabase, ni Gemini |
+| **Il reste un verrou, et il n'est pas technique** | les trois textes de D-9. Marc les écrira dans `/admin/` ; `assistant.active` reste `false` d'ici là |
+
+---
+
+## 9. Réduction de la base de connaissance, mesurée
+
+Demandé par Marc avec D-12 : « réduis la base de connaissance au strict
+nécessaire. Propose-moi, mesures à l'appui, ce qu'on peut retirer de la liste
+blanche sans appauvrir les réponses. »
+
+Mesuré champ par champ sur `content/` le 2 octobre 2026, en français seul. La
+liste blanche telle qu'elle était documentée pesait **15 950 caractères, soit
+4 557 jetons**. Les projets en représentaient à eux seuls 62 %.
+
+### Ce que je propose de retirer — et c'est fait
+
+| Retiré | Caractères | Jetons | Pourquoi c'est sans perte |
+|---|---|---|---|
+| `projets[].valeur` | 2 602 | **−743** | Ce champ **reformule** l'enjeu que `contexte` pose et que `idee` résout. Exemple réel : « L'enjeu était de faire exister le rôle de sponsor dans l'imaginaire des supporters… ». Une réponse de deux à trois phrases n'a pas la place de le citer |
+| `projets[].contexte` | 2 539 | **−725** | Le client et la nature du projet sont **déjà** dans `titre` (« Orange Sénégal · FIFA 26 ») et `categorie` (« Campagne publicitaire · sport »). Le reste est du cadrage narratif |
+| `sections[parcours].etapes` | 861 | **−246** | **Doublon.** `cv.experience` décrit le même parcours en plus factuel : employeur nommé, dates, lieu, points. On garde le CV, on retire le récit |
+| **Total** | **6 002** | **−1 715** | **−38 % de la base** |
+
+Il reste, par projet : **titre, catégorie, période, rôle, disciplines, idée,
+lien**. C'est exactement ce qu'il faut pour deux à trois phrases suivies d'un
+renvoi vers la page — le comportement voulu, pas une dégradation. La page du
+projet, elle, garde tout son texte : rien n'est retiré du **site**, seulement du
+contexte envoyé au modèle.
+
+### Un palier de plus, mesuré puis écarté
+
+| Candidat | Jetons | Pourquoi je ne le propose pas |
+|---|---|---|
+| `cv.formation` | −170 | C'est ce qu'un recruteur demande en premier |
+| `cv.ia` | −64 | Compétences IA : un différenciateur du profil |
+| `cv.forces` | −54 | Question directe et fréquente |
+| `cv.references` | −53 | « Avec quelles marques a-t-il travaillé ? » est la question la plus probable du lot |
+| `couverture.faits` | −22 | Négligeable |
+| **Total** | **−363** | **8 % de gain pour cinq questions légitimes rendues sans réponse.** Mauvais rapport |
+
+Si tu veux quand même ce palier, dis-le : c'est une ligne dans la liste blanche.
+Je ne le recommande pas.
+
+### La base retenue
+
+| Domaine | Caractères | Jetons |
+|---|---|---|
+| Projets (titre, catégorie, rôle, disciplines, idée) | 4 713 | 1 347 |
+| CV (résumé, expériences, compétences, formation, IA, forces, références) | 3 391 | 969 |
+| Sections (hors `parcours.etapes`) | 1 763 | 504 |
+| Identité et contact | 81 | 23 |
+| **Total** | **9 948** | **2 842** |
+
+### Le contexte complet, avant et après
+
+| Poste | Avant | Après | Comment |
+|---|---|---|---|
+| Base de connaissance | 4 557 | **2 842** | trois champs retirés, **et une seule langue** au lieu de deux (D-12) |
+| Prompt système | 698 | **396** | réécrit court, version 0.2 : habillage verbeux retiré, consignes redondantes fondues |
+| Liste des pages | 157 | 157 | 21 entrées, inchangé |
+| Historique borné | 1 143 | **571** | 4 échanges et 2 000 caractères, au lieu de 6 et 4 000 |
+| **Entrée totale** | **6 555** | **3 966** | **−2 589 jetons, soit −39 %** |
+| **Sortie (`max_tokens`)** | 400 | **180** | voir ci-dessous |
+
+Et si l'on compare à la base **deux langues** mesurée la veille — 9 806 jetons
+pour la seule connaissance — l'entrée passe de **11 606 à 3 966 jetons, soit
+−66 %**.
+
+### `max_tokens` : la valeur retenue est **180**
+
+Tu as demandé la valeur et son motif. Une phrase française de dix-huit mots pèse
+25 à 30 jetons ; trois phrases en font environ 90. **180 laisse le double de la
+marge nécessaire** — pour les références `[[page:id]]` et une formulation plus
+ample — tout en coupant net une réponse qui partirait en dissertation. Au-delà,
+la réponse est **tronquée**, et c'est voulu : la contrainte vit dans le modèle,
+pas dans une relecture humaine.
+
+Le plafond n'est pas la seule garantie : le prompt dit « deux à trois phrases,
+jamais plus », la liste est **interdite** (elle allonge sans informer), et un
+test de la phase IA-09 pose la question « Raconte-moi tout sur FIFA 26 » et
+**échoue** si la réponse dépasse trois phrases.
+
+### Ce que coûte le résultat
+
+| | Par question | À 100 questions/jour |
+|---|---|---|
+| Avant | 0,0012 $ | 3,49 $/mois |
+| **Après** | **0,0007 $** | **2,06 $/mois** |
+| **Après, avec le cache de prompt** | **0,0002 $** | **0,69 $/mois** |
+
+L'offre gratuite de Mistral affiche « 10 $/mo in API credits ». **Le plafond de
+D-18 tient dans les crédits gratuits**, et comme aucun moyen de paiement n'est
+enregistré, le pire cas est l'indisponibilité — jamais la dépense.
+
+---
+
+## 10. Les deux points qu'il reste à lever, et ils peuvent te revenir
+
+Tu as demandé qu'on te signale toute option sans variante gratuite. Il y en a
+deux, et **aucune des deux ne peut être tranchée depuis le dépôt** : elles se
+constatent dans une console.
+
+### D-6 — le binding Rate Limiting est-il gratuit ?
+
+La disponibilité du binding Rate Limiting sur l'offre Workers Free **n'est pas
+publiée**. Ta décision est claire : **on ne paie pas**. Le repli est donc arrêté
+d'avance, écrit dans [AI_SECURITY.md](AI_SECURITY.md), et il ne te demandera
+rien :
+
+1. le **budget journalier de 100 questions** reste la protection principale —
+   c'est lui qui borne la dépense, et il ne dépend d'aucun plan payant ;
+2. la limitation par IP attendra une **règle WAF** gratuite, disponible le jour
+   où une zone DNS existera, donc le jour où le domaine sera acheté ;
+3. le constat te sera **signalé**, pas contourné en silence.
+
+**Conséquence acceptée :** entre-temps, un script déterminé peut consommer le
+budget du jour. Il ne peut pas coûter plus que ce budget, et le budget ne peut
+pas coûter d'argent. Le risque est une indisponibilité de quelques heures, pas
+une facture.
+
+### D-11 — le refus d'entraînement est-il gratuit ? **Potentiellement bloquant**
+
+Tu as accepté D-11 et demandé qu'on te signale le cas où ce refus exigerait une
+formule payante. **Je dois te le signaler maintenant, par prudence et non par
+constat :** je n'ai pas pu le vérifier, et c'est le seul endroit où tes deux
+contraintes peuvent se heurter.
+
+- La documentation du projet renvoie à la page « rétention zéro » de Mistral,
+  une fonction qui, chez la plupart des fournisseurs, relève des offres
+  d'entreprise.
+- Les offres gratuites d'API s'accompagnent souvent, en contrepartie, d'une
+  autorisation d'usage des données.
+
+Si c'est le cas chez Mistral, **budget 0 € et refus d'entraînement ne peuvent
+pas tenir ensemble**, et il faudra choisir :
+
+| Option | Conséquence |
+|---|---|
+| **a. Accepter l'usage des données sur l'offre gratuite** | MarcoS existe, gratuitement. La mention de confidentialité de D-9 doit alors le **dire honnêtement** : ce sont les questions de tes visiteurs |
+| **b. Renoncer à MarcoS** tant que le refus n'est pas gratuit | Aucune dépense, aucune donnée cédée, aucun assistant |
+| **c. Payer le minimum pour obtenir le refus** | Contredit la contrainte budget 0 € : **c'est à toi, pas à moi** |
+
+**Je ne tranche pas.** La vérification se fait dans la console Mistral au moment
+de créer la clé (phase IA-05), et **rien ne sera mis en ligne avant que tu aies
+répondu** sur ce point. C'est exactement le « bloquant » que tu as demandé.
 
 ### Ce qui reste hors de ce dossier
 
-- **#26** (implémenter MarcoS) attend ces réponses et ta décision de démarrer.
+- **#26** (implémenter MarcoS) n'attend plus que **ton ordre de démarrer** : les
+  décisions sont prises, l'autorisation est une autre affaire. Aucune ligne ne
+  s'écrit avant.
 - **#49** (avatar 3D) attend cinq décisions distinctes : photo de référence,
   référence de style 3D, angles et poses, outil ou prestataire, validation du
   format proposé. Le format de fichiers attendu est déjà spécifié ; les cinq
   choix sont à toi. D-13 dit seulement si MarcoS peut démarrer sans attendre.
-- **#32** (sort du back-office Supabase) et **#22** (tests endormis) redeviennent
-  indépendants de MarcoS si tu retiens la recommandation A.
+- **#32** (sort du back-office Supabase) et **#22** (tests endormis) **sont
+  redevenues indépendantes de MarcoS**, puisque la décision #23 écarte Supabase.
+  Elles restent entières et à toi.
+- Les **trois textes de D-9** : à écrire dans `/admin/` → Paramètres, quand tu
+  veux. Rien ne les attend pour avancer, et rien ne se publie sans eux.

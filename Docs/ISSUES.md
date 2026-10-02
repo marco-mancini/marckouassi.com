@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-081 : 23 issues ouvertes, 31 fermées.
+État au 2 octobre 2026, de PM-004 à PM-081 : 20 issues ouvertes, 34 fermées.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -36,17 +36,17 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-019 | [#19](https://github.com/marco-mancini/marckouassi.com/issues/19) | Passer en jetons les 7 valeurs d'animation de Motion.css | dette, decision-marc | — | fermée — réglée par la PR #84 ; famille `--motion-*`, 0 différence de `getComputedStyle` |
 | PM-020 | [#20](https://github.com/marco-mancini/marckouassi.com/issues/20) | Remplacer les 14px en dur par des jetons | dette | — | fermée — réglée par la PR #47 |
 | PM-021 | [#21](https://github.com/marco-mancini/marckouassi.com/issues/21) | Stabiliser la durée d'installation de Chromium dans « Vérifier » | infrastructure, dette | — | ouverte |
-| PM-022 | [#22](https://github.com/marco-mancini/marckouassi.com/issues/22) | Statuer sur les 22 tests de l'ancien back-office retirés de la vérification | dette | PM-032 | ouverte |
-| PM-023 | [#23](https://github.com/marco-mancini/marckouassi.com/issues/23) | Trancher la source des données de MarcoS : Supabase ou JSON produit au build | decision-marc | — | ouverte |
-| PM-024 | [#24](https://github.com/marco-mancini/marckouassi.com/issues/24) | Trancher l'hébergement de l'endpoint de MarcoS sans domaine | decision-marc, infrastructure | PM-009 (selon l'option) | ouverte |
-| PM-025 | [#25](https://github.com/marco-mancini/marckouassi.com/issues/25) | Trancher les décisions D-1 à D-11 de MarcoS | decision-marc | PM-024 (pour D-7) | ouverte |
-| PM-026 | [#26](https://github.com/marco-mancini/marckouassi.com/issues/26) | Implémenter MarcoS | decision-marc | PM-023, PM-024, PM-025 | ouverte |
+| PM-022 | [#22](https://github.com/marco-mancini/marckouassi.com/issues/22) | Statuer sur les 22 tests de l'ancien back-office retirés de la vérification | dette | PM-032 | ouverte — redevenue indépendante de MarcoS (décision #23) |
+| PM-023 | [#23](https://github.com/marco-mancini/marckouassi.com/issues/23) | Trancher la source des données de MarcoS : Supabase ou JSON produit au build | decision-marc | — | fermée — tranchée par Marc le 2 octobre 2026 : **JSON produit au build**, pas de Supabase ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)) |
+| PM-024 | [#24](https://github.com/marco-mancini/marckouassi.com/issues/24) | Trancher l'hébergement de l'endpoint de MarcoS sans domaine | decision-marc, infrastructure | — | fermée — tranchée le 2 octobre 2026 : **Worker sur `workers.dev`**, offre gratuite ; indépendante de PM-009 |
+| PM-025 | [#25](https://github.com/marco-mancini/marckouassi.com/issues/25) | Trancher les décisions D-1 à D-11 de MarcoS | decision-marc | — | fermée — les 11 décisions **et** les 8 relevées en plus (D-12 à D-19) tranchées le 2 octobre 2026 ; budget 0 €, pas de Gemini |
+| PM-026 | [#26](https://github.com/marco-mancini/marckouassi.com/issues/26) | Implémenter MarcoS | decision-marc | — | ouverte — **débloquée** : PM-023, PM-024 et PM-025 sont tranchées. N'attend plus que l'ordre de démarrer de Marc |
 | PM-027 | [#27](https://github.com/marco-mancini/marckouassi.com/issues/27) | Décider du poids du dépôt (325 Mo) et du PDF resté dans l'historique | decision-marc, securite, infrastructure | — | ouverte |
 | PM-028 | [#28](https://github.com/marco-mancini/marckouassi.com/issues/28) | Définir le brief de l'animation d'entrée en motion design et son générique | decision-marc, contenu | — | ouverte |
 | PM-029 | [#29](https://github.com/marco-mancini/marckouassi.com/issues/29) | Confirmer les périodes des projets | decision-marc, contenu | — | ouverte |
 | PM-030 | [#30](https://github.com/marco-mancini/marckouassi.com/issues/30) | Traduire les 296 champs de contenu sans version anglaise | decision-marc, contenu | — | fermée — réglée par les PR #67 à #71 et #80 ; le build annonce « à traduire : 0 champ(s) » |
 | PM-031 | [#31](https://github.com/marco-mancini/marckouassi.com/issues/31) | Décider des deux appels extérieurs de la page du CMS | decision-marc, cms, securite | — | ouverte |
-| PM-032 | [#32](https://github.com/marco-mancini/marckouassi.com/issues/32) | Décider du sort de l'ancien back-office Supabase | decision-marc, dette | — | ouverte |
+| PM-032 | [#32](https://github.com/marco-mancini/marckouassi.com/issues/32) | Décider du sort de l'ancien back-office Supabase | decision-marc, dette | — | ouverte — redevenue indépendante de MarcoS (décision #23 : pas de Supabase) |
 | PM-033 | [#33](https://github.com/marco-mancini/marckouassi.com/issues/33) | Mettre à jour Docs/CONTENT_CHECKLIST.md, périmé depuis le CMS | documentation | — | fermée — réglée par la PR #42 |
 | PM-034 | [#34](https://github.com/marco-mancini/marckouassi.com/issues/34) | Corriger la note périmée d'AGENTS.md sur les polices système | documentation, decision-marc | — | fermée — réglée par la PR #39 |
 | PM-035 | [#35](https://github.com/marco-mancini/marckouassi.com/issues/35) | Inscrire la méthode issues, branches et pull requests dans AGENTS.md | documentation, decision-marc | — | fermée — réglée par la PR #39 |
@@ -54,7 +54,7 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-040 | [#40](https://github.com/marco-mancini/marckouassi.com/issues/40) | Animation Motion Design de la couverture | decision-marc, documentation | — | ouverte |
 | PM-045 | [#45](https://github.com/marco-mancini/marckouassi.com/issues/45) | Passer en jetons les valeurs en dur relevées autour des 14px | dette | — | fermée — réglée par la PR #51 |
 | PM-046 | [#46](https://github.com/marco-mancini/marckouassi.com/issues/46) | La référence 71cfb9d de comparer-reference est périmée (14 écarts) | dette | — | fermée — réglée par la PR #48 |
-| PM-049 | [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) | Avatar 3D de MarcoS | decision-marc, documentation | — | ouverte — fichiers attendus : Docs/MARCOS_AVATAR.md (PM-076) |
+| PM-049 | [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) | Avatar 3D de MarcoS | decision-marc, documentation | — | ouverte — reportée en **V2** par la décision D-13 : MarcoS se lance sans avatar. Fichiers attendus : Docs/MARCOS_AVATAR.md (PM-076) |
 | PM-052 | [#52](https://github.com/marco-mancini/marckouassi.com/issues/52) | Étendre le contrôle des couleurs brutes aux composants et aux fondations | dette | — | fermée — réglée par la PR #55 |
 | PM-053 | [#53](https://github.com/marco-mancini/marckouassi.com/issues/53) | Mettre à jour Docs/DETTE_TECHNIQUE.md après PM-020 et PM-045 | documentation | — | fermée — réglée par la PR #56 |
 | PM-054 | [#54](https://github.com/marco-mancini/marckouassi.com/issues/54) | Mettre à jour l'inventaire des branches (Docs/BRANCHES.md) | documentation | — | fermée — réglée par la PR #57 |

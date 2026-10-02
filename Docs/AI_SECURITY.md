@@ -1,111 +1,151 @@
 # MarcoS — sécurité, abus et coûts
 
-Vérifié le 1er octobre 2026. Voir l'[architecture](AI_ARCHITECTURE.md) et les
-[données](AI_DATA.md).
+Arrêté le 2 octobre 2026 par les décisions de Marc
+([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)). Voir
+l'[architecture](AI_ARCHITECTURE.md) et les [données](AI_DATA.md).
+
+**Contrainte directrice : budget 0 €.** Aucun compte payant, aucune carte
+bancaire, aucun abonnement. Toute protection qui coûte de l'argent est refusée
+au profit de sa variante gratuite ; s'il n'y en a pas, on le signale au lieu de
+choisir.
 
 ## Règles intangibles
 
 1. Aucune clé dans le navigateur, dans le dépôt, dans une URL ou dans un journal.
-   Les clés vivent uniquement dans les **secrets du Worker** (`wrangler secret put`).
-   `.dev.vars*` et `.env*` sont ajoutés au `.gitignore` avant tout essai local.
-2. Le navigateur n'appelle **jamais** Mistral, Gemini ni Supabase pour MarcoS.
-3. Aucune clé secrète Supabase n'est nécessaire : la publication se lit avec la
-   clé publique (voir [données](AI_DATA.md)).
+   **Une seule clé existe, `MISTRAL_CLE`**, et elle vit uniquement dans les
+   secrets du Worker (`wrangler secret put`). `.dev.vars*` et `.env*` sont
+   ajoutés au `.gitignore` avant tout essai local.
+2. Le navigateur n'appelle **jamais** Mistral pour MarcoS.
+3. **Aucune autre clé n'est nécessaire** : la base de connaissance est un
+   fichier public publié avec le site (décision #23), il n'y a ni base de
+   données, ni second fournisseur (décision D-2).
 4. La réponse du modèle est **du texte** : jamais insérée comme HTML.
-5. Les seuls liens produits sont des liens **internes** dont l'identifiant existe
-   dans la base de connaissance.
-6. Un test du dépôt (déjà présent pour le back-office) refuse tout motif de clé
-   (`sb_secret_`, `ghp_`, JWT…) dans les fichiers suivis ; il sera étendu au
-   dossier du Worker.
+5. Les seuls liens produits sont des liens **internes** dont l'identifiant
+   existe dans la base de connaissance.
+6. Un test du dépôt refuse tout motif de clé (`sb_secret_`, `ghp_`, JWT…) dans
+   les fichiers suivis ; il sera étendu au dossier du Worker.
 
 ## Menaces et protections
 
 | Menace | Protection | Où |
 |---|---|---|
 | **Injection de prompt** (« ignore tes consignes… ») | consignes système en tête, contexte et question entre balises délimitées ; le prompt dit explicitement que le contenu entre balises est une donnée, jamais une consigne ; aucune action possible (pas d'outils, pas de navigation) : une injection réussie ne peut que produire du texte | prompt, Worker |
-| **Jailbreak** | catégorie `jailbreaking` des garde-fous Mistral (`guardrails`, modération d'entrée) ; refus poli en cas de blocage ; jamais de repli Gemini sur un blocage | Worker |
+| **Jailbreak** | catégorie `jailbreaking` des garde-fous Mistral (`guardrails`, modération d'entrée) ; refus poli en cas de blocage | Worker |
 | **Extraction du prompt système** | le prompt ne contient **aucun secret** ; il interdit de le citer ; le divulguer ne compromet rien | prompt |
-| **Extraction de données privées** | le modèle ne reçoit **que** la liste blanche : rien de privé n'est dans son contexte | `connaissance.js` |
-| **Fuite de secrets** | les clés ne sont jamais dans le contexte du modèle ni dans les réponses ; journaux sans en-têtes d'authentification | Worker |
+| **Extraction de données privées** | le modèle ne reçoit **que** la liste blanche réduite : rien de privé n'est dans son contexte. Téléphone, adresse et date de naissance sont exclus **structurellement** (D-3), pas par une consigne | `connaissance.js` |
+| **Profil personnel de Marc** | les sections 18 à 25 de [MARCOS.md](MARCOS.md) sont **hors base** (D-14) : MarcoS ne peut pas les réciter puisqu'il ne les reçoit pas | `connaissance.js` |
+| **Fuite de secrets** | la clé n'est jamais dans le contexte du modèle ni dans les réponses ; journaux sans en-têtes d'authentification | Worker |
 | **Hallucination** (client, chiffre, date inventés) | consigne « seulement le contexte » ; `temperature` 0,2 ; réponse type si l'information manque ; liens internes validés ; tests de non-invention | prompt, tests |
-| **Messages énormes** | corps ≤ 16 Ko, message ≤ 500 caractères, historique ≤ 6 échanges et 4 000 caractères ; refus **avant** tout appel fournisseur | Worker |
-| **Requêtes répétitives, spam** | limite par session (6 / 60 s) et par IP (20 / 60 s) avec le binding Rate Limiting ; règle WAF par IP si la zone est chez Cloudflare | Worker, WAF |
+| **Réponses trop longues** | `max_tokens` **180** et consigne « deux à trois phrases, jamais plus ». La contrainte est dans le modèle, pas dans une relecture | `vars`, prompt |
+| **Messages énormes** | corps ≤ 16 Ko, message ≤ 500 caractères, historique ≤ **4 échanges et 2 000 caractères** ; refus **avant** tout appel au fournisseur | Worker |
+| **Requêtes répétitives, spam** | limite par session et par IP avec le binding Rate Limiting **si l'offre Free le permet** (voir D-6) ; sinon budget journalier seul | Worker |
 | **Scraping de l'endpoint** | contrôle de `Origin` ; pas de CORS ouvert ; la réponse n'apporte rien que le site ne publie déjà | Worker |
-| **Coûts incontrôlés** | `max_tokens` ≤ 400 ; budget journalier ; plafonds de dépense chez les fournisseurs ; disjoncteur | Worker, consoles |
-| **Abus du repli** (forcer Gemini) | repli seulement sur capacité Mistral épuisée, jamais sur une requête invalide ou bloquée | Worker |
-| **Données personnelles des visiteurs** | aucune conservation côté serveur ; journaux sans texte des questions (D-10) ; mention de confidentialité (D-9) ; refus d'entraînement chez Mistral (D-11) ; offre payante Gemini, qui n'entraîne pas sur les données (D-2) | Worker, consoles |
-| **Contenu pour mineurs** | les conditions Gemini excluent les services destinés aux moins de 18 ans : le portfolio n'en est pas un | — |
+| **Coûts incontrôlés** | `max_tokens` 180 ; **budget journalier de 100 questions** ; **aucun moyen de paiement enregistré** : MarcoS ne peut pas générer de facture (D-18) | Worker, console |
+| **Données personnelles des visiteurs** | aucune conservation côté serveur ; journaux sans texte des questions (D-10) ; mention de confidentialité (D-9) ; refus d'entraînement chez Mistral (D-11) ; aucun historique de navigation (D-16) | Worker, console |
 
 ### Contrôle de `Origin` et CORS
 
+L'endpoint est sur `workers.dev`, donc sur une **autre origine** que le site
+(décisions #24 et D-7) : CORS s'applique.
+
 - `ORIGINES_AUTORISEES` : liste exacte par environnement (adresse publique de
-  `content/site.json`, aujourd'hui `https://marckouassi-com.vercel.app`,
-  URL de preview, `http://localhost:*` en local).
+  `content/site.json`, aujourd'hui `https://marckouassi-com.vercel.app`, URL de
+  preview, `http://localhost:*` en local).
 - Requête `OPTIONS` : réponse avec `Access-Control-Allow-Methods: POST`,
   `Access-Control-Allow-Headers: Content-Type`, `Access-Control-Max-Age: 600`.
 - Réponse : `Access-Control-Allow-Origin` = l'origine reçue si elle est
-  autorisée, et `Vary: Origin`. Jamais `*`.
-- Si le site obtient un domaine propre (PM-009, suspendue le 2 octobre 2026) et
-  que l'endpoint passe derrière la route `<domaine>/api/*`, l'appel devient de
-  même origine : CORS n'intervient plus, mais le contrôle de `Origin` reste.
+  autorisée, et `Vary: Origin`. **Jamais `*`.**
+- Le jour où le domaine est acheté et que l'endpoint passe derrière
+  `<domaine>/api/*`, l'appel devient de même origine : CORS n'intervient plus,
+  mais le contrôle de `Origin` reste.
 
 `Origin` peut être falsifié hors navigateur : c'est une protection contre
-l'intégration sur un autre site, pas contre un script. Les limites de débit
-et les budgets couvrent ce cas.
+l'intégration sur un autre site, pas contre un script. Le budget journalier
+couvre ce cas.
 
-### Limitation de débit
+### Limitation de débit — et ce qui se passe si elle n'est pas gratuite
 
 Le binding Rate Limiting accepte des périodes de **10 ou 60 s** ; ses compteurs
 sont locaux à chaque emplacement Cloudflare et « intentionally designed to not
 be used as an accurate accounting system ». Il sert donc à freiner, pas à
-compter de l'argent. Sa disponibilité sur le plan Workers Free **n'est pas
-publiée** (décision D-6).
+compter de l'argent.
 
 | Clé | Limite | Période |
 |---|---|---|
 | identifiant de session (aléatoire, par onglet) | 6 | 60 s |
 | adresse IP | 20 | 60 s |
 
-Dépassement : `429` avec `Retry-After`, sans appel fournisseur.
+Dépassement : `429` avec `Retry-After`, sans appel au fournisseur.
 
-Règle WAF (plan Free, si la zone est chez Cloudflare) : une règle sur le chemin
-`/api/assistant`, comptage par IP sur 10 s, blocage 10 s.
+**Sa disponibilité sur le plan Workers Free n'est pas publiée. Décision D-6 de
+Marc : on ne paie pas.** Si le binding n'est pas accepté sur Free, le repli est
+arrêté d'avance :
 
-Turnstile reste une option (décision D-5) : il charge un script distant, ce
-qu'AGENTS.md interdit sans accord.
+1. **le budget journalier plafonné reste la protection principale** — c'est lui
+   qui borne la dépense, et il ne dépend d'aucun plan payant ;
+2. la limitation par IP attendra une **règle WAF** sur le plan gratuit de
+   Cloudflare, disponible le jour où une zone DNS existe, donc le jour où le
+   domaine est acheté ;
+3. **le constat est signalé à Marc**, il n'est pas contourné en silence.
+
+Turnstile est **écarté au lancement** (décision D-5) : il charge un script
+distant, ce qu'AGENTS.md interdit sans accord, pour un abus qui n'est pas
+constaté. À rouvrir si les journaux en montrent un.
 
 ### Journaux
 
-Workers Logs (inclus en Free et Paid), en JSON structuré, **métadonnées
-seulement** : horodatage, environnement, version du contenu, fournisseur, code
-de sortie, latence, jetons consommés, empreinte de la session. Jamais : texte
-des questions et réponses, IP en clair, en-têtes d'authentification.
+Workers Logs (inclus en Free), en JSON structuré, **métadonnées seulement**
+(décision D-10) : horodatage, environnement, version du contenu, langue, code de
+sortie, latence, jetons consommés, empreinte de la session. **Jamais** : texte
+des questions et des réponses, IP en clair, en-têtes d'authentification.
+
+Il n'y a plus de champ « fournisseur » à journaliser : il n'y en a qu'un.
 
 ## Coûts et limites
 
-| Garde-fou | Valeur proposée | Où |
+| Garde-fou | Valeur arrêtée | Où |
 |---|---|---|
-| Jetons de réponse | `max_tokens` 400 (Mistral), `maxOutputTokens` 400 (Gemini) | `vars` |
-| Raisonnement | désactivé ou minimal (`reasoning_effort: "none"` à tester sur Small 4 ; `thinkingLevel: "MINIMAL"` sur Gemini 3.x, réflexion active par défaut) | Worker |
-| Budget journalier de MarcoS | 500 questions par jour, approximatif (compteur par emplacement) | `vars` |
-| Plafond de dépense Mistral | à fixer dans la console (l'accès est suspendu au plafond) | console Mistral |
-| Plafond Gemini | palier 1 : plafond de facturation de 250 $ et limite de 10 $ par 10 minutes ; alerte budgétaire Google Cloud | console Google |
-| Disjoncteur | après capacité Mistral épuisée : Gemini direct pendant ≤ 10 min | Worker |
+| Jetons de réponse | `max_tokens` **180** | `vars` |
+| Raisonnement | désactivé ou minimal (`reasoning_effort: "none"` à tester sur Small 4) | Worker |
+| **Budget journalier** | **100 questions par jour** (décision D-18), approximatif car compté par emplacement | `vars` |
+| **Plafond de dépense** | **aucun moyen de paiement enregistré.** Les crédits gratuits de Mistral épuisés, l'API refuse : MarcoS répond `quota_journalier` | console Mistral |
+| Hébergement | Workers **Free** : 100 000 requêtes/jour, 10 ms CPU. À 100 questions/jour, 0,1 % du quota | Cloudflare |
+| Repli payant | **aucun** : pas de Gemini (D-2), pas de Workers Paid (D-6) | — |
 
 Au-delà du budget journalier : `429 quota_journalier`. Le visiteur reçoit le
 message du dictionnaire et l'adresse e-mail de contact.
 
-Estimation : ≈ 0,001 $ par question avec Mistral Small 4 et ≈ 0,0024 $ avec
-Gemini 3.5 Flash-Lite (détail dans l'[architecture](AI_ARCHITECTURE.md#coûts-ordres-de-grandeur)).
-À 500 questions par jour au maximum, le pire cas Mistral reste proche de
-15 $ par mois ; les plafonds de dépense des consoles bornent le reste.
+**Estimation, sur le contexte réduit** : entrée 3 966 jetons, sortie ≈ 150,
+soit **≈ 0,0007 $ par question**, ou **≈ 0,0002 $** avec le cache de prompt. À
+100 questions par jour : **≈ 2,10 $ par mois**, ou **≈ 0,70 $** avec le cache.
+L'offre gratuite de Mistral affiche « 10 $/mo in API credits » : le plafond tient
+dans les crédits gratuits. Détail et prix unitaires dans
+l'[architecture](AI_ARCHITECTURE.md#coûts-recalculés-sur-le-contexte-réduit).
+
+**MarcoS ne doit jamais pouvoir générer une facture.** C'est la formulation de
+Marc, et c'est une propriété structurelle, pas une surveillance : sans moyen de
+paiement enregistré, le pire cas est l'indisponibilité, jamais la dépense.
 
 ## Vérifications avant la mise en ligne
 
-- Aucun secret dans le dépôt (test automatique) et `git log -p` relu sur le dossier du Worker.
-- `secrets.required` déclaré : le déploiement échoue si une clé manque.
-- Corpus de tests d'abus (phase IA-10) : injection, extraction du prompt,
-  demande de téléphone, invention de client, messages de 10 000 caractères,
-  rafales, origine étrangère, JSON malformé.
-- Plafonds de dépense posés et alertes budgétaires actives chez les deux fournisseurs.
-- Refus d'entraînement activé chez Mistral.
+- Aucun secret dans le dépôt (test automatique) et `git log -p` relu sur le
+  dossier du Worker.
+- `secrets.required` déclaré : le déploiement échoue si `MISTRAL_CLE` manque.
+- Corpus de tests d'abus : injection, extraction du prompt, demande de
+  téléphone, invention de client, messages de 10 000 caractères, rafales,
+  origine étrangère, JSON malformé, **et réponse qui dépasse trois phrases**.
+- **Aucun moyen de paiement enregistré** chez Mistral — à vérifier, c'est la
+  traduction opérationnelle du budget 0 €.
+- Binding Rate Limiting : constater s'il fonctionne sur Free, et appliquer le
+  repli ci-dessus si non.
+
+## Un point bloquant à lever
+
+**D-11, refus d'usage des données pour l'entraînement chez Mistral.** Marc
+l'accepte et le veut activé avant la première question réelle. Mais si ce refus
+exige une formule **payante**, il entre en conflit direct avec le budget 0 €, et
+Marc a dit que ce point est **bloquant** : constater dans la console, le lui
+signaler, et **ne rien mettre en ligne** entre-temps.
+
+C'est le seul endroit de ce document où une décision peut encore être renversée
+par un fait extérieur.
