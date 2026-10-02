@@ -20,11 +20,13 @@
   "navigation": {
     "cta": {
       "texte": {
-        "fr": "Entrer en contact"
+        "fr": "Entrer en contact",
+        "en": "Get in touch"
       }
     },
     "ecrire": {
-      "fr": "Écrire à Marc"
+      "fr": "Écrire à Marc",
+      "en": "Write to Marc"
     }
   },
   "intro": {
@@ -33,30 +35,38 @@
     "_origine": "Textes repris du site existant (signature de couverture, promesse, temps de la méthode) : aucun texte inventé. À valider ou remplacer depuis le back-office.",
     "signature": {
       "salutation": {
-        "fr": "Marc Kouassi"
+        "fr": "Marc Kouassi",
+        "en": "Marc Kouassi"
       },
       "accent": {
-        "fr": "Portfolio"
+        "fr": "Portfolio",
+        "en": "Portfolio"
       },
       "mot": {
-        "fr": "Design"
+        "fr": "Design",
+        "en": "Design"
       }
     },
     "transition": {
-      "fr": "Des idées fortes. Des images qui restent."
+      "fr": "Des idées fortes. Des images qui restent.",
+      "en": "Strong ideas. Images that stay."
     },
     "mots": [
       {
-        "fr": "Observer"
+        "fr": "Observer",
+        "en": "Observe"
       },
       {
-        "fr": "Comprendre"
+        "fr": "Comprendre",
+        "en": "Understand"
       },
       {
-        "fr": "Imaginer"
+        "fr": "Imaginer",
+        "en": "Imagine"
       },
       {
-        "fr": "Donner forme"
+        "fr": "Donner forme",
+        "en": "Give form"
       }
     ]
   },

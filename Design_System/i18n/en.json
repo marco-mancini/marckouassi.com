@@ -1,6 +1,6 @@
 {
   "_role": "Interface and accessibility labels of the public site, in English. Editorial content is NOT here: it lives in content/.",
-  "_statut": "À relire : traduction des libellés d'interface uniquement, proposée le 30 septembre 2026, en attente de validation.",
+  "_statut": "Relu le 2 octobre 2026 (PM-065, #65) et aligné sur Docs/GLOSSAIRE_EN.md ; proposé le 30 septembre 2026, validation de Marc à venir.",
   "langue": {
     "code": "EN",
     "nom": "English",
@@ -40,7 +40,7 @@
   },
   "cv": {
     "retour": "Back to the portfolio",
-    "telecharger": "Download the CV"
+    "telecharger": "Download the résumé"
   },
   "pied": {
     "droits": "© {annee} {nom}"
