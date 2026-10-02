@@ -52,7 +52,21 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 
 /* --- A propos --- */
 .apropos__disposition { display: grid; margin-top: var(--apropos-disposition-marge-haute); grid-template-columns: var(--about-photo-column) minmax(0, 1fr); align-items: stretch; gap: var(--apropos-espace); }
-.apropos__portrait { min-height: var(--portrait-min-height); }
+/* Le portrait detoure POSE sur le bord bas du bloc vert : il descend dans le
+   padding de la planche au lieu de flotter au-dessus. Il est dimensionne par
+   sa HAUTEUR, pas par sa largeur — sinon il garderait sa taille et se
+   contenterait d'etre recentre plus bas, et la tete quitterait l'alignement
+   avec la salutation. Le surplus de largeur tombe dans la gouttiere
+   (--apropos-espace), il ne touche pas le texte. */
+.apropos__portrait { min-height: var(--portrait-min-height); margin-bottom: calc(-1 * var(--planche-padding)); }
+.apropos__portrait .media { height: 100%; }
+/* L'image REMPLIT le cadre, calee en haut : la tete reste au niveau de la
+   salutation et les pieds touchent le bord bas du vert. Le prix est un
+   rognage lateral de quelques pour cent — mesure et regarde. Les deux
+   alternatives etaient pires : en `contain` l'image flotte au-dessus du bord,
+   et sortie du flux elle retrecit, parce que la rangee n'est plus tenue que
+   par le texte. */
+.apropos__portrait .media img { object-fit: cover; object-position: center top; }
 .apropos__texte { display: grid; align-content: start; }
 .apropos__tete { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-6); }
 .apropos__copie { display: grid; margin-top: var(--about-title-gap); gap: var(--space-6); }
@@ -133,7 +147,11 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .introduction__recit { gap: var(--space-4); }
   .introduction__bas { gap: var(--space-4); }
   .apropos__disposition { grid-template-columns: minmax(0, 1fr); gap: var(--apropos-espace-compact); }
-  .apropos__portrait { height: auto; aspect-ratio: 4 / 3; }
+  /* Le portrait est detoure et pose sur le fond : il garde son propre
+     rapport au lieu d'etre force en 4/3, qui coupait le visage.
+     Empile, il ne descend PAS dans le padding : il remonterait sur le texte. */
+  .apropos__portrait { height: auto; min-height: 0; margin-bottom: 0; }
+  .apropos__portrait .media img { width: 100%; height: auto; }
   .apropos__accroche { max-width: none; }
   .savoirfaire__tete { margin: var(--savoirfaire-tete-marge-haute-compact) 0 var(--savoirfaire-tete-marge-basse-compact); }
   .parcours__titre { margin-top: var(--parcours-titre-marge-haute-compact); }

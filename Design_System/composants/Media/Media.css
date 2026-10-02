@@ -12,6 +12,12 @@
 .media--detail { border-radius: var(--rayon-detail); }
 .media--passe-partout { border: var(--border-image) solid var(--paper); border-radius: var(--radius-xl); }
 
+/* Image detouree : elle pose sur le fond de la section, sans rectangle ni
+   rayon. Le fond --surface-image protege un emplacement dont le fichier
+   manque ; ici il ferait exactement ce qu'on veut eviter — un cadre clair
+   derriere un sujet decoupe, et un rectangle qui jure en mode sombre. */
+.media--detoure { background: none; border-radius: 0; overflow: visible; }
+
 .media--zoom img { transition: transform var(--duration-slow) var(--ease-out), filter var(--duration-base) var(--ease-out); }
 .media--zoom:hover img { transform: scale(1.035); }
 
