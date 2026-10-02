@@ -9,41 +9,52 @@
     }
   },
   "nom": {
-    "fr": "MARC **KOUASSI**"
+    "fr": "MARC **KOUASSI**",
+    "en": "MARC **KOUASSI**"
   },
   "titre": {
-    "fr": "DIRECTEUR ARTISTIQUE\nBRANDING, PRINT & COMMUNICATION 360°"
+    "fr": "DIRECTEUR ARTISTIQUE\nBRANDING, PRINT & COMMUNICATION 360°",
+    "en": "DIRECTEUR ARTISTIQUE\nBRANDING, PRINT & 360° COMMUNICATION"
   },
   "resume": {
-    "fr": "Directeur artistique, **13 ans d’expérience** en agence et en direction de structure créative. A collaboré avec des marques comme **Orange**, **MTN**, **Solibra** et **Schneider Electric**, et piloté la **Météo RTI1 & RTI2**. Fondateur d’une agence de 2022 à 2025. Actuellement Lead UX/UI chez **Icône Solution**, je recherche un poste de Direction Artistique pour recentrer ma carrière sur la création."
+    "fr": "Directeur artistique, **13 ans d’expérience** en agence et en direction de structure créative. A collaboré avec des marques comme **Orange**, **MTN**, **Solibra** et **Schneider Electric**, et piloté la **Météo RTI1 & RTI2**. Fondateur d’une agence de 2022 à 2025. Actuellement Lead UX/UI chez **Icône Solution**, je recherche un poste de Direction Artistique pour recentrer ma carrière sur la création.",
+    "en": "Art director with **13 years of experience** in agencies and at the head of a creative studio. Has worked with brands such as **Orange**, **MTN**, **Solibra** and **Schneider Electric**, and led **Météo RTI1 & RTI2**. Founder of an agency from 2022 to 2025. Currently Lead UX/UI at **Icône Solution**, I am looking for an Art Direction role to refocus my career on creative work."
   },
   "titres": {
     "informations": {
-      "fr": "INFORMATIONS"
+      "fr": "INFORMATIONS",
+      "en": "DETAILS"
     },
     "competences": {
-      "fr": "COMPÉTENCES CLÉS"
+      "fr": "COMPÉTENCES CLÉS",
+      "en": "KEY SKILLS"
     },
     "experience": {
-      "fr": "EXPÉRIENCE PROFESSIONNELLE"
+      "fr": "EXPÉRIENCE PROFESSIONNELLE",
+      "en": "PROFESSIONAL EXPERIENCE"
     },
     "formation": {
-      "fr": "FORMATION & CERTIFICATIONS"
+      "fr": "FORMATION & CERTIFICATIONS",
+      "en": "EDUCATION & CERTIFICATIONS"
     },
     "ia": {
-      "fr": "COMPÉTENCES IA & INNOVATION"
+      "fr": "COMPÉTENCES IA & INNOVATION",
+      "en": "AI & INNOVATION SKILLS"
     },
     "forces": {
-      "fr": "FORCES PERSONNELLES"
+      "fr": "FORCES PERSONNELLES",
+      "en": "PERSONAL STRENGTHS"
     },
     "references": {
-      "fr": "QUELQUES AGENCES & STRUCTURES DE RÉFÉRENCE"
+      "fr": "QUELQUES AGENCES & STRUCTURES DE RÉFÉRENCE",
+      "en": "SELECTED AGENCIES & ORGANIZATIONS"
     }
   },
   "informations": [
     {
       "valeur": {
-        "fr": "Abidjan, Côte d’Ivoire"
+        "fr": "Abidjan, Côte d’Ivoire",
+        "en": "Abidjan, Côte d’Ivoire"
       }
     },
     {
@@ -51,7 +62,8 @@
     },
     {
       "valeur": {
-        "fr": "LinkedIn"
+        "fr": "LinkedIn",
+        "en": "LinkedIn"
       },
       "type": "linkedin"
     }
@@ -60,97 +72,121 @@
     "groupes": [
       {
         "titre": {
-          "fr": "CRÉATION :"
+          "fr": "CRÉATION :",
+          "en": "CREATIVE:"
         },
         "elements": [
           {
-            "fr": "Direction artistique (print, TV, digital)"
+            "fr": "Direction artistique (print, TV, digital)",
+            "en": "Art direction (print, TV, digital)"
           },
           {
-            "fr": "Identité visuelle & branding"
+            "fr": "Identité visuelle & branding",
+            "en": "Visual identity & branding"
           },
           {
-            "fr": "Conception de campagnes 360°"
+            "fr": "Conception de campagnes 360°",
+            "en": "360° campaign design"
           },
           {
-            "fr": "Direction de shooting & production"
+            "fr": "Direction de shooting & production",
+            "en": "Shoot direction & production"
           }
         ]
       },
       {
         "titre": {
-          "fr": "MANAGEMENT"
+          "fr": "MANAGEMENT",
+          "en": "MANAGEMENT"
         },
         "elements": [
           {
-            "fr": "Direction d’équipes créatives"
+            "fr": "Direction d’équipes créatives",
+            "en": "Leading creative teams"
           },
           {
-            "fr": "Pilotage multi-projets"
+            "fr": "Pilotage multi-projets",
+            "en": "Multi-project management"
           },
           {
             "texte": {
-              "fr": "Gestion de production"
+              "fr": "Gestion de production",
+              "en": "Production management"
             },
             "precision": {
-              "fr": "(délais, prestataires)"
+              "fr": "(délais, prestataires)",
+              "en": "(deadlines, suppliers)"
             }
           },
           {
-            "fr": "Relation client & présentation créative"
+            "fr": "Relation client & présentation créative",
+            "en": "Client relations & creative presentation"
           }
         ]
       },
       {
         "titre": {
-          "fr": "OUTILS"
+          "fr": "OUTILS",
+          "en": "TOOLS"
         },
         "elements": [
           {
-            "fr": "Adobe Creative Suite"
+            "fr": "Adobe Creative Suite",
+            "en": "Adobe Creative Suite"
           },
           {
-            "fr": "Sketchup / Figma / Canva"
+            "fr": "Sketchup / Figma / Canva",
+            "en": "Sketchup / Figma / Canva"
           },
           {
             "texte": {
-              "fr": "IA générative"
+              "fr": "IA générative",
+              "en": "Generative AI"
             },
             "precision": {
-              "fr": "(ChatGPT, Midjourney, Claude, ...)"
+              "fr": "(ChatGPT, Midjourney, Claude, ...)",
+              "en": "(ChatGPT, Midjourney, Claude, ...)"
             }
           },
           {
-            "fr": "Conception 3D & maquettage"
+            "fr": "Conception 3D & maquettage",
+            "en": "3D design & mock-up making"
           }
         ]
       },
       {
         "titre": {
-          "fr": "STRATÉGIE & COMMUNICATION"
+          "fr": "STRATÉGIE & COMMUNICATION",
+          "en": "STRATEGY & COMMUNICATION"
         },
         "elements": [
           {
-            "fr": "Storytelling de marque"
+            "fr": "Storytelling de marque",
+            "en": "Brand storytelling"
           },
           {
-            "fr": "Positionnement éditorial"
+            "fr": "Positionnement éditorial",
+            "en": "Editorial positioning"
           },
           {
-            "fr": "Veille créative & tendances"
+            "fr": "Veille créative & tendances",
+            "en": "Creative & trend watch"
           },
           {
-            "fr": "Design thinking"
+            "fr": "Design thinking",
+            "en": "Design thinking"
           }
         ]
       },
       {
         "titre": {
-          "fr": "LANGUES :"
+          "fr": "LANGUES :",
+          "en": "LANGUAGES:"
         },
         "elements": [
           {
-            "fr": "Français (natif), Anglais (moyen)."
+            "fr": "Français (natif), Anglais (moyen).",
+            "en": "French (native), English (intermediate)."
           }
         ]
       }
@@ -160,81 +196,101 @@
     "postes": [
       {
         "titre": {
-          "fr": "PROJECT MANAGER & LEAD UX/UI — ICÔNE SOLUTION"
+          "fr": "PROJECT MANAGER & LEAD UX/UI — ICÔNE SOLUTION",
+          "en": "PROJECT MANAGER & LEAD UX/UI — ICÔNE SOLUTION"
         },
         "lieu": {
-          "fr": "Abidjan | Janvier 2025 — Aujourd’hui"
+          "fr": "Abidjan | Janvier 2025 — Aujourd’hui",
+          "en": "Abidjan | January 2025 — Present"
         },
         "points": [
           {
-            "fr": "Dirige plusieurs équipes projet, de la conception à la livraison."
+            "fr": "Dirige plusieurs équipes projet, de la conception à la livraison.",
+            "en": "Leads several project teams, from design to delivery."
           },
           {
-            "fr": "Structure les processus de création et garantit la cohérence visuelle des produits."
+            "fr": "Structure les processus de création et garantit la cohérence visuelle des produits.",
+            "en": "Structures creative processes and ensures the visual consistency of products."
           }
         ]
       },
       {
         "titre": {
-          "fr": "FONDATEUR & CEO — M&M CONCEPT"
+          "fr": "FONDATEUR & CEO — M&M CONCEPT",
+          "en": "FONDATEUR & CEO — M&M CONCEPT"
         },
         "lieu": {
-          "fr": "Abidjan | 2022 — 2025"
+          "fr": "Abidjan | 2022 — 2025",
+          "en": "Abidjan | 2022 — 2025"
         },
         "points": [
           {
-            "fr": "Crée et dirige une agence organisée en trois pôles : conception print jusqu’à l’impression, maquettes 3D sur mesure, projets 3D complets jusqu’au BAT et à la finition."
+            "fr": "Crée et dirige une agence organisée en trois pôles : conception print jusqu’à l’impression, maquettes 3D sur mesure, projets 3D complets jusqu’au BAT et à la finition.",
+            "en": "Founded and runs an agency organized into three divisions: print design through to printing, custom 3D mock-ups, and complete 3D projects through to final proof and finishing."
           },
           {
-            "fr": "Encadre plusieurs équipes en parallèle sur des projets créatifs et techniques variés."
+            "fr": "Encadre plusieurs équipes en parallèle sur des projets créatifs et techniques variés.",
+            "en": "Manages several teams in parallel on varied creative and technical projects."
           }
         ]
       },
       {
         "titre": {
-          "fr": "DIRECTEUR ARTISTIQUE — IMPACT COM"
+          "fr": "DIRECTEUR ARTISTIQUE — IMPACT COM",
+          "en": "DIRECTEUR ARTISTIQUE — IMPACT COM"
         },
         "lieu": {
-          "fr": "Abidjan | 2017 — 2022"
+          "fr": "Abidjan | 2017 — 2022",
+          "en": "Abidjan | 2017 — 2022"
         },
         "points": [
           {
-            "fr": "Prend la direction artistique de l’agence et encadre une équipe d’infographistes."
+            "fr": "Prend la direction artistique de l’agence et encadre une équipe d’infographistes.",
+            "en": "Takes over the agency’s art direction and leads a team of graphic designers."
           },
           {
-            "fr": "Pilote la production télévisée de la Météo RTI1 & RTI2."
+            "fr": "Pilote la production télévisée de la Météo RTI1 & RTI2.",
+            "en": "Oversees the TV production of Météo RTI1 & RTI2."
           },
           {
-            "fr": "Conçoit les campagnes et identités visuelles de PFCTCAL, Groupe Schneider et BNI Finance."
+            "fr": "Conçoit les campagnes et identités visuelles de PFCTCAL, Groupe Schneider et BNI Finance.",
+            "en": "Designs campaigns and visual identities for PFCTCAL, Groupe Schneider and BNI Finance."
           }
         ]
       },
       {
         "titre": {
-          "fr": "INFOGRAPHISTE — IMPACT COM & REEVA PRODUCTION"
+          "fr": "INFOGRAPHISTE — IMPACT COM & REEVA PRODUCTION",
+          "en": "INFOGRAPHISTE — IMPACT COM & REEVA PRODUCTION"
         },
         "lieu": {
-          "fr": "Abidjan | 2014 — 2017"
+          "fr": "Abidjan | 2014 — 2017",
+          "en": "Abidjan | 2014 — 2017"
         },
         "points": [
           {
-            "fr": "Conçoit des supports visuels et exécute des maquettes pour des clients variés."
+            "fr": "Conçoit des supports visuels et exécute des maquettes pour des clients variés.",
+            "en": "Designs visual materials and produces layouts for a wide range of clients."
           },
           {
-            "fr": "Évolue vers la direction artistique après une montée en responsabilité progressive."
+            "fr": "Évolue vers la direction artistique après une montée en responsabilité progressive.",
+            "en": "Moves into art direction after progressively taking on more responsibility."
           }
         ]
       },
       {
         "titre": {
-          "fr": "PREMIÈRES EXPÉRIENCES — GBICH, VOODOO, KAMÉLÉO"
+          "fr": "PREMIÈRES EXPÉRIENCES — GBICH, VOODOO, KAMÉLÉO",
+          "en": "FIRST EXPERIENCES — GBICH, VOODOO, KAMÉLÉO"
         },
         "lieu": {
-          "fr": "Abidjan | 2013 — 2014"
+          "fr": "Abidjan | 2013 — 2014",
+          "en": "Abidjan | 2013 — 2014"
         },
         "points": [
           {
-            "fr": "Débute en infographie à travers plusieurs missions courtes en agence."
+            "fr": "Débute en infographie à travers plusieurs missions courtes en agence.",
+            "en": "Starts out in graphic design through several short agency assignments."
           }
         ]
       }
@@ -244,49 +300,61 @@
     "groupes": [
       {
         "titre": {
-          "fr": "DIPLÔME"
+          "fr": "DIPLÔME",
+          "en": "DEGREES"
         },
         "elements": [
           {
-            "fr": "**Licence professionnelle en Marketing Digital** — ESMA Abidjan (2015)"
+            "fr": "**Licence professionnelle en Marketing Digital** — ESMA Abidjan (2015)",
+            "en": "**Professional Bachelor’s Degree in Digital Marketing** — ESMA Abidjan (2015)"
           },
           {
-            "fr": "**BTS en Communication Visuelle** — ESMA Abidjan (2013)"
+            "fr": "**BTS en Communication Visuelle** — ESMA Abidjan (2013)",
+            "en": "**BTS (two-year higher technical diploma) in Visual Communication** — ESMA Abidjan (2013)"
           },
           {
-            "fr": "**Baccalauréat Série A2** — Abidjan (2010)"
+            "fr": "**Baccalauréat Série A2** — Abidjan (2010)",
+            "en": "**Baccalauréat, Série A2** — Abidjan (2010)"
           }
         ]
       },
       {
         "titre": {
-          "fr": "CERTIFICAT"
+          "fr": "CERTIFICAT",
+          "en": "CERTIFICATES"
         },
         "elements": [
           {
-            "fr": "**Certificat UX/UI Design** — Google / Coursera (2023)"
+            "fr": "**Certificat UX/UI Design** — Google / Coursera (2023)",
+            "en": "**UX/UI Design Certificate** — Google / Coursera (2023)"
           },
           {
-            "fr": "**Certificat en Management de Projet et Méthodes Agiles** — OpenClassrooms / PMI (2023)"
+            "fr": "**Certificat en Management de Projet et Méthodes Agiles** — OpenClassrooms / PMI (2023)",
+            "en": "**Certificate in Project Management and Agile Methods** — OpenClassrooms / PMI (2023)"
           },
           {
-            "fr": "**Certificat en Design Thinking** — IDEO / OpenClassrooms (2022)"
+            "fr": "**Certificat en Design Thinking** — IDEO / OpenClassrooms (2022)",
+            "en": "**Design Thinking Certificate** — IDEO / OpenClassrooms (2022)"
           }
         ]
       },
       {
         "titre": {
-          "fr": "FORMATION"
+          "fr": "FORMATION",
+          "en": "TRAINING"
         },
         "elements": [
           {
-            "fr": "**Communication Digitale & Réseaux Sociaux** — HubSpot Academy (2022)"
+            "fr": "**Communication Digitale & Réseaux Sociaux** — HubSpot Academy (2022)",
+            "en": "**Digital Communication & Social Media** — HubSpot Academy (2022)"
           },
           {
-            "fr": "**Adobe Creative Suite Avancée** — Abidjan Design School (2021)"
+            "fr": "**Adobe Creative Suite Avancée** — Abidjan Design School (2021)",
+            "en": "**Advanced Adobe Creative Suite** — Abidjan Design School (2021)"
           },
           {
-            "fr": "**Marketing & Branding Digital** — African Digital Academy (2020)"
+            "fr": "**Marketing & Branding Digital** — African Digital Academy (2020)",
+            "en": "**Digital Marketing & Branding** — African Digital Academy (2020)"
           }
         ]
       }
@@ -294,27 +362,34 @@
   },
   "ia": [
     {
-      "fr": "Intégration de l’IA dans les workflows de création et de communication."
+      "fr": "Intégration de l’IA dans les workflows de création et de communication.",
+      "en": "Integrating AI into creative and communication workflows."
     },
     {
-      "fr": "Rédaction de prompts stratégiques pour contenus textuels, visuels et publicitaires."
+      "fr": "Rédaction de prompts stratégiques pour contenus textuels, visuels et publicitaires.",
+      "en": "Writing strategic prompts for text, visual and advertising content."
     },
     {
-      "fr": "Génération rapide de concepts créatifs, moodboards et campagnes via IA."
+      "fr": "Génération rapide de concepts créatifs, moodboards et campagnes via IA.",
+      "en": "Rapid generation of creative concepts, moodboards and campaigns with AI."
     }
   ],
   "forces": [
     {
-      "fr": "Esprit stratégique et sens aigu du branding."
+      "fr": "Esprit stratégique et sens aigu du branding.",
+      "en": "Strategic mindset and a keen sense of branding."
     },
     {
-      "fr": "Leadership naturel et capacité à fédérer autour d’une vision."
+      "fr": "Leadership naturel et capacité à fédérer autour d’une vision.",
+      "en": "Natural leadership and the ability to rally people around a vision."
     },
     {
-      "fr": "Excellente organisation et rigueur."
+      "fr": "Excellente organisation et rigueur.",
+      "en": "Excellent organization and rigor."
     },
     {
-      "fr": "Créativité, curiosité et goût pour l’innovation."
+      "fr": "Créativité, curiosité et goût pour l’innovation.",
+      "en": "Creativity, curiosity and a taste for innovation."
     }
   ],
   "references": [
