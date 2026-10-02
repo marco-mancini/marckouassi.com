@@ -1,12 +1,27 @@
 /**
- * COMPARER À LA RÉFÉRENCE — le design de 71cfb9d (refonte/editorial-final-v2)
- * est la référence visuelle. Cet outil reconstruit ce site en lecture seule
- * (git archive, comme le faisait son flux de publication), puis compare
- * l'accueil et le CV à _site, de 320 à 1440 px, en clair et en sombre :
- * hauteur de page et position de chaque section. Prérequis : npm run build.
+ * COMPARER À LA RÉFÉRENCE — un commit de main validé visuellement sert de
+ * référence. Cet outil le reconstruit en lecture seule (git archive), puis
+ * compare l'accueil et le CV à _site, de 320 à 1440 px, en clair et en
+ * sombre : hauteur de page et hauteur de chaque section. Prérequis :
+ * npm run build. Code de sortie 1 au moindre écart : toute différence avec
+ * la référence est inattendue.
  *
- *   npm run comparer-reference            (référence par défaut : 71cfb9d)
+ *   npm run comparer-reference            (référence par défaut : 9d51394)
  *   npm run comparer-reference -- <commit>
+ *
+ * Référence : 9d51394 (main, 2 octobre 2026), depuis PM-046 (#46). Elle
+ * remplace 71cfb9d (refonte/editorial-final-v2, 29 septembre 2026),
+ * périmée depuis e80cfae : les 14 écarts relevés venaient tous de trois
+ * changements de contenu validés (e80cfae, dfd3091, 49db593), preuve faite
+ * en annulant ces trois commits sur main (0 écart). Changer de référence
+ * après tout changement de rendu voulu et validé, jamais pour faire taire
+ * un écart inexpliqué.
+ *
+ * Un commit de l'architecture actuelle est généré avec son propre build
+ * (copie du cache des médias : clé = chemin + empreinte + réglages). Un
+ * commit de l'ancienne architecture, reconnu à Frontend/index.html
+ * (71cfb9d et avant), est assemblé comme le faisait son ancien flux de
+ * publication.
  */
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -14,19 +29,32 @@ import os from "node:os";
 import path from "node:path";
 import { servir, lancer, ouvrir, defiler } from "../tests/navigateur/outils.mjs";
 
-const COMMIT = process.argv[2] || "71cfb9d";
+const COMMIT = process.argv[2] || "9d51394";
+const RACINE = process.cwd();
 const dossier = fs.mkdtempSync(path.join(os.tmpdir(), "reference-"));
 const source = path.join(dossier, "source");
-const site = path.join(dossier, "site");
 fs.mkdirSync(source);
 execFileSync("sh", ["-c", `git archive ${COMMIT} | tar -x -C "${source}"`]);
-fs.mkdirSync(path.join(site, "Public"), { recursive: true });
-for (const f of ["index.html", "script.js"]) fs.copyFileSync(path.join(source, "Frontend", f), path.join(site, f));
-fs.cpSync(path.join(source, "Design_System"), path.join(site, "Design_System"), { recursive: true });
-fs.cpSync(path.join(source, "Public/images"), path.join(site, "Public/images"), { recursive: true });
+
+let site, cheminCv;
+if (!fs.existsSync(path.join(source, "Frontend", "index.html"))) {
+  fs.symlinkSync(path.join(RACINE, "node_modules"), path.join(source, "node_modules"), "dir");
+  const cacheMedias = path.join(RACINE, ".cache", "medias");
+  if (fs.existsSync(cacheMedias)) fs.cpSync(cacheMedias, path.join(source, ".cache", "medias"), { recursive: true });
+  execFileSync(process.execPath, ["tools/build.mjs"], { cwd: source, stdio: "ignore" });
+  site = path.join(source, "_site");
+  cheminCv = "/cv/";
+} else {
+  site = path.join(dossier, "site");
+  fs.mkdirSync(path.join(site, "Public"), { recursive: true });
+  for (const f of ["index.html", "script.js"]) fs.copyFileSync(path.join(source, "Frontend", f), path.join(site, f));
+  fs.cpSync(path.join(source, "Design_System"), path.join(site, "Design_System"), { recursive: true });
+  fs.cpSync(path.join(source, "Public/images"), path.join(site, "Public/images"), { recursive: true });
+  cheminCv = "/Design_System/assets/Cv_Marc.html";
+}
 
 const ref = await servir(site); const neuf = await servir("_site"); const nav = await lancer();
-const PAGES = [["accueil", "/", "/"], ["cv", "/Design_System/assets/Cv_Marc.html", "/cv/"]];
+const PAGES = [["accueil", "/", "/"], ["cv", cheminCv, "/cv/"]];
 let ecarts = 0;
 for (const [nom, cheminRef, cheminNeuf] of PAGES) {
   for (const largeur of [320, 375, 768, 850, 1024, 1440]) {

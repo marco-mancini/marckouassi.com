@@ -10,7 +10,7 @@ ferait perdre aucun commit.
 | `main` | `cec4810` | 1er oct. 2026 | — | branche de production |
 | `marco-mancini-patch-1` | `253aa0f` | 23 sept. 2026 | **15** | **conserver** (décision de Marc) |
 | `version-finale/portfolio-bo` | `f4cdf80` | 1er oct. 2026 | 0 | supprimable |
-| `refonte/editorial-final-v2` | `71cfb9d` | 29 sept. 2026 | 0 | supprimable ; référence visuelle de `npm run comparer-reference` (voir plus bas) |
+| `refonte/editorial-final-v2` | `71cfb9d` | 29 sept. 2026 | 0 | supprimable ; ancienne référence de `npm run comparer-reference`, remplacée par `9d51394` (voir plus bas) |
 | `refonte/editorial-final` | `d5407b9` | 29 sept. 2026 | 0 | supprimable |
 | `refonte/kittl` | `3a6a903` | 29 sept. 2026 | 0 | supprimable |
 | `refonte/storytelling-01-04` | `1d44c40` | 29 sept. 2026 | 0 | supprimable |
@@ -31,10 +31,12 @@ architecture : ils modifient `AGENTS.md`, `README.md`,
 
 ## `refonte/editorial-final-v2` et la comparaison visuelle
 
-`tools/comparer-reference.mjs` reconstruit le commit `71cfb9d` avec
-`git archive` : il lit le commit, pas la branche. Supprimer la branche ne
-casse pas la comparaison tant que le commit reste accessible, ce qui est le
-cas puisqu'il est dans l'historique de `main`.
+`tools/comparer-reference.mjs` reconstruit un commit avec `git archive` :
+il lit le commit, pas la branche. Depuis PM-046 (#46), la référence par
+défaut est `9d51394`, sur `main` ; `71cfb9d` reste comparable en le
+passant en argument (`npm run comparer-reference -- 71cfb9d`). Supprimer
+la branche ne casse pas la comparaison tant que le commit reste
+accessible, ce qui est le cas puisqu'il est dans l'historique de `main`.
 
 ## Étiquettes d'archive
 

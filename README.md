@@ -27,11 +27,12 @@ npm ci
 npm test                 # rendu, langues, résistance, rien en dur, CMS, secrets
 npm run build            # génère _site/ (pages FR et EN, médias optimisés, sitemap)
 npm run test:navigateur  # Chromium : accessibilité, responsive, sans JS, site généré, CMS
-npm run comparer-reference  # fidélité au design de référence (71cfb9d), 320 à 1440 px, clair et sombre
+npm run comparer-reference  # aucune dérive par rapport à la référence (9d51394), 320 à 1440 px, clair et sombre ; code 1 au moindre écart
 ```
 
-Le design de 71cfb9d est la référence visuelle : la refonte est architecturale,
-pas graphique. Le contenu s'édite avec le CMS Git à `/admin/`
+Le design de 71cfb9d est l'origine visuelle : la refonte est architecturale,
+pas graphique. La référence de comparaison est 9d51394 (main, 2 octobre
+2026), qui y ajoute les changements de contenu validés depuis (PM-046). Le contenu s'édite avec le CMS Git à `/admin/`
 ([Docs/CMS.md](Docs/CMS.md)) ; l'ancien back-office (`Gabarit_Bo`) est en
 sommeil ([Docs/ADMIN_EN_SOMMEIL.md](Docs/ADMIN_EN_SOMMEIL.md)).
 
