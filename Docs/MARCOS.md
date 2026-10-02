@@ -57,6 +57,8 @@ Prévoir plusieurs angles/poses permettant l'animation :
 
 Ces vues doivent constituer une base cohérente pour les animations et états du personnage.
 
+Format des fichiers attendus pour animer les 8 états (vues, dimensions, poids, nommage, transitions, mouvement réduit) : [MARCOS_AVATAR.md](MARCOS_AVATAR.md) (PM-076, rattaché à PM-049).
+
 ---
 
 ## 4. États et micro-interactions
