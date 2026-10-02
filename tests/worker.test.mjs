@@ -36,8 +36,8 @@ function chaine(options = {}) {
   const journal = [];
   const gerer = creerGestionnaire({
     fournisseur,
-    contexte: async () => "# IDENTITÉ\nNom: Marc Kouassi",
-    assembler: ({ requete: r, contexte }) => ({ systeme: contexte, messages: r.messages }),
+    contexte: async () => ({ pages: [{ id: "fifa26", href: "/projets/fifa26/" }] }),
+    assembler: ({ requete: r }) => ({ systeme: "système simulé", messages: r.messages }),
     budget: options.budget,
     journaliser: (e) => journal.push(e),
     ...options.deps,
@@ -222,7 +222,7 @@ test("les journaux ne portent jamais le texte des questions (D-10)", async () =>
   assert.ok(!tout.includes(secret), "le texte de la question ne doit pas être journalisé");
   assert.ok(!tout.includes("abcd1234efgh") || true);
   // Ce qu'on garde : des métadonnées, et elles suffisent au diagnostic.
-  assert.deepEqual(Object.keys(journal.at(-1)).sort(), ["budgetRestant", "echanges", "jetonsEntree", "jetonsSortie", "langue", "limiteur", "ms", "sortie"]);
+  assert.deepEqual(Object.keys(journal.at(-1)).sort(), ["budgetRestant", "echanges", "jetonsEntree", "jetonsSortie", "langue", "liens", "limiteur", "ms", "sortie"]);
 });
 
 test("les codes d'erreur et leurs statuts forment un contrat complet", () => {
@@ -236,4 +236,17 @@ test("le fournisseur reçoit le plafond de jetons de la configuration, pas une v
   assert.equal(fournisseur.derniereDemande.maxJetons, 180);
   await gerer(requete(question()), ENV);
   assert.equal(fournisseur.derniereDemande.maxJetons, 180, "valeur par défaut alignée sur la décision");
+});
+
+test("la réponse du modèle est nettoyée avant d'atteindre le navigateur (IA-03)", async () => {
+  // Le fournisseur rend une référence valide, une référence inconnue et une
+  // adresse inventée. Rien de tout cela ne doit sortir tel quel.
+  const { gerer } = chaine({
+    fournisseur: { reponse: { texte: "Voyez [[page:fifa26]] et [[page:inconnu]], ou https://piege.example." } },
+  });
+  const corps = await (await gerer(requete(question()), ENV)).json();
+  assert.equal(corps.texte, "Voyez et, ou.");
+  assert.deepEqual(corps.liens, [{ id: "fifa26", href: "/projets/fifa26/" }]);
+  assert.ok(!corps.texte.includes("piege"), "aucune adresse inventée ne sort");
+  assert.ok(!corps.texte.includes("[[page:"), "aucune syntaxe ne reste visible");
 });
