@@ -5,10 +5,10 @@
    suit sans selecteur parent. La bordure lit --planche-bordure, calcule
    a la racine, pour rester la meme sur les deux fonds.
    ========================================================================== */
-.planche-scene { padding: clamp(22px, 4vw, 54px) 0; scroll-margin-top: 82px; }
+.planche-scene { padding: var(--planche-scene-padding) 0; scroll-margin-top: 82px; }
 .planche {
   position: relative; width: 100%; min-height: 0; margin: 0 auto;
-  padding: clamp(24px, 4.2vw, 76px); overflow: hidden;
+  padding: var(--planche-padding); overflow: hidden;
   border: var(--border-hairline) solid var(--planche-bordure);
   background: var(--fond); color: var(--texte);
   box-shadow: 0 var(--shadow-board-y) var(--shadow-board-flou) var(--shadow-board);
@@ -16,10 +16,10 @@
 
 /* Ligne de credit : rubrique a gauche, mention au centre, signature a droite. */
 .planche__credit {
-  display: grid; min-height: 30px; padding-bottom: var(--space-3);
+  display: grid; min-height: var(--planche-credit-hauteur-min); padding-bottom: var(--space-3);
   grid-template-columns: 1fr 1fr auto; align-items: start; gap: var(--planche-credit-espace);
   border-bottom: var(--border-hairline) solid var(--filet); color: var(--texte-discret);
-  font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .025em;
+  font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-etiquette);
 }
 .planche__credit > :nth-child(2) { text-align: center; }
 .planche__credit > :last-child:not(:first-child) { text-align: right; }

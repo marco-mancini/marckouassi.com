@@ -1,11 +1,11 @@
 /* ==========================================================================
    SEGMENTS — quelques options cote a cote, une seule active
    ========================================================================== */
-.segments { display: inline-flex; padding: 2px; gap: 2px; border: var(--border-hairline) solid var(--bordure-controle); border-radius: var(--radius-pill); }
+.segments { display: inline-flex; padding: var(--segments-padding); gap: var(--segments-espace); border: var(--border-hairline) solid var(--bordure-controle); border-radius: var(--radius-pill); }
 .segments__option {
-  display: inline-flex; min-width: var(--cible-tactile); min-height: calc(var(--cible-tactile) - 6px); padding: 0 var(--space-3);
+  display: inline-flex; min-width: var(--cible-tactile); min-height: calc(var(--cible-tactile) - var(--segments-option-retrait)); padding: 0 var(--space-3);
   align-items: center; justify-content: center; border: 0; border-radius: var(--radius-pill);
-  background: none; color: var(--texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .03em;
+  background: none; color: var(--texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-commande);
   text-decoration: none; cursor: pointer; transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
 }
 .segments__option:hover { background: var(--hover-on-dark); }

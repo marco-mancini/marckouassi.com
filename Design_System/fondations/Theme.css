@@ -34,7 +34,7 @@ html[data-liens="soulignes"] a {
 }
 
 /* --- Lien d'evitement : premier element focusable de chaque page. --- */
-.skip-link { position: fixed; top: 8px; left: 8px; z-index: 120; transform: translateY(-160%); padding: var(--space-3) var(--space-4); background: var(--surface-page); color: var(--ink); }
+.skip-link { position: fixed; top: var(--skip-link-decalage); left: var(--skip-link-decalage); z-index: 120; transform: translateY(-160%); padding: var(--space-3) var(--space-4); background: var(--surface-page); color: var(--ink); }
 .skip-link:focus { transform: translateY(0); }
 
 /* --- [hidden] l'emporte sur tout display pose par un composant ---

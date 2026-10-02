@@ -20,14 +20,14 @@
 
 .galerie__superposition { position: absolute; top: var(--galerie-superposition-decalage); right: var(--galerie-superposition-decalage); z-index: 2; }
 
-@media (min-width: 851px) and (max-width: 1080px) { .galerie--apercu { grid-auto-rows: clamp(120px, 13.5vw, 220px); } }
+@media (min-width: 851px) and (max-width: 1080px) { .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-tablette); } }
 @media (max-width: 850px) {
-  .galerie--apercu { grid-auto-rows: clamp(82px, 27vw, 150px); gap: 6px; }
-  .galerie--detail { grid-auto-rows: clamp(110px, 34vw, 220px); gap: 7px; }
-  .galerie--bande { height: clamp(90px, 30vw, 170px); }
-  .galerie__superposition { top: 8px; right: 8px; }
+  .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-mobile); gap: var(--galerie-espace-apercu-mobile); }
+  .galerie--detail { grid-auto-rows: var(--galerie-rangee-detail-mobile); gap: var(--galerie-espace-detail-mobile); }
+  .galerie--bande { height: var(--galerie-bande-hauteur-mobile); }
+  .galerie__superposition { top: var(--galerie-superposition-decalage-mobile); right: var(--galerie-superposition-decalage-mobile); }
 }
 @media (max-width: 390px) {
-  .galerie--apercu { grid-auto-rows: clamp(64px, 21vw, 86px); }
-  .galerie--detail { grid-auto-rows: clamp(100px, 30vw, 160px); }
+  .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-etroit); }
+  .galerie--detail { grid-auto-rows: var(--galerie-rangee-detail-etroit); }
 }

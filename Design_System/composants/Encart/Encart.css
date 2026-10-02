@@ -17,7 +17,7 @@
   padding: var(--prestation-entete-padding); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   background: var(--encart-teinte); color: var(--prestation-encre);
   font-family: var(--font-display); font-size: var(--type-body-emphasis); font-weight: var(--weight-regular);
-  line-height: var(--leading-compact); letter-spacing: -.025em; text-align: center; text-transform: uppercase;
+  line-height: var(--leading-compact); letter-spacing: var(--interlettrage-titre); text-align: center; text-transform: uppercase;
 }
 .encart--or > .encart__corps, .encart--clair > .encart__corps {
   padding: var(--prestation-corps-padding); padding-bottom: calc(var(--prestation-corps-padding) * 2.4);
