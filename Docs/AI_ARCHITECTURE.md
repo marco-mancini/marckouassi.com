@@ -1,15 +1,26 @@
 # MarcoS, assistant du portfolio — architecture
 
-Statut : **architecture validée, non implémentée** ; deux questions ouvertes (Q-1, Q-2, en fin de document). Rédigé et vérifié le
-1er octobre 2026. Aucune clé, aucun identifiant de compte n'existe dans le dépôt.
+Statut : **architecture arrêtée, non implémentée.** Toutes les décisions sont
+prises : Marc a répondu le 2 octobre 2026, décision par décision, dans
+[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md). Les deux questions ouvertes Q-1 et
+Q-2 sont tranchées, et les onze décisions D-1 à D-11 plus les huit relevées
+ensuite (D-12 à D-19) ont leur réponse.
 
-**Toutes les décisions en attente de Marc — Q-1, Q-2, D-1 à D-11, et huit points
-que cette documentation suppose sans les avoir tranchés — sont rassemblées, avec
-leurs options, leurs conséquences et une recommandation motivée, dans
-[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md). C'est là que Marc répond.**
+Aucune clé, aucun identifiant de compte n'existe dans le dépôt.
+
+**Deux contraintes directrices de Marc priment sur tout le reste :**
+
+1. **Budget 0 €.** Aucun compte payant, aucune carte bancaire, aucun
+   abonnement. Toute option qui implique une dépense, même minime, est refusée
+   au profit de sa variante gratuite. S'il n'existe pas de variante gratuite,
+   on s'arrête et on le signale.
+2. **Verbosité minimale.** MarcoS répond en **deux à trois phrases**, et le
+   contexte envoyé au modèle est tenu au plus petit. C'est un critère de
+   conception, pas un réglage d'après-coup.
 
 Documents liés :
-[données](AI_DATA.md) · [sécurité](AI_SECURITY.md) · [interface](AI_UX.md) ·
+[décisions de Marc](MARCOS_DECISIONS.md) · [données](AI_DATA.md) ·
+[sécurité](AI_SECURITY.md) · [interface](AI_UX.md) ·
 [prompt système](AI_SYSTEM_PROMPT.md) · [plan d'implémentation](AI_IMPLEMENTATION_PLAN.md) ·
 [déploiement Vercel](DEPLOY_VERCEL.md)
 
@@ -17,18 +28,21 @@ Documents liés :
 
 Permettre à un visiteur de poser des questions sur Marc Kouassi, son parcours,
 ses projets, ses compétences et ses prestations, et d'obtenir des réponses
-courtes, exactes et **uniquement fondées sur le contenu publié du portfolio**.
-MarcoS est une fonction du portfolio, pas un widget ajouté : il réutilise
-le Design System et ne crée aucun langage graphique.
+**courtes, exactes et uniquement fondées sur le contenu publié du portfolio**.
+MarcoS est une fonction du portfolio, pas un widget ajouté : il réutilise le
+Design System et ne crée aucun langage graphique.
 
 ## Nom officiel
 
-L'assistant s'appelle **MarcoS** : N majuscule, é accentué, O majuscule. Aucune
-autre graphie n'est un nom officiel. Ce nom est un texte affiché : il vient du
-contenu (`content/site.json`, clé `assistant`) et des dictionnaires, jamais du
-code. Les identifiants techniques restent neutres et en ASCII (`assistant`,
+L'assistant s'appelle **MarcoS** : M majuscule, S majuscule. Aucune autre
+graphie n'est un nom officiel. Ce nom est un texte affiché : il vient du contenu
+(`content/site.json`, clé `assistant`) et des dictionnaires, jamais du code. Les
+identifiants techniques restent neutres et en ASCII (`assistant`,
 `/api/assistant`, `worker/assistant/`, `ASSISTANT_URL`, gabarit `Assistant`) ;
 ce ne sont pas des noms.
+
+MarcoS **n'est pas Marc** : il parle de lui à la **troisième personne** et
+**vouvoie** le visiteur (décision D-15).
 
 ## Schéma
 
@@ -39,46 +53,67 @@ ce ne sont pas des noms.
  [MarcoS, dans le portfolio]  gabarit Assistant = Modale + Conversation + Champ/Saisie + Bouton + Message
      │  HTTPS  POST /api/assistant   (JSON, sans clé, Origin contrôlée)
      ▼
- [Cloudflare Worker « assistant »]
+ [Cloudflare Worker « assistant », sur workers.dev, offre Free]
      ├─ 1. sécurité : méthode, Origin (CORS), taille, schéma de la requête
-     ├─ 2. limitation : par session et par IP, budget journalier
-     ├─ 3. contexte : base de connaissance publiée (cache par version) ──► [Supabase]
-     │                                                                     publications (lecture publique, statut en_ligne)
-     ├─ 4. orchestration : prompt système versionné + historique borné
-     ├─ 5. fournisseur principal ──────────────────────────────────────► [Mistral]  chat/completions
-     │        └─ seulement si la capacité Mistral est épuisée (429 persistant, crédits)
-     │           ───────────────────────────────────────────────────► [Gemini]   generateContent (repli)
-     └─ 6. réponse normalisée : { texte, liens internes validés, fournisseur }
+     ├─ 2. limitation : par session et par IP si disponible, budget journalier
+     ├─ 3. contexte : connaissance.json publié avec le site (cache par version)
+     ├─ 4. orchestration : prompt système court + historique borné
+     ├─ 5. fournisseur UNIQUE ────────────────────────────────────► [Mistral]  chat/completions
+     │        quota épuisé ⇒ 429 quota_journalier, aucun autre fournisseur
+     └─ 6. réponse normalisée : { texte, liens internes validés }
      ▼
  [MarcoS, dans le portfolio]  affiche le texte (jamais en HTML), liens internes uniquement
 ```
 
-Le navigateur ne parle **jamais** à Mistral, à Gemini ni, pour MarcoS, à
-Supabase. Toutes les clés vivent dans les secrets du Worker.
+Le navigateur ne parle **jamais** à Mistral. La clé vit dans les secrets du
+Worker.
 
-## Décisions
+## Décisions arrêtées
 
 | Sujet | Décision | Raison |
 |---|---|---|
-| Fournisseur principal | **Mistral**, modèle **`mistral-small-2603`** (Mistral Small 4) | Recommandé par Mistral « for cost-sensitive projects » ; GA, contexte 256k ; 0,15 $ / 0,60 $ par million de jetons ; servi par défaut depuis l'UE |
-| Identifiant du modèle | **épinglé** (pas d'alias `-latest`) | Mistral avertit que les alias exposent à des « silent updates in model behavior and pricing » |
-| Repli | **Gemini**, modèle **`gemini-3.5-flash-lite`** | Stable depuis le 21/07/2026, sans date d'arrêt annoncée ; « fastest, most cost-effective 3.5 model » |
-| Bascule vers Gemini | uniquement si la capacité Mistral est épuisée (voir [flux de repli](#flux-en-cas-de-quota-mistral)) | Gemini n'est pas un second fournisseur « à tout faire » |
-| Base de connaissance | tout le contenu **publié et autorisé**, envoyé en entier | Taille remesurée le 2 octobre 2026 : ≈ 9 800 jetons en deux langues, ≈ 5 100 en français seul ([AI_DATA.md](AI_DATA.md#taille)) ; pas besoin de recherche vectorielle. Une ou deux langues par requête : décision D-12 |
-| Source des données | dernière publication `en_ligne` de Supabase, lue avec la **clé publique** | La table `publications` est déjà lisible publiquement pour le contenu publié ; aucune clé secrète Supabase dans le Worker |
-| Cache | Cache API du Worker, clé = numéro de version de la publication | Évite un appel Supabase par question ; KV inutile (écritures limitées) |
-| Réponse | **non diffusée en flux** en V1 | Réponses courtes ; une seule annonce accessible ; décision de repli prise avant tout envoi. Le flux reste possible plus tard (phase IA-11) |
-| Langue | français par défaut, anglais si la question ou la page est en anglais | Le site est FR/EN |
-| Configuration | **un seul endroit** : `wrangler.jsonc` du Worker (`vars` par environnement) | Modèles, limites, délais, origines : jamais répétés dans le code |
+| **Fournisseur** | **Mistral seul**, modèle `mistral-small-2603` (Mistral Small 4), sur ses **crédits gratuits** | Décision D-2 de Marc : budget 0 €, aucune carte bancaire. Un seul fournisseur, pas de secours |
+| Identifiant du modèle | **épinglé**, pas d'alias `-latest` | Mistral avertit que les alias exposent à des « silent updates in model behavior and pricing ». À revérifier à l'implémentation (D-19) |
+| **Quota épuisé** | `429 quota_journalier` : message du dictionnaire + e-mail de contact | Décision D-2 : il n'y a pas de second fournisseur. MarcoS se taira plutôt que de coûter |
+| **Panne du fournisseur** | **pas de repli** — il n'y a rien vers quoi se replier | Décision D-1 |
+| **Source des données** | **`connaissance.json`, produit au build** depuis `content/`, publié avec le site | Décision #23 : pas de Supabase. Aucun compte, aucune clé, aucune base, aucun point de panne supplémentaire |
+| Base de connaissance | contenu publié **réduit**, envoyé en entier, **dans une seule langue** | Décision D-12 et sa suite : contexte au plus petit. Mesures ci-dessous |
+| **Hébergement** | **Cloudflare Worker sur `workers.dev`**, offre **Free** | Décisions #24 et D-7 : viable aujourd'hui, 0 $, sans domaine, et sans étendre le risque Vercel Hobby |
+| Cache | Cache API du Worker, clé = empreinte de version du fichier | Évite de relire le fichier à chaque question. Comportement non publié sur `workers.dev` : impact faible, c'est un fichier de CDN |
+| **Longueur des réponses** | **2 à 3 phrases**, `max_tokens` **180** | Contrainte de verbosité minimale. Valeur justifiée ci-dessous |
+| Réponse | **non diffusée en flux** | Réponses courtes ; une seule annonce accessible |
+| Langue | français par défaut, anglais si la question ou la page est en anglais ; **faits anglais pour une réponse anglaise** | Décision D-8 : la traduction est faite, relue et vérifiée en production |
+| Configuration | **un seul endroit** : `wrangler.jsonc` du Worker (`vars` par environnement) | Modèle, limites, délais, origines : jamais répétés dans le code |
 
-Les identifiants de modèles sont des **valeurs de configuration**, pas du code :
-ils seront vérifiés par `GET /v1/models` (Mistral) et la page des modèles Gemini
-au moment de l'implémentation (phase IA-05 et IA-07).
+## Taille du contexte, mesurée
+
+Relevé le 2 octobre 2026 sur `content/`, liste blanche appliquée champ par
+champ. Le détail des retraits est dans
+[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#9-réduction-de-la-base-de-connaissance-mesurée).
+
+| Poste | Avant les décisions | Après |
+|---|---|---|
+| Base de connaissance (français seul) | 4 557 jetons | **2 842** |
+| Prompt système | 698 jetons | **396** |
+| Liste des pages (21 entrées) | 157 jetons | 157 |
+| Historique borné | 1 143 jetons (6 échanges, 4 000 car.) | **571** (4 échanges, 2 000 car.) |
+| **Entrée totale** | **6 555 jetons** | **3 966** |
+| Sortie (`max_tokens`) | 400 | **180** |
+
+**Réduction de l'entrée : 2 589 jetons, soit 39 %.**
+
+**Pourquoi `max_tokens` = 180.** Une phrase française de dix-huit mots pèse
+environ 25 à 30 jetons. Trois phrases en font 90. 180 laisse le double de marge
+pour les références `[[page:id]]` et une formulation plus longue, tout en
+coupant net une réponse qui partirait en dissertation. Au-delà de 180, la
+réponse est tronquée — ce qui est voulu : la contrainte est dans le modèle, pas
+dans une relecture humaine.
 
 ## Flux d'une requête
 
-1. Le visiteur ouvre MarcoS (bouton du portfolio) ; le navigateur affiche le
-   message d'accueil, tiré du contenu `site.assistant` (voir [AI_UX.md](AI_UX.md)).
+1. Le visiteur ouvre MarcoS depuis la section Contact ou le menu (décision
+   D-4) ; le navigateur affiche le message d'accueil, tiré du contenu
+   `site.assistant` (voir [AI_UX.md](AI_UX.md)).
 2. Il envoie une question (500 caractères au plus). Le navigateur envoie :
 
    ```json
@@ -88,32 +123,35 @@ au moment de l'implémentation (phase IA-05 et IA-07).
      "messages": [ { "role": "user", "contenu": "…" } ] }
    ```
 
-   L'historique est borné aux **6 derniers échanges** et à 4 000 caractères.
+   `page` est la **page courante seulement** : MarcoS ne reçoit jamais la liste
+   des pages visitées (décision D-16). L'historique est borné aux **4 derniers
+   échanges** et à **2 000 caractères**.
 3. Le Worker vérifie, dans l'ordre : méthode `POST`, `Origin` autorisée,
    `Content-Type: application/json`, corps ≤ 16 Ko, schéma exact, longueurs.
-   Toute violation → `400` ou `413`, **sans appel à un fournisseur**.
-4. Limitation : session et IP (binding Rate Limiting), budget journalier.
-   Dépassement → `429` + `Retry-After`, sans appel à un fournisseur.
-5. Contexte : le Worker lit le numéro de la dernière publication `en_ligne`
-   (cache 60 s), puis la base de connaissance de cette version (cache 24 h,
-   clé = version). Il construit la base par **liste blanche** (voir
-   [AI_DATA.md](AI_DATA.md)).
-6. Prompt : prompt système versionné ([AI_SYSTEM_PROMPT.md](AI_SYSTEM_PROMPT.md))
+   Toute violation → `400` ou `413`, **sans appel au fournisseur**.
+4. Limitation : session et IP (binding Rate Limiting **si disponible sur
+   l'offre Free**, voir D-6), et budget journalier de **100 questions**.
+   Dépassement → `429` + `Retry-After`, sans appel au fournisseur.
+5. Contexte : le Worker lit `connaissance.json` publié avec le site, dans la
+   **langue de la question seulement**, et le met en cache par empreinte de
+   version. Il n'y a ni base de données, ni clé à présenter.
+6. Prompt : prompt système court ([AI_SYSTEM_PROMPT.md](AI_SYSTEM_PROMPT.md))
    + base de connaissance entre balises + historique + question.
 7. Appel Mistral (`POST https://api.mistral.ai/v1/chat/completions`,
-   `Authorization: Bearer <secret>`, `max_tokens` ≤ 400, `temperature` 0,2,
+   `Authorization: Bearer <secret>`, `max_tokens` **180**, `temperature` 0,2,
    délai 15 s).
 8. Réponse : le Worker extrait le texte, transforme les références internes
-   `[[projet:id]]` en liens **seulement si l'identifiant existe** dans la base,
+   `[[page:id]]` en liens **seulement si l'identifiant existe** dans la base,
    retire toute autre URL, puis renvoie :
 
    ```json
    200 { "texte": "…", "liens": [ { "id": "aurex", "href": "/projets/aurex/" } ],
-         "fournisseur": "mistral", "version_contenu": 12 }
+         "version_contenu": "a1b2c3" }
    ```
 
-9. Le navigateur affiche le texte comme **texte** (jamais `innerHTML`),
-   annonce la réponse une seule fois aux lecteurs d'écran.
+   Il n'y a plus de champ `fournisseur` : il n'y en a qu'un.
+9. Le navigateur affiche le texte comme **texte** (jamais `innerHTML`), annonce
+   la réponse une seule fois aux lecteurs d'écran.
 
 Erreurs renvoyées par le Worker : codes stables, **sans texte** ; le texte
 affiché vient du dictionnaire de l'interface.
@@ -124,177 +162,144 @@ affiché vient du dictionnaire de l'interface.
 | 403 | `origine_refusee` | Origin non autorisée |
 | 413 | `trop_long` | message ou historique trop long |
 | 429 | `trop_de_demandes` | limite par session ou IP (`Retry-After`) |
-| 429 | `quota_journalier` | budget du jour atteint |
-| 503 | `indisponible` | aucun fournisseur disponible, ou contexte illisible |
+| 429 | `quota_journalier` | budget du jour atteint, **ou crédits Mistral épuisés** |
+| 503 | `indisponible` | fournisseur en panne, ou contexte illisible |
 | 504 | `delai_depasse` | délai global dépassé |
 
-## Flux en cas de quota Mistral
+## Comportement quand Mistral ne répond pas
 
-La documentation Mistral **ne publie aucun code** permettant de distinguer une
-limite par seconde d'un quota mensuel épuisé : les deux arrivent en `429`
-(`type: rate_limit_error`), avec un en-tête `Retry-After` à consulter. D'où une
-règle en deux temps :
+Il n'y a **pas de second fournisseur** (décision D-2). La matrice de repli, le
+disjoncteur et la bascule vers un service de secours **n'existent plus**. C'est
+une simplification voulue : moins de code, moins de tests, un compte en moins,
+aucune carte bancaire.
 
-```text
-Mistral répond 429
-  ├─ Retry-After ≤ 2 s et budget de temps restant ≥ 10 s ?
-  │     └─ oui : une seule nouvelle tentative après Retry-After
-  │            ├─ 200 → réponse Mistral
-  │            └─ 429 → capacité Mistral épuisée ─► Gemini
-  └─ non (Retry-After absent ou long) → capacité Mistral épuisée ─► Gemini
+| Réponse Mistral | Nouvelle tentative | Réponse au visiteur |
+|---|---|---|
+| 200 | — | la réponse |
+| 429, `Retry-After` ≤ 2 s et budget de temps restant ≥ 10 s | une, après `Retry-After` | la réponse, ou `quota_journalier` si le second essai échoue |
+| 429 autrement (quota ou crédits épuisés) | non | `quota_journalier` + e-mail de contact |
+| 500, 502, 503, 504, délai de 15 s dépassé | une, après 1 s | `indisponible` |
+| 400, 422 (requête mal formée) | non | `indisponible` + journal d'erreur : c'est un défaut du Worker |
+| 401 (clé absente ou invalide), 403 (permissions) | non | `indisponible` + alerte de configuration |
+| 403 « blocked by guardrail » | non | refus poli (dictionnaire) |
+| 404 (modèle inconnu ou retiré) | non | `indisponible` + alerte (voir D-19) |
 
-Capacité épuisée ⇒ disjoncteur « mistral_epuise » posé pour min(Retry-After, 10 min) :
-les requêtes suivantes vont directement à Gemini pendant ce temps.
-```
-
-| Réponse Mistral | Nouvelle tentative | Gemini ? | Réponse au visiteur |
-|---|---|---|---|
-| 200 | — | non | réponse |
-| 429 (capacité, voir ci-dessus) | une, si `Retry-After` ≤ 2 s | **oui** | réponse Gemini |
-| statut de crédits épuisés ou de plafond de dépense (non documenté ; à constater en phase IA-05) | non | **oui** | réponse Gemini |
-| 500, 502, 503, 504, délai de 15 s dépassé | une, après 1 s | **non par défaut** (décision D-1) | `indisponible` |
-| 400, 422 (requête mal formée) | non | **non** : c'est un défaut du Worker | `indisponible` + journal d'erreur |
-| 401 (clé absente ou invalide), 403 (permissions) | non | **non** : cacherait une configuration cassée | `indisponible` + alerte |
-| 403 « blocked by guardrail » | non | **non** : contournerait la modération | refus poli (dictionnaire) |
-| 404 (modèle inconnu ou retiré) | non | **non** | `indisponible` + alerte |
-
-Côté Gemini (`POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent`,
-en-tête `x-goog-api-key`) :
-
-| Réponse Gemini | Traitement |
-|---|---|
-| 200 | réponse, `fournisseur: "gemini"` |
-| 429 `RESOURCE_EXHAUSTED`, 402 | `quota_journalier` (les deux fournisseurs sont épuisés) |
-| 500, 503, 504 | une nouvelle tentative si le budget de temps le permet, sinon `indisponible` |
-| 400 `FAILED_PRECONDITION` (facturation, pays) | `indisponible` + alerte de configuration |
-| 400, 403, 404 | `indisponible` + alerte |
-
-Délais : Mistral 15 s par appel ; Gemini 15 s ; **budget total 25 s** par
-requête ; le navigateur abandonne à 30 s. Le temps d'attente réseau ne compte
-pas comme temps CPU d'un Worker (documentation Cloudflare).
+Délais : 15 s par appel ; **budget total 20 s** par requête — il n'y a plus de
+second appel à prévoir ; le navigateur abandonne à 30 s. Le temps d'attente
+réseau ne compte pas comme temps CPU d'un Worker.
 
 ## Composants
 
 | Brique | Emplacement prévu | Rôle |
 |---|---|---|
 | Worker | `worker/assistant/` (`wrangler.jsonc`, `src/`) | point d'entrée unique `/api/assistant` |
-| Base de connaissance | module pur partagé `Design_System/gabarits/connaissance.js` | liste blanche des champs ; utilisé par le Worker et par les tests |
+| Base de connaissance | module pur partagé `Design_System/gabarits/connaissance.js` | liste blanche réduite ; utilisé par le **build** et par les tests |
+| Fichier publié | `_site/connaissance.json`, produit au build | ce que lit le Worker |
 | Prompt système | `worker/assistant/prompt/systeme.fr.md` | versionné, relu comme du contenu |
 | Interface | composant `Conversation` + gabarit `Assistant` | voir [AI_UX.md](AI_UX.md) |
 | Textes d'interface | `Design_System/i18n/fr.json` et `en.json`, clé `assistant` | aucun texte dans les composants |
-| Textes éditoriaux | `content/site.json`, clé `assistant` (accueil, exemples, activation) | éditables dans le back-office (Paramètres) |
+| Textes éditoriaux | `content/site.json`, clé `assistant` (accueil, exemples, confidentialité, activation) | écrits par Marc dans `/admin/` (décision D-9) |
 
 ## Environnements
 
-| Environnement | Worker | Origines autorisées | Fournisseurs |
+| Environnement | Worker | Origines autorisées | Fournisseur |
 |---|---|---|---|
-| local | `wrangler dev`, secrets dans `.dev.vars` (ignoré par Git) | `http://localhost:*` | fournisseurs simulés par défaut ; vraies clés possibles |
-| preview | `wrangler deploy --env preview` | URL de Preview (Vercel ou Pages) | Mistral et Gemini, budgets bas |
-| production | `wrangler deploy --env production` | adresse publique de `content/site.json` (aujourd'hui `https://marckouassi-com.vercel.app`) | Mistral et Gemini |
+| local | `wrangler dev`, secret dans `.dev.vars` (ignoré par Git) | `http://localhost:*` | fournisseur simulé par défaut ; vraie clé possible |
+| preview | `wrangler deploy --env preview` | URL de Preview Vercel | Mistral, budget bas |
+| production | `wrangler deploy --env production` | adresse publique de `content/site.json` (aujourd'hui `https://marckouassi-com.vercel.app`) | Mistral |
 
 `vars`, secrets et bindings sont **redéclarés dans chaque environnement**
 (Wrangler ne les hérite pas). Les secrets attendus sont listés dans
 `secrets.required` : le déploiement échoue si l'un manque.
 
-Variables (`vars`) : `MISTRAL_MODELE`, `GEMINI_MODELE`, `ORIGINES_AUTORISEES`,
-`SUPABASE_URL`, `LIMITE_MESSAGE`, `LIMITE_HISTORIQUE`, `MAX_JETONS_REPONSE`,
-`DELAI_FOURNISSEUR_MS`, `BUDGET_TEMPS_MS`, `REPLI_SUR_INDISPONIBILITE` (`false`).
-Secrets : `MISTRAL_CLE`, `GEMINI_CLE`, `SUPABASE_CLE_PUBLIQUE`.
+Variables (`vars`) : `MISTRAL_MODELE`, `ORIGINES_AUTORISEES`, `CONNAISSANCE_URL`,
+`LIMITE_MESSAGE`, `LIMITE_HISTORIQUE`, `MAX_JETONS_REPONSE` (180),
+`DELAI_FOURNISSEUR_MS`, `BUDGET_TEMPS_MS`, `BUDGET_JOURNALIER` (100).
+Secret : **`MISTRAL_CLE`**, et elle seule.
 
 Le site connaît seulement l'**adresse** de l'endpoint, injectée au build
 (`ASSISTANT_URL`). Sans elle, MarcoS n'est pas rendu.
 
 ## Hébergement de l'endpoint
 
-| Option | Conditions | Usage |
-|---|---|---|
-| Route `marckouassi.com/api/*` | zone DNS gérée par Cloudflare, enregistrement **proxifié** | production (même origine : pas de CORS) |
-| Domaine `assistant.marckouassi.com` | zone Cloudflare ; impossible sur un nom qui a déjà un CNAME | production si le site reste ailleurs |
-| `*.workers.dev` | aucune | preview et essais (Cloudflare le traite comme un site Free, pas pour la production) |
+**Retenu : `*.workers.dev`, offre Workers Free** (décisions #24 et D-7).
+
+| Point | Conséquence |
+|---|---|
+| CORS obligatoire | L'endpoint est sur une autre origine que le site. `ORIGINES_AUTORISEES` déclare l'adresse publique de `content/site.json` ; réponse à `OPTIONS` ; `Access-Control-Allow-Origin` = l'origine reçue, `Vary: Origin`, **jamais `*`** |
+| Cache API | Comportement non publié sur `workers.dev`. Impact faible : la source est un fichier statique de CDN, pas une base de données |
+| Coût | **0 $** — 100 000 requêtes/jour et 10 ms de CPU sur Free. À 100 questions/jour, 0,1 % du quota |
 
 Le site est publié par Vercel à `https://marckouassi-com.vercel.app`, adresse
-officielle jusqu'à nouvel ordre de Marc ; l'achat de marckouassi.com est
-suspendu (décision du 2 octobre 2026, [DECISIONS.md](DECISIONS.md)). Les deux
-premières lignes du tableau supposent ce domaine : elles ne s'appliquent pas
-tant qu'il n'est pas acheté (D-7, Q-2, PM-024).
+officielle jusqu'à nouvel ordre ; l'achat de `marckouassi.com` est **suspendu**
+(décision du 2 octobre 2026, [DECISIONS.md](DECISIONS.md)).
 
-## Coûts (ordres de grandeur)
+**Le jour où le domaine est acheté**, sans changer une ligne de code : zone
+Cloudflare, puis une route `marckouassi.com/api/*` vers le même Worker.
+L'appel devient de même origine (CORS n'intervient plus, le contrôle de `Origin`
+reste), la Cache API est garantie, et une règle WAF par IP devient disponible
+sur le plan gratuit. Côté dépôt : `url` dans `content/site.json` et
+`ASSISTANT_URL` au build. Deux valeurs.
 
-Prix unitaires relevés le 1er octobre 2026. **Les coûts par question ont été
-recalculés le 2 octobre 2026** sur la taille de base **remesurée** : la
-traduction anglaise étant terminée (PM-030), le contexte est passé de ≈ 5 000 à
-≈ 9 800 jetons en deux langues.
+## Coûts, recalculés sur le contexte réduit
+
+Prix unitaires relevés le 1er octobre 2026 ; **à revérifier avant tout
+engagement** ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#7-ce-quil-faut-revérifier-avant-la-mise-en-ligne)).
+Entrée 3 966 jetons, sortie 150 jetons en pratique (plafond 180).
 
 | Poste | Prix officiel | Coût d'une question |
 |---|---|---|
-| Mistral Small 4 | 0,15 $ entrée / 0,60 $ sortie par million ; entrée en cache 0,015 $ | **0,0019 $** en deux langues ; **0,0012 $** en une langue ; **0,0004 $** avec le cache de prompt |
-| Gemini 3.5 Flash-Lite (payant) | 0,30 $ / 2,50 $ par million | **0,0028 $** en une langue, soit ≈ 2,3 fois Mistral |
-| Cloudflare Workers | Free : 100 000 requêtes/jour, 10 ms CPU ; Paid : 5 $/mois, 10 M requêtes incluses | 0 $ sur Free à ce volume |
-| Supabase | Free : 500 Mo de base, 5 Go d'egress | ≈ 0 $ (une lecture par version, mise en cache) — et 0 requête si Q-1 retient le JSON au build |
+| Mistral Small 4 | 0,15 $ entrée / 0,60 $ sortie par million ; entrée en cache 0,015 $ | **0,0007 $**, ou **0,0002 $** avec le cache de prompt |
+| Cloudflare Workers Free | 100 000 requêtes/jour, 10 ms CPU | **0 $** |
+| Base de connaissance | fichier publié avec le site | **0 $** |
 
-Entrée retenue pour le calcul : base mesurée + prompt système et liste des pages
-(≈ 700 jetons) + historique borné (≈ 1 100) ; sortie plafonnée à 300.
+**À 100 questions par jour, plafond de D-18 : ≈ 2,10 $ par mois, ou ≈ 0,70 $
+avec le cache de prompt.** L'offre gratuite de Mistral affiche « 10 $/mo in API
+credits » : le plafond de Marc tient dans les crédits gratuits, et **aucun moyen
+de paiement n'est enregistré**. Si les crédits sont épuisés, MarcoS répond
+`quota_journalier` — il ne peut pas générer de facture.
 
-Soit environ **1,20 $ pour 1 000 questions** en une langue, **1,90 $** en deux.
-L'offre Free de Mistral affiche « 10 $/mo in API credits ». Le détail du calcul,
-les plafonds proposés et ce qu'il faut revérifier avant d'engager de l'argent
-sont dans [MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#7-ce-quil-faut-revérifier-avant-dengager-de-largent).
-Limites et budgets : voir [AI_SECURITY.md](AI_SECURITY.md#coûts-et-limites).
+## Les décisions de Marc, pour mémoire
 
-## Décisions qui demandent l'accord de Marc
+Le tableau complet, avec options, conséquences et motifs, est dans
+[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#8-récapitulatif-rempli). En résumé :
 
-La colonne « Proposition » ci-dessous est l'intention du 1er octobre 2026. Pour
-chacune, les **options**, la **conséquence de chaque option**, une
-**recommandation motivée** et la case où Marc répond sont dans
-[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md#5-arbitrage-c--25--les-onze-décisions-d-1-à-d-11).
-D-8 y est rouverte : sa prémisse est périmée depuis que la traduction anglaise
-est terminée (PM-030).
+| # | Décision de Marc |
+|---|---|
+| #23 | JSON produit au build, pas de Supabase |
+| #24 / D-7 | Cloudflare Worker sur `workers.dev`, offre gratuite |
+| D-1 | pas de repli sur indisponibilité |
+| **D-2** | **pas de Gemini du tout**, Mistral seul sur crédits gratuits |
+| D-3 | téléphone, adresse précise et date de naissance exclus de la base |
+| D-4 | entrée dans la section Contact et le menu, en V1 |
+| D-5 | pas de Turnstile au lancement |
+| **D-6** | **pas de Workers Paid** : offre gratuite seulement |
+| D-8 | réponses anglaises depuis les faits anglais |
+| D-9 | les trois textes écrits par Marc dans `/admin/` ; `assistant.active` reste `false` |
+| D-10 | journaux : métadonnées seulement |
+| D-11 | refus d'entraînement activé chez Mistral — **bloquant s'il exige une formule payante** |
+| D-12 | une seule langue par requête, et base réduite |
+| D-13 | avatar : **pas en V1**, prévu en V2 |
+| D-14 | profil personnel de MARCOS.md §18-25 : **hors base** pour l'instant |
+| D-15 | troisième personne, vouvoiement |
+| D-16 | page courante seulement, pas d'historique de navigation |
+| D-17 | exemples de questions seuls, pas d'actions d'accueil distinctes |
+| D-18 | 100 questions/jour, aucune dépense possible |
+| D-19 | identifiant de modèle revérifié à l'implémentation |
 
-| # | Décision | Proposition |
-|---|---|---|
-| D-1 | Basculer vers Gemini aussi en cas de **panne** Mistral (5xx, délai) | Non par défaut (`REPLI_SUR_INDISPONIBILITE=false`), pour respecter « repli sur quota uniquement » |
-| D-2 | Activer la **facturation** Gemini | Obligatoire : les conditions Gemini n'autorisent que les services payants pour servir des visiteurs de l'EEE, de Suisse et du Royaume-Uni |
-| D-3 | Exclure de la base téléphone, adresse précise et date de naissance | Oui (voir [AI_DATA.md](AI_DATA.md)) |
-| D-4 | Emplacement de l'entrée de MarcoS | Section Contact et menu ; pas de bulle flottante (voir [AI_UX.md](AI_UX.md)) |
-| D-5 | Turnstile (script distant de Cloudflare) | Pas au lancement : AGENTS.md interdit les nouvelles ressources distantes ; à décider si un abus est constaté |
-| D-6 | Plan Workers Paid (5 $/mois) | Si le binding Rate Limiting n'est pas disponible sur Free (non publié) |
-| D-7 | DNS et hébergement de production | Zone Cloudflare pour router `/api/*` |
-| D-8 | Réponses en anglais à partir de faits rédigés en français | Oui, sans rien ajouter ; signalé dans le prompt |
-| D-9 | Message d'accueil, exemples de questions, mention de confidentialité | À rédiger par Marc (contenu), jamais par l'IA |
-| D-10 | Journaux | Métadonnées seulement, jamais le texte des questions |
-| D-11 | Refus d'usage des données pour l'entraînement chez Mistral | À désactiver dans la console (Admin › Privacy) avant la mise en ligne |
+## Deux points à lever avant la mise en ligne
 
-## Questions ouvertes, à trancher le jour de l'implémentation
+Ils découlent de la contrainte « budget 0 € » et **ne peuvent pas être tranchés
+depuis le dépôt** :
 
-Notées le 1er octobre 2026. Rien n'a été changé dans l'architecture
-ci-dessus : ces points se décident au démarrage de l'implémentation.
-
-**Les deux sont instruites, chiffrées et accompagnées d'une recommandation dans
-[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md) : Q-1 à l'arbitrage A, Q-2 à
-l'arbitrage B.** Elles restent ouvertes ici tant que Marc n'a pas répondu.
-
-### Q-1 — Source des données : Supabase ou fichier JSON produit au build
-
-L'architecture actée lit la dernière publication `en_ligne` dans Supabase.
-Depuis, Supabase a été écarté pour le back-office : le contenu vit dans
-`content/`, édité par un CMS Git, et le projet Supabase n'existe pas. Un
-projet gratuit est en outre mis en pause après 7 jours sans activité.
-
-Option déjà prévue dans [AI_DATA.md](AI_DATA.md) : un JSON statique produit
-au build (`SOURCE_CONTEXTE=statique`), calculé par la même liste blanche
-(`connaissance.js`), publié avec le site et lu par le Worker. Conséquences à
-examiner : aucune base, aucune clé Supabase, aucune mise en veille ; la base
-de MarcoS suit chaque déploiement Vercel ; le fichier serait public, comme le
-contenu du site dont il est extrait (la liste blanche exclut déjà les
-données personnelles).
-
-### Q-2 — Hébergement de l'endpoint sans domaine
-
-D-7 suppose une zone DNS `marckouassi.com` chez Cloudflare pour router
-`/api/*` sur le même domaine que le site. Le domaine n'est pas acheté et le
-site est servi par Vercel : l'endpoint serait sur `workers.dev`, donc sur
-une autre origine que le site (CORS à autoriser pour l'adresse publique de
-`content/site.json`). Voir [Hébergement de l'endpoint](#hébergement-de-lendpoint).
+1. **D-6, limitation de débit.** La disponibilité du binding Rate Limiting sur
+   l'offre Workers Free n'est pas publiée. Si elle manque, **on ne paie pas** :
+   on se replie sur le budget journalier plafonné, et la protection par IP est
+   assurée plus tard par une règle WAF, le jour où le domaine arrive.
+2. **D-11, refus d'entraînement chez Mistral.** Si ce refus exige une formule
+   payante, il entre en conflit direct avec le budget 0 €. Marc a dit que ce
+   point est **bloquant** : constater d'abord, décider ensuite, ne rien mettre
+   en ligne entre-temps.
 
 ## Sources (consultées le 1er octobre 2026)
 
@@ -311,18 +316,6 @@ Mistral : [API chat](https://docs.mistral.ai/api/) ·
 [rétention zéro](https://docs.mistral.ai/admin/monitor-comply/zero-data-retention) ·
 [mistral.ai/pricing](https://mistral.ai/pricing)
 
-Gemini : [generateContent](https://ai.google.dev/api/generate-content) ·
-[modèles](https://ai.google.dev/gemini-api/docs/models) ·
-[3.5 Flash-Lite](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite) ·
-[dépréciations](https://ai.google.dev/gemini-api/docs/deprecations) ·
-[limites](https://ai.google.dev/gemini-api/docs/rate-limits) ·
-[tarifs](https://ai.google.dev/gemini-api/docs/pricing) ·
-[erreurs](https://ai.google.dev/gemini-api/docs/generate-content/api-errors) ·
-[dépannage](https://ai.google.dev/gemini-api/docs/troubleshooting) ·
-[conditions](https://ai.google.dev/gemini-api/terms) ·
-[régions](https://ai.google.dev/gemini-api/docs/available-regions) ·
-[clés](https://ai.google.dev/gemini-api/docs/api-key)
-
 Cloudflare : [limites](https://developers.cloudflare.com/workers/platform/limits/) ·
 [tarifs](https://developers.cloudflare.com/workers/platform/pricing/) ·
 [Rate Limiting](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/) ·
@@ -333,14 +326,13 @@ Cloudflare : [limites](https://developers.cloudflare.com/workers/platform/limits
 [domaines](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/) ·
 [journaux](https://developers.cloudflare.com/workers/observability/logs/workers-logs/)
 
-Supabase : [clés d'API](https://supabase.com/docs/guides/getting-started/api-keys) ·
-[RLS](https://supabase.com/docs/guides/database/postgres/row-level-security) ·
-[sécuriser l'API](https://supabase.com/docs/guides/api/securing-your-api) ·
-[mise en pause](https://supabase.com/docs/guides/platform/free-project-pausing) ·
-[facturation](https://supabase.com/docs/guides/platform/billing-on-supabase)
-
 Points **non publiés** à constater lors de l'implémentation : statut exact
-renvoyé par Mistral quand les crédits ou le plafond de dépense sont épuisés ;
-présence de `Retry-After` sur un vrai `429` ; limites chiffrées des comptes
-(visibles seulement dans les consoles) ; disponibilité du binding Rate Limiting
-sur le plan Workers Free.
+renvoyé par Mistral quand les crédits sont épuisés ; présence de `Retry-After`
+sur un vrai `429` ; limites chiffrées du compte (visibles seulement dans la
+console) ; disponibilité du binding Rate Limiting sur Workers Free ; conditions
+du refus d'entraînement selon l'offre Mistral.
+
+La matière Gemini et Supabase de cette architecture a été retirée le 2 octobre
+2026 en application des décisions D-2 et #23. Son contenu reste dans
+l'historique Git, et le **pourquoi** du retrait est consigné dans
+[DECISIONS.md](DECISIONS.md).

@@ -1,6 +1,16 @@
 # MarcoS — Assistant digital du portfolio de Marc Kouassi
 
-> Document de conception vivant — à enrichir avant transmission à Claude Code.
+> Document de conception vivant.
+>
+> **Mis à jour le 2 octobre 2026.** Marc a tranché toutes les décisions
+> d'architecture et de produit : voir **[MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)**,
+> qui fait foi en cas d'écart avec ce document. Les passages réécrits ce jour-là
+> portent la mention de la décision qui les commande.
+>
+> **Deux contraintes directrices de Marc priment sur tout ce document :
+> budget 0 €** (aucun compte payant, aucune carte bancaire) et **verbosité
+> minimale** (MarcoS répond en deux à trois phrases, son contexte est tenu au
+> plus petit).
 
 ## 1. Identité
 
@@ -35,6 +45,14 @@ La sophistication doit venir de l’expérience, de l’intelligence et des inte
 ---
 
 ## 3. Avatar 3D
+
+> **Décision D-13 (2 octobre 2026) : l'avatar n'est pas en V1, il est prévu en
+> V2.** MarcoS se lance sans figurine, avec une entrée dans la section Contact et
+> le menu, pour ne pas retarder une fonction qui marche en attendant un habillage
+> qui n'existe pas encore. La figurine n'est **pas abandonnée** : elle attend les
+> cinq décisions de [#49](https://github.com/marco-mancini/marckouassi.com/issues/49)
+> — photo de référence, référence de style 3D, angles et poses, outil ou
+> prestataire, format et poids. Tout ce qui suit décrit la **V2**.
 
 MarcoS doit être représenté par une **figurine 3D inspirée fidèlement de Marc Kouassi**, à partir de sa photo de référence.
 
@@ -107,6 +125,11 @@ Toutes les animations doivent respecter le Design System existant.
 
 ## 5. Présence dans l'interface
 
+> **Décision D-13 : cette présence est la V2.** En **V1**, l'entrée de MarcoS
+> est un lien dans la section Contact et dans le menu (décision D-4) : aucun
+> élément flottant, rien qui couvre le contenu sur téléphone. La présence
+> décrite ci-dessous arrive avec la figurine, pas avant.
+
 MarcoS apparaît en priorité sous forme de **présence discrète en bas à droite**.
 
 Il ne doit pas ressembler à une bulle de support client classique.
@@ -125,16 +148,26 @@ Le composant doit rester discret lorsque le visiteur ne l'utilise pas.
 
 Après l'animation d'entrée du portfolio, MarcoS peut devenir une interaction facultative.
 
+> **Réécrit le 2 octobre 2026, décisions D-15 et D-17.** Les exemples de ce
+> document étaient écrits à la **première personne de Marc** (« mon travail ») et
+> **tutoyaient** le visiteur, ce qui contredisait le §11 ci-dessous : MarcoS ne
+> doit jamais laisser croire qu'il est Marc. Il parle de lui à la **troisième
+> personne** et **vouvoie**. Et les trois actions deviennent de simples
+> **exemples de questions** (D-17) : c'est ce qu'elles étaient déjà.
+
 Exemple :
 
-> **Bonjour, je suis MarcoS.**  
-> *Que souhaites-tu découvrir ?*
+> **Bonjour, MarcoS à votre écoute.**  
+> *L'assistant du portfolio de Marc Kouassi. Que souhaitez-vous savoir ?*
 
-Actions possibles :
+Exemples de questions proposés, cliquables, envoyés tels quels :
 
-- **Découvrir mon travail**
-- **Voir mon parcours**
-- **Me poser une question**
+- **Quels projets d'identité visuelle Marc a-t-il réalisés ?**
+- **Quel est son parcours ?**
+- **Comment travaille-t-il avec un client ?**
+
+Les textes définitifs sont écrits par Marc dans `/admin/` (décision D-9) : ceux
+ci-dessus sont des exemples de forme, pas du contenu validé.
 
 Cette interaction doit rester optionnelle et ne jamais bloquer l'accès au portfolio.
 
@@ -146,13 +179,13 @@ MarcoS doit connaître les contenus publiés du portfolio.
 
 Exemple :
 
-> Visiteur : « Quels projets as-tu réalisés dans le secteur bancaire ? »
+> Visiteur : « Quels projets Marc a-t-il réalisés dans le secteur bancaire ? »
 
-MarcoS identifie les projets pertinents et répond.
+MarcoS identifie les projets pertinents et répond **en deux à trois phrases**.
 
 Il peut ensuite proposer :
 
-> « Tu veux voir le projet BNI Finance ? »
+> « Voulez-vous voir le projet BNI Finance ? »
 
 avec une action :
 
@@ -174,9 +207,16 @@ Le visiteur consulte le projet Orange.
 
 MarcoS peut proposer :
 
-> « Tu regardes actuellement le projet Orange. Je peux t'expliquer mon rôle, le concept ou le processus créatif. »
+> « Vous regardez le projet Orange. Je peux vous expliquer le rôle de Marc, le concept ou son processus créatif. »
 
 L'assistant ne doit pas inventer ce qui n'est pas présent dans les données publiées.
+
+> **Décision D-16 (2 octobre 2026) : la page courante seulement.** MarcoS reçoit
+> la page consultée dans le champ `page` de la requête, et rien d'autre. Il ne
+> garde **pas** la liste des pages visitées, et ne propose donc pas les
+> suggestions du §10 ci-dessous. Celles-ci constitueraient un profil de
+> comportement, même local : c'est une décision à part, à rouvrir une fois
+> MarcoS en service.
 
 ---
 
@@ -207,7 +247,12 @@ Prévoir éventuellement une **mémoire limitée à la session**.
 
 Exemple :
 
-> « Tu as déjà consulté plusieurs projets orientés branding. Tu veux voir mes projets en direction artistique ? »
+> « Vous avez consulté plusieurs projets de branding. Voulez-vous voir ceux de direction artistique de Marc ? »
+
+> **Décision D-16 : reportée.** Cette mémoire n'est pas en V1. Seule la page
+> courante est transmise. L'exemple ci-dessus est réécrit à la troisième personne
+> et au vouvoiement (D-15) pour ne pas servir de modèle au mauvais ton le jour où
+> la question sera rouverte.
 
 Cette mémoire doit rester temporaire et minimisée.
 
@@ -235,22 +280,33 @@ L'IA doit être transparente sur sa nature.
 
 ## 12. Architecture technique actée
 
-Architecture cible :
+> **Réécrit le 2 octobre 2026, décisions #23, #24, D-1, D-2 et D-7.** Ce
+> paragraphe décrivait Supabase comme source et Gemini comme secours. **Les deux
+> sont écartés.** Détail et motifs dans
+> [MARCOS_DECISIONS.md](MARCOS_DECISIONS.md) et
+> [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md).
 
-**Portfolio → Cloudflare Worker → Mistral → Supabase**
+Architecture arrêtée :
 
-Fallback :
+**Portfolio → Cloudflare Worker (workers.dev, offre gratuite) → Mistral**
 
-**Mistral → Gemini uniquement lorsque le quota Mistral est atteint**
+La base de connaissance est un **fichier produit au build** et publié avec le
+site (`connaissance.{langue}.json`), pas une base de données.
+
+**Aucun repli, aucun second fournisseur.** Quand Mistral est en panne, MarcoS
+répond « indisponible ». Quand ses crédits gratuits sont épuisés, il répond
+« quota atteint » et renvoie vers l'e-mail de contact.
 
 Principes :
 
-- le navigateur ne reçoit jamais les clés API ;
-- Cloudflare Worker sert de couche d'exécution ;
-- Supabase contient les données publiées nécessaires ;
-- Mistral est le modèle principal ;
-- Gemini est uniquement le mécanisme de secours prévu ;
-- aucun appel direct du frontend vers les fournisseurs IA avec une clé secrète.
+- le navigateur ne reçoit jamais la clé API ;
+- Cloudflare Worker sert de couche d'exécution, sur son offre **gratuite** ;
+- la source des données est un fichier public du site : **ni base, ni clé, ni
+  compte, ni point de panne supplémentaire** ;
+- Mistral est le **seul** modèle, sur ses crédits gratuits ;
+- **aucun moyen de paiement n'est enregistré** : MarcoS ne peut pas générer de
+  facture ;
+- aucun appel direct du frontend vers un fournisseur d'IA.
 
 MarcoS doit rester découplé du contenu visuel du portfolio.
 
@@ -258,20 +314,21 @@ MarcoS doit rester découplé du contenu visuel du portfolio.
 
 ## 13. Principe de sécurité
 
+Il n'y a **qu'une seule clé dans tout le projet** : `MISTRAL_CLE`. Décisions
+D-2 et #23 : pas de second fournisseur, pas de base de données, donc pas d'autre
+secret à protéger.
+
 Ne jamais exposer :
-- clé Mistral ;
-- clé Gemini ;
-- secrets Supabase privés ;
-- secrets Cloudflare.
+- la clé Mistral ;
+- les secrets Cloudflare (jeton Wrangler, identifiant de compte).
 
 Le frontend communique uniquement avec l'endpoint public prévu pour MarcoS.
 
 Le Worker contrôle :
 - l'accès ;
-- les limites ;
-- le contexte transmis ;
-- les données accessibles ;
-- le fournisseur IA utilisé.
+- les limites, et le budget journalier de 100 questions ;
+- le contexte transmis, réduit et dans une seule langue ;
+- les données accessibles.
 
 ---
 
@@ -357,6 +414,18 @@ C'est cette différence qui doit guider toute la conception.
 ---
 
 ## 18. Profil comportemental de Marc — base de contexte
+
+> **Décision D-14 (2 octobre 2026) : les sections 18 à 25 sont HORS BASE.**
+> MarcoS ne les reçoit pas. Ce sont des documents de conception **internes** :
+> rien de ce qui suit n'est transmis au modèle, et MarcoS répondra donc qu'il ne
+> sait pas si on l'interroge sur la façon de penser de Marc.
+>
+> Ce n'est pas un oubli, c'est un choix : ces sections mêlent des informations
+> **professionnelles** qu'un client aurait intérêt à connaître (« Marc préfère
+> partir d'une base concrète ») et des **confidences** qu'un assistant public n'a
+> pas à réciter à un inconnu (rapport à la loyauté, au mensonge, définition
+> personnelle de la réussite). Le tri entre les deux sera fait **plus tard, une
+> fois MarcoS en service**, et par Marc seul.
 
 Cette section constitue une base de connaissance pour représenter fidèlement la manière de travailler et de réfléchir de Marc. Elle doit être enrichie au fil des entretiens. Les déductions doivent rester formulées comme des tendances, jamais comme des certitudes absolues lorsque Marc ne les a pas explicitement confirmées.
 
@@ -508,11 +577,27 @@ Aucune nouvelle déduction ne doit être ajoutée comme un fait sans validation.
 
 # 26. Statut
 
-**Statut actuel : CONCEPTION / CONTEXTE ENRICHISSABLE**
+**Statut au 2 octobre 2026 : DÉCISIONS PRISES, IMPLÉMENTATION NON AUTORISÉE.**
 
-MarcoS n'est pas encore à implémenter. Ce document sera enrichi progressivement avec les décisions produit, références visuelles, états d'animation, interactions, règles UX, architecture technique, performance, sécurité, détails d'implémentation et nouvelles informations explicitement communiquées par Marc.
+Marc a tranché toutes les décisions d'architecture et de produit
+([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)) : source des données, hébergement,
+fournisseur unique, longueur des réponses, personne grammaticale, entrée dans
+l'interface, avatar en V2, profil personnel hors base, plafonds.
+
+**L'autorisation de démarrer l'implémentation est une décision distincte, et
+elle n'est pas donnée.** Aucune ligne de MarcoS ne s'écrit avant que Marc le
+demande explicitement. Le plan par phases est dans
+[AI_IMPLEMENTATION_PLAN.md](AI_IMPLEMENTATION_PLAN.md).
+
+Ce qui reste ouvert :
+
+- les **trois textes** de D-9 (accueil, exemples, confidentialité), que Marc
+  écrira lui-même dans `/admin/` ;
+- l'**avatar 3D** et la présence flottante de la V2, qui attendent les cinq
+  décisions de [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) ;
+- le **tri du profil personnel** des sections 18 à 25 (D-14), à faire une fois
+  MarcoS en service ;
+- la **mémoire de navigation** du §10 (D-16), rouverte plus tard s'il y a lieu.
 
 **Version contexte actuelle : 47 réponses collectées.**
-
-Ne transmettre à Claude Code qu'après validation de la vision et des règles principales.
 
