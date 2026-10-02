@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-100 : 21 issues ouvertes, 39 fermées.
+État au 2 octobre 2026, de PM-004 à PM-108 : 23 issues ouvertes, 42 fermées.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -76,5 +76,10 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-093 | [#93](https://github.com/marco-mancini/marckouassi.com/issues/93) | IA-01 : base de connaissance de MarcoS, réduite et publiée au build | documentation | — | fermée — réglée par la PR #94 |
 | PM-095 | [#95](https://github.com/marco-mancini/marckouassi.com/issues/95) | IA-02 : squelette du Worker, validations et codes d'erreur | documentation | — | fermée — réglée par la PR #96 |
 | PM-097 | [#97](https://github.com/marco-mancini/marckouassi.com/issues/97) | Remplacer le portrait de la section À propos par la version détourée | contenu | — | fermée — réglée par la PR #98 ; la transparence survit désormais au build |
-| PM-099 | [#99](https://github.com/marco-mancini/marckouassi.com/issues/99) | Sous 850 px, le portrait de « À propos » coupe le visage | decision-marc, bug | — | ouverte — défaut **préexistant**, pas une régression ; trois options chiffrées, Marc tranche |
+| PM-099 | [#99](https://github.com/marco-mancini/marckouassi.com/issues/99) | Sous 850 px, le portrait de « À propos » coupe le visage | decision-marc, bug | — | fermée — réglée par la PR #107 ; le portrait se pose sur le bord bas du vert, 0 % de recadrage latéral de 1024 à 1440 px, 9 % restants à 900 px (signalés à Marc) |
 | PM-100 | [#100](https://github.com/marco-mancini/marckouassi.com/issues/100) | Mettre à jour la référence de comparaison après le changement de portrait | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `9d51394` → `e8b729c` |
+| PM-102 | [#102](https://github.com/marco-mancini/marckouassi.com/issues/102) | IA-03 : prompt court, assemblage et liens internes validés | documentation | — | fermée — réglée par la PR #103 |
+| PM-104 | [#104](https://github.com/marco-mancini/marckouassi.com/issues/104) | IA-04 : composant Conversation, gabarit Assistant, dictionnaires et champ de contenu | documentation | — | ouverte — phase suivante de MarcoS ; `assistant.active` reste `false` tant que Marc n'a pas écrit les trois textes |
+| PM-105 | [#105](https://github.com/marco-mancini/marckouassi.com/issues/105) | Miroir mobile de l'avancement, généré depuis les issues | documentation | — | ouverte — `Docs/suivi/ETAT_MOBILE.md` produit par `tools/etat-mobile.mjs`, jamais écrit à la main (AGENTS.md §6.4) |
+| PM-106 | [#106](https://github.com/marco-mancini/marckouassi.com/issues/106) | Le portrait détouré doit poser directement sur le vert, sans cadre | contenu | — | fermée — réglée par la PR #107 |
+| PM-108 | [#108](https://github.com/marco-mancini/marckouassi.com/issues/108) | Mettre à jour la référence de comparaison après PM-106 | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `e8b729c` → `f48646f` |

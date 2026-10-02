@@ -118,7 +118,8 @@ vérifiable au lieu d'être un effacement.
 |---|---|---|
 | `71cfb9d` | origine | sur `refonte/editorial-final-v2` |
 | `9d51394` | PM-046 (#46) | 14 écarts, tous dus à trois changements de contenu validés |
-| **`e8b729c`** | **PM-100 (#100)** | portrait détouré (PM-097) : le ratio passe de 0,563 à 0,623, la section « À propos » perd 56 px à 1024 et 79 px à 1440 |
+| `e8b729c` | PM-100 (#100) | portrait détouré (PM-097) : le ratio passe de 0,563 à 0,623, la section « À propos » perd 56 px à 1024 et 79 px à 1440 |
+| **`f48646f`** | **PM-108 (#108)** | portrait sans cadre posé sur le bord bas du vert (PM-106) : tête alignée sur « Bonjour », `--apropos-espace` de `clamp(24px, 4vw, 60px)` à `clamp(20px, 2vw, 32px)` |
 
 Chacune se rejoue : `npm run comparer-reference -- 9d51394` rend aujourd'hui
 les mêmes 4 écarts, à l'identique. Supprimer une branche ne casse pas la

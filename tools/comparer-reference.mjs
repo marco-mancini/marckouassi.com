@@ -6,18 +6,20 @@
  * npm run build. Code de sortie 1 au moindre écart : toute différence avec
  * la référence est inattendue.
  *
- *   npm run comparer-reference            (référence par défaut : e8b729c)
+ *   npm run comparer-reference            (référence par défaut : f48646f)
  *   npm run comparer-reference -- <commit>
  *
- * Référence : e8b729c (main, 2 octobre 2026), depuis PM-100 (#100). Elle
- * remplace 9d51394, périmée par le remplacement du portrait de « À propos »
- * par sa version détourée (PM-097, #97) : le ratio de l'image passe de 0,563
- * à 0,623, donc la section est plus courte de 56 px à 1024 et de 79 px à
- * 1440. Changement de rendu demandé par Marc, écart entièrement expliqué par
- * le ratio, et reproductible — `npm run comparer-reference -- 9d51394` le
- * rejoue à l'identique.
+ * Référence : f48646f (main, 2 octobre 2026), depuis PM-108 (#108). Elle
+ * remplace e8b729c, périmée par PM-106 (#106) : le portrait de « À propos »
+ * perd son cadre, se pose sur le bord bas du bloc vert et aligne la tête sur
+ * « Bonjour », et l'espace entre les deux colonnes passe de
+ * clamp(24px, 4vw, 60px) à clamp(20px, 2vw, 32px). Changement de rendu
+ * demandé par Marc, mesuré dans la PR #107, et reproductible —
+ * `npm run comparer-reference -- e8b729c` rejoue l'écart à l'identique.
  *
- * 9d51394 remplaçait elle-même 71cfb9d (refonte/editorial-final-v2,
+ * e8b729c remplaçait 9d51394, périmée par le remplacement du portrait par sa
+ * version détourée (PM-097, #97) : le ratio de l'image passait de 0,563 à
+ * 0,623. 9d51394 remplaçait elle-même 71cfb9d (refonte/editorial-final-v2,
  * 29 septembre 2026) depuis PM-046 (#46).
  *
  * RÈGLE : changer de référence après tout changement de rendu voulu et
@@ -35,7 +37,7 @@ import os from "node:os";
 import path from "node:path";
 import { servir, lancer, ouvrir, defiler } from "../tests/navigateur/outils.mjs";
 
-const COMMIT = process.argv[2] || "e8b729c";
+const COMMIT = process.argv[2] || "f48646f";
 const RACINE = process.cwd();
 const dossier = fs.mkdtempSync(path.join(os.tmpdir(), "reference-"));
 const source = path.join(dossier, "source");
