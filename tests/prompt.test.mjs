@@ -18,6 +18,7 @@ import { assembler, neutraliser, extraireLiens, mesurerEntree, jetons } from "..
 import { rendreConnaissance } from "../worker/assistant/src/connaissance-texte.js";
 
 const MODELE = fs.readFileSync("worker/assistant/prompt/systeme.fr.md", "utf8");
+const CONVERSATIONS = JSON.parse(fs.readFileSync("tests/fixtures/marcos-conversations.json", "utf8"));
 const contenu = await chargerFichiers(process.cwd());
 const base = baseConnaissance({ contenu, langue: "fr" });
 const baseEn = baseConnaissance({ contenu, langue: "en" });
@@ -164,9 +165,16 @@ test("le rendu texte est plus léger que le JSON, et c'est sa raison d'être", (
 });
 
 test("le prompt est court, et il le reste", () => {
-  // Contrainte de verbosité de Marc : la version 0.1 pesait 698 jetons.
+  // Contrainte de verbosité de Marc : la version 0.1 pesait 698 jetons, et le
+  // plafond a longtemps tenu à 450 — le prompt y était à 444, sans marge.
+  // AI_SYSTEM_PROMPT.md 0.4 ajoute le comportement conversationnel. Son texte
+  // intégral pèse 1271 jetons et porte l'entrée assemblée à 4582, au-dessus du
+  // plafond de 4400 du test voisin : il n'est pas adoptable tel quel. Le prompt
+  // porte donc la substance de 0.4 au plus court, à 747 jetons, pour une entrée
+  // assemblée à 4058. Le plafond passe à 760 : la marge d'une phrase, pas celle
+  // d'un paragraphe. Toute règle nouvelle doit maintenant en remplacer une.
   const sansMarqueurs = MODELE.replace("{{PAGES}}", "").replace("{{CONNAISSANCE}}", "");
-  assert.ok(jetons(sansMarqueurs) < 450, `prompt à ${jetons(sansMarqueurs)} jetons, il doit rester court`);
+  assert.ok(jetons(sansMarqueurs) < 760, `prompt à ${jetons(sansMarqueurs)} jetons, il doit rester court`);
 });
 
 test("le prompt porte les règles qui ne doivent pas disparaître", () => {
@@ -183,5 +191,63 @@ test("le prompt porte les règles qui ne doivent pas disparaître", () => {
     assert.ok(MODELE.includes(regle), `règle absente du prompt : « ${regle} »`);
   }
   assert.ok(MODELE.includes("au plus deux pistes liées au contexte"));
-  assert.ok(MODELE.includes("demande s'il choisit ou laisse M. Kouassi décider"));
+  // D-28 impose la dernière option au mot près : « la dernière option est
+  // exactement ». La formulation libre d'avant ("demande s'il choisit ou laisse
+  // M. Kouassi décider") ne la portait pas.
+  assert.ok(MODELE.includes("Ou vous préférez que M. Kouassi le choisisse ?"));
+});
+
+test("chaque scénario de conversation est bien formé", () => {
+  // La fixture décrit les situations que Marc a tranchées. Si elle se déforme,
+  // les tests qui s'appuient dessus perdent leur sens sans rien signaler.
+  assert.ok(CONVERSATIONS.length > 0, "la fixture est vide");
+  const ids = CONVERSATIONS.map((c) => c.id);
+  assert.equal(new Set(ids).size, ids.length, "deux scénarios portent le même identifiant");
+  for (const cas of CONVERSATIONS) {
+    assert.match(cas.id, /^[a-z0-9-]+$/, `identifiant mal formé : ${cas.id}`);
+    assert.ok(cas.messages.length > 0, `${cas.id} : aucun message`);
+    assert.ok(cas.regles.length > 0, `${cas.id} : aucune règle attendue`);
+    for (const [rang, message] of cas.messages.entries()) {
+      // Un tour sur deux, en commençant et en finissant par le visiteur :
+      // c'est ce que le Worker reçoit, pas une suite libre.
+      assert.equal(message.role, rang % 2 === 0 ? "user" : "assistant", `${cas.id} : rôles non alternés au rang ${rang}`);
+      assert.ok(message.contenu.trim(), `${cas.id} : message vide au rang ${rang}`);
+    }
+    assert.equal(cas.messages.at(-1).role, "user", `${cas.id} : le dernier tour doit être une question`);
+  }
+});
+
+test("toute règle attendue par un scénario est réellement écrite dans le prompt", () => {
+  // Le pont entre la fixture et le prompt. Un scénario qui cite une règle
+  // reformulée ou supprimée échoue ici, au lieu d'être évalué contre un prompt
+  // qui ne la porte plus.
+  for (const cas of CONVERSATIONS) {
+    for (const regle of cas.regles) {
+      assert.ok(MODELE.includes(regle), `${cas.id} : règle absente du prompt : « ${regle} »`);
+    }
+  }
+});
+
+test("un scénario multi-tours s'assemble sans fuite de balise", () => {
+  // Les conversations de la fixture passent par le même assemblage que la
+  // production : questions balisées et neutralisées, réponses passées nues.
+  for (const cas of CONVERSATIONS) {
+    const { systeme, messages } = assembler({
+      modele: MODELE,
+      base,
+      requete: { version: 1, langue: "fr", page: "/", session: "abcd1234efgh", messages: cas.messages },
+    });
+    for (const marqueur of ["{{LANGUE}}", "{{PAGES}}", "{{CONNAISSANCE}}"]) {
+      assert.ok(!systeme.includes(marqueur), `${cas.id} : ${marqueur} non remplacé`);
+    }
+    assert.equal(messages.length, cas.messages.length, `${cas.id} : un tour a disparu`);
+    for (const [rang, message] of messages.entries()) {
+      if (cas.messages[rang].role === "user") {
+        assert.ok(message.contenu.startsWith("<question>") && message.contenu.endsWith("</question>"), `${cas.id} : question non balisée au rang ${rang}`);
+        assert.equal(message.contenu.match(/<question>/g).length, 1, `${cas.id} : balise dupliquée au rang ${rang}`);
+      } else {
+        assert.ok(!message.contenu.includes("<question>"), `${cas.id} : réponse balisée au rang ${rang}`);
+      }
+    }
+  }
 });
