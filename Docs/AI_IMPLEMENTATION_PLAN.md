@@ -13,8 +13,8 @@ Ce que les décisions ont changé dans ce plan :
 - **une phase disparaît** — il n'y a plus de repli à coder (D-2) ;
 - **une phase change de nature** — la source est un fichier produit au build,
   pas une base de données (#23) ;
-- **aucune clé Supabase, aucune clé Gemini, aucun compte payant** : la seule
-  clé du projet est `MISTRAL_CLE` ;
+- **aucune clé Supabase, aucune clé Gemini, aucun compte payant** : `MISTRAL_CLE`
+  reste l'unique clé IA ; l'issue #114 ajoute séparément la clé d'envoi Resend ;
 - la **brièveté devient un critère testé**, pas une consigne de style.
 - la **qualification commerciale** est cadrée dans
   [MARCOS_QUALIFICATION.md](MARCOS_QUALIFICATION.md) et suivra les issues
@@ -34,6 +34,7 @@ d'aperçu Vercel « Ready ».
 | Les trois textes de D-9 (accueil, exemples, confidentialité) | Marc, dans `/admin/` | **activation seulement** | à écrire quand il veut ; `assistant.active` reste `false` d'ici là |
 | Compte Cloudflare **gratuit** + jeton d'API Wrangler | Marc | IA-10 (déploiement) ; le développement local n'en a pas besoin | à créer |
 | Clé API Mistral, **sur crédits gratuits, sans moyen de paiement** | Marc | IA-05 | à créer |
+| Clé Resend en permission d'envoi et adresse expéditeur d'un domaine vérifié | Marc | PM-112 (email du brief) | à créer/configurer, sans formule payante |
 | Refus d'entraînement activé chez Mistral (D-11) | Marc | IA-05 | **bloquant s'il exige une formule payante** |
 | Autorisation de démarrer | Marc | IA-01 | **pas encore donnée** |
 
@@ -57,7 +58,7 @@ réclame une dépense, elle s'arrête et le signale : contrainte budget 0 €.
 
 ### IA-02 — Squelette du Worker (sans clé)
 - `worker/assistant/` : `wrangler.jsonc`, environnements `preview` et
-  `production`, `vars`, `secrets.required` (**`MISTRAL_CLE` seule**), binding
+  `production`, `vars`, secrets d'environnement (`MISTRAL_CLE` et `RESEND_CLE`), binding
   Rate Limiting déclaré, `observability.enabled`.
 - `.gitignore` : `.dev.vars*`, `.env*`.
 - Endpoint `POST /api/assistant` : méthode, `Origin`, CORS, taille, schéma,
@@ -145,6 +146,9 @@ réclame une dépense, elle s'arrête et le signale : contrainte budget 0 €.
 - Endpoint sur `*.workers.dev`, offre **Free** (#24, D-7) ; secrets de
   production ; `wrangler deploy --env production`.
 - Refus d'entraînement vérifié (D-11), journaux sans contenu (D-10).
+- Route email `POST /api/assistant/brief` : clé `RESEND_CLE` côté Worker,
+  expéditeur vérifié, destinataire issu du contenu, transfert explicite et
+  opt-in ; mention de confidentialité mise à jour avant activation.
 - Activation : Marc écrit ses trois textes dans `/admin/` (D-9), puis passe
   `assistant.active` à `true` et enregistre.
 - Vérification sur le Preview, puis en production.

@@ -314,12 +314,12 @@ MarcoS doit rester découplé du contenu visuel du portfolio.
 
 ## 13. Principe de sécurité
 
-Il n'y a **qu'une seule clé dans tout le projet** : `MISTRAL_CLE`. Décisions
-D-2 et #23 : pas de second fournisseur, pas de base de données, donc pas d'autre
-secret à protéger.
+`MISTRAL_CLE` reste la seule clé de fournisseur IA (D-2). L'envoi des briefs
+ajoute le secret distinct `RESEND_CLE` (D-20) ; aucun des deux ne va dans le
+navigateur, le dépôt, une URL ou un journal.
 
 Ne jamais exposer :
-- la clé Mistral ;
+- la clé Mistral ou la clé Resend ;
 - les secrets Cloudflare (jeton Wrangler, identifiant de compte).
 
 Le frontend communique uniquement avec l'endpoint public prévu pour MarcoS.

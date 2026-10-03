@@ -12,6 +12,31 @@ Règles :
 
 ---
 
+## 2026-10-03 — D-20 : Resend pour transmettre les briefs confirmés à M. Kouassi
+
+Décision de Marc · issue [#114](https://github.com/marco-mancini/marckouassi.com/issues/114).
+
+**Problème.** Un brief qualifié doit pouvoir parvenir à M. Kouassi sans exposer
+de clé ni perdre les coordonnées fournies volontairement.
+
+**Choix de Marc.** Utiliser Resend depuis le Worker, uniquement après
+confirmation du brief et accord explicite de recontact. `RESEND_CLE` est un
+secret distinct de la clé Mistral ; le destinataire est dérivé de
+`content/site.json` ; l'expéditeur vient d'une adresse configurée sur un domaine
+vérifié. L'API applique une clé d'idempotence liée à la session.
+
+**Motif.** Le navigateur ne possède aucune clé. La séparation Mistral/Resend
+garde chaque secret limité à son service. Resend conserve une clé d'idempotence
+pendant 24 heures ; le Worker reste sans persistance du brief.
+
+**Impact.** La règle D-2 « un seul fournisseur IA » reste applicable à Mistral ;
+la phrase historique « un seul secret dans tout le projet » est remplacée par
+deux secrets serveur, un par service. Aucun envoi réel n'est activé avant
+l'ajout d'une clé d'envoi et d'un expéditeur vérifié, sans dépense.
+
+**Réversibilité.** Retirer la route et le secret Resend désactive l'envoi ; les
+briefs restent construits sans persistance côté Worker.
+
 ## 2026-10-02 — D-11 : accepter l'usage éventuel des données, et le dire honnêtement
 
 Décision de Marc · issue [#91](https://github.com/marco-mancini/marckouassi.com/issues/91) · complète la décision du même jour sur [MarcoS](#2026-10-02--marcos--budget-0--un-seul-fournisseur-contexte-minimal).

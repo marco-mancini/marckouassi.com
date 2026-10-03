@@ -86,9 +86,18 @@ autorisation d'inventer les champs vides. Le résultat comporte :
 4. chaque champ absent pertinent marqué « non communiqué » ;
 5. une prochaine action descriptive, sans prétendre qu'un contact est convenu.
 
-Le brief ne déclenche aucun email à lui seul. L'envoi relève de PM-112 et exige
-à la fois un brief suffisamment clair, l'accord de recontact et une coordonnée
-fournie volontairement.
+Le brief n'envoie aucun email pendant la conversation. `POST
+/api/assistant/brief` transmet le brief seulement après confirmation explicite,
+accord de recontact et coordonnée fournie volontairement. Le destinataire est
+dérivé de `content/site.json` ; l'expéditeur doit appartenir à un domaine
+vérifié chez Resend. Une erreur de livraison renvoie un code générique ; le
+client garde le brief en mémoire et réessaie avec le même identifiant de
+session. La déduplication Resend expire après 24 heures.
+
+L'API utilisée est `POST https://api.resend.com/emails`. L'en-tête
+`Idempotency-Key` protège les réessais du même identifiant de session pendant
+24 heures, durée indiquée par la
+[documentation officielle Resend](https://resend.com/docs/dashboard/emails/idempotency-keys).
 
 ## Contrat d'implémentation
 

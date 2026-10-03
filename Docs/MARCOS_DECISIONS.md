@@ -1036,3 +1036,22 @@ de MarcoS plus que des faits. Dis-le si tu veux des propositions.
   Elles restent entières et à toi.
 - Les **trois textes de D-9** : à écrire dans `/admin/` → Paramètres, quand tu
   veux. Rien ne les attend pour avancer, et rien ne se publie sans eux.
+
+## D-20 — Resend ajoute un service d'envoi transactionnel (3 octobre 2026)
+
+À la demande de Marc (issue #114), le Worker pourra envoyer à M. Kouassi un
+brief confirmé, uniquement après accord explicite de recontact et coordonnées
+volontairement fournies. Resend est un service de livraison, pas un second
+fournisseur IA : D-2 continue de limiter le modèle à Mistral.
+
+La clé d'envoi `RESEND_CLE` est un secret distinct, conservé uniquement dans les
+secrets du Worker. Le destinataire est dérivé de `content/site.json` ; l'adresse
+expéditeur doit appartenir à un domaine vérifié et n'est pas encore configurée.
+Le contenu ne va pas dans les journaux ni dans un stockage du Worker ; les
+données d'un envoi accepté sont toutefois traitées par Resend, ce qui devra être
+indiqué dans la mention de confidentialité avant activation.
+
+Cette décision remplace la phrase « un seul secret dans tout le projet » de D-2
+sur le nombre de clés ; elle ne change pas la règle d'un seul fournisseur IA.
+L'idempotence de Resend évite les doublons d'une même session pendant 24 heures
+([documentation officielle](https://resend.com/docs/dashboard/emails/idempotency-keys)).

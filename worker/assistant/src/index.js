@@ -24,6 +24,8 @@ import { validerRequete, entetesCors } from "./requete.js";
 import { limiterDebit, creerBudget } from "./limites.js";
 import { extraireLiens } from "./prompt.js";
 import { creerBrief } from "./qualification.js";
+import { construireCourrielBrief, envoyerAvecResend } from "./email.js";
+import { chargerConnaissancePublique } from "./connaissance.js";
 
 /**
  * Crée le gestionnaire. L'injection des dépendances n'est pas de la cérémonie :
@@ -58,6 +60,41 @@ export function creerGestionnaire(deps = {}) {
     if (!debit.ok) {
       return erreur(debit.code, { entetes: { ...cors, "retry-after": String(debit.apres ?? 60) } });
     }
+
+    const chemin = new URL(request.url).pathname;
+    if (chemin === "/api/assistant/brief") {
+      // La transmission a sa propre route : elle ne rappelle pas le modèle et
+      // ne consomme pas le budget journalier de questions.
+      const journal = { langue: requete.langue, operation: "transmission_brief", limiteur: debit.binding };
+      try {
+        if (!requete.qualification) return erreur("requete_invalide", { entetes: cors });
+        const base = await (deps.contexte ?? chargerConnaissancePublique)({
+          langue: requete.langue,
+          env,
+          fetcher: deps.fetcher,
+        });
+        const courriel = construireCourrielBrief({
+          qualification: requete.qualification,
+          destinataire: base.contact?.email,
+          session: requete.session,
+        });
+        if (!courriel) return erreur("requete_invalide", { entetes: cors });
+        if (!deps.envoyerEmail && (!env.RESEND_CLE || !env.RESEND_EXPEDITEUR)) {
+          deps.journaliser?.({ ...journal, sortie: "indisponible", motif: "resend_non_configure" });
+          return erreur("indisponible", { entetes: cors });
+        }
+        await (deps.envoyerEmail ?? envoyerAvecResend)({ courriel, env, fetcher: deps.fetcher });
+        deps.journaliser?.({ ...journal, sortie: 200, motif: "brief_transmis" });
+        return new Response(JSON.stringify({ email: "transmis" }), {
+          status: 200,
+          headers: { "content-type": "application/json; charset=utf-8", ...cors },
+        });
+      } catch (cause) {
+        deps.journaliser?.({ ...journal, sortie: "indisponible", motif: cause?.name ?? "erreur" });
+        return erreur("indisponible", { entetes: cors });
+      }
+    }
+    if (chemin !== "/api/assistant") return erreur("requete_invalide", { entetes: cors });
 
     // 8. Budget journalier. C'est lui qui borne la dépense.
     const compte = budget.consommer();

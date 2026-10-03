@@ -14,7 +14,8 @@
 //
 // Décisions appliquées (Docs/MARCOS_DECISIONS.md) :
 //   #24, D-7 : workers.dev, offre Free. Aucune route de domaine.
-//   D-2      : un seul fournisseur. Un seul secret : MISTRAL_CLE.
+//   D-2      : MISTRAL_CLE est la seule clé de fournisseur IA.
+//   D-20     : Resend transmet les briefs ; RESEND_CLE est un secret séparé.
 //   D-6      : pas de Workers Paid. Le binding Rate Limiting est déclaré, mais
 //              son absence sur Free est gérée au lieu d'être payée.
 //   D-18     : budget journalier de 100 questions, aucun moyen de paiement.
@@ -38,6 +39,7 @@
     "MISTRAL_MODELE": "mistral-small-2603",
     "ORIGINES_AUTORISEES": "http://localhost:*",
     "CONNAISSANCE_URL": "http://localhost:4173",
+    "DELAI_CONTEXTE_MS": "5000",
     "LIMITE_MESSAGE": "500",
     "LIMITE_HISTORIQUE": "2000",
     "MAX_ECHANGES": "4",
@@ -46,7 +48,9 @@
     "DELAI_FOURNISSEUR_MS": "15000",
     "BUDGET_TEMPS_MS": "20000",
     "BUDGET_JOURNALIER": "100",
-    "RETRY_APRES_S": "60"
+    "RETRY_APRES_S": "60",
+    "RESEND_EXPEDITEUR": "",
+    "DELAI_RESEND_MS": "10000"
   },
 
   "env": {
@@ -56,6 +60,7 @@
         // À remplacer par l'URL de Preview Vercel au moment du déploiement.
         "ORIGINES_AUTORISEES": "https://marckouassi-com.vercel.app",
         "CONNAISSANCE_URL": "https://marckouassi-com.vercel.app",
+        "DELAI_CONTEXTE_MS": "5000",
         "LIMITE_MESSAGE": "500",
         "LIMITE_HISTORIQUE": "2000",
         "MAX_ECHANGES": "4",
@@ -65,7 +70,9 @@
         "BUDGET_TEMPS_MS": "20000",
         // Budget plus bas en preview : un essai n'a pas à consommer la journée.
         "BUDGET_JOURNALIER": "20",
-        "RETRY_APRES_S": "60"
+        "RETRY_APRES_S": "60",
+        "RESEND_EXPEDITEUR": "",
+        "DELAI_RESEND_MS": "10000"
       }
     },
     "production": {
@@ -74,6 +81,7 @@
         // Doit valoir exactement `url` de content/site.json.
         "ORIGINES_AUTORISEES": "https://marckouassi-com.vercel.app",
         "CONNAISSANCE_URL": "https://marckouassi-com.vercel.app",
+        "DELAI_CONTEXTE_MS": "5000",
         "LIMITE_MESSAGE": "500",
         "LIMITE_HISTORIQUE": "2000",
         "MAX_ECHANGES": "4",
@@ -82,7 +90,9 @@
         "DELAI_FOURNISSEUR_MS": "15000",
         "BUDGET_TEMPS_MS": "20000",
         "BUDGET_JOURNALIER": "100",
-        "RETRY_APRES_S": "60"
+        "RETRY_APRES_S": "60",
+        "RESEND_EXPEDITEUR": "",
+        "DELAI_RESEND_MS": "10000"
       }
     }
   }
@@ -95,7 +105,8 @@
   // interdit de payer pour l'éviter. Il s'ajoutera en phase IA-07, après
   // constat, avec sa forme exacte.
   //
-  // `secrets` — un secret ne s'écrit jamais dans un fichier suivi. Il se pose
-  // par `wrangler secret put MISTRAL_CLE`, par environnement. Le seul secret du
-  // projet est celui-là (décision D-2).
+  // `secrets` — les secrets ne s'écrivent jamais dans un fichier suivi. Ils se
+  // posent séparément par environnement avec `wrangler secret put MISTRAL_CLE`
+  // et `wrangler secret put RESEND_CLE`. L'expéditeur Resend reste vide tant
+  // qu'une adresse liée à un domaine vérifié n'a pas été configurée.
 }

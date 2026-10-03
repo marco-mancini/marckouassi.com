@@ -16,6 +16,7 @@ import { creerGestionnaire } from "../worker/assistant/src/index.js";
 import { creerBudget } from "../worker/assistant/src/limites.js";
 import { fournisseurSimule } from "../worker/assistant/src/fournisseur.js";
 import { CODES, STATUTS } from "../worker/assistant/src/erreurs.js";
+import { validerQualification } from "../worker/assistant/src/qualification.js";
 
 const ORIGINE = "https://marckouassi-com.vercel.app";
 const ENV = { ORIGINES_AUTORISEES: `${ORIGINE},http://localhost:*`, BUDGET_JOURNALIER: "100" };
@@ -24,10 +25,10 @@ const question = (contenu = "Quels projets Marc a-t-il réalisés ?") => ({
   version: 1, langue: "fr", page: "/", session: "abcd1234efgh", messages: [{ role: "user", contenu }],
 });
 
-function requete(corps, { origine = ORIGINE, methode = "POST", type = "application/json", entetes = {} } = {}) {
+function requete(corps, { origine = ORIGINE, methode = "POST", type = "application/json", entetes = {}, chemin = "/api/assistant" } = {}) {
   const init = { method: methode, headers: { ...(origine ? { origin: origine } : {}), ...(type ? { "content-type": type } : {}), ...entetes } };
   if (methode !== "GET" && methode !== "OPTIONS") init.body = typeof corps === "string" ? corps : JSON.stringify(corps);
-  return new Request("https://assistant.exemple.workers.dev/api/assistant", init);
+  return new Request(`https://assistant.exemple.workers.dev${chemin}`, init);
 }
 
 /** Chaîne complète simulée : contexte, assemblage, fournisseur. */
@@ -81,6 +82,72 @@ test("le mode brief renvoie une synthèse vérifiée et les absences sans persis
   assert.equal(corps.brief.reprise.role, "expert");
   assert.equal(corps.brief.confirme, false);
   assert.deepEqual(corps.brief.synthese.informationsManquantes, []);
+});
+
+test("route Resend : un brief confirmé part une fois, sans appeler le modèle", async () => {
+  const messages = [
+    { role: "user", contenu: "Je veux refaire l'identité de ma boulangerie pour attirer les familles avec un logo." },
+    { role: "assistant", contenu: "Deux pistes : beige et brun pour une chaleur artisanale, ou rouge et crème pour plus d'énergie." },
+    { role: "user", contenu: "Je préfère beige et brun. Vous pouvez me recontacter par email à client@example.test." },
+    { role: "assistant", contenu: "Voici le brief. Est-il exact ?" },
+    { role: "user", contenu: "Oui, c'est exact." },
+  ];
+  const qualification = validerQualification({
+    faits: Object.fromEntries([
+      ["projet.nature", "refaire l'identité"], ["projet.contexte", "ma boulangerie"],
+      ["projet.besoin", "refaire l'identité"], ["projet.objectif", "attirer les familles"],
+      ["creation.livrables", "un logo"], ["prospect.contact.email", "client@example.test"],
+    ].map(([champ, valeur]) => [champ, { valeur, preuve: valeur }])),
+    propositions: ["beige et brun pour une chaleur artisanale"],
+    recontact: { accord: "oui", preuve: messages[2].contenu },
+    confirmation: { etat: "oui", preuve: messages[4].contenu },
+  }, messages);
+  assert.equal(qualification.ok, true);
+  let transmis;
+  const budget = creerBudget({ max: 1 });
+  const { gerer, fournisseur, journal } = chaine({ budget, deps: {
+    contexte: async () => ({ contact: { email: "marc@example.test" } }),
+    envoyerEmail: async ({ courriel }) => { transmis = courriel; },
+  } });
+  const requeteBrief = { ...question(), messages, qualification: {
+    faits: Object.fromEntries(Object.entries(qualification.faits).map(([champ, fait]) => [champ, { valeur: fait.valeur, preuve: fait.preuve }])),
+    propositions: qualification.propositions,
+    recontact: qualification.recontact,
+    confirmation: qualification.confirmation,
+  } };
+  const reponse = await gerer(requete(requeteBrief, { chemin: "/api/assistant/brief" }), ENV);
+  assert.equal(reponse.status, 200);
+  assert.deepEqual(await reponse.json(), { email: "transmis" });
+  assert.equal(transmis.to[0], "marc@example.test");
+  assert.ok(transmis.text.includes("beige et brun pour une chaleur artisanale"));
+  assert.equal(fournisseur.appels, 0);
+  assert.equal(budget.etat().utilise, 0);
+  assert.deepEqual(journal.map((event) => event.motif), ["brief_transmis"]);
+  assert.ok(!JSON.stringify(journal).includes("client@example.test"));
+});
+
+test("erreur Resend : réponse générique, brief non journalisé et tentative rejouable", async () => {
+  const messages = [
+    { role: "user", contenu: "Je veux refaire l'identité de ma boulangerie pour attirer les familles avec un logo." },
+    { role: "assistant", contenu: "Quel est votre objectif ?" },
+    { role: "user", contenu: "Vous pouvez me recontacter par email à client@example.test." },
+    { role: "assistant", contenu: "Le brief est-il exact ?" },
+    { role: "user", contenu: "Oui, c'est exact." },
+  ];
+  const q = {
+    faits: Object.fromEntries([["projet.nature", "refaire l'identité"], ["projet.contexte", "ma boulangerie"], ["projet.besoin", "refaire l'identité"], ["projet.objectif", "attirer les familles"], ["creation.livrables", "un logo"], ["prospect.contact.email", "client@example.test"]].map(([champ, valeur]) => [champ, { valeur, preuve: valeur }])),
+    propositions: [], recontact: { accord: "oui", preuve: messages[2].contenu }, confirmation: { etat: "oui", preuve: messages[4].contenu },
+  };
+  const { gerer, journal } = chaine({ deps: {
+    contexte: async () => ({ contact: { email: "marc@example.test" } }),
+    envoyerEmail: async () => { const error = new Error("client@example.test"); error.name = "resend_refus"; throw error; },
+  } });
+  const corps = { ...question(), messages, qualification: q };
+  const reponse = await gerer(requete(corps, { chemin: "/api/assistant/brief" }), ENV);
+  assert.equal(reponse.status, 503);
+  assert.deepEqual(await reponse.json(), { erreur: "indisponible" });
+  assert.ok(!JSON.stringify(journal).includes("client@example.test"));
+  assert.equal(corps.qualification.faits["prospect.contact.email"].valeur, "client@example.test", "la requête source conservée par le client reste rejouable");
 });
 
 test("AUCUN appel au fournisseur sur une requête refusée, quel que soit le motif", async () => {
