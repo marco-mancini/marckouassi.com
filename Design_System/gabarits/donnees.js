@@ -29,29 +29,20 @@ export function valider(contenu) {
     ids.add(section.id);
     if (section.type !== "couverture") requis(section.navigation, `sections.${section.id}.navigation`);
   }
-  const prestations = contenu.sections.find((section) => section.type === "prestations");
-  const idsOffres = new Set();
-  for (const [rang, offre] of (prestations?.offres ?? []).entries()) {
-    const base = `sections.${prestations.id}.offres.${rang}`;
-    if (!offre.id && !offre.qualification) continue;
-    if (!/^[a-z0-9-]+$/.test(offre.id ?? "")) erreurs.push({ code: "identifiant", chemin: `${base}.id` });
-    if (idsOffres.has(offre.id)) erreurs.push({ code: "doublon", chemin: `${base}.id` });
-    idsOffres.add(offre.id);
-    const qualification = offre.qualification;
-    if (!qualification || !qualification.declencheur?.fr || !Array.isArray(qualification.questions) || !qualification.questions.length) {
-      erreurs.push({ code: "qualification", chemin: `${base}.qualification` });
-      continue;
-    }
-    const champs = new Set();
-    for (const [rangQuestion, question] of qualification.questions.entries()) {
-      const chemin = `${base}.qualification.questions.${rangQuestion}`;
-      if (!/^[a-z][a-zA-Z]*(?:\.[a-z][a-zA-Z]*)+$/.test(question.champ ?? "") || champs.has(question.champ)) {
-        erreurs.push({ code: "qualification", chemin: `${chemin}.champ` });
-      }
-      if (!question.texte?.fr) erreurs.push({ code: "qualification", chemin: `${chemin}.texte` });
-      champs.add(question.champ);
-    }
-  }
+  // Catalogue des disciplines : il vit dans la section qui porte le filtre.
+  // Un identifiant mal formé ou en double y est une erreur, pas une variante.
+  const sommaire = contenu.sections.find((s) => Array.isArray(s.categories));
+  const disciplines = new Set();
+  (sommaire?.categories ?? []).forEach((discipline, rang) => {
+    const base = `sections.${sommaire.id}.categories.${rang}`;
+    if (!/^[a-z0-9-]+$/.test(discipline.id || "")) erreurs.push({ code: "identifiant", chemin: `${base}.id` });
+    if (disciplines.has(discipline.id)) erreurs.push({ code: "doublon", chemin: `${base}.id` });
+    disciplines.add(discipline.id);
+    requis(discipline.libelle, `${base}.libelle`);
+    requis(discipline.note, `${base}.note`);
+    requis(discipline.recit, `${base}.recit`);
+  });
+
   const idsProjets = new Set();
   contenu.projets.forEach((projet, rang) => {
     const base = projet.id ? `projets.${projet.id}` : `projets.${rang}`;
@@ -60,6 +51,10 @@ export function valider(contenu) {
     idsProjets.add(projet.id);
     for (const champ of ["titre", "categorie", "contexte", "role", "disciplines", "idee", "valeur"]) requis(projet[champ], `${base}.${champ}`);
     if (!projet.annees?.debut) erreurs.push({ code: "annee", chemin: `${base}.annees.debut` });
+    // Une seule catégorie principale, référencée par son identifiant.
+    if (!projet.categoriePrincipale || !disciplines.has(projet.categoriePrincipale)) {
+      erreurs.push({ code: "identifiant", chemin: `${base}.categoriePrincipale` });
+    }
   });
   return erreurs;
 }

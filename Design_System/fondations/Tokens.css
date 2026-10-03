@@ -271,11 +271,11 @@
   --font-script: "Reey", "Snell Roundhand", "Apple Chancery", cursive;
 
   /* --- Echelle typographique --- */
-  --type-cover: clamp(5rem, 12vw, 22rem);
+  --type-cover: clamp(4.5rem, 10.8vw, 19.8rem);
   --type-cover-promise: clamp(1.5rem, 2.2vw, 2rem);
   /* ESSAI, titre de couverture en deux registres. */
-  --type-cover-signature: clamp(3rem, 8vw, 9rem);
-  --type-section-signature: clamp(2.2rem, 5vw, 4.6rem);
+  --type-cover-signature: clamp(2.7rem, 7.2vw, 8.1rem);
+  --type-section-signature: clamp(2rem, 4.5vw, 4.15rem);
   --cover-signature-chevauchement: -.32em;
   --about-signature-chevauchement: -.06em;
   /* Interlignes du composant Signature. Le mot en capitales
@@ -292,21 +292,21 @@
   /* Corps de lecture commun a toutes les planches. Avant harmonisation il
      variait de 12 a 19 px selon la planche, releve au navigateur. */
   --type-board-copy: clamp(1.0625rem, 1.15vw, 1.3125rem);
-  --type-introduction-claim: clamp(1.75rem, 3.6vw, 3.25rem);
+  --type-introduction-claim: clamp(1.6rem, 3.25vw, 2.9rem);
   /* Titre de la planche 07. Il tenait en trois mots ; il en porte cinq
      depuis le 29 septembre 2026, et a l'ancienne echelle les trois lignes
      d'Anton se chevauchaient. */
-  --type-contact-title: clamp(2.4rem, 6.4vw, 5.5rem);
+  --type-contact-title: clamp(2.15rem, 5.8vw, 5rem);
   --leading-contact-titre: .94;
-  --type-title-section: clamp(3rem, 12vw, 14rem);
+  --type-title-section: clamp(2.7rem, 10.8vw, 12.6rem);
   /* Le titre de la planche 06 tient sur une ligne au-dela de 1400 px, ce
      qui est l'effet de la reference. En dessous il passe a deux lignes :
      --leading-board-title a .82 les faisait alors se chevaucher de
      138 px, mesure au Range, l'esperluette d'Anton montant bien au-dessus
      des capitales. Cet interligne-la lui est donc propre. */
-  --type-prestations-titre: clamp(2.6rem, 10.2vw, 12rem);
+  --type-prestations-titre: clamp(2.35rem, 9.2vw, 10.8rem);
   --leading-prestations-titre: 1.02;
-  --type-project-title: clamp(3.5rem, 10vw, 10rem);
+  --type-project-title: clamp(3.15rem, 9vw, 9rem);
   --type-title-card: clamp(1.25rem, 2.2vw, 1.5rem);
   --type-mobile-navigation: clamp(2rem, 11vw, 3.25rem);
   --type-body: 1rem;
@@ -413,7 +413,7 @@
   --cv-largeur-max: 1120px;
   --cv-colonne-laterale: 20rem;
   --cv-carte-min: 15rem;
-  --type-cv-nom: clamp(2.5rem, 7vw, 5.5rem);
+  --type-cv-nom: clamp(2.25rem, 6.3vw, 5rem);
   /* Ecart des liens de navigation. Double le 28 septembre 2026 : la
      barre n'occupait que 421 px sur les 1080 px libres entre le logo et
      le bouton de contact. */
@@ -448,7 +448,7 @@
      il cede au sceau la largeur qu'il lui faut pour tenir sur une seule
      ligne. Mesure au navigateur : a 12vw le titre seul occupait deja
      1259 px sur les 1253 disponibles a 1440 px. */
-  --type-titre-sommaire: clamp(2.35rem, 10vw, 12rem);
+  --type-titre-sommaire: clamp(2.1rem, 9vw, 10.8rem);
   /* La planche a-propos reprend les memes mesures que l'introduction :
      meme sceau sur la ligne du titre, meme degagement sous lui, memes
      trois echelles de texte. */
@@ -555,6 +555,10 @@
   --pastille-rond-compact: 36px;
   --bouton-rond-surface: 58px;
   --bouton-rond-surface-compact: 46px;
+  /* Retour de catégorie : cercle réduit d'environ 40 %, cible tactile conservée à 44 px. */
+  --bouton-retour-categorie-diametre: 35px;
+  --bouton-retour-categorie-diametre-compact: 28px;
+  --bouton-retour-categorie-glyphe: 11px;
   --bouton-grand: 54px;
   /* Hauteur de l'icone du menu (deux barres). */
   --bouton-barres-hauteur: 14px;
@@ -580,6 +584,7 @@
   --projet-carte-entete-retrait: 2px;
   --projet-carte-entete-hauteur-min: 78px;
   --projet-carte-titre-marge-basse: 3px;
+  --projet-carte-vide-ratio: 4 / 3;
   --page-bas: 54px;
   --page-bas-compact: 30px;
   --texte-progressif-curseur: .08em;
@@ -627,6 +632,7 @@
   /* Segments */
   --segments-padding: 2px; /* marge intérieure du sélecteur à segments */
   --segments-espace: 2px; /* écart entre deux segments */
+  --segments-espace-nue: 8px; /* écart entre deux segments, variante nue (sans enveloppe) */
   --segments-option-retrait: 6px; /* retrait de hauteur d'une option par rapport à la cible tactile */
   /* TexteProgressif */
   --texte-progressif-curseur-hauteur: 1em; /* hauteur du curseur du texte progressif */
@@ -676,6 +682,11 @@
   /* sections : projets */
   --projets-tete-marge-haute: clamp(25px, 4vw, 54px); /* marge haute de la tête « Projets » */
   --projets-tete-marge-basse-compact: 18px; /* marge basse de la tête « Projets » sous 850 px */
+  --projets-filtres-marge-basse: clamp(28px, 3vw, 48px); /* écart entre le filtre par discipline et la grille */
+  --projets-filtres-marge-basse-compact: 22px; /* le même, sous 850 px */
+  --projets-hauteur-min: clamp(760px, 58vw, 980px); /* hauteur minimale réduite de la planche des réalisations */
+  --projets-categorie-hauteur: clamp(88px, 10vw, 132px); /* hauteur des grands choix de catégorie */
+  --projets-categorie-hauteur-compact: clamp(76px, 24vw, 100px); /* hauteur des choix de catégorie sous 850 px */
   /* sections : prestations */
   --prestations-tete-marge-haute: clamp(26px, 4vw, 56px); /* marge haute de la tête « Prestations » */
   --prestations-tete-marge-basse: clamp(24px, 3.5vw, 48px); /* marge basse de la tête « Prestations » */

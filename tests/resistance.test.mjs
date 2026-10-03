@@ -38,39 +38,44 @@ test("le contenu actuel est valide et toutes les pages se rendent, en FR et en E
 
 test("11 → 12 projets : compteur, numéros, nombre en lettres et plage d'années recalculés", () => {
   const contenu = copie();
-  contenu.projets.push({ ...structuredClone(contenu.projets[0]), id: "essai-douze", annees: { debut: 2027, fin: 2027 } });
-  const { page } = rendre(contenu);
-  assert.equal(compteurs(page).length, 12);
-  assert.equal(compteurs(page).at(-1), "Projet 12 / 12");
-  assert.equal(compteurs(page)[0], "Projet 01 / 12");
-  assert.match(page, /Douze projets · 2022 — 2027/);
+  const nouveau = { ...structuredClone(contenu.projets[0]), id: "essai-douze", annees: { debut: 2027, fin: 2027 } };
+  contenu.projets.push(nouveau);
+  const { page } = rendre(contenu, { chemin: `realisations/${nouveau.categoriePrincipale}/` });
+  const total = contenu.projets.filter((projet) => projet.categoriePrincipale === nouveau.categoriePrincipale).length;
+  assert.equal(compteurs(page).length, total);
+  assert.equal(compteurs(page).at(-1), `Réalisation ${String(total).padStart(2, "0")} / ${String(total).padStart(2, "0")}`);
+  assert.equal(compteurs(page)[0], `Réalisation 01 / ${String(total).padStart(2, "0")}`);
+  assert.match(rendre(contenu).page, /Douze réalisations · 2022 — 2027/);
   assert.ok(cheminsPages(contenu).includes("projets/essai-douze/"));
   assert.match(rendre(contenu, { chemin: "projets/essai-douze/" }).page, /<h1/);
-  assert.match(rendre(contenu, { langue: "en" }).page, /Twelve projects/);
+  assert.match(rendre(contenu, { langue: "en" }).page, /Twelve works/);
 });
 
 test("projet supprimé : plus de trou dans la numérotation, plus de page, total recalculé", () => {
   const contenu = copie();
-  contenu.projets.splice(4, 1);
-  const { page } = rendre(contenu);
-  assert.deepEqual(compteurs(page), Array.from({ length: 10 }, (_, i) => `Projet ${String(i + 1).padStart(2, "0")} / 10`));
-  assert.match(page, /Dix projets/);
+  const supprime = contenu.projets.splice(4, 1)[0];
+  const page = rendre(contenu, { chemin: `realisations/${supprime.categoriePrincipale}/` }).page;
+  const attendus = contenu.projets.filter((projet) => projet.categoriePrincipale === supprime.categoriePrincipale).length;
+  assert.equal(compteurs(page).length, attendus);
   assert.ok(!page.includes(`projets/${base.projets[4].id}/`));
 });
 
 test("projet déplacé : l'ordre des données fait l'ordre et les numéros", () => {
   const contenu = copie();
-  contenu.projets.unshift(contenu.projets.pop());
-  const { page } = rendre(contenu);
+  const deplace = contenu.projets.pop();
+  contenu.projets.unshift(deplace);
+  const categorie = deplace.categoriePrincipale;
+  const { page } = rendre(contenu, { chemin: `realisations/${categorie}/` });
   const premier = page.indexOf(`data-etude="${base.projets.at(-1).id}"`);
-  assert.ok(premier > -1 && premier < page.indexOf(`data-etude="${base.projets[0].id}"`));
-  assert.equal(compteurs(page)[0], "Projet 01 / 11");
+  const liste = contenu.projets.filter((projet) => projet.categoriePrincipale === categorie);
+  assert.ok(premier > -1 && premier === page.indexOf(`data-etude="${liste[0].id}"`));
+  assert.equal(compteurs(page)[0], `Réalisation 01 / ${String(liste.length).padStart(2, "0")}`);
 });
 
 test("média absent : emplacement conservé, aucune image cassée ni « undefined »", () => {
   const contenu = copie();
   const absent = contenu.projets[0].medias[0].src;
-  const { page } = rendre(contenu, { absents: [absent] });
+  const { page } = rendre(contenu, { chemin: `realisations/${contenu.projets[0].categoriePrincipale}/`, absents: [absent] });
   assert.match(page, /media--absent/);
   assert.ok(!/src="(undefined|null)?"/.test(page));
   assert.ok(!page.includes("undefined"));
@@ -103,7 +108,7 @@ test("textes longs, balisage et caractères spéciaux : échappés, jamais inter
   const contenu = copie();
   const long = `${"Très long titre d'essai ".repeat(20)}<script>alert(1)</script> & « guillemets »`;
   contenu.projets[0].titre = { fr: long };
-  const { page } = rendre(contenu);
+  const { page } = rendre(contenu, { chemin: `realisations/${contenu.projets[0].categoriePrincipale}/` });
   assert.ok(!page.includes("<script>alert(1)</script>"));
   assert.ok(page.includes("&lt;script&gt;alert(1)&lt;/script&gt; &amp; « guillemets »"));
 });

@@ -83,6 +83,7 @@
     "vide": "No items.",
     "aideEnrichi": "Wrap a passage in two asterisks (**like this**) to highlight it.",
     "aideIdentifiant": "Lowercase letters, numbers and hyphens only. It forms the address of the project page.",
+    "aideIdentifiantCategorie": "Stable technical identifier used to attach projects to this category.",
     "aideMotif": "{numero} is replaced by the image number.",
     "nonModifiable": "Technical value, not editable here.",
     "oui": "Yes",
@@ -209,6 +210,8 @@
     "liens": "Links",
     "pied": "Footer",
     "categorie": "Category",
+    "categories": "Disciplines",
+    "categoriePrincipale": "Primary category",
     "contexte": "Context",
     "disciplines": "Disciplines",
     "idee": "Idea",
@@ -242,8 +245,7 @@
     "requis": "{chemin}: the French text is required.",
     "identifiant": "{chemin}: invalid identifier (lowercase letters, numbers, hyphens).",
     "doublon": "{chemin}: identifier already used.",
-    "annee": "{chemin}: the start year is required.",
-    "qualification": "{chemin}: the qualification matrix needs unique fields and French and English translations."
+    "annee": "{chemin}: the start year is required."
   },
   "nomsLangues": {
     "fr": "Français",

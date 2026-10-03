@@ -24,6 +24,9 @@
 .planche__credit > :nth-child(2) { text-align: center; }
 .planche__credit > :last-child:not(:first-child) { text-align: right; }
 .planche__credit--deux { grid-template-columns: minmax(0, 1fr) auto; }
+.planche__credit-rubrique { display: flex; align-items: center; gap: var(--space-3); }
+.planche__credit-retour { display: none; flex: none; }
+.planche.projets:has(.categorie-projets:target) .planche__credit-retour { display: flex; }
 
 @media (max-width: 1080px) and (min-width: 851px) { .planche { padding: var(--planche-padding-tablette); } }
 @media (max-width: 850px) {

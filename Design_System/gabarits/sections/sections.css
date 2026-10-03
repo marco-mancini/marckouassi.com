@@ -88,7 +88,50 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .parcours__frise { padding: 0 var(--space-6); border: var(--border-hairline) solid var(--olive); border-radius: var(--radius-xl); }
 
 /* --- Projets --- */
-.projets__tete { margin: var(--projets-tete-marge-haute) 0 var(--introduction-title-gap); }
+.planche.projets { display: flex; min-height: var(--projets-hauteur-min); flex-direction: column; }
+.projets__accroche { display: grid; margin: var(--about-title-gap) 0 0; gap: var(--space-2); }
+.projets__accroche-suite { max-width: var(--mesure-accroche); margin: 0; color: var(--texte-discret); }
+/* Les catégories utilisent la même Carte qu'Introduction et Savoir-faire. */
+.projets__categories { display: flex; margin: 0 0 var(--projets-filtres-marge-basse); flex: 1; }
+.projets__choix { display: grid; flex: 1; align-content: center; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--space-3); row-gap: var(--space-8); }
+.projets__choix .carte--choix { width: 100%; min-height: var(--projets-categorie-hauteur); appearance: none; font: inherit; text-align: left; cursor: pointer; }
+.projets__groupes { display: grid; gap: var(--space-8); }
+.projets__groupes .categorie-projets { display: none; scroll-margin-top: var(--header-offset); }
+.projets__groupes .categorie-projets:target { display: block; }
+.planche.projets:has(.categorie-projets:target) .projets__tete,
+.planche.projets:has(.categorie-projets:target) .projets__categories { display: none; }
+.page-planches--categorie > .planche-scene:not(.planche-scene--categorie-active) { display: none; }
+.page-planches--categorie > .planche-scene--categorie-active { min-height: calc(100svh - var(--header-height)); }
+.categorie-projets__entete { display: grid; margin: var(--projets-tete-marge-haute) 0 var(--space-8); gap: var(--space-4); }
+.categorie-projets__ligne-titre { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-5); }
+.categorie-projets__ligne-titre h2 { min-width: 0; margin: 0; }
+.categorie-projets__numero { margin: 0; color: var(--accent-gold-soft); font-family: var(--font-mono); font-size: var(--type-label); white-space: nowrap; }
+.planche__credit-retour [data-categorie-retour] { position: relative; width: var(--cible-tactile); height: var(--cible-tactile); min-height: var(--cible-tactile); border: 0; background: transparent; font-size: var(--bouton-retour-categorie-glyphe); }
+.planche__credit-retour [data-categorie-retour]::before { position: absolute; top: 50%; left: 50%; width: var(--bouton-retour-categorie-diametre); height: var(--bouton-retour-categorie-diametre); transform: translate(-50%, -50%); border: var(--border-hairline) solid var(--ink-display); border-radius: var(--radius-full); background: var(--surface-page); content: ""; pointer-events: none; }
+.planche__credit-retour [data-categorie-retour] .bouton__icone { position: relative; }
+.planche__credit-retour [data-categorie-retour]:hover,
+.planche__credit-retour [data-categorie-retour]:focus-visible { background: transparent; }
+.planche__credit-retour [data-categorie-retour]:hover::before,
+.planche__credit-retour [data-categorie-retour]:focus-visible::before { background: var(--olive); }
+.categorie-projets__sous-titre { margin: 0; color: var(--accent-texte-grand); font-weight: var(--weight-strong); }
+.categorie-projets__recit { width: max-content; max-width: 100%; margin: 0; color: var(--texte-discret); white-space: nowrap; }
+.categorie-projets__vide { min-height: var(--space-8); margin: 0; color: var(--texte-discret); }
+.categorie-projets__carte-vide { aspect-ratio: var(--projet-carte-vide-ratio); border: var(--border-hairline) solid var(--filet); border-radius: var(--rayon-vignette); background: var(--carte-surface); }
+.categorie-projets__carte-image { min-width: 0; margin: 0; container: realisation / inline-size; }
+.categorie-projets__carte-visuel { position: relative; }
+.categorie-projets__carte-visuel img { display: block; width: 100%; height: auto; aspect-ratio: var(--projet-carte-vide-ratio); overflow: hidden; border: var(--border-hairline) solid var(--filet); border-radius: var(--rayon-vignette); object-fit: cover; }
+.categorie-projets__carte-fleche { position: absolute; top: var(--space-4); right: var(--space-4); }
+.categorie-projets__carte-visuel:hover .categorie-projets__carte-fleche { transform: rotate(45deg); }
+.categorie-projets__carte-legende { min-height: var(--projet-carte-entete-hauteur-min); padding: var(--projet-carte-entete-marge-haute) var(--projet-carte-entete-retrait) var(--projet-carte-entete-retrait); align-items: center; gap: var(--space-3); }
+.categorie-projets__carte-legende .categorie-projets__carte-sous-titre { color: var(--accent-gold-soft); }
+
+@container realisation (max-width: 360px) {
+  .categorie-projets__carte-legende { min-height: 0; padding: clamp(6px, 2.4cqi, 10px) 0; gap: clamp(6px, 2.4cqi, 10px); }
+  .categorie-projets__carte-legende .pastille--rond { width: clamp(28px, 10cqi, 36px); height: clamp(28px, 10cqi, 36px); padding: 0; font-size: clamp(10px, 3.3cqi, 12px); }
+  .categorie-projets__carte-legende .projet-carte__titre { margin-bottom: 2px; font-size: clamp(15px, 5.6cqi, 20px); line-height: 1.1; }
+  .categorie-projets__carte-legende .projet-carte__categorie { font-size: clamp(11px, 4cqi, 14px); line-height: 1.25; overflow-wrap: anywhere; }
+  .categorie-projets__carte-visuel .categorie-projets__carte-fleche { top: clamp(6px, 2.5cqi, 10px); right: clamp(6px, 2.5cqi, 10px); width: clamp(32px, 12cqi, 44px); height: clamp(32px, 12cqi, 44px); font-size: clamp(13px, 5cqi, 18px); }
+}
 
 /* --- Prestations --- */
 .prestations__tete { display: grid; margin: var(--prestations-tete-marge-haute) 0 var(--prestations-tete-marge-basse); justify-items: center; gap: var(--prestations-masthead-gap); text-align: center; }
@@ -99,10 +142,6 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .contact__principal { display: flex; flex: 1; padding: var(--contact-principal-padding) 0; align-items: center; justify-content: space-between; gap: var(--contact-principal-espace); }
 .contact__pied { display: grid; padding-top: var(--contact-pied-marge-haute); grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: var(--contact-pied-espace); border-top: var(--border-hairline) solid var(--filet); }
 .contact__credits { margin: 0; color: var(--texte-discret); line-height: var(--leading-compact); letter-spacing: normal; text-align: right; }
-
-/* --- Page projet --- */
-.page-projet { display: grid; gap: var(--space-5); }
-.page-projet > .bouton { justify-self: start; }
 
 /* --- Page CV --- */
 /* Les planches du CV forment un seul document : espacees de 24 px. */
@@ -155,7 +194,15 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .apropos__accroche { max-width: none; }
   .savoirfaire__tete { margin: var(--savoirfaire-tete-marge-haute-compact) 0 var(--savoirfaire-tete-marge-basse-compact); }
   .parcours__titre { margin-top: var(--parcours-titre-marge-haute-compact); }
-  .projets__tete { margin: var(--space-7) 0 var(--projets-tete-marge-basse-compact); }
+  .projets__categories { margin-bottom: var(--projets-filtres-marge-basse-compact); }
+  .planche.projets { min-height: 0; }
+  .projets__choix { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-6); }
+  .projets__choix .carte--choix { min-height: var(--projets-categorie-hauteur-compact); padding: var(--space-4); }
+  .categorie-projets__entete { margin-top: var(--space-7); }
+  .categorie-projets__recit { width: auto; white-space: normal; }
+  .categorie-projets__carte-legende { min-height: var(--projet-carte-entete-hauteur-min-compact); padding-top: var(--space-2); }
+  .categorie-projets__ligne-titre { gap: var(--space-3); }
+  .planche__credit-retour [data-categorie-retour]::before { width: var(--bouton-retour-categorie-diametre-compact); height: var(--bouton-retour-categorie-diametre-compact); }
   .contact { min-height: var(--contact-hauteur-min-compact); }
   .contact__principal { padding: var(--contact-principal-padding-compact) 0; align-items: start; flex-direction: column; gap: var(--space-6); }
   .contact__pied { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }

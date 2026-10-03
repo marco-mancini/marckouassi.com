@@ -4,29 +4,30 @@ import { Champ } from "../../composants/Champ/Champ.js";
 import { Galerie } from "../../composants/Galerie/Galerie.js";
 import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Modale, ouvrirModale } from "../../composants/Modale/Modale.js";
-import { media, periodeProjet } from "../outils.js";
 
 /**
- * Projet_etude — l'étude complète d'un projet : rubrique, titre,
- * contexte, rôle / disciplines / période, intention, valeur, document,
- * galerie. Rendue dans la page du projet ; chargée dans la modale
+ * Projet_etude — LA VUE ÉTUDE d'un projet : rubrique, titre, contexte,
+ * rôle / disciplines / période, intention, valeur, document, galerie.
+ * Rendue telle quelle sur la page du projet ; chargée dans la modale
  * partagée quand JavaScript est disponible.
  *
+ * Comme la carte, elle ne lit plus l'enregistrement du projet : elle reçoit
+ * la VUE résolue par `Gabarit_Projet`. Les médias, le titre et l'identifiant
+ * du titre sont donc exactement les mêmes que ceux de la carte — c'est ce
+ * qui garantit que la modale sait toujours nommer le dialogue qu'elle ouvre.
+ *
  * @param {object} p
- * @param {object} p.projet
+ * @param {object} p.vue      sortie de `vueProjet` (Gabarit_Projet)
  * @param {object} p.ctx
  * @param {1|2} [p.niveau]    niveau du titre : 1 sur la page du projet
  */
-export function Projet_etude({ projet, ctx, niveau = 1 }) {
-  const chemin = `projets.${projet.id}`;
-  const medias = (projet.medias || []).map((entree, i) => media(ctx, entree, { motifAlt: projet.altImages, rang: i, chemin: `${chemin}.medias.${i}`, cheminMotif: `${chemin}.altImages` }));
-  const meta = [["projet.role", projet.role, "role"], ["projet.disciplines", projet.disciplines, "disciplines"]]
-    .map(([cle, valeur, nom]) => Champ({ etiquette: ctx.t(cle), contenu: ctx.l(valeur, `${chemin}.${nom}`), variante: "meta" }));
-  meta.push(Champ({ etiquette: ctx.t("projet.periode"), contenu: periodeProjet(projet, ctx), variante: "meta" }));
-  const document = projet.document?.src
-    ? Bouton({ texte: projet.document.libelle ? ctx.c(projet.document.libelle, `projets.${projet.id}.document.libelle`) : ctx.t("projet.document"), variante: "texte", href: ctx.media(projet.document.src).src, options: { icone: "externe" } })
+export function Projet_etude({ vue, ctx, niveau = 1 }) {
+  const meta = vue.champs.map((champ) => Champ({ etiquette: champ.etiquette, contenu: champ.contenu, variante: "meta" }));
+  meta.push(Champ({ etiquette: ctx.t("projet.periode"), contenu: vue.periode, variante: "meta" }));
+  const document = vue.document
+    ? Bouton({ texte: vue.document.libelle, variante: "texte", href: vue.document.href, options: { icone: "externe" } })
     : "";
-  return html`<article class="projet-etude" data-projet-etude="${projet.id}"><div class="projet-etude__texte"><p class="projet-etude__rubrique texte-etiquette">${ctx.l(projet.categorie, `${chemin}.categorie`)}</p><div class="projet-etude__titre">${Titre({ niveau, echelle: "etude", texte: ctx.c(projet.titre, `${chemin}.titre`), id: `etude-${projet.id}`, sceau: false })}</div><p class="projet-etude__contexte texte-corps">${ctx.l(projet.contexte, `${chemin}.contexte`)}</p><div class="projet-etude__meta">${meta}</div><p class="projet-etude__libelle texte-etiquette">${ctx.t("projet.intention")}</p><p class="projet-etude__idee">${ctx.l(projet.idee, `${chemin}.idee`)}</p><p class="projet-etude__libelle texte-etiquette">${ctx.t("projet.valeur")}</p><p class="projet-etude__valeur">${ctx.l(projet.valeur, `${chemin}.valeur`)}</p>${document}</div>${Galerie({ medias, variante: "detail", etiquette: ctx.t("projet.images") })}</article>`;
+  return html`<article class="projet-etude" data-projet-etude="${vue.id}"><div class="projet-etude__texte"><p class="projet-etude__rubrique texte-etiquette">${vue.categorieHtml}</p><div class="projet-etude__titre">${Titre({ niveau, echelle: "etude", texte: vue.titre, id: vue.idEtude, sceau: false })}</div><p class="projet-etude__contexte texte-corps">${vue.contexteHtml}</p><div class="projet-etude__meta">${meta}</div><p class="projet-etude__libelle texte-etiquette">${ctx.t("projet.intention")}</p><p class="projet-etude__idee">${vue.ideeHtml}</p><p class="projet-etude__libelle texte-etiquette">${ctx.t("projet.valeur")}</p><p class="projet-etude__valeur">${vue.valeurHtml}</p>${document}</div>${Galerie({ medias: vue.medias, variante: "detail", etiquette: ctx.t("projet.images") })}</article>`;
 }
 
 /** La modale partagée du sommaire, vide : l'étude y est chargée à la demande. */

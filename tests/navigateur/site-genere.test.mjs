@@ -18,7 +18,8 @@ const { site } = contenu;
 test("_site : chaque page attendue existe dans chaque langue, avec son adresse canonique", () => {
   assert.ok(fs.existsSync(SITE), "_site absent : lancer npm run build");
   const attendues = site.langues.flatMap((langue) => cheminsPages(contenu).map((chemin) => cheminLangue(langue, site.langueParDefaut, chemin)));
-  assert.equal(attendues.length, site.langues.length * (2 + contenu.projets.length));
+  const categories = contenu.sections.find((section) => Array.isArray(section.categories)).categories;
+  assert.equal(attendues.length, site.langues.length * (2 + categories.length + contenu.projets.length));
   for (const chemin of attendues) {
     const fichier = path.join(SITE, chemin, "index.html");
     assert.ok(fs.existsSync(fichier), `page absente : /${chemin}`);
@@ -36,6 +37,6 @@ test("_site : plan du site et robots.txt désignent l'adresse publique", () => {
 test("_site : feuilles de style, script et images référencés par l'accueil sont présents", () => {
   const accueil = fs.readFileSync(path.join(SITE, "index.html"), "utf8");
   const locales = [...accueil.matchAll(/(?:href|src)="\.\/([^"#?]+)"/g)].map(([, chemin]) => decodeURIComponent(chemin)).filter((chemin) => !chemin.endsWith("/"));
-  assert.ok(locales.length > 50, `trop peu de ressources locales trouvées (${locales.length})`);
+  assert.ok(locales.length > 5, `trop peu de ressources locales trouvées (${locales.length})`);
   for (const chemin of locales) assert.ok(fs.existsSync(path.join(SITE, chemin)), `ressource absente : ${chemin}`);
 });

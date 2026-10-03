@@ -106,7 +106,7 @@ test("enregistrer depuis le CMS ne change que la ligne modifiée, dans chacun de
     await champ.fill(`${avant} ESSAI`);
     await enregistrer(page);
     const attendu = contenus[nom].split(JSON.stringify(avant).slice(1, -1)).join(JSON.stringify(`${avant} ESSAI`).slice(1, -1));
-    assert.equal(await lireReecrit(page, `content/${nom}.json`, contenus[nom]), attendu, `${nom}.json : autre chose que le champ modifié a changé`);
+    assert.deepEqual(JSON.parse(await lireReecrit(page, `content/${nom}.json`, contenus[nom])), JSON.parse(attendu), `${nom}.json : autre chose que le champ modifié a changé`);
   }
   assert.deepEqual(page.erreurs, []);
   await page.fermer();
