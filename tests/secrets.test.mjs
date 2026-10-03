@@ -9,7 +9,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { execFileSync } from "node:child_process";
 
-const MOTIF = /eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]{20,}|sb_secret_[a-zA-Z0-9_-]{20,}|sb_publishable_[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{20,}|gho_[a-zA-Z0-9]{20,}|github_pat_[a-zA-Z0-9_]{20,}/;
+const MOTIF = /eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]{20,}|sb_secret_[a-zA-Z0-9_-]{20,}|sb_publishable_[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{20,}|gho_[a-zA-Z0-9]{20,}|github_pat_[a-zA-Z0-9_]{20,}|\bre_[a-zA-Z0-9]{32,}\b/;
 const TEXTE = /\.(m?js|ts|json|ya?ml|toml|md|html|css|sql|txt|svg)$/;
 
 test("aucune clé ni aucun jeton dans les fichiers texte suivis par Git", () => {

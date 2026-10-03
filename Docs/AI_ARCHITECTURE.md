@@ -58,19 +58,16 @@ MarcoS **n'est pas Marc** : il parle de lui à la **troisième personne** et
      │  HTTPS  POST /api/assistant   (JSON, sans clé, Origin contrôlée)
      ▼
  [Cloudflare Worker « assistant », sur workers.dev, offre Free]
-     ├─ 1. sécurité : méthode, Origin (CORS), taille, schéma de la requête
-     ├─ 2. limitation : par session et par IP si disponible, budget journalier
-     ├─ 3. contexte : connaissance.json publié avec le site (cache par version)
-     ├─ 4. orchestration : prompt système court + historique borné
-     ├─ 5. fournisseur UNIQUE ────────────────────────────────────► [Mistral]  chat/completions
-     │        quota épuisé ⇒ 429 quota_journalier, aucun autre fournisseur
-     └─ 6. réponse normalisée : { texte, liens internes validés }
+     ├─ POST /api/assistant : sécurité, limites, contexte → Mistral → réponse courte
+     └─ POST /api/assistant/brief : brief confirmé + accord de contact
+          → Resend → destinataire éditorial du site
      ▼
  [MarcoS, dans le portfolio]  affiche le texte (jamais en HTML), liens internes uniquement
 ```
 
-Le navigateur ne parle **jamais** à Mistral. La clé vit dans les secrets du
-Worker.
+Le navigateur ne parle **jamais** directement à Mistral ou à Resend. Les deux
+clés vivent dans les secrets du Worker ; la clé Resend n'est utilisée que par
+`POST /api/assistant/brief` après validation du consentement.
 
 ## Décisions arrêtées
 
@@ -210,7 +207,7 @@ réseau ne compte pas comme temps CPU d'un Worker.
 
 | Brique | Emplacement prévu | Rôle |
 |---|---|---|
-| Worker | `worker/assistant/` (`wrangler.jsonc`, `src/`) | point d'entrée unique `/api/assistant` |
+| Worker | `worker/assistant/` (`wrangler.jsonc`, `src/`) | `/api/assistant` et `/api/assistant/brief` |
 | Base de connaissance | module pur partagé `Design_System/gabarits/connaissance.js` | liste blanche réduite ; utilisé par le **build** et par les tests |
 | Fichier publié | `_site/connaissance.json`, produit au build | ce que lit le Worker |
 | Prompt système | `worker/assistant/prompt/systeme.fr.md` | versionné, relu comme du contenu |
@@ -227,13 +224,18 @@ réseau ne compte pas comme temps CPU d'un Worker.
 | production | `wrangler deploy --env production` | adresse publique de `content/site.json` (aujourd'hui `https://marckouassi-com.vercel.app`) | Mistral |
 
 `vars`, secrets et bindings sont **redéclarés dans chaque environnement**
-(Wrangler ne les hérite pas). Les secrets attendus sont listés dans
-`secrets.required` : le déploiement échoue si l'un manque.
+(Wrangler ne les hérite pas). Avant chaque déploiement, vérifier les noms des
+secrets propres à cet environnement ; les valeurs ne sont jamais dans les
+fichiers suivis.
 
 Variables (`vars`) : `MISTRAL_MODELE`, `ORIGINES_AUTORISEES`, `CONNAISSANCE_URL`,
-`LIMITE_MESSAGE`, `LIMITE_HISTORIQUE`, `MAX_JETONS_REPONSE` (180),
+`DELAI_CONTEXTE_MS`, `RESEND_EXPEDITEUR`, `DELAI_RESEND_MS`, `LIMITE_MESSAGE`,
+`LIMITE_HISTORIQUE`, `MAX_JETONS_REPONSE` (180),
 `DELAI_FOURNISSEUR_MS`, `BUDGET_TEMPS_MS`, `BUDGET_JOURNALIER` (100).
-Secret : **`MISTRAL_CLE`**, et elle seule.
+Secrets : **`MISTRAL_CLE`** pour le modèle et **`RESEND_CLE`** pour l'envoi
+transactionnel. `RESEND_EXPEDITEUR` est une variable publique de configuration,
+à renseigner uniquement avec un expéditeur sur un domaine vérifié. Le
+destinataire vient de `site.contact.email` dans le contenu publié.
 
 Le site connaît seulement l'**adresse** de l'endpoint, injectée au build
 (`ASSISTANT_URL`). Sans elle, MarcoS n'est pas rendu.

@@ -12,17 +12,15 @@ choisir.
 ## Règles intangibles
 
 1. Aucune clé dans le navigateur, dans le dépôt, dans une URL ou dans un journal.
-   **Une seule clé existe, `MISTRAL_CLE`**, et elle vit uniquement dans les
-   secrets du Worker (`wrangler secret put`). `.dev.vars*` et `.env*` sont
-   ajoutés au `.gitignore` avant tout essai local.
-2. Le navigateur n'appelle **jamais** Mistral pour MarcoS.
-3. **Aucune autre clé n'est nécessaire** : la base de connaissance est un
-   fichier public publié avec le site (décision #23), il n'y a ni base de
-   données, ni second fournisseur (décision D-2).
+   `MISTRAL_CLE` et `RESEND_CLE` vivent uniquement dans les secrets du Worker.
+   `.dev.vars*` et `.env*` sont ignorés par Git.
+2. Le navigateur n'appelle **jamais directement** Mistral ni Resend.
+3. Mistral reste l'unique fournisseur IA. Resend ne reçoit le brief qu'après
+   confirmation et accord explicite ; son API traite alors le contenu envoyé.
 4. La réponse du modèle est **du texte** : jamais insérée comme HTML.
 5. Les seuls liens produits sont des liens **internes** dont l'identifiant
    existe dans la base de connaissance.
-6. Un test du dépôt refuse tout motif de clé (`sb_secret_`, `ghp_`, JWT…) dans
+6. Un test du dépôt refuse tout motif de clé (`re_`, `sb_secret_`, `ghp_`, JWT…) dans
    les fichiers suivis ; il sera étendu au dossier du Worker.
 
 ## Menaces et protections
@@ -34,14 +32,14 @@ choisir.
 | **Extraction du prompt système** | le prompt ne contient **aucun secret** ; il interdit de le citer ; le divulguer ne compromet rien | prompt |
 | **Extraction de données privées** | le modèle ne reçoit **que** la liste blanche réduite : rien de privé n'est dans son contexte. Téléphone, adresse et date de naissance sont exclus **structurellement** (D-3), pas par une consigne | `connaissance.js` |
 | **Profil personnel de Marc** | les sections 18 à 25 de [MARCOS.md](MARCOS.md) sont **hors base** (D-14) : MarcoS ne peut pas les réciter puisqu'il ne les reçoit pas | `connaissance.js` |
-| **Fuite de secrets** | la clé n'est jamais dans le contexte du modèle ni dans les réponses ; journaux sans en-têtes d'authentification | Worker |
+| **Fuite de secrets** | aucune clé dans le frontend, le contexte, les réponses ou les journaux ; erreur Resend sans détail fournisseur | Worker |
 | **Hallucination** (client, chiffre, date inventés) | consigne « seulement le contexte » ; `temperature` 0,2 ; réponse type si l'information manque ; liens internes validés ; tests de non-invention | prompt, tests |
 | **Réponses trop longues** | `max_tokens` **180** et consigne « deux à trois phrases, jamais plus ». La contrainte est dans le modèle, pas dans une relecture | `vars`, prompt |
 | **Messages énormes** | corps ≤ 16 Ko, message ≤ 500 caractères, historique ≤ **4 échanges et 2 000 caractères** ; refus **avant** tout appel au fournisseur | Worker |
 | **Requêtes répétitives, spam** | limite par session et par IP avec le binding Rate Limiting **si l'offre Free le permet** (voir D-6) ; sinon budget journalier seul | Worker |
 | **Scraping de l'endpoint** | contrôle de `Origin` ; pas de CORS ouvert ; la réponse n'apporte rien que le site ne publie déjà | Worker |
 | **Coûts incontrôlés** | `max_tokens` 180 ; **budget journalier de 100 questions** ; **aucun moyen de paiement enregistré** : MarcoS ne peut pas générer de facture (D-18) | Worker, console |
-| **Données personnelles des visiteurs** | aucune conservation côté serveur ; journaux sans texte des questions (D-10) ; mention de confidentialité **qui dit la vérité sur le réglage réellement appliqué** (D-9) ; refus d'entraînement chez Mistral, **gratuit** (D-11) ; aucun historique de navigation (D-16) | Worker, console |
+| **Données personnelles des visiteurs** | le Worker ne persiste rien ; les journaux excluent questions, briefs et coordonnées ; un brief confirmé et autorisé est transmis à Resend pour livraison ; la mention de confidentialité doit couvrir ce transfert avant activation (D-9) ; l'opt-out d'entraînement Mistral demeure requis (D-11) | Worker, Resend, site |
 
 ### Contrôle de `Origin` et CORS
 
@@ -99,7 +97,10 @@ Workers Logs (inclus en Free), en JSON structuré, **métadonnées seulement**
 sortie, latence, jetons consommés, empreinte de la session. **Jamais** : texte
 des questions et des réponses, IP en clair, en-têtes d'authentification.
 
-Il n'y a plus de champ « fournisseur » à journaliser : il n'y en a qu'un.
+Le contenu du brief, les coordonnées, l'adresse destinataire et la clé
+d'idempotence ne sont jamais journalisés. Un statut générique de transmission
+est journalisé. Les données d'un envoi accepté sont traitées par Resend ; elles
+ne sont pas conservées par le Worker.
 
 ## Coûts et limites
 
@@ -130,7 +131,9 @@ paiement enregistré, le pire cas est l'indisponibilité, jamais la dépense.
 
 - Aucun secret dans le dépôt (test automatique) et `git log -p` relu sur le
   dossier du Worker.
-- `secrets.required` déclaré : le déploiement échoue si `MISTRAL_CLE` manque.
+- Avant chaque déploiement, vérifier les secrets attendus de l'environnement :
+  `MISTRAL_CLE` pour le modèle et `RESEND_CLE` pour l'email. Aucun n'est dans
+  `wrangler.jsonc`, le dépôt ou les logs.
 - Corpus de tests d'abus : injection, extraction du prompt, demande de
   téléphone, invention de client, messages de 10 000 caractères, rafales,
   origine étrangère, JSON malformé, **et réponse qui dépasse trois phrases**.
