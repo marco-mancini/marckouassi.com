@@ -242,7 +242,8 @@
     "requis": "{chemin}: the French text is required.",
     "identifiant": "{chemin}: invalid identifier (lowercase letters, numbers, hyphens).",
     "doublon": "{chemin}: identifier already used.",
-    "annee": "{chemin}: the start year is required."
+    "annee": "{chemin}: the start year is required.",
+    "qualification": "{chemin}: the qualification matrix needs unique fields and French and English translations."
   },
   "nomsLangues": {
     "fr": "Français",

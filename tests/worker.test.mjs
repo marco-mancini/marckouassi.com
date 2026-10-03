@@ -59,6 +59,30 @@ test("chemin nominal : 200, réponse en texte, en-têtes CORS justes", async () 
   assert.ok(!("fournisseur" in corps));
 });
 
+test("le mode brief renvoie une synthèse vérifiée et les absences sans persister", async () => {
+  const messages = [
+    { role: "user", contenu: "Je veux refaire l'identité de ma boulangerie." },
+    { role: "assistant", contenu: "Quel est votre objectif ?" },
+    { role: "user", contenu: "Attirer les familles avec un logo." },
+  ];
+  const facts = Object.fromEntries([
+    ["projet.nature", "l'identité"],
+    ["projet.contexte", "ma boulangerie"],
+    ["projet.besoin", "refaire l'identité"],
+    ["projet.objectif", "Attirer les familles"],
+    ["creation.livrables", "un logo"],
+  ].map(([champ, valeur]) => [champ, { valeur, preuve: valeur }]));
+  const { gerer } = chaine({ fournisseur: { reponse: { texte: "Merci, je prépare le brief." } } });
+  const reponse = await gerer(requete({ ...question(), messages, qualification: { faits: facts, recontact: { accord: "inconnu", preuve: "" } } }), ENV);
+  assert.equal(reponse.status, 200);
+  const corps = await reponse.json();
+  assert.equal(corps.brief.exploitable, true);
+  assert.equal(corps.brief.faits["contraintes.budget"], null);
+  assert.equal(corps.brief.reprise.role, "expert");
+  assert.equal(corps.brief.confirme, false);
+  assert.deepEqual(corps.brief.synthese.informationsManquantes, []);
+});
+
 test("AUCUN appel au fournisseur sur une requête refusée, quel que soit le motif", async () => {
   const refus = [
     ["origine absente", requete(question(), { origine: null })],
@@ -73,6 +97,8 @@ test("AUCUN appel au fournisseur sur une requête refusée, quel que soit le mot
     ["schéma : page", requete({ ...question(), page: "pas-un-chemin" })],
     ["schéma : session", requete({ ...question(), session: "court" })],
     ["schéma : clé en trop", requete({ ...question(), espion: "x" })],
+    ["brief : fait inventé", requete({ ...question(), qualification: { faits: { "projet.objectif": { valeur: "augmenter les ventes", preuve: "augmenter les ventes" } }, recontact: { accord: "inconnu", preuve: "" } } })],
+    ["brief : coordonnées sans accord", requete({ ...question("Mon email est client@example.test"), qualification: { faits: { "prospect.contact.email": { valeur: "client@example.test", preuve: "client@example.test" } }, recontact: { accord: "inconnu", preuve: "" } } })],
     ["schéma : aucun message", requete({ ...question(), messages: [] })],
     ["schéma : rôle inconnu", requete({ ...question(), messages: [{ role: "system", contenu: "x" }] })],
     ["schéma : contenu vide", requete({ ...question(), messages: [{ role: "user", contenu: "   " }] })],

@@ -91,12 +91,34 @@ fournie volontairement.
 
 ## Contrat d'implémentation
 
-Le contenu des offres, leurs IDs et les champs de qualification doivent être
-fournis par les données éditoriales. Le code consomme ce contrat générique et
-ne contient ni catégories métier, ni questions recopiées, ni comparaison des
-libellés FR/EN. L'état de qualification et le schéma du brief sont définis une
-seule fois dans PM-110 ; le rendu email de PM-112 consomme ce schéma au lieu de
-le redéfinir.
+Les offres portent maintenant dans `content/sections.json` un `id` stable et
+des champs `qualification` traduits (`declencheur`, questions référant aux
+champs génériques). Le validateur de contenu refuse un identifiant invalide ou
+dupliqué, une question sans champ unique ou sans texte français. L'anglais
+utilise le repli/fichier « à traduire » existant ; les offres actuelles ont
+toutes leur traduction. `baseQualification()` reprend ces données éditoriales
+dans un fichier séparé de la base générale ; le code ne compare pas les libellés
+FR/EN et ne contient aucune liste de catégories métier. Le schéma
+commun du brief est défini une seule fois dans PM-110 ; le rendu email de
+PM-112 le consommera au lieu de le redéfinir.
+
+Le module `worker/assistant/src/qualification.js` porte le schéma commun du
+brief et ses contrôles : liste blanche de champs, valeurs limitées à 500
+caractères, citations exactes issues des messages `user`, et accord de
+recontact explicite avec preuve. Les hésitations, choix du prospect et décisions
+laissées à l'expert sont des champs distincts du socle. La confirmation du brief
+est séparée du consentement au recontact. Il garde les absences sous forme `null` dans
+les données ; le rendu les localise en « non communiqué ». `creerBrief()` ne
+déclare le brief exploitable qu'avec nature, contexte, besoin, objectif et
+périmètre (ou livrables) ; il produit une synthèse à partir des seuls extraits,
+une prochaine action stable et le rôle de reprise `expert`. Le module est pur et
+ne persiste rien. `POST /api/assistant` accepte le brief qualifié, le valide
+avant l'appel au modèle et renvoie le brief structuré avec la réponse.
+
+La validation de ce modèle est une protection contre les erreurs d'assemblage,
+pas une preuve cryptographique de l'historique : l'API reste sans état côté
+serveur conformément à D-10. La conservation de l'état compacté entre les
+requêtes et son intégration à la conversation font partie du cadrage PM-114.
 
 ### Vérifications minimales
 

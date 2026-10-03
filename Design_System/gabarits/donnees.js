@@ -29,6 +29,29 @@ export function valider(contenu) {
     ids.add(section.id);
     if (section.type !== "couverture") requis(section.navigation, `sections.${section.id}.navigation`);
   }
+  const prestations = contenu.sections.find((section) => section.type === "prestations");
+  const idsOffres = new Set();
+  for (const [rang, offre] of (prestations?.offres ?? []).entries()) {
+    const base = `sections.${prestations.id}.offres.${rang}`;
+    if (!offre.id && !offre.qualification) continue;
+    if (!/^[a-z0-9-]+$/.test(offre.id ?? "")) erreurs.push({ code: "identifiant", chemin: `${base}.id` });
+    if (idsOffres.has(offre.id)) erreurs.push({ code: "doublon", chemin: `${base}.id` });
+    idsOffres.add(offre.id);
+    const qualification = offre.qualification;
+    if (!qualification || !qualification.declencheur?.fr || !Array.isArray(qualification.questions) || !qualification.questions.length) {
+      erreurs.push({ code: "qualification", chemin: `${base}.qualification` });
+      continue;
+    }
+    const champs = new Set();
+    for (const [rangQuestion, question] of qualification.questions.entries()) {
+      const chemin = `${base}.qualification.questions.${rangQuestion}`;
+      if (!/^[a-z][a-zA-Z]*(?:\.[a-z][a-zA-Z]*)+$/.test(question.champ ?? "") || champs.has(question.champ)) {
+        erreurs.push({ code: "qualification", chemin: `${chemin}.champ` });
+      }
+      if (!question.texte?.fr) erreurs.push({ code: "qualification", chemin: `${chemin}.texte` });
+      champs.add(question.champ);
+    }
+  }
   const idsProjets = new Set();
   contenu.projets.forEach((projet, rang) => {
     const base = projet.id ? `projets.${projet.id}` : `projets.${rang}`;
