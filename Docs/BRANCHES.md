@@ -113,8 +113,7 @@ l'historique de `main`.
 C'est faux.** Vérifié sur GitHub et dans l'historique :
 
 - la PR #1 a été **fusionnée** le 23 septembre 2026 à 12:23 UTC ;
-- elle l'a été **en *squash*** : son
- commit de fusion `7eb7e9a` (« Polish
+- elle l'a été **en *squash*** : son commit de fusion `7eb7e9a` (« Polish
   portfolio design system and responsive homepage ») n'a **qu'un seul parent**,
   et non deux ;
 - l'arbre de `7eb7e9a` est **identique** à celui du sommet de la branche
@@ -129,3 +128,78 @@ Conséquence pour PM-013 (#13) : supprimer cette branche ne ferait perdre
 décidé de la conserver, elle reste donc telle quelle et **sans étiquette
 d'archive** : PM-012 ne portait que sur les 8 branches obsolètes. Si cette
 décision changeait, poser l'étiquette **avant** la suppression :
+
+```sh
+git tag -a archive/marco-mancini-patch-1 origin/marco-mancini-patch-1 \
+  -m "Archive de la branche marco-mancini-patch-1, contenu dans main par squash (7eb7e9a)"
+git push origin archive/marco-mancini-patch-1
+```
+
+Ses 15 commits datent de l'ancienne architecture : ils modifient `AGENTS.md`,
+`README.md`, `Design_System/styles/` (Layout, Responsive, Theme, Tokens,
+Typography) et `Frontend/index.html`, un fichier qui n'existe plus sur `main`.
+
+## `refonte/editorial-final-v2` et la comparaison visuelle
+
+`tools/comparer-reference.mjs` reconstruit un commit avec `git archive` : il
+lit le commit, pas la branche. **Toute référence passée reste comparable** en
+la donnant en argument — c'est ce qui rend un changement de référence
+vérifiable au lieu d'être un effacement.
+
+| Référence | Depuis | Pourquoi la précédente a été remplacée |
+|---|---|---|
+| `71cfb9d` | origine | sur `refonte/editorial-final-v2` |
+| `9d51394` | PM-046 (#46) | 14 écarts, tous dus à trois changements de contenu validés |
+| `e8b729c` | PM-100 (#100) | portrait détouré (PM-097) : le ratio passe de 0,563 à 0,623, la section « À propos » perd 56 px à 1024 et 79 px à 1440 |
+
+| **`f48646f`** | **PM-108 (#108)** | portrait sans cadre posé sur le bord bas du vert (PM-106) : tête alignée sur « Bonjour », `--apropos-espace` de `clamp(24px, 4vw, 60px)` à `clamp(20px, 2vw, 32px)` |
+
+Chacune se rejoue : `npm run comparer-reference -- 9d51394` rend aujourd'hui
+les mêmes 4 écarts, à l'identique. Supprimer une branche ne casse pas la
+comparaison tant que le commit reste accessible, ce qui est le cas puisqu'il
+est dans l'historique de `main` — et désormais aussi par l'étiquette
+`archive/refonte/editorial-final-v2`.
+
+## Étiquettes d'archive — posées le 2 octobre 2026
+
+PM-012 (#12) est **réglée**. Les 8 étiquettes annotées sont sur le distant,
+chacune relue par `git ls-remote --tags origin 'archive/*'` et chacune sur le
+SHA attendu. Avant de poser chaque étiquette, l'appartenance à `main` a été
+vérifiée par `git merge-base --is-ancestor origin/<branche> origin/main` :
+8/8.
+
+| Étiquette | Commit visé |
+|---|---|
+| `archive/design/olive-editorial-identity` | `3276af7` |
+| `archive/refonte/editorial-final` | `d5407b9` |
+| `archive/refonte/editorial-final-v2` | `71cfb9d` |
+| `archive/refonte/kittl` | `3a6a903` |
+| `archive/refonte/storytelling-01-04` | `1d44c40` |
+| `archive/refonte/storytelling-01-04-v2` | `440cd35` |
+| `archive/refonte/storytelling-01-07` | `b1e2655` |
+| `archive/version-finale/portfolio-bo` | `f4cdf80` |
+
+L'obstacle noté dans l'inventaire précédent — « le proxy de la session refuse
+la création d'étiquettes sur GitHub (HTTP 403) » — n'était pas le proxy : le
+dépôt local de cette session-là était un *worktree* dont le dépôt parent avait
+disparu, et aucune commande Git n'y fonctionnait (voir
+[DECISIONS.md](DECISIONS.md)). Depuis un clone sain, `git push origin --tags`
+passe sans difficulté.
+
+## Suppression — reste à Marc (PM-013, #13)
+
+Supprimer une branche, une par une, après confirmation :
+
+```sh
+git push origin --delete <branche>
+```
+
+Une branche supprimée se recrée depuis son étiquette :
+
+```sh
+git push origin archive/<branche>^{commit}:refs/heads/<branche>
+```
+
+Les branches `pm-NNN-…` fusionnées n'ont pas d'étiquette d'archive et n'en ont
+pas besoin : leur dernier commit est dans l'historique de `main`, leur
+suppression ne ferait rien perdre.
