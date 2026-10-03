@@ -54,10 +54,9 @@ const long = (t) => typeof t === "string" && (t.length > 80 || t.includes("\n"))
 export function configurationCms({ contenu, fr }) {
   const libelle = (cle) => ({ fr: fr.editeur.francais, en: fr.editeur.anglais })[cle] ?? fr.champs[cle] ?? cle;
 
-  /* Catalogue des disciplines, lu dans la section qui porte le filtre : il
-     devient la liste de choix du champ « categories » d'un projet. Aucune
-     discipline n'est écrite ici — ajouter une ligne au catalogue suffit. */
-  const disciplines = ((contenu.sections ?? []).find((s) => Array.isArray(s.categories))?.categories ?? [])
+  /* Catalogue des catégories, lu dans la section de réalisations ; il
+     devient la liste de choix de la catégorie principale d'un projet. */
+  const categories = ((contenu.sections ?? []).find((s) => Array.isArray(s.categories))?.categories ?? [])
     .map((d) => ({ value: d.id, label: d.libelle?.fr ?? d.id }));
 
   /* Champs facultatifs que les gabarits savent lire mais que les données
@@ -86,11 +85,9 @@ export function configurationCms({ contenu, fr }) {
       const categorie = /\.categories\b/.test(chemin);
       return { ...base, widget: "string", hint: categorie ? fr.editeur.aideIdentifiantCategorie : fr.editeur.aideIdentifiant };
     }
-    // Disciplines d'un projet : une liste d'identifiants du catalogue. Saisie
-    // libre, elle produirait des rattachements morts ; en choix multiple, les
-    // options sont le catalogue lui-même, libellés compris.
-    if (cle === "categories" && chemin.startsWith("projets")) {
-      return { ...base, required: false, widget: "select", multiple: true, options: disciplines };
+    // Catégorie principale du projet : choix unique, tiré du catalogue.
+    if (cle === "categoriePrincipale" && chemin.startsWith("projets")) {
+      return { ...base, widget: "select", options: categories };
     }
     if (cle === "frequence") return { ...base, widget: "select", options: Object.entries(fr.frequences).map(([value, label]) => ({ value, label })) };
     if (natures.has("liste")) return liste(base, valeurs.flatMap((v) => (Array.isArray(v) ? [v] : [])), chemin);

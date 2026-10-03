@@ -39,6 +39,8 @@ export function valider(contenu) {
     if (disciplines.has(discipline.id)) erreurs.push({ code: "doublon", chemin: `${base}.id` });
     disciplines.add(discipline.id);
     requis(discipline.libelle, `${base}.libelle`);
+    requis(discipline.note, `${base}.note`);
+    requis(discipline.recit, `${base}.recit`);
   });
 
   const idsProjets = new Set();
@@ -49,11 +51,10 @@ export function valider(contenu) {
     idsProjets.add(projet.id);
     for (const champ of ["titre", "categorie", "contexte", "role", "disciplines", "idee", "valeur"]) requis(projet[champ], `${base}.${champ}`);
     if (!projet.annees?.debut) erreurs.push({ code: "annee", chemin: `${base}.annees.debut` });
-    // Un projet se rattache au catalogue par des IDENTIFIANTS, jamais par un
-    // libellé : un rattachement inconnu ne s'affiche nulle part, il se signale.
-    (projet.categories ?? []).forEach((id, i) => {
-      if (!disciplines.has(id)) erreurs.push({ code: "identifiant", chemin: `${base}.categories.${i}` });
-    });
+    // Une seule catégorie principale, référencée par son identifiant.
+    if (!projet.categoriePrincipale || !disciplines.has(projet.categoriePrincipale)) {
+      erreurs.push({ code: "identifiant", chemin: `${base}.categoriePrincipale` });
+    }
   });
   return erreurs;
 }

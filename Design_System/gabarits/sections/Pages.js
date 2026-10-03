@@ -15,7 +15,7 @@ import { Segments } from "../../composants/Segments/Segments.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
 import { Gabarit_Projet, vueProjet } from "../Gabarit_Projet/Gabarit_Projet.js";
 import { Intro } from "../Intro/Intro.js";
-import { Document, enTeteEtMenu, enTeteDocument, optionsLangues } from "./commun.js";
+import { Document, enTeteEtMenu, enTeteDocument, optionsLangues, credit } from "./commun.js";
 import { Couverture } from "./Couverture.js";
 import { Introduction } from "./Introduction.js";
 import { Apropos } from "./Apropos.js";

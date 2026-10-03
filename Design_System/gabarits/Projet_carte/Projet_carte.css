@@ -1,7 +1,7 @@
 /* ==========================================================================
    PROJET_CARTE — disposition de la carte d'un projet
    ========================================================================== */
-.projet-carte { min-width: 0; transition: transform var(--duration-fast) var(--ease-out); }
+.projet-carte { display: block; min-width: 0; color: inherit; text-decoration: none; transition: transform var(--duration-fast) var(--ease-out); }
 .projet-carte:hover { transform: translateY(-3px); }
 .projet-carte__entete { display: flex; min-height: var(--projet-carte-entete-hauteur-min); padding: var(--projet-carte-entete-marge-haute) var(--projet-carte-entete-retrait) var(--projet-carte-entete-retrait); align-items: center; gap: var(--space-3); }
 .projet-carte__nom { min-width: 0; }

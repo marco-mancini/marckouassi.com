@@ -20,21 +20,27 @@
     "explorer": "Explore"
   },
   "projet": {
-    "compteur": "Project {numero} / {total}",
+    "compteur": "Work {numero} / {total}",
     "filtres": {
-      "etiquette": "Filter projects by discipline",
+      "etiquette": "Filter work by discipline",
       "tous": "All",
-      "aucun": "No project in this discipline yet."
+      "aucun": "No work in this discipline yet."
     },
-    "ouvrir": "Open the project {titre} to see the full case study and all its images",
+    "ouvrir": "View {titre} and its full case study",
     "fermer": "Close the case study",
-    "images": "Project images",
+    "images": "Images from this work",
     "role": "My role",
     "disciplines": "Disciplines",
     "periode": "Period",
     "intention": "Creative intent",
-    "valeur": "What the project brings",
-    "retour": "Back to projects",
+    "valeur": "What this work brings",
+    "retour": "Back to selected work",
+    "categories": {
+      "numero": "Field {numero}",
+      "vide": "This field is waiting for its first pieces of work.",
+      "navigation": "Browse work categories",
+      "retour": "Back to categories"
+    },
     "document": "View the document"
   },
   "intro": {
@@ -77,7 +83,7 @@
     "plageProjet": "{debut}–{fin}",
     "plageParcours": "{debut} — {fin}",
     "plageSelection": "{debut} — {fin}",
-    "selection": "{nombre} projects · {plage}",
+    "selection": "{nombre} works · {plage}",
     "categorieEtPeriode": "{categorie} · {periode}",
     "rubrique": "{numero} / {nom}",
     "titrePage": "{titre} — {nom}"

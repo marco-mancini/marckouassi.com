@@ -2,43 +2,91 @@ import { html } from "../../fondations/rendu.js";
 import { Planche, idTitre } from "../../composants/Planche/Planche.js";
 import { Titre } from "../../composants/Titre/Titre.js";
 import { Grille } from "../../composants/Grille/Grille.js";
-import { Segments } from "../../composants/Segments/Segments.js";
+import { Carte } from "../../composants/Carte/Carte.js";
+import { Bouton } from "../../composants/Bouton/Bouton.js";
+import { Pastille } from "../../composants/Pastille/Pastille.js";
+import { texteEnrichi } from "../../composants/Accent/Accent.js";
 import { Gabarit_Projet } from "../Gabarit_Projet/Gabarit_Projet.js";
-import { disciplinesProposees } from "../outils.js";
 import { credit } from "./commun.js";
+import { media, numero, projetsDeLaCategorie } from "../outils.js";
+
+/** Réaligne la catégorie choisie après que l'état :target a masqué l'accueil. */
+export function activerNavigationCategories(racine = document) {
+  const alignerCategorie = () => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const cible = racine.getElementById(id);
+    const categorieActive = cible?.classList.contains("categorie-projets") ? cible : null;
+    const page = racine.getElementById("contenu");
+    page?.classList.toggle("page-planches--categorie", Boolean(categorieActive));
+    page?.querySelectorAll(":scope > .planche-scene").forEach((scene) => {
+      scene.classList.toggle("planche-scene--categorie-active", Boolean(categorieActive && scene.contains(categorieActive)));
+    });
+    if (categorieActive) window.requestAnimationFrame(() => window.requestAnimationFrame(() => categorieActive.scrollIntoView({ block: "start" })));
+  };
+  window.addEventListener("hashchange", alignerCategorie);
+  racine.addEventListener("click", (event) => {
+    const retour = event.target.closest?.("[data-categorie-retour]");
+    if (!retour) return;
+    if (window.history.length > 1) {
+      event.preventDefault();
+      window.history.back();
+    }
+  });
+  alignerCategorie();
+}
+
+function accrocheRealisations(texte) {
+  const [principale, suite] = String(texte ?? "").split("\n", 2);
+  if (!suite) return html`<div class="projets__accroche"><p class="introduction__accroche texte-affirmation">${principale}</p></div>`;
+  return html`<div class="projets__accroche"><p class="introduction__accroche texte-affirmation">${principale}</p><p class="projets__accroche-suite texte-detail">${texteEnrichi(suite)}</p></div>`;
+}
 
 /**
- * Projets — le sommaire : une carte par projet, filtrable par discipline.
+ * Réalisations — une page d'accueil unique, découpée par catégorie.
  *
  * TOUT VIENT DES DONNÉES. Le catalogue des disciplines est lu dans la
  * section (`sections[sommaire].categories`), le rattachement dans chaque
- * projet (`projets[].categories`). Ni liste de projets, ni liste de
- * disciplines, ni libellé n'existe dans ce fichier : ajouter une discipline
- * ou en retirer une ne demande aucune retouche ici.
- *
- * Le filtre est un ENRICHISSEMENT. Sans JavaScript la page rend les onze
- * projets, et le groupe de filtres n'est même pas écrit : un bouton qui ne
- * fait rien vaut moins que pas de bouton. C'est `Gabarit_Projet` qui le pose
- * au navigateur, à partir du modèle `<template>` rendu ici : le filtrage est
- * un comportement commun à TOUS les projets, il appartient au gabarit central.
+ * projet (`projets[].categoriePrincipale`). Chaque catégorie conserve sa
+ * propre grille, mais toutes restent dans cette page.
  */
 export function Projets({ section, contenu, ctx }) {
   const chemin = `sections.${section.id}`;
-  const total = contenu.projets.length;
-  const disciplines = disciplinesProposees(section.categories, contenu.projets);
-
-  // « Tous » est un ÉTAT DU FILTRE, pas une discipline du contenu : son
-  // libellé vient du dictionnaire, pas de content/ (décision du modèle).
-  const options = [
-    { libelle: ctx.t("projet.filtres.tous"), valeur: "", actif: true },
-    ...disciplines.map((d) => ({ libelle: ctx.c(d.libelle, `${chemin}.categories.${d.rang}.libelle`), valeur: d.id, actif: false })),
-  ];
-  const filtre = disciplines.length
-    ? html`<template data-filtres-projets><div class="projets__filtres">${Segments({ options, etiquette: ctx.t("projet.filtres.etiquette"), mode: "boutons", cle: "projets", variante: "nue" })}</div><p class="projets__vide" hidden>${ctx.t("projet.filtres.aucun")}</p></template>`
-    : "";
+  const categories = section.categories ?? [];
+  const accroche = accrocheRealisations(ctx.c(section.accroche, `${chemin}.accroche`));
+  const retour = Bouton({ texte: ctx.t("projet.categories.retour"), variante: "surface", forme: "rond", href: `#${section.id}`, options: { icone: "retour", iconeSeule: true, taille: "grand", attributs: { "data-categorie-retour": "" } } });
+  const choix = categories.map((d, rang) => Carte({
+    rang: numero(rang), libelle: ctx.c(d.libelle, `${chemin}.categories.${rang}.libelle`),
+    note: ctx.c(d.note, `${chemin}.categories.${rang}.note`),
+    options: { classe: "carte--choix", indice: rang, href: `#categorie-${d.id}` },
+  }));
+  const blocs = categories.map((categorie, rang) => {
+    const cheminCategorie = `${chemin}.categories.${rang}`;
+    const projets = projetsDeLaCategorie(contenu.projets, categorie.id);
+    const cartes = projets.map((projet, index) => Gabarit_Projet({
+      projet, ctx, mode: "carte", options: { rang: index, total: projets.length },
+    }));
+    const cartesLogotype = categorie.id === "logotype"
+      ? Grille({ elements: (categorie.realisations ?? []).map((realisation, index) => {
+        const cheminRealisation = `${cheminCategorie}.realisations.${index}`;
+        const visuel = media(ctx, realisation.media, { chemin: `${cheminRealisation}.media` });
+        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel"><img src="${visuel.src}" alt="${ctx.c(realisation.libelle, `${cheminRealisation}.libelle`)}" loading="lazy" decoding="async"><span class="bouton bouton--surface bouton--rond categorie-projets__carte-fleche" aria-hidden="true"><span class="bouton__icone bouton__icone--ouvrir">↗</span></span></div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: numero(index), variante: "contour", forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${ctx.c(realisation.libelle, `${cheminRealisation}.libelle`)}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
+      }), colonnes: [4, 2, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })
+      : null;
+    return html`<section class="categorie-projets" id="categorie-${categorie.id}" aria-labelledby="titre-${categorie.id}">
+      <header class="categorie-projets__entete">
+        <div class="categorie-projets__ligne-titre">
+          ${Titre({ niveau: 2, echelle: "document", texte: ctx.c(categorie.libelle, `${cheminCategorie}.libelle`), id: `titre-${categorie.id}` })}
+          <p class="categorie-projets__numero">${ctx.t("projet.categories.numero", { numero: numero(rang) })}</p>
+        </div>
+        <p class="categorie-projets__sous-titre texte-accroche">${ctx.c(categorie.note, `${cheminCategorie}.note`)}</p>
+        <p class="categorie-projets__recit texte-corps">${ctx.c(categorie.recit, `${cheminCategorie}.recit`)}</p>
+      </header>
+      ${projets.length ? Grille({ elements: cartes, colonnes: [2, 2, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] }) : cartesLogotype ?? html`<p class="categorie-projets__vide">${ctx.t("projet.categories.vide")}</p>`}
+    </section>`;
+  });
 
   return Planche({
-    ton: "olive", id: section.id, classe: "projets", credit: credit(section, contenu.sections, ctx),
-    contenu: html`<div class="projets__tete">${Titre({ echelle: "compacte", texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id), sceau: "petit" })}</div>${filtre}${Grille({ elements: contenu.projets.map((projet, rang) => Gabarit_Projet({ projet, ctx, mode: "carte", options: { rang, total } })), espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })}`,
+    ton: "olive", id: section.id, classe: "projets", credit: { ...credit(section, contenu.sections, ctx), avantRubrique: retour },
+    contenu: html`<div class="savoirfaire__tete projets__tete">${Titre({ texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id) })}${accroche}</div><nav class="projets__categories" aria-label="${ctx.t("projet.categories.navigation")}"><div class="projets__choix">${choix}</div></nav><div class="projets__groupes">${blocs}</div>`,
   });
 }

@@ -14,6 +14,7 @@ import { activerEnTete } from "../Design_System/composants/EnTete/EnTete.js";
 import { suivreSectionCourante } from "../Design_System/composants/Navigation/Navigation.js";
 import { activerApparitions } from "../Design_System/composants/Apparition/Apparition.js";
 import { activerProjets } from "../Design_System/gabarits/Gabarit_Projet/Gabarit_Projet.js";
+import { activerNavigationCategories } from "../Design_System/gabarits/sections/Projets.js";
 import { lancerIntro } from "../Design_System/gabarits/Intro/Intro.js";
 
 const racine = document.documentElement;
@@ -23,6 +24,7 @@ activerModales(document);
 activerEnTete(document.querySelector('[data-en-tete="site"]'));
 suivreSectionCourante(document);
 activerProjets(document);
+activerNavigationCategories(document);
 activerApparitions(document, { reduit });
 racine.classList.add("js-anime");
 lancerIntro({ reduit });

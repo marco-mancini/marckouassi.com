@@ -6,6 +6,7 @@ import { Pastille } from "../../composants/Pastille/Pastille.js";
 import { Grille } from "../../composants/Grille/Grille.js";
 import { credit } from "./commun.js";
 import { nombreEnLettres } from "../outils.js";
+import { texteEnrichi } from "../../composants/Accent/Accent.js";
 
 /**
  * Prestations — une prestation est un Encart (ton or ou clair ALTERNÉ
@@ -23,9 +24,9 @@ export function Prestations({ section, contenu, ctx }) {
       pied: Pastille({ texte: ctx.c(offre.prix, `${chemin}.offres.${rang}.prix`), variante: ton, forme: "bloc" }),
     });
   });
-  const accroche = ctx.l(section.accroche, `${chemin}.accroche`, (texte) => formater(texte, { nombre: nombreEnLettres(section.offres.length, ctx, { majuscule: true }) }));
+  const accroche = ctx.l(section.accroche, `${chemin}.accroche`, (texte) => texteEnrichi(formater(texte, { nombre: nombreEnLettres(section.offres.length, ctx, { majuscule: true }) }), { grand: true }));
   return Planche({
     ton: "olive", id: section.id, classe: "prestations", credit: credit(section, contenu.sections, ctx),
-    contenu: html`<div class="prestations__tete">${Titre({ echelle: "affiche", texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id) })}<p class="prestations__accroche texte-accroche">${accroche}</p></div>${Grille({ elements: offres, min: "var(--prestations-grid-min)", espace: ["var(--space-6)"] })}`,
+    contenu: html`<div class="prestations__tete">${Titre({ echelle: "affiche", texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id) })}<p class="prestations__accroche texte-affirmation">${accroche}</p></div>${Grille({ elements: offres, min: "var(--prestations-grid-min)", espace: ["var(--space-6)"] })}`,
   });
 }

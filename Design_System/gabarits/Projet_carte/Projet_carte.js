@@ -1,6 +1,5 @@
 import { html, attributs } from "../../fondations/rendu.js";
 import { Galerie } from "../../composants/Galerie/Galerie.js";
-import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
 
 /**
@@ -20,15 +19,12 @@ import { Pastille } from "../../composants/Pastille/Pastille.js";
  * @param {object} p.ctx   contexte de langue et de page
  */
 export function Projet_carte({ vue, ctx }) {
-  const entrer = Bouton({
-    texte: ctx.t("projet.ouvrir", { titre: vue.titre }), variante: "surface", forme: "rond", href: vue.lien,
-    options: { icone: "ouvrir", iconeSeule: true, attributs: vue.ouverture },
-  });
-  return html`<article${attributs({
+  return html`<a${attributs({
     class: "projet-carte",
+    href: vue.lien,
+    "aria-label": ctx.t("projet.ouvrir", { titre: vue.titre }),
+    ...vue.ouverture,
     "data-apparition": "bas",
-    // Les disciplines du projet, lues par le filtre du sommaire : chaque
-    // carte dit elle-même à quoi elle appartient, aucune liste côté script.
-    "data-disciplines": vue.disciplines.length ? vue.disciplines.join(" ") : null,
-  })}>${Galerie({ medias: vue.medias, variante: "apercu", superposition: entrer })}<header class="projet-carte__entete">${Pastille({ texte: vue.numero, forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${vue.titreHtml}</h3><p class="projet-carte__categorie">${ctx.t("formats.categorieEtPeriode", { categorie: vue.categorie, periode: vue.periode })}</p></div></header></article>`;
+    "data-categorie": vue.categoriePrincipale,
+  })}>${Galerie({ medias: vue.medias, variante: "apercu" })}<header class="projet-carte__entete">${Pastille({ texte: vue.numero, forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${vue.titreHtml}</h3><p class="projet-carte__categorie">${ctx.t("formats.categorieEtPeriode", { categorie: vue.categorie, periode: vue.periode })}</p></div></header></a>`;
 }

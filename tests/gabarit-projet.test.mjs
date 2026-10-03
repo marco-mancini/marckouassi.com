@@ -89,7 +89,7 @@ test("la vue résout une seule fois ce que les trois vues utilisent", () => {
       assert.equal(vue.titre, ctx.c(projet.titre, `projets.${projet.id}.titre`));
       assert.equal(vue.description, ctx.c(projet.contexte, `projets.${projet.id}.contexte`));
       assert.equal(vue.medias.length, (projet.medias || []).length, `${projet.id} : médias perdus`);
-      assert.deepEqual(vue.disciplines, [...new Set(projet.categories ?? [])]);
+      assert.equal(vue.categoriePrincipale, projet.categoriePrincipale);
       assert.ok(vue.lien.endsWith(`projets/${projet.id}/`), `${langue} · ${projet.id} : ${vue.lien}`);
     }
   }
@@ -143,7 +143,7 @@ test("la carte porte son contrat d'ouverture dans le HTML rendu", () => {
   assert.match(carte, new RegExp(`data-etude="${projets[2].id}"`));
   assert.match(carte, /aria-haspopup="dialog"/);
   assert.match(carte, /data-compteur="[^"]+"/);
-  assert.match(carte, /data-disciplines="[^"]+"/);
+  assert.match(carte, /data-categorie="[^"]+"/);
 });
 
 /* ------------------------------------------------------------- parcours */
@@ -178,11 +178,11 @@ test("le parcours ne saute ni ne duplique aucun projet", () => {
 
 /* ------------------------------------------- aucun projet perdu, pages */
 
-test("les pages publiées rendent les onze projets et chacune de leurs pages", () => {
+test("la page principale ne rend aucun projet et chaque projet garde sa page", () => {
   for (const langue of contenu.site.langues) {
     const accueil = String(rendrePage({ contenu, ctx: contexte(langue), chemin: "" }));
-    assert.equal((accueil.match(/class="projet-carte"/g) ?? []).length, projets.length, `${langue} : cartes manquantes`);
-    assert.equal((accueil.match(/aria-haspopup="dialog"/g) ?? []).length, projets.length + 1, `${langue} : une entrée de projet ou le menu manque`);
+    assert.equal((accueil.match(/class="projet-carte"/g) ?? []).length, 0, `${langue} : galerie globale inattendue`);
+    assert.equal((accueil.match(/class="carte carte--lien carte--choix"/g) ?? []).length, contenu.sections.find((s) => Array.isArray(s.categories)).categories.length, `${langue} : catégories manquantes`);
 
     for (const projet of projets) {
       const chemin = `projets/${projet.id}/`;
@@ -191,6 +191,34 @@ test("les pages publiées rendent les onze projets et chacune de leurs pages", (
       assert.match(page, new RegExp(`id="etude-${projet.id}"`), `${langue} /${chemin}`);
       assert.equal((page.match(/<h1/g) ?? []).length, 1, `${langue} /${chemin} : il faut un seul h1`);
     }
+  }
+});
+
+test("chaque catégorie a une page localisée, ses réalisations et sa navigation cyclique", () => {
+  const section = contenu.sections.find((s) => Array.isArray(s.categories));
+  const categories = section.categories;
+  for (const langue of contenu.site.langues) {
+    categories.forEach((categorie, rang) => {
+      const chemin = `realisations/${categorie.id}/`;
+      const page = String(rendrePage({ contenu, ctx: contexte(langue, chemin), chemin }));
+      const attendus = projets.filter((p) => p.categoriePrincipale === categorie.id);
+      assert.ok(page.includes(categorie.libelle[langue].replaceAll("&", "&amp;")), `${langue} ${categorie.id} : titre`);
+      assert.match(page, new RegExp(categorie.recit[langue].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `${langue} ${categorie.id} : récit`);
+      assert.equal((page.match(/class="projet-carte"/g) ?? []).length, attendus.length, `${langue} ${categorie.id} : réalisations hors catégorie`);
+      assert.ok(page.includes(`href="${contexte(langue, chemin).pageCategorie(categories[(rang - 1 + categories.length) % categories.length])}"`), `${categorie.id} : catégorie précédente`);
+      assert.ok(page.includes(`href="${contexte(langue, chemin).pageCategorie(categories[(rang + 1) % categories.length])}"`), `${categorie.id} : catégorie suivante`);
+      assert.ok(page.includes(`href="${contexte(langue, chemin).pageAccueil()}#${section.id}"`), `${categorie.id} : retour au sommaire`);
+      if (!attendus.length) assert.ok(page.includes(langue === "fr" ? "Cet univers attend ses premières réalisations." : "This field is waiting for its first pieces of work."), `${categorie.id} : état vide`);
+    });
+  }
+});
+
+test("les huit cartes de catégorie pointent vers leurs pages et aucune réalisation n'est affichée sur le sommaire", () => {
+  const section = contenu.sections.find((s) => Array.isArray(s.categories));
+  const page = String(rendrePage({ contenu, ctx: contexte("fr"), chemin: "" }));
+  assert.equal((page.match(/class="projet-carte"/g) ?? []).length, 0);
+  for (const categorie of section.categories) {
+    assert.ok(page.includes(`href="./realisations/${categorie.id}/"`), `${categorie.id} : lien catégorie absent`);
   }
 });
 

@@ -17,7 +17,7 @@
  *
  * CE QU'IL NE CONTRÔLE PAS, et ne doit jamais contrôler :
  *   - les DONNÉES : elles vivent dans `content/projets.json`, toujours ;
- *   - la SÉLECTION : c'est `Segments` qui filtre, ce gabarit affiche ;
+ *   - le CATALOGUE : il vit dans la section « Réalisations » ;
  *   - le DESSIN : chaque mode délègue à son gabarit spécialisé, qui garde
  *     ses classes et sa feuille de style.
  *
@@ -26,8 +26,7 @@
  */
 import { html } from "../../fondations/rendu.js";
 import { Bouton } from "../../composants/Bouton/Bouton.js";
-import { activerSegments } from "../../composants/Segments/Segments.js";
-import { media, numero, periodeProjet, disciplinesDe } from "../outils.js";
+import { media, numero, periodeProjet } from "../outils.js";
 import { Projet_carte } from "../Projet_carte/Projet_carte.js";
 import { Projet_etude, ModaleEtude, activerEtudes } from "../Projet_etude/Projet_etude.js";
 
@@ -76,7 +75,7 @@ export function vueProjet({ projet, ctx, rang = null, total = null }) {
     ideeHtml: ctx.l(projet.idee, `${chemin}.idee`),
     valeurHtml: ctx.l(projet.valeur, `${chemin}.valeur`),
     periode: periodeProjet(projet, ctx),
-    disciplines: disciplinesDe(projet),
+    categoriePrincipale: projet.categoriePrincipale,
     lien: ctx.pageProjet(projet),
     // L'identifiant du titre de l'étude. La modale le reprend en
     // `aria-labelledby` : les deux doivent toujours s'accorder.
@@ -164,57 +163,12 @@ export function Gabarit_Projet({ projet = null, ctx, mode = "carte", options = {
 /**
  * COMPORTEMENT COMMUN À TOUS LES PROJETS — navigateur uniquement.
  *
- * Un seul branchement pour tout ce qui concerne les projets : le filtrage du
- * catalogue, puis l'ouverture des études. L'ordre compte — le filtre pose son
- * groupe de boutons dans la page, l'ouverture écoute ensuite la racine.
+ * Un seul branchement pour l'ouverture des études, partout où une carte de
+ * réalisation est rendue.
  *
- * Ajouter un comportement qui concerne TOUS les projets (parcours au clavier,
- * projets associés, chargement différé) se fait ici, pas dans chaque vue.
+ * Ajouter un comportement qui concerne TOUS les projets se fait ici, pas
+ * dans chaque vue.
  */
 export function activerProjets(racine = document) {
-  activerFiltresProjets(racine);
   activerEtudes(racine);
-}
-
-/**
- * FILTRAGE DU CATALOGUE.
- *
- * `Segments` reste responsable de la SÉLECTION : c'est lui qui dessine les
- * options, tient l'état pressé et annonce le choix. Ce qui suit est
- * l'AFFICHAGE du résultat, donc l'affaire du gabarit des projets.
- *
- * Le groupe de filtres dort dans un `<template>` tant que ce code ne l'a pas
- * sorti : sans JavaScript, aucun bouton de filtre n'existe. Changer de
- * discipline pose `hidden` sur les cartes qui ne la portent pas — elles
- * sortent de la mise en page ET de l'arbre d'accessibilité au même instant.
- * Rien n'est détruit ni recréé : pas de rechargement, images conservées.
- */
-export function activerFiltresProjets(racine = document) {
-  for (const modele of racine.querySelectorAll("template[data-filtres-projets]")) {
-    const planche = modele.closest(".projets");
-    const grille = planche?.querySelector(".grille");
-    if (!grille) continue;
-
-    modele.replaceWith(modele.content.cloneNode(true));
-    const groupe = planche.querySelector('[data-segments="projets"]');
-    const vide = planche.querySelector(".projets__vide");
-    const cartes = [...grille.querySelectorAll("[data-disciplines]")];
-    if (!groupe || !cartes.length) continue;
-
-    const appliquer = (valeur) => {
-      let visibles = 0;
-      for (const carte of cartes) {
-        const garder = !valeur || carte.dataset.disciplines.split(" ").includes(valeur);
-        carte.hidden = !garder;
-        if (garder) visibles += 1;
-      }
-      // Le message d'absence de résultat ne peut pas se produire avec des
-      // données saines — une discipline sans projet n'est pas proposée.
-      // Il reste écrit : une donnée peut changer sans que ce code change.
-      if (vide) vide.hidden = visibles > 0;
-      grille.hidden = visibles === 0;
-    };
-
-    activerSegments(groupe, appliquer);
-  }
 }

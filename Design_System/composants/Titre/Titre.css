@@ -11,7 +11,7 @@
 .titre--section { font-size: var(--type-title-section); }
 .titre--compacte { font-size: var(--type-titre-sommaire); }
 .titre--appel { max-width: var(--titre-appel-largeur-max); font-size: var(--type-contact-title); line-height: var(--leading-contact-titre); }
-.titre--affiche { color: var(--accent-gold); font-size: var(--type-prestations-titre); line-height: var(--leading-prestations-titre); text-align: center; }
+.titre--affiche { color: var(--accent-gold); font-size: var(--type-prestations-titre); line-height: var(--leading-prestations-titre); text-align: center; -webkit-text-stroke: var(--prestation-contour-epaisseur) var(--paper); }
 .titre--etude { font-size: var(--type-project-title); }
 .titre--document { font-size: var(--type-cv-nom); line-height: var(--leading-heading); letter-spacing: var(--display-tracking); }
 .titre--interface { font-size: var(--type-introduction-claim); line-height: var(--leading-heading); text-transform: none; }
