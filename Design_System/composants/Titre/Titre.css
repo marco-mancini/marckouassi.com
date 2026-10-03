@@ -9,7 +9,6 @@
   line-height: var(--leading-board-title); text-transform: uppercase; text-wrap: balance;
 }
 .titre--section { font-size: var(--type-title-section); }
-.titre--compacte { font-size: var(--type-titre-sommaire); }
 .titre--appel { max-width: var(--titre-appel-largeur-max); font-size: var(--type-contact-title); line-height: var(--leading-contact-titre); }
 .titre--affiche { color: var(--accent-gold); font-size: var(--type-prestations-titre); line-height: var(--leading-prestations-titre); text-align: center; }
 .titre--etude { font-size: var(--type-project-title); }

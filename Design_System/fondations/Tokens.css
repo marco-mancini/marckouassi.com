@@ -298,7 +298,7 @@
      d'Anton se chevauchaient. */
   --type-contact-title: clamp(2.4rem, 6.4vw, 5.5rem);
   --leading-contact-titre: .94;
-  --type-title-section: clamp(3rem, 12vw, 14rem);
+  --type-title-section: clamp(3rem, 10vw, 12rem);
   /* Le titre de la planche 06 tient sur une ligne au-dela de 1400 px, ce
      qui est l'effet de la reference. En dessous il passe a deux lignes :
      --leading-board-title a .82 les faisait alors se chevaucher de
@@ -441,14 +441,6 @@
   --cover-edition-offset: var(--header-height);
   /* Positionnement sous la signature de couverture. */
   --cover-role-offset: var(--space-4);
-  /* Sceau de la planche 05, pose devant le titre. Plus petit que celui
-     des planches 01 et 02 : il partage sa ligne avec le titre, qui prend
-     presque toute la largeur de la planche. */
-  /* Titre de la planche 05. Il vaut --type-title-section ailleurs ; ici
-     il cede au sceau la largeur qu'il lui faut pour tenir sur une seule
-     ligne. Mesure au navigateur : a 12vw le titre seul occupait deja
-     1259 px sur les 1253 disponibles a 1440 px. */
-  --type-titre-sommaire: clamp(2.35rem, 10vw, 12rem);
   /* La planche a-propos reprend les memes mesures que l'introduction :
      meme sceau sur la ligne du titre, meme degagement sous lui, memes
      trois echelles de texte. */
