@@ -183,3 +183,22 @@ gratuit).
 - Conserver les conversations côté serveur ou les écrire dans les journaux.
 - Fusionner vers `main` sans Preview Ready.
 - **Commencer quoi que ce soit avant que Marc l'ait demandé.**
+
+
+---
+
+## Piste future — qualification commerciale et reprise humaine
+
+Les décisions du 3 octobre ajoutent une piste postérieure aux phases actuelles. Elle ne démarre pas automatiquement.
+
+Référence unique : [MARCOS_QUALIFICATION.md](MARCOS_QUALIFICATION.md).
+
+Ordre des futures tâches :
+1. PM-109 / #111 — matrice de qualification par contexte ;
+2. PM-110 / #112 — collecte et modèle de cahier des charges ;
+3. PM-111 / #113 — recommandations créatives et reprise par M. Kouassi ;
+4. PM-112 / #114 — transmission Resend, idempotence et reprise sur erreur ;
+5. PM-113 / #115 — formalisation du comportement conversationnel et corpus de tests ;
+6. PM-114 / #116 — intégration au plan, compaction et validation complète.
+
+Contraintes : aucune implémentation avant l'ordre de Marc ; aucune clé dans le dépôt ; aucun paiement ; séparation stricte entre données publiques de Marc et données volontairement fournies par le prospect ; tests unitaires, build, navigateur, responsive, clair/sombre, FR/EN, accessibilité et régressions.
