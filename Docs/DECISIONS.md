@@ -314,3 +314,29 @@ Décision de Marc · issue [#75](https://github.com/marco-mancini/marckouassi.co
 3. vérifier le site sur la nouvelle adresse.
 
 Aucun autre fichier de code ou de contenu ne porte l'adresse publique (vérifié le 2 octobre 2026 dans `tools/`, `tests/`, `Design_System/`, `Frontend/`, `content/` et `.github/`). Seuls des documents la citent, pour information.
+
+---
+
+## 2026-10-03 — Autorisation de traiter les demandes MarcoS PM-109 à PM-114
+
+Instruction explicite de Marc dans cette conversation.
+
+**Problème.** Le plan disait que l'implémentation MarcoS n'était pas autorisée,
+alors que les demandes GPT liées à la qualification, au brief, aux propositions
+créatives, à l'email et au plan d'implémentation doivent maintenant être
+appliquées.
+
+**Choix.** Traiter PM-109 à PM-114 dans l'ordre de leurs dépendances, une issue
+à la fois, jusqu'à leur réalisation et validation. Les issues existantes font
+foi ; ne pas créer de doublons.
+
+**Motif.** Marc a demandé que les deux conversations soient réalisées à 100 %
+et que le travail GPT commence après la clôture complète du volet Mistral.
+
+**Impact.** Cette autorisation ne lève aucune contrainte de sécurité, de coût,
+de confidentialité, d'architecture ou de protection de `main`. Les intégrations
+requérant un compte, une clé ou un envoi réel restent soumises aux prérequis
+gratuits et au contrat d'email documenté.
+
+**Réversibilité.** L'autorisation porte sur le travail demandé ; toute décision
+produit nouvelle hors du périmètre PM-109 à PM-114 reste à Marc.

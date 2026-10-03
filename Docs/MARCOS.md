@@ -584,10 +584,11 @@ Marc a tranché toutes les décisions d'architecture et de produit
 fournisseur unique, longueur des réponses, personne grammaticale, entrée dans
 l'interface, avatar en V2, profil personnel hors base, plafonds.
 
-**L'autorisation de démarrer l'implémentation est une décision distincte, et
-elle n'est pas donnée.** Aucune ligne de MarcoS ne s'écrit avant que Marc le
-demande explicitement. Le plan par phases est dans
-[AI_IMPLEMENTATION_PLAN.md](AI_IMPLEMENTATION_PLAN.md).
+**Autorisation donnée le 3 octobre 2026** par Marc dans sa demande de traiter
+les conversations Mistral et GPT jusqu'à application complète. Le plan par
+phases est dans
+[AI_IMPLEMENTATION_PLAN.md](AI_IMPLEMENTATION_PLAN.md) et le [contrat de
+qualification commerciale](MARCOS_QUALIFICATION.md).
 
 Ce qui reste ouvert :
 
@@ -600,4 +601,3 @@ Ce qui reste ouvert :
 - la **mémoire de navigation** du §10 (D-16), rouverte plus tard s'il y a lieu.
 
 **Version contexte actuelle : 47 réponses collectées.**
-

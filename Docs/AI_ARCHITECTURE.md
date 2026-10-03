@@ -24,6 +24,10 @@ Documents liés :
 [prompt système](AI_SYSTEM_PROMPT.md) · [plan d'implémentation](AI_IMPLEMENTATION_PLAN.md) ·
 [déploiement Vercel](DEPLOY_VERCEL.md)
 
+Le contrat de qualification commerciale est défini dans
+[MARCOS_QUALIFICATION.md](MARCOS_QUALIFICATION.md) ; il s'appuie sur les
+prestations éditoriales et sera implémenté dans les issues PM-110 à PM-114.
+
 ## Objectif
 
 Permettre à un visiteur de poser des questions sur Marc Kouassi, son parcours,

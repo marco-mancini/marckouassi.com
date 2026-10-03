@@ -1,11 +1,12 @@
 # MarcoS — plan d'implémentation
 
-Mis à jour le 2 octobre 2026 après les décisions de Marc
+Mis à jour le 3 octobre 2026 après les décisions de Marc
 ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)). L'architecture est fixée dans
 [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) ; ce plan ne la rediscute pas.
 
-**Rien ne démarre avant que Marc en donne l'ordre.** Les décisions sont prises,
-l'implémentation ne l'est pas : c'est une autorisation distincte.
+**Autorisation donnée le 3 octobre 2026** pour traiter PM-109 à PM-114, dans
+l'ordre de leurs dépendances, jusqu'à réalisation et validation. Cette portée
+reste soumise aux contraintes et prérequis de ce plan.
 
 Ce que les décisions ont changé dans ce plan :
 
@@ -15,9 +16,12 @@ Ce que les décisions ont changé dans ce plan :
 - **aucune clé Supabase, aucune clé Gemini, aucun compte payant** : la seule
   clé du projet est `MISTRAL_CLE` ;
 - la **brièveté devient un critère testé**, pas une consigne de style.
+- la **qualification commerciale** est cadrée dans
+  [MARCOS_QUALIFICATION.md](MARCOS_QUALIFICATION.md) et suivra les issues
+  PM-110 à PM-114 ; aucune catégorie métier ne sera codée en dur.
 
-Branche de travail : à créer depuis `main` le jour où Marc lance
-l'implémentation. Chaque phase se termine par `npm test`, `npm run build`,
+Chaque issue est traitée sur une branche créée depuis `main`. Chaque phase se
+termine par `npm test`, `npm run build`,
 `npm run test:navigateur`, `npm run comparer-reference` (aucune dérive du site),
 puis commit, push et pull request. Jamais de fusion vers `main` sans déploiement
 d'aperçu Vercel « Ready ».
@@ -182,4 +186,4 @@ gratuit).
 - Insérer la réponse du modèle comme HTML, ou suivre une URL qu'il a produite.
 - Conserver les conversations côté serveur ou les écrire dans les journaux.
 - Fusionner vers `main` sans Preview Ready.
-- **Commencer quoi que ce soit avant que Marc l'ait demandé.**
+- **Étendre le travail au-delà des issues PM-109 à PM-114 sans nouvel ordre de Marc.**
