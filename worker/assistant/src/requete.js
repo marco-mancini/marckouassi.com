@@ -9,6 +9,7 @@
  * centime. C'est le seul endroit où un abus se paie en microsecondes.
  */
 import { erreur } from "./erreurs.js";
+import { validerQualification } from "./qualification.js";
 
 /** Liste d'origines autorisées, lue depuis les `vars` (séparateur : virgule). */
 export function originesAutorisees(env) {
@@ -73,7 +74,7 @@ export function validerCorps(corps, env) {
 
   if (corps === null || typeof corps !== "object" || Array.isArray(corps)) return { ok: false, code: "requete_invalide" };
 
-  const permises = new Set(["version", "langue", "page", "session", "messages"]);
+  const permises = new Set(["version", "langue", "page", "session", "messages", "qualification"]);
   for (const cle of Object.keys(corps)) if (!permises.has(cle)) return { ok: false, code: "requete_invalide" };
 
   if (corps.version !== 1) return { ok: false, code: "requete_invalide" };
@@ -104,7 +105,14 @@ export function validerCorps(corps, env) {
   }
   if (total > limiteHistorique) return { ok: false, code: "trop_long" };
 
-  return { ok: true, requete: corps };
+  let qualification;
+  if (Object.hasOwn(corps, "qualification")) {
+    const valide = validerQualification(corps.qualification, corps.messages);
+    if (!valide.ok) return { ok: false, code: "requete_invalide" };
+    qualification = valide;
+  }
+
+  return { ok: true, requete: { ...corps, ...(qualification ? { qualification } : {}) } };
 }
 
 /**

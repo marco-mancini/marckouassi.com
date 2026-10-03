@@ -482,6 +482,43 @@
         "prix": {
           "fr": "Sur devis",
           "en": "On request"
+        },
+        "id": "identite-de-marque",
+        "qualification": {
+          "declencheur": {
+            "fr": "Lorsqu’une personne demande de créer ou revoir une identité de marque ou un logotype.",
+            "en": "When someone asks to create or refresh a brand identity or logo."
+          },
+          "questions": [
+            {
+              "champ": "projet.contexte",
+              "texte": {
+                "fr": "Comment s’appelle la marque et que propose-t-elle ?",
+                "en": "What is the brand called, and what does it do?"
+              }
+            },
+            {
+              "champ": "projet.besoin",
+              "texte": {
+                "fr": "Qu’est-ce qui motive cette création ou cette évolution ?",
+                "en": "What is prompting this creation or change?"
+              }
+            },
+            {
+              "champ": "projet.cible",
+              "texte": {
+                "fr": "À qui la marque doit-elle s’adresser ?",
+                "en": "Who should the brand reach?"
+              }
+            },
+            {
+              "champ": "creation.livrables",
+              "texte": {
+                "fr": "Quels éléments souhaitez-vous faire créer ?",
+                "en": "What would you like to have created?"
+              }
+            }
+          ]
         }
       },
       {
@@ -510,6 +547,43 @@
         "prix": {
           "fr": "Sur devis",
           "en": "On request"
+        },
+        "id": "direction-artistique",
+        "qualification": {
+          "declencheur": {
+            "fr": "Lorsqu’une personne demande une campagne, un univers visuel ou une direction artistique.",
+            "en": "When someone asks for a campaign, visual world or art direction."
+          },
+          "questions": [
+            {
+              "champ": "projet.objectif",
+              "texte": {
+                "fr": "Que doit faire comprendre ou retenir la campagne ?",
+                "en": "What should the campaign help people understand or remember?"
+              }
+            },
+            {
+              "champ": "projet.cible",
+              "texte": {
+                "fr": "À qui s’adresse-t-elle ?",
+                "en": "Who is it for?"
+              }
+            },
+            {
+              "champ": "projet.nature",
+              "texte": {
+                "fr": "Quelle campagne ou quels contenus faut-il créer ?",
+                "en": "What campaign or content needs to be created?"
+              }
+            },
+            {
+              "champ": "creation.supports",
+              "texte": {
+                "fr": "Sur quels supports doit-elle paraître ?",
+                "en": "Where should it appear?"
+              }
+            }
+          ]
         }
       },
       {
@@ -538,6 +612,43 @@
         "prix": {
           "fr": "Sur devis",
           "en": "On request"
+        },
+        "id": "design-ux-ui",
+        "qualification": {
+          "declencheur": {
+            "fr": "Lorsqu’une personne demande un produit numérique, un site ou une interface.",
+            "en": "When someone asks for a digital product, website or interface."
+          },
+          "questions": [
+            {
+              "champ": "projet.contexte",
+              "texte": {
+                "fr": "Pour quel produit ou service, et quel problème faut-il résoudre ?",
+                "en": "What product or service is this for, and what problem should it solve?"
+              }
+            },
+            {
+              "champ": "projet.cible",
+              "texte": {
+                "fr": "Qui l’utilisera ?",
+                "en": "Who will use it?"
+              }
+            },
+            {
+              "champ": "projet.objectif",
+              "texte": {
+                "fr": "Que doivent pouvoir faire les utilisateurs plus facilement ?",
+                "en": "What should users be able to do more easily?"
+              }
+            },
+            {
+              "champ": "creation.livrables",
+              "texte": {
+                "fr": "Quels écrans ou éléments de l’expérience sont concernés ?",
+                "en": "Which screens or parts of the experience are in scope?"
+              }
+            }
+          ]
         }
       },
       {
@@ -562,6 +673,43 @@
         "prix": {
           "fr": "Sur devis",
           "en": "On request"
+        },
+        "id": "edition-supports",
+        "qualification": {
+          "declencheur": {
+            "fr": "Lorsqu’une personne demande une publication, un support imprimé ou un packaging.",
+            "en": "When someone asks for a publication, printed item or packaging."
+          },
+          "questions": [
+            {
+              "champ": "projet.nature",
+              "texte": {
+                "fr": "Quel support ou document faut-il produire ?",
+                "en": "What item or publication needs to be produced?"
+              }
+            },
+            {
+              "champ": "projet.objectif",
+              "texte": {
+                "fr": "À quoi servira-t-il ?",
+                "en": "What will it be used for?"
+              }
+            },
+            {
+              "champ": "creation.supports",
+              "texte": {
+                "fr": "Quel format, quelle quantité ou quels canaux sont prévus ?",
+                "en": "What format, quantity or channels are expected?"
+              }
+            },
+            {
+              "champ": "contraintes.production",
+              "texte": {
+                "fr": "Y a-t-il déjà un imprimeur ou une contrainte de production connue ?",
+                "en": "Is there a printer or any production constraint already known?"
+              }
+            }
+          ]
         }
       }
     ]

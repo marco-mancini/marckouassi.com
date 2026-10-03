@@ -22,7 +22,7 @@ import { cheminsPages, contextePage, rendrePage } from "./pages.mjs";
 import { chargerFichiers, chargerPublication, valider, referencesMedias } from "./contenu.mjs";
 import { publierMedias, sourceLocale, sourceDistante, lireJeton } from "./medias.mjs";
 import { construireCms } from "./cms.mjs";
-import { baseConnaissance, mesurer, PLAFOND_JETONS } from "../Design_System/gabarits/connaissance.js";
+import { baseConnaissance, baseQualification, mesurer, PLAFOND_JETONS } from "../Design_System/gabarits/connaissance.js";
 
 const RACINE = process.cwd();
 const SORTIE = path.join(RACINE, "_site");
@@ -116,6 +116,7 @@ ${site.langues.map((code) => `    <xhtml:link rel="alternate" hreflang="${code}"
   for (const langue of site.langues) {
     const base = baseConnaissance({ contenu, langue });
     await ecrire(`connaissance.${langue}.json`, JSON.stringify(base));
+    await ecrire(`qualification.${langue}.json`, JSON.stringify(baseQualification({ contenu, langue })));
     const { jetons } = mesurer(base);
     tailles.push(`${langue} ${jetons}`);
     // Le plafond se défend ici : un contenu qui gonfle casse le build, il ne

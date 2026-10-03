@@ -23,6 +23,7 @@ import { erreur, STATUTS } from "./erreurs.js";
 import { validerRequete, entetesCors } from "./requete.js";
 import { limiterDebit, creerBudget } from "./limites.js";
 import { extraireLiens } from "./prompt.js";
+import { creerBrief } from "./qualification.js";
 
 /**
  * Crée le gestionnaire. L'injection des dépendances n'est pas de la cérémonie :
@@ -99,7 +100,9 @@ export function creerGestionnaire(deps = {}) {
         ms: Date.now() - debut,
       });
 
-      return new Response(JSON.stringify({ texte, liens }), {
+      const corps = { texte, liens };
+      if (requete.qualification) corps.brief = creerBrief(requete.qualification);
+      return new Response(JSON.stringify(corps), {
         status: 200,
         headers: { "content-type": "application/json; charset=utf-8", ...cors },
       });

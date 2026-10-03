@@ -37,11 +37,14 @@ CMS Git (/admin/) ──► content/*.json ──► npm run build
 | Fraîcheur | suit chaque déploiement Vercel, donc chaque enregistrement du CMS |
 | Panne | le fichier est servi par l'hébergement du site : s'il tombe, le site est déjà tombé. **Aucun point de panne supplémentaire** |
 | Lecture | une requête HTTP vers un fichier de CDN, mise en cache ensuite — plus rapide qu'une base de données |
-| Visibilité | le fichier est **public**, comme le contenu dont il est extrait. La liste blanche exclut déjà les données personnelles (D-3). Point accepté en connaissance de cause : on publie une version lisible par machine de ce qui est déjà lisible par un humain |
+| Visibilité | les fichiers de connaissance et de qualification sont **publics**. Le premier dérive du contenu déjà publié ; le second contient les questions éditoriales des offres. Aucun des deux ne contient de données personnelles. |
 
 Le fichier est produit **par langue** (`connaissance.fr.json`,
 `connaissance.en.json`) ou avec une clé de langue, pour que le Worker n'envoie
-que celle de la question (D-12).
+que celle de la question (D-12). La matrice éditoriale de qualification est
+produite à part (`qualification.fr.json`, `qualification.en.json`) : le mode
+public ne la charge pas et le Worker peut borner son contexte au besoin
+commercial.
 
 ### Supabase a été écarté
 

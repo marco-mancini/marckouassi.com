@@ -241,7 +241,8 @@
     "requis": "{chemin} : le texte français est obligatoire.",
     "identifiant": "{chemin} : identifiant invalide (minuscules, chiffres, tirets).",
     "doublon": "{chemin} : identifiant déjà utilisé.",
-    "annee": "{chemin} : l’année de début est obligatoire."
+    "annee": "{chemin} : l’année de début est obligatoire.",
+    "qualification": "{chemin} : la matrice de qualification doit avoir des champs uniques et être traduite en français et en anglais."
   },
   "nomsLangues": {
     "fr": "Français",

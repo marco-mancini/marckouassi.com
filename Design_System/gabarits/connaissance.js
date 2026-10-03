@@ -143,6 +143,23 @@ export function pagesConnues(contenu) {
   return pages;
 }
 
+/** Questions de qualification, publiées séparément de la base générale. */
+export function baseQualification({ contenu, langue, langueParDefaut = contenu.site.langueParDefaut }) {
+  const prestations = section(contenu.sections, "prestations");
+  return {
+    langue,
+    offres: (prestations?.offres ?? []).map((offre) => ({
+      id: offre.id,
+      titre: texte(offre.titre, langue, langueParDefaut),
+      declencheur: texte(offre.qualification?.declencheur, langue, langueParDefaut),
+      questions: (offre.qualification?.questions ?? []).map((question) => ({
+        champ: question.champ,
+        texte: texte(question.texte, langue, langueParDefaut),
+      })),
+    })),
+  };
+}
+
 /**
  * Base de connaissance d'une langue.
  *
@@ -209,6 +226,7 @@ export function baseConnaissance({ contenu, langue, langueParDefaut = contenu.si
       titre: T(prestations?.titre),
       accroche: T(prestations?.accroche),
       offres: (prestations?.offres ?? []).map((o) => ({
+        id: o.id,
         titre: T(o.titre),
         points: textes(o.points, langue, d),
         prix: T(o.prix),
