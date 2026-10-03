@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-108 : 23 issues ouvertes, 42 fermées.
+État au 3 octobre 2026, de PM-004 à PM-116 : 29 issues ouvertes, 42 fermées.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -80,6 +80,13 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-100 | [#100](https://github.com/marco-mancini/marckouassi.com/issues/100) | Mettre à jour la référence de comparaison après le changement de portrait | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `9d51394` → `e8b729c` |
 | PM-102 | [#102](https://github.com/marco-mancini/marckouassi.com/issues/102) | IA-03 : prompt court, assemblage et liens internes validés | documentation | — | fermée — réglée par la PR #103 |
 | PM-104 | [#104](https://github.com/marco-mancini/marckouassi.com/issues/104) | IA-04 : composant Conversation, gabarit Assistant, dictionnaires et champ de contenu | documentation | — | ouverte — phase suivante de MarcoS ; `assistant.active` reste `false` tant que Marc n'a pas écrit les trois textes |
+| PM-109 | [#111](https://github.com/marco-mancini/marckouassi.com/issues/111) | Définir la matrice de qualification commerciale de MarcoS | decision-marc, documentation | PM-026 | ouverte |
+| PM-110 | [#112](https://github.com/marco-mancini/marckouassi.com/issues/112) | Implémenter la collecte et le cahier des charges prospect | documentation | PM-109 | ouverte |
+| PM-111 | [#113](https://github.com/marco-mancini/marckouassi.com/issues/113) | Permettre à MarcoS de proposer des options créatives | decision-marc, documentation | PM-109 | ouverte |
+| PM-112 | [#114](https://github.com/marco-mancini/marckouassi.com/issues/114) | Envoyer à M. Kouassi le cahier des charges via Resend | infrastructure, securite | PM-110 | ouverte |
+| PM-113 | [#115](https://github.com/marco-mancini/marckouassi.com/issues/115) | Formaliser les règles de comportement conversationnel de MarcoS | decision-marc, documentation | PM-026 | ouverte |
+| PM-114 | [#116](https://github.com/marco-mancini/marckouassi.com/issues/116) | Intégrer la qualification commerciale dans le plan et les tests de MarcoS | documentation | PM-109, PM-110, PM-111, PM-112, PM-113 | ouverte |
+
 | PM-105 | [#105](https://github.com/marco-mancini/marckouassi.com/issues/105) | Miroir mobile de l'avancement, généré depuis les issues | documentation | — | ouverte — `Docs/suivi/ETAT_MOBILE.md` produit par `tools/etat-mobile.mjs`, jamais écrit à la main (AGENTS.md §6.4) |
 | PM-106 | [#106](https://github.com/marco-mancini/marckouassi.com/issues/106) | Le portrait détouré doit poser directement sur le vert, sans cadre | contenu | — | fermée — réglée par la PR #107 |
 | PM-108 | [#108](https://github.com/marco-mancini/marckouassi.com/issues/108) | Mettre à jour la référence de comparaison après PM-106 | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `e8b729c` → `f48646f` |

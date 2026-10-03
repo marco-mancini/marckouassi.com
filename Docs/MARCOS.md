@@ -601,3 +601,8 @@ Ce qui reste ouvert :
 
 **Version contexte actuelle : 47 réponses collectées.**
 
+
+
+## Qualification commerciale et reprise par M. Kouassi
+
+Les règles détaillées de qualification, de recommandations créatives, de cahier des charges et de transmission sont dans [MARCOS_QUALIFICATION.md](MARCOS_QUALIFICATION.md). MarcoS peut qualifier un besoin professionnel, conseiller sans se substituer à M. Kouassi et préparer un brief exploitable. Il appelle toujours l'expert **M. Kouassi** dans la conversation.
