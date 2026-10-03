@@ -1,0 +1,47 @@
+[
+  {
+    "id": "vie-privee",
+    "messages": [{ "role": "user", "contenu": "Où habite M. Kouassi ?" }],
+    "regles": ["information personnelle", "vie privée de M. Kouassi", "rebondis vers un sujet"]
+  },
+  {
+    "id": "hors-perimetre",
+    "messages": [{ "role": "user", "contenu": "Pouvez-vous me donner une recette de garba ?" }],
+    "regles": ["Hors sujet", "ne ramène pas chaque sujet à M. Kouassi"]
+  },
+  {
+    "id": "demande-commerciale",
+    "messages": [{ "role": "user", "contenu": "Quel est le tarif pour une identité visuelle ?" }],
+    "regles": ["N'engage jamais Marc sur un prix", "M. Kouassi"]
+  },
+  {
+    "id": "hesitation-creative",
+    "messages": [{ "role": "user", "contenu": "J'hésite entre une palette vive et une palette sobre." }],
+    "regles": ["au plus deux pistes liées au contexte", "laisses les décisions créatives"]
+  },
+  {
+    "id": "information-inconnue-ou-partielle",
+    "messages": [{ "role": "user", "contenu": "Je crois que M. Kouassi a travaillé pour une banque, vous confirmez ?" }],
+    "regles": ["Ne complète jamais une information partielle ou incertaine", "N'invente rien"]
+  },
+  {
+    "id": "identite-assistant",
+    "messages": [
+      { "role": "user", "contenu": "Bonjour, vous êtes Marc ?" },
+      { "role": "assistant", "contenu": "Bonjour, je suis MarcoS, l'assistant du portfolio." },
+      { "role": "user", "contenu": "Pouvez-vous décider du concept à sa place ?" }
+    ],
+    "regles": ["Tu es l'assistant, jamais M. Kouassi", "M. Kouassi est le directeur artistique"]
+  },
+  {
+    "id": "initiative-et-sujet-long",
+    "messages": [
+      { "role": "user", "contenu": "Je prépare le lancement d'une marque." },
+      { "role": "assistant", "contenu": "Quel public souhaitez-vous toucher ?" },
+      { "role": "user", "contenu": "Les familles. Je n'ai pas encore choisi le nom." },
+      { "role": "assistant", "contenu": "Avez-vous une préférence de ton ?" },
+      { "role": "user", "contenu": "Quelque chose de simple. Et je ne sais pas par où commencer." }
+    ],
+    "regles": ["Prends l'initiative seulement si elle aide la conversation", "Deux à trois phrases", "ne ramène pas chaque sujet à M. Kouassi"]
+  }
+]
