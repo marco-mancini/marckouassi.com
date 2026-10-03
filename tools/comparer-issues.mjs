@@ -58,6 +58,7 @@ function lireGitHub() {
       i.number,
       {
         numero: i.number,
+        pm: i.title.match(/^\[(PM-\d+)\]\s*/)?.[1] ?? null,
         titre: i.title.replace(/^\[PM-\d+\]\s*/, "").trim(),
         etat: i.state === "OPEN" ? "OPEN" : "CLOSED",
         etiquettes: i.labels.map((l) => l.name).sort(),
@@ -76,8 +77,8 @@ for (const ligne of index) {
     ecarts.push(`${ligne.pm} (#${ligne.numero}) : présente dans l'index, absente de GitHub`);
     continue;
   }
-  if (ligne.pm !== `PM-${String(ligne.numero).padStart(3, "0")}`) {
-    ecarts.push(`${ligne.pm} : la référence PM ne correspond pas au numéro GitHub #${ligne.numero}`);
+  if (ligne.pm !== reel.pm) {
+    ecarts.push(`${ligne.pm} (#${ligne.numero}) : référence PM ≠ préfixe du titre GitHub « ${reel.pm ?? "absent"} »`);
   }
   if (ligne.etat === null) {
     ecarts.push(`${ligne.pm} : état illisible dans l'index (« ${ligne.statut} »)`);

@@ -1,10 +1,10 @@
 # Index des issues
 
-Chaque issue porte `[PM-NNN]` en tête de titre, où **NNN est son numéro GitHub sur trois chiffres** : #11 → `[PM-011]`. Aucun décalage entre la référence PM et le numéro GitHub.
+Chaque issue porte `[PM-NNN]` en tête de titre, où **NNN est son identifiant de tâche** : #11 → `[PM-011]`. Les issues et les pull requests partagent un compteur GitHub ; les PR #109 et #110 ont donc créé un décalage de deux numéros à partir de PM-109 (PM-109 → #111, PM-114 → #116, PM-115 → #117).
 
 Règles :
 
-- PM-NNN = numéro GitHub de l'issue. Issues et pull requests partagent le même compteur : les numéros pris par des pull requests (#1 à #3, #36, …) n'apparaissent pas ici, c'est normal ;
+- PM-NNN = identifiant de tâche inscrit dans le titre GitHub ; il peut différer du numéro GitHub après une pull request qui consomme le compteur commun ;
 - branche d'une issue : `pm-NNN-titre-court` ; sa pull request ferme l'issue (`Closes #NNN`) ;
 - ce fichier est mis à jour à chaque création, fermeture ou changement d'étiquettes d'une issue, par la même pull request quand c'est possible ;
 - format d'une issue : Contexte · Ce qui est attendu · Comment vérifier · Ce qui bloque ;
@@ -12,9 +12,9 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 2 octobre 2026, de PM-004 à PM-108 : 23 issues ouvertes, 42 fermées.
+État au 3 octobre 2026, de PM-004 à PM-115 : 28 issues ouvertes, 44 fermées après fermeture de l'issue #117 par cette PR.
 
-Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
+Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro GitHub, la référence PM du titre, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
 | PM | GitHub | Titre | Étiquettes | Bloquée par | État |
 |---|---|---|---|---|---|
@@ -40,7 +40,7 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-023 | [#23](https://github.com/marco-mancini/marckouassi.com/issues/23) | Trancher la source des données de MarcoS : Supabase ou JSON produit au build | decision-marc | — | fermée — tranchée par Marc le 2 octobre 2026 : **JSON produit au build**, pas de Supabase ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)) |
 | PM-024 | [#24](https://github.com/marco-mancini/marckouassi.com/issues/24) | Trancher l'hébergement de l'endpoint de MarcoS sans domaine | decision-marc, infrastructure | — | fermée — tranchée le 2 octobre 2026 : **Worker sur `workers.dev`**, offre gratuite ; indépendante de PM-009 |
 | PM-025 | [#25](https://github.com/marco-mancini/marckouassi.com/issues/25) | Trancher les décisions D-1 à D-11 de MarcoS | decision-marc | — | fermée — les 11 décisions **et** les 8 relevées en plus (D-12 à D-19) tranchées le 2 octobre 2026 ; budget 0 €, pas de Gemini |
-| PM-026 | [#26](https://github.com/marco-mancini/marckouassi.com/issues/26) | Implémenter MarcoS | decision-marc | — | ouverte — **débloquée** : PM-023, PM-024 et PM-025 sont tranchées. N'attend plus que l'ordre de démarrer de Marc |
+| PM-026 | [#26](https://github.com/marco-mancini/marckouassi.com/issues/26) | Implémenter MarcoS | decision-marc | — | ouverte — **débloquée** : PM-023, PM-024 et PM-025 sont tranchées. N'attend plus que l'ordre de démarrer de Marc. Référence corrigée le 3 octobre : la qualification commerciale vit dans #111 à #116 et la PR #110, non dans `Docs/MARCOS_QUALIFICATION.md` (fichier inexistant) |
 | PM-027 | [#27](https://github.com/marco-mancini/marckouassi.com/issues/27) | Décider du poids du dépôt (325 Mo) et du PDF resté dans l'historique | decision-marc, securite, infrastructure | — | ouverte |
 | PM-028 | [#28](https://github.com/marco-mancini/marckouassi.com/issues/28) | Définir le brief de l'animation d'entrée en motion design et son générique | decision-marc, contenu | — | ouverte |
 | PM-029 | [#29](https://github.com/marco-mancini/marckouassi.com/issues/29) | Confirmer les périodes des projets | decision-marc, contenu | — | ouverte |
@@ -83,3 +83,10 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-105 | [#105](https://github.com/marco-mancini/marckouassi.com/issues/105) | Miroir mobile de l'avancement, généré depuis les issues | documentation | — | ouverte — `Docs/suivi/ETAT_MOBILE.md` produit par `tools/etat-mobile.mjs`, jamais écrit à la main (AGENTS.md §6.4) |
 | PM-106 | [#106](https://github.com/marco-mancini/marckouassi.com/issues/106) | Le portrait détouré doit poser directement sur le vert, sans cadre | contenu | — | fermée — réglée par la PR #107 |
 | PM-108 | [#108](https://github.com/marco-mancini/marckouassi.com/issues/108) | Mettre à jour la référence de comparaison après PM-106 | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `e8b729c` → `f48646f` |
+| PM-109 | [#111](https://github.com/marco-mancini/marckouassi.com/issues/111) | Définir la matrice de qualification commerciale de MarcoS | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
+| PM-110 | [#112](https://github.com/marco-mancini/marckouassi.com/issues/112) | Implémenter la collecte et le cahier des charges prospect | documentation | PM-109 | ouverte — créée le 3 octobre 2026 |
+| PM-111 | [#113](https://github.com/marco-mancini/marckouassi.com/issues/113) | Permettre à MarcoS de proposer des options créatives | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
+| PM-112 | [#114](https://github.com/marco-mancini/marckouassi.com/issues/114) | Envoyer à M. Kouassi le cahier des charges via Resend | securite, infrastructure | — | ouverte — créée le 3 octobre 2026 |
+| PM-113 | [#115](https://github.com/marco-mancini/marckouassi.com/issues/115) | Formaliser les règles de comportement conversationnel de MarcoS | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
+| PM-114 | [#116](https://github.com/marco-mancini/marckouassi.com/issues/116) | Intégrer la qualification commerciale dans le plan et les tests de MarcoS | documentation | — | ouverte — créée le 3 octobre 2026 |
+| PM-115 | [#117](https://github.com/marco-mancini/marckouassi.com/issues/117) | Remettre ISSUES.md et BRANCHES.md en accord avec GitHub, et corriger la référence de #26 | documentation | — | fermée — réglée par cette PR |
