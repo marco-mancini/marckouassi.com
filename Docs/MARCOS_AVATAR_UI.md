@@ -2,236 +2,295 @@
 
 **Statut : DÉCISION VALIDÉE — conception à implémenter**
 
-Ce document consigne la décision prise concernant la représentation visuelle de MarcoS dans le portfolio et son interaction avec la barre de conversation.
+Ce document constitue la référence de conception de la représentation visuelle de MarcoS et de son interface conversationnelle flottante.
 
-## 1. Rôle de l'avatar
+## 1. Rôle de l’avatar
 
 MarcoS ne doit pas être présenté comme un chatbot classique occupant une grande fenêtre.
 
-Il doit être une **présence digitale discrète intégrée au portfolio**, visible en permanence mais peu intrusive, qui devient plus présente lorsque le visiteur interagit avec lui.
+Il doit être une **présence digitale discrète intégrée au portfolio**, visible sans être intrusive, qui devient plus présente lorsque le visiteur interagit avec lui.
 
-## 2. Position dans le portfolio
+## 2. Position
 
-MarcoS est positionné **en bas à droite de l'interface**.
+MarcoS est positionné **en bas à droite de l’interface**.
 
-La composition de repos comprend :
+À l’état repos :
 
-- le buste 3D de MarcoS au-dessus ;
-- une barre de conversation compacte située sous le personnage ;
-- un espace suffisamment réduit pour ne pas masquer le contenu du portfolio ;
-- une présence visuelle suffisamment forte pour rester identifiable sans devenir dominante.
+- buste 3D au-dessus ;
+- barre conversationnelle compacte sous le personnage ;
+- emprise minimale sur le contenu ;
+- présence suffisamment lisible pour être identifiable.
 
 ## 3. Asset principal
 
-L'asset principal n'est **pas** le turnaround full-body.
+Le turnaround full-body est une **référence maître de cohérence**, pas l’asset UI principal.
 
-Le modèle full-body reste une **référence maître de cohérence du personnage**, mais l'asset destiné à l'interface est un **portrait/buste 3D**.
-
-Contraintes :
+L’asset UI prioritaire est un **portrait/buste 3D** :
 
 - tête + épaules / haut du torse ;
 - visage très lisible ;
 - regard caméra ou très légèrement 3/4 ;
 - expression naturelle et chaleureuse ;
 - fond transparent ;
-- aucun élément décoratif inutile ;
-- aucun texte ;
-- aucun décor ;
+- aucun décor ni texte ;
 - aucune main nécessaire ;
 - haute résolution ;
-- optimisation pour rester identifiable même autour de **80–150 px de hauteur**.
+- identifiable autour de **80–150 px de hauteur**.
 
-Le visage est prioritaire sur le corps, car MarcoS sera souvent affiché en petite taille.
+Le visage est prioritaire sur le corps.
 
-## 4. Référence du personnage
+## 4. Cohérence du personnage
 
-Le modèle 3D maître doit rester cohérent avec la référence validée :
+Toutes les variantes doivent représenter exactement le même MarcoS :
 
-- même identité faciale ;
-- mêmes proportions du visage ;
-- même coiffure ;
-- même texture de cheveux ;
-- même carnation ;
-- même barbe ;
-- même style de modélisation 3D ;
-- mêmes proportions générales.
+- identité faciale ;
+- proportions du visage ;
+- coiffure ;
+- texture des cheveux ;
+- carnation ;
+- barbe ;
+- proportions générales ;
+- style de modélisation 3D.
 
-Les variantes d'expressions et de vêtements doivent toujours représenter **le même MarcoS**.
+Les changements d’expression, de tenue ou de pose ne doivent jamais produire un nouveau personnage.
 
 ## 5. Expressions
 
-Prévoir une bibliothèque d'expressions permettant à MarcoS de réagir au contexte :
+Prévoir une bibliothèque :
 
-1. **Repos / accueil** — expression calme, légèrement chaleureuse.
-2. **Sourire** — sourire naturel et accessible.
-3. **Écoute** — expression attentive, sourcils légèrement réactifs.
-4. **Réflexion** — expression subtilement réfléchie.
-5. **Parole** — expression naturelle de conversation.
-6. **Complicité / humour** — sourire léger et maîtrisé, sans caricature.
+1. repos / accueil ;
+2. sourire ;
+3. écoute ;
+4. réflexion ;
+5. parole ;
+6. complicité / humour.
 
-Les expressions doivent rester naturelles et cohérentes avec la personnalité définie dans `MARCOS.md` et `MARCOS_DECISIONS.md`.
+Les expressions restent naturelles, sobres et cohérentes avec la personnalité définie dans `MARCOS.md` et `MARCOS_DECISIONS.md`.
 
-## 6. Variations de tenue
+## 6. Tenues
 
-Les expressions peuvent être associées à des tenues différentes afin de créer une présence moins figée.
-
-Direction validée :
+Des variantes de tenues peuvent accompagner les expressions :
 
 - veste de directeur artistique gris anthracite + t-shirt noir ;
-- surchemise bleu marine élégante ;
-- col roulé noir premium ;
+- surchemise bleu marine ;
+- col roulé noir ;
 - veste contemporaine beige/crème ;
 - chemise sombre minimaliste ;
 - tenue casual créative sophistiquée.
 
-Principes :
+Aucun logo inutile, aucune tenue extravagante. Le visage reste dominant.
 
-- aucune marque ou logo non nécessaire ;
-- aucune tenue extravagante ;
-- esthétique premium, contemporaine et créative ;
-- la tenue ne doit jamais prendre le dessus sur le visage.
+## 7. Barre conversationnelle
 
-## 7. Barre de conversation
+La barre sous MarcoS est l’interface conversationnelle principale.
 
-La barre située sous MarcoS est **l'interface conversationnelle principale**.
+### État initial
 
-Elle doit rester compacte à l'état initial.
+La barre est **petite, discrète et peu animée**. Elle ne doit pas attirer artificiellement l’attention avant interaction.
 
-Elle doit pouvoir :
+### Première interaction
 
-- s'ouvrir au clic ;
-- se contracter après interaction ;
-- réagir au survol ;
-- afficher un état d'écoute ;
-- afficher un état de réflexion ;
-- afficher une animation de réponse / parole ;
-- accueillir la saisie lorsque la conversation est ouverte.
+Au clic ou à l’activation clavier :
 
-## 8. Animation coordonnée
+- ouverture progressive ;
+- apparition du champ de saisie ;
+- MarcoS devient légèrement plus expressif ;
+- transition courte et naturelle.
 
-MarcoS et la barre ne doivent pas fonctionner comme deux éléments indépendants.
+### Conversation courte
 
-### État repos
+L’interface reste compacte autant que possible. L’historique visible reste limité afin de préserver le portfolio.
 
-- MarcoS immobile ou animé très subtilement ;
-- respiration légère possible ;
+### Conversation longue
+
+La conversation **ne doit jamais faire grandir indéfiniment la barre**.
+
+À partir d’une hauteur maximale définie par l’interface :
+
+- le panneau conserve une hauteur bornée ;
+- l’historique possède un scroll interne ;
+- le champ de saisie reste accessible ;
+- MarcoS reste visuellement présent au-dessus ;
+- le reste du portfolio n’est pas déplacé ou masqué de façon permanente ;
+- aucune transformation automatique en page chatbot plein écran.
+
+L’utilisateur peut réduire le panneau à tout moment pour retrouver l’état compact.
+
+## 8. États et animations coordonnées
+
+MarcoS et la barre doivent être pilotés par un **même état conversationnel**.
+
+### Repos
+
+- MarcoS immobile ou micro-animation de respiration ;
 - barre minimale et calme.
 
 ### Survol
 
 - micro-réaction de MarcoS ;
-- mouvement ou animation légère de la barre ;
-- aucun changement brutal.
+- animation légère de la barre ;
+- aucun mouvement brutal.
 
 ### Ouverture
 
-- la barre s'ouvre progressivement ;
-- MarcoS devient légèrement plus expressif ;
-- l'interface reste intégrée au portfolio.
+- barre qui s’ouvre progressivement ;
+- expression légèrement plus active ;
+- aucun déplacement brutal du portfolio.
 
-### Saisie utilisateur
+### Saisie / écoute
 
-- MarcoS indique subtilement qu'il écoute ;
-- animation légère de l'interface ;
-- aucun mouvement excessif.
+- indication subtile que MarcoS écoute ;
+- animation légère de la barre ;
+- mouvement limité.
 
-### Réponse de MarcoS
+### Réflexion / traitement
+
+- état visuel distinct mais discret ;
+- animation cohérente avec une attente courte ;
+- ne jamais simuler artificiellement une activité inexistante.
+
+### Réponse
 
 - animation de parole / waveform dans la barre ;
-- expression adaptée de MarcoS ;
-- micro-mouvements cohérents avec la parole.
+- expression adaptée ;
+- micro-mouvements cohérents.
 
 ### Fin de réponse
 
-- retour progressif vers l'état repos ;
-- pas de disparition brutale.
+- retour progressif vers l’état repos ou conversation active ;
+- aucune disparition brutale.
 
-## 9. Philosophie UX
+## 9. Gestion des conversations longues — principe inspiré de Codex
 
-MarcoS doit rester une **présence**, pas devenir une fenêtre de support client classique.
+L’interface et la gestion du contexte sont deux problèmes distincts.
 
-Le principe est :
+### Côté interface
 
-**discret au repos → réactif à l'interaction → présent pendant la conversation → discret à nouveau après la conversation.**
+La fenêtre visible doit rester compacte :
 
-## 10. Contraintes responsive
+- hauteur maximale ;
+- scroll interne ;
+- champ de saisie persistant ;
+- bouton de réduction toujours disponible ;
+- jamais d’agrandissement vertical illimité.
 
-Le composant doit être pensé pour desktop et mobile.
+### Côté contexte IA
+
+La longueur de l’historique ne doit pas conduire à une perte brutale du contexte utile.
+
+MarcoS doit prévoir une stratégie de **compaction du contexte** lorsque l’historique devient trop volumineux :
+
+- conserver les informations nécessaires à la continuité ;
+- conserver les décisions et éléments confirmés utiles à la conversation ;
+- résumer les échanges anciens lorsque leur détail n’est plus nécessaire ;
+- éviter d’envoyer inutilement tout l’historique brut au modèle ;
+- poursuivre la conversation sans rupture visible pour le visiteur.
+
+La compaction concerne le **contexte envoyé au modèle**, pas nécessairement l’historique affiché ou stocké.
+
+### Séparation recommandée
+
+**Historique utilisateur → stockage de conversation → contexte compacté → prompt système + contexte pertinent → modèle.**
+
+Le système doit distinguer :
+
+- historique complet ;
+- résumé/état conversationnel ;
+- informations persistantes réellement autorisées ;
+- contexte temporaire de la conversation ;
+- prompt système et règles MarcoS.
+
+Aucune donnée ne doit être supprimée uniquement pour résoudre une limite de contexte si elle doit être conservée pour la traçabilité ou les règles de conservation du projet.
+
+## 10. Philosophie UX
+
+Principe directeur :
+
+**discret au repos → réactif à l’interaction → présent pendant la conversation → discret à nouveau.**
+
+Même après une conversation très longue, MarcoS doit rester une présence du portfolio et non devenir un chatbot qui prend possession de la page.
+
+## 11. Responsive
+
+Desktop et mobile doivent conserver la même logique.
 
 Sur petit écran :
 
-- réduire l'encombrement ;
+- réduire l’encombrement ;
 - préserver la lisibilité du visage ;
-- éviter que MarcoS masque le contenu ;
-- conserver une zone d'interaction confortable ;
-- adapter la taille de la barre et du buste sans changer leur logique.
+- éviter de masquer le contenu important ;
+- conserver une zone d’interaction confortable ;
+- adapter les dimensions sans changer le comportement conceptuel.
 
-La taille exacte sera définie pendant l'implémentation après vérification du rendu réel.
+Les dimensions exactes seront définies après test sur le rendu réel.
 
-## 11. Accessibilité
+## 12. Accessibilité
 
-Les animations doivent rester fonctionnelles sans dépendre exclusivement du mouvement.
+Prévoir :
 
-Prévoir notamment :
-
-- réduction/absence d'animations lorsque `prefers-reduced-motion` est actif ;
-- zones interactives accessibles ;
-- focus clavier visible ;
-- libellés accessibles pour les contrôles ;
+- `prefers-reduced-motion` ;
+- contrôles accessibles au clavier ;
+- focus visible ;
+- libellés accessibles ;
 - contraste suffisant ;
-- aucune information transmise uniquement par l'animation.
+- aucune information transmise uniquement par animation ;
+- réduction des animations sans désactiver les fonctions essentielles.
 
-## 12. Assets à produire
+## 13. Assets
 
 ### Référence maître
 
-- turnaround du personnage ;
-- vues front, 3/4, profils et dos.
+- turnaround front ;
+- front 3/4 gauche ;
+- front 3/4 droit ;
+- profils ;
+- dos / 3/4 dos.
 
-### Assets UI prioritaires
+### UI
 
 - buste frontal ;
 - buste 3/4 gauche ;
 - buste 3/4 droit ;
-- variantes d'expressions ;
+- expressions ;
 - variantes de tenues si nécessaires.
 
 ### Format maître
 
-**PNG avec transparence alpha**, haute résolution.
+**PNG avec transparence alpha**, haute résolution, idéalement 4K pour les assets sources.
 
-Le WebP pourra être produit ensuite pour les usages web lorsque cela améliore le poids sans dégrader le rendu.
+Le WebP pourra être produit ensuite pour le web lorsque cela réduit le poids sans dégrader le rendu.
 
-## 13. Ce qui est explicitement rejeté
+## 14. Rejets explicites
 
-- avatar full-body utilisé comme asset principal de l'interface ;
+- full-body comme asset UI principal ;
 - grosse fenêtre chatbot classique ;
-- avatar générique sans identité de Marc ;
-- personnage cartoon sans rapport avec le modèle 3D validé ;
+- barre qui grandit indéfiniment ;
+- interface plein écran automatique ;
+- avatar générique ;
+- personnage cartoon sans rapport avec le modèle validé ;
 - animations excessives ;
-- interface qui masque le portfolio ;
-- variations qui changent l'identité du personnage ;
+- interface masquant le portfolio ;
+- identité changeante entre variantes ;
 - expressions caricaturales ;
-- tenue ou accessoires qui prennent visuellement le dessus ;
-- génération de nouvelles variantes sans besoin fonctionnel identifié.
+- tenue dominante ;
+- perte brutale du contexte lors d’une conversation longue ;
+- envoi systématique de tout l’historique brut au modèle lorsque la compaction est suffisante.
 
-## 14. Décision de conception
-
-La direction validée est donc :
+## 15. Décision de conception
 
 > **Modèle 3D maître → buste UI prioritaire → expressions → poses secondaires.**
 >
-> MarcoS est placé au-dessus d'une barre de conversation compacte en bas à droite. Les deux éléments sont animés de manière coordonnée selon l'état de la conversation.
+> MarcoS est placé au-dessus d’une barre de conversation compacte en bas à droite. Les deux éléments sont animés de manière coordonnée selon l’état de la conversation. La barre reste compacte et devient un panneau borné avec scroll interne lorsque la conversation s’allonge. Le contexte IA est compacté automatiquement lorsque nécessaire afin de préserver la continuité sans augmenter indéfiniment l’interface.
 
-## 15. Prochaine étape
-
-Ne pas implémenter immédiatement.
-
-Avant le code :
+## 16. Avant implémentation
 
 1. finaliser les assets buste/expressions ;
-2. vérifier leur lisibilité à petite taille ;
-3. définir précisément les états d'interface ;
-4. définir les transitions d'animation ;
-5. intégrer la décision dans l'architecture existante ;
-6. écrire les tests de comportement avant l'implémentation.
+2. vérifier la lisibilité à petite taille ;
+3. définir les états d’interface ;
+4. définir les transitions ;
+5. définir la stratégie de stockage/historique ;
+6. définir la stratégie de compaction du contexte ;
+7. intégrer la décision à l’architecture existante ;
+8. écrire les tests de comportement ;
+9. tester desktop/mobile et reduced-motion ;
+10. implémenter uniquement après validation de ces contrats.
