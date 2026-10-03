@@ -1,5 +1,5 @@
 /**
- * ÉTAT STRUCTURÉ D'UN BRIEF — données fournies par le visiteur seulement.
+ * ÉTAT STRUCTURÉ D'UN BRIEF — faits visiteur et propositions MarcoS séparés.
  *
  * Les valeurs sont conservées comme extraits exacts de la conversation : le
  * modèle peut les classer, jamais les compléter ou les paraphraser en faits.
@@ -47,17 +47,18 @@ function confirmationExplicite(texte) {
 
 /**
  * Valide un état compact fourni avec la requête suivante.
- * Toute valeur doit être un extrait exact d'un message utilisateur conservé
- * dans l'historique transmis. Les preuves de rôle assistant ne sont jamais
- * acceptées.
+ * Chaque fait doit être un extrait utilisateur exact. Chaque proposition
+ * doit venir d'un extrait exact d'un message assistant. Les deux sources ne
+ * peuvent pas être interverties.
  *
- * @returns {{ok: true, faits: object, recontact: object} | {ok:false, code:string}}
+ * @returns {{ok: true, faits: object, propositions: string[], recontact: object} | {ok:false, code:string}}
  */
 export function validerQualification(entree, messages) {
   if (!entree || typeof entree !== "object" || Array.isArray(entree)) return refus();
-  if (Object.keys(entree).some((cle) => !["faits", "recontact", "confirmation"].includes(cle))) return refus();
+  if (Object.keys(entree).some((cle) => !["faits", "propositions", "recontact", "confirmation"].includes(cle))) return refus();
   if (!entree.faits || typeof entree.faits !== "object" || Array.isArray(entree.faits)) return refus();
   const utilisateurs = (messages ?? []).filter((m) => m?.role === "user").map((m) => m.contenu);
+  const assistant = (messages ?? []).filter((m) => m?.role === "assistant").map((m) => m.contenu);
   const faits = {};
   for (const [champ, fait] of Object.entries(entree.faits)) {
     if (!CHAMPS.has(champ) || !fait || typeof fait !== "object" || Array.isArray(fait)) return refus();
@@ -67,6 +68,16 @@ export function validerQualification(entree, messages) {
     if (!valeur || !preuve || valeur.length > MAX_VALEUR || preuve.length > MAX_PREUVE) return refus();
     if (valeur !== preuve || !utilisateurs.some((texte) => correspond(texte, preuve))) return refus();
     faits[champ] = { valeur, preuve };
+  }
+
+  const propositions = entree.propositions ?? [];
+  if (!Array.isArray(propositions) || propositions.length > 3) return refus();
+  const propositionsValidees = [];
+  for (const proposition of propositions) {
+    if (typeof proposition !== "string" || !proposition.trim() || proposition.length > MAX_PREUVE) return refus();
+    const extrait = proposition.trim();
+    if (!assistant.some((texte) => correspond(texte, extrait))) return refus();
+    if (!propositionsValidees.includes(extrait)) propositionsValidees.push(extrait);
   }
 
   const recontact = entree.recontact;
@@ -97,6 +108,7 @@ export function validerQualification(entree, messages) {
   return {
     ok: true,
     faits,
+    propositions: propositionsValidees,
     recontact: { accord: recontact.accord, preuve: preuveRecontact || null },
     confirmation: { etat: confirmation.etat, preuve: preuveConfirmation || null },
   };
@@ -133,6 +145,7 @@ export function creerBrief(qualification) {
 
   return {
     faits: Object.fromEntries(CHAMPS_BRIEF.map((champ) => [champ, valeur(champ)])),
+    propositionsMarcoS: qualification?.propositions ?? [],
     synthese: { resume, informationsManquantes: manquants },
     reprise: { role: "expert" },
     recontact: accord,

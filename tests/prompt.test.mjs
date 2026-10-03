@@ -182,4 +182,6 @@ test("le prompt porte les règles qui ne doivent pas disparaître", () => {
   ]) {
     assert.ok(MODELE.includes(regle), `règle absente du prompt : « ${regle} »`);
   }
+  assert.ok(MODELE.includes("au plus deux pistes liées au contexte"));
+  assert.ok(MODELE.includes("demande s'il choisit ou laisse M. Kouassi décider"));
 });
