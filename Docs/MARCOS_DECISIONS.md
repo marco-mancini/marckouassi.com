@@ -1036,3 +1036,34 @@ de MarcoS plus que des faits. Dis-le si tu veux des propositions.
   Elles restent entières et à toi.
 - Les **trois textes de D-9** : à écrire dans `/admin/` → Paramètres, quand tu
   veux. Rien ne les attend pour avancer, et rien ne se publie sans eux.
+
+
+---
+
+## 11. Décisions ajoutées le 3 octobre 2026 — qualification commerciale et recommandations
+
+Ces décisions complètent les arbitrages du 2 octobre. Elles sont détaillées dans [MARCOS_QUALIFICATION.md](MARCOS_QUALIFICATION.md).
+
+### D-20 — MarcoS peut qualifier un besoin professionnel
+MarcoS peut prendre l'initiative lorsqu'un besoin réel apparaît, poser progressivement les questions essentielles et transformer la conversation en brief exploitable pour **M. Kouassi**. Il ne transforme pas une conversation simple en formulaire et ne redemande pas une information déjà fournie.
+
+### D-21 — Le brief de qualification est structuré par contexte
+Un socle commun existe, mais les questions et critères de complétude dépendent du type de demande : identité/logo, branding, campagne, direction artistique, design digital/UX-UI, print/production et autres contextes métier effectivement présents dans les données.
+
+### D-22 — MarcoS peut conseiller sur les décisions créatives
+Lorsqu'un prospect hésite, MarcoS peut proposer plusieurs options pertinentes et en expliquer brièvement la logique. Lorsque l'arbitrage doit revenir à l'expert, la dernière option doit pouvoir être formulée : **« Ou vous préférez que M. Kouassi le choisisse ? »**. MarcoS ne présente jamais sa proposition comme une décision de M. Kouassi.
+
+### D-23 — MarcoS prépare un cahier des charges exploitable
+Une opportunité ne doit pas être remontée comme une simple alerte. Une conversation suffisamment qualifiée doit produire un cahier des charges structuré : prospect, coordonnées volontairement fournies, besoin, contexte, objectifs, cible, périmètre, livrables, supports, références, contraintes, délai, budget communiqué, maturité/urgence, décisions, hésitations, options, choix, décisions laissées à M. Kouassi, informations manquantes et prochaine action.
+
+### D-24 — Transmission par email via Resend
+Lorsque le brief est suffisamment qualifié et que le visiteur a volontairement fourni ses coordonnées, MarcoS transmet le cahier des charges à M. Kouassi via Resend. La clé reste côté serveur/Worker. Les retries doivent être idempotents pour éviter les doublons et un échec d'envoi ne doit pas détruire le brief.
+
+### D-25 — Distinction obligatoire « MarcoS » / « M. Kouassi »
+MarcoS est l'assistant. Il désigne systématiquement l'expert qui reprend le projet comme **M. Kouassi**, afin d'éviter toute confusion avec son propre nom.
+
+### D-26 — Les règles comportementales deviennent testables
+L'initiative, l'adaptation au rythme, le ton ivoirien, les transitions après une information inconnue ou privée, l'absence d'invention, la qualification et la reprise par M. Kouassi doivent être couverts par un corpus de tests. Les règles ne doivent pas dépendre d'un exemple isolé.
+
+### D-27 — La compaction conserve le brief utile
+Lors d'une conversation longue, la compaction du contexte ne doit pas perdre les éléments structurants du projet : besoin, décisions, contraintes, coordonnées volontairement fournies, informations manquantes, choix/hésitations et décisions laissées à M. Kouassi.
