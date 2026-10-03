@@ -1,6 +1,6 @@
 # MarcoS — prompt système
 
-Version : **0.2 (brouillon, non relu par Marc)** — 2 octobre 2026.
+Version : **0.3 (règle créative validée par Marc)** — 3 octobre 2026.
 Remplace la version 0.1 du 1er octobre.
 
 Réécrit en application des décisions de Marc du 2 octobre
@@ -10,9 +10,13 @@ Réécrit en application des décisions de Marc du 2 octobre
 - **verbosité minimale** : réponses de **deux à trois phrases**, plus cinq ;
 - **prompt court lui aussi** : tout habillage verbeux est retiré ;
 - **D-12** : une seule langue dans la base, donc une seule dans le prompt ;
-- **D-2** : il n'y a qu'un fournisseur, donc plus aucune mention de secours.
+- **D-2** : il n'y a qu'un fournisseur, donc plus aucune mention de secours ;
+- **règle du 3 octobre** : MarcoS propose des pistes créatives sans prendre la
+  décision réservée au visiteur ou à M. Kouassi.
 
-**Mesure : 2 442 → 1 386 caractères, soit 698 → 396 jetons. −43 %.**
+Mesure de la version 0.2 : 2 442 → 1 386 caractères (698 → 396 jetons).
+La version 0.3 mesure 1 555 caractères (444 jetons), marqueurs de gabarit
+retirés ; elle reste sous le plafond de 450 jetons testé.
 
 Voir aussi l'[architecture](AI_ARCHITECTURE.md), les [données](AI_DATA.md) et la
 [sécurité](AI_SECURITY.md).
@@ -47,6 +51,7 @@ Si l'information manque, dis-le en une phrase, puis propose une page ou l'e-mail
 
 FORME
 Réponds en {{LANGUE}}, en deux à trois phrases, jamais plus. Pas de titre, de liste, de tableau ni d'emoji. Ton professionnel et direct.
+Si le visiteur hésite sur un choix créatif, propose au plus deux pistes liées au contexte, justifie-les brièvement et demande s'il choisit ou laisse M. Kouassi décider.
 
 LIENS
 Pour renvoyer vers une page, écris [[page:identifiant]] avec un identifiant de la liste. N'écris jamais d'adresse web.
@@ -85,6 +90,11 @@ la première personne — « J'ai construit une prise de parole qui… ». Sans 
 consigne, un modèle qui doit parler à la troisième personne (D-15) et qui lit
 des faits au « je » produira soit un panachage, soit une citation qui laisse
 croire que MarcoS est Marc, ce qu'interdit MARCOS.md §11.
+
+La version 0.3 ajoute une consigne bornée : au plus deux pistes créatives,
+chacune brièvement justifiée par le contexte, puis une question laissant le
+choix au visiteur ou à M. Kouassi. Elle respecte la limite globale de deux à
+trois phrases et ne transforme jamais une suggestion en décision.
 
 ## Messages envoyés au modèle
 

@@ -53,6 +53,28 @@ test("une réponse précédente de MarcoS ne peut pas justifier un fait", () => 
   assert.equal(validerQualification(q({ "projet.cible": fait("Pour des familles.") }), messages).ok, false);
 });
 
+test("les pistes de MarcoS sont conservées séparément et doivent venir de son message", () => {
+  const messages = [
+    msg("Je veux refaire mon identité, mais j'hésite sur les couleurs."),
+    msg("Deux pistes : beige et brun pour une chaleur artisanale, ou rouge et crème pour plus d'énergie. Vous pouvez aussi laisser M. Kouassi décider.", "assistant"),
+    msg("Je préfère beige et brun, mais je lui laisse le choix final."),
+  ];
+  const pistes = ["beige et brun pour une chaleur artisanale", "rouge et crème pour plus d'énergie"];
+  const valide = validerQualification({
+    ...q({ "creation.hesitations": fait("j'hésite sur les couleurs"), "creation.choixProspect": fait("Je préfère beige et brun") }),
+    propositions: pistes,
+  }, messages);
+  assert.equal(valide.ok, true);
+  assert.deepEqual(valide.propositions, pistes);
+  const brief = creerBrief(valide);
+  assert.deepEqual(brief.propositionsMarcoS, pistes);
+  assert.equal(brief.faits["creation.choixProspect"], "Je préfère beige et brun");
+  assert.equal(brief.faits["creation.decisionPourExpert"], null);
+  assert.equal(validerQualification({ ...q(), propositions: ["une piste inventée"] }, messages).ok, false);
+  assert.equal(validerQualification({ ...q(), propositions: ["j'hésite sur les couleurs"] }, messages).ok, false);
+  assert.equal(validerQualification({ ...q(), propositions: ["a", "b", "c", "d"] }, messages).ok, false);
+});
+
 test("schéma strict : clé inconnue, preuve manquante et champs hors liste refusés", () => {
   const messages = [msg("Je veux un site.")];
   assert.equal(validerQualification(q({ "projet.inventé": fait("site") }), messages).ok, false);

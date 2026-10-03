@@ -70,7 +70,7 @@ réclame une dépense, elle s'arrête et le signale : contrainte budget 0 €.
 - Dépendance : `wrangler` en dépendance de développement seulement.
 
 ### IA-03 — Prompt court et assemblage (sans clé)
-- `worker/assistant/prompt/systeme.fr.md` : la version **0.2**, courte, validée
+- `worker/assistant/prompt/systeme.fr.md` : la version **0.3**, courte, validée
   par Marc ([AI_SYSTEM_PROMPT.md](AI_SYSTEM_PROMPT.md)).
 - Assemblage des messages, neutralisation des balises du visiteur, historique
   borné à **4 échanges et 2 000 caractères**.

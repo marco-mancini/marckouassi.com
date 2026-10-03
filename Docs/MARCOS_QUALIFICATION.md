@@ -80,7 +80,8 @@ confirmation/correction. La confirmation est une vérification, pas une
 autorisation d'inventer les champs vides. Le résultat comporte :
 
 1. les faits du socle commun et du contexte retenu ;
-2. les suggestions de MarcoS, clairement séparées des choix du prospect ;
+2. les options proposées par MarcoS, conservées séparément des faits et des
+   choix du prospect ;
 3. les hésitations et choix laissés à M. Kouassi ;
 4. chaque champ absent pertinent marqué « non communiqué » ;
 5. une prochaine action descriptive, sans prétendre qu'un contact est convenu.
@@ -119,6 +120,12 @@ La validation de ce modèle est une protection contre les erreurs d'assemblage,
 pas une preuve cryptographique de l'historique : l'API reste sans état côté
 serveur conformément à D-10. La conservation de l'état compacté entre les
 requêtes et son intégration à la conversation font partie du cadrage PM-114.
+
+Les options de MarcoS sont des extraits de ses propres messages, limitées à
+trois et vérifiées séparément des faits utilisateur. Le prompt 0.3 lui demande
+au plus deux pistes créatives pertinentes, une justification brève pour
+chacune, puis de laisser le choix au visiteur ou à M. Kouassi. Les tests
+couvrent l'hésitation, la proposition, le choix et la reprise par l'expert.
 
 ### Vérifications minimales
 
