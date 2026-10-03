@@ -412,8 +412,8 @@
     "type": "projets",
     "id": "sommaire",
     "navigation": {
-      "fr": "Mes projets",
-      "en": "My projects"
+      "fr": "Mes réalisations",
+      "en": "Selected work"
     },
     "credit": {
       "mention": {
@@ -426,8 +426,12 @@
       }
     },
     "titre": {
-      "fr": "Mes projets",
-      "en": "My projects"
+      "fr": "Mes réalisations",
+      "en": "Selected work"
+    },
+    "accroche": {
+      "fr": "Derrière chaque image, il y a une idée qui cherchait sa forme.\nCertaines sont nées **d’un brief**, d’autres **d’une rencontre**, **d’une contrainte** ou simplement **de l’envie d’essayer**…",
+      "en": "Behind every image is an idea searching for its form.\nSome were born **from a brief**, others **from an encounter**, **a constraint**, or simply **the desire to try**…"
     }
   },
   {
