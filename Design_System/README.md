@@ -7,7 +7,7 @@ framework ni étape de compilation : HTML, CSS et JavaScript (modules).
 Design_System/
 ├── fondations/   jetons (Tokens.css), thème, typographie, mouvement, responsive,
 │                 moteur de rendu (rendu.js : gabarit html qui échappe tout)
-├── composants/   25 composants : Nom.css + Nom.js (rendu pur) + Nom.md (contrat)
+├── composants/   26 composants : Nom.css + Nom.js (rendu pur) + Nom.md (contrat)
 ├── gabarits/     assemblages : sections du site, pages, projet, Intro ;
 │                 Gabarit_Bo (coquille unique du back-office) et écrans Admin
 │                 + données partagées (donnees.js, pages.js, outils.js)

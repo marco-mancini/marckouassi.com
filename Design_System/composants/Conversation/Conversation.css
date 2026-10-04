@@ -1,0 +1,18 @@
+/* ==========================================================================
+   CONVERSATION — journal d'echanges de MarcoS, role="log"
+   Pas de bulles, pas de fond par role : les tours sont separes par le
+   filet existant, comme les listes du CV. Jetons uniquement ; aucune
+   regle ne depend d'une page.
+   ========================================================================== */
+.conversation { display: grid; margin: 0; padding: 0; gap: 0; list-style: none; }
+
+.conversation__tour { padding: var(--space-5) 0; border-top: var(--border-hairline) solid var(--filet); }
+.conversation__tour:first-child { border-top: 0; }
+
+.conversation__etiquette { margin: 0 0 var(--space-2); }
+.conversation__texte { max-width: var(--mesure-lecture); margin: 0; }
+.conversation__texte a { color: inherit; }
+
+.conversation__liens { display: flex; flex-wrap: wrap; margin: var(--space-3) 0 0; padding: 0; gap: var(--space-2); list-style: none; }
+
+.conversation__vide { padding: var(--space-4) 0; }

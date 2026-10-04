@@ -17,6 +17,7 @@ import { creerBudget } from "../worker/assistant/src/limites.js";
 import { fournisseurSimule } from "../worker/assistant/src/fournisseur.js";
 import { CODES, STATUTS } from "../worker/assistant/src/erreurs.js";
 import { validerQualification } from "../worker/assistant/src/qualification.js";
+import { validerCorps } from "../worker/assistant/src/requete.js";
 
 const ORIGINE = "https://marckouassi-com.vercel.app";
 const ENV = { ORIGINES_AUTORISEES: `${ORIGINE},http://localhost:*`, BUDGET_JOURNALIER: "100" };
@@ -179,6 +180,26 @@ test("AUCUN appel au fournisseur sur une requête refusée, quel que soit le mot
     assert.ok(reponse.status >= 400, `${nom} : devrait être refusé, reçu ${reponse.status}`);
     assert.equal(fournisseur.appels, 0, `${nom} : le fournisseur a été appelé`);
   }
+});
+
+test("une conversation longue est bornée deux fois : en messages et en caractères", () => {
+  // Deux bornes indépendantes, et le cas existant (9 messages de 300) ne
+  // touchait que la seconde : 2700 caractères. Le nombre de messages n'était
+  // donc jamais éprouvé. Chacune est ici vérifiée de part et d'autre du seuil.
+  const base = { version: 1, langue: "fr", page: "/", session: "abcd1234efgh" };
+  const tours = (n, longueur) => Array.from({ length: n }, (_, i) => ({ role: i % 2 === 0 ? "user" : "assistant", contenu: "y".repeat(longueur) }));
+
+  // Borne en messages : quatre échanges et la question en cours, soit neuf.
+  assert.equal(validerCorps({ ...base, messages: tours(9, 10) }, {}).ok, true, "neuf messages tiennent");
+  assert.equal(validerCorps({ ...base, messages: tours(11, 10) }, {}).code, "trop_long", "onze messages non");
+
+  // Borne en caractères, indépendante du nombre de messages.
+  assert.equal(validerCorps({ ...base, messages: tours(5, 400) }, {}).ok, true, "2000 caractères tiennent");
+  assert.equal(validerCorps({ ...base, messages: tours(5, 401) }, {}).code, "trop_long", "2005 non");
+
+  // Les deux bornes se règlent par l'environnement, sans toucher au code.
+  assert.equal(validerCorps({ ...base, messages: tours(9, 10) }, { MAX_ECHANGES: "2" }).code, "trop_long");
+  assert.equal(validerCorps({ ...base, messages: tours(5, 400) }, { LIMITE_HISTORIQUE: "100" }).code, "trop_long");
 });
 
 test("chaque refus porte un code stable, et rien d'autre", async () => {

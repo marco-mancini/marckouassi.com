@@ -159,3 +159,81 @@ test("estTraduisible : un objet { fr, en } oui ; une donnée qui porte « id » 
   assert.ok(!estTraduisible({ id: "x" }));
   assert.ok(!estTraduisible(["fr"]));
 });
+
+/**
+ * Le CMS réécrit les clés d'une liste dans l'ordre de l'UNION des formes de
+ * ses éléments, telle qu'il les rencontre. Des formes différentes ne posent
+ * aucun problème en soi — le contenu en compte cinq qui tiennent depuis
+ * toujours — tant que l'union reste compatible avec l'ordre de chacune.
+ *
+ * Ce qui casse, c'est une INVERSION : si un élément déclare « conclusion »
+ * avant qu'un autre n'introduise « ouverture », l'union place « conclusion »
+ * en premier, et plus aucun élément n'est écrit dans son propre ordre.
+ * Enregistrer un champ sans rapport remanie alors le fichier entier.
+ *
+ * C'est exactement ce qu'a produit le parcours de la section 06. La règle est
+ * donc écrite ici, et vaut pour les éditions futures de Marc.
+ */
+test("dans chaque liste du contenu, l'ordre des clés de chaque élément suit l'union", () => {
+  const ecarts = [];
+  const clesDe = (valeur) => Object.keys(valeur).filter((cle) => !cle.startsWith("_"));
+  /** Les clés de l'élément apparaissent-elles dans l'ordre de l'union ? */
+  const suitLUnion = (cles, union) => {
+    let curseur = -1;
+    return cles.every((cle) => {
+      const place = union.indexOf(cle);
+      if (place <= curseur) return false;
+      curseur = place;
+      return true;
+    });
+  };
+  const parcourir = (valeur, ou) => {
+    if (Array.isArray(valeur)) {
+      const objets = valeur.filter((v) => v && typeof v === "object" && !Array.isArray(v));
+      // Les sections forment une liste À TYPES : le CMS traite chaque type
+      // séparément, avec sa propre forme. Rien à vérifier entre eux.
+      if (objets.length > 1 && !objets.every((o) => o.type)) {
+        const union = [];
+        for (const objet of objets) for (const cle of clesDe(objet)) if (!union.includes(cle)) union.push(cle);
+        for (const [rang, objet] of objets.entries()) {
+          const cles = clesDe(objet);
+          if (!suitLUnion(cles, union)) ecarts.push(`${ou}[${rang}] : [${cles.join(",")}] contredit l'union [${union.join(",")}]`);
+        }
+      }
+      valeur.forEach((v, i) => parcourir(v, `${ou}[${i}]`));
+      return;
+    }
+    if (valeur && typeof valeur === "object") {
+      for (const [cle, v] of Object.entries(valeur)) if (!cle.startsWith("_")) parcourir(v, `${ou}.${cle}`);
+    }
+  };
+  for (const [nom, donnees] of Object.entries(brut())) parcourir(donnees, nom);
+  assert.deepEqual(ecarts, []);
+});
+
+test("le témoin : une inversion d'ordre est bien détectée", () => {
+  // Sans ce témoin, le test voisin pourrait passer parce qu'il ne regarde rien.
+  const union = [];
+  const liste = [{ id: 1, titre: 2, moments: 3, conclusion: 4 }, { id: 1, titre: 2, ouverture: 3, elements: 4, conclusion: 5 }];
+  for (const objet of liste) for (const cle of Object.keys(objet)) if (!union.includes(cle)) union.push(cle);
+  assert.deepEqual(union, ["id", "titre", "moments", "conclusion", "ouverture", "elements"]);
+  // Le second élément écrit « conclusion » en dernier, l'union l'attend en
+  // quatrième : c'est la forme exacte qui a cassé l'enregistrement du CMS.
+  const suit = (cles) => { let c = -1; return cles.every((k) => { const p = union.indexOf(k); if (p <= c) return false; c = p; return true; }); };
+  assert.equal(suit(Object.keys(liste[0])), true);
+  assert.equal(suit(Object.keys(liste[1])), false);
+});
+
+test("le parcours de la section 06 est écrit dans une forme que le CMS préserve", () => {
+  const prestations = brut().sections.find((s) => s.type === "prestations");
+  const parcours = prestations.parcours;
+  assert.ok(parcours, "le parcours est la partie la plus imbriquée du contenu");
+  for (const [nom, liste] of [["matieres", parcours.matieres], ["cartes", parcours.cartes]]) {
+    const formes = [...new Set(liste.map((e) => Object.keys(e).join(",")))];
+    assert.equal(formes.length, 1, `${nom} : formes différentes — ${formes.join(" | ")}`);
+  }
+  // « juste » est explicite partout : absent d'une carte, il rendrait le champ
+  // optionnel pour toutes, et Sveltia pourrait l'écarter.
+  assert.ok(parcours.cartes.every((c) => typeof c.juste === "boolean"));
+  assert.equal(parcours.cartes.filter((c) => c.juste).length, 1, "une seule bonne réponse");
+});

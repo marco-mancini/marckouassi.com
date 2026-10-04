@@ -12,7 +12,8 @@
     "test:navigateur": "node --test --test-concurrency=1 'tests/navigateur/*.test.mjs'",
     "verifier": "npm test && npm run build && npm run test:navigateur",
     "comparer-reference": "node tools/comparer-reference.mjs",
-    "comparer-issues": "node tools/comparer-issues.mjs"
+    "comparer-issues": "node tools/comparer-issues.mjs",
+    "etat-mobile": "node tools/etat-mobile.mjs"
   },
   "dependencies": {
     "@fontsource-variable/material-symbols-outlined": "5.3.8",

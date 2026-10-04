@@ -7,14 +7,14 @@
 | Prop | Type | Défaut | Rôle |
 |---|---|---|---|
 | `niveau` | 1 \| 2 \| 3 | 2 | Niveau réel du titre dans la page. |
-| `echelle` | `section` \| `compacte` \| `appel` \| `affiche` \| `etude` \| `document` \| `interface` | `section` | Taille et traitement. |
+| `echelle` | `section` \| `appel` \| `affiche` \| `etude` \| `document` \| `interface` | `section` | Taille et traitement. |
 | `texte` | chaîne \| HTML | — | Texte du contenu. Un saut de ligne devient `<br>`. |
 | `id` | chaîne | `null` | Cible d'`aria-labelledby` (voir `idTitre` dans Planche). |
 | `sceau` | `false` \| `moyen` \| `petit` | `false` | Sceau à droite, masqué sous 850 px. |
 
 ## Variantes
 
-- `affiche` : doré, centré, esperluette évidée.
+- `affiche` : doré et centré, contour crème, esperluette évidée.
 - `interface` : pour le back-office, sans point.
 
 ## Accessibilité

@@ -19,6 +19,24 @@ import { rendreConnaissance } from "../worker/assistant/src/connaissance-texte.j
 
 const MODELE = fs.readFileSync("worker/assistant/prompt/systeme.fr.md", "utf8");
 const CONVERSATIONS = JSON.parse(fs.readFileSync("tests/fixtures/marcos-conversations.json", "utf8"));
+const DECISIONS = fs.readFileSync("Docs/MARCOS_DECISIONS_20261003.md", "utf8");
+
+/** Les décisions du contrat, lues dans le document : « ## D-21 — titre ». */
+const decisions = () => [...DECISIONS.matchAll(/^## (D-\d+) — (.+)$/gm)].map(([, id, titre]) => ({ id, titre }));
+
+/**
+ * Les décisions qui régissent la conduite de la conversation publique, donc
+ * celles que le prompt doit porter. Les suivantes relèvent d'autres pièces :
+ * D-29 et D-30 de la qualification et de Resend, D-31 de la phrase d'entrée,
+ * D-32 et D-33 des expressions de l'avatar, D-34 de la documentation.
+ */
+const PREMIERE_CONVERSATIONNELLE = 21;
+const DERNIERE_CONVERSATIONNELLE = 28;
+const conversationnelles = () =>
+  decisions().filter(({ id }) => {
+    const n = Number(id.slice(2));
+    return n >= PREMIERE_CONVERSATIONNELLE && n <= DERNIERE_CONVERSATIONNELLE;
+  });
 const contenu = await chargerFichiers(process.cwd());
 const base = baseConnaissance({ contenu, langue: "fr" });
 const baseEn = baseConnaissance({ contenu, langue: "en" });
@@ -167,14 +185,14 @@ test("le rendu texte est plus léger que le JSON, et c'est sa raison d'être", (
 test("le prompt est court, et il le reste", () => {
   // Contrainte de verbosité de Marc : la version 0.1 pesait 698 jetons, et le
   // plafond a longtemps tenu à 450 — le prompt y était à 444, sans marge.
-  // PM-113 ajoute les règles conversationnelles (identité, vie privée, ton,
-  // initiative, décisions créatives) : elles ne tiennent pas dans cette borne.
-  // Rédigées au plus court, elles portent le prompt à 651 jetons, soit encore
-  // moins que la version 0.1. Le plafond passe à 660 : la marge d'une phrase,
-  // pas celle d'un paragraphe. Toute règle nouvelle doit maintenant en
-  // remplacer une, ou ce test retombe.
+  // AI_SYSTEM_PROMPT.md 0.4 ajoute le comportement conversationnel. Son texte
+  // intégral pèse 1271 jetons et porte l'entrée assemblée à 4582, au-dessus du
+  // plafond de 4400 du test voisin : il n'est pas adoptable tel quel. Le prompt
+  // porte donc la substance de 0.4 au plus court, à 747 jetons, pour une entrée
+  // assemblée à 4058. Le plafond passe à 760 : la marge d'une phrase, pas celle
+  // d'un paragraphe. Toute règle nouvelle doit maintenant en remplacer une.
   const sansMarqueurs = MODELE.replace("{{PAGES}}", "").replace("{{CONNAISSANCE}}", "");
-  assert.ok(jetons(sansMarqueurs) < 660, `prompt à ${jetons(sansMarqueurs)} jetons, il doit rester court`);
+  assert.ok(jetons(sansMarqueurs) < 760, `prompt à ${jetons(sansMarqueurs)} jetons, il doit rester court`);
 });
 
 test("le prompt porte les règles qui ne doivent pas disparaître", () => {
@@ -191,7 +209,37 @@ test("le prompt porte les règles qui ne doivent pas disparaître", () => {
     assert.ok(MODELE.includes(regle), `règle absente du prompt : « ${regle} »`);
   }
   assert.ok(MODELE.includes("au plus deux pistes liées au contexte"));
-  assert.ok(MODELE.includes("demande s'il choisit ou laisse M. Kouassi décider"));
+});
+
+test("une formulation imposée « exactement » par le contrat est dans le prompt au mot près", () => {
+  // Le contrat est la source, le test ne le recopie pas (AGENTS.md §2.4) : on
+  // relève dans le document les formulations marquées « exactement », et on
+  // exige chacune telle quelle. D-28 est la seule aujourd'hui ; si Marc en
+  // impose une autre, ce test la réclame sans qu'on y touche.
+  const imposees = [...DECISIONS.matchAll(/exactement\s*:\s*\*{0,2}«\s*(.+?)\s*»\*{0,2}/g)].map(([, p]) => p);
+  assert.ok(imposees.length > 0, "aucune formulation imposée trouvée dans le contrat : le relevé a cessé de fonctionner");
+  for (const phrase of imposees) {
+    assert.ok(MODELE.includes(phrase), `formulation imposée absente du prompt : « ${phrase} »`);
+  }
+});
+
+test("chaque décision conversationnelle du contrat est exercée par un scénario", () => {
+  // Le prompt peut porter une règle sans que rien ne l'éprouve. Ce test relie
+  // les décisions écrites aux scénarios : si Marc ajoute une décision
+  // conversationnelle, il manque un scénario, et cela se voit ici.
+  const attendues = conversationnelles();
+  assert.ok(attendues.length > 0, "aucune décision conversationnelle lue : le relevé a cessé de fonctionner");
+  const exercees = new Set(CONVERSATIONS.flatMap((cas) => cas.decisions));
+  for (const { id, titre } of attendues) {
+    assert.ok(exercees.has(id), `aucun scénario n'exerce ${id} — ${titre}`);
+  }
+  // Et l'inverse : un scénario ne doit pas citer une décision qui n'existe pas.
+  const connues = new Set(decisions().map(({ id }) => id));
+  for (const cas of CONVERSATIONS) {
+    for (const id of cas.decisions) {
+      assert.ok(connues.has(id), `${cas.id} cite ${id}, absente du contrat`);
+    }
+  }
 });
 
 test("chaque scénario de conversation est bien formé", () => {
@@ -204,6 +252,8 @@ test("chaque scénario de conversation est bien formé", () => {
     assert.match(cas.id, /^[a-z0-9-]+$/, `identifiant mal formé : ${cas.id}`);
     assert.ok(cas.messages.length > 0, `${cas.id} : aucun message`);
     assert.ok(cas.regles.length > 0, `${cas.id} : aucune règle attendue`);
+    assert.ok(Array.isArray(cas.decisions) && cas.decisions.length > 0, `${cas.id} : aucune décision rattachée`);
+    for (const id of cas.decisions) assert.match(id, /^D-\d+$/, `${cas.id} : décision mal formée : ${id}`);
     for (const [rang, message] of cas.messages.entries()) {
       // Un tour sur deux, en commençant et en finissant par le visiteur :
       // c'est ce que le Worker reçoit, pas une suite libre.
