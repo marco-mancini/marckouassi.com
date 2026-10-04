@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-04T09:49:19.285Z depuis cacdaae8a33b3e31774229395d560222f64ed4b4.
+> Source unique : issues GitHub. Généré le 2026-10-04T12:02:54.364Z depuis 267811af33a0398fe0bae0638749dd8d54f59659.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -20,16 +20,18 @@
 - #7 — [PM-007] Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues
 
 ## Pull requests ouvertes
+- #150 — feat(categories): replier les réalisations derrière les huit cartes (D-36)
+- #149 — docs(suivi): index, miroir et inventaire des branches après le lot du 4 octobre
 - #148 — feat(assistant): brancher MarcoS au rendu et débloquer son champ de contenu
 
 ## Prochaine action
 - Issue #142 — [PM-127] Refaire complètement le CV HTML sur la base du PDF existant
 
 ## Dernier commit
-- cacdaae docs: consigner le brief Motion Design (D-35) et remettre la doc de l'avatar en face des assets (#147)
+- 267811a docs(suivi): index, miroir et inventaire des branches après le lot du 4 octobre
 
 ## Dernière preuve
-- Issue #123 mise à jour le 2026-10-04T09:48:30Z.
+- Issue #123 mise à jour le 2026-10-04T12:02:44Z.
 
 ## Dernière mise à jour
-- 2026-10-04T09:49:19.285Z
+- 2026-10-04T12:02:54.364Z
