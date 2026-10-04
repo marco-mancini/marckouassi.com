@@ -393,8 +393,14 @@
 
   /* --- Mise en page --- */
   --page-gutter: clamp(16px, 2vw, 40px);
-  --header-offset: 76px;
   --header-height: 68px;
+  /* Écart voulu entre le bas de l'en-tête et le haut d'une section après un
+     saut d'ancre. UN SEUL mécanisme le produit : scroll-padding-top, calculé
+     depuis la hauteur réelle de l'en-tête. Avant, scroll-padding-top et le
+     scroll-margin-top de .planche-scene s'additionnaient, et trois jetons
+     décrivaient la même hauteur : l'écart mesurait 90 px au lieu des 24
+     voulus. Décision de Marc, 4 octobre 2026 (PM-018). */
+  --ancre-degagement: var(--space-6);
   /* Bornes du dialogue de projet. 1000px y etait une HAUTEUR maximale ;
      un remplacement automatique par valeur l'avait confondue avec le
      rayon de pilule, qui vaut 999px. Deux roles, deux jetons. */
@@ -591,7 +597,6 @@
   --carte-ombre-survol-retrait: -20px; /* ombre de carte au survol : retrait */
   /* EnTete */
   --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
-  --en-tete-hauteur-compact: 62px; /* hauteur de l'en-tête sous 850 px */
   /* Galerie */
   --galerie-rangee-apercu-tablette: clamp(120px, 13.5vw, 220px); /* hauteur des rangées de la galerie d'aperçu, 851 à 1080 px */
   --galerie-rangee-apercu-mobile: clamp(82px, 27vw, 150px); /* rangées de la galerie d'aperçu sous 850 px */

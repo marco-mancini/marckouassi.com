@@ -74,8 +74,8 @@
     "groupes": [
       {
         "titre": {
-          "fr": "CRÉATION :",
-          "en": "CREATIVE:"
+          "fr": "CRÉATION",
+          "en": "CREATIVE"
         },
         "elements": [
           {
@@ -137,8 +137,8 @@
             "en": "Adobe Creative Suite"
           },
           {
-            "fr": "Sketchup / Figma / Canva",
-            "en": "Sketchup / Figma / Canva"
+            "fr": "SketchUp / Figma / Canva",
+            "en": "SketchUp / Figma / Canva"
           },
           {
             "texte": {
@@ -182,8 +182,8 @@
       },
       {
         "titre": {
-          "fr": "LANGUES :",
-          "en": "LANGUAGES:"
+          "fr": "LANGUES",
+          "en": "LANGUAGES"
         },
         "elements": [
           {
@@ -413,7 +413,7 @@
     "Orange",
     "Schneider Electric",
     "MTN",
-    "BNI Finances",
+    "BNI Finance",
     "PFCTCAL"
   ]
 }

@@ -5,7 +5,7 @@
    suit sans selecteur parent. La bordure lit --planche-bordure, calcule
    a la racine, pour rester la meme sur les deux fonds.
    ========================================================================== */
-.planche-scene { padding: var(--planche-scene-padding) 0; scroll-margin-top: 82px; }
+.planche-scene { padding: var(--planche-scene-padding) 0; }
 .planche {
   position: relative; width: 100%; min-height: 0; margin: 0 auto;
   padding: var(--planche-padding); overflow: hidden;
@@ -27,7 +27,7 @@
 
 @media (max-width: 1080px) and (min-width: 851px) { .planche { padding: var(--planche-padding-tablette); } }
 @media (max-width: 850px) {
-  .planche-scene { padding: var(--space-3) 0; scroll-margin-top: var(--header-height); }
+  .planche-scene { padding: var(--space-3) 0; }
   .planche { padding: var(--planche-padding-mobile); border-radius: var(--radius-md); }
   .planche__credit { grid-template-columns: 1fr auto; gap: var(--planche-credit-espace-compact); }
   .planche__credit > :nth-child(2) { grid-column: 1; grid-row: 2; text-align: left; }
