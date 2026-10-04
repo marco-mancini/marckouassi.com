@@ -432,7 +432,209 @@
     "accroche": {
       "fr": "Derrière chaque image, il y a une idée qui cherchait sa forme.\nCertaines sont nées **d’un brief**, d’autres **d’une rencontre**, **d’une contrainte** ou simplement **de l’envie d’essayer**…",
       "en": "Behind every image is an idea searching for its form.\nSome were born **from a brief**, others **from an encounter**, **a constraint**, or simply **the desire to try**…"
-    }
+    },
+    "categories": [
+      {
+        "id": "logotype",
+        "libelle": {
+          "fr": "Logotype",
+          "en": "Logotype"
+        },
+        "note": {
+          "fr": "Donner un visage à une idée.",
+          "en": "I give the brand a face."
+        },
+        "recit": {
+          "fr": "Parfois, quelques lignes suffisent pour faire naître un signe capable d’être reconnu, mémorisé et porté.",
+          "en": "A few lines search for balance; then a mark emerges, ready to carry a story."
+        },
+        "realisations": [
+          {
+            "libelle": {
+              "fr": "ArriProd",
+              "en": "ArriProd"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logo design · Brand identity"
+            },
+            "media": {
+              "src": "Public/images/Logotype/Logo_ArriProd.jpg"
+            }
+          },
+          {
+            "libelle": {
+              "fr": "Eigth",
+              "en": "Eigth"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logo design · Brand identity"
+            },
+            "media": {
+              "src": "Public/images/Logotype/Logo_Eigth.jpg"
+            }
+          },
+          {
+            "libelle": {
+              "fr": "Ivoire Cosm",
+              "en": "Ivoire Cosm"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logo design · Brand identity"
+            },
+            "media": {
+              "src": "Public/images/Logotype/Logo_Ivoire_Cosm.jpg"
+            }
+          },
+          {
+            "libelle": {
+              "fr": "Nanama",
+              "en": "Nanama"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logo design · Brand identity"
+            },
+            "media": {
+              "src": "Public/images/Logotype/Logo_Nanama.jpg"
+            }
+          },
+          {
+            "libelle": {
+              "fr": "Nova",
+              "en": "Nova"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logo design · Brand identity"
+            },
+            "media": {
+              "src": "Public/images/Logotype/Logo_Nova.jpg"
+            }
+          },
+          {
+            "libelle": {
+              "fr": "Wona",
+              "en": "Wona"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logo design · Brand identity"
+            },
+            "media": {
+              "src": "Public/images/Logotype/Logo_Wona.jpg"
+            }
+          }
+        ]
+      },
+      {
+        "id": "identite-charte",
+        "libelle": {
+          "fr": "Identité & charte graphique",
+          "en": "Brand identity"
+        },
+        "note": {
+          "fr": "Quand un signe devient un langage.",
+          "en": "I build its entire visual language."
+        },
+        "recit": {
+          "fr": "Une identité prend vie lorsque couleurs, formes, typographies et images commencent à raconter la même histoire.",
+          "en": "A brand takes shape layer by layer, becoming familiar without losing what makes it distinct."
+        }
+      },
+      {
+        "id": "campagne-publicitaire",
+        "libelle": {
+          "fr": "Campagnes publicitaires",
+          "en": "Advertising campaigns"
+        },
+        "note": {
+          "fr": "Faire résonner une idée.",
+          "en": "Ideas that speak out."
+        },
+        "recit": {
+          "fr": "Une campagne cherche le bon regard, le bon mot, la bonne image pour transformer une idée en émotion.",
+          "en": "An idea finds its voice, meets the right moment and stays in people’s minds a little longer."
+        }
+      },
+      {
+        "id": "direction-artistique",
+        "libelle": {
+          "fr": "Direction artistique",
+          "en": "Art direction"
+        },
+        "note": {
+          "fr": "Donner une vision à l’idée.",
+          "en": "Vision comes first."
+        },
+        "recit": {
+          "fr": "Trouver le ton, construire l’univers et donner à chaque détail sa place dans une histoire plus grande.",
+          "en": "An intuition takes shape, bringing images together around a shared vision."
+        }
+      },
+      {
+        "id": "digital-ui-ux",
+        "libelle": {
+          "fr": "Design digital & UI/UX",
+          "en": "Digital design & UI/UX"
+        },
+        "note": {
+          "fr": "Quand l’idée devient expérience.",
+          "en": "Where ideas become experiences."
+        },
+        "recit": {
+          "fr": "Derrière chaque écran, je cherche cet équilibre fragile où l’esthétique rencontre l’usage et où tout semble enfin évident.",
+          "en": "Between a gesture and a screen, an idea finds its clearest path."
+        }
+      },
+      {
+        "id": "print-edition",
+        "libelle": {
+          "fr": "Print & édition",
+          "en": "Print & editorial"
+        },
+        "note": {
+          "fr": "Donner corps aux images.",
+          "en": "Giving images a tangible form."
+        },
+        "recit": {
+          "fr": "Du premier regard au dernier détail, le papier offre aux idées une matière, une présence et une autre manière d’exister.",
+          "en": "On paper, the image slows down and every detail finds its place."
+        }
+      },
+      {
+        "id": "3d-production",
+        "libelle": {
+          "fr": "3D & production visuelle",
+          "en": "3D & production"
+        },
+        "note": {
+          "fr": "Faire prendre vie à l’imaginaire.",
+          "en": "Imagine. Build. Bring to life."
+        },
+        "recit": {
+          "fr": "Modeler, éclairer, composer et produire jusqu’à ce qu’une idée quitte l’imagination pour devenir presque réelle.",
+          "en": "Little by little, an idea leaves the sketch and becomes material, volume and light."
+        }
+      },
+      {
+        "id": "explorations-personnelles",
+        "libelle": {
+          "fr": "Explorations personnelles",
+          "en": "Personal explorations"
+        },
+        "note": {
+          "fr": "Créer simplement pour voir jusqu’où aller.",
+          "en": "Create simply because you want to."
+        },
+        "recit": {
+          "fr": "Sans brief, sans contrainte, sans autre objectif que celui de suivre une intuition et de découvrir où elle peut mener.",
+          "en": "Without a brief, curiosity guides the hand toward something unexpected."
+        }
+      }
+    ]
   },
   {
     "type": "prestations",

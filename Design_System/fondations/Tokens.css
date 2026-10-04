@@ -401,6 +401,18 @@
      décrivaient la même hauteur : l'écart mesurait 90 px au lieu des 24
      voulus. Décision de Marc, 4 octobre 2026 (PM-018). */
   --ancre-degagement: var(--space-6);
+  /* Réalisations par catégorie (PM-116, #123). Valeurs mesurées au navigateur
+     pendant le chantier sauvegardé sur `sauvegarde-complete-20261003-000540`. */
+  --projets-hauteur-min: clamp(760px, 58vw, 980px); /* hauteur minimale de la planche des réalisations */
+  --projets-filtres-marge-basse: clamp(28px, 3vw, 48px); /* écart entre les choix de catégorie et la grille */
+  --projets-filtres-marge-basse-compact: 22px; /* le même, sous 850 px */
+  --projets-categorie-hauteur: clamp(88px, 10vw, 132px); /* hauteur des grands choix de catégorie */
+  --projets-categorie-hauteur-compact: clamp(76px, 24vw, 100px); /* le même, sous 850 px */
+  --projet-carte-vide-ratio: 4 / 3; /* emplacement d'une catégorie sans réalisation */
+  --bouton-retour-categorie-diametre: 35px;
+  --bouton-retour-categorie-diametre-compact: 28px;
+  --bouton-retour-categorie-glyphe: 11px;
+  --segments-espace-nue: 8px; /* écart entre deux segments, variante nue (sans enveloppe) */
   /* Bornes du dialogue de projet. 1000px y etait une HAUTEUR maximale ;
      un remplacement automatique par valeur l'avait confondue avec le
      rayon de pilule, qui vaut 999px. Deux roles, deux jetons. */

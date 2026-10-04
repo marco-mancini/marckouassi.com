@@ -1,0 +1,10 @@
+/* ==========================================================================
+   GABARIT_PROJET — ce qui appartient au projet quel que soit son mode
+
+   Chaque mode garde sa feuille : la carte dans Projet_carte.css, l'etude
+   dans Projet_etude.css. Ici ne vit que la composition propre au MODE PAGE,
+   qui n'appartenait a aucun des deux et dormait dans la feuille des sections
+   alors qu'elle ne decrit aucune section.
+   ========================================================================== */
+.page-projet { display: grid; gap: var(--space-5); }
+.page-projet > .bouton { justify-self: start; }
