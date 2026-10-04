@@ -17,5 +17,9 @@ export function Conversation({ echanges = [], etiquette, libelles, vide }) {
     <p class="conversation__texte texte-corps">${echange.texte}</p>
     ${echange.liens?.length ? html`<ul class="conversation__liens">${echange.liens.map((lien) => html`<li><a class="bouton bouton--texte" href="${lien.href}">${lien.libelle}</a></li>`)}</ul>` : ""}
   </li>`);
-  return html`<ol class="conversation" role="log" aria-live="polite" aria-relevant="additions" aria-label="${etiquette}">${tours.length ? tours : html`<li class="conversation__vide">${vide}</li>`}</ol>`;
+  // `role="log"` porte sur l'enveloppe, PAS sur la liste. Posé sur le <ol>, il
+  // écrase la sémantique de liste et laisse les <li> orphelins — axe-core le
+  // relève en « serious » (règle listitem). L'annonce reste la même pour les
+  // lecteurs d'écran, et la liste redevient une liste.
+  return html`<div class="conversation" role="log" aria-live="polite" aria-relevant="additions" aria-label="${etiquette}"><ol class="conversation__tours">${tours.length ? tours : html`<li class="conversation__vide">${vide}</li>`}</ol></div>`;
 }
