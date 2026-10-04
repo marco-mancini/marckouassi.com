@@ -221,6 +221,51 @@ test("accueil animé : apparaît, « Passer » le ferme, mémorisé ; animations
   await reduit.fermer();
 });
 
+
+test("intro : ouverture verrouille le défilement de la page", async () => {
+  const page = await ouvrir(nav, serveur.url + "/", { introVue: false });
+  await page.waitForFunction(() => document.getElementById("intro")?.open);
+  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), true);
+  assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).overflow), "hidden");
+  await page.fermer();
+});
+
+test("intro : fermeture libère le défilement de la page", async () => {
+  const page = await ouvrir(nav, serveur.url + "/", { introVue: false });
+  await page.waitForFunction(() => document.getElementById("intro")?.open);
+  await page.locator('#intro [data-modale-fermer]').click();
+  await page.waitForFunction(() => !document.getElementById("intro"));
+  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), false);
+  assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).overflow), "visible");
+  await page.fermer();
+});
+
+test("étude de projet : fermeture libère le défilement après une ouverture dynamique", async () => {
+  const page = await ouvrir(nav, serveur.url + "/");
+  const lien = page.locator('a[data-etude="aurex"]');
+  await lien.scrollIntoViewIfNeeded();
+  await lien.click();
+  await page.waitForFunction(() => document.getElementById("etude").open);
+  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), true);
+  await page.keyboard.press("Escape");
+  await page.waitForFunction(() => !document.getElementById("etude").open);
+  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), false);
+  assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).overflow), "visible");
+  await page.fermer();
+});
+
+test("menu mobile : le verrou reste libéré après fermeture", async () => {
+  const page = await ouvrir(nav, serveur.url + "/", { largeur: 375 });
+  const bouton = page.locator('[data-modale-ouvrir="menu"]');
+  await bouton.click();
+  await page.waitForFunction(() => document.getElementById("menu").open);
+  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), true);
+  await page.keyboard.press("Escape");
+  await page.waitForFunction(() => !document.getElementById("menu").open);
+  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), false);
+  await page.fermer();
+});
+
 test("accessibilité (axe-core) : aucune violation grave ou critique", async () => {
   for (const chemin of ["/", "/en/", "/cv/", "/projets/fifa26/"]) {
     for (const theme of ["light", "dark"]) {
