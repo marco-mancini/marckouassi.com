@@ -48,12 +48,23 @@ Toujours vérifiés, sortis de l'ancien fichier :
 - absence de clé ou de jeton dans les fichiers suivis →
   `tests/secrets.test.mjs` (tous les fichiers, plus seulement six).
 
-Les tests en sommeil passent encore si on les lance à la main (le 1er
-octobre 2026 : 14 sur 14 pour les deux fichiers unitaires) :
+Les quatorze tests unitaires entrent dans la vérification depuis le
+4 octobre 2026 (PM-022, [#22](https://github.com/marco-mancini/marckouassi.com/issues/22)) :
 
 ```sh
-node --experimental-strip-types --no-warnings --test tests/en-sommeil/admin.test.mjs tests/en-sommeil/publier.test.mjs
+npm run test:sommeil
 ```
+
+Ils ne réveillent rien. Ils répondent au seul risque d'un test endormi :
+qu'un changement commun le casse sans que personne le voie. C'est
+exactement ce qui était arrivé — le test de l'éditeur exige un libellé
+`champs.*` pour chaque clé du contenu, et vingt-deux clés ajoutées depuis
+le 3 octobre n'en avaient plus : celles de la qualification commerciale,
+puis celles du parcours de la section 06. Lancés à la main, ils étaient
+tombés à 13 sur 14.
+
+Le workflow « Vérifier » les lance juste après les tests unitaires, et
+`npm run verifier` les inclut.
 
 Le test navigateur demande l'ancien `/admin/` construit : il ne peut pas
 passer tant que le back-office n'est pas réveillé.
