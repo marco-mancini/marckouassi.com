@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-04T00:40:29.599Z depuis 9dba4496ef8bfd0757636bfcc0f9b5b897a67843.
+> Source unique : issues GitHub. Généré le 2026-10-04T07:28:05.961Z depuis 09e044da7b60987c88d516abdad66c03613906a2.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -14,16 +14,16 @@
 - Aucune tâche explicitement marquée « en cours » dans GitHub.
 
 ## Tâches terminées
-- 62 issue(s) fermée(s).
+- 65 issue(s) fermée(s).
 
 ## Tâches bloquées
 - #7 — [PM-007] Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues
 
 ## Prochaine action
-- Issue #130 — [PM-121] IA-04 : intégrer Conversation et Assistant au rendu du site
+- Issue #142 — [PM-127] Refaire complètement le CV HTML sur la base du PDF existant
 
 ## Dernière preuve
-- Issue #134 mise à jour le 2026-10-04T00:39:44Z.
+- Issue #142 mise à jour le 2026-10-04T07:28:03Z.
 
 ## Dernière mise à jour
-- 2026-10-04T00:40:29.599Z
+- 2026-10-04T07:28:05.961Z
