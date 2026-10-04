@@ -156,23 +156,55 @@ Relevés par un inventaire exhaustif du dépôt : 388 fichiers suivis, 349 impor
 relatifs, 71 documents markdown. **Rien n'a été supprimé.** Ce point rassemble
 ce qui demande une décision de Marc, et ce qui ne doit surtout pas bouger.
 
-### 5.1 Six fichiers d'assets que rien ne référence — à décider
+### 5.1 Six fichiers d'assets que rien ne référence — audités le 4 octobre 2026
 
-Recherche sur tout le dépôt, nom complet et nom de fichier :
+Recherche sur tout le dépôt (nom complet et nom de base), historique Git complet,
+mesure des dimensions et du poids, comparaison perceptuelle et **examen visuel**
+de chaque image. Deux fichiers supprimés, quatre conservés.
 
-| Fichier | Poids | Remarque |
-|---|---|---|
-| `Public/images/Image_01.jpg` | 352 Ko | la numérotation `04` à `07` est utilisée, `01` à `03` non |
-| `Public/images/Image_02.jpg` | 176 Ko | idem |
-| `Public/images/Image_03.jpg` | 347 Ko | idem |
-| `Public/images/Photo_Marc.jpg` | 596 Ko | 900 × 1600 px ; ressemble à l'original du `.png` détouré, lui bien utilisé. Vérification demandée par [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) |
-| `Public/images/Projet_CEELI_couverture.jpg` | 28 Ko | aucun équivalent d'un autre format dans le dépôt |
-| `Public/images/.gitkeep` | 0 | le dossier contient 122 fichiers : le gardien n'a plus d'objet |
+| Fichier | Dimensions | Poids | Classe | Suite |
+|---|---|---|---|---|
+| `Image_01.jpg` | 1181 × 787 | 351 Ko | **F — à décider** | conservé |
+| `Image_02.jpg` | 1181 × 807 | 175 Ko | **F — à décider** | conservé |
+| `Image_03.jpg` | 1181 × 1181 | 346 Ko | **F — à décider** | conservé |
+| `Photo_Marc.jpg` | 900 × 1600 | 596 Ko | **C — source d'un asset utilisé** | conservé |
+| `Projet_CEELI_couverture.jpg` | 900 × 640 | 27 Ko | **D — doublon prouvé** | **supprimé** |
+| `Public/images/.gitkeep` | — | 0 | **E — sans objet** | **supprimé** |
 
-Environ **1,5 Mo**. Supprimer un original parce qu'il n'est référencé nulle
-part est exactement ce qu'un master n'est jamais : §6.11 demande de prouver
-l'inutilité, et l'absence de référence ne la prouve pas pour une source.
-**Un mot de Marc suffit**, fichier par fichier.
+**`Image_01` à `03` — conservés, décision de Marc attendue.** L'historique est
+formel : ils étaient affichés, avec pour texte alternatif « Visuel fourni pour le
+portfolio, **projet à identifier** », et la référence a été retirée le
+28 septembre 2026 par `7e0b8a4` « Refonte Kittl : contenu reel des projets ».
+Ce sont donc des visuels d'illustration posés avant l'arrivée du contenu réel.
+Examinés : un portrait d'enfant en double exposition, une photographie d'un
+designer à son bureau — **ce n'est pas Marc** — et une illustration à plat d'un
+poste de travail. Aucun ne montre une réalisation de Marc. Rien ne prouve pour
+autant qu'ils soient jetables : ils ont été *fournis*. **Un mot de Marc**, et ils
+partent en une commande.
+
+**`Photo_Marc.jpg` — conservé, et ce n'est pas un doublon.** C'est la **même
+photographie** que `Photo_Marc.png`, celui qu'affiche la section « À propos » :
+même pose, même costume, même cadrage. Mais le `.png` en est la version
+**détourée** (fond retiré, transparence, 1600 × 2857), tandis que le `.jpg` garde
+son **fond de studio** (900 × 1600). Le `.jpg` est donc la source d'où le détourage
+a été fait. On ne jette pas la source derrière un asset dérivé, et
+[#49](https://github.com/marco-mancini/marckouassi.com/issues/49) réserve
+explicitement cette décision à Marc.
+
+**`Projet_CEELI_couverture.jpg` — supprimé, doublon prouvé.** C'est la couverture
+« Charte Graphique » du projet CEELI, identique à
+`Public/images/Charte_Graphique/01.png`, que le contenu utilise réellement.
+Prouvé deux fois : comparaison perceptuelle contre **les 30 planches** de la
+charte — écart de **1,8 / 255** avec `01.png`, la suivante à 16,6 — et examen
+visuel des deux images. Le JPEG est strictement inférieur : 900 × 640 contre
+2796 × 1986. Le build produit lui-même les dérivés WebP depuis le PNG, ce qui rend
+une petite copie à la main redondante par construction. L'original est conservé et
+utilisé ; le fichier reste joignable dans l'historique (`7e0b8a4`).
+
+**`Public/images/.gitkeep` — supprimé, sans objet.** Un gardien de dossier vide
+posé par les premiers commits du dépôt (« Prepare static site for GitHub Pages »).
+Le dossier compte aujourd'hui 122 fichiers suivis : Git suit des fichiers, pas des
+dossiers, et celui-ci ne peut plus disparaître.
 
 ### 5.2 `Admin/config.js` : référencé, jamais commité
 
