@@ -69,7 +69,7 @@ Les coordonnées email et téléphone/WhatsApp ne sont demandées qu'après acco
 7. 💡 Idée / suggestion
 8. 🙌 Enthousiasme
 9. 📝 Prise de notes
-10. 😌 Succès / compréhension
+10. 😌 Succès / félicité
 
 Ces expressions sont une bibliothèque visuelle et non dix états runtime supplémentaires.
 
