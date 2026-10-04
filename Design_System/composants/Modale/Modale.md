@@ -27,7 +27,12 @@
 - À la fermeture, par n'importe quel chemin, le focus revient au déclencheur.
 - Le déclencheur porte `aria-expanded`.
 - Le défilement de la page est verrouillé par un compteur partagé.
-- `ouvrirModale()` pose le déverrouillage de sa propre ouverture, en écoute unique sur `close`; `activerModales()` ne décrémente jamais le compteur.
+- Le verrou est posé **et rendu** par `ouvrirModale()` : elle attache elle-même
+  l'écouteur de fermeture, en `{ once: true }`. Une modale injectée après
+  `activerModales()` — l'accueil animé vit dans un `<template>` — rend donc son
+  verrou comme les autres. Le déverrouillage ne doit pas être dupliqué dans
+  `activerModales()`, sous peine de décrémenter deux fois pour une modale
+  rendue par le serveur ; et le retour du focus ne vit qu'à un seul endroit.
 
 ## Variantes
 

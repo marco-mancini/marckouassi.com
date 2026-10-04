@@ -34,22 +34,26 @@ let ouvertes = 0;
 function verrouiller() { ouvertes += 1; document.documentElement.classList.add("has-overlay"); }
 function deverrouiller() { ouvertes = Math.max(0, ouvertes - 1); if (!ouvertes) document.documentElement.classList.remove("has-overlay"); }
 
-/** Ouvre une modale et mémorise le déclencheur pour lui rendre le focus. */
+/**
+ * Ouvre une modale et mémorise le déclencheur pour lui rendre le focus.
+ *
+ * Le verrou est rendu par l'ouverture elle-même, et non par un câblage
+ * préalable : `activerModales()` ne voit que les dialogues présents à son
+ * appel, or l'accueil animé vit dans un `<template>` et n'est injecté
+ * qu'ensuite. Sa fermeture ne rendait donc rien, et la page restait en
+ * `overflow: hidden` jusqu'au rechargement — molette et PageDown bloqués,
+ * les ancres continuant de fonctionner.
+ *
+ * L'écouteur est posé APRÈS `showModal()` : si l'ouverture échoue, aucun
+ * verrou n'est pris et aucun déverrouillage ne reste en attente.
+ */
 export function ouvrirModale(dialogue, declencheur = null) {
   if (!dialogue || dialogue.open) return;
   dialogue._declencheur = declencheur;
   if (declencheur) declencheur.setAttribute("aria-expanded", "true");
   dialogue.showModal();
   verrouiller();
-  dialogue.addEventListener("close", () => {
-    deverrouiller();
-    const declencheur = dialogue._declencheur;
-    if (declencheur) {
-      declencheur.setAttribute("aria-expanded", "false");
-      if (declencheur.isConnected) declencheur.focus({ preventScroll: true });
-    }
-    dialogue._declencheur = null;
-  }, { once: true });
+  dialogue.addEventListener("close", deverrouiller, { once: true });
 }
 
 export function fermerModale(dialogue) {
@@ -75,12 +79,16 @@ export function activerModales(racine = document) {
   });
   for (const dialogue of racine.querySelectorAll("dialog.modale")) {
     dialogue.addEventListener("click", (evenement) => { if (evenement.target === dialogue) dialogue.close(); });
+    // Le déverrouillage appartient à ouvrirModale() : le poser ici aussi
+    // décrémenterait deux fois le compteur pour une modale rendue par le
+    // serveur, et libérerait le défilement alors qu'une autre est ouverte.
     dialogue.addEventListener("close", () => {
       const declencheur = dialogue._declencheur;
       if (declencheur) {
         declencheur.setAttribute("aria-expanded", "false");
         if (declencheur.isConnected) declencheur.focus({ preventScroll: true });
       }
+      dialogue._declencheur = null;
     });
   }
 }

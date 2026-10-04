@@ -222,6 +222,45 @@ test("accueil animé : apparaît, « Passer » le ferme, mémorisé ; animations
 });
 
 
+/**
+ * L'événement « close » d'un <dialog> est ASYNCHRONE : .open bascule avant que
+ * l'écouteur ne s'exécute. Attendre .open puis vérifier le verrou court contre
+ * lui — mesuré instable, trois échecs sur quatre passages. On attend donc le
+ * rendu du verrou lui-même.
+ */
+const verrouRendu = (page) => page.waitForFunction(
+  () => !document.documentElement.classList.contains("has-overlay"),
+  null, { timeout: 4000 },
+);
+
+const verrouille = (page) => page.evaluate(() => ({
+  classe: document.documentElement.classList.contains("has-overlay"),
+  overflow: getComputedStyle(document.documentElement).overflow,
+}));
+
+/**
+ * Le défilement UTILISATEUR, à la molette : c'est lui que le défaut bloquait.
+ * window.scrollTo reste permis sous overflow: hidden, et c'est précisément ce
+ * qui avait rendu toute la suite aveugle. Le site déclarant scroll-behavior:
+ * smooth, on laisse la page se poser avant et après.
+ */
+async function molette(page) {
+  const pose = () => page.waitForFunction(() => new Promise((r) => {
+    let derniere = window.scrollY; let stables = 0;
+    const battre = () => {
+      if (window.scrollY === derniere) stables += 1; else { stables = 0; derniere = window.scrollY; }
+      if (stables >= 3) r(true); else requestAnimationFrame(battre);
+    };
+    requestAnimationFrame(battre);
+  }), null, { timeout: 4000 });
+  await pose();
+  const avant = await page.evaluate(() => window.scrollY);
+  await page.mouse.move(600, 400);
+  await page.mouse.wheel(0, 1200);
+  await pose();
+  return Math.abs((await page.evaluate(() => window.scrollY)) - avant) > 50;
+}
+
 test("intro : ouverture verrouille le défilement de la page", async () => {
   const page = await ouvrir(nav, serveur.url + "/", { introVue: false });
   await page.waitForFunction(() => document.getElementById("intro")?.open);
@@ -235,8 +274,9 @@ test("intro : fermeture libère le défilement de la page", async () => {
   await page.waitForFunction(() => document.getElementById("intro")?.open);
   await page.locator('#intro [data-modale-fermer]').click();
   await page.waitForFunction(() => !document.getElementById("intro"));
-  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), false);
-  assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).overflow), "visible");
+  await verrouRendu(page);
+  assert.deepEqual(await verrouille(page), { classe: false, overflow: "visible" });
+  assert.ok(await molette(page), "le défilement utilisateur doit être rendu");
   await page.fermer();
 });
 
@@ -248,21 +288,23 @@ test("étude de projet : fermeture libère le défilement après une ouverture d
   await page.waitForFunction(() => document.getElementById("etude").open);
   assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), true);
   await page.keyboard.press("Escape");
-  await page.waitForFunction(() => !document.getElementById("etude").open);
-  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), false);
-  assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).overflow), "visible");
+  await verrouRendu(page);
+  assert.deepEqual(await verrouille(page), { classe: false, overflow: "visible" });
   await page.fermer();
 });
 
 test("menu mobile : le verrou reste libéré après fermeture", async () => {
   const page = await ouvrir(nav, serveur.url + "/", { largeur: 375 });
   const bouton = page.locator('[data-modale-ouvrir="menu"]');
-  await bouton.click();
-  await page.waitForFunction(() => document.getElementById("menu").open);
-  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), true);
-  await page.keyboard.press("Escape");
-  await page.waitForFunction(() => !document.getElementById("menu").open);
-  assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), false);
+  for (let cycle = 0; cycle < 3; cycle += 1) {
+    await bouton.click();
+    await page.waitForFunction(() => document.getElementById("menu").open);
+    assert.equal((await verrouille(page)).classe, true, `cycle ${cycle} : ouverture`);
+    await page.keyboard.press("Escape");
+    await verrouRendu(page);
+    assert.equal((await verrouille(page)).classe, false, `cycle ${cycle} : le verrou doit être rendu`);
+  }
+  assert.ok(await molette(page), "le défilement fonctionne après trois cycles");
   await page.fermer();
 });
 
