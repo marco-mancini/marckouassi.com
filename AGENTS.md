@@ -306,15 +306,34 @@ L'agent doit consulter ces sources avant une modification architecturale.
 
 5.2 Architecture
 
+ACTIF
+
 content/              → contenu source, seule source de vérité du contenu
 Design_System/        → système visuel
 Frontend/             → comportements du site
 tools/                → génération et outils
 tests/                → tests
 Public/images/        → médias
+Public/Avatar_MarcoS/ → les dix expressions officielles de l'avatar (Docs/MARCOS_AVATAR_EXPRESSIONS.md)
+worker/assistant/     → Worker Cloudflare de MarcoS : la seule partie serveur du projet
 Docs/                 → documentation
-_site/                → résultat généré, jamais commité
 .github/workflows/    → intégration continue
+
+GÉNÉRÉ, JAMAIS COMMITÉ
+
+_site/                → résultat du build
+test-results/         → sortie de Playwright
+.cache/               → cache des médias
+
+EN SOMMEIL — lire "Docs/ADMIN_EN_SOMMEIL.md" avant toute intervention
+
+Admin/                → application de l'ancien back-office Supabase
+Backend/              → document d'orientation de l'ancienne partie serveur
+Deploy/               → mise en service Supabase et Cloudflare de l'ancien back-office
+supabase/             → schéma, règles d'accès et Edge Function « publier »
+
+Ces quatre dossiers ne sont pas branchés : le build ne les appelle pas, et
+leurs tests vivent dans "tests/en-sommeil/", hors de "npm test".
 
 Respecter :
 

@@ -1,13 +1,31 @@
 # État du chantier « Gabarit_Projet »
 
-**Fiche de reprise.** Écrite pour qu'une autre IA, ou une autre session, puisse
-continuer ce travail **sans aucun contexte de conversation**. Tout ce qui est
-nécessaire est ici ou désigné par son chemin exact.
+> **DOCUMENT HISTORIQUE — le chantier est clos.** Écrit le 2 octobre 2026
+> comme fiche de reprise d'un travail alors non poussé. Depuis, la décision
+> **D-36** a tranché ([#123](https://github.com/marco-mancini/marckouassi.com/issues/123),
+> fermée) et la PR #150 a fusionné le résultat dans `main`.
+>
+> **Plusieurs passages ci-dessous ne décrivent plus le dépôt.** À ne pas suivre
+> comme spécification ; la référence est
+> [DECISIONS.md](DECISIONS.md) → D-36, et le code de `main`. Les écarts connus :
+>
+> | Ce document dit | `main` fait |
+> |---|---|
+> | un filtre par discipline, `projets[].categories` au pluriel | une seule catégorie par projet, `categoriePrincipale` |
+> | huit disciplines dont `motion-audiovisuel` | huit catégories dont `explorations-personnelles` ; `motion-audiovisuel` n'existe plus |
+> | `--type-titre-sommaire` et `.titre--compacte` | le titre de la planche 05 porte un sceau (`sceau: "petit"`, PM-118) |
+> | « Ne pas pousser sans l'accord de Marc » | poussé et fusionné (`a2b41e2`) |
+> | quatre arbitrages en attente (§11) | tous tranchés, sauf la portée de la navigation précédent/suivant |
+>
+> Il est conservé pour le **pourquoi** qu'il garde : les raisons du gabarit
+> central, les contrats d'ouverture, et les mesures faites au navigateur.
+
+**Fiche de reprise d'origine.**
 
 - Dernière mise à jour : **2 octobre 2026**
 - Branche : `pm-110-projets-par-discipline`
 - Commit : « Créer le gabarit central des projets »
-- **Non poussé.** Marc a demandé une sauvegarde locale seule.
+- **Non poussé** à la date d'écriture. Marc avait demandé une sauvegarde locale seule.
 - Référence de `npm run comparer-reference` : `f48646f`
 
 ---

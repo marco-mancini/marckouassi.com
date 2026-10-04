@@ -7,14 +7,28 @@ changent le rendu. Chaque point est suivi par une issue (voir
 [ISSUES.md](ISSUES.md)).
 
 Mis à jour le 2 octobre 2026 : les points 2 et 3 sont réglés (PM-019 ;
-PM-020 et PM-045) ; le point 1 attend une décision de Marc ; le point 4 est
-en veille, son critère d'ouverture mesuré non atteint.
+PM-020 et PM-045) ; le point 4 est en veille, son critère d'ouverture mesuré
+non atteint.
 
-## 1. Décalage des ancres — change le rendu
+Mis à jour le 4 octobre 2026 : le **point 1 est réglé** (PM-018,
+[#18](https://github.com/marco-mancini/marckouassi.com/issues/18), fermée ;
+PR #145, `a8fdb6a`). Le point 5 ouvre les constats du ménage architectural du
+4 octobre.
 
-Suivi : PM-018 (#18), `decision-marc`. Non réglé.
+## 1. Décalage des ancres — réglé
 
-Un saut vers une section (menu, lien « Le portfolio ↓ ») additionne deux
+Suivi : PM-018 ([#18](https://github.com/marco-mancini/marckouassi.com/issues/18)),
+**réglé le 4 octobre 2026** par la PR #145 (`a8fdb6a`). Décision de Marc :
+24 px sur ordinateur, 16 px sous 850 px.
+
+Un seul mécanisme porte désormais le dégagement —
+`html { scroll-padding-top: calc(var(--header-height) + var(--ancre-degagement)) }`
+dans `fondations/Theme.css`. Le `scroll-margin-top` de `.planche-scene` est
+retiré, et les deux jetons qui doublonnaient la hauteur d'en-tête
+(`--header-offset`, `--en-tete-hauteur-compact`) n'existent plus. Deux tests
+navigateur mesurent l'écart réel et gardent la valeur.
+
+Le constat d'origine, pour mémoire. Un saut vers une section (menu, lien « Le portfolio ↓ ») additionne deux
 dégagements :
 
 - `html { scroll-padding-top: var(--header-offset) }` (`fondations/Theme.css`) :
@@ -135,3 +149,71 @@ maximal du job (30 min) laisse de la marge. Si la lenteur devient la règle,
 pistes à évaluer : n'installer que Chromium sans `--with-deps` (vérifier que
 les tests passent sur l'image GitHub), ou lancer le job dans l'image
 officielle de Playwright.
+
+## 5. Ménage architectural du 4 octobre 2026 — constats à décider
+
+Relevés par un inventaire exhaustif du dépôt : 388 fichiers suivis, 349 imports
+relatifs, 71 documents markdown. **Rien n'a été supprimé.** Ce point rassemble
+ce qui demande une décision de Marc, et ce qui ne doit surtout pas bouger.
+
+### 5.1 Six fichiers d'assets que rien ne référence — à décider
+
+Recherche sur tout le dépôt, nom complet et nom de fichier :
+
+| Fichier | Poids | Remarque |
+|---|---|---|
+| `Public/images/Image_01.jpg` | 352 Ko | la numérotation `04` à `07` est utilisée, `01` à `03` non |
+| `Public/images/Image_02.jpg` | 176 Ko | idem |
+| `Public/images/Image_03.jpg` | 347 Ko | idem |
+| `Public/images/Photo_Marc.jpg` | 596 Ko | 900 × 1600 px ; ressemble à l'original du `.png` détouré, lui bien utilisé. Vérification demandée par [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) |
+| `Public/images/Projet_CEELI_couverture.jpg` | 28 Ko | aucun équivalent d'un autre format dans le dépôt |
+| `Public/images/.gitkeep` | 0 | le dossier contient 122 fichiers : le gardien n'a plus d'objet |
+
+Environ **1,5 Mo**. Supprimer un original parce qu'il n'est référencé nulle
+part est exactement ce qu'un master n'est jamais : §6.11 demande de prouver
+l'inutilité, et l'absence de référence ne la prouve pas pour une source.
+**Un mot de Marc suffit**, fichier par fichier.
+
+### 5.2 `Admin/config.js` : référencé, jamais commité
+
+`Admin/app.js:13` fait `import { CONFIG } from "./config.js"`. Ce fichier
+**n'a jamais existé dans le dépôt** : aucun commit ne le contient, il n'est pas
+dans `.gitignore`, et aucun document ne le mentionne. C'est le **seul import
+relatif cassé** du dépôt (1 sur 349).
+
+Conséquence : l'ancien back-office ne peut pas démarrer en l'état, même réveillé.
+Cohérent avec `ADMIN_EN_SOMMEIL.md` — « aucun projet Supabase n'a jamais été
+créé ; le back-office n'a jamais servi » — mais la procédure de réveil de ce
+document ne le dit pas. Si le réveil est un jour décidé, c'est le premier
+fichier à écrire.
+
+### 5.3 Deux incohérences de nommage — à décider, pas corrigées
+
+**`Public/Avatar_MarcoS/` contre la spécification.** `MARCOS_AVATAR.md` §4
+décrit l'arborescence attendue comme `Public/images/MarcoS/`, avec `Vues/`,
+`Fixes/` et `Sequences/`. Mais la décision de Marc du 4 octobre nomme
+explicitement `/Public/Avatar_MarcoS` comme source officielle. **La décision
+prime sur la spécification** : le dossier n'est pas déplacé. À trancher le jour
+où les séquences d'animation arriveront, puisque les deux chemins coexisteraient.
+
+**Casse des dossiers racine.** `Design_System/`, `Public/`, `Docs/`, `Admin/`,
+`Backend/`, `Deploy/`, `Frontend/` portent une majuscule ; `content/`, `tools/`,
+`tests/`, `worker/`, `supabase/` n'en portent pas. Renommer coûterait des
+centaines de références pour un gain de cohérence seul, sur un système de
+fichiers insensible à la casse où un renommage partiel passe inaperçu en local
+et casse en intégration continue. **Non corrigé volontairement.** La casse est
+en revanche cohérente *dans les références* : aucune n'écrit `docs/` en
+minuscule.
+
+### 5.4 Trois documents de `Docs/` sont lus par la machine — ne pas déplacer
+
+C'est la raison pour laquelle `Docs/` reste **plat**, malgré ses 27 fichiers qui
+mélangent spécifications actives, journaux de décision et documents historiques :
+
+| Document | Lu par | Effet d'un déplacement |
+|---|---|---|
+| `Docs/MARCOS_DECISIONS_20261003.md` | `tests/prompt.test.mjs:22` | le contrat D-21 à D-28 est **dérivé** de ce document, pas recopié : le test tombe |
+| `Docs/ISSUES.md` | `tools/comparer-issues.mjs` | `npm run comparer-issues` tombe |
+| `Docs/suivi/ETAT_MOBILE.md` | `tools/etat-mobile.mjs` | le miroir s'écrit ailleurs et §6.4 n'est plus tenu |
+
+Toute réorganisation de `Docs/` doit donc commencer par ces trois chemins.
