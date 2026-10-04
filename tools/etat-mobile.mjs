@@ -31,6 +31,16 @@ export function issuesBloquees(issues) {
   return issuesOuvertes(issues).filter((issue) => (issue.labels || []).some((label) => ETIQUETTE_BLOCAGE.test(String(label.name).trim())));
 }
 
+/**
+ * Les pull requests ouvertes. L'endpoint « issues » les renvoie déjà, marquées
+ * par le champ `pull_request` : les lister ici ne coûte aucun appel de plus, et
+ * le miroir montre alors ce qui attend une fusion, pas seulement ce qui attend
+ * une décision.
+ */
+export function pullRequestsOuvertes(issues) {
+  return issues.filter((issue) => issue.pull_request != null && issue.state === "open");
+}
+
 export function issueEnCours(issues) {
   const marqueurs = new Set(["en cours", "in progress", "wip"]);
   return issuesOuvertes(issues).find((issue) => (issue.labels || []).some((label) => marqueurs.has(String(label.name).toLowerCase())));
@@ -50,11 +60,24 @@ export function shaCourant() {
   }
 }
 
-export function formaterEtat(issues, { date = new Date(), sha = shaCourant() } = {}) {
+/**
+ * Le commit depuis lequel le miroir est généré, sujet compris. Le SHA seul ne
+ * dit pas sur quoi il porte ; sur mobile, le sujet est ce qui se lit.
+ */
+export function commitCourant() {
+  try {
+    return execFileSync("git", ["log", "-1", "--format=%h %s"], { cwd: RACINE, encoding: "utf8" }).trim();
+  } catch {
+    return "inconnu";
+  }
+}
+
+export function formaterEtat(issues, { date = new Date(), sha = shaCourant(), commit = commitCourant() } = {}) {
   const ouvertes = issuesOuvertes(issues);
   const terminees = issues.filter((issue) => issue.pull_request == null && issue.state === "closed");
   const bloquees = issuesBloquees(issues);
   const enCours = issueEnCours(issues);
+  const prOuvertes = pullRequestsOuvertes(issues);
   const prochaine = enCours || ouvertes[0] || null;
   const prochaineAction = prochaine
     ? `Issue #${prochaine.number} — ${prochaine.title}`
@@ -84,8 +107,14 @@ export function formaterEtat(issues, { date = new Date(), sha = shaCourant() } =
 ## Tâches bloquées
 - ${bloquees.length ? bloquees.map((issue) => `#${issue.number} — ${issue.title}`).join("\n- ") : "Aucune issue marquée comme bloquée."}
 
+## Pull requests ouvertes
+- ${prOuvertes.length ? prOuvertes.map((pr) => `#${pr.number} — ${pr.title}`).join("\n- ") : "Aucune pull request ouverte."}
+
 ## Prochaine action
 - ${prochaineAction}
+
+## Dernier commit
+- ${commit}
 
 ## Dernière preuve
 - ${dernierePreuve ? `Issue #${dernierePreuve.number} mise à jour le ${dernierePreuve.updated_at}.` : "Aucune preuve déductible depuis les issues."}
