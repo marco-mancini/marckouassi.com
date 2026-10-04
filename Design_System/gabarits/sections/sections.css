@@ -99,16 +99,19 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 /* Pas de scroll-margin-top ici : html porte seul le dégagement d'ancre
    (Theme.css, scroll-padding-top). Deux mécanismes s'additionneraient — c'est
    le défaut que PM-018 (#18) a corrigé. */
-/* Le repli est conditionné par html.js-anime, posé en fin de Frontend/site.js.
-   Sans script, ou si le script échoue, les onze réalisations restent VISIBLES :
-   c'est la règle de visibilité du projet, et un filtre qui masque tout sans
-   pouvoir être ouvert vaudrait moins que pas de filtre du tout. */
-.js-anime .projets__groupes .categorie-projets { display: none; }
-.js-anime .projets__groupes .categorie-projets:target { display: block; }
-.js-anime .planche.projets:has(.categorie-projets:target) .projets__tete,
-.js-anime .planche.projets:has(.categorie-projets:target) .projets__categories { display: none; }
-/* Sans script, les choix de catégorie restent des ancres utiles : ils mènent
-   au bloc, qui est déjà là. */
+/* DÉCISION DE MARC, 4 octobre 2026 (#123) : les onze réalisations restent
+   REPLIÉES derrière les huit cartes de catégorie. Elles ne s'affichent pas
+   d'elles-mêmes sur l'accueil.
+
+   Le repli n'est PAS conditionné à html.js-anime, et il n'a pas à l'être :
+   `:target` est du CSS pur. Les huit cartes sont de vraies ancres, donc le
+   dépliage fonctionne script absent, script bloqué, script en échec. C'est
+   la seule raison qui autorise à masquer du contenu par défaut ici — un
+   filtre qu'on ne pourrait pas ouvrir vaudrait moins que pas de filtre. */
+.projets__groupes .categorie-projets { display: none; }
+.projets__groupes .categorie-projets:target { display: block; }
+.planche.projets:has(.categorie-projets:target) .projets__tete,
+.planche.projets:has(.categorie-projets:target) .projets__categories { display: none; }
 .page-planches--categorie > .planche-scene:not(.planche-scene--categorie-active) { display: none; }
 .page-planches--categorie > .planche-scene--categorie-active { min-height: calc(100svh - var(--header-height)); }
 .categorie-projets__entete { display: grid; margin: var(--projets-tete-marge-haute) 0 var(--space-8); gap: var(--space-4); }

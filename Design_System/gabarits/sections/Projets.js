@@ -5,6 +5,7 @@ import { Grille } from "../../composants/Grille/Grille.js";
 import { Carte } from "../../composants/Carte/Carte.js";
 import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
+import { Media } from "../../composants/Media/Media.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
 import { Gabarit_Projet } from "../Gabarit_Projet/Gabarit_Projet.js";
 import { credit } from "./commun.js";
@@ -78,8 +79,13 @@ export function Projets({ section, contenu, ctx }) {
     const cartesRealisations = (categorie.realisations ?? []).length
       ? Grille({ elements: categorie.realisations.map((realisation, index) => {
         const cheminRealisation = `${cheminCategorie}.realisations.${index}`;
+        // Media, pas un <img> écrit ici : lui seul pose width/height depuis la
+        // table des médias, et sans eux l'image décale la mise en page en se
+        // chargeant. Le test « toutes les images réservent leur place » le
+        // relevait sur ces six visuels (§3.2, réutiliser avant de créer).
         const visuel = media(ctx, realisation.media, { chemin: `${cheminRealisation}.media` });
-        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel"><img src="${visuel.src}" alt="${ctx.c(realisation.libelle, `${cheminRealisation}.libelle`)}" loading="lazy" decoding="async"><span class="bouton bouton--surface bouton--rond categorie-projets__carte-fleche" aria-hidden="true"><span class="bouton__icone bouton__icone--ouvrir">↗</span></span></div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: numero(index), variante: "contour", forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${ctx.c(realisation.libelle, `${cheminRealisation}.libelle`)}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
+        const libelle = ctx.c(realisation.libelle, `${cheminRealisation}.libelle`);
+        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel">${Media({ media: { ...visuel, alt: libelle } })}<span class="bouton bouton--surface bouton--rond categorie-projets__carte-fleche" aria-hidden="true"><span class="bouton__icone bouton__icone--ouvrir">↗</span></span></div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: numero(index), variante: "contour", forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
       }), colonnes: [4, 2, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })
       : null;
     return html`<section class="categorie-projets" id="categorie-${categorie.id}" aria-labelledby="titre-${categorie.id}">

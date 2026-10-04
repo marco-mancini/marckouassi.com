@@ -97,8 +97,19 @@ test("le contenu est visible sans JavaScript, avec un script en échec et avec a
   for (const options of cas) {
     const page = await ouvrir(nav, serveur.url + "/", options);
     if (options.defile) await defiler(page); else await page.waitForTimeout(1200);
-    const masques = await page.$$eval(".carte, .projet-carte, .planche", (l) => l.filter((e) => +getComputedStyle(e).opacity < 0.99).length);
-    assert.equal(masques, 0, JSON.stringify(options));
+    // Le garde-fou est intact : il cherche toujours un élément AFFICHÉ resté
+    // transparent, c'est-à-dire une apparition qui ne s'est jamais déclenchée.
+    // Il ignore désormais ce qui n'est pas affiché du tout — les huit blocs de
+    // catégorie, repliés par décision de Marc (#123). Un bloc replié n'est pas
+    // un contenu masqué par une animation en panne : il attend sa carte.
+    const masques = await page.$$eval(".carte, .projet-carte, .planche", (l) => l
+      .filter((e) => e.offsetParent !== null || getComputedStyle(e).position === "fixed")
+      .filter((e) => +getComputedStyle(e).opacity < 0.99)
+      .map((e) => e.className));
+    assert.deepEqual(masques, [], JSON.stringify(options));
+    // Et le repli lui-même est vérifié, pour qu'il ne puisse pas tomber en
+    // silence : aucune réalisation n'est visible sur l'accueil.
+    assert.equal(await page.locator(".projets .projet-carte:visible").count(), 0, JSON.stringify(options));
     await page.fermer();
   }
 });
@@ -168,7 +179,9 @@ test("sans JavaScript, la navigation mobile reste accessible (pas de bouton de m
 });
 
 test("étude de projet : ouverture en modale, compteur calculé, Échap, focus rendu ; sans JS : page du projet", async () => {
-  const page = await ouvrir(nav, serveur.url + "/realisations/identite-charte/");
+  // Le filtrage vit dans l'accueil (décision de Marc, #123) : on déplie la
+  // catégorie par son ancre, puis on ouvre l'étude depuis son bloc.
+  const page = await ouvrir(nav, serveur.url + "/#categorie-identite-charte");
   const lien = page.locator('a[data-etude="aurex"]');
   await lien.scrollIntoViewIfNeeded();
   await lien.click();
@@ -180,7 +193,7 @@ test("étude de projet : ouverture en modale, compteur calculé, Échap, focus r
   await page.keyboard.press("Escape");
   assert.equal(await page.evaluate(() => document.activeElement.dataset.etude), "aurex");
   await page.fermer();
-  const sansJs = await ouvrir(nav, serveur.url + "/realisations/identite-charte/", { js: false });
+  const sansJs = await ouvrir(nav, serveur.url + "/#categorie-identite-charte", { js: false });
   await sansJs.locator('a[data-etude="aurex"]').click();
   await sansJs.waitForURL(/projets\/aurex\/$/);
   assert.match(await sansJs.textContent("h1"), /AUREX/);
@@ -336,7 +349,9 @@ test("intro : fermeture libère le défilement de la page", async () => {
 });
 
 test("étude de projet : fermeture libère le défilement après une ouverture dynamique", async () => {
-  const page = await ouvrir(nav, serveur.url + "/");
+  // La carte vit dans un bloc replié (#123) : on déplie d'abord sa catégorie.
+  // Ce qui est testé reste le verrou, pas le chemin pour y arriver.
+  const page = await ouvrir(nav, serveur.url + "/#categorie-identite-charte");
   const lien = page.locator('a[data-etude="aurex"]');
   await lien.scrollIntoViewIfNeeded();
   await lien.click();
@@ -366,7 +381,9 @@ test("menu mobile : le verrou reste libéré après fermeture", async () => {
 test("accessibilité (axe-core) : aucune violation grave ou critique", async () => {
   const categories = await catalogueDuContenu();
   const cheminVide = categories.find((categorie) => categorie.travaux.length === 0)?.id;
-  for (const chemin of ["/", "/en/", "/cv/", "/projets/fifa26/", `/realisations/${categories[0].id}/`, ...(cheminVide ? [`/realisations/${cheminVide}/`] : [])]) {
+  // Les catégories n'ont pas d'URL (#123) : on vérifie l'accueil replié, puis
+  // une catégorie dépliée et une catégorie vide dépliée, par leur ancre.
+  for (const chemin of ["/", "/en/", "/cv/", "/projets/fifa26/", `/#categorie-${categories[0].id}`, ...(cheminVide ? [`/#categorie-${cheminVide}`] : [])]) {
     for (const theme of ["light", "dark"]) {
       const page = await ouvrir(nav, serveur.url + chemin, { reduit: true, theme });
       await defiler(page);
@@ -389,13 +406,15 @@ const catalogueDuContenu = async () => {
   }));
 };
 
-test("le sommaire propose les huit catégories et n'affiche aucune réalisation", async () => {
+test("l'accueil propose les huit catégories et replie toutes les réalisations", async () => {
+  // DÉCISION DE MARC (#123, 4 octobre 2026) : les onze réalisations restent
+  // REPLIÉES derrière les huit cartes, qui sont le seul point d'entrée.
   const categories = await catalogueDuContenu();
   const page = await ouvrir(nav, serveur.url + "/");
   assert.equal(await page.locator(".projets__choix .carte").count(), categories.length);
-  assert.equal(await page.locator(".projets .projet-carte").count(), 0);
+  assert.equal(await page.locator(".projets .projet-carte:visible").count(), 0, "aucune réalisation visible sur l'accueil");
   for (const categorie of categories) {
-    const carte = page.locator(`.projets__choix a[href*="${categorie.id}"]`);
+    const carte = page.locator(`.projets__choix a[href="#categorie-${categorie.id}"]`);
     assert.equal(await carte.count(), 1, categorie.id);
     assert.equal(await carte.locator(".carte__note").textContent(), categorie.note.fr);
   }
@@ -403,47 +422,62 @@ test("le sommaire propose les huit catégories et n'affiche aucune réalisation"
   await page.fermer();
 });
 
-test("une catégorie ouvre sa page avec ses seules réalisations et son état vide", async () => {
+test("une carte déplie sa seule catégorie, avec ses seules réalisations ou son état vide", async () => {
   const categories = await catalogueDuContenu();
   for (const categorie of categories) {
-    const page = await ouvrir(nav, `${serveur.url}/realisations/${categorie.id}/`);
-    assert.equal((await page.textContent("h1")).replace(/\.$/, ""), categorie.libelle.fr, categorie.id);
-    assert.equal(await page.locator(".projet-carte").count(), categorie.travaux.length, categorie.id);
-    if (!categorie.travaux.length) assert.ok((await page.textContent(".categorie-projets__vide")).length > 0, categorie.id);
-    const intruses = await page.$$eval(".projet-carte", (cartes, id) => cartes.filter((carte) => carte.dataset.categorie !== id).length, categorie.id);
-    assert.equal(intruses, 0, categorie.id);
+    const page = await ouvrir(nav, `${serveur.url}/#categorie-${categorie.id}`);
+    const bloc = page.locator(`#categorie-${categorie.id}`);
+    assert.equal(await bloc.isVisible(), true, categorie.id);
+    // Un seul bloc ouvert à la fois : les sept autres restent repliés.
+    assert.equal(await page.locator(".categorie-projets:visible").count(), 1, categorie.id);
+    assert.equal((await bloc.locator("h2").first().textContent()).replace(/\.$/, ""), categorie.libelle.fr, categorie.id);
+    assert.equal(await page.locator(".projet-carte:visible").count(), categorie.travaux.length, categorie.id);
+    if (!categorie.travaux.length && !(categorie.realisations ?? []).length) {
+      assert.ok((await bloc.locator(".categorie-projets__vide").textContent()).length > 0, categorie.id);
+    }
+    const intruses = await page.$$eval(".projet-carte", (cartes, id) => cartes.filter((c) => c.offsetParent !== null && c.dataset.categorie !== id).length, categorie.id);
+    assert.equal(intruses, 0, `${categorie.id} : une réalisation d'une autre catégorie est visible`);
     assert.deepEqual(page.erreurs, [], categorie.id);
     await page.fermer();
   }
 });
 
-test("la navigation catégorie avance, revient au sommaire et boucle aux extrémités", async () => {
+test("le retour aux catégories ramène aux huit cartes, et sans script aussi", async () => {
+  // « Les 8 cartes restent le point d'entrée » : il faut toujours pouvoir y
+  // revenir. C'est le pendant du repli, et le seul chemin de sortie.
   const categories = await catalogueDuContenu();
-  const premier = await ouvrir(nav, `${serveur.url}/realisations/${categories[0].id}/`);
-  const liens = premier.locator(".categorie-projets__navigation a");
-  assert.equal(await liens.count(), 3);
-  assert.match(await liens.nth(0).getAttribute("href"), new RegExp(`realisations/${categories.at(-1).id}/`));
-  assert.match(await liens.nth(2).getAttribute("href"), new RegExp(`realisations/${categories[1].id}/`));
-  await liens.nth(2).click();
-  await premier.waitForURL(new RegExp(`/realisations/${categories[1].id}/`));
-  await premier.locator(".categorie-projets__navigation a").nth(1).click();
-  await premier.waitForURL(/#sommaire$/);
-  await premier.fermer();
+  // Le chemin réel d'un visiteur : l'accueil, une carte, puis le retour. Le
+  // comportement s'appuie sur history.back() quand il y a un historique.
+  const page = await ouvrir(nav, serveur.url + "/");
+  await page.locator(`.projets__choix a[href="#categorie-${categories[0].id}"]`).click();
+  await page.waitForFunction((id) => document.getElementById(id)?.offsetParent !== null, `categorie-${categories[0].id}`);
+  assert.equal(await page.locator(".projets__choix:visible").count(), 0, "les cartes s'effacent quand une catégorie est ouverte");
 
-  const derniere = await ouvrir(nav, `${serveur.url}/realisations/${categories.at(-1).id}/`);
-  assert.match(await derniere.locator(".categorie-projets__navigation a").nth(2).getAttribute("href"), new RegExp(`realisations/${categories[0].id}/`));
-  await derniere.fermer();
+  const retour = page.locator("[data-categorie-retour]");
+  assert.equal(await retour.count(), 1);
+  await retour.click();
+  await page.waitForFunction(() => [...document.querySelectorAll(".categorie-projets")].every((e) => e.offsetParent === null));
+  assert.equal(await page.locator(".projets__choix:visible").count(), 1, "les huit cartes sont revenues");
+  assert.equal(await page.locator(".projet-carte:visible").count(), 0, "et aucune réalisation ne reste visible");
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+
+  // Sans script, le retour est un lien vers l'ancre de la section : il marche.
+  const sansJs = await ouvrir(nav, `${serveur.url}/#categorie-${categories[0].id}`, { js: false });
+  assert.match(await sansJs.locator("[data-categorie-retour]").getAttribute("href"), /^#/);
+  await sansJs.fermer();
 });
 
-test("les vues catégories restent FR/EN et suivent le thème et les largeurs", async () => {
+test("les catégories dépliées tiennent en FR/EN, clair/sombre, à toutes les largeurs", async () => {
   const categories = await catalogueDuContenu();
   const cible = categories[0];
   for (const langue of ["fr", "en"]) for (const theme of ["light", "dark"]) {
-    for (const largeur of [320, 375, 768, 1024, 1440]) {
+    for (const largeur of [320, 375, 390, 768, 1024, 1280, 1440]) {
       const prefixe = langue === "en" ? "/en" : "";
-      const page = await ouvrir(nav, `${serveur.url}${prefixe}/realisations/${cible.id}/`, { largeur, theme });
+      const page = await ouvrir(nav, `${serveur.url}${prefixe}/#categorie-${cible.id}`, { largeur, theme });
       assert.equal(await page.getAttribute("html", "lang"), langue);
-      assert.equal(await page.locator(".categorie-projets__recit").count(), 1);
+      assert.equal(await page.locator(`#categorie-${cible.id} .categorie-projets__recit`).count(), 1);
+      assert.equal(await page.locator(`#categorie-${cible.id}`).isVisible(), true, `${langue} ${theme} ${largeur}px`);
       const debordement = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       assert.equal(debordement, 0, `${langue} ${theme} ${largeur}px`);
       assert.deepEqual(page.erreurs, [], `${langue} ${theme} ${largeur}px`);
