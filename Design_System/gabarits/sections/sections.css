@@ -159,15 +159,38 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 /* Les planches du CV forment un seul document : espacees de 24 px. */
 .page-cv { display: grid; padding-top: var(--page-cv-respiration); padding-bottom: calc(var(--page-bas) + var(--page-cv-respiration)); gap: var(--space-6); --accent-texte: var(--texte); }
 .page-cv .planche-scene { width: 100%; max-width: var(--cv-largeur-max); margin: 0 auto; padding: 0; }
-.cv-entete { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: var(--space-6); }
-.cv-entete__titre { margin: var(--space-4) 0; color: var(--texte-discret); font-family: var(--font-mono); font-size: var(--type-body-compact); font-weight: var(--weight-strong); line-height: var(--leading-compact); }
-.cv-entete__resume { max-width: var(--mesure-lecture-large); margin: 0; color: var(--texte-discret); --accent-texte: var(--paper); }
+/* Identite du PDF de reference (PM-127, #142) : le patronyme, le titre et le
+   resume en tete de la colonne de droite ; le portrait et les deux bandeaux
+   dans un panneau lateral gris. L'accent terracotta est echantillonne sur le
+   document lui-meme, et ne sort pas de la page /cv/. */
+.cv-identite { display: grid; gap: var(--space-3); margin: 0 0 var(--space-8); }
+.cv-identite__titre { margin: 0; padding-bottom: var(--space-3); border-bottom: var(--border-hairline) solid var(--cv-accent); color: var(--cv-accent-encre); font-family: var(--font-mono); font-size: var(--type-body-compact); font-weight: var(--weight-strong); line-height: var(--leading-compact); text-transform: uppercase; }
+.cv-identite__resume { max-width: var(--mesure-lecture-large); margin: 0; }
 .cv-corps { display: grid; gap: var(--space-8); }
 .cv-corps__colonnes { display: grid; gap: var(--space-8); }
-.cv-corps__lateral { display: grid; align-content: start; gap: var(--space-8); }
+.cv-corps__lateral { display: grid; align-content: start; gap: var(--space-8); background: var(--cv-lateral); }
+.cv-corps__principal { display: grid; align-content: start; }
+/* Portrait ovale cercle d'un filet accent, comme dans le PDF. */
+.cv-lateral__portrait { display: grid; justify-items: center; }
+.cv-lateral__portrait .media { width: var(--cv-portrait-taille); height: var(--cv-portrait-taille); border: var(--cv-portrait-filet) solid var(--cv-accent); border-radius: var(--radius-full); background: var(--cv-lateral); overflow: hidden; }
+.cv-lateral__portrait .media img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 .cv__informations { display: grid; margin: 0; padding: 0; gap: var(--space-2); list-style: none; }
 .cv__sous-titre { margin: var(--space-5) 0 var(--space-2); color: var(--texte-etiquette); font-weight: var(--weight-strong); text-transform: uppercase; }
 .cv__sous-titre:first-child { margin-top: 0; }
+/* Les bandeaux du CV portent l'accent du document. Hors de cette page, les
+   memes Encart gardent l'olive du site : la portee est volontairement etroite. */
+.page-cv .encart--bandeau > .encart__titre { background: var(--cv-accent-fond); color: var(--cv-accent-texte); }
+/* Dans le PDF, le prenom est sombre et le patronyme terracotta. Le titre
+   reprend donc l'encre du document, et l'accent du nom l'accent du CV. */
+.page-cv .cv-identite .titre { color: var(--cv-document); }
+.page-cv .cv-identite .accent--grand,
+.page-cv .cv-identite .titre__point { color: var(--cv-accent); }
+.page-cv .cv__poste-lieu { color: var(--cv-accent-encre); }
+.page-cv .cv__sous-titre { color: var(--cv-accent-encre); }
+/* Le panneau lateral est plus clair que le papier : le gris discret y tombe a
+   4,40, sous le seuil de 4,5. Sur ce panneau seulement, la precision passe a
+   l'encre pleine, qui donne 5,97. */
+.cv-corps__lateral .cv__precision { color: var(--texte); }
 .page-cv .liste-puces { --puce-couleur: var(--texte-etiquette); gap: var(--space-2); }
 .page-cv .cv__aeree { gap: var(--space-4); }
 .cv__postes { display: grid; margin: 0; padding: 0; gap: var(--space-8); list-style: none; }
@@ -185,7 +208,8 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 /* ==========================================================================
    Seuils de composition (--bp-* dans Tokens.css)
    ========================================================================== */
-@media (min-width: 851px) { .cv-corps__colonnes { grid-template-columns: var(--cv-colonne-laterale) minmax(0, 1fr); } }
+.cv-corps__lateral { padding: var(--space-6); border-radius: var(--radius-lg); }
+@media (min-width: 851px) { .cv-corps__colonnes { grid-template-columns: var(--cv-colonne-laterale) minmax(0, 1fr); align-items: start; } }
 
 @media (max-width: 850px) {
   .page-planches { padding: var(--space-2) var(--page-gutter) var(--page-bas-compact); }

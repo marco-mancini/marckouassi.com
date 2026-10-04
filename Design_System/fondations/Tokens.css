@@ -153,6 +153,12 @@
      ====================================================================== */
 
   /* --- Surfaces --- */
+  --cv-accent: var(--clair-cv-accent);
+  --cv-accent-fond: var(--clair-cv-accent-fond);
+  --cv-accent-encre: var(--clair-cv-accent-encre);
+  --cv-accent-texte: var(--clair-cv-accent-texte);
+  --cv-lateral: var(--clair-cv-lateral);
+  --cv-document: var(--clair-cv-document);
   --surface-page: var(--clair-surface-page);
   --surface-alt: var(--clair-surface-alt);
   --surface-image: var(--clair-surface-image);
@@ -432,6 +438,35 @@
   --cv-largeur-max: 1120px;
   --cv-colonne-laterale: 20rem;
   --cv-carte-min: 15rem;
+  /* Identite visuelle du CV, relevee sur le PDF de reference (PM-127, #142) :
+     accent terracotta des bandeaux, du patronyme et des lieux ; panneau
+     lateral gris clair ; portrait ovale cercle d'un filet accent. Les trois
+     couleurs sont echantillonnees dans le document, pas estimees. Elles ne
+     servent QUE la page /cv/, qui est un document autonome : l'identite du
+     site reste l'olive. */
+  /* Trois roles, comme --accent-texte ailleurs : le terracotta du PDF est une
+     couleur d'imprime, elle ne tient pas les seuils de contraste du web en
+     petit texte. #ba6f50 reste pour le decor et le grand texte (3,80 sur le
+     papier, seuil 3:1) ; le fond des bandeaux descend a #a85f42 pour que le
+     blanc dessus atteigne 4,78 ; l'encre accent descend a #914f33 pour
+     atteindre 4,99 sur le panneau gris et 6,18 sur le papier. */
+  --clair-cv-accent: #ba6f50;
+  --clair-cv-accent-fond: #a85f42;
+  --clair-cv-accent-encre: #914f33;
+  --clair-cv-accent-texte: #fffffa;
+  --clair-cv-lateral: #e6e6e6;
+  --clair-cv-document: #3c3c3b;
+  /* En theme sombre, le document garde son accent mais pose sur les surfaces
+     sombres du site : un papier blanc en pleine nuit eblouit, et la regle du
+     projet veut que les deux themes restent lisibles. */
+  --sombre-cv-accent: #d4855f;
+  --sombre-cv-accent-fond: #d4855f;
+  --sombre-cv-accent-encre: #d4855f;
+  --sombre-cv-accent-texte: #14180f;
+  --sombre-cv-lateral: #1d2217;
+  --sombre-cv-document: #e6e8df;
+  --cv-portrait-taille: clamp(9rem, 20vw, 13rem);
+  --cv-portrait-filet: 3px;
   --type-cv-nom: clamp(2.5rem, 7vw, 5.5rem);
   /* Ecart des liens de navigation. Double le 28 septembre 2026 : la
      barre n'occupait que 421 px sur les 1080 px libres entre le logo et
@@ -790,6 +825,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="clair"]) {
+    --cv-accent: var(--sombre-cv-accent);
+    --cv-accent-fond: var(--sombre-cv-accent-fond);
+    --cv-accent-encre: var(--sombre-cv-accent-encre);
+    --cv-accent-texte: var(--sombre-cv-accent-texte);
+    --cv-lateral: var(--sombre-cv-lateral);
+    --cv-document: var(--sombre-cv-document);
     --surface-page: var(--sombre-surface-page);
     --surface-alt: var(--sombre-surface-alt);
     --surface-image: var(--sombre-surface-image);
@@ -825,6 +866,12 @@
 :root[data-theme="sombre"] { color-scheme: dark; }
 
 :root[data-theme="sombre"] {
+  --cv-accent: var(--sombre-cv-accent);
+  --cv-accent-fond: var(--sombre-cv-accent-fond);
+  --cv-accent-encre: var(--sombre-cv-accent-encre);
+  --cv-accent-texte: var(--sombre-cv-accent-texte);
+  --cv-lateral: var(--sombre-cv-lateral);
+  --cv-document: var(--sombre-cv-document);
   --surface-page: var(--sombre-surface-page);
   --surface-alt: var(--sombre-surface-alt);
   --surface-image: var(--sombre-surface-image);
