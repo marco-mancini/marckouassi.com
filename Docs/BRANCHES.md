@@ -186,6 +186,38 @@ disparu, et aucune commande Git n'y fonctionnait (voir
 [DECISIONS.md](DECISIONS.md)). Depuis un clone sain, `git push origin --tags`
 passe sans difficulté.
 
+## Seconde vague d'étiquettes — posées le 4 octobre 2026
+
+Les 8 ci-dessus couvraient le périmètre de PM-012. **54 autres branches** sont
+absorbées par `main` sans en être nommées, et elles n'avaient pas d'étiquette :
+sans elle, le protocole de PM-013 interdit de les supprimer. Elles en ont une.
+
+Avant chaque étiquette, et une seconde fois avant toute suppression, **trois
+preuves relevées sur le distant** :
+
+1. `archive/<branche>` existe sur `origin` et son commit déréférencé **égale**
+   la pointe de la branche ;
+2. `git merge-base --is-ancestor <pointe> origin/main` → vrai ;
+3. `git rev-list --count origin/main..<pointe>` → **0**.
+
+**54 conformes, 0 désaccord**, vérifié deux fois par deux méthodes. Le dépôt
+compte donc **62 étiquettes `archive/*`**.
+
+Les 54 branches concernées :
+
+`docs/cms-eprouve`, `docs/inventaire-branches`, `docs/journal-decisions`, `docs/marcos-decisions-marc`, `docs/marcos-dossier-arbitrage`, `docs/marcos-dossier-maj`, `docs/marcos-sync-comportement-20261003`, `docs/marcos-sync-comportement-20261003-v10`, `docs/marcos-sync-comportement-20261003-v11`, `docs/marcos-sync-comportement-20261003-v12`, `docs/marcos-sync-comportement-20261003-v13`, `docs/marcos-sync-comportement-20261003-v14`, `docs/marcos-sync-comportement-20261003-v15`, `docs/marcos-sync-comportement-20261003-v2`, `docs/marcos-sync-comportement-20261003-v3`, `docs/marcos-sync-comportement-20261003-v4`, `docs/marcos-sync-comportement-20261003-v5`, `docs/marcos-sync-comportement-20261003-v6`, `docs/marcos-sync-comportement-20261003-v7`, `docs/marcos-sync-comportement-20261003-v8`, `docs/marcos-sync-comportement-20261003-v9`, `nettoyage/index-issues`, `pm-017-images-fragiles`, `pm-019-jetons-motion`, `pm-020-jetons-14px`, `pm-033-content-checklist`, `pm-038-agents-md`, `pm-039-index-issues`, `pm-042-index-issues`, `pm-045-jetons-valeurs-restantes`, `pm-046-reference`, `pm-048-marcos-documentation`, `pm-052-couleurs-brutes`, `pm-053-dette-technique`, `pm-054-inventaire-branches`, `pm-058-jetons-design-system`, `pm-062-traduction-sections`, `pm-063-traduction-projets`, `pm-064-traduction-cv`, `pm-065-traduction-interface`, `pm-066-traduction-seo`, `pm-073-guillemets-en`, `pm-074-cible-langue`, `pm-075-domaine-officiel`, `pm-076-marcos-avatar`, `pm-081-etat-fin-session`, `pm-091-d11-refus-entrainement`, `pm-093-ia01-connaissance`, `pm-095-ia02-worker`, `pm-097-portrait-detoure`, `pm-100-reference-portrait`, `pm-102-ia03-prompt`, `pm-109-matrice-qualification`, `pm-115-index-inventaire`
+
+**Non étiquetées, et conservées :** les 19 branches qui portent des commits
+absents de `main` — pour la plupart des PR fusionnées en *squash*, dont le
+contenu est dans `main` mais pas les commits, si bien que `--is-ancestor` est
+faux et que le protocole ne s'y applique pas tel quel. Deux méritent une
+mention : `pm-05-index-issues` et `pm-008-index-issues` portent 1 commit unique
+chacune et leurs PR (#36, #37) ont été **fermées sans fusion** — elles ne sont
+pas absorbées. Sont également conservées `marco-mancini-patch-1` (décision de
+Marc), `pm-113-regles-conversationnelles` (consigne de Marc), et les deux
+branches du chantier de la section 05 — `sauvegarde-complete-20261003-000540`
+et `pm-110-projets-par-discipline` — qui portent du travail non fusionné (#123).
+
 ## Suppression — reste à Marc (PM-013, #13)
 
 Supprimer une branche, une par une, après confirmation :
@@ -202,4 +234,13 @@ git push origin archive/<branche>^{commit}:refs/heads/<branche>
 
 Les branches `pm-NNN-…` fusionnées n'ont pas d'étiquette d'archive et n'en ont
 pas besoin : leur dernier commit est dans l'historique de `main`, leur
-suppression ne ferait rien perdre.
+suppression ne ferait rien perdre. *Mise à jour du 4 octobre 2026 : elles en
+ont une tout de même, parce que le protocole de PM-013 l'exige sans exception.*
+
+Les 54 branches de la seconde vague se suppriment en une commande, chacune
+étant archivée :
+
+```sh
+git push origin $(git ls-remote --tags origin 'refs/tags/archive/*' \
+  | grep -v '\^{}' | sed 's|.*refs/tags/archive/|:refs/heads/|')
+```
