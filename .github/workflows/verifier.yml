@@ -47,6 +47,13 @@ jobs:
       - name: Tests unitaires
         run: npm test
 
+      # Back-office en sommeil : ces 14 tests ne le réveillent pas, ils
+      # détectent qu'un changement commun les a cassés (PM-022). C'est
+      # arrivé : les clés du contenu ajoutées depuis n'avaient plus de
+      # libellé dans le dictionnaire d'administration.
+      - name: Tests unitaires du back-office en sommeil
+        run: npm run test:sommeil
+
       - name: Construire le site
         run: npm run build
 
