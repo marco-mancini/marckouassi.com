@@ -6,7 +6,7 @@
    dictionnaires i18n.
    ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-padding-top: var(--header-offset); }
+html { scroll-padding-top: calc(var(--header-height) + var(--ancre-degagement)); }
 body {
   margin: 0;
   background: var(--surface-page);

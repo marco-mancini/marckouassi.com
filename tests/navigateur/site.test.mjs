@@ -187,6 +187,61 @@ test("étude de projet : ouverture en modale, compteur calculé, Échap, focus r
   await sansJs.fermer();
 });
 
+/**
+ * L'écart sous l'en-tête après un saut d'ancre. Décision de Marc, PM-018 :
+ * 24 px sur ordinateur, 16 px sous 850 px. Aucun test ne le mesurait, et il
+ * avait dérivé à 90 px et 68 px — scroll-padding-top et le scroll-margin-top
+ * de .planche-scene s'additionnaient, et trois jetons décrivaient la même
+ * hauteur d'en-tête.
+ */
+const ECART_ANCRE = { ordinateur: 24, compact: 16 };
+
+test("ancres : l'écart sous l'en-tête vaut la valeur décidée, à toutes les largeurs", async () => {
+  for (const largeur of [320, 375, 768, 850, 851, 1024, 1440, 1920]) {
+    const attendu = largeur <= 850 ? ECART_ANCRE.compact : ECART_ANCRE.ordinateur;
+    const page = await ouvrir(nav, serveur.url + "/", { largeur });
+    const ecarts = await page.evaluate(async (ids) => {
+      const mesures = {};
+      const entete = document.querySelector(".en-tete--site") || document.querySelector(".en-tete");
+      for (const id of ids) {
+        location.hash = id;
+        // Défilement fluide : on attend que la page se pose avant de mesurer.
+        await new Promise((resoudre) => {
+          let derniere = window.scrollY; let stables = 0;
+          const battre = () => {
+            if (window.scrollY === derniere) stables += 1; else { stables = 0; derniere = window.scrollY; }
+            if (stables >= 5) resoudre(); else requestAnimationFrame(battre);
+          };
+          requestAnimationFrame(battre);
+        });
+        mesures[id] = Math.round(document.getElementById(id).getBoundingClientRect().top - entete.getBoundingClientRect().bottom);
+      }
+      return mesures;
+    }, ["introduction", "apropos", "expertise", "parcours", "prestations"]);
+    for (const [id, ecart] of Object.entries(ecarts)) {
+      assert.ok(Math.abs(ecart - attendu) <= 1, `${largeur}px, #${id} : écart ${ecart}px, attendu ${attendu}px`);
+    }
+    await page.fermer();
+  }
+});
+
+test("ancres : un seul mécanisme compense l'en-tête", async () => {
+  // Deux mécanismes s'additionneraient. scroll-padding-top porte l'écart,
+  // la planche ne compense plus rien.
+  for (const [largeur, entete, ecart] of [[375, 62, 16], [1440, 68, 24]]) {
+    const page = await ouvrir(nav, serveur.url + "/", { largeur });
+    const lu = await page.evaluate(() => ({
+      padding: parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop),
+      marge: parseFloat(getComputedStyle(document.querySelector(".planche-scene")).scrollMarginTop),
+      entete: Math.round((document.querySelector(".en-tete--site") || document.querySelector(".en-tete")).getBoundingClientRect().height),
+    }));
+    assert.equal(lu.marge, 0, `${largeur}px : .planche-scene ne doit plus porter de scroll-margin-top`);
+    assert.equal(lu.entete, entete, `${largeur}px : hauteur réelle de l'en-tête`);
+    assert.equal(lu.padding, entete + ecart, `${largeur}px : scroll-padding-top = hauteur + écart`);
+    await page.fermer();
+  }
+});
+
 test("navigation : aria-current suit la section visible", async () => {
   const page = await ouvrir(nav, serveur.url + "/");
   await page.evaluate(() => document.getElementById("parcours").scrollIntoView());
