@@ -65,5 +65,5 @@ Les composants interactifs exportent en plus une fonction `activer…()` (ou `ou
 
 ```sh
 npm test                                   # rendu, contrat, texte en dur, sélecteurs
-node tests/catalogue.mjs _site/catalogue.html   # catalogue visuel (données d'essai)
+node tools/catalogue/catalogue.mjs _site/catalogue.html   # catalogue visuel (données d'essai)
 ```
