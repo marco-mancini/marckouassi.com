@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-04T00:14:13.532Z depuis bb29e3257a8de3b6161e5dc3ff89e96df60904cc.
+> Source unique : issues GitHub. Généré le 2026-10-04T00:40:29.599Z depuis 9dba4496ef8bfd0757636bfcc0f9b5b897a67843.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -14,16 +14,16 @@
 - Aucune tâche explicitement marquée « en cours » dans GitHub.
 
 ## Tâches terminées
-- 59 issue(s) fermée(s).
+- 62 issue(s) fermée(s).
 
 ## Tâches bloquées
 - #7 — [PM-007] Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues
 
 ## Prochaine action
-- Issue #134 — [PM-125] Exécution autonome — lots #104 #105 #115 #116 #128 #21
+- Issue #130 — [PM-121] IA-04 : intégrer Conversation et Assistant au rendu du site
 
 ## Dernière preuve
-- Issue #130 mise à jour le 2026-10-04T00:13:31Z.
+- Issue #134 mise à jour le 2026-10-04T00:39:44Z.
 
 ## Dernière mise à jour
-- 2026-10-04T00:14:13.532Z
+- 2026-10-04T00:40:29.599Z
