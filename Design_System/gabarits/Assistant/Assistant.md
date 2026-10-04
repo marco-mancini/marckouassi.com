@@ -1,0 +1,53 @@
+# Assistant
+
+Assemblage V1 de MarcoS : `Modale` + `Conversation` + formulaire + états.
+Voir [AI_UX.md](../../../Docs/AI_UX.md) pour le parcours et les états.
+
+## Props (3)
+
+| Prop | Type | Rôle |
+|---|---|---|
+| `assistant` | objet | `content/site.json` → `assistant` : `active`, `accueil`, `exemples`, `confidentialite`. |
+| `ctx` | contexte | `t` pour les libellés, `c` et `l` pour les textes de Marc. |
+| `endpoint` | chaîne \| `null` | adresse du Worker, issue de `ASSISTANT_URL` au build. |
+
+## Activation
+
+Le gabarit ne rend **rien** si `assistant.active` est faux ou si `endpoint` est
+absent. Tant que Marc n'a pas écrit l'accueil dans Paramètres, MarcoS n'existe
+pas pour le visiteur (D-9).
+
+Un exemple dont aucune langue n'est renseignée est ignoré : l'élément vide de
+`content/site.json` n'existe que pour faire apparaître le champ bilingue dans
+le CMS, et ne doit pas devenir un bouton sans fonction.
+
+## Comportement
+
+`activerAssistant(racine)` est séparé du rendu, comme les études de projet.
+
+Les libellés dont le navigateur a besoin voyagent dans `data-libelles`, à la
+manière de `data-frequence` d'Intro et `data-compteur` de Projet_etude : aucun
+texte n'est écrit dans le script. Sans ces libellés, le comportement ne
+s'active pas, plutôt que d'afficher du texte en dur.
+
+La conversation vit dans `sessionStorage`, pour l'onglet courant seulement.
+Lorsque ce stockage est refusé — navigation privée, site bloqué — elle tient en
+mémoire le temps de l'onglet : le refus n'interrompt jamais MarcoS. Une valeur
+stockée illisible est effacée au lieu de faire échouer l'activation.
+
+« Réessayer » renvoie la **même** question : elle n'est jamais perdue.
+
+## Contraintes
+
+- aucune présence flottante, aucun avatar en V1 (D-13) ;
+- aucune clé ni nom de modèle dans le navigateur ;
+- `sessionStorage` uniquement, jamais `localStorage`, jamais de stockage serveur ;
+- réponses insérées comme texte ;
+- liens uniquement ceux du Worker, et seulement s'ils commencent par `/` ;
+- tous les textes d'interface viennent des dictionnaires (clé `assistant`) ;
+- les textes éditoriaux viennent de `content/site.json` et sont écrits par Marc ;
+- aucune valeur en dur : les mesures passent par les jetons.
+
+## Dépendances
+
+`Modale`, `Conversation`, `Champ`, `Saisie`, `Bouton`, `Message`, `rendu.js`.

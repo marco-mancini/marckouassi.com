@@ -71,14 +71,44 @@ réclame une dépense, elle s'arrête et le signale : contrainte budget 0 €.
 - Dépendance : `wrangler` en dépendance de développement seulement.
 
 ### IA-03 — Prompt court et assemblage (sans clé)
-- `worker/assistant/prompt/systeme.fr.md` : la version **0.3**, courte, validée
-  par Marc ([AI_SYSTEM_PROMPT.md](AI_SYSTEM_PROMPT.md)).
+- `worker/assistant/prompt/systeme.fr.md` : la version **0.4**, le comportement
+  conversationnel validé par Marc
+  ([AI_SYSTEM_PROMPT.md](AI_SYSTEM_PROMPT.md)), qui remplace la 0.3.
+- Le **texte intégral** de 0.4 n'est pas adoptable tel quel : mesuré à 1 271
+  jetons, il porte l'entrée assemblée à 4 582, au-dessus du plafond de 4 400 qui
+  protège la latence et la facture sur un budget de 0 €. Le prompt porte donc sa
+  **substance** au plus court — 747 jetons, entrée assemblée à 4 058, marge 342.
+  Le plafond de verbosité du prompt seul est à 760.
 - Assemblage des messages, neutralisation des balises du visiteur, historique
-  borné à **4 échanges et 2 000 caractères**.
+  borné à **4 échanges et 2 000 caractères** — deux bornes indépendantes,
+  éprouvées chacune de part et d'autre de son seuil.
 - Conversion `[[page:id]]` → liens internes validés ; toute autre URL retirée.
 - Tests : injection de balises, identifiant inconnu, URL externe dans la
   réponse, **et taille du prompt assemblé** — le test échoue si l'entrée
   dépasse 4 200 jetons.
+
+#### Contrat conversationnel : où il est tenu
+
+Les décisions **D-21 à D-28** ne sont pas recopiées dans les tests : la liste
+est **lue** dans [MARCOS_DECISIONS_20261003.md](MARCOS_DECISIONS_20261003.md),
+et `tests/prompt.test.mjs` exige qu'un scénario de
+`tests/fixtures/marcos-conversations.json` exerce chacune. Une formulation que
+le contrat impose « exactement » — aujourd'hui la dernière option de D-28 — est
+relevée dans le document et réclamée au mot près. Ajouter une décision
+conversationnelle fait donc échouer les tests tant qu'aucun scénario ne la
+couvre.
+
+Les quinze points de [#129](https://github.com/marco-mancini/marckouassi.com/issues/129)
+sont tenus sans clé ni appel réseau, répartis selon leur nature :
+
+| Point du contrat | Où il est éprouvé |
+|---|---|
+| identité, initiative, ton, hors périmètre, information inconnue ou privée | `tests/prompt.test.mjs` |
+| option d'arbitrage de M. Kouassi, au mot près | `tests/prompt.test.mjs` |
+| absence d'invention | `tests/connaissance.test.mjs` |
+| propositions créatives, qualification progressive, consentement, coordonnées volontaires, FR/EN | `tests/qualification.test.mjs` |
+| brief transmis, idempotence | `tests/email.test.mjs` |
+| conversations longues | `tests/worker.test.mjs` |
 
 ### IA-04 — Interface (sans clé, avec le Worker simulé)
 - Composant `Conversation` (CSS, JS, contrat `.md`) et gabarit `Assistant`

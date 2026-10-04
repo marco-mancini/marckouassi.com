@@ -68,6 +68,37 @@
     "nineteen",
     "twenty"
   ],
+  "assistant": {
+    "_role": "MarcoS interface labels. The editorial texts (welcome, examples, privacy note) live in content/site.json and are written by Marc (D-9).",
+    "ouvrir": "Ask MarcoS a question",
+    "etiquette": "Exchanges with MarcoS",
+    "fermer": "Close MarcoS",
+    "effacer": "Clear the conversation",
+    "question": "Your question",
+    "aide": "{n} characters left",
+    "envoyer": "Send",
+    "reessayer": "Try again",
+    "chargement": "MarcoS is looking for the answer…",
+    "ecrire": "Write to Marc",
+    "vous": "You",
+    "assistant": "MarcoS",
+    "erreurs": {
+      "requete_invalide": "This question could not be read. Please rephrase it in one sentence.",
+      "origine_refusee": "This request did not come from the site. Please reload the page and try again.",
+      "trop_long": "This question is too long. Please shorten it to 500 characters at most.",
+      "trop_de_demandes": "Too many questions in a row. Please wait a moment and try again.",
+      "quota_journalier": "MarcoS has reached today’s limit. You can continue by e-mail.",
+      "indisponible": "MarcoS is temporarily unavailable. You can continue by e-mail.",
+      "delai_depasse": "MarcoS did not answer in time. Try again, or continue by e-mail.",
+      "hors_ligne": "The connection seems to be down. Please check it and try again."
+    }
+  },
+  "decouverte": {
+    "_role": "Interface labels for the immersive journey of section 06. The narrative texts live in content/sections.json.",
+    "continuer": "Continue",
+    "progression": "Step {n} of {total}",
+    "etiquette": "Services journey"
+  },
   "formats": {
     "plageProjet": "{debut}–{fin}",
     "plageParcours": "{debut} — {fin}",

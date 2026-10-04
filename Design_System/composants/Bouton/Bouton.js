@@ -4,7 +4,7 @@ import { html, attributs, classes } from "../../fondations/rendu.js";
  * Icônes typographiques : présentation, pas contenu. Elles sont toujours
  * masquées des lecteurs d'écran ; le sens est porté par le texte.
  */
-const ICONES = { externe: "↗", bas: "↓", haut: "↑", retour: "←", fermer: "×", ouvrir: "↗", menu: "" };
+const ICONES = { externe: "↗", bas: "↓", haut: "↑", retour: "←", suite: "→", fermer: "×", ouvrir: "↗", menu: "" };
 const ICONES_AVANT = new Set(["retour"]);
 
 /**

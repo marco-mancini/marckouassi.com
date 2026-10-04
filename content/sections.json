@@ -459,6 +459,235 @@
       "fr": "{nombre} façons de travailler ensemble.",
       "en": "{nombre} ways to work together."
     },
+    "parcours": {
+      "_origine": "Textes du parcours immersif de la section 06, validés par Marc Kouassi (issue #128 et son complément du 4 octobre). Les cartes « Être comprise » et « Être ressentie » sont les deux seules décisions créatives ajoutées. Aucune formulation n’est reformulée ici : les titres sont stockés en casse naturelle et mis en capitales par la feuille de style.",
+      "action": {
+        "fr": "Découvrir",
+        "en": "Discover"
+      },
+      "question": {
+        "fr": "Qu’est-ce qu’une marque doit laisser derrière elle ?",
+        "en": "What should a brand leave behind?"
+      },
+      "invitation": {
+        "fr": "Choisissez une carte. Découvrez ce qu’elle révèle.",
+        "en": "Choose a card. Discover what it reveals."
+      },
+      "verdicts": {
+        "insuffisant": {
+          "fr": "Pas suffisant",
+          "en": "Not enough"
+        },
+        "juste": {
+          "fr": "Vous êtes sur la bonne piste",
+          "en": "You are on the right track"
+        }
+      },
+      "cartes": [
+        {
+          "id": "etre-vue",
+          "juste": false,
+          "titre": {
+            "fr": "Être vue",
+            "en": "To be seen"
+          },
+          "revelation": {
+            "fr": "Une marque peut attirer le regard. Mais être vue ne signifie pas être comprise.",
+            "en": "A brand can catch the eye. But being seen does not mean being understood."
+          }
+        },
+        {
+          "id": "etre-comprise",
+          "juste": false,
+          "titre": {
+            "fr": "Être comprise",
+            "en": "To be understood"
+          },
+          "revelation": {
+            "fr": "Une marque peut être comprise sans pour autant être identifiable. Si elle manque de caractère, elle risque de se fondre parmi les autres.",
+            "en": "A brand can be understood without being identifiable. If it lacks character, it risks blending in with the others."
+          }
+        },
+        {
+          "id": "etre-ressentie",
+          "juste": false,
+          "titre": {
+            "fr": "Être ressentie",
+            "en": "To be felt"
+          },
+          "revelation": {
+            "fr": "Une marque ne se contente pas d’être comprise. Elle doit aussi provoquer quelque chose. Une émotion, une sensation, une impression.",
+            "en": "A brand does not stop at being understood. It must also stir something. An emotion, a sensation, an impression."
+          }
+        },
+        {
+          "id": "etre-reconnue",
+          "juste": true,
+          "titre": {
+            "fr": "Être reconnue",
+            "en": "To be recognised"
+          },
+          "revelation": {
+            "fr": "Une marque forte ne cherche pas seulement à attirer l’attention. Elle cherche à devenir identifiable, même lorsqu’on ne voit pas son nom.",
+            "en": "A strong brand does not only seek attention. It seeks to become identifiable, even when its name is nowhere in sight."
+          }
+        }
+      ],
+      "transition": {
+        "fr": "Mais comment devient-on reconnaissable ?",
+        "en": "But how does a brand become recognisable?"
+      },
+      "intention": {
+        "titre": {
+          "fr": "Une intention",
+          "en": "An intention"
+        },
+        "moments": [
+          {
+            "titre": {
+              "fr": "Qui êtes-vous ?",
+              "en": "Who are you?"
+            },
+            "texte": {
+              "fr": "Une marque doit savoir ce qu’elle représente avant de chercher comment elle doit s’exprimer.",
+              "en": "A brand must know what it stands for before looking for how to express itself."
+            }
+          },
+          {
+            "titre": {
+              "fr": "À qui vous adressez-vous ?",
+              "en": "Who are you speaking to?"
+            },
+            "texte": {
+              "fr": "Une identité doit savoir à qui elle parle pour trouver le ton juste.",
+              "en": "An identity must know who it is speaking to in order to find the right tone."
+            }
+          },
+          {
+            "titre": {
+              "fr": "Que voulez-vous laisser ?",
+              "en": "What do you want to leave behind?"
+            },
+            "texte": {
+              "fr": "Une marque forte cherche à laisser une perception, une émotion, une idée.",
+              "en": "A strong brand seeks to leave a perception, an emotion, an idea."
+            }
+          }
+        ],
+        "conclusion": {
+          "fr": "Une identité ne commence donc pas par une forme.",
+          "en": "So an identity does not begin with a form."
+        }
+      },
+      "matieres": [
+        {
+          "id": "territoire",
+          "titre": {
+            "fr": "Un territoire",
+            "en": "A territory"
+          },
+          "ouverture": {
+            "fr": "Elle commence par trouver son territoire.",
+            "en": "It begins by finding its territory."
+          },
+          "elements": [
+            {
+              "fr": "Couleurs",
+              "en": "Colours"
+            },
+            {
+              "fr": "Typographie",
+              "en": "Typography"
+            },
+            {
+              "fr": "Formes",
+              "en": "Shapes"
+            },
+            {
+              "fr": "Image",
+              "en": "Image"
+            },
+            {
+              "fr": "Compositions",
+              "en": "Compositions"
+            }
+          ],
+          "conclusion": {
+            "fr": "Une marque doit trouver son territoire.",
+            "en": "A brand must find its territory."
+          }
+        },
+        {
+          "id": "systeme",
+          "titre": {
+            "fr": "Un système",
+            "en": "A system"
+          },
+          "ouverture": {
+            "fr": "Mais un territoire ne suffit pas.",
+            "en": "But a territory is not enough."
+          },
+          "elements": [
+            {
+              "fr": "Logo",
+              "en": "Logo"
+            },
+            {
+              "fr": "Couleurs",
+              "en": "Colours"
+            },
+            {
+              "fr": "Typographie",
+              "en": "Typography"
+            },
+            {
+              "fr": "Image",
+              "en": "Image"
+            },
+            {
+              "fr": "Supports",
+              "en": "Materials"
+            }
+          ],
+          "conclusion": {
+            "fr": "Une identité ne vit jamais seule.",
+            "en": "An identity never lives alone."
+          }
+        }
+      ],
+      "realisations": {
+        "fr": "Des marques qui ont trouvé leur forme",
+        "en": "Brands that found their form"
+      },
+      "conclusion": {
+        "question": {
+          "fr": "Alors, qu’est-ce qu’une marque doit laisser derrière elle ?",
+          "en": "So, what should a brand leave behind?"
+        },
+        "revelation": {
+          "fr": "Une trace.",
+          "en": "A trace."
+        },
+        "suite": {
+          "fr": "Le reste est une question de forme.",
+          "en": "The rest is a matter of form."
+        },
+        "signature": {
+          "fr": "M. Kouassi",
+          "en": "M. Kouassi"
+        }
+      },
+      "navigation": {
+        "projets": {
+          "fr": "Explorer les projets",
+          "en": "Explore the projects"
+        },
+        "retour": {
+          "fr": "Retour aux prestations",
+          "en": "Back to services"
+        }
+      }
+    },
     "offres": [
       {
         "titre": {

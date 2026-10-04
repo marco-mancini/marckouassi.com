@@ -22,7 +22,7 @@ function contenuTitre(texte, echelle) {
  *
  * @param {object} p
  * @param {1|2|3} [p.niveau]
- * @param {"section"|"compacte"|"appel"|"affiche"|"etude"|"document"|"interface"} [p.echelle]
+ * @param {"section"|"appel"|"affiche"|"etude"|"document"|"interface"} [p.echelle]
  * @param {string|Html} p.texte
  * @param {string|null} [p.id]
  * @param {false|"moyen"|"petit"} [p.sceau]

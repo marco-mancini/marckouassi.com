@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 3 octobre 2026, de PM-004 à PM-115 : 28 issues ouvertes, 44 fermées après fermeture de l'issue #117 par cette PR.
+État au 3 octobre 2026, de PM-004 à PM-126 : 32 issues ouvertes, 51 fermées. Chiffres relevés par `npm run comparer-issues`.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro GitHub, la référence PM du titre, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -35,7 +35,7 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-018 | [#18](https://github.com/marco-mancini/marckouassi.com/issues/18) | Corriger le décalage des ancres sous l'en-tête | decision-marc, dette | — | ouverte |
 | PM-019 | [#19](https://github.com/marco-mancini/marckouassi.com/issues/19) | Passer en jetons les 7 valeurs d'animation de Motion.css | dette, decision-marc | — | fermée — réglée par la PR #84 ; famille `--motion-*`, 0 différence de `getComputedStyle` |
 | PM-020 | [#20](https://github.com/marco-mancini/marckouassi.com/issues/20) | Remplacer les 14px en dur par des jetons | dette | — | fermée — réglée par la PR #47 |
-| PM-021 | [#21](https://github.com/marco-mancini/marckouassi.com/issues/21) | Stabiliser la durée d'installation de Chromium dans « Vérifier » | infrastructure, dette | — | ouverte |
+| PM-021 | [#21](https://github.com/marco-mancini/marckouassi.com/issues/21) | Stabiliser la durée d'installation de Chromium dans « Vérifier » | infrastructure, dette | — | ouverte — condition non atteinte au relevé du 3 octobre 2026 (PM-124) : l'installation de Chromium tient en 31 s au plus, loin des 3 min qui déclencheraient l'optimisation |
 | PM-022 | [#22](https://github.com/marco-mancini/marckouassi.com/issues/22) | Statuer sur les 22 tests de l'ancien back-office retirés de la vérification | dette | PM-032 | ouverte — redevenue indépendante de MarcoS (décision #23) |
 | PM-023 | [#23](https://github.com/marco-mancini/marckouassi.com/issues/23) | Trancher la source des données de MarcoS : Supabase ou JSON produit au build | decision-marc | — | fermée — tranchée par Marc le 2 octobre 2026 : **JSON produit au build**, pas de Supabase ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)) |
 | PM-024 | [#24](https://github.com/marco-mancini/marckouassi.com/issues/24) | Trancher l'hébergement de l'endpoint de MarcoS sans domaine | decision-marc, infrastructure | — | fermée — tranchée le 2 octobre 2026 : **Worker sur `workers.dev`**, offre gratuite ; indépendante de PM-009 |
@@ -83,10 +83,21 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-105 | [#105](https://github.com/marco-mancini/marckouassi.com/issues/105) | Miroir mobile de l'avancement, généré depuis les issues | documentation | — | ouverte — `Docs/suivi/ETAT_MOBILE.md` produit par `tools/etat-mobile.mjs`, jamais écrit à la main (AGENTS.md §6.4) |
 | PM-106 | [#106](https://github.com/marco-mancini/marckouassi.com/issues/106) | Le portrait détouré doit poser directement sur le vert, sans cadre | contenu | — | fermée — réglée par la PR #107 |
 | PM-108 | [#108](https://github.com/marco-mancini/marckouassi.com/issues/108) | Mettre à jour la référence de comparaison après PM-106 | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `e8b729c` → `f48646f` |
-| PM-109 | [#111](https://github.com/marco-mancini/marckouassi.com/issues/111) | Définir la matrice de qualification commerciale de MarcoS | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
-| PM-110 | [#112](https://github.com/marco-mancini/marckouassi.com/issues/112) | Implémenter la collecte et le cahier des charges prospect | documentation | PM-109 | ouverte — créée le 3 octobre 2026 |
-| PM-111 | [#113](https://github.com/marco-mancini/marckouassi.com/issues/113) | Permettre à MarcoS de proposer des options créatives | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
-| PM-112 | [#114](https://github.com/marco-mancini/marckouassi.com/issues/114) | Envoyer à M. Kouassi le cahier des charges via Resend | securite, infrastructure | — | ouverte — créée le 3 octobre 2026 |
-| PM-113 | [#115](https://github.com/marco-mancini/marckouassi.com/issues/115) | Formaliser les règles de comportement conversationnel de MarcoS | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
+| PM-109 | [#111](https://github.com/marco-mancini/marckouassi.com/issues/111) | Définir la matrice de qualification commerciale de MarcoS | documentation, decision-marc | — | fermée — réglée par la PR #119 |
+| PM-110 | [#112](https://github.com/marco-mancini/marckouassi.com/issues/112) | Implémenter la collecte et le cahier des charges prospect | documentation | PM-109 | fermée — réglée par la PR #120 |
+| PM-111 | [#113](https://github.com/marco-mancini/marckouassi.com/issues/113) | Permettre à MarcoS de proposer des options créatives | documentation, decision-marc | — | fermée — réglée par la PR #121 |
+| PM-112 | [#114](https://github.com/marco-mancini/marckouassi.com/issues/114) | Envoyer à M. Kouassi le cahier des charges via Resend | securite, infrastructure | — | fermée — réglée par la PR #122 |
+| PM-113 | [#115](https://github.com/marco-mancini/marckouassi.com/issues/115) | Formaliser les règles de comportement conversationnel de MarcoS | documentation, decision-marc | — | fermée — réglée par la PR #136 |
 | PM-114 | [#116](https://github.com/marco-mancini/marckouassi.com/issues/116) | Intégrer la qualification commerciale dans le plan et les tests de MarcoS | documentation | — | ouverte — créée le 3 octobre 2026 |
 | PM-115 | [#117](https://github.com/marco-mancini/marckouassi.com/issues/117) | Remettre ISSUES.md et BRANCHES.md en accord avec GitHub, et corriger la référence de #26 | documentation | — | fermée — réglée par cette PR |
+| PM-116 | [#123](https://github.com/marco-mancini/marckouassi.com/issues/123) | Reprendre la refonte complète des catégories de la section 05 | decision-marc | — | ouverte — décisions attendues de Marc |
+| PM-117 | [#124](https://github.com/marco-mancini/marckouassi.com/issues/124) | Publier le titre et le texte de la section 05 « Mes réalisations » | design | — | fermée — réglée par la PR #125 |
+| PM-118 | [#126](https://github.com/marco-mancini/marckouassi.com/issues/126) | Harmoniser les titres de section et l’en-tête des prestations | design | — | ouverte — titres ramenés à l'échelle commune, en-tête des prestations à la référence ; mesuré sur une ligne de 320 à 1920 px, FR/EN, clair/sombre |
+| PM-119 | [#128](https://github.com/marco-mancini/marckouassi.com/issues/128) | Repenser intégralement la section 06 — Prestations : parcours immersif interactif | enhancement | — | ouverte — parcours narratif validé ; implémentation suivie par PM-123 |
+| PM-120 | [#129](https://github.com/marco-mancini/marckouassi.com/issues/129) | Tests contractuels MarcoS — comportement et qualification | documentation, tests | PM-113 | ouverte — le contrat D-21 à D-28 est tenu par `tests/prompt.test.mjs`, dérivé de `MARCOS_DECISIONS_20261003.md` |
+| PM-121 | [#130](https://github.com/marco-mancini/marckouassi.com/issues/130) | IA-04 : intégrer Conversation et Assistant au rendu du site | enhancement | PM-104 | ouverte |
+| PM-122 | [#131](https://github.com/marco-mancini/marckouassi.com/issues/131) | IA-04 : générateur de suivi mobile | enhancement, tests | PM-105 | ouverte — le miroir est produit, jamais écrit à la main (AGENTS.md §6.4) |
+| PM-123 | [#132](https://github.com/marco-mancini/marckouassi.com/issues/132) | 06 / Prestations — implémentation du parcours immersif | enhancement | PM-119 | ouverte |
+| PM-124 | [#133](https://github.com/marco-mancini/marckouassi.com/issues/133) | Chromium — relevé du seuil d'ouverture | tests | PM-021 | ouverte — relevé fait le 3 octobre 2026 sur les 10 derniers runs de « Vérifier » : l'étape n'a été exécutée que 3 fois (17 s, 25 s, 31 s), 3 fois sautée, 4 runs annulés avant elle. **0 dépassement de 3 min : condition non atteinte**, aucun workflow modifié |
+| PM-125 | [#134](https://github.com/marco-mancini/marckouassi.com/issues/134) | Exécution autonome — lots #104 #105 #115 #116 #128 #21 | documentation | — | ouverte |
+| PM-126 | [#135](https://github.com/marco-mancini/marckouassi.com/issues/135) | Placeholder | documentation | — | fermée |

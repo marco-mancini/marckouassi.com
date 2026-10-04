@@ -15,6 +15,6 @@ export function Projets({ section, contenu, ctx }) {
     : "";
   return Planche({
     ton: "olive", id: section.id, classe: "projets", credit: credit(section, contenu.sections, ctx),
-    contenu: html`<div class="projets__tete">${Titre({ echelle: "compacte", texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id), sceau: "petit" })}${accroche}</div>${Grille({ elements: contenu.projets.map((projet, rang) => Projet_carte({ projet, rang, total, ctx })), espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })}`,
+    contenu: html`<div class="projets__tete">${Titre({ texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id), sceau: "petit" })}${accroche}</div>${Grille({ elements: contenu.projets.map((projet, rang) => Projet_carte({ projet, rang, total, ctx })), espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })}`,
   });
 }

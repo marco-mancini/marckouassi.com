@@ -13,8 +13,11 @@ const RACINE = path.resolve(import.meta.dirname, "../Design_System/composants");
 const NOMS = fs.readdirSync(RACINE).filter((n) => fs.statSync(path.join(RACINE, n)).isDirectory());
 const charger = (nom) => import(`../Design_System/composants/${nom}/${nom}.js`);
 
-test("les 25 composants de l'audit existent, chacun avec css + js + md", () => {
-  const attendus = ["Planche", "Encart", "Grille", "Pile", "CadreAdmin", "EnTete", "Navigation", "Segments", "Titre", "Signature", "Accent", "Champ", "Pastille", "Bouton", "Saisie", "Liste", "Televersement", "Media", "Galerie", "Sceau", "Carte", "Modale", "Message", "Apparition", "TexteProgressif"];
+test("les 26 composants de l'audit existent, chacun avec css + js + md", () => {
+  // 26 depuis IA-04 : « Conversation » est le seul composant que l'audit n'avait
+  // pas, et AI_UX.md le décide — aucun existant ne porte la sémantique d'un
+  // journal d'échanges, et Message annoncerait chaque réponse comme une alerte.
+  const attendus = ["Planche", "Encart", "Grille", "Pile", "CadreAdmin", "EnTete", "Navigation", "Segments", "Titre", "Signature", "Accent", "Champ", "Pastille", "Bouton", "Saisie", "Liste", "Televersement", "Media", "Galerie", "Sceau", "Carte", "Modale", "Message", "Conversation", "Apparition", "TexteProgressif"];
   assert.deepEqual([...NOMS].sort(), [...attendus].sort());
   for (const nom of NOMS) for (const ext of ["css", "js", "md"]) assert.ok(fs.existsSync(path.join(RACINE, nom, `${nom}.${ext}`)), `${nom}.${ext} manquant`);
 });

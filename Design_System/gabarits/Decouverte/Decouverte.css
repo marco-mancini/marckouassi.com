@@ -1,0 +1,106 @@
+/* ==========================================================================
+   PARCOURS — l'experience immersive de la section 06 (#128)
+   PRINCIPE DE VISIBILITE, le meme que Motion.css : tout est visible par
+   defaut. Le parcours n'est replie, et ses etapes mises en attente, que
+   sous html.js-anime. Sans script, script bloque ou script en echec, la
+   narration se lit de bout en bout.
+   Les animations passent par le mecanisme d'Apparition (--i, --apparition-pas)
+   et par les jetons : aucune duree ni couleur en clair ici.
+   ========================================================================== */
+html.js-anime .decouverte:not(.est-ouvert) { display: none; }
+html.js-anime .decouverte.est-ouvert .decouverte__etape:not(.est-ouverte) { display: none; }
+
+/* Une revelation est repliee par son bouton, jamais par un attribut du
+   document : sans script, son texte se lit. */
+html.js-anime .decouverte__carte[aria-expanded="false"] + .decouverte__revelation { display: none; }
+
+/* Les commandes qui n’agissent que par script n’existent pas sans lui :
+   « Decouvrir », « Continuer » et « Retour » ne sont jamais des boutons morts
+   (AGENTS.md §6.8). Sans script, la narration est deja deroulee en entier. */
+.prestations__entree, .decouverte__suite, .decouverte__retour { display: none; }
+html.js-anime .prestations__entree { display: flex; }
+html.js-anime .decouverte__suite:not([hidden]) { display: flex; }
+html.js-anime .decouverte__retour { display: contents; }
+
+.prestations__entree { justify-content: center; margin-top: var(--space-6); }
+
+.decouverte { display: grid; margin-top: var(--decouverte-etape-espace); gap: var(--decouverte-etape-espace); }
+.decouverte__etape { display: grid; justify-items: center; gap: var(--space-5); text-align: center; }
+
+/* --- La grande question --- */
+.decouverte__question {
+  max-width: var(--mesure-lecture); margin: 0;
+  font-family: var(--font-display); font-size: var(--decouverte-question-taille);
+  line-height: var(--leading-heading); text-transform: uppercase; text-wrap: balance;
+}
+.decouverte__invitation, .decouverte__ouverture { max-width: var(--mesure-lecture); margin: 0; }
+
+/* --- Les quatre cartes --- */
+.decouverte__cartes {
+  display: grid; width: 100%; margin: 0; padding: 0;
+  grid-template-columns: repeat(auto-fit, minmax(var(--decouverte-carte-min), 1fr));
+  gap: var(--space-4); list-style: none;
+}
+.decouverte__carte-hote { display: grid; gap: var(--space-3); }
+
+.decouverte__carte {
+  display: grid; min-height: var(--decouverte-carte-hauteur-min); padding: var(--space-4);
+  border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-lg);
+  color: inherit; background: var(--surface-alt);
+  box-shadow: 0 var(--shadow-board-y) var(--shadow-board-flou) var(--shadow-board);
+  cursor: pointer; place-content: center;
+  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+}
+/* Reaction au survol ET au focus : rien d'essentiel ne depend du pointeur. */
+.decouverte__carte:hover, .decouverte__carte:focus-visible {
+  transform: translateY(var(--decouverte-carte-souleve)) rotate(var(--decouverte-carte-inclinaison));
+  box-shadow: 0 var(--carte-ombre-survol-y) var(--carte-ombre-survol-flou) var(--carte-ombre-survol-retrait) var(--shadow-board);
+}
+.decouverte__carte[aria-expanded="true"] { border-color: var(--accent-gold); transform: none; }
+
+.decouverte__carte-face { display: grid; gap: var(--space-2); justify-items: center; }
+.decouverte__carte-rang { color: var(--muted); font-family: var(--font-mono); font-size: var(--type-title-card); }
+.decouverte__carte-titre { font-family: var(--font-display); font-size: var(--type-title-card); line-height: var(--leading-heading); text-transform: uppercase; }
+
+/* --- La revelation d'une carte --- */
+.decouverte__revelation { display: grid; gap: var(--space-2); text-align: left; }
+.decouverte__revelation-texte { max-width: var(--mesure-lecture); margin: 0; }
+.decouverte__verdict { margin: 0; color: var(--muted); }
+/* Le verdict juste se distingue par la couleur ET par son texte : jamais par
+   la seule couleur, que l'issue interdit comme unique porteur d'information. */
+.decouverte__verdict[data-decouverte-verdict="juste"] { color: var(--accent-gold); }
+
+/* --- Jalons : intention, territoire, systeme --- */
+.decouverte__jalons, .decouverte__elements, .decouverte__moments { margin: 0; padding: 0; list-style: none; }
+.decouverte__jalons { display: grid; gap: var(--space-3); }
+.decouverte__jalon { font-family: var(--font-display); font-size: var(--decouverte-jalon-taille); text-transform: uppercase; }
+
+.decouverte__moments { display: grid; max-width: var(--mesure-lecture); gap: var(--space-5); }
+.decouverte__moment { display: grid; gap: var(--space-2); }
+.decouverte__moment-titre { margin: 0; font-family: var(--font-display); font-size: var(--decouverte-jalon-taille); text-transform: uppercase; }
+.decouverte__moment-texte { margin: 0; }
+
+.decouverte__elements { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3) var(--space-5); }
+.decouverte__element { font-family: var(--font-display); font-size: var(--decouverte-element-taille); text-transform: uppercase; }
+.decouverte__element--systeme { color: var(--accent-gold); }
+
+.decouverte__conclusion { max-width: var(--mesure-lecture); margin: 0; font-family: var(--font-display); font-size: var(--decouverte-jalon-taille); line-height: var(--leading-heading); }
+
+/* --- Conclusion : le climax --- */
+.decouverte__trace {
+  margin: 0; color: var(--accent-gold);
+  font-family: var(--font-display); font-size: var(--decouverte-trace-taille);
+  line-height: var(--leading-heading); text-transform: uppercase;
+}
+.decouverte__suite-texte, .decouverte__signature { max-width: var(--mesure-lecture); margin: 0; }
+.decouverte__signature { color: var(--muted); }
+
+.decouverte__suite { justify-content: center; }
+.decouverte__navigation { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-4); }
+
+/* La conclusion ralentit : son apparition dure plus longtemps que le reste. */
+.decouverte__etape--conclusion [data-apparition] { --apparition-duree: var(--duration-slow); --apparition-pas: var(--duration-fast); }
+
+/* --- Les realisations : une revelation, pas une seconde galerie (#128 §20) --- */
+.decouverte__marques { display: grid; margin: 0; padding: 0; gap: var(--space-3); list-style: none; }
+.decouverte__marque-lien { font-family: var(--font-display); font-size: var(--decouverte-element-taille); text-transform: uppercase; }

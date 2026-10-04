@@ -67,6 +67,37 @@
     "dix-neuf",
     "vingt"
   ],
+  "assistant": {
+    "_role": "Libellés de MarcoS. Les textes éditoriaux (accueil, exemples, confidentialité) vivent dans content/site.json et sont écrits par Marc (D-9).",
+    "ouvrir": "Poser une question à MarcoS",
+    "etiquette": "Échanges avec MarcoS",
+    "fermer": "Fermer MarcoS",
+    "effacer": "Effacer la conversation",
+    "question": "Votre question",
+    "aide": "{n} caractères restants",
+    "envoyer": "Envoyer",
+    "reessayer": "Réessayer",
+    "chargement": "MarcoS cherche la réponse…",
+    "ecrire": "Écrire à Marc",
+    "vous": "Vous",
+    "assistant": "MarcoS",
+    "erreurs": {
+      "requete_invalide": "Cette question n’a pas pu être lue. Reformulez-la en une phrase.",
+      "origine_refusee": "Cette demande ne vient pas du site. Rechargez la page, puis réessayez.",
+      "trop_long": "Cette question est trop longue. Raccourcissez-la à 500 caractères au plus.",
+      "trop_de_demandes": "Trop de questions d’affilée. Patientez un instant, puis réessayez.",
+      "quota_journalier": "MarcoS a atteint sa limite du jour. Vous pouvez poursuivre par e-mail.",
+      "indisponible": "MarcoS est momentanément indisponible. Vous pouvez poursuivre par e-mail.",
+      "delai_depasse": "MarcoS n’a pas répondu à temps. Réessayez, ou poursuivez par e-mail.",
+      "hors_ligne": "La connexion semble interrompue. Vérifiez-la, puis réessayez."
+    }
+  },
+  "decouverte": {
+    "_role": "Libellés d’interface du parcours immersif de la section 06. Les textes narratifs vivent dans content/sections.json.",
+    "continuer": "Continuer",
+    "progression": "Étape {n} sur {total}",
+    "etiquette": "Parcours des prestations"
+  },
   "formats": {
     "plageProjet": "{debut}–{fin}",
     "plageParcours": "{debut} — {fin}",
