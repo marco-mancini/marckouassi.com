@@ -27,6 +27,7 @@
 - À la fermeture, par n'importe quel chemin, le focus revient au déclencheur.
 - Le déclencheur porte `aria-expanded`.
 - Le défilement de la page est verrouillé par un compteur partagé.
+- `ouvrirModale()` pose le déverrouillage de sa propre ouverture, en écoute unique sur `close`; `activerModales()` ne décrémente jamais le compteur.
 
 ## Variantes
 
