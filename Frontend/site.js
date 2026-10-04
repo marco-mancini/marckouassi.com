@@ -16,6 +16,7 @@ import { activerApparitions } from "../Design_System/composants/Apparition/Appar
 import { activerEtudes } from "../Design_System/gabarits/Projet_etude/Projet_etude.js";
 import { activerDecouverte } from "../Design_System/gabarits/Decouverte/Decouverte.js";
 import { lancerIntro } from "../Design_System/gabarits/Intro/Intro.js";
+import { activerAssistant } from "../Design_System/gabarits/Assistant/Assistant.js";
 
 const racine = document.documentElement;
 const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches || racine.dataset.animations === "reduites";
@@ -26,5 +27,7 @@ suivreSectionCourante(document);
 activerEtudes(document);
 activerDecouverte(document, { reduit });
 activerApparitions(document, { reduit });
+// Sans [data-assistant] dans la page, activerAssistant sort immédiatement.
+activerAssistant(document);
 racine.classList.add("js-anime");
 lancerIntro({ reduit });

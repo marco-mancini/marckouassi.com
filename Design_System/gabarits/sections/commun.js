@@ -11,6 +11,23 @@ import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Modale } from "../../composants/Modale/Modale.js";
 import { numero } from "../outils.js";
 
+/**
+ * Entrée de MarcoS. D-4 : Contact et le menu en V1, pas de présence flottante.
+ * La condition est exactement celle du gabarit Assistant — sans elle, le bouton
+ * ouvrirait une modale qui n'existe pas, c'est-à-dire un bouton mort (§6.8).
+ */
+export function entreeAssistant({ contenu, ctx, taille }) {
+  if (!contenu.site.assistant?.active || !ctx.assistantEndpoint) return "";
+  return Bouton({
+    texte: ctx.t("assistant.ouvrir"),
+    variante: "contour",
+    options: {
+      ...(taille ? { taille } : {}),
+      attributs: { type: "button", "data-modale-ouvrir": "assistant", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-controls": "assistant" },
+    },
+  });
+}
+
 /** Sections numérotées (toutes sauf la couverture), dans l'ordre du contenu. */
 export function sectionsNumerotees(sections) {
   return sections.filter((section) => section.visible !== false && section.type !== "couverture");
@@ -65,7 +82,7 @@ export function enTeteEtMenu({ contenu, ctx, versAccueil = "" }) {
     id: "menu", etiquette: ctx.t("accessibilite.menu"),
     entete: html`<span class="texte-etiquette">${ctx.t("accessibilite.explorer")}</span>`,
     options: { variante: "plein-ecran", libelleFermer: ctx.t("accessibilite.fermerMenu") },
-    contenu: html`${Navigation({ liens: l, orientation: "verticale", echelle: "affichage", etiquette: ctx.t("accessibilite.navigationMobile"), fermeModale: true })}${Bouton({ texte: ctx.c(site.navigation.ecrire, "site.navigation.ecrire"), href: `mailto:${site.contact.email}`, options: { icone: "externe", taille: "grand", attributs: { "data-modale-fermer": true } } })}${langues}`,
+    contenu: html`${Navigation({ liens: l, orientation: "verticale", echelle: "affichage", etiquette: ctx.t("accessibilite.navigationMobile"), fermeModale: true })}${Bouton({ texte: ctx.c(site.navigation.ecrire, "site.navigation.ecrire"), href: `mailto:${site.contact.email}`, options: { icone: "externe", taille: "grand", attributs: { "data-modale-fermer": true } } })}${entreeAssistant({ contenu, ctx, taille: "grand" })}${langues}`,
   });
   return { entete, menu };
 }

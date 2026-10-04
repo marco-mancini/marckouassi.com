@@ -4,7 +4,7 @@ import { Titre } from "../../composants/Titre/Titre.js";
 import { Sceau } from "../../composants/Sceau/Sceau.js";
 import { Champ } from "../../composants/Champ/Champ.js";
 import { Bouton } from "../../composants/Bouton/Bouton.js";
-import { credit } from "./commun.js";
+import { credit, entreeAssistant } from "./commun.js";
 
 /**
  * Contact — appel, sceau de retour, liens et pied. Fait office de pied
@@ -29,6 +29,6 @@ export function Contact({ section, contenu, ctx }) {
   });
   return Planche({
     id: section.id, classe: "contact", credit: credit(section, contenu.sections, ctx),
-    contenu: html`<div class="contact__principal">${Titre({ echelle: "appel", texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id) })}${Sceau({ taille: "grand", lien: "#accueil", libelle: ctx.t("accessibilite.retourCouverture") })}</div><footer class="contact__pied">${liens}<p class="contact__credits texte-etiquette">${ctx.l(section.pied, `${chemin}.pied`)}<br>${ctx.t("pied.droits", { annee: ctx.annee, nom: identite.nom })}</p></footer>`,
+    contenu: html`<div class="contact__principal">${Titre({ echelle: "appel", texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id) })}${Sceau({ taille: "grand", lien: "#accueil", libelle: ctx.t("accessibilite.retourCouverture") })}</div><footer class="contact__pied">${liens}${entreeAssistant({ contenu, ctx })}<p class="contact__credits texte-etiquette">${ctx.l(section.pied, `${chemin}.pied`)}<br>${ctx.t("pied.droits", { annee: ctx.annee, nom: identite.nom })}</p></footer>`,
   });
 }

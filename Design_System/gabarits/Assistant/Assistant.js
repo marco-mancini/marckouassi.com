@@ -40,8 +40,8 @@ function libelles(t) {
 export function Assistant({ assistant, ctx, endpoint }) {
   if (!assistant?.active || !endpoint) return "";
   const t = (cle, variables) => ctx.t(`assistant.${cle}`, variables);
-  // Un exemple vide ne devient pas un bouton sans fonction : l'élément vide de
-  // content/site.json n'existe que pour faire apparaître le champ dans le CMS.
+  // Un exemple vide ne devient pas un bouton sans fonction : le CMS laisse
+  // ajouter une ligne avant de la remplir.
   const exemples = (assistant.exemples || []).map((exemple, rang) => ({ exemple, rang })).filter(({ exemple }) => renseigne(exemple));
 
   const contenu = html`<div class="assistant" data-assistant${attributs({ "data-endpoint": endpoint, "data-longueur-max": String(LONGUEUR_MAX), "data-libelles": JSON.stringify(libelles(t)) })}>
