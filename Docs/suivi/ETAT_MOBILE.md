@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-04T08:28:51.123Z depuis 9723e32308ad910a06e1b364d78fa0be4606377d.
+> Source unique : issues GitHub. Généré le 2026-10-04T09:49:19.285Z depuis cacdaae8a33b3e31774229395d560222f64ed4b4.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -14,23 +14,22 @@
 - Aucune tâche explicitement marquée « en cours » dans GitHub.
 
 ## Tâches terminées
-- 65 issue(s) fermée(s).
+- 69 issue(s) fermée(s).
 
 ## Tâches bloquées
 - #7 — [PM-007] Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues
 
 ## Pull requests ouvertes
-- #146 — docs: suivi après les clôtures et le nettoyage des 8 branches
-- #143 — fix(modale): corriger le verrou de défilement des modales dynamiques
+- #148 — feat(assistant): brancher MarcoS au rendu et débloquer son champ de contenu
 
 ## Prochaine action
 - Issue #142 — [PM-127] Refaire complètement le CV HTML sur la base du PDF existant
 
 ## Dernier commit
-- 9723e32 Merge remote-tracking branch 'origin/main' into pm-013-suivi-apres-nettoyage
+- cacdaae docs: consigner le brief Motion Design (D-35) et remettre la doc de l'avatar en face des assets (#147)
 
 ## Dernière preuve
-- Issue #143 mise à jour le 2026-10-04T08:28:08Z.
+- Issue #123 mise à jour le 2026-10-04T09:48:30Z.
 
 ## Dernière mise à jour
-- 2026-10-04T08:28:51.123Z
+- 2026-10-04T09:49:19.285Z
