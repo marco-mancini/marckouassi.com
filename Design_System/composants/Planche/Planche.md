@@ -24,7 +24,9 @@ Aucun texte en dur : `rubrique`, `mention` et `signature` viennent du contenu de
 ## Accessibilité
 
 - `<section aria-labelledby>` pointe vers le titre de la planche.
-- Ancre avec `scroll-margin-top` pour ne pas passer sous l'en-tête.
+- L'ancre ne compense rien elle-même : `scroll-padding-top` sur `html` vaut
+  `--header-height + --ancre-degagement`, et c'est le seul mécanisme. Un
+  `scroll-margin-top` ici s'ajouterait à lui (PM-018).
 
 ## Contraintes
 
