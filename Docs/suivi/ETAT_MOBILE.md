@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-04T00:03:52.929Z depuis 741808f7af50d8ab4bf7812ef6f4dddc2520fdac.
+> Source unique : issues GitHub. Généré le 2026-10-04T00:14:13.532Z depuis bb29e3257a8de3b6161e5dc3ff89e96df60904cc.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -14,7 +14,7 @@
 - Aucune tâche explicitement marquée « en cours » dans GitHub.
 
 ## Tâches terminées
-- 51 issue(s) fermée(s).
+- 59 issue(s) fermée(s).
 
 ## Tâches bloquées
 - #7 — [PM-007] Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues
@@ -23,7 +23,7 @@
 - Issue #134 — [PM-125] Exécution autonome — lots #104 #105 #115 #116 #128 #21
 
 ## Dernière preuve
-- Issue #115 mise à jour le 2026-10-03T21:19:54Z.
+- Issue #130 mise à jour le 2026-10-04T00:13:31Z.
 
 ## Dernière mise à jour
-- 2026-10-04T00:03:52.929Z
+- 2026-10-04T00:14:13.532Z
