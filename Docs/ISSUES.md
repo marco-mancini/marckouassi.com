@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 4 octobre 2026, de PM-004 à PM-127 : 15 issues ouvertes, 69 fermées. Chiffres relevés par `npm run comparer-issues`.
+État au 4 octobre 2026, de PM-004 à PM-127 : 13 issues ouvertes, 71 fermées. Chiffres relevés par `npm run comparer-issues`.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro GitHub, la référence PM du titre, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -90,12 +90,12 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-113 | [#115](https://github.com/marco-mancini/marckouassi.com/issues/115) | Formaliser les règles de comportement conversationnel de MarcoS | documentation, decision-marc | — | fermée — réglée par la PR #136 |
 | PM-114 | [#116](https://github.com/marco-mancini/marckouassi.com/issues/116) | Intégrer la qualification commerciale dans le plan et les tests de MarcoS | documentation | — | fermée — réglée par la PR #137 ; les quinze points du contrat sont éprouvés sans clé ni réseau |
 | PM-115 | [#117](https://github.com/marco-mancini/marckouassi.com/issues/117) | Remettre ISSUES.md et BRANCHES.md en accord avec GitHub, et corriger la référence de #26 | documentation | — | fermée — réglée par cette PR |
-| PM-116 | [#123](https://github.com/marco-mancini/marckouassi.com/issues/123) | Reprendre la refonte complète des catégories de la section 05 | decision-marc | — | ouverte — décisions de Marc consignées ; le repli derrière les huit cartes est appliqué par la PR #150 (D-36), 195 + 14 + 43 tests verts. Reste la navigation précédent/suivant, dont la portée (entre réalisations ou entre catégories) attend un mot de Marc |
+| PM-116 | [#123](https://github.com/marco-mancini/marckouassi.com/issues/123) | Reprendre la refonte complète des catégories de la section 05 | decision-marc | — | fermée — décisions de Marc consignées (D-36) et appliquées par la PR #150 (`a2b41e2`) : les onze réalisations restent repliées derrière les huit cartes, aucune URL dédiée. 201 + 14 + 43 tests verts ; seule la section `sommaire` bouge, 12 123 → 1 107 px à 1440 px |
 | PM-117 | [#124](https://github.com/marco-mancini/marckouassi.com/issues/124) | Publier le titre et le texte de la section 05 « Mes réalisations » | design | — | fermée — réglée par la PR #125 |
 | PM-118 | [#126](https://github.com/marco-mancini/marckouassi.com/issues/126) | Harmoniser les titres de section et l’en-tête des prestations | design | — | fermée — réglée par la PR #137 ; « Mes réalisations » mesuré sur une ligne de 320 à 1920 px, FR/EN, clair/sombre |
 | PM-119 | [#128](https://github.com/marco-mancini/marckouassi.com/issues/128) | Repenser intégralement la section 06 — Prestations : parcours immersif interactif | enhancement | — | fermée — réglée par la PR #137 ; gabarit `Decouverte`, validé sur la Preview Vercel |
 | PM-120 | [#129](https://github.com/marco-mancini/marckouassi.com/issues/129) | Tests contractuels MarcoS — comportement et qualification | documentation, tests | PM-113 | fermée — réglée par la PR #137 ; le contrat D-21 à D-28 est lu dans `MARCOS_DECISIONS_20261003.md`, pas recopié |
-| PM-121 | [#130](https://github.com/marco-mancini/marckouassi.com/issues/130) | IA-04 : intégrer Conversation et Assistant au rendu du site | enhancement | PM-104 | ouverte — dépend de PM-104 : l'intégration au rendu attend le champ de contenu |
+| PM-121 | [#130](https://github.com/marco-mancini/marckouassi.com/issues/130) | IA-04 : intégrer Conversation et Assistant au rendu du site | enhancement | PM-104 | fermée — réglée par la PR #148 (`1ff80c6`) ; entrées de D-4 dans Contact et le menu, et le site publié reste identique puisque ni le champ ni ASSISTANT_URL n'existent |
 | PM-122 | [#131](https://github.com/marco-mancini/marckouassi.com/issues/131) | IA-04 : générateur de suivi mobile | enhancement, tests | PM-105 | fermée — réglée par la PR #137 ; deux défauts du générateur corrigés, pagination et étiquette de blocage |
 | PM-123 | [#132](https://github.com/marco-mancini/marckouassi.com/issues/132) | 06 / Prestations — implémentation du parcours immersif | enhancement | PM-119 | fermée — réglée par la PR #137 |
 | PM-124 | [#133](https://github.com/marco-mancini/marckouassi.com/issues/133) | Chromium — relevé du seuil d'ouverture | tests | PM-021 | fermée — relevé du 3 octobre 2026 : l'étape Chromium tient en 31 s au plus contre un seuil de 3 min. **Condition non atteinte**, aucun workflow modifié (PM-021 reste ouverte) |

@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-04T12:02:54.364Z depuis 267811af33a0398fe0bae0638749dd8d54f59659.
+> Source unique : issues GitHub. Généré le 2026-10-04T12:30:20.217Z depuis 3b66799b9e37e437eb074e59d381beaf6abacc4c.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -14,24 +14,22 @@
 - Aucune tâche explicitement marquée « en cours » dans GitHub.
 
 ## Tâches terminées
-- 69 issue(s) fermée(s).
+- 71 issue(s) fermée(s).
 
 ## Tâches bloquées
 - #7 — [PM-007] Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues
 
 ## Pull requests ouvertes
-- #150 — feat(categories): replier les réalisations derrière les huit cartes (D-36)
 - #149 — docs(suivi): index, miroir et inventaire des branches après le lot du 4 octobre
-- #148 — feat(assistant): brancher MarcoS au rendu et débloquer son champ de contenu
 
 ## Prochaine action
 - Issue #142 — [PM-127] Refaire complètement le CV HTML sur la base du PDF existant
 
 ## Dernier commit
-- 267811a docs(suivi): index, miroir et inventaire des branches après le lot du 4 octobre
+- 3b66799 Merge remote-tracking branch 'origin/main' into suivi-apres-lot-du-4-octobre
 
 ## Dernière preuve
-- Issue #123 mise à jour le 2026-10-04T12:02:44Z.
+- Issue #123 mise à jour le 2026-10-04T12:30:10Z.
 
 ## Dernière mise à jour
-- 2026-10-04T12:02:54.364Z
+- 2026-10-04T12:30:20.217Z
