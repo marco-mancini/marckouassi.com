@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-04T07:28:05.961Z depuis 09e044da7b60987c88d516abdad66c03613906a2.
+> Source unique : issues GitHub. Généré le 2026-10-04T08:28:51.123Z depuis 9723e32308ad910a06e1b364d78fa0be4606377d.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -19,11 +19,18 @@
 ## Tâches bloquées
 - #7 — [PM-007] Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues
 
+## Pull requests ouvertes
+- #146 — docs: suivi après les clôtures et le nettoyage des 8 branches
+- #143 — fix(modale): corriger le verrou de défilement des modales dynamiques
+
 ## Prochaine action
 - Issue #142 — [PM-127] Refaire complètement le CV HTML sur la base du PDF existant
 
+## Dernier commit
+- 9723e32 Merge remote-tracking branch 'origin/main' into pm-013-suivi-apres-nettoyage
+
 ## Dernière preuve
-- Issue #142 mise à jour le 2026-10-04T07:28:03Z.
+- Issue #143 mise à jour le 2026-10-04T08:28:08Z.
 
 ## Dernière mise à jour
-- 2026-10-04T07:28:05.961Z
+- 2026-10-04T08:28:51.123Z
