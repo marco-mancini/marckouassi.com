@@ -1031,6 +1031,10 @@ de MarcoS plus que des faits. Dis-le si tu veux des propositions.
   référence de style 3D, angles et poses, outil ou prestataire, validation du
   format proposé. Le format de fichiers attendu est déjà spécifié ; les cinq
   choix sont à toi. D-13 dit seulement si MarcoS peut démarrer sans attendre.
+  **Mise à jour du 4 octobre 2026 :** les quatre premières sont tranchées et les
+  dix expressions sont livrées dans `Public/Avatar_MarcoS/` ; seule la validation
+  du format reste ouverte. Voir
+  [MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7.
 - **#32** (sort du back-office Supabase) et **#22** (tests endormis) **sont
   redevenues indépendantes de MarcoS**, puisque la décision #23 écarte Supabase.
   Elles restent entières et à toi.

@@ -1,8 +1,12 @@
 # MarcoS — planche d'expressions de référence
 
-**Version : 1.0 · 3 octobre 2026.**
+**Version : 1.1 · 4 octobre 2026.** La version 1.0 décrivait ce qui était *demandé* ; celle-ci décrit en plus ce qui a été *livré*.
 
 Ce document complète `MARCOS_AVATAR.md`. Il formalise la planche d'expressions visuelles demandée pour la production de l'avatar 3D. Ces expressions sont une **bibliothèque visuelle**, pas dix états runtime supplémentaires.
+
+> **Livré et validé par Marc le 4 octobre 2026** ([#49](https://github.com/marco-mancini/marckouassi.com/issues/49)).
+> Les dix expressions existent. Elles sont la **source officielle** des visuels
+> de MarcoS : `Public/Avatar_MarcoS/`. Voir §7.
 
 ## 1. Référence du personnage
 
@@ -13,7 +17,10 @@ Ce document complète `MARCOS_AVATAR.md`. Il formalise la planche d'expressions 
 - La tenue finale doit être **différente de celle de la photo de référence**.
 - Tenue : sobre, neutre, contemporaine, passe-partout, sans logo ni motif distrayant.
 - La même tenue doit être conservée sur toute la planche.
-- Fond : **blanc uni**, sans décor ni objet parasite.
+- Fond : **transparent**, sans décor ni objet parasite. *(Décision de Marc du
+  4 octobre 2026. La version 1.0 demandait un blanc uni ; les fichiers livrés
+  sont à transparence droite, et c'est ce dont le site a besoin pour ses deux
+  thèmes — `MARCOS_AVATAR.md` §7.)*
 
 ## 2. Planche de production
 
@@ -30,6 +37,11 @@ Chaque case :
 - identité 3D strictement cohérente entre les dix cases.
 
 La planche sert de référence de production et de validation, pas directement de sprite final.
+
+**Ce qui a été livré.** Non pas une planche 2 × 5, mais **dix fichiers séparés**,
+un par expression (§7). Le découpage est donc déjà fait. Les exigences de
+cadrage ci-dessus restent la règle de production pour toute expression ajoutée
+plus tard.
 
 ## 3. Les dix expressions
 
@@ -94,3 +106,61 @@ Les dix expressions se mappent aux états runtime existants sans créer dix nouv
 - ne pas mettre de texte dans les cases ;
 - ne pas transformer une expression en caricature ;
 - ne pas utiliser la planche comme format de publication final sans passer par le pipeline défini dans `MARCOS_AVATAR.md`.
+
+## 7. Source officielle des assets
+
+**`Public/Avatar_MarcoS/`** — décision de Marc du 4 octobre 2026. Ces dix
+fichiers remplacent toute image d'avatar antérieure : il n'existe plus d'autre
+source. Aucun traitement ni modélisation supplémentaire n'est demandé sur eux.
+
+| # | Fichier | Expression (§3) |
+|---|---|---|
+| 01 | `Avatar_01_BIENVENUE.png` | Bienvenue |
+| 02 | `Avatar_02_NEUTRE_DISPONIBLE.png` | Neutre / disponible |
+| 03 | `Avatar_03_REFLEXION.png` | Réflexion |
+| 04 | `Avatar_04_ANALYSE.png` | Analyse |
+| 05 | `Avatar_05_ECOUTE.png` | À l'écoute |
+| 06 | `Avatar_06_QUESTION.png` | Question |
+| 07 | `Avatar_07_IDEE_SUGGESTION.png` | Idée / suggestion |
+| 08 | `Avatar_08_ENTHOUSIASME.png` | Enthousiasme |
+| 09 | `Avatar_09_PRISE_DE_NOTES.png` | Prise de notes |
+| 10 | `Avatar_10_SUCCES_FELICITE.png` | Succès / félicité |
+
+### Caractéristiques mesurées le 4 octobre 2026
+
+| Mesure | Valeur |
+|---|---|
+| Dimensions | 783 × 667 px, identiques sur les dix |
+| Format | PNG RGBA 8 bits, espace sRGB |
+| Transparence | droite, fond entièrement transparent (alpha nul dans les angles) ; 49,5 % à 66,8 % de pixels non opaques |
+| Poids unitaire | 356 à 561 Ko |
+| Poids total | 4,25 Mo |
+
+### Ce que ces mesures satisfont déjà
+
+Quatre des exigences de `MARCOS_AVATAR.md` §7 sont remplies sans rien toucher :
+PNG RGBA 8 bits sRGB, transparence droite sur fond entièrement transparent,
+dimensions identiques d'un fichier à l'autre, masters non précompressés.
+
+### Le seul écart avec `MARCOS_AVATAR.md`
+
+`MARCOS_AVATAR.md` §3 impose un **carré 512 × 512** à toutes les images. Les dix
+expressions sont en **783 × 667**, un rectangle. L'écart est réel et il n'est pas
+tranché :
+
+- ces dix fichiers sont des **expressions de référence**, pas les ~230 images
+  des séquences d'animation auxquelles le §3 s'adresse ;
+- mais le §5 prévoit qu'une expression serve de **pose clé** d'un état, et une
+  pose clé passe par le pipeline, donc par le carré.
+
+Les recadrer supposerait de choisir un cadrage, c'est-à-dire une décision
+artistique ; et Marc a écrit « aucun traitement supplémentaire » sur les fichiers
+validés. Rien n'est donc modifié. Ce point est consigné dans
+[#49](https://github.com/marco-mancini/marckouassi.com/issues/49).
+
+### Ce que ces fichiers ne sont pas
+
+Ils ne sont **pas publiés** : D-13 place l'avatar en V2, et le site n'en rend
+aucun aujourd'hui. `tools/medias.mjs` aplatirait leur transparence sur le crème
+du site (`MARCOS_AVATAR.md` §7) ; le pipeline à transparence reste à écrire,
+avec ses tests, le jour de l'implémentation.

@@ -8,15 +8,29 @@ Ce qui est dit de l'avatar lui-même (ressemblance, style, absence de costume, a
 
 ---
 
-> **Statut au 2 octobre 2026 — décision D-13.** L'avatar n'est **pas en V1** :
+> **Statut au 4 octobre 2026.** L'avatar n'est **pas en V1** (décision D-13) :
 > MarcoS se lance sans figurine, avec une entrée dans la section Contact et le
-> menu. Ce document décrit donc la **V2**, et il reste une **proposition** : le
-> format ci-dessous est celui que je recommande, **il n'est pas validé par
-> Marc**. Les cinq décisions de
-> [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) — photo de
-> référence, référence de style 3D, angles et poses, outil ou prestataire,
-> validation du format — lui appartiennent toujours. Lire « retenu » ci-dessous
-> comme « retenu parmi les options techniques comparées », pas comme « arrêté ».
+> menu. Ce document décrit donc la **V2**.
+>
+> Sur les cinq décisions que
+> [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) réservait à
+> Marc, **quatre sont prises** le 4 octobre 2026 :
+>
+> | Décision | Choix de Marc |
+> |---|---|
+> | Photo de référence | la photo de Marc fournie comme référence |
+> | Référence de style 3D | le style 3D de la référence visuelle retenue, sans copier-coller l'avatar de référence |
+> | Angles et poses | les dix expressions livrées ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §3 et §7) |
+> | Outil ou prestataire | aucune documentation demandée |
+>
+> **La cinquième reste ouverte** : la validation du format. Les dix expressions
+> livrées sont en 783 × 667 px, là où le §3 ci-dessous impose un carré
+> 512 × 512. L'écart est décrit dans
+> [MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7.
+>
+> Le reste de ce document — format de séquence, cadence, transitions,
+> manifeste, pipeline — demeure une **proposition technique non validée**. Lire
+> « retenu » comme « retenu parmi les options comparées », pas comme « arrêté ».
 
 ## 1. Format retenu : séquences d'images à transparence
 
@@ -237,7 +251,7 @@ Les valeurs ci-dessus sont des exemples de forme, pas des choix faits à la plac
   - logiciel utilisé ;
   - réglages de rendu ;
   - écarts éventuels par rapport à ce document.
-- **Lieu de dépôt :** au choix de Marc (Drive, archive jointe à une issue). Le lieu de stockage dans le dépôt est à trancher d'abord (§3, PM-027).
+- **Lieu de dépôt :** au choix de Marc (Drive, archive jointe à une issue). Le lieu de stockage dans le dépôt est à trancher d'abord (§3, PM-027). *Les dix expressions de référence, elles, sont déjà dans le dépôt : `Public/Avatar_MarcoS/`, 4,25 Mo ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7). La question reste entière pour les ~230 masters d'animation, 35 à 90 Mo.*
 - **Source 3D :** fichier `.blend`, `.glb` ou autre. Marc la conserve de son côté. Elle n'est pas requise par le site. Elle permettra plus tard, si Marc le décide, de passer au modèle 3D temps réel (§1) sans tout refaire.
 - **Après réception :** l'intégration fera l'objet de ses propres issues :
   - pipeline du §7 ;
