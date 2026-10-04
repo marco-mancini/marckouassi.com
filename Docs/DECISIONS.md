@@ -12,6 +12,66 @@ Règles :
 
 ---
 
+## 2026-10-04 — D-35 : le brief Motion Design de Marc est le brief de référence
+
+Décision de Marc · issues [#28](https://github.com/marco-mancini/marckouassi.com/issues/28)
+et [#40](https://github.com/marco-mancini/marckouassi.com/issues/40), commentaires du
+4 octobre 2026.
+
+**Problème.** Marc voulait une animation d'entrée en motion design avec un
+générique. Rien ne pouvait être conçu : ni durée, ni rôle, ni son, ni
+technologie n'étaient arrêtés, et §1.4 interdit d'inventer un contenu public à
+sa place. #40 cadrait l'animation de couverture mais restait volontairement
+verrouillée.
+
+**Choix de Marc.** Le brief ci-dessous, posté le 4 octobre sur #28 et #40,
+remplace tout cadrage antérieur et devient la référence :
+
+| Point | Décision |
+|---|---|
+| Type | véritable Motion Design |
+| Objectif | effet WAOUH, premium, mémorable |
+| Création | Opus 5.5 |
+| Approche | séquence artistique complète, pas une succession d'éléments qui apparaissent |
+| Mouvement | transformation, rythme, profondeur, caméra/composition et transitions travaillées |
+| Rôle | introduire les Réalisations et renforcer leur storytelling |
+| Responsive | ordinateur **et** mobile |
+| Thèmes | clair **et** sombre |
+| Accessibilité | `prefers-reduced-motion` obligatoire |
+| Son | oui |
+| Bouton « Passer » | oui |
+| Durée | 10 secondes au maximum |
+| Technologie | à déterminer selon le rendu final, sans dépendance inutile |
+| Concept / storyboard | à concevoir **avant** intégration |
+| Principe | aucune animation générique, aucune simple apparition |
+
+**Motif.** Le brief fixe ce qui était ouvert, et il le fixe en termes
+vérifiables : une durée plafond, deux thèmes, deux familles de largeurs, une
+obligation d'accessibilité. Il laisse ouverts les deux seuls points qui
+dépendent du rendu — la technologie et le storyboard — au lieu de les figer trop
+tôt.
+
+**Impact.** Les contraintes non négociables de #40 restent entières et
+s'ajoutent au brief : aucune durée, couleur ou easing en dur hors de
+`Tokens.css`, aucune librairie d'animation sans justification écrite,
+vérification aux sept largeurs en clair et en sombre, zéro erreur console, zéro
+débordement horizontal. Deux points du brief demandent une décision
+supplémentaire au moment de l'implémentation, parce qu'ils touchent des règles
+déjà écrites :
+
+- le **son** n'existe nulle part sur le site : il faudra un réglage de volume,
+  un état coupé mémorisé et un comportement défini sous `prefers-reduced-motion` ;
+- les **10 secondes** plafonnent une séquence dont l'accueil animé actuel
+  (`site.intro`, cinq étapes) occupe déjà une partie : le brief ne dit pas s'il
+  le remplace ou s'y ajoute.
+
+**Réversibilité.** Entière : rien n'est implémenté. #40 reste verrouillée et
+porte l'implémentation ; son calendrier exige le domaine acheté
+([#9](https://github.com/marco-mancini/marckouassi.com/issues/9)) et le contenu
+du CV validé ([#11](https://github.com/marco-mancini/marckouassi.com/issues/11),
+[#15](https://github.com/marco-mancini/marckouassi.com/issues/15), close). Une
+version ultérieure du brief remplacerait celle-ci selon la règle du journal.
+
 ## 2026-10-03 — D-20 : Resend pour transmettre les briefs confirmés à M. Kouassi
 
 Décision de Marc · issue [#114](https://github.com/marco-mancini/marckouassi.com/issues/114).
