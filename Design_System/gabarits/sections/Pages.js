@@ -15,6 +15,7 @@ import { Segments } from "../../composants/Segments/Segments.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
 import { Gabarit_Projet, vueProjet } from "../Gabarit_Projet/Gabarit_Projet.js";
 import { Intro } from "../Intro/Intro.js";
+import { Assistant } from "../Assistant/Assistant.js";
 import { Document, enTeteEtMenu, enTeteDocument, optionsLangues, credit } from "./commun.js";
 import { Couverture } from "./Couverture.js";
 import { Introduction } from "./Introduction.js";
@@ -45,7 +46,7 @@ export function PageAccueil({ contenu, ctx }) {
     .map((section) => GABARITS_SECTIONS[section.type]?.({ section, contenu, ctx }) ?? "");
   return Document({
     ctx, meta: meta(contenu, ctx),
-    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx) })}`,
+    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx) })}${Assistant({ assistant: contenu.site.assistant, ctx, endpoint: ctx.assistantEndpoint })}`,
   });
 }
 

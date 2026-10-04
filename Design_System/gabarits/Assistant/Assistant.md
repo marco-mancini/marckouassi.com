@@ -17,9 +17,15 @@ Le gabarit ne rend **rien** si `assistant.active` est faux ou si `endpoint` est
 absent. Tant que Marc n'a pas écrit l'accueil dans Paramètres, MarcoS n'existe
 pas pour le visiteur (D-9).
 
-Un exemple dont aucune langue n'est renseignée est ignoré : l'élément vide de
-`content/site.json` n'existe que pour faire apparaître le champ bilingue dans
-le CMS, et ne doit pas devenir un bouton sans fonction.
+Un exemple dont aucune langue n'est renseignée est ignoré : il ne doit pas
+devenir un bouton sans fonction. Le cas se produit quand Marc ajoute une ligne
+dans le CMS sans la remplir.
+
+Le bloc `assistant` **n'est pas amorcé dans `content/site.json`** : il est
+déclaré facultatif dans `tools/cms.mjs`, donc proposé dans Paramètres même
+absent des données. Y poser des valeurs vides les ferait effacer à
+l'enregistrement (`omit_empty_optional_fields`), et le champ disparaîtrait de
+l'éditeur au build suivant.
 
 ## Comportement
 

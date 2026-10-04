@@ -257,7 +257,12 @@
     "projets": "Projets",
     "retour": "Retour",
     "recit": "Récit",
-    "media": "Image"
+    "media": "Image",
+    "assistant": "Assistant MarcoS",
+    "assistantActif": "Activer MarcoS",
+    "accueil": "Message d’accueil",
+    "exemples": "Exemples de questions",
+    "confidentialite": "Mention de confidentialité"
   },
   "frequences": {
     "session": "Une fois par visite",

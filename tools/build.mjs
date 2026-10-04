@@ -76,7 +76,10 @@ async function main() {
   const couleurTheme = await lireJeton(RACINE, "--clair-surface-page");
   const annee = new Date().getFullYear();
   const pages = cheminsPages(contenu);
-  const ressources = { sprite, couleurTheme, annee };
+  // MarcoS n'a d'adresse que si le Worker est déployé. Sans elle, le gabarit
+  // Assistant ne rend rien : le site est identique, et aucun bouton ne mène
+  // à une modale absente (AI_IMPLEMENTATION_PLAN.md, IA-04).
+  const ressources = { sprite, couleurTheme, annee, assistantEndpoint: env.ASSISTANT_URL || null };
   const manquants = [];
 
   for (const langue of site.langues) {
