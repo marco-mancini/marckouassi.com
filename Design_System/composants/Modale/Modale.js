@@ -41,6 +41,15 @@ export function ouvrirModale(dialogue, declencheur = null) {
   if (declencheur) declencheur.setAttribute("aria-expanded", "true");
   dialogue.showModal();
   verrouiller();
+  dialogue.addEventListener("close", () => {
+    deverrouiller();
+    const declencheur = dialogue._declencheur;
+    if (declencheur) {
+      declencheur.setAttribute("aria-expanded", "false");
+      if (declencheur.isConnected) declencheur.focus({ preventScroll: true });
+    }
+    dialogue._declencheur = null;
+  }, { once: true });
 }
 
 export function fermerModale(dialogue) {
@@ -67,13 +76,11 @@ export function activerModales(racine = document) {
   for (const dialogue of racine.querySelectorAll("dialog.modale")) {
     dialogue.addEventListener("click", (evenement) => { if (evenement.target === dialogue) dialogue.close(); });
     dialogue.addEventListener("close", () => {
-      deverrouiller();
       const declencheur = dialogue._declencheur;
       if (declencheur) {
         declencheur.setAttribute("aria-expanded", "false");
         if (declencheur.isConnected) declencheur.focus({ preventScroll: true });
       }
-      dialogue._declencheur = null;
     });
   }
 }
