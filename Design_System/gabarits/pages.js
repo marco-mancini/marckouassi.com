@@ -6,7 +6,7 @@
 import { creerContexte, cheminLangue, versRacine } from "../i18n/langue.js";
 import { PageAccueil, PageProjet, PageCv } from "./sections/Pages.js";
 
-/** Chemins des pages, sans préfixe de langue : accueil, CV, un par projet. */
+/** Chemins des pages, sans préfixe de langue : accueil, CV et projets. */
 export function cheminsPages(contenu) {
   return ["", "cv/", ...contenu.projets.map((projet) => `projets/${projet.id}/`)];
 }
@@ -18,7 +18,7 @@ export function cheminsPages(contenu) {
  * @param {string} p.chemin          chemin sans préfixe de langue
  * @param {object} p.dictionnaires   { fr, en }
  * @param {Map}    p.medias          table source → fichier publié
- * @param {object} p.ressources      { sprite, couleurTheme, annee }
+ * @param {object} p.ressources      { sprite, couleurTheme, annee, assistantEndpoint }
  */
 export function contextePage({ site, langue, chemin, dictionnaires, medias, ressources }) {
   const defaut = site.langueParDefaut;
@@ -44,6 +44,6 @@ export function rendrePage({ contenu, ctx, chemin }) {
   if (chemin === "") return PageAccueil({ contenu, ctx });
   if (chemin === "cv/") return PageCv({ contenu, ctx });
   const projet = contenu.projets.find((p) => chemin === `projets/${p.id}/`);
-  if (!projet) throw new Error(`Aucune page pour « ${chemin} »`);
-  return PageProjet({ contenu, ctx, projet });
+  if (projet) return PageProjet({ contenu, ctx, projet });
+  throw new Error(`Aucune page pour « ${chemin} »`);
 }

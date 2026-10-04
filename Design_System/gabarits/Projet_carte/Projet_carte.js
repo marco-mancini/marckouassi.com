@@ -1,27 +1,30 @@
-import { html } from "../../fondations/rendu.js";
+import { html, attributs } from "../../fondations/rendu.js";
 import { Galerie } from "../../composants/Galerie/Galerie.js";
-import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
-import { media, numero, periodeProjet } from "../outils.js";
 
 /**
- * Projet_carte — la carte d'un projet dans le sommaire.
- * L'entrée est un VRAI lien vers la page du projet : sans JavaScript on
- * y navigue ; avec, l'étude s'ouvre dans la modale partagée.
+ * Projet_carte — LA VUE CARTE d'un projet, et rien d'autre : l'aperçu en
+ * galerie, le numéro, le titre, la catégorie et la période.
+ *
+ * Elle ne lit plus l'enregistrement du projet. Elle reçoit la VUE résolue par
+ * `Gabarit_Projet` : même titre, mêmes médias, même contrat d'ouverture que
+ * l'étude et la page. Tout ce qui est commun aux projets est en amont ; ici
+ * ne reste que la disposition propre à une carte.
+ *
+ * L'entrée est un VRAI lien vers la page du projet : sans JavaScript on y
+ * navigue ; avec, l'étude s'ouvre dans la modale partagée.
  *
  * @param {object} p
- * @param {object} p.projet      données du projet
- * @param {number} p.rang        position dans la liste (le numéro affiché en découle)
- * @param {number} p.total       nombre de projets (compteur de l'étude)
- * @param {object} p.ctx         contexte de langue et de page
+ * @param {object} p.vue   sortie de `vueProjet` (Gabarit_Projet)
+ * @param {object} p.ctx   contexte de langue et de page
  */
-export function Projet_carte({ projet, rang, total, ctx }) {
-  const chemin = `projets.${projet.id}`;
-  const titre = ctx.c(projet.titre, `${chemin}.titre`);
-  const medias = (projet.medias || []).map((entree, i) => media(ctx, entree, { motifAlt: projet.altImages, rang: i, chemin: `${chemin}.medias.${i}`, cheminMotif: `${chemin}.altImages` }));
-  const entrer = Bouton({
-    texte: ctx.t("projet.ouvrir", { titre }), variante: "surface", forme: "rond", href: ctx.pageProjet(projet),
-    options: { icone: "ouvrir", iconeSeule: true, attributs: { "data-etude": projet.id, "aria-haspopup": "dialog", "data-compteur": ctx.t("projet.compteur", { numero: numero(rang), total: String(total).padStart(2, "0") }) } },
-  });
-  return html`<article class="projet-carte" data-apparition="bas">${Galerie({ medias, variante: "apercu", superposition: entrer })}<header class="projet-carte__entete">${Pastille({ texte: numero(rang), forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${ctx.l(projet.titre, `${chemin}.titre`)}</h3><p class="projet-carte__categorie">${ctx.t("formats.categorieEtPeriode", { categorie: ctx.c(projet.categorie, `${chemin}.categorie`), periode: periodeProjet(projet, ctx) })}</p></div></header></article>`;
+export function Projet_carte({ vue, ctx }) {
+  return html`<a${attributs({
+    class: "projet-carte",
+    href: vue.lien,
+    "aria-label": ctx.t("projet.ouvrir", { titre: vue.titre }),
+    ...vue.ouverture,
+    "data-apparition": "bas",
+    "data-categorie": vue.categoriePrincipale,
+  })}>${Galerie({ medias: vue.medias, variante: "apercu" })}<header class="projet-carte__entete">${Pastille({ texte: vue.numero, forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${vue.titreHtml}</h3><p class="projet-carte__categorie">${ctx.t("formats.categorieEtPeriode", { categorie: vue.categorie, periode: vue.periode })}</p></div></header></a>`;
 }

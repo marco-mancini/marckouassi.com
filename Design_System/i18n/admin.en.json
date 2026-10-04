@@ -83,6 +83,7 @@
     "vide": "No items.",
     "aideEnrichi": "Wrap a passage in two asterisks (**like this**) to highlight it.",
     "aideIdentifiant": "Lowercase letters, numbers and hyphens only. It forms the address of the project page.",
+    "aideIdentifiantCategorie": "Stable technical identifier used to attach projects to this category.",
     "aideMotif": "{numero} is replaced by the image number.",
     "nonModifiable": "Technical value, not editable here.",
     "oui": "Yes",
@@ -209,6 +210,8 @@
     "liens": "Links",
     "pied": "Footer",
     "categorie": "Category",
+    "categories": "Disciplines",
+    "categoriePrincipale": "Primary category",
     "contexte": "Context",
     "disciplines": "Disciplines",
     "idee": "Idea",
@@ -253,7 +256,14 @@
     "realisations": "Selected work heading",
     "suite": "Continuation",
     "projets": "Projects",
-    "retour": "Back"
+    "retour": "Back",
+    "recit": "Story",
+    "media": "Image",
+    "assistant": "MarcoS assistant",
+    "assistantActif": "Enable MarcoS",
+    "accueil": "Welcome message",
+    "exemples": "Example questions",
+    "confidentialite": "Privacy notice"
   },
   "frequences": {
     "session": "Once per visit",

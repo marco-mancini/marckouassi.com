@@ -30,7 +30,13 @@
     "intention": "Creative intent",
     "valeur": "What the project brings",
     "retour": "Back to projects",
-    "document": "View the document"
+    "document": "View the document",
+    "categories": {
+      "numero": "Field {numero}",
+      "vide": "This field is waiting for its first pieces of work.",
+      "navigation": "Browse work categories",
+      "retour": "Back to categories"
+    }
   },
   "intro": {
     "etiquette": "Welcome",

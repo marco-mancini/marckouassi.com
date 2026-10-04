@@ -13,10 +13,16 @@ import { textesLitteraux } from "./textes.mjs";
 
 const MARQUE = "⟦x⟧";
 // Valeurs techniques (identifiants, codes, chemins, réglages) : jamais affichées comme texte.
-const TECHNIQUES = new Set(["id", "type", "src", "poster", "href", "url", "langues", "langueParDefaut", "ton", "variante", "frequence", "active", "section", "gabarit", "annees", "debut", "fin", "cle", "fichier", "mime", "_origine", "_statut", "icone", "forme", "disposition", "colonnes"]);
+const TECHNIQUES = new Set(["id", "type", "src", "poster", "href", "url", "langues", "langueParDefaut", "ton", "variante", "frequence", "active", "section", "gabarit", "annees", "debut", "fin", "cle", "fichier", "mime", "_origine", "_statut", "icone", "forme", "disposition", "colonnes", "categories"]);
+
+// Une cle technique porte un identifiant ou une liste d'identifiants : on la
+// laisse telle quelle. Si elle porte un OBJET, c'est qu'elle structure du
+// contenu (le catalogue des disciplines : { id, libelle }) et on y descend.
+const estTechnique = (valeur, cle) =>
+  TECHNIQUES.has(cle) && (typeof valeur !== "object" || valeur === null || (Array.isArray(valeur) && valeur.every((v) => typeof v === "string")));
 
 function marquer(valeur, cle = "") {
-  if (TECHNIQUES.has(cle)) return valeur;
+  if (estTechnique(valeur, cle)) return valeur;
   if (typeof valeur === "string") return valeur.includes("{") ? valeur.replace(/[^{}]+(?=\{|$)/g, (m) => (m.trim() ? MARQUE : m)).replace(/\}[^{}]+/g, (m) => `}${MARQUE}`) : MARQUE;
   if (Array.isArray(valeur)) return valeur.map((v) => marquer(v, cle));
   if (valeur && typeof valeur === "object") return Object.fromEntries(Object.entries(valeur).map(([k, v]) => [k, marquer(v, /^(fr|en)$/.test(k) ? cle : k)]));

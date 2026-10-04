@@ -10,6 +10,8 @@ import fs from "node:fs";
 import { Conversation } from "../Design_System/composants/Conversation/Conversation.js";
 import { Assistant, LONGUEUR_MAX } from "../Design_System/gabarits/Assistant/Assistant.js";
 import { CODES } from "../worker/assistant/src/erreurs.js";
+import { contextePage } from "../Design_System/gabarits/pages.js";
+import { PageAccueil } from "../Design_System/gabarits/sections/Pages.js";
 
 const fr = JSON.parse(fs.readFileSync("Design_System/i18n/fr.json", "utf8"));
 const en = JSON.parse(fs.readFileSync("Design_System/i18n/en.json", "utf8"));
@@ -127,4 +129,70 @@ test("l'aide du champ porte le compteur de caractères, pas un nombre en dur", (
     assert.match(dico.assistant.aide, /\{n\}/, `${langue} : l'aide doit accueillir le nombre restant`);
   }
   assert.match(String(Assistant({ assistant: actif(), ctx, endpoint: "https://x.test" })), /500 caractères restants/);
+});
+
+/* ------------------------------------------------------------------ */
+/* IA-04 au rendu du site (PM-121, #130) : l'intégration, pas le gabarit. */
+/* ------------------------------------------------------------------ */
+
+const contenuReel = {
+  site,
+  sections: JSON.parse(fs.readFileSync("content/sections.json", "utf8")),
+  projets: JSON.parse(fs.readFileSync("content/projets.json", "utf8")),
+  cv: JSON.parse(fs.readFileSync("content/cv.json", "utf8")),
+};
+const dictionnaires = { fr, en };
+const accueil = ({ assistant, endpoint }) => {
+  const contenu = { ...contenuReel, site: { ...site, ...(assistant === undefined ? {} : { assistant }) } };
+  const ctxPage = contextePage({
+    site: contenu.site, langue: "fr", chemin: "", dictionnaires, medias: new Map(),
+    ressources: { sprite: "", couleurTheme: "#fff", annee: 2026, assistantEndpoint: endpoint },
+  });
+  return String(PageAccueil({ contenu, ctx: ctxPage }));
+};
+
+test("l'accueil ne porte ni la modale de MarcoS ni son entrée tant qu'il n'est pas actif", () => {
+  // Trois états du dépôt réel : pas de champ, pas d'adresse, champ inactif.
+  for (const cas of [
+    { assistant: undefined, endpoint: "https://worker.test/api" },
+    { assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: null },
+    { assistant: { active: false, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" },
+  ]) {
+    const page = accueil(cas);
+    assert.doesNotMatch(page, /id="assistant"/, "aucune modale");
+    assert.doesNotMatch(page, /data-modale-ouvrir="assistant"/, "aucune entrée");
+  }
+});
+
+test("actif et avec une adresse, l'accueil porte la modale et les deux entrées de D-4", () => {
+  // D-4 : l'entrée de MarcoS est dans Contact et dans le menu en V1. Pas de
+  // présence flottante, pas d'avatar — c'est la V2 (D-13).
+  const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
+  assert.match(page, /<dialog[^>]*id="assistant"/, "la modale est rendue");
+  const entrees = page.match(/data-modale-ouvrir="assistant"/g) || [];
+  assert.equal(entrees.length, 2, "exactement deux entrées : Contact et le menu");
+  assert.doesNotMatch(page, /assistant__presence|assistant-flottant/, "aucune présence flottante (D-13)");
+});
+
+test("chaque entrée de MarcoS annonce le dialogue qu'elle ouvre", () => {
+  // §6.8 : un bouton qui n'ouvre rien est un bouton mort. L'entrée déclare la
+  // modale qu'elle contrôle, et cette modale existe dans la même page.
+  const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
+  for (const attribut of ['aria-haspopup="dialog"', 'aria-controls="assistant"', 'aria-expanded="false"']) {
+    assert.ok(page.includes(attribut), `l'entrée porte ${attribut}`);
+  }
+});
+
+test("le script du site branche MarcoS, et sort sans rien faire quand il est absent", () => {
+  const script = fs.readFileSync("Frontend/site.js", "utf8");
+  assert.match(script, /activerAssistant\(document\)/, "le comportement est branché");
+  const gabarit = fs.readFileSync("Design_System/gabarits/Assistant/Assistant.js", "utf8");
+  assert.match(gabarit, /const hote = racine\?\.querySelector\("\[data-assistant\]"\);\s*\n\s*if \(!hote\) return;/, "sans hôte, il sort immédiatement");
+});
+
+test("le build ne donne une adresse à MarcoS que si ASSISTANT_URL existe", () => {
+  // Sans la variable, l'adresse est nulle et le gabarit ne rend rien : le site
+  // publié est identique, sans drapeau à retirer ni code mort.
+  const build = fs.readFileSync("tools/build.mjs", "utf8");
+  assert.match(build, /assistantEndpoint: env\.ASSISTANT_URL \|\| null/);
 });

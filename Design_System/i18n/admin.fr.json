@@ -82,6 +82,7 @@
     "vide": "Aucun élément.",
     "aideEnrichi": "Entourez un passage de deux astérisques (**ainsi**) pour le mettre en valeur.",
     "aideIdentifiant": "Minuscules, chiffres et tirets uniquement. Il forme l’adresse de la page du projet.",
+    "aideIdentifiantCategorie": "Identifiant technique stable utilisé pour rattacher les projets à cette catégorie.",
     "aideMotif": "{numero} est remplacé par le numéro de l’image.",
     "nonModifiable": "Valeur technique, non modifiable ici.",
     "oui": "Oui",
@@ -208,6 +209,8 @@
     "liens": "Liens",
     "pied": "Pied",
     "categorie": "Catégorie",
+    "categories": "Disciplines",
+    "categoriePrincipale": "Catégorie principale",
     "contexte": "Contexte",
     "disciplines": "Disciplines",
     "idee": "Idée",
@@ -252,7 +255,14 @@
     "realisations": "Titre des réalisations",
     "suite": "Suite",
     "projets": "Projets",
-    "retour": "Retour"
+    "retour": "Retour",
+    "recit": "Récit",
+    "media": "Image",
+    "assistant": "Assistant MarcoS",
+    "assistantActif": "Activer MarcoS",
+    "accueil": "Message d’accueil",
+    "exemples": "Exemples de questions",
+    "confidentialite": "Mention de confidentialité"
   },
   "frequences": {
     "session": "Une fois par visite",

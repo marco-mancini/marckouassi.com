@@ -77,7 +77,8 @@
       {
         "src": "Public/images/Projet_FIFA26_13.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "campagne-publicitaire"
   },
   {
     "id": "world-cola",
@@ -133,7 +134,8 @@
       {
         "src": "Public/images/Projet_WorldCola_05.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "campagne-publicitaire"
   },
   {
     "id": "beninoise",
@@ -198,7 +200,8 @@
       {
         "src": "Public/images/Projet_LaBeninoise_08.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "campagne-publicitaire"
   },
   {
     "id": "anacadi",
@@ -272,7 +275,8 @@
       {
         "src": "Public/images/Projet_ANACADI_11.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "campagne-publicitaire"
   },
   {
     "id": "ceeli",
@@ -403,7 +407,8 @@
       {
         "src": "Public/images/Charte_Graphique/31.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "identite-charte"
   },
   {
     "id": "velanova",
@@ -478,6 +483,7 @@
         "src": "Public/images/Projet_Velanova_11.png"
       }
     ],
+    "categoriePrincipale": "identite-charte",
     "periode": {
       "fr": "Février 2025",
       "en": "February 2025"
@@ -549,7 +555,8 @@
       {
         "src": "Public/images/Projet_AUREX_09.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "identite-charte"
   },
   {
     "id": "ferov",
@@ -605,7 +612,8 @@
       {
         "src": "Public/images/Projet_FEROV_05.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "identite-charte"
   },
   {
     "id": "voon",
@@ -655,7 +663,8 @@
       {
         "src": "Public/images/Projet_VOON_03.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "identite-charte"
   },
   {
     "id": "tp-solutions",
@@ -717,7 +726,8 @@
       {
         "src": "Public/images/Projet_TP_Solution_08.png"
       }
-    ]
+    ],
+    "categoriePrincipale": "print-edition"
   },
   {
     "id": "ci20-connect",
@@ -775,6 +785,7 @@
           "en": "CI20 Connect shown on a computer."
         }
       }
-    ]
+    ],
+    "categoriePrincipale": "digital-ui-ux"
   }
 ]

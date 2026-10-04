@@ -29,7 +29,13 @@
     "intention": "L’intention créative",
     "valeur": "La valeur du projet",
     "retour": "Retour aux projets",
-    "document": "Consulter le document"
+    "document": "Consulter le document",
+    "categories": {
+      "numero": "Univers {numero}",
+      "vide": "Cet univers attend ses premières réalisations.",
+      "navigation": "Parcourir les catégories de réalisations",
+      "retour": "Retour aux catégories"
+    }
   },
   "intro": {
     "etiquette": "Accueil",

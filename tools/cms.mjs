@@ -54,6 +54,11 @@ const long = (t) => typeof t === "string" && (t.length > 80 || t.includes("\n"))
 export function configurationCms({ contenu, fr }) {
   const libelle = (cle) => ({ fr: fr.editeur.francais, en: fr.editeur.anglais })[cle] ?? fr.champs[cle] ?? cle;
 
+  /* Catalogue des catégories, lu dans la section de réalisations ; il
+     devient la liste de choix de la catégorie principale d'un projet. */
+  const categories = ((contenu.sections ?? []).find((s) => Array.isArray(s.categories))?.categories ?? [])
+    .map((d) => ({ value: d.id, label: d.libelle?.fr ?? d.id }));
+
   /* Champs facultatifs que les gabarits savent lire mais que les données
      peuvent ne pas contenir (un champ vide n'est pas enregistré) : déclarés
      ici pour rester proposés dans le CMS même vides. Chemin → champs. */
@@ -66,6 +71,23 @@ export function configurationCms({ contenu, fr }) {
   };
   FACULTATIFS["cv.seo"] = FACULTATIFS["site.seo"];
 
+  /* MarcoS. Le bloc entier est facultatif, et c'est ce qui le rend possible :
+     Sveltia enregistre avec `omit_empty_optional_fields`, donc un bloc amorcé
+     à vide dans content/site.json perdrait `accueil`, `exemples` et
+     `confidentialite` au premier enregistrement, et la configuration — déduite
+     de la forme des données — ne les proposerait plus ensuite. Déclaré ici, le
+     bloc est proposé même absent du contenu, et les trois textes restent ceux
+     de Marc (D-9) : aucun n'est écrit à sa place. */
+  FACULTATIFS.site = [{
+    name: "assistant", label: libelle("assistant"), required: false, widget: "object",
+    fields: [
+      { name: "active", label: libelle("assistantActif"), required: false, widget: "boolean" },
+      traduisible({ name: "accueil", label: libelle("accueil"), required: false }, []),
+      { name: "exemples", label: libelle("exemples"), label_singular: libelle("exemples"), required: false, widget: "list", field: traduisible({ name: "valeur", label: libelle("exemples"), required: true }, []) },
+      traduisible({ name: "confidentialite", label: libelle("confidentialite"), required: false }, []),
+    ],
+  }];
+
   /** Champ déduit de toutes les valeurs rencontrées pour une même clé. */
   function champ(cle, valeurs, chemin) {
     const presentes = valeurs.filter((v) => v !== null && v !== undefined);
@@ -73,7 +95,17 @@ export function configurationCms({ contenu, fr }) {
     const base = { name: cle, label: libelle(cle), required: presentes.length === valeurs.length && presentes.length > 0 };
 
     if (TECHNIQUES.has(cle)) return { name: cle, widget: "hidden" };
-    if (cle === "id") return { ...base, widget: "string", hint: fr.editeur.aideIdentifiant };
+    // L'aide de l'identifiant dépend de ce qu'il identifie : celui d'un projet
+    // forme l'adresse de sa page, celui d'une catégorie ne forme aucune adresse
+    // — il sert à rattacher les projets. Dire l'un pour l'autre induit en erreur.
+    if (cle === "id") {
+      const categorie = /\.categories\b/.test(chemin);
+      return { ...base, widget: "string", hint: categorie ? fr.editeur.aideIdentifiantCategorie : fr.editeur.aideIdentifiant };
+    }
+    // Catégorie principale du projet : choix unique, tiré du catalogue.
+    if (cle === "categoriePrincipale" && chemin.startsWith("projets")) {
+      return { ...base, widget: "select", options: categories };
+    }
     if (cle === "frequence") return { ...base, widget: "select", options: Object.entries(fr.frequences).map(([value, label]) => ({ value, label })) };
     if (natures.has("liste")) return liste(base, valeurs.flatMap((v) => (Array.isArray(v) ? [v] : [])), chemin);
     if (natures.size === 1 && natures.has("traduisible")) return traduisible(base, presentes);
