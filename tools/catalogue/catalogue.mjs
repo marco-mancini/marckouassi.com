@@ -1,37 +1,37 @@
 /**
  * Catalogue du Design System : chaque composant rendu avec des DONNÉES
  * DE TEST, pour la vérification visuelle et les tests de navigateur.
- * Usage : node tests/catalogue.mjs <fichier.html>   (dans _site, jamais publié)
+ * Usage : node tools/catalogue/catalogue.mjs <fichier.html>   (dans _site, jamais publié)
  * Les textes ci-dessous sont des jeux d'essai, pas du contenu du site.
  */
 import fs from "node:fs";
 import path from "node:path";
-import { html, brut } from "../Design_System/fondations/rendu.js";
-import { Planche } from "../Design_System/composants/Planche/Planche.js";
-import { Titre } from "../Design_System/composants/Titre/Titre.js";
-import { Signature } from "../Design_System/composants/Signature/Signature.js";
-import { texteEnrichi } from "../Design_System/composants/Accent/Accent.js";
-import { Champ } from "../Design_System/composants/Champ/Champ.js";
-import { Pastille } from "../Design_System/composants/Pastille/Pastille.js";
-import { Bouton } from "../Design_System/composants/Bouton/Bouton.js";
-import { Encart } from "../Design_System/composants/Encart/Encart.js";
-import { Carte } from "../Design_System/composants/Carte/Carte.js";
-import { Grille } from "../Design_System/composants/Grille/Grille.js";
-import { Pile } from "../Design_System/composants/Pile/Pile.js";
-import { Media } from "../Design_System/composants/Media/Media.js";
-import { Galerie } from "../Design_System/composants/Galerie/Galerie.js";
-import { Sceau } from "../Design_System/composants/Sceau/Sceau.js";
-import { Modale } from "../Design_System/composants/Modale/Modale.js";
-import { Message } from "../Design_System/composants/Message/Message.js";
-import { Navigation } from "../Design_System/composants/Navigation/Navigation.js";
-import { EnTete } from "../Design_System/composants/EnTete/EnTete.js";
-import { Segments } from "../Design_System/composants/Segments/Segments.js";
-import { Saisie } from "../Design_System/composants/Saisie/Saisie.js";
-import { Liste } from "../Design_System/composants/Liste/Liste.js";
-import { Televersement } from "../Design_System/composants/Televersement/Televersement.js";
-import { TexteProgressif } from "../Design_System/composants/TexteProgressif/TexteProgressif.js";
-import { deuxChiffres } from "../Design_System/fondations/rendu.js";
-import * as E from "./fixtures/essai.mjs";
+import { html, brut } from "../../Design_System/fondations/rendu.js";
+import { Planche } from "../../Design_System/composants/Planche/Planche.js";
+import { Titre } from "../../Design_System/composants/Titre/Titre.js";
+import { Signature } from "../../Design_System/composants/Signature/Signature.js";
+import { texteEnrichi } from "../../Design_System/composants/Accent/Accent.js";
+import { Champ } from "../../Design_System/composants/Champ/Champ.js";
+import { Pastille } from "../../Design_System/composants/Pastille/Pastille.js";
+import { Bouton } from "../../Design_System/composants/Bouton/Bouton.js";
+import { Encart } from "../../Design_System/composants/Encart/Encart.js";
+import { Carte } from "../../Design_System/composants/Carte/Carte.js";
+import { Grille } from "../../Design_System/composants/Grille/Grille.js";
+import { Pile } from "../../Design_System/composants/Pile/Pile.js";
+import { Media } from "../../Design_System/composants/Media/Media.js";
+import { Galerie } from "../../Design_System/composants/Galerie/Galerie.js";
+import { Sceau } from "../../Design_System/composants/Sceau/Sceau.js";
+import { Modale } from "../../Design_System/composants/Modale/Modale.js";
+import { Message } from "../../Design_System/composants/Message/Message.js";
+import { Navigation } from "../../Design_System/composants/Navigation/Navigation.js";
+import { EnTete } from "../../Design_System/composants/EnTete/EnTete.js";
+import { Segments } from "../../Design_System/composants/Segments/Segments.js";
+import { Saisie } from "../../Design_System/composants/Saisie/Saisie.js";
+import { Liste } from "../../Design_System/composants/Liste/Liste.js";
+import { Televersement } from "../../Design_System/composants/Televersement/Televersement.js";
+import { TexteProgressif } from "../../Design_System/composants/TexteProgressif/TexteProgressif.js";
+import { deuxChiffres } from "../../Design_System/fondations/rendu.js";
+import * as E from "./essai.mjs";
 
 const sortie = process.argv[2] || "_site/catalogue.html";
 const racine = path.relative(path.dirname(sortie), ".") || ".";
