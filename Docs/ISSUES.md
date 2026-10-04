@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 4 octobre 2026, de PM-004 à PM-127 : 13 issues ouvertes, 71 fermées. Chiffres relevés par `npm run comparer-issues`.
+État au 4 octobre 2026, de PM-004 à PM-127 : 11 issues ouvertes, 73 fermées. Chiffres relevés par `npm run comparer-issues`.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro GitHub, la référence PM du titre, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -79,7 +79,7 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-099 | [#99](https://github.com/marco-mancini/marckouassi.com/issues/99) | Sous 850 px, le portrait de « À propos » coupe le visage | decision-marc, bug | — | fermée — réglée par la PR #107 ; le portrait se pose sur le bord bas du vert, 0 % de recadrage latéral de 1024 à 1440 px, 9 % restants à 900 px (signalés à Marc) |
 | PM-100 | [#100](https://github.com/marco-mancini/marckouassi.com/issues/100) | Mettre à jour la référence de comparaison après le changement de portrait | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `9d51394` → `e8b729c` |
 | PM-102 | [#102](https://github.com/marco-mancini/marckouassi.com/issues/102) | IA-03 : prompt court, assemblage et liens internes validés | documentation | — | fermée — réglée par la PR #103 |
-| PM-104 | [#104](https://github.com/marco-mancini/marckouassi.com/issues/104) | IA-04 : composant Conversation, gabarit Assistant, dictionnaires et champ de contenu | documentation | — | ouverte — composant `Conversation`, gabarit `Assistant` et dictionnaires livrés par la PR #137 ; le champ de contenu `assistant` attend les trois textes de Marc (D-9), le CMS écartant les valeurs vides à l'enregistrement |
+| PM-104 | [#104](https://github.com/marco-mancini/marckouassi.com/issues/104) | IA-04 : composant Conversation, gabarit Assistant, dictionnaires et champ de contenu | documentation | — | fermée — tous les critères mesurables passent. Le champ de contenu est rempli autrement, et mieux : déclaré facultatif dans `tools/cms.mjs`, il est proposé dans `/admin/` sans rien écrire dans `content/site.json`, que Sveltia aurait vidé. Les trois textes restent à Marc (D-9) |
 | PM-105 | [#105](https://github.com/marco-mancini/marckouassi.com/issues/105) | Miroir mobile de l'avancement, généré depuis les issues | documentation | — | fermée — réglée par la PR #137 ; `Docs/suivi/ETAT_MOBILE.md` produit par `tools/etat-mobile.mjs`, jamais écrit à la main (AGENTS.md §6.4) |
 | PM-106 | [#106](https://github.com/marco-mancini/marckouassi.com/issues/106) | Le portrait détouré doit poser directement sur le vert, sans cadre | contenu | — | fermée — réglée par la PR #107 |
 | PM-108 | [#108](https://github.com/marco-mancini/marckouassi.com/issues/108) | Mettre à jour la référence de comparaison après PM-106 | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `e8b729c` → `f48646f` |
@@ -101,4 +101,4 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-124 | [#133](https://github.com/marco-mancini/marckouassi.com/issues/133) | Chromium — relevé du seuil d'ouverture | tests | PM-021 | fermée — relevé du 3 octobre 2026 : l'étape Chromium tient en 31 s au plus contre un seuil de 3 min. **Condition non atteinte**, aucun workflow modifié (PM-021 reste ouverte) |
 | PM-125 | [#134](https://github.com/marco-mancini/marckouassi.com/issues/134) | Exécution autonome — lots #104 #105 #115 #116 #128 #21 | documentation | — | fermée — suivi du lot clos : PM-113, PM-105, PM-114 et PM-119 prouvés, PM-021 laissé en veille sur son propre critère ; PM-104 et PM-121 restent ouvertes, en attente des textes de Marc |
 | PM-126 | [#135](https://github.com/marco-mancini/marckouassi.com/issues/135) | Placeholder | documentation | — | fermée |
-| PM-127 | [#142](https://github.com/marco-mancini/marckouassi.com/issues/142) | Refaire complètement le CV HTML sur la base du PDF existant | contenu | PM-010 | ouverte — bloquée : le PDF de référence a été retiré le 1er octobre 2026 (`6593c16`) pour données privées, et Marc le refera (PM-010) |
+| PM-127 | [#142](https://github.com/marco-mancini/marckouassi.com/issues/142) | Refaire complètement le CV HTML sur la base du PDF existant | contenu | PM-010 | fermée — réglée par la PR #153 (`7701835`) ; le PDF retrouvé dans l'historique a servi de source visuelle, couleurs échantillonnées, 28 configurations vérifiées, axe-core sans violation |
