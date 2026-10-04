@@ -594,8 +594,12 @@ Ce qui reste ouvert :
 
 - les **trois textes** de D-9 (accueil, exemples, confidentialité), que Marc
   écrira lui-même dans `/admin/` ;
-- l'**avatar 3D** et la présence flottante de la V2, qui attendent les cinq
-  décisions de [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) ;
+- l'**avatar 3D** et la présence flottante de la V2. Depuis le 4 octobre 2026,
+  quatre des cinq décisions de
+  [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) sont prises
+  et les dix expressions sont livrées
+  ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7) ; reste la
+  validation du format, et la V2 elle-même n'est pas ouverte ;
 - le **tri du profil personnel** des sections 18 à 25 (D-14), à faire une fois
   MarcoS en service ;
 - la **mémoire de navigation** du §10 (D-16), rouverte plus tard s'il y a lieu.
