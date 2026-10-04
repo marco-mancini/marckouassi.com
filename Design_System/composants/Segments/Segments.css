@@ -15,3 +15,9 @@
 .segments__option::after { content: ""; position: absolute; inset: calc(var(--segments-option-retrait) / -2) 0; }
 .segments__option:hover { background: var(--hover-on-dark); }
 .segments__option[aria-current="true"], .segments__option[aria-pressed="true"] { background: var(--texte); color: var(--fond); }
+
+/* Variante nue : l'enveloppe disparait, les options passent a la ligne.
+   Au-dela de quatre ou cinq options la pilule deborde en largeur ou
+   s'empile en plusieurs rangs dans un contour unique, ce qui se lit mal.
+   Les options gardent leur dessin, leur cible tactile et leur etat actif. */
+.segments--nue { display: flex; flex-wrap: wrap; padding: 0; border: 0; gap: var(--segments-espace-nue); }

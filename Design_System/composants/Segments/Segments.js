@@ -11,8 +11,12 @@ import { html, attributs, classes } from "../../fondations/rendu.js";
  * @param {string} p.etiquette            nom accessible du groupe (dictionnaire)
  * @param {"liens"|"boutons"} [p.mode]
  * @param {string|null} [p.cle]           identifiant de la bascule, transmis aux écouteurs
+ * @param {"pilule"|"nue"} [p.variante]   « nue » : sans l'enveloppe, et les options passent
+ *                                        à la ligne. Au-delà de quatre ou cinq options la
+ *                                        pilule déborde ou s'empile sur plusieurs rangs ;
+ *                                        la variante nue tient n'importe quel nombre.
  */
-export function Segments({ options, etiquette, mode = "liens", cle = null }) {
+export function Segments({ options, etiquette, mode = "liens", cle = null, variante = "pilule" }) {
   const elements = options.map((option) => {
     const libelle = option.nom
       ? html`<span aria-hidden="true">${option.libelle}</span><span class="visually-hidden">${option.nom}</span>`
@@ -21,9 +25,10 @@ export function Segments({ options, etiquette, mode = "liens", cle = null }) {
       ? html`<a${attributs({ class: "segments__option", href: option.href, hreflang: option.lang || null, lang: option.lang || null, "aria-current": option.actif ? "true" : null })}>${libelle}</a>`
       : html`<button${attributs({ type: "button", class: "segments__option", "data-valeur": option.valeur, "aria-pressed": option.actif ? "true" : "false" })}>${libelle}</button>`;
   });
+  const enveloppe = classes("segments", `segments--${mode}`, variante === "nue" && "segments--nue");
   return mode === "liens"
-    ? html`<nav${attributs({ class: classes("segments", "segments--liens"), "aria-label": etiquette })}>${elements}</nav>`
-    : html`<div${attributs({ class: classes("segments", "segments--boutons"), role: "group", "aria-label": etiquette, "data-segments": cle })}>${elements}</div>`;
+    ? html`<nav${attributs({ class: enveloppe, "aria-label": etiquette })}>${elements}</nav>`
+    : html`<div${attributs({ class: enveloppe, role: "group", "aria-label": etiquette, "data-segments": cle })}>${elements}</div>`;
 }
 
 /** Navigateur : mode boutons, une seule option pressée ; rappel avec la valeur choisie. */

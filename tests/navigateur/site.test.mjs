@@ -168,19 +168,19 @@ test("sans JavaScript, la navigation mobile reste accessible (pas de bouton de m
 });
 
 test("étude de projet : ouverture en modale, compteur calculé, Échap, focus rendu ; sans JS : page du projet", async () => {
-  const page = await ouvrir(nav, serveur.url + "/");
+  const page = await ouvrir(nav, serveur.url + "/realisations/identite-charte/");
   const lien = page.locator('a[data-etude="aurex"]');
   await lien.scrollIntoViewIfNeeded();
   await lien.click();
   await page.waitForFunction(() => document.getElementById("etude").open);
-  assert.equal(await page.textContent("[data-etude-compteur]"), "Projet 07 / 11");
+  assert.equal(await page.textContent("[data-etude-compteur]"), "Réalisation 03 / 05");
   assert.equal(await page.getAttribute("#etude", "aria-labelledby"), "etude-aurex");
   assert.match(await page.textContent("#etude h2"), /AUREX/);
   assert.ok(await page.$$eval("#etude img", (l) => l.length) === 9);
   await page.keyboard.press("Escape");
   assert.equal(await page.evaluate(() => document.activeElement.dataset.etude), "aurex");
   await page.fermer();
-  const sansJs = await ouvrir(nav, serveur.url + "/", { js: false });
+  const sansJs = await ouvrir(nav, serveur.url + "/realisations/identite-charte/", { js: false });
   await sansJs.locator('a[data-etude="aurex"]').click();
   await sansJs.waitForURL(/projets\/aurex\/$/);
   assert.match(await sansJs.textContent("h1"), /AUREX/);
@@ -364,7 +364,9 @@ test("menu mobile : le verrou reste libéré après fermeture", async () => {
 });
 
 test("accessibilité (axe-core) : aucune violation grave ou critique", async () => {
-  for (const chemin of ["/", "/en/", "/cv/", "/projets/fifa26/"]) {
+  const categories = await catalogueDuContenu();
+  const cheminVide = categories.find((categorie) => categorie.travaux.length === 0)?.id;
+  for (const chemin of ["/", "/en/", "/cv/", "/projets/fifa26/", `/realisations/${categories[0].id}/`, ...(cheminVide ? [`/realisations/${cheminVide}/`] : [])]) {
     for (const theme of ["light", "dark"]) {
       const page = await ouvrir(nav, serveur.url + chemin, { reduit: true, theme });
       await defiler(page);
@@ -372,6 +374,79 @@ test("accessibilité (axe-core) : aucune violation grave ou critique", async () 
       const violations = await page.evaluate(async () => (await window.axe.run(document, { resultTypes: ["violations"] })).violations
         .filter((v) => ["serious", "critical"].includes(v.impact)).map((v) => `${v.id} (${v.nodes.length}) : ${v.nodes.slice(0, 3).map((n) => n.target.join(" ")).join(" | ")}`));
       assert.deepEqual(violations, [], `${chemin} ${theme}`);
+      await page.fermer();
+    }
+  }
+});
+
+/** Vues de catégories : portes d'entrée, pages, navigation et états vides. */
+const catalogueDuContenu = async () => {
+  const contenu = await chargerFichiers(process.cwd());
+  const categories = contenu.sections.find((s) => Array.isArray(s.categories)).categories;
+  return categories.map((categorie) => ({
+    ...categorie,
+    travaux: contenu.projets.filter((projet) => projet.categoriePrincipale === categorie.id),
+  }));
+};
+
+test("le sommaire propose les huit catégories et n'affiche aucune réalisation", async () => {
+  const categories = await catalogueDuContenu();
+  const page = await ouvrir(nav, serveur.url + "/");
+  assert.equal(await page.locator(".projets__choix .carte").count(), categories.length);
+  assert.equal(await page.locator(".projets .projet-carte").count(), 0);
+  for (const categorie of categories) {
+    const carte = page.locator(`.projets__choix a[href*="${categorie.id}"]`);
+    assert.equal(await carte.count(), 1, categorie.id);
+    assert.equal(await carte.locator(".carte__note").textContent(), categorie.note.fr);
+  }
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
+
+test("une catégorie ouvre sa page avec ses seules réalisations et son état vide", async () => {
+  const categories = await catalogueDuContenu();
+  for (const categorie of categories) {
+    const page = await ouvrir(nav, `${serveur.url}/realisations/${categorie.id}/`);
+    assert.equal((await page.textContent("h1")).replace(/\.$/, ""), categorie.libelle.fr, categorie.id);
+    assert.equal(await page.locator(".projet-carte").count(), categorie.travaux.length, categorie.id);
+    if (!categorie.travaux.length) assert.ok((await page.textContent(".categorie-projets__vide")).length > 0, categorie.id);
+    const intruses = await page.$$eval(".projet-carte", (cartes, id) => cartes.filter((carte) => carte.dataset.categorie !== id).length, categorie.id);
+    assert.equal(intruses, 0, categorie.id);
+    assert.deepEqual(page.erreurs, [], categorie.id);
+    await page.fermer();
+  }
+});
+
+test("la navigation catégorie avance, revient au sommaire et boucle aux extrémités", async () => {
+  const categories = await catalogueDuContenu();
+  const premier = await ouvrir(nav, `${serveur.url}/realisations/${categories[0].id}/`);
+  const liens = premier.locator(".categorie-projets__navigation a");
+  assert.equal(await liens.count(), 3);
+  assert.match(await liens.nth(0).getAttribute("href"), new RegExp(`realisations/${categories.at(-1).id}/`));
+  assert.match(await liens.nth(2).getAttribute("href"), new RegExp(`realisations/${categories[1].id}/`));
+  await liens.nth(2).click();
+  await premier.waitForURL(new RegExp(`/realisations/${categories[1].id}/`));
+  await premier.locator(".categorie-projets__navigation a").nth(1).click();
+  await premier.waitForURL(/#sommaire$/);
+  await premier.fermer();
+
+  const derniere = await ouvrir(nav, `${serveur.url}/realisations/${categories.at(-1).id}/`);
+  assert.match(await derniere.locator(".categorie-projets__navigation a").nth(2).getAttribute("href"), new RegExp(`realisations/${categories[0].id}/`));
+  await derniere.fermer();
+});
+
+test("les vues catégories restent FR/EN et suivent le thème et les largeurs", async () => {
+  const categories = await catalogueDuContenu();
+  const cible = categories[0];
+  for (const langue of ["fr", "en"]) for (const theme of ["light", "dark"]) {
+    for (const largeur of [320, 375, 768, 1024, 1440]) {
+      const prefixe = langue === "en" ? "/en" : "";
+      const page = await ouvrir(nav, `${serveur.url}${prefixe}/realisations/${cible.id}/`, { largeur, theme });
+      assert.equal(await page.getAttribute("html", "lang"), langue);
+      assert.equal(await page.locator(".categorie-projets__recit").count(), 1);
+      const debordement = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      assert.equal(debordement, 0, `${langue} ${theme} ${largeur}px`);
+      assert.deepEqual(page.erreurs, [], `${langue} ${theme} ${largeur}px`);
       await page.fermer();
     }
   }

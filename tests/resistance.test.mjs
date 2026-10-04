@@ -29,6 +29,18 @@ function rendre(contenu, { langue = "fr", chemin = "", absents = [] } = {}) {
   return { page: String(rendrePage({ contenu, ctx, chemin })), ctx };
 }
 
+/**
+ * Le bloc d'une catégorie dans la page d'accueil. Décision de Marc (#123) :
+ * le filtrage se fait DANS « Mes réalisations », donc aucune URL dédiée par
+ * catégorie n'existe — on mesure une portion de l'accueil, pas une page.
+ */
+function blocCategorie(page, id) {
+  const debut = page.indexOf(`id="categorie-${id}"`);
+  assert.ok(debut > -1, `bloc de catégorie « ${id} » absent de l'accueil`);
+  const suivant = page.indexOf('<section class="categorie-projets"', debut + 1);
+  return page.slice(debut, suivant > -1 ? suivant : undefined);
+}
+
 const compteurs = (page) => [...page.matchAll(/data-compteur="([^"]+)"/g)].map((m) => m[1]);
 const pastilles = (page) => [...page.matchAll(/projet-carte__entete"><span[^>]*>(\d+)</g)].map((m) => m[1]);
 
@@ -38,33 +50,39 @@ test("le contenu actuel est valide et toutes les pages se rendent, en FR et en E
 
 test("11 → 12 projets : compteur, numéros, nombre en lettres et plage d'années recalculés", () => {
   const contenu = copie();
-  contenu.projets.push({ ...structuredClone(contenu.projets[0]), id: "essai-douze", annees: { debut: 2027, fin: 2027 } });
-  const { page } = rendre(contenu);
-  assert.equal(compteurs(page).length, 12);
-  assert.equal(compteurs(page).at(-1), "Projet 12 / 12");
-  assert.equal(compteurs(page)[0], "Projet 01 / 12");
-  assert.match(page, /Douze projets · 2022 — 2027/);
+  const nouveau = { ...structuredClone(contenu.projets[0]), id: "essai-douze", annees: { debut: 2027, fin: 2027 } };
+  contenu.projets.push(nouveau);
+  const page = blocCategorie(rendre(contenu).page, nouveau.categoriePrincipale);
+  const total = contenu.projets.filter((projet) => projet.categoriePrincipale === nouveau.categoriePrincipale).length;
+  assert.equal(compteurs(page).length, total);
+  assert.equal(compteurs(page).at(-1), `Réalisation ${String(total).padStart(2, "0")} / ${String(total).padStart(2, "0")}`);
+  assert.equal(compteurs(page)[0], `Réalisation 01 / ${String(total).padStart(2, "0")}`);
+  assert.match(rendre(contenu).page, /Douze réalisations · 2022 — 2027/);
   assert.ok(cheminsPages(contenu).includes("projets/essai-douze/"));
   assert.match(rendre(contenu, { chemin: "projets/essai-douze/" }).page, /<h1/);
-  assert.match(rendre(contenu, { langue: "en" }).page, /Twelve projects/);
+  assert.match(rendre(contenu, { langue: "en" }).page, /Twelve works/);
 });
 
 test("projet supprimé : plus de trou dans la numérotation, plus de page, total recalculé", () => {
   const contenu = copie();
-  contenu.projets.splice(4, 1);
-  const { page } = rendre(contenu);
-  assert.deepEqual(compteurs(page), Array.from({ length: 10 }, (_, i) => `Projet ${String(i + 1).padStart(2, "0")} / 10`));
-  assert.match(page, /Dix projets/);
-  assert.ok(!page.includes(`projets/${base.projets[4].id}/`));
+  const supprime = contenu.projets.splice(4, 1)[0];
+  const complete = rendre(contenu).page;
+  const page = blocCategorie(complete, supprime.categoriePrincipale);
+  const attendus = contenu.projets.filter((projet) => projet.categoriePrincipale === supprime.categoriePrincipale).length;
+  assert.equal(compteurs(page).length, attendus);
+  assert.ok(!complete.includes(`projets/${base.projets[4].id}/`));
 });
 
 test("projet déplacé : l'ordre des données fait l'ordre et les numéros", () => {
   const contenu = copie();
-  contenu.projets.unshift(contenu.projets.pop());
-  const { page } = rendre(contenu);
+  const deplace = contenu.projets.pop();
+  contenu.projets.unshift(deplace);
+  const categorie = deplace.categoriePrincipale;
+  const page = blocCategorie(rendre(contenu).page, categorie);
   const premier = page.indexOf(`data-etude="${base.projets.at(-1).id}"`);
-  assert.ok(premier > -1 && premier < page.indexOf(`data-etude="${base.projets[0].id}"`));
-  assert.equal(compteurs(page)[0], "Projet 01 / 11");
+  const liste = contenu.projets.filter((projet) => projet.categoriePrincipale === categorie);
+  assert.ok(premier > -1 && premier === page.indexOf(`data-etude="${liste[0].id}"`));
+  assert.equal(compteurs(page)[0], `Réalisation 01 / ${String(liste.length).padStart(2, "0")}`);
 });
 
 test("média absent : emplacement conservé, aucune image cassée ni « undefined »", () => {

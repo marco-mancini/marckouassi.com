@@ -66,3 +66,48 @@ export function media(ctx, entree, { motifAlt = null, rang = 0, chemin = "", che
 export function ancre(section) {
   return `#${section.id}`;
 }
+
+/* --------------------------------------------------------------------------
+   CATÉGORIE PRINCIPALE — un projet appartient à une seule catégorie.
+   Le catalogue est déclaré dans la section ; le projet ne contient que son
+   identifiant stable, jamais le libellé traduit.
+   -------------------------------------------------------------------------- */
+
+/** Catégorie principale déclarée par un projet. */
+export function categoriePrincipaleDe(projet) {
+  return projet?.categoriePrincipale ?? null;
+}
+
+/**
+ * Catégories et comptes, dans l'ordre du catalogue. Les catégories vides
+ * restent présentes : elles ont une page et un état éditorial vide.
+ *
+ * @param {Array<{id: string, libelle: object}>} catalogue  sections[sommaire].categories
+ * @param {Array<object>} projets
+ * @returns {Array<{id: string, libelle: object, rang: number, total: number}>}
+ */
+export function categoriesProposees(catalogue, projets) {
+  const comptes = new Map();
+  for (const projet of projets ?? []) {
+    const id = projet.categoriePrincipale;
+    comptes.set(id, (comptes.get(id) ?? 0) + 1);
+  }
+  return (catalogue ?? []).map((categorie, rang) => ({
+    ...categorie, rang, total: comptes.get(categorie.id) ?? 0,
+  }));
+}
+
+/**
+ * Réalisations d'une catégorie, dans leur ordre de contenu.
+ */
+export function projetsDeLaCategorie(projets, id = null) {
+  return id === null ? [...(projets ?? [])] : (projets ?? []).filter((p) => p.categoriePrincipale === id);
+}
+
+/** Identifiants rattachés à un projet mais absents du catalogue. Vide = données saines. */
+export function categoriesInconnues(catalogue, projets) {
+  const connus = new Set((catalogue ?? []).map((d) => d.id));
+  const inconnus = new Set();
+  for (const projet of projets ?? []) if (projet.categoriePrincipale && !connus.has(projet.categoriePrincipale)) inconnus.add(projet.categoriePrincipale);
+  return [...inconnus];
+}

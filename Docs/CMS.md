@@ -96,6 +96,13 @@ et les aides viennent de `Design_System/i18n/admin.fr.json` (« champs »,
 - Champs facultatifs proposés même vides : image de partage (`seo.image`),
   CV à télécharger (`site.contact.cv`), document joint d'un projet, image
   d'attente d'une vidéo.
+- **Disciplines d'un projet** (`projets[].categories`) : choix multiple, et
+  non saisie libre. Les options sont le catalogue lui-même
+  (`sections[sommaire].categories`), libellés français compris. Saisi
+  librement, un identifiant fautif produirait un rattachement mort ;
+  `Design_System/gabarits/donnees.js` le refuserait au build, mais autant
+  qu'il ne puisse pas être saisi. Ajouter une discipline au catalogue suffit
+  à la voir apparaître dans la liste de choix de chaque projet.
 - `content/` a été réécrit une fois, le 1er octobre 2026, dans l'ordre de
   clés qu'utilise le CMS : données identiques, site publié identique à
   l'octet. Depuis, un enregistrement ne modifie que les lignes changées

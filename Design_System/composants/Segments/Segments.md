@@ -2,9 +2,9 @@
 
 **Responsabilité** : choisir entre quelques options, dont une seule est active.
 
-Sert au sélecteur de langue public (FR/EN), au choix de langue de l'accueil, à la langue d'édition du back-office et à la taille de l'aperçu.
+Sert au sélecteur de langue public (FR/EN), au choix de langue de l'accueil, à la langue d'édition du back-office, à la taille de l'aperçu et au filtre par discipline de la section « Mes projets ».
 
-## Props (4)
+## Props (5)
 
 | Prop | Type | Défaut | Rôle |
 |---|---|---|---|
@@ -12,6 +12,7 @@ Sert au sélecteur de langue public (FR/EN), au choix de langue de l'accueil, à
 | `etiquette` | chaîne | — | Nom accessible du groupe (dictionnaire). |
 | `mode` | `liens` \| `boutons` | `liens` | Navigation, ou bascule d'interface. |
 | `cle` | chaîne \| `null` | `null` | Identifiant transmis aux écouteurs. |
+| `variante` | `pilule` \| `nue` | `pilule` | `nue` : sans l'enveloppe, les options passent à la ligne. |
 
 ## Accessibilité
 
@@ -21,6 +22,10 @@ Sert au sélecteur de langue public (FR/EN), au choix de langue de l'accueil, à
 | `boutons` | `role="group"`, `aria-pressed` |
 
 Chaque option reçoit le clic sur au moins 44 × 44 px (`--cible-tactile`). Elle est dessinée moins haute (`--segments-option-retrait`) pour tenir dans la pilule ; un pseudo-élément transparent rend à sa zone cliquable toute la hauteur de la cible, sans changer le dessin. Test : « sélecteur de langue : chaque option reçoit le clic sur 44 × 44 px » (`tests/navigateur/site.test.mjs`).
+
+## Quand passer en variante nue
+
+La pilule enferme les options dans un contour unique : au-delà de quatre ou cinq, elle déborde en largeur ou s'empile en plusieurs rangs dans le même contour, ce qui se lit mal. La variante `nue` retire l'enveloppe et laisse les options passer à la ligne ; chacune garde son dessin, sa cible tactile de 44 px et son état actif. C'est la variante du filtre par discipline, qui compte autant d'options que le contenu en déclare.
 
 ## Règle FR/EN
 

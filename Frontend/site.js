@@ -13,7 +13,8 @@ import { activerModales } from "../Design_System/composants/Modale/Modale.js";
 import { activerEnTete } from "../Design_System/composants/EnTete/EnTete.js";
 import { suivreSectionCourante } from "../Design_System/composants/Navigation/Navigation.js";
 import { activerApparitions } from "../Design_System/composants/Apparition/Apparition.js";
-import { activerEtudes } from "../Design_System/gabarits/Projet_etude/Projet_etude.js";
+import { activerProjets } from "../Design_System/gabarits/Gabarit_Projet/Gabarit_Projet.js";
+import { activerNavigationCategories } from "../Design_System/gabarits/sections/Projets.js";
 import { activerDecouverte } from "../Design_System/gabarits/Decouverte/Decouverte.js";
 import { lancerIntro } from "../Design_System/gabarits/Intro/Intro.js";
 
@@ -23,7 +24,9 @@ const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches || 
 activerModales(document);
 activerEnTete(document.querySelector('[data-en-tete="site"]'));
 suivreSectionCourante(document);
-activerEtudes(document);
+// activerProjets est le seul branchement des projets : il appelle activerEtudes.
+activerProjets(document);
+activerNavigationCategories(document);
 activerDecouverte(document, { reduit });
 activerApparitions(document, { reduit });
 racine.classList.add("js-anime");
