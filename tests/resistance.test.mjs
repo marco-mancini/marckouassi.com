@@ -55,12 +55,12 @@ test("11 → 12 projets : compteur, numéros, nombre en lettres et plage d'anné
   const page = blocCategorie(rendre(contenu).page, nouveau.categoriePrincipale);
   const total = contenu.projets.filter((projet) => projet.categoriePrincipale === nouveau.categoriePrincipale).length;
   assert.equal(compteurs(page).length, total);
-  assert.equal(compteurs(page).at(-1), `Réalisation ${String(total).padStart(2, "0")} / ${String(total).padStart(2, "0")}`);
-  assert.equal(compteurs(page)[0], `Réalisation 01 / ${String(total).padStart(2, "0")}`);
-  assert.match(rendre(contenu).page, /Douze réalisations · 2022 — 2027/);
+  assert.equal(compteurs(page).at(-1), `Projet ${String(total).padStart(2, "0")} / ${String(total).padStart(2, "0")}`);
+  assert.equal(compteurs(page)[0], `Projet 01 / ${String(total).padStart(2, "0")}`);
+  assert.match(rendre(contenu).page, /Douze projets · 2022 — 2027/);
   assert.ok(cheminsPages(contenu).includes("projets/essai-douze/"));
   assert.match(rendre(contenu, { chemin: "projets/essai-douze/" }).page, /<h1/);
-  assert.match(rendre(contenu, { langue: "en" }).page, /Twelve works/);
+  assert.match(rendre(contenu, { langue: "en" }).page, /Twelve projects/);
 });
 
 test("projet supprimé : plus de trou dans la numérotation, plus de page, total recalculé", () => {
@@ -82,7 +82,7 @@ test("projet déplacé : l'ordre des données fait l'ordre et les numéros", () 
   const premier = page.indexOf(`data-etude="${base.projets.at(-1).id}"`);
   const liste = contenu.projets.filter((projet) => projet.categoriePrincipale === categorie);
   assert.ok(premier > -1 && premier === page.indexOf(`data-etude="${liste[0].id}"`));
-  assert.equal(compteurs(page)[0], `Réalisation 01 / ${String(liste.length).padStart(2, "0")}`);
+  assert.equal(compteurs(page)[0], `Projet 01 / ${String(liste.length).padStart(2, "0")}`);
 });
 
 test("média absent : emplacement conservé, aucune image cassée ni « undefined »", () => {

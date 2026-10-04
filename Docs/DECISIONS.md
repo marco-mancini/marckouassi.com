@@ -12,6 +12,51 @@ Règles :
 
 ---
 
+## 2026-10-04 — D-36 : les réalisations restent repliées derrière les huit catégories
+
+Décision de Marc · issue [#123](https://github.com/marco-mancini/marckouassi.com/issues/123).
+
+**Problème.** La question 5 de #123 demandait si le contenu d'une catégorie
+devait apparaître « comme une vue distincte dans la page d'accueil ou sur une
+URL de page dédiée ». Le chantier sauvegardé sur
+`sauvegarde-complete-20261003-000540` avait commencé à construire la seconde
+réponse — ses tests exigeaient des routes `realisations/<catégorie>/` et une
+navigation cyclique — mais `PageCategorie` n'a jamais existé : il échouait sur
+13 de ses 129 tests. Et le repli des onze réalisations derrière huit cartes
+faisait tomber six tests du tronc, dont l'accessibilité.
+
+**Choix de Marc.** Les onze réalisations restent **repliées** derrière les
+**huit cartes de catégorie**, qui sont le seul point d'entrée. Le filtrage vit
+**dans** la section « Mes réalisations ». **Aucune URL dédiée par catégorie.**
+
+**Motif.** Le sommaire mesurait 12 123 px de haut à 1440 px ; il en fait 1 107.
+Le visiteur choisit un univers avant de voir des images, au lieu de défiler
+onze études. Et l'absence de route nouvelle évite huit pages à indexer, huit
+adresses à maintenir, et un plan du site qui double.
+
+**Impact.** Un seul bloc est ouvert à la fois, par `:target`. La tête de section
+et les huit cartes s'effacent pendant la lecture d'une catégorie ; un bouton de
+retour les ramène. Le repli n'est **pas** conditionné à `html.js-anime`, et il
+n'a pas à l'être : `:target` est du CSS pur et les cartes sont de vraies ancres,
+donc le dépliage fonctionne script absent, bloqué ou en échec — vérifié au
+navigateur. C'est la seule raison qui autorise à masquer du contenu par défaut
+ici, alors que la règle du projet veut l'inverse.
+
+Trois catégories sont vides et le restent, en cartes blanches : `direction-artistique`,
+`3d-production`, `explorations-personnelles`. `logotype` n'a pas de projet mais
+six réalisations isolées. La répartition vient de `projets[].categoriePrincipale`,
+une seule catégorie par projet.
+
+**Dérive visuelle assumée.** `npm run comparer-reference` reste à **12
+configurations** différentes de `f48646f`, comme avant, et la seule section qui
+bouge est `sommaire` : 12 123 → 1 107 px à 1440 px, 3 736 → 1 468 px à 320 px.
+Toutes les autres sections, et la page CV, gardent exactement les valeurs de
+`main`.
+
+**Réversibilité.** Quatre règles CSS. Retirer `display: none` sur
+`.projets__groupes .categorie-projets` rend les onze réalisations visibles et
+ramène le sommaire à sa hauteur d'avant.
+
 ## 2026-10-04 — D-35 : le brief Motion Design de Marc est le brief de référence
 
 Décision de Marc · issues [#28](https://github.com/marco-mancini/marckouassi.com/issues/28)

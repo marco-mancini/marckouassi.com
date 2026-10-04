@@ -94,8 +94,8 @@
       "en": "To create is to give ideas a shape…"
     },
     "detail": {
-      "fr": "Une marque, une campagne, une interface :\nchaque réalisation commence par une question.\n**Qu’est-ce qu’on doit ressentir, comprendre ou retenir ?**",
-      "en": "A brand, a campaign, an interface:\nevery piece of work starts with a question.\n**What should people feel, understand or remember?**"
+      "fr": "Une marque, une campagne, une interface :\nchaque projet commence par une question.\n**Qu’est-ce qu’on doit ressentir, comprendre ou retenir ?**",
+      "en": "A brand, a campaign, an interface:\nevery project starts with a question.\n**What should people feel, understand or remember?**"
     },
     "methode": {
       "etiquette": {
@@ -312,8 +312,8 @@
       "en": "My journey"
     },
     "accroche": {
-      "fr": "Un parcours fait de **réalisations**, de **rencontres** et d’**expériences**.",
-      "en": "A journey shaped by **work**, **encounters** and **experiences**."
+      "fr": "Un parcours fait de projets, de rencontres et d’expériences.",
+      "en": "A journey shaped by projects, encounters and experiences."
     },
     "etapes": [
       {
@@ -326,8 +326,8 @@
           "en": "Project Manager & Lead UX/UI"
         },
         "texte": {
-          "fr": "J’accompagne plusieurs équipes pluridisciplinaires, de la conception à la livraison, et veille à la cohérence des expériences et des produits.",
-          "en": "I support several multidisciplinary teams from design to delivery, and make sure experiences and products stay consistent."
+          "fr": "J’accompagne plusieurs équipes projet, de la conception à la livraison, et veille à la cohérence des expériences et des produits.",
+          "en": "I support several project teams from design to delivery, and make sure experiences and products stay consistent."
         },
         "lieu": {
           "fr": "Expériences numériques",
@@ -344,8 +344,8 @@
           "en": "Fondateur & directeur de création"
         },
         "texte": {
-          "fr": "Avec M&M Concept, je conçois et pilote des réalisations créatives et techniques : supports imprimés, maquettes 3D et fabrication jusqu’au bon à tirer.",
-          "en": "With M&M Concept, I lead creative and technical work: printed materials, 3D mock-ups and production through to final proof."
+          "fr": "Avec M&M Concept, je mène des projets créatifs et techniques : supports imprimés, maquettes 3D et réalisations jusqu’au bon à tirer.",
+          "en": "With M&M Concept, I lead creative and technical projects: printed materials, 3D mock-ups and builds all the way to final proof."
         },
         "lieu": {
           "fr": "Entrepreneuriat créatif",
@@ -380,8 +380,8 @@
           "en": "Infographiste · agency work"
         },
         "texte": {
-          "fr": "Les bases du métier se construisent dans la conception de supports, la mise en page et la réalisation de travaux aux univers variés.",
-          "en": "The foundations of the craft are built through designing materials, layout and delivering work across very different worlds."
+          "fr": "Les bases du métier se construisent dans la conception de supports, la mise en page et l’exécution de projets aux univers variés.",
+          "en": "The foundations of the craft are built through designing materials, layout and delivering projects across very different worlds."
         },
         "lieu": {
           "fr": "Les premières années",
@@ -428,6 +428,10 @@
     "titre": {
       "fr": "Mes réalisations",
       "en": "Selected work"
+    },
+    "accroche": {
+      "fr": "Derrière chaque image, il y a une idée qui cherchait sa forme.\nCertaines sont nées **d’un brief**, d’autres **d’une rencontre**, **d’une contrainte** ou simplement **de l’envie d’essayer**…",
+      "en": "Behind every image is an idea searching for its form.\nSome were born **from a brief**, others **from an encounter**, **a constraint**, or simply **the desire to try**…"
     },
     "categories": [
       {
@@ -630,11 +634,7 @@
           "en": "Without a brief, curiosity guides the hand toward something unexpected."
         }
       }
-    ],
-    "accroche": {
-      "fr": "Derrière chaque image, il y a une idée qui cherchait sa forme.\nCertaines sont nées **d’un brief**, d’autres **d’une rencontre**, **d’une contrainte** ou simplement **de l’envie d’essayer**…",
-      "en": "Behind every image is an idea searching for its form.\nSome were born **from a brief**, others **from an encounter**, **a constraint**, or simply **the desire to try**…"
-    }
+    ]
   },
   {
     "type": "prestations",

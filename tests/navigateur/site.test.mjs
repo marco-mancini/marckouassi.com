@@ -186,7 +186,7 @@ test("étude de projet : ouverture en modale, compteur calculé, Échap, focus r
   await lien.scrollIntoViewIfNeeded();
   await lien.click();
   await page.waitForFunction(() => document.getElementById("etude").open);
-  assert.equal(await page.textContent("[data-etude-compteur]"), "Réalisation 03 / 05");
+  assert.equal(await page.textContent("[data-etude-compteur]"), "Projet 03 / 05");
   assert.equal(await page.getAttribute("#etude", "aria-labelledby"), "etude-aurex");
   assert.match(await page.textContent("#etude h2"), /AUREX/);
   assert.ok(await page.$$eval("#etude img", (l) => l.length) === 9);
@@ -466,6 +466,26 @@ test("le retour aux catégories ramène aux huit cartes, et sans script aussi", 
   const sansJs = await ouvrir(nav, `${serveur.url}/#categorie-${categories[0].id}`, { js: false });
   assert.match(await sansJs.locator("[data-categorie-retour]").getAttribute("href"), /^#/);
   await sansJs.fermer();
+});
+
+test("une catégorie atteinte directement par son ancre révèle bien ses cartes", async () => {
+  // Les cartes d'un bloc replié n'entrent jamais dans le champ : l'observateur
+  // d'apparition ne se déclenche pas et elles resteraient transparentes. Le
+  // gabarit appelle reveler() à l'ouverture ; sans ce test, la régression
+  // serait invisible — la carte est bien là, simplement jamais révélée.
+  const categories = await catalogueDuContenu();
+  const peuplee = categories.find((c) => c.travaux.length > 0);
+  const page = await ouvrir(nav, `${serveur.url}/#categorie-${peuplee.id}`);
+  // La classe est posée tout de suite ; l'opacité, elle, est une transition.
+  const posees = await page.$$eval(".projet-carte", (l) => l.filter((e) => e.offsetParent !== null).map((e) => e.classList.contains("est-apparu")));
+  assert.equal(posees.length, peuplee.travaux.length, peuplee.id);
+  assert.deepEqual(posees, posees.map(() => true), "chaque carte visible est révélée");
+  // Puis on laisse la transition finir, et plus rien ne doit être transparent.
+  await page.waitForFunction(() => [...document.querySelectorAll(".projet-carte")]
+    .filter((e) => e.offsetParent !== null)
+    .every((e) => +getComputedStyle(e).opacity > 0.99), null, { timeout: 4000 });
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
 });
 
 test("les catégories dépliées tiennent en FR/EN, clair/sombre, à toutes les largeurs", async () => {

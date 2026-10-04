@@ -24,5 +24,5 @@ export function Planche({ ton = "creme", credit = null, id = null, classe = "", 
 
 function Credit({ rubrique, mention, signature, avantRubrique = null }) {
   const mentionPresente = mention !== undefined && mention !== null && String(mention) !== "";
-  return html`<div class="${classes("planche__credit", !mentionPresente && "planche__credit--deux", avantRubrique && "planche__credit--avec-retour")}"><span class="planche__credit-rubrique">${avantRubrique ? html`<span class="planche__credit-retour">${avantRubrique}</span>` : ""}<span>${rubrique}</span></span>${mentionPresente ? html`<span>${mention}</span>` : ""}${signature ? html`<span>${signature}</span>` : ""}</div>`;
+  return html`<div class="${classes("planche__credit", !mentionPresente && "planche__credit--deux", avantRubrique && "planche__credit--avec-retour")}">${avantRubrique ? html`<span class="planche__credit-rubrique"><span class="planche__credit-retour">${avantRubrique}</span><span>${rubrique}</span></span>` : html`<span>${rubrique}</span>`}${mentionPresente ? html`<span>${mention}</span>` : ""}${signature ? html`<span>${signature}</span>` : ""}</div>`;
 }

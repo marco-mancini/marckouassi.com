@@ -19,28 +19,23 @@
     "explorer": "Explorer"
   },
   "projet": {
-    "compteur": "Réalisation {numero} / {total}",
-    "filtres": {
-      "etiquette": "Filtrer les réalisations par discipline",
-      "tous": "Tous",
-      "aucun": "Aucune réalisation dans cette discipline pour le moment."
-    },
-    "ouvrir": "Voir la réalisation {titre} et son étude complète",
-    "fermer": "Fermer l’étude de la réalisation",
-    "images": "Images de la réalisation",
+    "compteur": "Projet {numero} / {total}",
+    "ouvrir": "Entrer dans le projet {titre} pour voir l’étude complète et toutes ses images",
+    "fermer": "Fermer l’étude du projet",
+    "images": "Images du projet",
     "role": "Mon rôle",
     "disciplines": "Disciplines",
     "periode": "Période",
     "intention": "L’intention créative",
-    "valeur": "La valeur de cette réalisation",
-    "retour": "Retour aux réalisations",
+    "valeur": "La valeur du projet",
+    "retour": "Retour aux projets",
+    "document": "Consulter le document",
     "categories": {
       "numero": "Univers {numero}",
       "vide": "Cet univers attend ses premières réalisations.",
       "navigation": "Parcourir les catégories de réalisations",
       "retour": "Retour aux catégories"
-    },
-    "document": "Consulter le document"
+    }
   },
   "intro": {
     "etiquette": "Accueil",
@@ -113,7 +108,7 @@
     "plageProjet": "{debut}–{fin}",
     "plageParcours": "{debut} — {fin}",
     "plageSelection": "{debut} — {fin}",
-    "selection": "{nombre} réalisations · {plage}",
+    "selection": "{nombre} projets · {plage}",
     "categorieEtPeriode": "{categorie} · {periode}",
     "rubrique": "{numero} / {nom}",
     "titrePage": "{titre} — {nom}"
