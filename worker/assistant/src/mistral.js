@@ -128,9 +128,21 @@ export function creerFournisseur({ env = {}, fetcher = fetch, maintenant = () =>
         ],
       };
 
+      /** Temps qu'il reste sur le budget global de la requête, jamais négatif. */
+      const restant = () => Math.max(0, budgetTempsMs - (maintenant() - depart));
+
+      /**
+       * Un appel est borné par DEUX horloges, et la plus courte gagne : le
+       * plafond par appel (15 s) et ce qu'il reste du budget global (20 s).
+       *
+       * Sans cela, une première tentative de 15 s suivie d'une seconde de 15 s
+       * aurait tenu 31 s avec l'attente — le budget n'était qu'une intention.
+       */
       const appeler = async () => {
+        const fenetre = Math.min(delaiMs, restant());
+        if (fenetre <= 0) throw panne("delai_depasse");
         fournisseur.appels += 1;
-        const horloge = AbortSignal.timeout(delaiMs);
+        const horloge = AbortSignal.timeout(fenetre);
         const abandon = signal ? AbortSignal.any([signal, horloge]) : horloge;
         return fetcher(ENDPOINT, {
           method: "POST",
@@ -145,35 +157,47 @@ export function creerFournisseur({ env = {}, fetcher = fetch, maintenant = () =>
         });
       };
 
+      /**
+       * Une reprise n'est tentée que si le budget laisse de quoi ATTENDRE puis
+       * APPELER. Et jamais si l'appelant a renoncé : relancer une requête
+       * annulée serait du travail que personne n'attend plus.
+       */
+      const peutRejouer = (attendreMs) => !signal?.aborted && restant() > attendreMs;
+
       let reponse;
       try {
         reponse = await appeler();
       } catch (cause) {
+        const expire = cause?.name === "TimeoutError";
         // Délai dépassé ou réseau coupé : une seule reprise, après 1 s.
-        if (maintenant() - depart >= budgetTempsMs) throw panne("delai_depasse");
-        await dormir(1000);
+        if (!peutRejouer(1000)) throw panne(expire ? "delai_depasse" : "indisponible");
+        await dormir(Math.min(1000, restant()));
         try {
           reponse = await appeler();
-        } catch {
-          throw panne(cause?.name === "TimeoutError" ? "delai_depasse" : "indisponible");
+        } catch (second) {
+          throw panne(expire || second?.name === "TimeoutError" ? "delai_depasse" : "indisponible");
         }
       }
 
       if (!reponse.ok) {
-        const tempsRestantMs = budgetTempsMs - (maintenant() - depart);
         const plan = strategie({
           statut: reponse.status,
           retryApres: reponse.headers?.get?.("retry-after"),
-          tempsRestantMs,
+          tempsRestantMs: restant(),
         });
-        if (!plan.rejouer) throw panne(plan.code, { statut: reponse.status });
-        await dormir(plan.attendreMs);
+        const code = plan.rejouer ? plan.sinon : plan.code;
+        // Le budget prime sur la matrice : si le temps manque, on ne rejoue pas
+        // et on rend le code que la matrice prévoyait pour l'échec.
+        if (!plan.rejouer || !peutRejouer(plan.attendreMs)) {
+          throw panne(code, { statut: reponse.status });
+        }
+        await dormir(Math.min(plan.attendreMs, restant()));
         try {
           reponse = await appeler();
         } catch {
-          throw panne(plan.sinon, { statut: reponse.status });
+          throw panne(code, { statut: reponse.status });
         }
-        if (!reponse.ok) throw panne(plan.sinon, { statut: reponse.status });
+        if (!reponse.ok) throw panne(code, { statut: reponse.status });
       }
 
       let charge;

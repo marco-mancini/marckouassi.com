@@ -184,3 +184,180 @@ test("aucune clé réelle n'est écrite dans le dépôt, ni dans ce test", () =>
   assert.match(config, /wrangler secret put MISTRAL_CLE/, "la façon de la poser est documentée");
   assert.match(source, /env\.MISTRAL_CLE/, "elle n'est lue que depuis l'environnement");
 });
+
+/* ------------------------------------------------------------------ */
+/* BUDGET GLOBAL — 15 s par appel, 20 s pour toute la requête.          */
+/*                                                                     */
+/* Les durées sont mises à l'échelle (÷ 100) pour que les tests durent  */
+/* quelques centaines de millisecondes. Tout le reste est RÉEL : la     */
+/* vraie AbortSignal.timeout borne les appels, et le faux réseau        */
+/* respecte le signal qu'on lui remet — sans quoi on ne testerait       */
+/* qu'une simulation.                                                   */
+/*                                                                     */
+/* Sans ce budget, 15 s + 1 s d'attente + 15 s faisaient 31 s.          */
+/* ------------------------------------------------------------------ */
+
+// L'attente de reprise d'un 5xx vaut UNE SECONDE : c'est une constante du
+// contrat, elle ne se met pas à l'échelle. Le budget d'essai doit donc rester
+// au-dessus d'elle. 1,5 s par appel pour 2 s de budget garde le rapport 15/20.
+const PAR_APPEL = 1500;
+const BUDGET = 2000;
+const ENV_BORNE = { ...ENV, DELAI_FOURNISSEUR_MS: String(PAR_APPEL), BUDGET_TEMPS_MS: String(BUDGET) };
+
+/**
+ * Faux réseau qui HONORE le signal : il tient `duree` ms, à moins que l'appel
+ * ne soit abandonné avant — exactement ce que ferait fetch.
+ */
+function reseauLent({ duree, reponse }) {
+  const vus = [];
+  const fetcher = (_url, init) => new Promise((resoudre, rejeter) => {
+    const debut = Date.now();
+    // Un appel ne se règle qu'une fois. Sans ce verrou, l'horloge d'abandon
+    // d'un appel déjà résolu se déclencherait plus tard et fausserait la mesure
+    // de l'appel suivant.
+    let fini = false;
+    const regler = (action, valeur) => {
+      if (fini) return;
+      fini = true;
+      vus.push(Date.now() - debut);
+      action(valeur);
+    };
+    const minuteur = setTimeout(() => regler(resoudre, typeof reponse === "function" ? reponse(vus.length + 1) : reponse), duree);
+    init.signal?.addEventListener("abort", () => {
+      clearTimeout(minuteur);
+      const erreur = new Error("abandon");
+      erreur.name = init.signal.reason?.name === "TimeoutError" ? "TimeoutError" : "AbortError";
+      regler(rejeter, erreur);
+    }, { once: true });
+  });
+  return { fetcher, vus };
+}
+
+test("500 après une première tentative longue : le second appel est borné par le temps restant", async () => {
+  // La première tentative consomme une bonne part du budget ; l'attente d'une
+  // seconde en consomme encore. Le second appel n'a donc plus 1,5 s devant lui.
+  const r = reseauLent({ duree: 600, reponse: { ok: false, status: 500, headers: new Headers() } });
+  const f = creerFournisseur({ env: ENV_BORNE, fetcher: r.fetcher });
+  const depart = Date.now();
+  await assert.rejects(() => f.repondre(demande), (e) => ["indisponible", "delai_depasse"].includes(e.name));
+  const total = Date.now() - depart;
+  assert.equal(f.appels, 2, "une seule reprise");
+  // Le second appel ne dispose plus de PAR_APPEL : il est coupé par ce qu'il
+  // reste du budget, et la séquence entière tient dedans.
+  assert.ok(r.vus[1] < PAR_APPEL, `second appel ${r.vus[1]} ms, plafond par appel ${PAR_APPEL} ms`);
+  assert.ok(total <= BUDGET + 120, `séquence ${total} ms, budget ${BUDGET} ms`);
+});
+
+test("503 après une tentative proche de 15 s : aucune reprise ne dépasse le budget", async () => {
+  const r = reseauLent({ duree: PAR_APPEL, reponse: { ok: false, status: 503, headers: new Headers() } });
+  const f = creerFournisseur({ env: ENV_BORNE, fetcher: r.fetcher });
+  const depart = Date.now();
+  await assert.rejects(() => f.repondre(demande), (e) => ["indisponible", "delai_depasse"].includes(e.name));
+  const total = Date.now() - depart;
+  assert.ok(f.appels <= 2, `${f.appels} appels : jamais plus d'une reprise`);
+  assert.ok(total <= BUDGET + 120, `séquence ${total} ms, budget ${BUDGET} ms`);
+});
+
+test("quand le budget est déjà consommé, la reprise n'est pas lancée du tout", async () => {
+  // Une horloge pilotée suffit ici : on ne mesure pas une durée, on vérifie
+  // qu'aucun second appel ne part.
+  let t = 0;
+  let appels = 0;
+  const f = creerFournisseur({
+    env: ENV_BORNE,
+    maintenant: () => t,
+    fetcher: async () => { appels += 1; t += BUDGET; return { ok: false, status: 500, headers: new Headers() }; },
+  });
+  await assert.rejects(() => f.repondre(demande), (e) => e.name === "indisponible");
+  assert.equal(appels, 1, "le temps manquait : aucune seconde tentative");
+});
+
+test("429 avec Retry-After : l'attente ET le second appel tiennent dans les 20 s", async () => {
+  // Le seuil « budget restant ≥ 10 s » est une constante du contrat : ce cas se
+  // juge donc aux valeurs réelles, sur une horloge pilotée.
+  let t = 0;
+  let n = 0;
+  const f = creerFournisseur({
+    env: { ...ENV, DELAI_FOURNISSEUR_MS: "15000", BUDGET_TEMPS_MS: "20000" },
+    maintenant: () => t,
+    fetcher: async () => {
+      n += 1;
+      t += 3000; // chaque appel tient 3 s
+      if (n === 1) return { ok: false, status: 429, headers: new Headers({ "retry-after": "1" }) };
+      return reponseOk("Après attente.");
+    },
+  });
+  const reponse = await f.repondre(demande);
+  assert.equal(reponse.texte, "Après attente.");
+  assert.equal(n, 2, "une seule reprise");
+  // 3 s + 1 s d'attente + 3 s : la séquence tient largement dans les 20 s, et
+  // le second appel n'a jamais pu disposer de plus que ce qu'il restait.
+  assert.ok(t + 1000 <= 20000, `séquence ${t + 1000} ms, budget 20000 ms`);
+});
+
+test("429 quand le budget restant est sous les 10 s : pas de reprise, quota_journalier", async () => {
+  let t = 0;
+  let appels = 0;
+  const f = creerFournisseur({
+    env: { ...ENV, DELAI_FOURNISSEUR_MS: "15000", BUDGET_TEMPS_MS: "20000" },
+    maintenant: () => t,
+    fetcher: async () => { appels += 1; t += 12000; return { ok: false, status: 429, headers: new Headers({ "retry-after": "1" }) }; },
+  });
+  // La matrice exige « Retry-After ≤ 2 s ET budget restant ≥ 10 s ». Il en
+  // reste 8 : la condition tombe, et le code de la matrice est rendu.
+  await assert.rejects(() => f.repondre(demande), (e) => e.name === "quota_journalier");
+  assert.equal(appels, 1);
+});
+
+test("signal annulé : aucune reprise n'est tentée après l'annulation", async () => {
+  const controleur = new AbortController();
+  let n = 0;
+  const f = creerFournisseur({
+    env: ENV,
+    fetcher: async () => {
+      n += 1;
+      controleur.abort(); // l'appelant renonce pendant le premier appel
+      const erreur = new Error("annulé");
+      erreur.name = "AbortError";
+      throw erreur;
+    },
+  });
+  await assert.rejects(() => f.repondre({ ...demande, signal: controleur.signal }),
+    (e) => e.name === "indisponible");
+  assert.equal(n, 1, "une requête annulée n'est pas relancée");
+});
+
+test("un signal déjà annulé n'autorise aucune reprise, même avec du budget", async () => {
+  const controleur = new AbortController();
+  controleur.abort();
+  let n = 0;
+  const f = creerFournisseur({
+    env: ENV,
+    fetcher: async () => { n += 1; return { ok: false, status: 500, headers: new Headers() }; },
+  });
+  await assert.rejects(() => f.repondre({ ...demande, signal: controleur.signal }),
+    (e) => e.name === "indisponible");
+  assert.equal(n, 1);
+});
+
+test("la durée maximale d'une séquence reste sous BUDGET_TEMPS_MS, quelle que soit la matrice", async () => {
+  for (const statut of [500, 502, 503, 504]) {
+    const r = reseauLent({ duree: PAR_APPEL, reponse: { ok: false, status: statut, headers: new Headers() } });
+    const f = creerFournisseur({ env: ENV_BORNE, fetcher: r.fetcher });
+    const depart = Date.now();
+    await assert.rejects(() => f.repondre(demande), (e) => ["indisponible", "quota_journalier", "delai_depasse"].includes(e.name));
+    const total = Date.now() - depart;
+    assert.ok(total <= BUDGET + 120, `statut ${statut} : séquence ${total} ms > budget ${BUDGET} ms`);
+    assert.ok(f.appels <= 2, `statut ${statut} : ${f.appels} appels`);
+  }
+});
+
+test("le budget n'est pas relevé : 20 s dans la configuration, 15 s par appel", () => {
+  const wrangler = fs.readFileSync("worker/assistant/wrangler.jsonc", "utf8");
+  for (const bloc of wrangler.match(/"BUDGET_TEMPS_MS":\s*"(\d+)"/g) ?? []) {
+    assert.ok(Number(bloc.match(/\d+/)[0]) <= 20000, "aucun environnement ne dépasse 20 s");
+  }
+  for (const bloc of wrangler.match(/"DELAI_FOURNISSEUR_MS":\s*"(\d+)"/g) ?? []) {
+    assert.ok(Number(bloc.match(/\d+/)[0]) <= 15000, "aucun environnement ne dépasse 15 s par appel");
+  }
+});
