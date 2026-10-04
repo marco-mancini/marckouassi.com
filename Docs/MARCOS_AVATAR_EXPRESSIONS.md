@@ -60,7 +60,7 @@ Expression positive et énergique mais maîtrisée, sourire naturel, geste des m
 ### 09 — 📝 Prise de notes
 Expression concentrée et professionnelle, mains visibles en situation de prise de notes. Carnet ou tablette seulement si cela reste sobre et nécessaire à la compréhension du geste.
 
-### 10 — 😌 Succès / compréhension
+### 10 — 😌 Succès / félicité
 Expression satisfaite, rassurante et calme, sourire subtil, posture détendue indiquant que le besoin est compris.
 
 ## 4. Style de rendu
