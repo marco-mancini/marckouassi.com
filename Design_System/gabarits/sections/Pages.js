@@ -10,12 +10,13 @@ import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Encart } from "../../composants/Encart/Encart.js";
 import { Grille } from "../../composants/Grille/Grille.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
-import { Sceau } from "../../composants/Sceau/Sceau.js";
+import { Media } from "../../composants/Media/Media.js";
 import { Segments } from "../../composants/Segments/Segments.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
 import { Gabarit_Projet, vueProjet } from "../Gabarit_Projet/Gabarit_Projet.js";
 import { Intro } from "../Intro/Intro.js";
 import { Assistant } from "../Assistant/Assistant.js";
+import { media } from "../outils.js";
 import { Document, enTeteEtMenu, enTeteDocument, optionsLangues, credit } from "./commun.js";
 import { Couverture } from "./Couverture.js";
 import { Introduction } from "./Introduction.js";
@@ -88,11 +89,20 @@ export function PageCv({ contenu, ctx }) {
   const postes = html`<ol class="cv__postes">${cv.experience.postes.map((poste, rang) => html`<li><h3 class="cv__poste-titre">${c(poste.titre, `experience.postes.${rang}.titre`)}</h3><p class="cv__poste-lieu">${c(poste.lieu, `experience.postes.${rang}.lieu`)}</p>${liste(poste.points, `experience.postes.${rang}.points`, "liste-puces liste-puces--cercle")}</li>`)}</ol>`;
   const formation = Grille({ min: "var(--cv-carte-min)", espace: ["var(--space-6)"], elements: cv.formation.groupes.map((groupe, rang) => Encart({ titre: c(groupe.titre, `formation.groupes.${rang}.titre`), contenu: liste(groupe.elements, `formation.groupes.${rang}.elements`, "cv__separee") })) });
   const titreId = idTitre("cv");
+  // Le portrait vient des donnees de la section « A propos » : une seule
+  // source pour l'image et son texte alternatif, jamais recopies (PM-127).
+  const apropos = contenu.sections.find((section) => section.type === "apropos");
+  const portrait = apropos?.portrait
+    ? html`<div class="cv-lateral__portrait">${Media({ media: media(ctx, apropos.portrait, { chemin: `sections.${apropos.id}.portrait` }), cadre: "detoure", ajustement: "contenir" })}</div>`
+    : "";
+  // Disposition du PDF de reference : le patronyme, le titre et le resume en
+  // tete de la colonne de droite, au-dessus des experiences ; le portrait et
+  // les deux bandeaux lateraux dans le panneau de gauche.
+  const identite = html`<div class="cv-identite">${Titre({ niveau: 1, echelle: "document", texte: ctx.l(cv.nom, "cv.nom", (t) => texteEnrichi(t, { grand: true })), id: titreId })}<p class="cv-identite__titre">${ctx.l(cv.titre, "cv.titre", texteEnrichi)}</p><p class="cv-identite__resume texte-corps">${ctx.l(cv.resume, "cv.resume", texteEnrichi)}</p></div>`;
   return Document({
     ctx, meta: { ...meta(contenu, ctx, { titre: ctx.c(cv.seo.titre, "cv.seo.titre"), description: ctx.c(cv.seo.description, "cv.seo.description"), chemin: ctx.chemin }), type: "profile" },
     corps: html`${entete}<main id="contenu" class="page-planches page-cv" tabindex="-1">
-${Planche({ ton: "olive", classe: "cv-entete", contenu: html`<div class="cv-entete__texte">${Titre({ niveau: 1, echelle: "document", texte: ctx.l(cv.nom, "cv.nom", (t) => texteEnrichi(t, { grand: true })), id: titreId })}<p class="cv-entete__titre">${ctx.l(cv.titre, "cv.titre", texteEnrichi)}</p><p class="cv-entete__resume">${ctx.l(cv.resume, "cv.resume", texteEnrichi)}</p></div>${Sceau({ taille: "document" })}` })}
-${Planche({ classe: "cv-corps", contenu: html`<div class="cv-corps__colonnes"><div class="cv-corps__lateral">${bandeau(cv.titres.informations, "titres.informations", informations)}${bandeau(cv.titres.competences, "titres.competences", competences)}</div>${bandeau(cv.titres.experience, "titres.experience", postes)}</div>` })}
+${Planche({ classe: "cv-corps", contenu: html`<div class="cv-corps__colonnes"><div class="cv-corps__lateral">${portrait}${bandeau(cv.titres.informations, "titres.informations", informations)}${bandeau(cv.titres.competences, "titres.competences", competences)}</div><div class="cv-corps__principal">${identite}${bandeau(cv.titres.experience, "titres.experience", postes)}</div></div>` })}
 ${Planche({ classe: "cv-corps", contenu: html`${bandeau(cv.titres.formation, "titres.formation", formation)}${Grille({ min: "var(--cv-carte-min)", espace: ["var(--space-6)"], elements: [bandeau(cv.titres.ia, "titres.ia", liste(cv.ia, "ia", "liste-puces cv__aeree")), bandeau(cv.titres.forces, "titres.forces", liste(cv.forces, "forces", "liste-puces cv__aeree"))] })}${bandeau(cv.titres.references, "titres.references", html`<ul class="cv__references">${cv.references.map((reference, rang) => html`<li>${Pastille({ texte: ctx.c(reference, `cv.references.${rang}`), variante: "contour" })}</li>`)}</ul>`)}` })}
 <div class="cv__pied">${Bouton({ texte: ctx.t("cv.retour"), variante: "lien", href: versAccueil || "./", options: { icone: "retour" } })}${Segments({ options: optionsLangues(ctx), etiquette: ctx.t("langue.selecteur") })}</div>
 </main>`,
