@@ -253,7 +253,12 @@
     "realisations": "Selected work heading",
     "suite": "Continuation",
     "projets": "Projects",
-    "retour": "Back"
+    "retour": "Back",
+    "assistant": "MarcoS assistant",
+    "assistantActif": "Enable MarcoS",
+    "accueil": "Welcome message",
+    "exemples": "Example questions",
+    "confidentialite": "Privacy notice"
   },
   "frequences": {
     "session": "Once per visit",

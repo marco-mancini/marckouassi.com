@@ -237,3 +237,41 @@ test("le parcours de la section 06 est écrit dans une forme que le CMS préserv
   assert.ok(parcours.cartes.every((c) => typeof c.juste === "boolean"));
   assert.equal(parcours.cartes.filter((c) => c.juste).length, 1, "une seule bonne réponse");
 });
+
+test("le CMS propose MarcoS même quand le contenu ne le porte pas encore", () => {
+  // Le blocage de PM-104 (#104) : Sveltia enregistre avec
+  // `omit_empty_optional_fields`, donc un bloc amorcé à vide dans
+  // content/site.json perdrait accueil, exemples et confidentialité au premier
+  // enregistrement — et la configuration, déduite de la forme des données, ne
+  // les proposerait plus ensuite. Déclaré facultatif, le bloc est proposé sans
+  // qu'aucune valeur vide n'existe, et les trois textes restent ceux de Marc.
+  const contenu = brut();
+  assert.equal(contenu.site.assistant, undefined, "le contenu ne porte pas encore le bloc");
+
+  const config = configurationCms({ contenu, fr });
+  assert.equal(config.output.omit_empty_optional_fields, true, "c'est bien ce réglage qui écartait les valeurs vides");
+
+  const site = config.collections[0].files.find((f) => f.name === "site");
+  const assistant = site.fields.find((f) => f.name === "assistant");
+  assert.ok(assistant, "le bloc est proposé");
+  assert.equal(assistant.required, false);
+
+  const noms = assistant.fields.map((f) => f.name);
+  assert.deepEqual(noms, ["active", "accueil", "exemples", "confidentialite"]);
+  assert.ok(assistant.fields.every((f) => f.required === false), "aucun des quatre n'est obligatoire");
+
+  // Les libellés viennent du dictionnaire admin, jamais du code.
+  assert.equal(assistant.label, fr.champs.assistant);
+  assert.equal(assistant.fields[0].label, fr.champs.assistantActif, "« active » ne réutilise pas le libellé de l'accueil animé");
+  assert.notEqual(fr.champs.assistantActif, fr.champs.active);
+
+  // Les trois textes sont traduisibles, et aucun n'est pré-rempli.
+  for (const cle of ["accueil", "confidentialite"]) {
+    const champ = assistant.fields.find((f) => f.name === cle);
+    assert.equal(champ.widget, "object");
+    assert.deepEqual(champ.fields.map((f) => f.name), ["fr", "en"]);
+  }
+  const exemples = assistant.fields.find((f) => f.name === "exemples");
+  assert.equal(exemples.widget, "list");
+  assert.deepEqual(exemples.field.fields.map((f) => f.name), ["fr", "en"]);
+});

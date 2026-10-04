@@ -118,11 +118,21 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
   les ajouter en V2.
 - Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
   existant), à la **troisième personne et au vouvoiement** (D-15).
-- Contenu : `content/site.json` → `assistant` (`active: false` tant que Marc n'a
-  pas écrit l'accueil) ; éditable dans Paramètres.
+- Contenu : **rien n'est écrit dans `content/site.json`.** Le bloc `assistant`
+  est déclaré **facultatif** dans `tools/cms.mjs` (`FACULTATIFS.site`), donc
+  proposé dans Paramètres alors même qu'il est absent des données. C'était le
+  blocage de #104 : Sveltia enregistre avec `omit_empty_optional_fields`, et un
+  bloc amorcé à vide aurait perdu `accueil`, `exemples` et `confidentialite` au
+  premier enregistrement — après quoi la configuration, déduite de la forme des
+  données, ne les aurait plus proposés. Les trois textes restent ceux de Marc
+  (D-9) ; `active` n'existe qu'une fois qu'il les écrit.
 - Build : `ASSISTANT_URL` optionnelle ; sans elle, rien n'est rendu.
 - Tests : rien en dur, rendu sans JS, `comparer-reference` inchangé quand
   MarcoS est désactivé.
+- **État au 4 octobre 2026 : livré.** Composant, gabarit, dictionnaires,
+  configuration du CMS, entrées de D-4 dans Contact et le menu, branchement
+  dans `Frontend/site.js`. Le site publié est identique — aucune occurrence de
+  `id="assistant"` dans `_site/` — puisque ni le champ ni l'adresse n'existent.
 
 ### IA-05 — Mistral (clé Mistral, crédits gratuits)
 - **Avant tout appel** : vérifier dans la console qu'**aucun moyen de paiement

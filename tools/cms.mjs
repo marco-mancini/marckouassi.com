@@ -66,6 +66,23 @@ export function configurationCms({ contenu, fr }) {
   };
   FACULTATIFS["cv.seo"] = FACULTATIFS["site.seo"];
 
+  /* MarcoS. Le bloc entier est facultatif, et c'est ce qui le rend possible :
+     Sveltia enregistre avec `omit_empty_optional_fields`, donc un bloc amorcé
+     à vide dans content/site.json perdrait `accueil`, `exemples` et
+     `confidentialite` au premier enregistrement, et la configuration — déduite
+     de la forme des données — ne les proposerait plus ensuite. Déclaré ici, le
+     bloc est proposé même absent du contenu, et les trois textes restent ceux
+     de Marc (D-9) : aucun n'est écrit à sa place. */
+  FACULTATIFS.site = [{
+    name: "assistant", label: libelle("assistant"), required: false, widget: "object",
+    fields: [
+      { name: "active", label: libelle("assistantActif"), required: false, widget: "boolean" },
+      traduisible({ name: "accueil", label: libelle("accueil"), required: false }, []),
+      { name: "exemples", label: libelle("exemples"), label_singular: libelle("exemples"), required: false, widget: "list", field: traduisible({ name: "valeur", label: libelle("exemples"), required: true }, []) },
+      traduisible({ name: "confidentialite", label: libelle("confidentialite"), required: false }, []),
+    ],
+  }];
+
   /** Champ déduit de toutes les valeurs rencontrées pour une même clé. */
   function champ(cle, valeurs, chemin) {
     const presentes = valeurs.filter((v) => v !== null && v !== undefined);
