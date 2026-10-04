@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 4 octobre 2026, de PM-004 à PM-126 : 24 issues ouvertes, 59 fermées. Chiffres relevés par `npm run comparer-issues`.
+État au 4 octobre 2026, de PM-004 à PM-126 : 21 issues ouvertes, 62 fermées. Chiffres relevés par `npm run comparer-issues`.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro GitHub, la référence PM du titre, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
