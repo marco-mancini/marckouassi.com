@@ -296,11 +296,11 @@ Le tableau complet, avec options, conséquences et motifs, est dans
 | D-5 | pas de Turnstile au lancement |
 | **D-6** | **pas de Workers Paid** : offre gratuite seulement |
 | D-8 | réponses anglaises depuis les faits anglais |
-| D-9 | les trois textes écrits par Marc dans `/admin/` ; `assistant.active` reste `false` |
+| D-9 | les quatre textes **écrits le 4 octobre 2026** (D-37), dans `content/site.json` → `assistant` et éditables dans `/admin/` ; `assistant.active` reste `false` |
 | D-10 | journaux : métadonnées seulement |
 | D-11 | refus d'entraînement activé chez Mistral — **gratuit, vérifié le 2 octobre** ; reste à faire dans la console |
 | D-12 | une seule langue par requête, et base réduite |
-| D-13 | avatar : **pas en V1**, prévu en V2 |
+| D-13 | avatar : pas en V1, prévu en V2 — **remplacée par D-38 le 4 octobre 2026 : plus de V2, tout relève de la version en cours** |
 | D-14 | profil personnel de MARCOS.md §18-25 : **hors base** pour l'instant |
 | D-15 | troisième personne, vouvoiement |
 | D-16 | page courante seulement, pas d'historique de navigation |

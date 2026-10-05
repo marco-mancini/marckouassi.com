@@ -42,6 +42,12 @@ Ce document complète `MARCOS_DECISIONS.md` avec les décisions conversationnell
 
 Lorsque la décision relève de l'expertise de M. Kouassi, la dernière option est exactement : **« Ou vous préférez que M. Kouassi le choisisse ? »**
 
+> **Mise à jour du 4 octobre 2026 — D-37.** Cette formulation n'est plus
+> *imposée* : elle reste un exemple valable, mais MarcoS doit désormais **varier
+> la tournure** selon le contexte plutôt que répéter la même phrase. L'intention
+> — conseiller sans imposer, et reconnaître quand la décision revient à
+> M. Kouassi — est inchangée. Voir [DECISIONS.md](DECISIONS.md) → D-37.
+
 ## D-29 — Qualification : produire un brief exploitable
 
 **Choix.** MarcoS doit pouvoir transformer une conversation en cahier des charges exploitable : comprendre le contexte, le problème/besoin, l'objectif, la cible, le périmètre, les livrables, les contraintes et les informations utiles ; collecter progressivement les données manquantes ; conserver les hésitations, les pistes proposées et les décisions laissées à M. Kouassi.

@@ -3,6 +3,9 @@
    centre       : etude de projet, confirmation.
    plein-ecran  : menu mobile du site et navigation du back-office sous
                   850 px, un seul et meme mecanisme.
+   ancre        : panneau borne de MarcoS, pose au-dessus de sa presence
+                  flottante en bas a droite. Fond transparent : le
+                  portfolio reste visible, l'avatar aussi.
    ========================================================================== */
 html.has-overlay { overflow: hidden; }
 
@@ -31,6 +34,14 @@ html.has-overlay { overflow: hidden; }
 .modale--plein-ecran::backdrop { background: var(--olive-deep); }
 .modale--plein-ecran .modale__entete { height: var(--header-height); flex-direction: row-reverse; justify-content: space-between; }
 .modale--plein-ecran .modale__corps { display: flex; flex: 1; flex-direction: column; justify-content: center; gap: var(--space-6); }
+
+/* --- Ancre : le panneau de MarcoS ---
+   Il ne vit PAS ici. Non modal, il reste dans le flux de .marcos et sa
+   composition appartient au gabarit Assistant, qui transpose la maquette
+   d'interaction. Ce composant ne lui donne que le <dialog>, son en-tete et
+   son corps ; la seule regle commune est de neutraliser la boite du
+   dialogue natif, qui sinon se centre et se dimensionne tout seul. */
+.modale--ancre { position: static; max-width: none; margin: 0; border: 0; }
 
 @media (max-width: 850px) {
   .modale--centre { width: min(100vw - var(--dialogue-marge-ecran-mobile), var(--dialogue-largeur-max-mobile)); max-height: var(--dialogue-hauteur-ecran-mobile); border-radius: var(--radius-md); }

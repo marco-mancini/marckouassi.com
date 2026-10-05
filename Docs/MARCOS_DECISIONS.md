@@ -775,6 +775,8 @@ Réponses de Marc du 2 octobre 2026. **A** = recommandation acceptée,
 | **D-11** | Refuser l'usage des données pour l'entraînement chez Mistral ? | **Oui**, avant la première question réelle |  **A — accepté, puis vérifié.** Marc avait d'abord accepté l'usage éventuel si le refus était payant (budget 0 € prime, questions de nature publique). **Vérification du 2 octobre : le refus est GRATUIT** et distinct de la rétention zéro, qui est payante. **Blocage levé** : on l'active. Reste à faire par Marc dans Admin → Privacy. |
 | **D-12** | Envoyer une ou deux langues dans le contexte ? | **Une seule** — divise le coût par deux sans rien retirer |  **A — accepté, et élargi.** Une seule langue à la fois. **Et réduire la base au strict nécessaire** — proposition mesurée demandée, rendue en [section 9](#9-réduction-de-la-base-de-connaissance-mesurée). |
 | **D-13** | Figurine 3D et présence flottante : MARCOS.md ou AI_UX.md ? | **Deux étapes**, et AI_UX.md doit écrire « pas en V1 » au lieu de « jamais » |  **A — accepté.** V1 sans avatar, V2 avec. `AI_UX.md` réécrit : « pas en V1 », plus « jamais ». |
+
+> **Mise à jour du 4 octobre 2026 — D-38.** Les deux étapes n'existent plus : il n'y a **plus de V2**, tout relève de la version en cours. L'avatar et la présence flottante ne sont plus reportés — ils ne sont simplement pas encore implémentés, et ce qui les retient est nommé dans [DECISIONS.md](DECISIONS.md) → D-38.
 | **D-14** | MarcoS connaît-il ton profil comportemental et personnel (MARCOS.md §18-25) ? | **Un tri, par toi** : méthode de travail en contenu public, confidences hors base |  **M — option a pour l'instant : hors base.** Les sections 18 à 25 de `MARCOS.md` restent un document de conception interne. Le tri sera tranché plus tard, une fois MarcoS en service. |
 | **D-15** | Troisième personne ou « je » de Marc ? Tutoiement ou vouvoiement ? | **Troisième personne, vouvoiement** ; les exemples de MARCOS.md §6-8 sont à réécrire |  **A — accepté.** Troisième personne, vouvoiement. Exemples de `MARCOS.md` §6 à §8 réécrits. |
 | **D-16** | MarcoS se souvient-il des pages visitées ? | **Page courante seulement en V1** ; l'historique est une décision à part |  **A — accepté.** Page courante seulement. |
@@ -1040,6 +1042,8 @@ de MarcoS plus que des faits. Dis-le si tu veux des propositions.
   Elles restent entières et à toi.
 - Les **trois textes de D-9** : à écrire dans `/admin/` → Paramètres, quand tu
   veux. Rien ne les attend pour avancer, et rien ne se publie sans eux.
+  **Mise à jour du 4 octobre 2026 :** ils sont écrits, avec la règle créative
+  de D-28 amendée. Voir [DECISIONS.md](DECISIONS.md) → D-37.
 
 ## D-20 — Resend ajoute un service d'envoi transactionnel (3 octobre 2026)
 

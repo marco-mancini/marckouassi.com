@@ -12,7 +12,8 @@ import { Modale } from "../../composants/Modale/Modale.js";
 import { numero } from "../outils.js";
 
 /**
- * Entrée de MarcoS. D-4 : Contact et le menu en V1, pas de présence flottante.
+ * Entrée de MarcoS. D-4 : Contact et le menu. La présence flottante n'est pas
+ * implémentée ; D-38 a supprimé le palier qui la reportait.
  * La condition est exactement celle du gabarit Assistant — sans elle, le bouton
  * ouvrirait une modale qui n'existe pas, c'est-à-dire un bouton mort (§6.8).
  */

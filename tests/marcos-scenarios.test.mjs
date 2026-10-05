@@ -115,3 +115,87 @@ test("le projet FIFA 26 existe bien dans la base : la brièveté n'est pas de l'
     assert.ok(texteDe(langue).includes("fifa"), `${langue} : le projet est connu`);
   }
 });
+
+/* ------------------------------------------------------------------ */
+/* D-9 — les quatre textes validés par Marc, au mot près.              */
+/* ------------------------------------------------------------------ */
+
+const D9 = JSON.parse(fs.readFileSync("content/site.json", "utf8")).assistant;
+
+test("D-9 : le message d'accueil est celui que Marc a validé, sans reformulation", () => {
+  assert.ok(D9, "le bloc assistant est dans le contenu");
+  assert.equal(
+    D9.accueil.fr,
+    "Bonjour 👋 Je suis MarcoS, l’assistant de M. Kouassi. En quoi puis-je vous aider ?",
+  );
+  // « M. Kouassi », jamais « Marc » : c'est la règle de nommage de MarcoS.
+  assert.ok(D9.accueil.fr.includes("M. Kouassi"));
+  assert.ok(!/\bMarc\b(?! Kouassi)/.test(D9.accueil.fr.replace("MarcoS", "")), "jamais « Marc » seul");
+  assert.ok(D9.accueil.en.includes("M. Kouassi"), "l'anglais garde la même forme (convention du contenu)");
+});
+
+test("D-9 : les dix exemples sont exactement ceux validés, dans l'ordre", () => {
+  const attendus = [
+    "Qui est M. Kouassi ?",
+    "Quel est son parcours ?",
+    "Quelles sont ses expertises ?",
+    "Quels projets a-t-il réalisés ?",
+    "Avec quelles marques a-t-il travaillé ?",
+    "Quels services propose-t-il ?",
+    "Quel est son projet préféré ?",
+    "Où habite M. Kouassi ?",
+    "Quel est son numéro de téléphone personnel ?",
+    "Quel temps fait-il aujourd’hui à Abidjan ?",
+  ];
+  assert.deepEqual(D9.exemples.map((e) => e.fr), attendus);
+  assert.equal(D9.exemples.filter((e) => e.en && e.en.trim()).length, 10, "chacun a sa version anglaise");
+});
+
+test("D-9 : les trois derniers exemples sont ceux que MarcoS doit REFUSER", () => {
+  // Ils ne sont pas là par hasard : ils éprouvent la vie privée, l'information
+  // inconnue et le hors-périmètre. Les règles correspondantes doivent exister.
+  const [habite, telephone, meteo] = D9.exemples.slice(7).map((e) => e.fr);
+  assert.match(habite, /habite/);
+  assert.match(telephone, /téléphone personnel/);
+  assert.match(meteo, /temps fait-il/);
+  assert.match(PROMPT, /adresse personnelle/i, "la règle sur l'adresse existe");
+  assert.match(PROMPT, /Jamais de téléphone/i, "la règle sur le téléphone existe");
+  assert.match(PROMPT, /N'invente rien/i, "la règle contre l'invention existe");
+});
+
+test("D-9 : la mention de confidentialité est courte et ne promet rien de technique", () => {
+  assert.equal(D9.confidentialite.fr, "🔒 Vos échanges avec MarcoS restent privés.");
+  for (const langue of ["fr", "en"]) {
+    const texte = D9.confidentialite[langue].toLowerCase();
+    for (const interdit of ["mistral", "api", "log", "token", "jeton", "worker", "cloudflare", "modèle", "model", "serveur", "server"]) {
+      assert.ok(!texte.includes(interdit), `${langue} : « ${interdit} » n'a rien à faire dans la mention`);
+    }
+    assert.ok(D9.confidentialite[langue].length < 70, `${langue} : la mention reste courte`);
+  }
+});
+
+test("D-9 : aucune donnée privée n'entre dans le contenu par ces textes", () => {
+  const tout = JSON.stringify(D9).toLowerCase();
+  for (const prive of ["cocody", "1992", "mancini1008", "225"]) {
+    assert.ok(!tout.includes(prive), `« ${prive} » ne doit pas apparaître`);
+  }
+});
+
+test("D-37 : la règle créative varie la formulation au lieu de l'imposer", () => {
+  // L'intention, pas une liste fermée : la consigne de variation existe, et la
+  // formulation de D-28 reste un exemple valable.
+  assert.match(PROMPT, /varie la formulation, jamais deux fois la même/i);
+  // L’espace avant « ? » peut être normale ou insécable : on compare le sens,
+  // pas la typographie — le prompt n’est pas soumis aux règles de content/.
+  const neutre = (t) => t.replace(/\s+/g, " ");
+  assert.ok(neutre(PROMPT).includes("Ou vous préférez que M. Kouassi le choisisse ?"),
+    "la formulation de D-28 reste présente comme exemple");
+  assert.ok(!/termine par exactement/.test(PROMPT), "elle n'est plus imposée");
+  // Conseiller sans imposer, et laisser la décision au visiteur ou à M. Kouassi.
+  assert.match(PROMPT, /tu lui laisses les décisions créatives/i);
+  assert.match(PROMPT, /au plus deux pistes liées au contexte/i);
+});
+
+test("D-9 n'active pas MarcoS : l'activation reste un geste de Marc", () => {
+  assert.equal(D9.active, false, "les textes existent, l'activation non");
+});

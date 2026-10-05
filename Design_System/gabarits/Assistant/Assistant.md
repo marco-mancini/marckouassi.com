@@ -1,13 +1,23 @@
 # Assistant
 
-Assemblage V1 de MarcoS : `Modale` + `Conversation` + formulaire + états.
-Voir [AI_UX.md](../../../Docs/AI_UX.md) pour le parcours et les états.
+Un seul export de rendu, `Assistant`, et une seule racine d'état : la présence
+flottante et le panneau sont le même objet (D-40).
+
+**Deux socles, et pourquoi.** Le buste est `position: absolute; bottom: 100 %`
+de son socle : il est **posé** sur son porteur, jamais devant ni derrière. Or
+le porteur change — la barre quand c'est fermé, le panneau quand c'est ouvert.
+Il faut donc un buste par socle, et un seul est visible à la fois. Un buste
+unique qu'on déplacerait devrait changer de parent en cours d'animation.
+
+Voir [AI_UX.md](../../../Docs/AI_UX.md) « La présence flottante et ses états »
+pour le parcours complet, et [DECISIONS.md](../../../Docs/DECISIONS.md) → D-40
+pour les écarts assumés avec la maquette d'interaction.
 
 ## Props (3)
 
 | Prop | Type | Rôle |
 |---|---|---|
-| `assistant` | objet | `content/site.json` → `assistant` : `active`, `accueil`, `exemples`, `confidentialite`. |
+| `assistant` | objet | `content/site.json` → `assistant` : `active`, `accueil`, `exemples`, `confidentialite`, `avatar.etats`. |
 | `ctx` | contexte | `t` pour les libellés, `c` et `l` pour les textes de Marc. |
 | `endpoint` | chaîne \| `null` | adresse du Worker, issue de `ASSISTANT_URL` au build. |
 
@@ -43,17 +53,48 @@ stockée illisible est effacée au lieu de faire échouer l'activation.
 
 « Réessayer » renvoie la **même** question : elle n'est jamais perdue.
 
+### Le pilote d'état
+
+`pilote(lanceur)` est le **seul** système d'état. Il pose `data-etat` sur
+`.lanceur` et bascule l'image du buste dans le même geste : c'est ce qui garde
+les deux cohérents. Un état sans image déclarée retombe sur celle du repos —
+MarcoS ne disparaît jamais.
+
+Une suite programmée (`{ puis, delai }`) est toujours annulable : un nouvel état
+posé entre-temps l'emporte, et la file ne s'empile pas. C'est ce qui permet
+`reponse → fin → repos` sans jamais figer MarcoS dans un état transitoire.
+
+Les délais sont des constantes exportées (`DELAIS`) : `fin` 1,4 s avant le
+retour à `open`, `frappe` 18 ms par caractère. L'écoute ne l'emporte jamais sur
+`thinking` ni `responding` — l'état réel bat la frappe.
+
+`data-ouvert` ne se déduit PAS du nom de l'état : il suit l'attribut `open` du
+`<dialog>`. C'est ce qui évite le défaut de la maquette, où `end` refermait le
+panneau avant que le visiteur ait lu la réponse.
+
+### Deux pièges rencontrés, et leur raison
+
+- **« Effacer » vit dans la barre, donc HORS de `[data-assistant]`.** Il est
+  résolu depuis la racine. Il est **désactivé**, pas masqué : la barre garde
+  ses trois emplacements et ne change pas de largeur.
+- **Les deux socles portent chacun le jeu complet d'expressions.** Une Map
+  « nom → image » n'en gardait qu'une, et le buste de la barre ne changeait
+  jamais d'expression. Le pilote groupe par nom.
+
 ## Contraintes
 
-- aucune présence flottante, aucun avatar en V1 (D-13) ;
+- le buste et l'onde sont décoratifs (`aria-hidden`, `alt=""`) : aucune information ne passe par l'avatar seul ;
+- le nom accessible vit sur le bouton (`aria-label`), jamais écrit deux fois dans l'arbre ;
+- aucun chemin de fichier d'avatar dans le gabarit : les expressions viennent de `site.assistant.avatar.etats` ;
+- une seule expression chargée au premier affichage ; les autres portent `hidden` et n'arrivent qu'avec leur état ;
 - aucune clé ni nom de modèle dans le navigateur ;
 - `sessionStorage` uniquement, jamais `localStorage`, jamais de stockage serveur ;
 - réponses insérées comme texte ;
-- liens uniquement ceux du Worker, et seulement s'ils commencent par `/` ;
+- liens uniquement ceux du Worker, s'ils commencent par `/` **et** s'ils ont de quoi se nommer : le Worker renvoie `{id, href}`, le composant affiche `libelle || id`. Sans ce garde-fou, un lien sortait en ancre vide de 2 px, sans nom accessible (WCAG 2.4.4) ;
 - tous les textes d'interface viennent des dictionnaires (clé `assistant`) ;
 - les textes éditoriaux viennent de `content/site.json` et sont écrits par Marc ;
 - aucune valeur en dur : les mesures passent par les jetons.
 
 ## Dépendances
 
-`Modale`, `Conversation`, `Champ`, `Saisie`, `Bouton`, `Message`, `rendu.js`.
+`Modale` (variante `ancre`, `modal: false`), `Conversation`, `Saisie`, `Bouton`, `rendu.js`.

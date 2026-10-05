@@ -20,13 +20,16 @@ const TYPES_INPUT = { texte: "text", courriel: "email", url: "url", nombre: "num
  * @param {number} [p.options.lignes]
  * @param {{aide?:boolean, erreur?:boolean}} [p.options.etat]
  * @param {string} [p.options.complement]     valeur d'autocomplete
+ * @param {string} [p.options.invite]         texte d'invite (placeholder). Il ne
+ *        remplace JAMAIS une etiquette : il la complete.
  */
 export function Saisie({ id, type = "texte", valeur = "", options = {} }) {
-  const { nom = id, choix = [], requis = false, desactive = false, lang = null, lignes = 5, etat = {}, complement = null } = options;
+  const { nom = id, choix = [], requis = false, desactive = false, lang = null, lignes = 5, etat = {}, complement = null, invite = null } = options;
   const decritPar = [etat.aide && `${id}-aide`, etat.erreur && `${id}-erreur`].filter(Boolean).join(" ") || null;
   const communs = {
     id, name: nom, class: classes("saisie", `saisie--${type}`), required: requis, "aria-required": requis ? "true" : null,
     disabled: desactive, lang, "aria-invalid": etat.erreur ? "true" : null, "aria-describedby": decritPar, autocomplete: complement,
+    placeholder: invite,
   };
   if (type === "long") return html`<textarea${attributs({ ...communs, rows: lignes })}>${valeur ?? ""}</textarea>`;
   if (type === "choix") {

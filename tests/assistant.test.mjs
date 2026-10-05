@@ -8,7 +8,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { Conversation } from "../Design_System/composants/Conversation/Conversation.js";
-import { Assistant, LONGUEUR_MAX } from "../Design_System/gabarits/Assistant/Assistant.js";
+import { Assistant, LONGUEUR_MAX, ETATS, ETAT_REPOS, ETATS_OUVERTS } from "../Design_System/gabarits/Assistant/Assistant.js";
 import { CODES } from "../worker/assistant/src/erreurs.js";
 import { contextePage } from "../Design_System/gabarits/pages.js";
 import { PageAccueil } from "../Design_System/gabarits/sections/Pages.js";
@@ -69,13 +69,37 @@ test("l'état livré du dépôt ne rend pas MarcoS", () => {
   assert.equal(Assistant({ assistant: site.assistant, ctx, endpoint: "https://x.test" }), "");
 });
 
-test("Assistant rendu : modale centrée, journal, formulaire, et l'endpoint transmis", () => {
+test("Assistant rendu : presence flottante, panneau ancre, journal, saisie, endpoint", () => {
   const sortie = String(Assistant({ assistant: actif(), ctx, endpoint: "https://worker.test/api/assistant" }));
   assert.match(sortie, /data-endpoint="https:\/\/worker\.test\/api\/assistant"/);
-  assert.match(sortie, /data-assistant-form/);
   assert.match(sortie, /role="log"/);
   assert.match(sortie, /data-longueur-max="500"/);
   assert.equal(LONGUEUR_MAX, 500, "aligné sur la validation du Worker");
+  // La maquette : une racine d'etat, deux socles, une barre a trois commandes.
+  assert.match(sortie, /<div class="marcos" data-marcos data-etat="rest" data-ouvert="0" data-erreur="0"/);
+  assert.match(sortie, /class="socle socle-panneau"/);
+  assert.match(sortie, /class="socle socle-barre"/);
+  assert.equal((sortie.match(/class="barre"/g) || []).length, 1, "une seule barre");
+  for (const marque of ["data-assistant-envoyer", "data-assistant-effacer", "data-assistant-neuf", "data-assistant-erreur", "data-assistant-compteur"]) {
+    assert.ok(sortie.includes(marque), `la maquette prévoit ${marque}`);
+  }
+});
+
+test("le panneau n'est pas modal : le portfolio reste parcourable pendant la conversation", () => {
+  // MARCOS_AVATAR_UI §2 et la maquette (aria-modal="false") : MarcoS ne prend
+  // jamais la page. C'est `data-modal="false"` qui fait ouvrir avec show().
+  const sortie = String(Assistant({ assistant: actif(), ctx, endpoint: "https://x.test" }));
+  assert.match(sortie, /<dialog[^>]*data-modal="false"/);
+  assert.match(sortie, /modale--ancre/);
+});
+
+test("les sept états de la maquette, et pas un de plus", () => {
+  // Dix expressions dans la bibliotheque ne font pas dix etats d'execution.
+  assert.deepEqual(ETATS, ["rest", "hover", "open", "listening", "thinking", "responding", "end"]);
+  assert.equal(ETAT_REPOS, "rest");
+  // `end` ferme un echange, pas la conversation : le panneau reste ouvert.
+  assert.ok(ETATS_OUVERTS.has("end"), "end n'est pas un etat de fermeture");
+  assert.ok(!ETATS_OUVERTS.has("hover") && !ETATS_OUVERTS.has("rest"));
 });
 
 test("un exemple vide ne devient jamais un bouton sans fonction", () => {
@@ -89,8 +113,8 @@ test("un exemple vide ne devient jamais un bouton sans fonction", () => {
 
 test("une confidentialité non écrite n'affiche pas de paragraphe vide", () => {
   const sortie = String(Assistant({ assistant: actif(), ctx, endpoint: "https://x.test" }));
-  assert.ok(!sortie.includes("assistant__confidentialite"));
-  assert.match(String(Assistant({ assistant: actif({ confidentialite: { fr: "Rien n'est conservé.", en: "Nothing is kept." } }), ctx, endpoint: "https://x.test" })), /assistant__confidentialite/);
+  assert.ok(!sortie.includes('class="confid"'));
+  assert.match(String(Assistant({ assistant: actif({ confidentialite: { fr: "Rien n'est conservé.", en: "Nothing is kept." } }), ctx, endpoint: "https://x.test" })), /class="confid"/);
 });
 
 test("aucun texte d'interface n'est écrit dans le gabarit ni dans le composant", () => {
@@ -144,8 +168,11 @@ const contenuReel = {
 const dictionnaires = { fr, en };
 const accueil = ({ assistant, endpoint }) => {
   const contenu = { ...contenuReel, site: { ...site, ...(assistant === undefined ? {} : { assistant }) } };
+  // Les expressions de la présence flottante passent par la table des médias,
+  // comme toute image du site : sans elle, `ctx.media` ne rend rien.
+  const medias = new Map((assistant?.avatar?.etats || []).map(({ src }) => [src, { src: `${src}.webp`, type: "image", largeur: 783, hauteur: 667 }]));
   const ctxPage = contextePage({
-    site: contenu.site, langue: "fr", chemin: "", dictionnaires, medias: new Map(),
+    site: contenu.site, langue: "fr", chemin: "", dictionnaires, medias,
     ressources: { sprite: "", couleurTheme: "#fff", annee: 2026, assistantEndpoint: endpoint },
   });
   return String(PageAccueil({ contenu, ctx: ctxPage }));
@@ -164,14 +191,56 @@ test("l'accueil ne porte ni la modale de MarcoS ni son entrée tant qu'il n'est 
   }
 });
 
-test("actif et avec une adresse, l'accueil porte la modale et les deux entrées de D-4", () => {
-  // D-4 : l'entrée de MarcoS est dans Contact et dans le menu en V1. Pas de
-  // présence flottante, pas d'avatar — c'est la V2 (D-13).
+test("actif et avec une adresse, l'accueil porte MarcoS et ses trois entrées", () => {
+  // D-4 donnait deux entrées, Contact et le menu ; elles restent. La barre de
+  // la présence flottante en est la troisième, et c'est elle que le visiteur
+  // voit en premier (MARCOS_AVATAR_UI §2).
   const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
-  assert.match(page, /<dialog[^>]*id="assistant"/, "la modale est rendue");
+  assert.match(page, /<dialog[^>]*id="assistant"/, "le panneau est rendu");
+  assert.match(page, /data-modal="false"/, "non modal : le portfolio reste parcourable");
   const entrees = page.match(/data-modale-ouvrir="assistant"/g) || [];
-  assert.equal(entrees.length, 2, "exactement deux entrées : Contact et le menu");
-  assert.doesNotMatch(page, /assistant__presence|assistant-flottant/, "aucune présence flottante (D-13)");
+  assert.equal(entrees.length, 3, "Contact, le menu, et la barre de la présence");
+  assert.match(page, /<div class="marcos" data-marcos data-etat="rest"/, "la présence naît au repos");
+});
+
+test("la présence flottante ne rend que les expressions déclarées, et ne charge que celle du repos", () => {
+  // Performance : une seule image par socle au premier affichage ; les autres
+  // restent `hidden`, donc le navigateur ne les demande qu'à leur état. Et une
+  // expression dont l'état n'existe pas n'entre pas dans la page.
+  const avatar = { etats: [
+    { etat: "rest", src: "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png" },
+    { etat: "thinking", src: "Public/Avatar_MarcoS/Avatar_03_REFLEXION.png" },
+    { etat: "inconnu", src: "Public/Avatar_MarcoS/Avatar_04_ANALYSE.png" },
+  ] };
+  const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." }, avatar }, endpoint: "https://worker.test/api" });
+  const images = page.match(/data-expression="[a-z]+"/g) || [];
+  // Deux socles, donc deux fois chaque expression : le buste est posé sur la
+  // barre quand c'est fermé, sur le panneau quand c'est ouvert.
+  assert.deepEqual(images, [
+    'data-expression="rest"', 'data-expression="thinking"',
+    'data-expression="rest"', 'data-expression="thinking"',
+  ], "l'état inconnu est écarté, et chaque socle porte le jeu complet");
+  assert.match(page, /data-expression="rest"[^>]*loading="eager"/, "le repos est chargé tout de suite");
+  assert.match(page, /<img[^>]*data-expression="thinking"[^>]*hidden/, "les autres attendent leur état");
+});
+
+test("sans expression déclarée, la présence flottante garde sa barre", () => {
+  // L'avatar est décoratif : son absence ne supprime jamais le point d'entrée.
+  const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
+  assert.match(page, /class="barre"/, "la barre reste");
+  assert.doesNotMatch(page, /class="av"/, "aucun socle de buste vide");
+});
+
+test("la présence flottante est muette pour les technologies d'assistance, sauf ses commandes", () => {
+  // MARCOS_AVATAR_UI §12 : aucune information ne passe par l'avatar seul.
+  const avatar = { etats: [{ etat: "rest", src: "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png" }] };
+  const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." }, avatar }, endpoint: "https://worker.test/api" });
+  const marcos = page.slice(page.indexOf('<div class="marcos"'));
+  assert.match(marcos, /<span class="av" aria-hidden="true">/, "le buste est décoratif");
+  assert.match(marcos, /<span class="onde" aria-hidden="true">/, "l'onde est décorative");
+  assert.match(marcos, /<img[^>]*alt=""/, "l'image ne porte aucun texte alternatif");
+  // L'activité n'est pas muette pour autant : elle a un nom, depuis le dictionnaire.
+  assert.match(marcos, /class="activite" role="img" aria-label="[^"]+"/);
 });
 
 test("chaque entrée de MarcoS annonce le dialogue qu'elle ouvre", () => {

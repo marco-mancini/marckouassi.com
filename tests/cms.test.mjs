@@ -238,15 +238,21 @@ test("le parcours de la section 06 est écrit dans une forme que le CMS préserv
   assert.equal(parcours.cartes.filter((c) => c.juste).length, 1, "une seule bonne réponse");
 });
 
-test("le CMS propose MarcoS même quand le contenu ne le porte pas encore", () => {
+test("le CMS propose MarcoS même si le contenu ne porte pas le bloc", () => {
   // Le blocage de PM-104 (#104) : Sveltia enregistre avec
   // `omit_empty_optional_fields`, donc un bloc amorcé à vide dans
   // content/site.json perdrait accueil, exemples et confidentialité au premier
   // enregistrement — et la configuration, déduite de la forme des données, ne
   // les proposerait plus ensuite. Déclaré facultatif, le bloc est proposé sans
   // qu'aucune valeur vide n'existe, et les trois textes restent ceux de Marc.
-  const contenu = brut();
-  assert.equal(contenu.site.assistant, undefined, "le contenu ne porte pas encore le bloc");
+  // Le cas est construit ici, et non emprunté à l'état du contenu : depuis
+  // que les textes de D-9 existent, le bloc EST dans content/site.json. Le
+  // filet doit tenir quand même — c'est lui qui empêche le champ de
+  // disparaître si Marc vide un jour les trois textes.
+  const complet = brut();
+  const { assistant: _retire, ...sansBloc } = complet.site;
+  const contenu = { ...complet, site: sansBloc };
+  assert.equal(contenu.site.assistant, undefined);
 
   const config = configurationCms({ contenu, fr });
   assert.equal(config.output.omit_empty_optional_fields, true, "c'est bien ce réglage qui écartait les valeurs vides");
@@ -274,4 +280,21 @@ test("le CMS propose MarcoS même quand le contenu ne le porte pas encore", () =
   const exemples = assistant.fields.find((f) => f.name === "exemples");
   assert.equal(exemples.widget, "list");
   assert.deepEqual(exemples.field.fields.map((f) => f.name), ["fr", "en"]);
+});
+
+test("le bloc MarcoS reste éditable maintenant que les textes de D-9 existent", () => {
+  // L'autre moitié de la garantie : avec le bloc dans les données, la
+  // configuration le déduit de leur forme, et l'éditeur propose les mêmes
+  // champs — les quatre de D-9, plus les expressions de la présence flottante.
+  // Les deux chemins mènent au même éditeur.
+  const contenu = brut();
+  assert.ok(contenu.site.assistant, "les textes de D-9 sont dans le contenu");
+
+  const site = configurationCms({ contenu, fr }).collections[0].files.find((f) => f.name === "site");
+  const assistant = site.fields.find((f) => f.name === "assistant");
+  assert.ok(assistant, "le bloc est éditable");
+  assert.deepEqual(assistant.fields.map((f) => f.name).sort(), ["accueil", "active", "avatar", "confidentialite", "exemples"]);
+
+  const exemples = assistant.fields.find((f) => f.name === "exemples");
+  assert.equal(exemples.widget, "list", "les dix exemples s'ajoutent et se retirent dans l'éditeur");
 });

@@ -31,7 +31,7 @@ d'aperçu Vercel « Ready ».
 | Élément | Fourni par | Nécessaire à partir de | État |
 |---|---|---|---|
 | Décisions D-1 à D-19 | Marc | IA-01 | **acquis le 2 octobre 2026** |
-| Les trois textes de D-9 (accueil, exemples, confidentialité) | Marc, dans `/admin/` | **activation seulement** | à écrire quand il veut ; `assistant.active` reste `false` d'ici là |
+| Les trois textes de D-9 (accueil, exemples, confidentialité) | Marc, dans `/admin/` | **activation seulement** | **écrits le 4 octobre 2026** (D-37) ; `assistant.active` reste `false` tant que Marc ne l'active pas |
 | Compte Cloudflare **gratuit** + jeton d'API Wrangler | Marc | IA-10 (déploiement) ; le développement local n'en a pas besoin | à créer |
 | Clé API Mistral, **sur crédits gratuits, sans moyen de paiement** | Marc | IA-05 | à créer |
 | Clé Resend en permission d'envoi et adresse expéditeur d'un domaine vérifié | Marc | PM-112 (email du brief) | à créer/configurer, sans formule payante |
@@ -113,9 +113,9 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 ### IA-04 — Interface (sans clé, avec le Worker simulé)
 - Composant `Conversation` (CSS, JS, contrat `.md`) et gabarit `Assistant`
   ([AI_UX.md](AI_UX.md)).
-- **Entrée dans la section Contact et le menu** (D-4). **Aucune présence
-  flottante, aucun avatar en V1** (D-13) — et rien dans le code qui empêche de
-  les ajouter en V2.
+- **Entrée dans la section Contact et le menu** (D-4). Ni présence flottante,
+  ni avatar à ce stade — non par palier, **D-38 a supprimé la V2**, mais parce
+  qu'ils ne sont pas encore implémentés. Rien dans le code ne les empêche.
 - Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
   existant), à la **troisième personne et au vouvoiement** (D-15).
 - Contenu : **rien n'est écrit dans `content/site.json`.** Le bloc `assistant`
@@ -255,8 +255,10 @@ gratuit).
 - Écrire un message d'accueil, des exemples ou une traduction à la place de Marc.
 - **Laisser MarcoS répondre en plus de trois phrases**, ou relever `max_tokens`
   au-dessus de 180 sans décision de Marc.
-- Ajouter la présence flottante ou l'avatar **en V1** (D-13) — ni les rendre
-  impossibles pour la V2.
+- Rendre la présence flottante ou l'avatar **impossibles**. D-38 a supprimé la
+  V2 : ils ne sont plus reportés, seulement pas encore faits. Les ajouter
+  demande le format tranché et le pipeline à transparence ([#49](https://github.com/marco-mancini/marckouassi.com/issues/49)),
+  pas une permission de calendrier.
 - Transmettre la liste des pages visitées (D-16), ou le profil personnel de
   MARCOS.md §18-25 (D-14).
 - Insérer la réponse du modèle comme HTML, ou suivre une URL qu'il a produite.
@@ -339,7 +341,7 @@ existe ; elle n'en choisit jamais un autre à notre place.
 | Attend | Pour quoi | Bloquant pour le développement local ? |
 |---|---|---|
 | **`MISTRAL_CLE`** | le premier appel réel | **oui**, et c'est le seul |
-| Les trois textes de D-9 | activer MarcoS pour les visiteurs | non — la fenêtre est éprouvée avec des textes d'essai |
+| ~~Les trois textes de D-9~~ | ~~activer MarcoS~~ | **écrits** le 4 octobre 2026 (D-37) ; la fenêtre est éprouvée sur les vrais textes |
 | Compte Cloudflare | déployer le Worker, binding de débit | non — le Worker tourne sous Node dans les tests |
 | `RESEND_CLE` | la transmission du brief par e-mail | non — route séparée, elle ne rappelle pas le modèle |
 

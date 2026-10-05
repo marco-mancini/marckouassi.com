@@ -5,7 +5,7 @@ Arrêté le 2 octobre 2026 par les décisions de Marc
 l'[architecture](AI_ARCHITECTURE.md).
 
 Quatre décisions commandent ce document : **D-4** (entrée dans Contact et le
-menu en V1), **D-13** (avatar **pas en V1**, prévu en V2), **D-15** (troisième
+menu), **D-13** (avatar, **remplacée par D-38** : plus de V2), **D-15** (troisième
 personne, vouvoiement) et **D-17** (exemples de questions seuls).
 
 ## Intention
@@ -26,21 +26,112 @@ que [MARCOS.md](MARCOS.md) §3 et §5 les demandent : une figurine 3D et une
 « présence discrète en bas à droite » dont « la figurine est le point d'entrée ».
 Les deux documents se contredisaient.
 
-**Marc a tranché le 2 octobre : deux étapes.**
+**Décision D-38 (4 octobre 2026) : il n'y a plus de V2.** Le découpage en deux
+paliers — une première version sans figurine, une seconde avec — est abandonné.
+Tout relève de la version en cours.
 
-| Version | Entrée de MarcoS | Avatar |
-|---|---|---|
-| **V1** | section Contact (`Bouton nu`) et lien du menu | **aucun** |
-| **V2** | **présence discrète en bas à droite**, portant la figurine | la figurine 3D de MARCOS.md §3, quand [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) est tranchée et les fichiers produits |
+| Élément | État |
+|---|---|
+| Entrée dans la section Contact (`Bouton nu`) et dans le menu | **en place** |
+| Présence flottante en bas à droite | **en place** (D-39) : buste posé sur une barre compacte, `position: fixed`, troisième point d'entrée vers le même panneau |
+| Figurine 3D | **rendue** : sept des dix expressions validées, une par état, publiées en WebP à transparence conservée |
+| Cadrage du buste | **ouvert** : les fichiers montrent le personnage aux trois quarts en 783 × 667, là où un buste carré est demandé ([#49](https://github.com/marco-mancini/marckouassi.com/issues/49)) |
 
-La V2 n'est **pas abandonnée** : elle attend l'avatar, qui attend cinq décisions
-de Marc (photo de référence, style, angles, outil, format). Tant que ces
-décisions ne sont pas prises, aucune présence flottante n'est développée — mais
-rien dans ce document ne doit laisser croire qu'elle est exclue par principe.
+Rien de tout cela n'est publié tant que `site.assistant.active` reste à `false`.
 
 Ce qui reste interdit **sans réserve et dans toutes les versions** : dégradé,
 glassmorphism, lueur, néon, effet de frappe, carte générique de SaaS, couleur ou
 typographie étrangère au Design System.
+
+## La présence flottante et ses états (D-39, D-40)
+
+L'interface est celle de la maquette d'interaction fournie par Marc le 5 octobre
+2026. Les écarts assumés avec elle sont listés dans
+[DECISIONS.md](DECISIONS.md) → D-40 ; il n'en existe pas d'autre.
+
+### Structure : deux socles
+
+`.marcos` est fixe en bas à droite et contient deux socles. Le buste est
+`position: absolute; bottom: 100 %` de son socle : il est **posé** sur son
+porteur, jamais devant ni derrière. Comme le porteur change — la barre quand
+c'est fermé, le panneau quand c'est ouvert — il y a un buste par socle, et un
+seul est visible. Une ombre de contact elliptique au ras du bord fait qu'il
+repose sur quelque chose au lieu de flotter.
+
+À l'ouverture : le buste passe sur le panneau, centré aux trois quarts de sa
+largeur ; la barre se rétracte à 75 % et se centre dessous.
+
+### La barre
+
+Trois commandes — ouvrir, activité, effacer — séparées par deux filets, sur un
+fond d'encre dans les deux thèmes. L'onde de cinq barreaux est décorative
+(`role="img"` avec un nom depuis le dictionnaire) ; son amplitude et son rythme
+suivent l'état. « Effacer » est **désactivé** tant que rien n'a été dit : la
+barre garde ses trois emplacements et ne change pas de largeur.
+
+### Le panneau
+
+`Modale` variante `ancre`, avec `modal: false` : ouvert par `show()`, donc **le
+portfolio reste parcourable**, le défilement n'est pas verrouillé et le focus
+n'est pas piégé — ce qui est le bon comportement pour un assistant persistant.
+Échap est rendu à la main, puisque l'évènement natif `cancel` n'existe que pour
+une modale. Le focus revient à la barre à la fermeture.
+
+Hauteur bornée, défilement interne, `overscroll-behavior: contain`. Jamais de
+plein écran, jamais de croissance infinie.
+
+### Les sept états
+
+Sept états d'exécution, pas dix. Les dix fichiers de `Public/Avatar_MarcoS/`
+sont une **bibliothèque d'expressions** : six états en déclarent une, `hover`
+retombe sur celle du repos, et trois expressions ne servent à aucun état.
+
+| État | Déclencheur | Expression | Barre |
+|---|---|---|---|
+| `rest` | au chargement, à la fermeture | Neutre / disponible | onde vivante, le buste respire |
+| `hover` | le pointeur entre sur MarcoS | celle du repos | la barre se soulève, le buste aussi, l'ombre se resserre |
+| `open` | le panneau s'ouvre | Bienvenue | l'onde se met en veille |
+| `listening` | le visiteur écrit | À l'écoute | l'onde s'accélère |
+| `thinking` | la demande part | Réflexion | **mouvement différent** : le buste se balance, l'onde ralentit et change de teinte. Une bulle de trois points tient la place de la réponse |
+| `responding` | la réponse arrive | Idée / suggestion | micro-mouvement du buste, onde pleine ; le texte s'écrit lettre à lettre, curseur compris |
+| `end` | la réponse est écrite, 1,4 s | Succès / félicité | tout ralentit, puis retour à `open` |
+
+Un seul `data-etat`, sur `.marcos`, pilote le buste, la barre et le panneau.
+Aucune animation ne tourne sans rapport avec l'état réel.
+
+### Le mouvement
+
+Rien n'est statique. L'ouverture est une cascade — en-tête, fil, saisie,
+mention — sur moins d'un tiers de seconde, avec un léger dépassement d'échelle.
+Chaque bulle arrive de **son** côté. Les suggestions se posent l'une après
+l'autre. Le bouton d'envoi se contracte au départ d'une question, le compteur
+bat quand il passe sous son seuil, les commandes de la barre prennent un halo
+au survol.
+
+### Téléphone
+
+Sous 520 px : `.marcos` prend la largeur utile moins les gouttières, le panneau
+avec, et sa hauteur maximale tient compte des safe areas. Mesuré : aucun
+débordement du viewport, champ de saisie toujours atteignable.
+
+### Accessibilité
+
+- le buste et l'onde sont `aria-hidden`, l'image porte `alt=""` : **aucune
+  information ne passe par l'avatar seul** ;
+- le champ a une étiquette invisible mais reliée, en plus de son invite ;
+- le compteur visible est `aria-hidden` ; la phrase complète du dictionnaire
+  l'accompagne, invisible, en `aria-live` ;
+- `aria-expanded`, `aria-haspopup="dialog"`, `aria-controls` sur les trois
+  entrées ; Échap ferme ; le focus revient à la barre ;
+- `prefers-reduced-motion` coupe **toutes** les boucles et toutes les entrées
+  animées, et la frappe progressive est désactivée côté script : le texte
+  arrive d'un coup. Les éléments restent à leur place, visibles.
+
+### Performance
+
+Une seule expression par socle est demandée au premier affichage. Les autres
+portent `hidden` et `loading="lazy"` : le navigateur ne les réclame qu'à leur
+état. Sept expressions publiées en WebP à transparence conservée.
 
 ## Réutilisation du Design System
 
@@ -48,8 +139,9 @@ Tous les éléments existent déjà, sauf la liste des échanges.
 
 | Besoin | Composant existant | Variante |
 |---|---|---|
-| Ouvrir MarcoS | `Bouton` | `nu` dans la section Contact (même ligne que les autres liens) ; lien du menu |
-| Fenêtre | `Modale` | `centre`, comme l'étude de projet (focus piégé, Échap, retour du focus déjà gérés) |
+| Ouvrir MarcoS | `Bouton` | `nu` dans la section Contact (même ligne que les autres liens) ; lien du menu ; et la barre du lanceur, qui est elle-même le bouton |
+| Présence flottante | `LanceurAssistant` | le seul élément neuf : buste + barre. Aucun composant existant ne faisait cela |
+| Panneau | `Modale` | `ancre` (D-39) : `<dialog>` natif — focus piégé, Échap, retour du focus inchangés — mais posé au-dessus du lanceur, borné, fond transparent |
 | Message d'accueil, aide | paragraphe `texte-corps` | — |
 | Exemples de questions | `Bouton` dans une `Pile` | `filet`, `direction: "ligne"` |
 | Champ de question | `Champ` + `Saisie` | `formulaire` + `long` (3 lignes) ; aide = caractères restants |
@@ -113,6 +205,8 @@ suivant, sans configuration écrite à la main.
 Aucun de ces textes n'est rédigé par une IA. Tant que l'accueil n'est pas
 écrit, `assistant.active` reste `false` et MarcoS n'est pas rendu. Sans
 exemples, la zone d'exemples n'apparaît pas.
+
+> **Mise à jour du 4 octobre 2026 — D-37.** Les quatre textes sont écrits et vivent dans `content/site.json` → `assistant`. Ils restent éditables dans `/admin/` → Paramètres. `assistant.active` reste `false` : l'activation est un geste de Marc, et elle demande en outre `ASSISTANT_URL`. Voir [DECISIONS.md](DECISIONS.md) → D-37.
 
 **Décision D-9 :** Marc écrit ces trois textes **lui-même, dans `/admin/` →
 Paramètres**. Le champ `assistant` apparaîtra de lui-même dans l'éditeur dès

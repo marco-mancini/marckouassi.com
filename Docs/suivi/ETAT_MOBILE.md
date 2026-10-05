@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-04T15:01:42.446Z depuis 77018357349d6773d63d4b705b779cb20e68b01a.
+> Source unique : issues GitHub. Généré le 2026-10-05T10:25:21.332Z depuis 660e47ae8f912dd1ba54e656248ce6de21bf0ee2.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -20,16 +20,16 @@
 - #7 — [PM-007] Créer le GitHub Project « Portfolio Marc Kouassi » et y rattacher les issues
 
 ## Pull requests ouvertes
-- Aucune pull request ouverte.
+- #155 — feat(marcos): adaptateur Mistral, cache de connaissance, fenêtre éprouvée — prêt pour la clé
 
 ## Prochaine action
 - Issue #49 — [PM-049] Avatar 3D de MarcoS
 
 ## Dernier commit
-- 7701835 feat(cv): retrouver l'identité visuelle du PDF sur la page /cv/ (#153)
+- 660e47a fix(marcos): faire respecter réellement le budget de 20 s par requête
 
 ## Dernière preuve
-- Issue #142 mise à jour le 2026-10-04T15:01:29Z.
+- Issue #156 mise à jour le 2026-10-05T01:18:51Z.
 
 ## Dernière mise à jour
-- 2026-10-04T15:01:42.446Z
+- 2026-10-05T10:25:21.332Z

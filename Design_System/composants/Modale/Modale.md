@@ -1,6 +1,6 @@
 # Modale
 
-**Responsabilité** : toute boîte de dialogue, sur un seul mécanisme, le `<dialog>` natif. Étude de projet, menu mobile du site, navigation du back-office sous 850 px, confirmation de suppression, aperçu.
+**Responsabilité** : toute boîte de dialogue, sur un seul mécanisme, le `<dialog>` natif. Étude de projet, menu mobile du site, navigation du back-office sous 850 px, confirmation de suppression, aperçu, panneau de MarcoS.
 
 ## Props (5)
 
@@ -10,7 +10,7 @@
 | `etiquette` | `{id}` \| chaîne | `aria-labelledby` (titre dans le contenu) ou `aria-label`. |
 | `contenu` | HTML | Corps. |
 | `entete` | HTML | En-tête (compteur « 03 / 11 », libellé…). |
-| `options` | `{variante, libelleFermer, fermeture}` | `centre` ou `plein-ecran` ; libellé du bouton de fermeture, depuis le dictionnaire ; `fermeture: "texte"` rend ce libellé visible (bouton « Passer » de l'accueil). |
+| `options` | `{variante, libelleFermer, fermeture, modal, iconeFermer}` | `centre`, `plein-ecran` ou `ancre` ; `modal: false` ouvre avec `show()` ; libellé du bouton de fermeture, depuis le dictionnaire ; `fermeture: "texte"` rend ce libellé visible (bouton « Passer » de l'accueil). |
 
 ## Comportement (navigateur)
 
@@ -38,6 +38,30 @@
 
 - `centre`.
 - `plein-ecran` : fond olive profond, contexte `.ilot-olive`, ouverture en rideau.
+- `ancre` : panneau de MarcoS. Ce composant ne lui donne que le `<dialog>`, son
+  en-tête et son corps ; sa composition appartient au gabarit `Assistant`, qui
+  transpose la maquette d'interaction (D-40). La seule règle commune ici est de
+  neutraliser la boîte du dialogue natif, qui sinon se centre et se dimensionne
+  seul.
+
+## Non modal
+
+`options.modal: false` pose `data-modal="false"` sur le `<dialog>`, et
+`ouvrirModale` ouvre alors avec `show()` au lieu de `showModal()`.
+
+Ce que cela change, et ce qu'il faut assumer :
+
+- le reste de la page **reste actif** : le visiteur continue de parcourir le
+  portfolio pendant la conversation. C'est le bon comportement pour un
+  assistant persistant, et ce que décrit la maquette (`aria-modal="false"`) ;
+- le focus n'est **pas** piégé, ce qui est correct pour un dialogue non modal ;
+- le défilement de la page n'est **pas** verrouillé, donc rien n'est à rendre
+  à la fermeture ;
+- Échap ne ferme pas tout seul — l'évènement `cancel` n'existe que pour une
+  modale. `activerModales` pose donc un écouteur clavier qui ferme la dernière
+  non modale ouverte ;
+- un clic sur le fond ne ferme pas : une non modale n'a pas de fond, et la zone
+  cliquée appartient à la page.
 
 ## Dépendances
 

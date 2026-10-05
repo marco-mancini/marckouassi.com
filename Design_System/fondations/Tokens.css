@@ -104,6 +104,13 @@
      contrastes mesures dessus ne bougent pas. */
   --clair-glass-shine: rgba(255,255,242,.16);
   --clair-overlay-scrim: rgba(80,88,67,.68);
+  /* Barre de MarcoS : un ilot d'encre, en theme clair comme en sombre. La
+     maquette la dessine toujours sombre, et c'est ce qui la detache du
+     portfolio sans lui emprunter une couleur. */
+  --clair-marcos-barre-fond: #2b331f;
+  --clair-marcos-barre-encre: #fffff2;
+  --clair-marcos-barre-survol: rgba(255,255,242,.13);
+  --clair-marcos-barre-filet: rgba(255,255,242,.22);
 
   /* --- Palette sombre ---
      Mesuree au navigateur le 28 septembre 2026, aux deux tailles de
@@ -145,6 +152,10 @@
   --sombre-shadow-board: rgba(0,0,0,.45);
   --sombre-glass-shine: rgba(255,255,242,.16);
   --sombre-overlay-scrim: rgba(10,13,8,.82);
+  --sombre-marcos-barre-fond: #0f1109;
+  --sombre-marcos-barre-encre: #eef0e4;
+  --sombre-marcos-barre-survol: rgba(238,240,228,.13);
+  --sombre-marcos-barre-filet: rgba(238,240,228,.22);
 
   /* ======================================================================
      2. JETONS DE THEME
@@ -201,6 +212,10 @@
   --shadow-board: var(--clair-shadow-board);
   --glass-shine: var(--clair-glass-shine);
   --overlay-scrim: var(--clair-overlay-scrim);
+  --marcos-barre-fond: var(--clair-marcos-barre-fond);
+  --marcos-barre-encre: var(--clair-marcos-barre-encre);
+  --marcos-barre-survol: var(--clair-marcos-barre-survol);
+  --marcos-barre-filet: var(--clair-marcos-barre-filet);
 
   /* --- Roles contextuels ---
      Ce que les COMPOSANTS consomment pour le texte, les filets et les
@@ -665,6 +680,52 @@
   --modale-plein-ecran-gouttiere-mobile: 22px; /* marges latérales de la modale plein écran sous 850 px */
   /* Assistant */
   --assistant-saisie-hauteur-min: 7rem; /* hauteur minimale du champ de question : les trois lignes demandées par AI_UX.md, sans écraser le journal */
+  /* MarcoS — mesures de la maquette d'interaction (D-39) */
+  --marcos-marge: 24px; /* recul depuis le coin inférieur droit */
+  --marcos-marge-mobile: 12px; /* idem sous 520 px */
+  --marcos-panneau-largeur: 372px; /* largeur du panneau, et donc du socle */
+  --marcos-panneau-hauteur: min(460px, calc(100dvh - 240px)); /* hauteur bornée : jamais de croissance infinie */
+  --marcos-panneau-hauteur-mobile: min(58dvh, 420px); /* idem sur téléphone */
+  --marcos-panneau-ecart: 10px; /* entre le panneau et la barre */
+  --marcos-barre-ouverte: 75%; /* la barre se recentre sous le panneau à l'ouverture */
+  --marcos-buste-sur-panneau: 75%; /* largeur du buste posé sur le panneau */
+  --marcos-buste-decalage: 12.5%; /* ce qui le centre : (100 - 75) / 2 */
+  --marcos-ombre-contact: 52%; /* largeur de l'ombre au ras du bord */
+  --marcos-ombre-contact-panneau: 60%; /* la même, quand le buste est plus large */
+  --marcos-ombre-contact-survol: 48%; /* elle se resserre quand MarcoS se soulève */
+  --marcos-bulle-largeur: 84%; /* largeur maximale d'une bulle dans le fil */
+  --marcos-onde-barreau: 2.5px; /* épaisseur d'un barreau de l'onde */
+  --marcos-onde-ecart: 3px; /* écart entre deux barreaux */
+  --marcos-onde-hauteur: 20px; /* hauteur de la zone d'onde */
+  --marcos-onde-repos: 5px; /* hauteur d'un barreau au repos de son cycle */
+  --marcos-onde-crete: 16px; /* hauteur d'un barreau au sommet */
+  --marcos-onde-decalage: .12s; /* retard d'un barreau sur le précédent */
+  --marcos-cible: 44px; /* cible tactile des commandes du panneau */
+  --marcos-cible-barre: 46px; /* cible tactile des trois boutons de la barre */
+  --marcos-t-court: 180ms; /* survol, fond, couleur */
+  --marcos-t-moyen: 320ms; /* ouverture du panneau, déplacement du buste */
+  --marcos-t-long: 520ms; /* rayon de la barre */
+  --marcos-courbe: cubic-bezier(.22, .61, .36, 1); /* la courbe de la maquette */
+  --marcos-respire: 5.2s; /* respiration du buste au repos */
+  --marcos-respire-fin: 7s; /* la même, ralentie, en fin d'échange */
+  --marcos-ecoute: 3.2s; /* respiration pendant que le visiteur écrit */
+  --marcos-reflechit: 2.4s; /* balancement de la réflexion */
+  --marcos-parle: 1.1s; /* micro-mouvement pendant la réponse */
+  --marcos-souleve: -3px; /* soulèvement de la barre au survol */
+  --marcos-souleve-buste: -5px; /* soulèvement du buste au survol */
+  --marcos-entree: 14px; /* translation d'ouverture du panneau */
+  --marcos-echelle-entree: .94; /* échelle de départ du panneau */
+  /* Mouvement du panneau : rien n'est statique, mais rien ne retarde la
+     lecture. Les retards s'additionnent sur moins d'un tiers de seconde. */
+  --marcos-cascade: 70ms; /* retard d'un etage du panneau sur le precedent */
+  --marcos-cascade-exemple: 55ms; /* retard d'une suggestion sur la precedente */
+  --marcos-bulle-entree: 10px; /* d'ou glisse une bulle qui arrive */
+  --marcos-bulle-duree: 340ms; /* duree de son arrivee */
+  --marcos-bulle-echelle: .96; /* echelle de depart d'une bulle */
+  --marcos-rebond: cubic-bezier(.34, 1.56, .64, 1); /* leger depassement a l'ouverture */
+  --marcos-curseur: 1s; /* clignotement du curseur de frappe */
+  --marcos-pulsation: 420ms; /* pulsation de l'envoi et du compteur */
+  --marcos-halo: 18px; /* rayon du halo sous un bouton de la barre au survol */
   /* Decouverte : le parcours immersif de la section 06 (#128) */
   --decouverte-etape-espace: clamp(var(--space-6), 9vw, 7rem); /* respiration entre deux étapes de la narration */
   --decouverte-question-taille: clamp(1.9rem, 5.4vw, 4.2rem); /* la grande question : un événement, pas un titre de section */
@@ -855,6 +916,10 @@
     --shadow-board: var(--sombre-shadow-board);
     --glass-shine: var(--sombre-glass-shine);
     --overlay-scrim: var(--sombre-overlay-scrim);
+    --marcos-barre-fond: var(--sombre-marcos-barre-fond);
+    --marcos-barre-encre: var(--sombre-marcos-barre-encre);
+    --marcos-barre-survol: var(--sombre-marcos-barre-survol);
+    --marcos-barre-filet: var(--sombre-marcos-barre-filet);
   }
 }
 
@@ -896,6 +961,10 @@
   --shadow-board: var(--sombre-shadow-board);
   --glass-shine: var(--sombre-glass-shine);
   --overlay-scrim: var(--sombre-overlay-scrim);
+  --marcos-barre-fond: var(--sombre-marcos-barre-fond);
+  --marcos-barre-encre: var(--sombre-marcos-barre-encre);
+  --marcos-barre-survol: var(--sombre-marcos-barre-survol);
+  --marcos-barre-filet: var(--sombre-marcos-barre-filet);
 }
 
 /* ==========================================================================

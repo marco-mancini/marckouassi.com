@@ -46,13 +46,17 @@ La sophistication doit venir de l’expérience, de l’intelligence et des inte
 
 ## 3. Avatar 3D
 
-> **Décision D-13 (2 octobre 2026) : l'avatar n'est pas en V1, il est prévu en
-> V2.** MarcoS se lance sans figurine, avec une entrée dans la section Contact et
-> le menu, pour ne pas retarder une fonction qui marche en attendant un habillage
-> qui n'existe pas encore. La figurine n'est **pas abandonnée** : elle attend les
-> cinq décisions de [#49](https://github.com/marco-mancini/marckouassi.com/issues/49)
-> — photo de référence, référence de style 3D, angles et poses, outil ou
-> prestataire, format et poids. Tout ce qui suit décrit la **V2**.
+> **Décision D-38 (4 octobre 2026) : il n'y a plus de V2.** Le découpage posé par
+> D-13 — MarcoS d'abord sans figurine, l'avatar ensuite — est abandonné. Tout ce
+> qui suit relève de la version en cours.
+>
+> La figurine n'est pour autant **pas rendue aujourd'hui**, et ce n'est plus une
+> question de calendrier : quatre des cinq décisions de
+> [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) sont prises
+> et les dix expressions sont livrées, mais le **format** n'est pas tranché
+> (§3 du contrat impose un carré 512 × 512, les fichiers sont en 783 × 667) et le
+> **pipeline à transparence** n'existe pas — `tools/medias.mjs` aplatirait la
+> transparence sur le crème du site.
 
 MarcoS doit être représenté par une **figurine 3D inspirée fidèlement de Marc Kouassi**, à partir de sa photo de référence.
 
@@ -121,14 +125,24 @@ MarcoS doit avoir des états distincts plutôt qu'une simple image statique.
 
 Toutes les animations doivent respecter le Design System existant.
 
+**Ce qui est rendu aujourd'hui (D-39).** Sept états sur les huit ci-dessus, avec
+une expression fixe par état et une onde animée dans la barre, pas des séquences
+d'images : `repos`, `accueil` (2), `ecoute` (3), `reflexion` (4), `reponse` (6),
+`fin` et `erreur` (8). **`Écriture` (5) et `Navigation` (7) ne sont pas rendus** —
+le premier demande une synchronisation avec l'apparition progressive du texte,
+qui n'existe pas ; le second demande une pose orientée vers le haut gauche, que
+les fichiers livrés ne contiennent pas. Les deux restent ouverts.
+
 ---
 
 ## 5. Présence dans l'interface
 
-> **Décision D-13 : cette présence est la V2.** En **V1**, l'entrée de MarcoS
-> est un lien dans la section Contact et dans le menu (décision D-4) : aucun
-> élément flottant, rien qui couvre le contenu sur téléphone. La présence
-> décrite ci-dessous arrive avec la figurine, pas avant.
+> **Décision D-39, 5 octobre 2026 : cette présence est implémentée.** Les deux
+> entrées de D-4 — Contact et le menu — restent ; la présence flottante en est
+> une troisième. Ses contraintes ont été tenues et mesurées : rien n'est couvert
+> sur téléphone, la cible tactile est à 44 px, le mouvement réduit coupe toutes
+> les boucles. Voir [AI_UX.md](AI_UX.md) « La présence flottante et ses états »
+> et [DECISIONS.md](DECISIONS.md) D-39.
 
 MarcoS apparaît en priorité sous forme de **présence discrète en bas à droite**.
 
@@ -582,7 +596,7 @@ Aucune nouvelle déduction ne doit être ajoutée comme un fait sans validation.
 Marc a tranché toutes les décisions d'architecture et de produit
 ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)) : source des données, hébergement,
 fournisseur unique, longueur des réponses, personne grammaticale, entrée dans
-l'interface, avatar en V2, profil personnel hors base, plafonds.
+l'interface, profil personnel hors base, plafonds.
 
 **Autorisation donnée le 3 octobre 2026** par Marc dans sa demande de traiter
 les conversations Mistral et GPT jusqu'à application complète. Le plan par
@@ -594,12 +608,13 @@ Ce qui reste ouvert :
 
 - les **trois textes** de D-9 (accueil, exemples, confidentialité), que Marc
   écrira lui-même dans `/admin/` ;
-- l'**avatar 3D** et la présence flottante de la V2. Depuis le 4 octobre 2026,
-  quatre des cinq décisions de
+- l'**avatar 3D** et la présence flottante. Depuis le 4 octobre 2026, quatre des
+  cinq décisions de
   [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) sont prises
   et les dix expressions sont livrées
-  ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7) ; reste la
-  validation du format, et la V2 elle-même n'est pas ouverte ;
+  ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7). D-38 a
+  supprimé le report ; restent la validation du format et le pipeline à
+  transparence, qui sont du travail, pas un palier ;
 - le **tri du profil personnel** des sections 18 à 25 (D-14), à faire une fois
   MarcoS en service ;
 - la **mémoire de navigation** du §10 (D-16), rouverte plus tard s'il y a lieu.
