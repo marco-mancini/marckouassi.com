@@ -297,8 +297,7 @@ L'adresse `workers.dev` resterait utilisable en parallèle pour les previews.
 
 ---
 
-## 5. Arbitrage C — #25 : les onze décisions D-1 à D-11
-Chaque décision est reprise ici **en entier** : la question, les options, la
+## 5. Arbitrage C — #25 : les onze décisions D-1 à D-11Chaque décision est reprise ici **en entier** : la question, les options, la
 conséquence de chaque option, la recommandation et son motif. Le récapitulatif
 de la fin les reprend avec la colonne à remplir.
 
@@ -596,8 +595,8 @@ que tu as faite à un document de conception, et qu'un assistant public n'a pas 
 réciter à un inconnu. Je ne peux pas faire ce tri à ta place : tu es le seul à
 savoir ce que tu acceptes de rendre public. Dis-moi quelles sections passent en
 contenu, et je prépare le champ et les tests.
-### D-15 — MarcoS parle-t-il de Marc à la troisième personne, ou en « je » ?
 
+### D-15 — MarcoS parle-t-il de Marc à la troisième personne, ou en « je » ?
 **Contradiction interne de la documentation.**
 
 Le brouillon de prompt système dit : « Parle de Marc à la **troisième
@@ -895,10 +894,10 @@ enregistré, le pire cas est l'indisponibilité — jamais la dépense.
 ---
 
 ## 10. Les points à lever — un seul subsiste
+
 Tu avais demandé qu'on te signale toute option sans variante gratuite. Il y en
 avait deux. **Le 2 octobre 2026, l'une est levée** (D-11 : le refus
-d'entraînement est gratuit) ; l'autre se constatera à l'implémentation sans rien
-te demander (D-6).
+d'entraînement est gratuit) ; l'autre se constatera à l'implémentation sans riente demander (D-6).
 
 ### D-6 — le binding Rate Limiting est-il gratuit ?
 
@@ -1198,29 +1197,3 @@ Les documents dérivés qui citent D-4 ou D-13 comme règles actives doivent êt
 - `Docs/AI_ARCHITECTURE.md` ;
 - `Docs/AI_IMPLEMENTATION_PLAN.md` ;
 - `Docs/MARCOS.md` ;
-- `Docs/MARCOS_AVATAR.md` ;
-- `Docs/MARCOS_AVATAR_EXPRESSIONS.md` ;
-- `Design_System/gabarits/Assistant/Assistant.css` et les autres contrats d'interface concernés ;
-- les tests qui affirment encore « V1 sans avatar » ou « avatar = V2 ».
-
-**Important :** D-35 enregistre la décision. Ces modifications dérivées constituent une étape de travail distincte et ne doivent pas être effectuées implicitement dans le présent enregistrement.
-
-### Règle de lecture pour les agents
-
-Lorsqu'un agent rencontre une référence à D-4 ou D-13 :
-
-- il doit conserver la formulation historique pour comprendre pourquoi l'architecture actuelle existe ;
-- il doit considérer **D-35 comme la décision active la plus récente** sur ce sujet ;
-- il ne doit pas réintroduire une V1 sans avatar ;
-- il ne doit pas déplacer l'avatar en V2 ;
-- il ne doit pas considérer les dix expressions comme dix nouveaux états runtime ;
-- il doit vérifier les documents dérivés avant toute modification et proposer l'alignement nécessaire ;
-- il ne doit jamais reconstruire cette décision de mémoire.
-
-### Conséquence opérationnelle
-
-Le blocage « attendre une V2 pour intégrer l'avatar » est levé.
-
-L'intégration de l'avatar officiel dans la V1 peut désormais être planifiée, sous réserve des tests, de l'architecture existante, du responsive, du clair/sombre, du FR/EN, de l'accessibilité et de `prefers-reduced-motion`.
-
-**D-35 est la référence active à partir du 5 octobre 2026.**
