@@ -8,9 +8,10 @@ Ce qui est dit de l'avatar lui-même (ressemblance, style, absence de costume, a
 
 ---
 
-> **Statut au 4 octobre 2026.** L'avatar n'est **pas en V1** (décision D-13) :
-> MarcoS se lance sans figurine, avec une entrée dans la section Contact et le
-> menu. Ce document décrit donc la **V2**.
+> **Statut au 5 octobre 2026.** D-35 place l'avatar 3D et la présence flottante en
+> **V1**. La présence flottante est l'entrée visuelle primaire ; Contact et menu
+> restent secondaires. Ce document décrit le format des assets et des séquences
+> d'animation, pas dix états runtime.
 >
 > Sur les cinq décisions que
 > [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) réservait à
