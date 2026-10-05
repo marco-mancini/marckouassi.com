@@ -46,10 +46,10 @@ La sophistication doit venir de l’expérience, de l’intelligence et des inte
 
 ## 3. Avatar 3D
 
-> **Décision D-13 (2 octobre 2026) : l'avatar n'est pas en V1, il est prévu en
-> V2.** MarcoS se lance sans figurine, avec une entrée dans la section Contact et
-> le menu, pour ne pas retarder une fonction qui marche en attendant un habillage
-> qui n'existe pas encore. La figurine n'est **pas abandonnée** : elle attend les
+> **Décision D-35 (5 octobre 2026) : l'avatar et la présence flottante sont en V1.**
+> La présence discrète en bas à droite est l'entrée visuelle primaire de MarcoS.
+> Contact et menu restent des accès secondaires. L'asset neutre officiel validé
+> par #49 est utilisé ; aucune nouvelle modélisation n'est demandée.
 > cinq décisions de [#49](https://github.com/marco-mancini/marckouassi.com/issues/49)
 > — photo de référence, référence de style 3D, angles et poses, outil ou
 > prestataire, format et poids. Tout ce qui suit décrit la **V2**.
@@ -75,7 +75,7 @@ Prévoir plusieurs angles/poses permettant l'animation :
 
 Ces vues doivent constituer une base cohérente pour les animations et états du personnage.
 
-Format des fichiers attendus pour animer les 8 états (vues, dimensions, poids, nommage, transitions, mouvement réduit) : [MARCOS_AVATAR.md](MARCOS_AVATAR.md) (PM-076, rattaché à PM-049).
+Format des fichiers attendus pour les séquences d'animation futures (vues, dimensions, poids, nommage, transitions, mouvement réduit) : [MARCOS_AVATAR.md](MARCOS_AVATAR.md) (PM-076, rattaché à PM-049).
 
 ---
 
@@ -598,8 +598,8 @@ Ce qui reste ouvert :
   quatre des cinq décisions de
   [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) sont prises
   et les dix expressions sont livrées
-  ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7) ; reste la
-  validation du format, et la V2 elle-même n'est pas ouverte ;
+  ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7). Elles restent
+  une bibliothèque visuelle ; D-35 n'en fait pas dix états runtime.
 - le **tri du profil personnel** des sections 18 à 25 (D-14), à faire une fois
   MarcoS en service ;
 - la **mémoire de navigation** du §10 (D-16), rouverte plus tard s'il y a lieu.
