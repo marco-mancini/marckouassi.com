@@ -12,7 +12,7 @@ Règles :
 
 Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
 
-État au 3 octobre 2026, de PM-004 à PM-115 : 28 issues ouvertes, 44 fermées après fermeture de l'issue #117 par cette PR.
+État au 3 octobre 2026, de PM-004 à PM-118 : 25 issues ouvertes, 50 fermées après fermeture de l'issue #126 par la PR #127.
 
 Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues.mjs`). Il vérifie, pour chaque ligne, le numéro GitHub, la référence PM du titre, le titre, les étiquettes, l'état et le comptage annoncé ci-dessus.
 
@@ -83,10 +83,13 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-105 | [#105](https://github.com/marco-mancini/marckouassi.com/issues/105) | Miroir mobile de l'avancement, généré depuis les issues | documentation | — | ouverte — `Docs/suivi/ETAT_MOBILE.md` produit par `tools/etat-mobile.mjs`, jamais écrit à la main (AGENTS.md §6.4) |
 | PM-106 | [#106](https://github.com/marco-mancini/marckouassi.com/issues/106) | Le portrait détouré doit poser directement sur le vert, sans cadre | contenu | — | fermée — réglée par la PR #107 |
 | PM-108 | [#108](https://github.com/marco-mancini/marckouassi.com/issues/108) | Mettre à jour la référence de comparaison après PM-106 | dette | — | fermée — réglée par la PR qui porte cette ligne ; référence `e8b729c` → `f48646f` |
-| PM-109 | [#111](https://github.com/marco-mancini/marckouassi.com/issues/111) | Définir la matrice de qualification commerciale de MarcoS | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
-| PM-110 | [#112](https://github.com/marco-mancini/marckouassi.com/issues/112) | Implémenter la collecte et le cahier des charges prospect | documentation | PM-109 | ouverte — créée le 3 octobre 2026 |
-| PM-111 | [#113](https://github.com/marco-mancini/marckouassi.com/issues/113) | Permettre à MarcoS de proposer des options créatives | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
-| PM-112 | [#114](https://github.com/marco-mancini/marckouassi.com/issues/114) | Envoyer à M. Kouassi le cahier des charges via Resend | securite, infrastructure | — | ouverte — créée le 3 octobre 2026 |
+| PM-109 | [#111](https://github.com/marco-mancini/marckouassi.com/issues/111) | Définir la matrice de qualification commerciale de MarcoS | documentation, decision-marc | — | fermée — réglée par la PR #119 |
+| PM-110 | [#112](https://github.com/marco-mancini/marckouassi.com/issues/112) | Implémenter la collecte et le cahier des charges prospect | documentation | PM-109 | fermée — réglée par la PR #120 |
+| PM-111 | [#113](https://github.com/marco-mancini/marckouassi.com/issues/113) | Permettre à MarcoS de proposer des options créatives | documentation, decision-marc | — | fermée — réglée par la PR #121 |
+| PM-112 | [#114](https://github.com/marco-mancini/marckouassi.com/issues/114) | Envoyer à M. Kouassi le cahier des charges via Resend | securite, infrastructure | — | fermée — réglée par la PR #122 |
 | PM-113 | [#115](https://github.com/marco-mancini/marckouassi.com/issues/115) | Formaliser les règles de comportement conversationnel de MarcoS | documentation, decision-marc | — | ouverte — créée le 3 octobre 2026 |
 | PM-114 | [#116](https://github.com/marco-mancini/marckouassi.com/issues/116) | Intégrer la qualification commerciale dans le plan et les tests de MarcoS | documentation | — | ouverte — créée le 3 octobre 2026 |
 | PM-115 | [#117](https://github.com/marco-mancini/marckouassi.com/issues/117) | Remettre ISSUES.md et BRANCHES.md en accord avec GitHub, et corriger la référence de #26 | documentation | — | fermée — réglée par cette PR |
+| PM-116 | [#123](https://github.com/marco-mancini/marckouassi.com/issues/123) | Reprendre la refonte complète des catégories de la section 05 | decision-marc | — | ouverte — décisions attendues de Marc |
+| PM-117 | [#124](https://github.com/marco-mancini/marckouassi.com/issues/124) | Publier le titre et le texte de la section 05 « Mes réalisations » | design | — | fermée — réglée par la PR #125 |
+| PM-118 | [#126](https://github.com/marco-mancini/marckouassi.com/issues/126) | Harmoniser les titres de section et l’en-tête des prestations | design | — | fermée — réglée par la PR #127 |

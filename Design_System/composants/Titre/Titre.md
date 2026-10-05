@@ -14,7 +14,7 @@
 
 ## Variantes
 
-- `affiche` : doré, centré, esperluette évidée.
+- `affiche` : doré et centré, contour crème, esperluette évidée.
 - `interface` : pour le back-office, sans point.
 
 ## Accessibilité

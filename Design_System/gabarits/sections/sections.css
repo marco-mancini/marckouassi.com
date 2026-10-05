@@ -92,7 +92,7 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 
 /* --- Prestations --- */
 .prestations__tete { display: grid; margin: var(--prestations-tete-marge-haute) 0 var(--prestations-tete-marge-basse); justify-items: center; gap: var(--prestations-masthead-gap); text-align: center; }
-.prestations__accroche { max-width: var(--mesure-accroche); margin: 0; color: var(--texte); }
+.prestations__accroche { max-width: var(--mesure-accroche); margin: 0; color: var(--texte); font-family: var(--font-display); font-size: var(--type-prestations-accroche); line-height: var(--leading-heading); text-transform: uppercase; }
 
 /* --- Contact : fait office de pied de page --- */
 .contact { display: flex; min-height: min(var(--contact-hauteur-min), calc(100svh - var(--contact-degagement))); flex-direction: column; }
