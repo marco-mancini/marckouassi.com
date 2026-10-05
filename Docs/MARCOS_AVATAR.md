@@ -2,7 +2,10 @@
 
 Rédigée le 2 octobre 2026 · issue [#76](https://github.com/marco-mancini/marckouassi.com/issues/76) (PM-076) · rattachée à [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) (PM-049, Avatar 3D de MarcoS).
 
-Ce document dit **ce que le site attend de recevoir** pour animer les 8 états de MarcoS décrits dans [MARCOS.md](MARCOS.md) §4. Marc réalise l'avatar lui-même. Rien n'est produit ni implémenté ici.
+Ce document dit **ce que le site attend de recevoir** pour les séquences d'animation
+futures de MarcoS. Marc réalise l'avatar lui-même. La présence V1 réutilise déjà
+l'asset neutre officiel ; ce document ne transforme pas les dix expressions en
+états runtime.
 
 Ce qui est dit de l'avatar lui-même (ressemblance, style, absence de costume, angles) reste dans [MARCOS.md](MARCOS.md) §3. Ce document ne le répète pas.
 
