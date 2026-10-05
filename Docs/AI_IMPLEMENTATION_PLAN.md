@@ -117,8 +117,7 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
   et menu restent des accès secondaires. L'asset neutre officiel #49 est utilisé,
   sans créer de composant parallèle ; les dix expressions ne deviennent pas des
   états runtime.
-  les ajouter en V2.
-- Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
+  - Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
   existant), à la **troisième personne et au vouvoiement** (D-15).
 - Contenu : **rien n'est écrit dans `content/site.json`.** Le bloc `assistant`
   est déclaré **facultatif** dans `tools/cms.mjs` (`FACULTATIFS.site`), donc
@@ -132,7 +131,7 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 - Tests : rien en dur, rendu sans JS, `comparer-reference` inchangé quand
   MarcoS est désactivé.
 - **État au 4 octobre 2026 : livré.** Composant, gabarit, dictionnaires,
-  configuration du CMS, entrées de D-4 dans Contact et le menu, branchement
+  configuration du CMS, entrée primaire flottante et accès secondaires Contact/menu, branchement
   dans `Frontend/site.js`. Le site publié est identique — aucune occurrence de
   `id="assistant"` dans `_site/` — puisque ni le champ ni l'adresse n'existent.
 
