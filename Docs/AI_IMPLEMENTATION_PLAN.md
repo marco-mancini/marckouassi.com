@@ -113,9 +113,12 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 ### IA-04 — Interface (sans clé, avec le Worker simulé)
 - Composant `Conversation` (CSS, JS, contrat `.md`) et gabarit `Assistant`
   ([AI_UX.md](AI_UX.md)).
-- **Entrée dans la section Contact et le menu** (D-4). Ni présence flottante,
-  ni avatar à ce stade — non par palier, **D-38 a supprimé la V2**, mais parce
-  qu'ils ne sont pas encore implémentés. Rien dans le code ne les empêche.
+- **Présence flottante en bas à droite comme entrée primaire** (D-35),
+  implémentée d'après la maquette d'interaction (D-40). Contact et le menu
+  restent des accès secondaires (D-4). Les expressions officielles de #49 sont
+  utilisées telles quelles, sans composant parallèle : six états en déclarent
+  une, et les dix fichiers restent une **bibliothèque**, pas dix états
+  d'exécution.
 - Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
   existant), à la **troisième personne et au vouvoiement** (D-15).
 - Contenu : **rien n'est écrit dans `content/site.json`.** Le bloc `assistant`
@@ -130,7 +133,7 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 - Tests : rien en dur, rendu sans JS, `comparer-reference` inchangé quand
   MarcoS est désactivé.
 - **État au 4 octobre 2026 : livré.** Composant, gabarit, dictionnaires,
-  configuration du CMS, entrées de D-4 dans Contact et le menu, branchement
+  configuration du CMS, entrée primaire flottante et accès secondaires Contact/menu, branchement
   dans `Frontend/site.js`. Le site publié est identique — aucune occurrence de
   `id="assistant"` dans `_site/` — puisque ni le champ ni l'adresse n'existent.
 
@@ -255,10 +258,10 @@ gratuit).
 - Écrire un message d'accueil, des exemples ou une traduction à la place de Marc.
 - **Laisser MarcoS répondre en plus de trois phrases**, ou relever `max_tokens`
   au-dessus de 180 sans décision de Marc.
-- Rendre la présence flottante ou l'avatar **impossibles**. D-38 a supprimé la
-  V2 : ils ne sont plus reportés, seulement pas encore faits. Les ajouter
-  demande le format tranché et le pipeline à transparence ([#49](https://github.com/marco-mancini/marckouassi.com/issues/49)),
-  pas une permission de calendrier.
+- Revenir à une version sans présence flottante, ou déplacer l'avatar dans un
+  palier ultérieur : D-35 l'interdit, D-38 a supprimé la V2, et D-40 a rendu la
+  présence. Seul le **cadrage** du buste reste ouvert
+  ([#49](https://github.com/marco-mancini/marckouassi.com/issues/49)).
 - Transmettre la liste des pages visitées (D-16), ou le profil personnel de
   MARCOS.md §18-25 (D-14).
 - Insérer la réponse du modèle comme HTML, ou suivre une URL qu'il a produite.

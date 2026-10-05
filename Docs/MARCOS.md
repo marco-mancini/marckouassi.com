@@ -46,17 +46,20 @@ La sophistication doit venir de l’expérience, de l’intelligence et des inte
 
 ## 3. Avatar 3D
 
-> **Décision D-38 (4 octobre 2026) : il n'y a plus de V2.** Le découpage posé par
-> D-13 — MarcoS d'abord sans figurine, l'avatar ensuite — est abandonné. Tout ce
-> qui suit relève de la version en cours.
+> **Décisions D-38, D-35 et D-40.** D-38 (4 octobre) a supprimé la V2 : le
+> découpage posé par D-13 — MarcoS d'abord sans figurine, l'avatar ensuite — est
+> abandonné. D-35 (5 octobre) place l'avatar et la présence flottante dans la
+> version en cours et en fait l'**entrée visuelle primaire** ; Contact et le menu
+> restent des accès secondaires. D-40 (5 octobre) les a **rendus**, d'après la
+> maquette d'interaction fournie par Marc.
 >
-> La figurine n'est pour autant **pas rendue aujourd'hui**, et ce n'est plus une
-> question de calendrier : quatre des cinq décisions de
-> [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) sont prises
-> et les dix expressions sont livrées, mais le **format** n'est pas tranché
-> (§3 du contrat impose un carré 512 × 512, les fichiers sont en 783 × 667) et le
-> **pipeline à transparence** n'existe pas — `tools/medias.mjs` aplatirait la
-> transparence sur le crème du site.
+> Les expressions officielles validées par
+> [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) sont
+> utilisées telles quelles ; aucune nouvelle modélisation n'est demandée. Seul le
+> **cadrage** reste ouvert : §3 du contrat impose un carré 512 × 512, les
+> fichiers sont en 783 × 667. Le pipeline à transparence, lui, existait déjà.
+> Tout ce qui suit décrit la production et l'animation à venir ; D-35 n'ajoute
+> aucun état d'exécution.
 
 MarcoS doit être représenté par une **figurine 3D inspirée fidèlement de Marc Kouassi**, à partir de sa photo de référence.
 
@@ -79,7 +82,7 @@ Prévoir plusieurs angles/poses permettant l'animation :
 
 Ces vues doivent constituer une base cohérente pour les animations et états du personnage.
 
-Format des fichiers attendus pour animer les 8 états (vues, dimensions, poids, nommage, transitions, mouvement réduit) : [MARCOS_AVATAR.md](MARCOS_AVATAR.md) (PM-076, rattaché à PM-049).
+Format des fichiers attendus pour les séquences d'animation futures (vues, dimensions, poids, nommage, transitions, mouvement réduit) : [MARCOS_AVATAR.md](MARCOS_AVATAR.md) (PM-076, rattaché à PM-049).
 
 ---
 
@@ -137,12 +140,14 @@ les fichiers livrés ne contiennent pas. Les deux restent ouverts.
 
 ## 5. Présence dans l'interface
 
-> **Décision D-39, 5 octobre 2026 : cette présence est implémentée.** Les deux
-> entrées de D-4 — Contact et le menu — restent ; la présence flottante en est
-> une troisième. Ses contraintes ont été tenues et mesurées : rien n'est couvert
-> sur téléphone, la cible tactile est à 44 px, le mouvement réduit coupe toutes
-> les boucles. Voir [AI_UX.md](AI_UX.md) « La présence flottante et ses états »
-> et [DECISIONS.md](DECISIONS.md) D-39.
+> **Décisions D-35 et D-40 : cette présence est l'entrée primaire, et elle est
+> implémentée.** La présence flottante en bas à droite est l'entrée visuelle
+> primaire ; Contact et le menu (D-4) restent des accès secondaires. Elle ne
+> ressemble pas à une bulle de support client et reste discrète sur téléphone.
+> Ses contraintes ont été tenues et mesurées : rien n'est couvert sur téléphone,
+> la cible tactile est à 44 px, le mouvement réduit coupe toutes les boucles.
+> Voir [AI_UX.md](AI_UX.md) « La présence flottante et ses états » et
+> [DECISIONS.md](DECISIONS.md) → D-40.
 
 MarcoS apparaît en priorité sous forme de **présence discrète en bas à droite**.
 
@@ -596,7 +601,7 @@ Aucune nouvelle déduction ne doit être ajoutée comme un fait sans validation.
 Marc a tranché toutes les décisions d'architecture et de produit
 ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)) : source des données, hébergement,
 fournisseur unique, longueur des réponses, personne grammaticale, entrée dans
-l'interface, profil personnel hors base, plafonds.
+l'interface, avatar et présence flottante, profil personnel hors base, plafonds.
 
 **Autorisation donnée le 3 octobre 2026** par Marc dans sa demande de traiter
 les conversations Mistral et GPT jusqu'à application complète. Le plan par
@@ -608,13 +613,14 @@ Ce qui reste ouvert :
 
 - les **trois textes** de D-9 (accueil, exemples, confidentialité), que Marc
   écrira lui-même dans `/admin/` ;
-- l'**avatar 3D** et la présence flottante. Depuis le 4 octobre 2026, quatre des
-  cinq décisions de
-  [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) sont prises
-  et les dix expressions sont livrées
-  ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7). D-38 a
-  supprimé le report ; restent la validation du format et le pipeline à
-  transparence, qui sont du travail, pas un palier ;
+- l'**activation réelle de MarcoS**, que Marc seul décide : `assistant.active`
+  reste à `false`. Les trois textes D-9 sont écrits et vivent dans le CMS ;
+  l'interface, la présence flottante et l'avatar sont alignés sur D-35 et rendus
+  par D-40. Les dix expressions sont livrées
+  ([MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §7) et restent
+  une **bibliothèque visuelle**, pas dix états d'exécution ;
+- le **cadrage** du buste, seule décision encore ouverte sur
+  [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) ;
 - le **tri du profil personnel** des sections 18 à 25 (D-14), à faire une fois
   MarcoS en service ;
 - la **mémoire de navigation** du §10 (D-16), rouverte plus tard s'il y a lieu.

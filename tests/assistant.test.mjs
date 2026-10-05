@@ -26,6 +26,9 @@ const ctx = {
   },
   c: (valeur) => valeur?.fr ?? "",
   l: (valeur) => valeur?.fr ?? "",
+  // Les expressions passent par la table des médias, comme toute image du site.
+  // On imite ce que le build publie : le PNG source devient un WebP.
+  media: (src) => (src ? { src: `${src.slice(0, -4)}.webp`, type: "image", largeur: 783, hauteur: 667 } : {}),
 };
 
 const actif = (surcharge = {}) => ({ active: true, accueil: { fr: "Bonjour.", en: "Hello." }, exemples: [], confidentialite: { fr: "", en: "" }, ...surcharge });
@@ -191,10 +194,9 @@ test("l'accueil ne porte ni la modale de MarcoS ni son entrée tant qu'il n'est 
   }
 });
 
-test("actif et avec une adresse, l'accueil porte MarcoS et ses trois entrées", () => {
-  // D-4 donnait deux entrées, Contact et le menu ; elles restent. La barre de
-  // la présence flottante en est la troisième, et c'est elle que le visiteur
-  // voit en premier (MARCOS_AVATAR_UI §2).
+test("actif et avec une adresse, l'accueil porte la présence primaire, le panneau et les accès secondaires", () => {
+  // D-35 : la présence flottante est l'entrée visuelle primaire. D-4 reste vrai
+  // pour les deux accès secondaires — Contact et le menu.
   const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
   assert.match(page, /<dialog[^>]*id="assistant"/, "le panneau est rendu");
   assert.match(page, /data-modal="false"/, "non modal : le portfolio reste parcourable");
@@ -241,6 +243,18 @@ test("la présence flottante est muette pour les technologies d'assistance, sauf
   assert.match(marcos, /<img[^>]*alt=""/, "l'image ne porte aucun texte alternatif");
   // L'activité n'est pas muette pour autant : elle a un nom, depuis le dictionnaire.
   assert.match(marcos, /class="activite" role="img" aria-label="[^"]+"/);
+
+  // Garantie reprise de #156 : c'est bien l'asset officiel validé par #49 qui
+  // est rendu, et il passe par la table des médias — aucun chemin de fichier
+  // n'est écrit dans le gabarit.
+  const officiel = { etats: [{ etat: "rest", src: "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png" }] };
+  const rendu = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." }, avatar: officiel }, endpoint: "https://worker.test/api" });
+  assert.match(rendu, /Avatar_MarcoS\/Avatar_02_NEUTRE_DISPONIBLE/, "l'expression neutre officielle est l'image de repos");
+  // Le chemin ne doit vivre dans aucune chaîne du gabarit : il vient du contenu
+  // et passe par la table des médias. Les commentaires peuvent citer le dossier.
+  const gabarit = fs.readFileSync("Design_System/gabarits/Assistant/Assistant.js", "utf8")
+    .replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  assert.doesNotMatch(gabarit, /Avatar_MarcoS/, "aucun chemin d'avatar en dur dans le gabarit");
 });
 
 test("chaque entrée de MarcoS annonce le dialogue qu'elle ouvre", () => {
@@ -250,6 +264,23 @@ test("chaque entrée de MarcoS annonce le dialogue qu'elle ouvre", () => {
   for (const attribut of ['aria-haspopup="dialog"', 'aria-controls="assistant"', 'aria-expanded="false"']) {
     assert.ok(page.includes(attribut), `l'entrée porte ${attribut}`);
   }
+});
+
+test("la présence flottante reste absente quand MarcoS est inactif", () => {
+  const page = accueil({ assistant: { active: false, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
+  assert.doesNotMatch(page, /data-assistant-presence/);
+});
+
+test("l'avatar reste visible pendant la conversation", () => {
+  // Garantie de #156, tenue autrement par D-40 : l'avatar ne vit plus dans
+  // l'en-tête de la modale mais sur un socle propre au panneau, où il est POSÉ
+  // au-dessus de lui. Il reste donc visible tout le temps de l'échange, et
+  // c'était bien l'intention.
+  const avatar = { etats: [{ etat: "rest", src: "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png" }] };
+  const sortie = String(Assistant({ assistant: actif({ avatar }), ctx, endpoint: "https://worker.test/api/assistant" }));
+  assert.match(sortie, /class="socle socle-panneau"><span class="av"/, "le panneau porte son propre buste");
+  assert.match(sortie, /class="socle socle-barre"><span class="av"/, "la barre porte le sien");
+  assert.match(sortie, /Avatar_MarcoS\/Avatar_02_NEUTRE_DISPONIBLE/, "l'expression neutre officielle");
 });
 
 test("le script du site branche MarcoS, et sort sans rien faire quand il est absent", () => {

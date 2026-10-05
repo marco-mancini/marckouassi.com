@@ -4,9 +4,11 @@ Arrêté le 2 octobre 2026 par les décisions de Marc
 ([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)). Voir
 l'[architecture](AI_ARCHITECTURE.md).
 
-Quatre décisions commandent ce document : **D-4** (entrée dans Contact et le
-menu), **D-13** (avatar, **remplacée par D-38** : plus de V2), **D-15** (troisième
-personne, vouvoiement) et **D-17** (exemples de questions seuls).
+Les décisions actives commandent ce document : **D-35** (présence flottante et
+avatar comme entrée primaire), **D-40** (la maquette d'interaction devient
+l'interface), **D-15** (troisième personne, vouvoiement) et **D-17** (exemples de
+questions seuls). D-4 reste vrai pour les accès secondaires — Contact et le
+menu ; D-13 est historique, supersédée par D-38 puis D-35.
 
 ## Intention
 
@@ -15,33 +17,36 @@ parcours, ses compétences ou ses prestations, puis renvoyer vers la page qui en
 parle. MarcoS **appartient au portfolio** : mêmes polices, couleurs, filets,
 rayons et boutons.
 
-**En V1, il n'apporte aucun élément graphique nouveau** : pas de présence
-flottante, pas d'avatar, pas de robot, pas de dégradé, pas de lueur, pas d'effet
-de frappe.
+**En V1, MarcoS possède une présence graphique validée par D-35** : l'avatar 3D
+flottant en bas à droite est son entrée visuelle primaire. Aucun nouvel élément
+graphique parallèle n'est introduit : on réutilise l'asset officiel #49 et le
+Design System existant.
 
-### « Pas en V1 », et non « jamais » — décision D-13
+### Présence V1 — décision D-35 du 5 octobre 2026
 
-Ce document interdisait l'avatar et la présence flottante sans réserve, alors
-que [MARCOS.md](MARCOS.md) §3 et §5 les demandent : une figurine 3D et une
-« présence discrète en bas à droite » dont « la figurine est le point d'entrée ».
-Les deux documents se contredisaient.
+| Élément | V1 actif |
+|---|---|
+| Entrée primaire | présence flottante en bas à droite |
+| Avatar | expression neutre officielle #49 |
+| Conversation | Modale centrée existante, journal borné et formulaire existant |
+| Accès secondaires | Contact et menu conservés sans être l'entrée principale |
 
-**Décision D-38 (4 octobre 2026) : il n'y a plus de V2.** Le découpage en deux
-paliers — une première version sans figurine, une seconde avec — est abandonné.
-Tout relève de la version en cours.
+**D-38 a supprimé la V2, D-35 a placé l'avatar et la présence dans la version
+en cours, D-40 les a rendus.** Les dix expressions de
+`MARCOS_AVATAR_EXPRESSIONS.md` restent une bibliothèque visuelle : elles ne
+deviennent pas dix états d'exécution.
 
 | Élément | État |
 |---|---|
-| Entrée dans la section Contact (`Bouton nu`) et dans le menu | **en place** |
-| Présence flottante en bas à droite | **en place** (D-39) : buste posé sur une barre compacte, `position: fixed`, troisième point d'entrée vers le même panneau |
-| Figurine 3D | **rendue** : sept des dix expressions validées, une par état, publiées en WebP à transparence conservée |
+| Présence flottante en bas à droite | **en place**, entrée primaire (D-35, D-40) |
+| Entrée dans la section Contact et dans le menu | **en place**, accès secondaires (D-4) |
+| Figurine 3D | **rendue** : sept expressions publiées en WebP à transparence conservée, six états en déclarent une |
 | Cadrage du buste | **ouvert** : les fichiers montrent le personnage aux trois quarts en 783 × 667, là où un buste carré est demandé ([#49](https://github.com/marco-mancini/marckouassi.com/issues/49)) |
 
 Rien de tout cela n'est publié tant que `site.assistant.active` reste à `false`.
 
-Ce qui reste interdit **sans réserve et dans toutes les versions** : dégradé,
-glassmorphism, lueur, néon, effet de frappe, carte générique de SaaS, couleur ou
-typographie étrangère au Design System.
+Ce qui reste interdit **sans réserve** : dégradé, glassmorphism, lueur, néon,
+carte générique de SaaS, couleur ou typographie étrangère au Design System.
 
 ## La présence flottante et ses états (D-39, D-40)
 
@@ -227,8 +232,8 @@ règle. MarcoS ne dit jamais « mon travail » : il n'est pas Marc.
 
 ## Parcours
 
-1. **Ouverture** : le lien « Contact » de MarcoS ouvre la Modale ; le focus
-   va dans le champ de question.
+1. **Ouverture** : la présence flottante en bas à droite ouvre la Modale ; le focus
+   va dans le champ de question. Contact et menu peuvent aussi ouvrir la même Modale.
 2. **Accueil** : message d'accueil, exemples de questions, mention de
    confidentialité.
 3. **Question** : saisie (500 caractères au plus, compteur dans l'aide) ;
@@ -286,8 +291,8 @@ le Worker ne renvoie que le code.
 ## Mobile et bureau
 
 - Une seule Modale `centre`, qui occupe la largeur moins la marge d'écran sur
-  téléphone (comportement actuel de l'étude de projet). Aucun nouveau point de
-  rupture.
+  téléphone (comportement actuel de l'étude de projet). La présence flottante
+  reste en bas à droite et utilise uniquement les tokens du Design System.
 - Le champ reste visible au-dessus du clavier virtuel (`max-height` en `dvh`,
   déjà utilisé par la Modale).
 - Testé à 320, 375, 768, 850, 1024 et 1440 px, en clair et en sombre.

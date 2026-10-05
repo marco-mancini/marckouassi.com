@@ -12,10 +12,11 @@ import { Modale } from "../../composants/Modale/Modale.js";
 import { numero } from "../outils.js";
 
 /**
- * Entrée de MarcoS. D-4 : Contact et le menu. La présence flottante n'est pas
- * implémentée ; D-38 a supprimé le palier qui la reportait.
- * La condition est exactement celle du gabarit Assistant — sans elle, le bouton
- * ouvrirait une modale qui n'existe pas, c'est-à-dire un bouton mort (§6.8).
+ * Entrée secondaire de MarcoS. D-35 : Contact et le menu restent des accès
+ * secondaires ; l'entrée visuelle primaire est la présence flottante, rendue
+ * par le gabarit Assistant et dessinée d'après la maquette d'interaction
+ * (D-40). La condition est exactement celle du gabarit — sans elle, le bouton
+ * ouvrirait un panneau absent de la page, c'est-à-dire un bouton mort (§6.8).
  */
 export function entreeAssistant({ contenu, ctx, taille }) {
   if (!contenu.site.assistant?.active || !ctx.assistantEndpoint) return "";

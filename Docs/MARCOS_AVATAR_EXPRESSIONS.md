@@ -191,12 +191,22 @@ sont entre 49,5 % et 66,8 %. Mesure après build : WebP RGBA, alpha conservé,
 
 ### Ce que ces fichiers ne sont pas
 
-Ils ne sont pas un **buste**. `MARCOS_AVATAR_UI` §3 demande tête et épaules, le
-visage prioritaire, identifiable entre 80 et 150 px de haut ; et `MARCOS_AVATAR.md`
-§3 impose un carré 512 × 512. Les fichiers montrent le personnage aux trois
-quarts en 783 × 667 : affiché à 124 px de haut, le visage reste petit.
+Ils sont **intégrés** depuis `Public/Avatar_MarcoS/` : D-35 place la présence
+flottante dans la version en cours, D-40 l'a rendue. L'expression neutre est la
+pose de repos ; cinq autres servent un état, et trois restent en bibliothèque.
+
+Ils ne sont pas un **buste**, en revanche. `MARCOS_AVATAR_UI` §3 demande tête et
+épaules, le visage prioritaire, identifiable entre 80 et 150 px de haut ; et
+`MARCOS_AVATAR.md` §3 impose un carré 512 × 512. Les fichiers montrent le
+personnage aux trois quarts en 783 × 667 : le visage reste petit à l'échelle
+d'affichage.
 
 C'est le seul écart qui subsiste, et il n'est pas tranché. Le recadrage est une
 décision artistique, et Marc a écrit « aucun traitement supplémentaire » sur les
 fichiers validés. Consigné dans
 [#49](https://github.com/marco-mancini/marckouassi.com/issues/49).
+
+**Le pipeline à transparence, lui, n'était pas à écrire : il existait.**
+`tools/medias.mjs` conserve l'alpha au-delà de 5 % de pixels non opaques, et ces
+fichiers sont entre 49,5 % et 66,8 %. Mesure après build : WebP RGBA, alpha
+conservé, 264 Ko pour les sept expressions publiées.

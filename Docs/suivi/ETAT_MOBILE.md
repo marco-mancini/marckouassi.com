@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-05T10:25:21.332Z depuis 660e47ae8f912dd1ba54e656248ce6de21bf0ee2.
+> Source unique : issues GitHub. Généré le 2026-10-05T11:15:44.575Z depuis fbea198f50326ca55d499aa42eb68bd602df908e.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -26,10 +26,10 @@
 - Issue #49 — [PM-049] Avatar 3D de MarcoS
 
 ## Dernier commit
-- 660e47a fix(marcos): faire respecter réellement le budget de 20 s par requête
+- fbea198 feat(marcos): l'interface de la maquette d'interaction, branchée sur le vrai MarcoS
 
 ## Dernière preuve
 - Issue #156 mise à jour le 2026-10-05T01:18:51Z.
 
 ## Dernière mise à jour
-- 2026-10-05T10:25:21.332Z
+- 2026-10-05T11:15:44.575Z
