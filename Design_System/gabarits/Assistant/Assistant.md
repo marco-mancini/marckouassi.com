@@ -1,6 +1,6 @@
 # Assistant
 
-Assemblage V1 de MarcoS : `Modale` + `Conversation` + formulaire + états.
+Assemblage V1 de MarcoS : présence flottante + `Modale` + `Conversation` + formulaire + états.
 Voir [AI_UX.md](../../../Docs/AI_UX.md) pour le parcours et les états.
 
 ## Props (3)
@@ -43,9 +43,18 @@ stockée illisible est effacée au lieu de faire échouer l'activation.
 
 « Réessayer » renvoie la **même** question : elle n'est jamais perdue.
 
+## Présence visuelle V1 — D-35
+
+- la présence flottante en bas à droite est l'entrée visuelle primaire ;
+- elle réutilise `Bouton` et l'asset officiel neutre `Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png` ;
+- l'avatar reste visible dans l'en-tête de la conversation ;
+- Contact et menu restent des accès secondaires ;
+- les dix expressions restent une bibliothèque visuelle, jamais dix états runtime ;
+- aucun nouvel asset ni composant parallèle.
+
 ## Contraintes
 
-- aucune présence flottante, aucun avatar en V1 (D-13) ;
+- aucune présence flottante n'est créée si `assistant.active` est faux ou si l'endpoint est absent ;
 - aucune clé ni nom de modèle dans le navigateur ;
 - `sessionStorage` uniquement, jamais `localStorage`, jamais de stockage serveur ;
 - réponses insérées comme texte ;
