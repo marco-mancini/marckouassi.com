@@ -292,7 +292,7 @@ Le tableau complet, avec options, conséquences et motifs, est dans
 | D-1 | pas de repli sur indisponibilité |
 | **D-2** | **pas de Gemini du tout**, Mistral seul sur crédits gratuits |
 | D-3 | téléphone, adresse précise et date de naissance exclus de la base |
-| D-4 | entrée dans la section Contact et le menu, en V1 |
+| D-4 | historique : entrée Contact + menu en V1, supersédée par D-35 pour l'entrée primaire |
 | D-5 | pas de Turnstile au lancement |
 | **D-6** | **pas de Workers Paid** : offre gratuite seulement |
 | D-8 | réponses anglaises depuis les faits anglais |
