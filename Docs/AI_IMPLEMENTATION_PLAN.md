@@ -31,7 +31,7 @@ d'aperçu Vercel « Ready ».
 | Élément | Fourni par | Nécessaire à partir de | État |
 |---|---|---|---|
 | Décisions D-1 à D-19 | Marc | IA-01 | **acquis le 2 octobre 2026** |
-| Les trois textes de D-9 (accueil, exemples, confidentialité) | Marc, dans `/admin/` | **activation seulement** | **écrits le 4 octobre 2026** (D-37) ; `assistant.active` reste `false` tant que Marc ne l'active pas |
+| ~~Les trois textes de D-9~~ | — | **plus un prérequis** | **D-9 CLOS le 5 octobre 2026** : les trois textes sont posés et verrouillés par des tests. Reste `assistant.active`, que Marc seul passe à `true` |
 | Compte Cloudflare **gratuit** + jeton d'API Wrangler | Marc | IA-10 (déploiement) ; le développement local n'en a pas besoin | à créer |
 | Clé API Mistral, **sur crédits gratuits, sans moyen de paiement** | Marc | IA-05 | à créer |
 | Clé Resend en permission d'envoi et adresse expéditeur d'un domaine vérifié | Marc | PM-112 (email du brief) | à créer/configurer, sans formule payante |
@@ -128,7 +128,7 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
   bloc amorcé à vide aurait perdu `accueil`, `exemples` et `confidentialite` au
   premier enregistrement — après quoi la configuration, déduite de la forme des
   données, ne les aurait plus proposés. Les trois textes restent ceux de Marc
-  (D-9) ; `active` n'existe qu'une fois qu'il les écrit.
+  (D-9, clos le 5 octobre 2026 : ils sont posés et testés).
 - Build : `ASSISTANT_URL` optionnelle ; sans elle, rien n'est rendu.
 - Tests : rien en dur, rendu sans JS, `comparer-reference` inchangé quand
   MarcoS est désactivé.
@@ -224,7 +224,8 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 - Route email `POST /api/assistant/brief` : clé `RESEND_CLE` côté Worker,
   expéditeur vérifié, destinataire issu du contenu, transfert explicite et
   opt-in ; mention de confidentialité mise à jour avant activation.
-- Activation : Marc écrit ses trois textes dans `/admin/` (D-9), puis passe
+- Activation : les trois textes de D-9 sont posés depuis le 5 octobre 2026 ;
+  il reste à Marc à passer
   `assistant.active` à `true` et enregistre.
 - Vérification sur le Preview, puis en production.
 
@@ -344,7 +345,7 @@ existe ; elle n'en choisit jamais un autre à notre place.
 | Attend | Pour quoi | Bloquant pour le développement local ? |
 |---|---|---|
 | **`MISTRAL_CLE`** | le premier appel réel | **oui**, et c'est le seul |
-| ~~Les trois textes de D-9~~ | ~~activer MarcoS~~ | **écrits** le 4 octobre 2026 (D-37) ; la fenêtre est éprouvée sur les vrais textes |
+| ~~Les trois textes de D-9~~ | ~~activer MarcoS~~ | **CLOS le 5 octobre 2026** : posés, verrouillés par des tests, et la mention de confidentialité réécrite après audit du code |
 | Compte Cloudflare | déployer le Worker, binding de débit | non — le Worker tourne sous Node dans les tests |
 | `RESEND_CLE` | la transmission du brief par e-mail | non — route séparée, elle ne rappelle pas le modèle |
 

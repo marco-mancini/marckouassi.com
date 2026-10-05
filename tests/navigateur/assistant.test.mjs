@@ -99,11 +99,20 @@ test("MarcoS s'ouvre depuis Contact, depuis le menu et depuis sa présence flott
   const place = await page.evaluate(() => {
     const d = document.getElementById("assistant").getBoundingClientRect();
     const barre = document.querySelector(".barre").getBoundingClientRect();
-    const buste = document.querySelector(".socle-panneau .av")?.getBoundingClientRect();
+    // Le buste respire en continu : son rectangle visuel oscille de quelques
+    // pixels. Ce qu'on vérifie, c'est sa POSITION DE MISE EN PAGE — « posé sur
+    // le panneau » est une règle de layout, pas une image à un instant donné.
+    // On neutralise donc la transformation le temps de la mesure.
+    const av = document.querySelector(".socle-panneau .av");
+    const anime = av?.style.animation;
+    if (av) av.style.animation = "none";
+    const buste = av?.getBoundingClientRect();
+    if (av) av.style.animation = anime ?? "";
     return {
       basDuPanneau: Math.round(d.bottom), hautDeLaBarre: Math.round(barre.top),
       basDuBuste: buste ? Math.round(buste.bottom) : null, hautDuPanneau: Math.round(d.top),
       presenceVisible: getComputedStyle(document.querySelector(".marcos")).visibility,
+      respire: Boolean(av && getComputedStyle(av).animationName !== "none"),
       deborde: d.right > innerWidth || d.left < 0 || d.bottom > innerHeight,
     };
   });
@@ -111,6 +120,7 @@ test("MarcoS s'ouvre depuis Contact, depuis le menu et depuis sa présence flott
   // Posé veut dire au contact : on tolère le pixel de l'arrondi du rendu,
   // pas davantage. Un chevauchement se compterait en dizaines.
   assert.ok(Math.abs(place.basDuBuste - place.hautDuPanneau) <= 1, `le buste est POSÉ sur le panneau (écart ${place.basDuBuste - place.hautDuPanneau} px)`);
+  assert.ok(place.respire, "et il respire : la mesure ci-dessus a bien neutralisé une animation");
   assert.equal(place.deborde, false, "le panneau ne sort jamais du viewport");
   assert.equal(place.presenceVisible, "visible", "MarcoS reste visible pendant la conversation");
   await page.fermer();

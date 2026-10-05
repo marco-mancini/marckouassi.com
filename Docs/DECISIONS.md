@@ -12,6 +12,56 @@ Règles :
 
 ---
 
+## 2026-10-05 — D-41 : D-9 est clos, et sa mention de confidentialité réécrite
+
+Décision de Marc (clôture demandée) · **clôt D-9** · **tient compte de D-10 et
+D-11**.
+
+**Problème.** Les trois textes de D-9 existaient depuis le 4 octobre, mais le
+projet continuait de les présenter comme du contenu à fournir, et la mention de
+confidentialité n'avait jamais été confrontée au code. Marc a demandé de vérifier
+avant d'écrire : « Ne rien inventer. »
+
+**Ce que l'audit a trouvé.** Cinq comportements, chacun lu dans le code :
+
+| Vérification | Résultat |
+|---|---|
+| Stockage navigateur | `sessionStorage` seulement — ni `localStorage`, ni IndexedDB, ni cookie. La conversation meurt avec l'onglet |
+| Stockage serveur | **aucun**. Le Worker ne déclare ni KV, ni D1, ni R2, ni Durable Object. Son unique cache porte sur la base de connaissance, qui est publique |
+| Transmission | la question **part bien** chez le fournisseur, avec le prompt système |
+| Journaux (D-10) | langue, nombre d'échanges, budget restant, code de sortie, durée. **Ni question, ni réponse** |
+| Resend | appelé seulement si le brief est exploitable **et** confirmé **et** que le visiteur a dit « oui » au recontact **et** qu'un contact existe |
+
+**Le problème que cela révèle.** La mention disait « Vos échanges avec MarcoS
+restent privés. » C'est plus que ce que le système tient : la question est
+transmise à un tiers, et le **refus d'entraînement** (D-11), bien que gratuit et
+décidé, est une bascule que Marc doit actionner dans le panneau Mistral —
+inactionnable et invérifiable depuis le dépôt.
+
+**Choix.** La mention est réécrite pour ne dire que le vérifiable :
+
+> 🔒 Vos échanges restent dans cet onglet et ne sont conservés nulle part. Votre
+> question est transmise au modèle qui y répond, et rien n'est envoyé à
+> M. Kouassi sans votre accord.
+
+**Motif.** Une promesse de confidentialité qu'on ne tient pas vaut moins que pas
+de promesse du tout. Les trois membres de phrase correspondent aux trois
+premières lignes du tableau ci-dessus, et un test les rattache un par un au code
+qui les rend vraies. Un autre test **interdit** d'écrire que les données ne
+servent pas à l'entraînement tant que D-11 n'est pas posé.
+
+**Impact.** L'accueil anglais prend la forme validée (« I'm MarcoS, Mr. Kouassi's
+assistant »). Les dix exemples sont inchangés, au mot près. Corrigé au passage :
+l'interrupteur de MarcoS s'annonçait « Afficher l'accueil animé » dans le CMS —
+le libellé de `site.intro.active`, pris par collision de nom. Il dit maintenant
+« Activer MarcoS ».
+
+**Réversibilité.** Les textes vivent dans `content/site.json` et restent
+éditables dans `/admin/`. Rien n'est figé dans le code ; seuls les tests disent
+ce qui a été validé, et ils se mettent à jour avec une décision nouvelle.
+
+---
+
 ## 2026-10-05 — D-40 : la maquette d'interaction devient l'interface de MarcoS
 
 Décision de Marc · **précise D-39** (qui posait la présence flottante) ·

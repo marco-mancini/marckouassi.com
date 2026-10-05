@@ -80,7 +80,7 @@
     "active": false,
     "accueil": {
       "fr": "Bonjour 👋 Je suis MarcoS, l’assistant de M. Kouassi. En quoi puis-je vous aider ?",
-      "en": "Hello 👋 I am MarcoS, M. Kouassi’s assistant. How can I help you?"
+      "en": "Hello 👋 I’m MarcoS, Mr. Kouassi’s assistant. How can I help you?"
     },
     "exemples": [
       {
@@ -125,8 +125,8 @@
       }
     ],
     "confidentialite": {
-      "fr": "🔒 Vos échanges avec MarcoS restent privés.",
-      "en": "🔒 Your conversations with MarcoS stay private."
+      "fr": "🔒 Vos échanges restent dans cet onglet et ne sont conservés nulle part. Votre question est transmise au modèle qui y répond, et rien n’est envoyé à M. Kouassi sans votre accord.",
+      "en": "🔒 Your conversation stays in this tab and is never stored. Your question is sent to the model that answers it, and nothing reaches Mr. Kouassi without your consent."
     },
     "avatar": {
       "etats": [

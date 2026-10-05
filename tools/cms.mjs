@@ -88,11 +88,17 @@ export function configurationCms({ contenu, fr }) {
     ],
   }];
 
+  /* Quelques clés portent le même nom à deux endroits du contenu et n'y
+     désignent pas la même chose. Le libellé suit alors le CHEMIN, pas le nom :
+     sans cela, l'interrupteur de MarcoS s'annonçait « Afficher l'accueil
+     animé », qui est celui de `site.intro.active`. */
+  const LIBELLES_PAR_CHEMIN = { "site.assistant.active": "assistantActif" };
+
   /** Champ déduit de toutes les valeurs rencontrées pour une même clé. */
   function champ(cle, valeurs, chemin) {
     const presentes = valeurs.filter((v) => v !== null && v !== undefined);
     const natures = new Set(presentes.map(nature));
-    const base = { name: cle, label: libelle(cle), required: presentes.length === valeurs.length && presentes.length > 0 };
+    const base = { name: cle, label: libelle(LIBELLES_PAR_CHEMIN[chemin] ?? cle), required: presentes.length === valeurs.length && presentes.length > 0 };
 
     if (TECHNIQUES.has(cle)) return { name: cle, widget: "hidden" };
     // L'aide de l'identifiant dépend de ce qu'il identifie : celui d'un projet

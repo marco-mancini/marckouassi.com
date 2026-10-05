@@ -1,7 +1,7 @@
 <!-- GÉNÉRÉ AUTOMATIQUEMENT — toute modification manuelle sera écrasée. -->
 # État mobile — marckouassi.com
 
-> Source unique : issues GitHub. Généré le 2026-10-05T11:15:44.575Z depuis fbea198f50326ca55d499aa42eb68bd602df908e.
+> Source unique : issues GitHub. Généré le 2026-10-05T11:43:31.640Z depuis 07bf24cd244c0ccbbcb53eb0791398c2858dbe0b.
 
 ## Projet
 - **Dépôt** : marco-mancini/marckouassi.com
@@ -26,10 +26,10 @@
 - Issue #49 — [PM-049] Avatar 3D de MarcoS
 
 ## Dernier commit
-- fbea198 feat(marcos): l'interface de la maquette d'interaction, branchée sur le vrai MarcoS
+- 07bf24c merge: réconcilier la maquette d'interaction (D-40) avec D-35 venu de main
 
 ## Dernière preuve
 - Issue #156 mise à jour le 2026-10-05T01:18:51Z.
 
 ## Dernière mise à jour
-- 2026-10-05T11:15:44.575Z
+- 2026-10-05T11:43:31.640Z

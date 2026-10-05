@@ -213,6 +213,13 @@ exemples, la zone d'exemples n'apparaît pas.
 
 > **Mise à jour du 4 octobre 2026 — D-37.** Les quatre textes sont écrits et vivent dans `content/site.json` → `assistant`. Ils restent éditables dans `/admin/` → Paramètres. `assistant.active` reste `false` : l'activation est un geste de Marc, et elle demande en outre `ASSISTANT_URL`. Voir [DECISIONS.md](DECISIONS.md) → D-37.
 
+> **D-9 est CLOS — 5 octobre 2026.** Les trois textes sont posés dans
+> `content/site.json` et verrouillés par des tests qui les figent au mot près,
+> FR et EN. La mention de confidentialité a été réécrite après audit du code :
+> elle ne dit plus que « les échanges restent privés », mais ce qui est
+> vérifiable — rien n'est conservé, la question part au modèle qui y répond,
+> et rien n'atteint M. Kouassi sans accord. `assistant.active` reste à `false`.
+
 **Décision D-9 :** Marc écrit ces trois textes **lui-même, dans `/admin/` →
 Paramètres**. Le champ `assistant` apparaîtra de lui-même dans l'éditeur dès
 qu'il existera dans `content/site.json` : `tools/cms.mjs` génère la

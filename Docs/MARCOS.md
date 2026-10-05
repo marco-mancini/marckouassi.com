@@ -185,8 +185,9 @@ Exemples de questions proposés, cliquables, envoyés tels quels :
 - **Quel est son parcours ?**
 - **Comment travaille-t-il avec un client ?**
 
-Les textes définitifs sont écrits par Marc dans `/admin/` (décision D-9) : ceux
-ci-dessus sont des exemples de forme, pas du contenu validé.
+Les textes définitifs sont **écrits et posés** dans `content/site.json`
+(décision D-9, close le 5 octobre 2026) et restent éditables dans `/admin/` ;
+ceux ci-dessus sont des exemples de forme, pas du contenu validé.
 
 Cette interaction doit rester optionnelle et ne jamais bloquer l'accès au portfolio.
 
@@ -611,7 +612,8 @@ qualification commerciale](MARCOS_QUALIFICATION.md).
 
 Ce qui reste ouvert :
 
-- les **trois textes** de D-9 (accueil, exemples, confidentialité), que Marc
+- ~~les **trois textes** de D-9~~ — **posés et clos** le 5 octobre 2026 ; ce qui
+  suit décrit l'état antérieur. Ils étaient à écrire par Marc
   écrira lui-même dans `/admin/` ;
 - l'**activation réelle de MarcoS**, que Marc seul décide : `assistant.active`
   reste à `false`. Les trois textes D-9 sont écrits et vivent dans le CMS ;

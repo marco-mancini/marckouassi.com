@@ -450,14 +450,37 @@ sur le fait de n'envoyer qu'une langue à la fois.
 
 ### D-9 — Les textes de MarcoS, à écrire par toi
 
-**La question.** Trois textes doivent exister avant que MarcoS soit visible, et
-aucun ne peut être écrit par une IA ni par moi.
+> ## ✅ D-9 est CLOS — 5 octobre 2026
+>
+> Les trois textes sont **écrits, posés dans `content/site.json` et verrouillés
+> par des tests**. Ils restent éditables dans `/admin/` → Paramètres, mais ils
+> ne sont plus du contenu à fournir : D-9 ne se rouvre que sur une décision
+> explicite et nouvelle de Marc.
+>
+> | Texte | État |
+> |---|---|
+> | Message d'accueil (FR + EN) | posé, figé au mot près par `tests/marcos-scenarios.test.mjs` |
+> | Dix exemples de questions (FR + EN) | posés dans l'ordre validé. Les sept premiers éprouvent ce que MarcoS sait ; les trois derniers — adresse, téléphone personnel, météo — éprouvent ce qu'il doit **refuser** |
+> | Mention de confidentialité (FR + EN) | posée **après audit du code**, et chaque membre de phrase est rattaché à un comportement prouvé par un test |
+>
+> **La mention a été réécrite, et c'est le seul écart avec le texte proposé le
+> 4 octobre.** « Vos échanges avec MarcoS restent privés. » promettait plus que
+> ce que le système tient : la question **est** transmise à un tiers pour
+> obtenir une réponse, et le refus d'entraînement (D-11) est une bascule que
+> Marc doit encore actionner dans le panneau Mistral. La mention dit désormais
+> ce qui est vérifiable, et rien d'autre.
+>
+> **Ce que D-9 ne clôt pas :** `assistant.active` reste à `false`. L'activation
+> est un geste de Marc, et elle demande en outre `ASSISTANT_URL`.
+
+**La question d'origine.** Trois textes doivent exister avant que MarcoS soit
+visible, et aucun ne peut être écrit par une IA ni par moi.
 
 | Texte | Où il vivra | Ce qu'il doit faire |
 |---|---|---|
 | **Message d'accueil** (FR + EN) | `content/site.json` → `assistant.accueil` | Dire en une à deux phrases qui est MarcoS et ce qu'on peut lui demander. Il ne doit **pas** laisser croire que c'est Marc. |
 | **Exemples de questions** (FR + EN) | `assistant.exemples[]` | Trois à quatre questions cliquables, envoyées telles quelles. Elles apprennent au visiteur ce que MarcoS sait faire. Sans elles, la zone n'apparaît pas. |
-| **Mention de confidentialité** (FR + EN) | `assistant.confidentialite` | Dire ce qu'il advient de la question : pas de conservation côté serveur, pas de texte dans les journaux. |
+| **Mention de confidentialité** (FR + EN) | `assistant.confidentialite` | Dire ce qu'il advient de la question : pas de conservation côté serveur, pas de texte dans les journaux. **Posée le 5 octobre après audit, et élargie** : elle nomme aussi la transmission au modèle et l'accord préalable avant tout envoi à M. Kouassi. |
 
 **Conséquence si ce n'est pas écrit :** `assistant.active` reste `false` et MarcoS
 **n'est pas rendu du tout**. C'est le seul verrou de ce dossier qui ne peut pas

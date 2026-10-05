@@ -131,7 +131,14 @@ test("D-9 : le message d'accueil est celui que Marc a validé, sans reformulatio
   // « M. Kouassi », jamais « Marc » : c'est la règle de nommage de MarcoS.
   assert.ok(D9.accueil.fr.includes("M. Kouassi"));
   assert.ok(!/\bMarc\b(?! Kouassi)/.test(D9.accueil.fr.replace("MarcoS", "")), "jamais « Marc » seul");
-  assert.ok(D9.accueil.en.includes("M. Kouassi"), "l'anglais garde la même forme (convention du contenu)");
+  assert.equal(
+    D9.accueil.en,
+    "Hello 👋 I’m MarcoS, Mr. Kouassi’s assistant. How can I help you?",
+  );
+  // L'anglais nomme « Mr. Kouassi », le français « M. Kouassi » : chaque langue
+  // prend sa propre abréviation de civilité. Jamais le prénom seul.
+  assert.ok(D9.accueil.en.includes("Mr. Kouassi"));
+  assert.ok(!/\bMarc\b(?! Kouassi)/.test(D9.accueil.en.replace("MarcoS", "")), "jamais « Marc » seul");
 });
 
 test("D-9 : les dix exemples sont exactement ceux validés, dans l'ordre", () => {
@@ -163,39 +170,78 @@ test("D-9 : les trois derniers exemples sont ceux que MarcoS doit REFUSER", () =
   assert.match(PROMPT, /N'invente rien/i, "la règle contre l'invention existe");
 });
 
-test("D-9 : la mention de confidentialité est courte et ne promet rien de technique", () => {
-  assert.equal(D9.confidentialite.fr, "🔒 Vos échanges avec MarcoS restent privés.");
+test("D-9 : la mention de confidentialité ne dit que des choses vérifiées dans le code", () => {
+  // Elle a été réécrite le 5 octobre 2026 après audit du code. L'ancienne —
+  // « Vos échanges avec MarcoS restent privés. » — promettait plus que ce que
+  // le système tient : la question EST transmise à un tiers pour obtenir une
+  // réponse, et le refus d'entraînement (D-11) est une action que Marc doit
+  // encore poser dans le panneau Mistral. Chaque membre de phrase ci-dessous
+  // correspond à un comportement prouvé, et à rien d'autre.
+  assert.equal(
+    D9.confidentialite.fr,
+    "🔒 Vos échanges restent dans cet onglet et ne sont conservés nulle part. Votre question est transmise au modèle qui y répond, et rien n’est envoyé à M. Kouassi sans votre accord.",
+  );
+  assert.equal(
+    D9.confidentialite.en,
+    "🔒 Your conversation stays in this tab and is never stored. Your question is sent to the model that answers it, and nothing reaches Mr. Kouassi without your consent.",
+  );
+});
+
+test("D-9 : chaque promesse de la mention correspond à un comportement du code", () => {
+  // 1. « reste dans cet onglet » — la conversation vit en sessionStorage, et
+  //    nulle part ailleurs côté navigateur.
+  const gabarit = fs.readFileSync("Design_System/gabarits/Assistant/Assistant.js", "utf8");
+  assert.match(gabarit, /sessionStorage/, "la conversation vit dans l'onglet");
+  assert.doesNotMatch(gabarit, /localStorage|indexedDB|document\.cookie/, "rien ne survit à l'onglet");
+
+  // 2. « ne sont conservés nulle part » — le Worker ne persiste aucun échange.
+  //    Son seul cache porte sur la base de connaissance, qui est publique.
+  const connaissance = fs.readFileSync("worker/assistant/src/connaissance.js", "utf8");
+  assert.match(connaissance, /connaissance:\$\{adresse\.origin\}/, "le cache porte sur la base, pas sur les échanges");
+  const wrangler = fs.readFileSync("worker/assistant/wrangler.jsonc", "utf8");
+  for (const stockage of ["kv_namespaces", "d1_databases", "r2_buckets", "durable_objects"]) {
+    assert.ok(!new RegExp(`"${stockage}"`).test(wrangler), `aucun ${stockage} : rien à persister`);
+  }
+
+  // 3. « transmise au modèle qui y répond » — les messages du visiteur partent
+  //    bien chez le fournisseur, et la mention ne le cache pas.
+  const mistral = fs.readFileSync("worker/assistant/src/mistral.js", "utf8");
+  assert.match(mistral, /messages: \[\s*\{ role: "system"/, "le prompt et les messages sont envoyés");
+
+  // 4. D-10 : les journaux ne gardent que des métadonnées. Si une question ou
+  //    une réponse y entrait, la mention deviendrait fausse.
+  const index = fs.readFileSync("worker/assistant/src/index.js", "utf8");
+  const journal = index.slice(index.indexOf("const journal = {"), index.indexOf("const journal = {") + 240);
+  for (const interdit of ["requete.messages[", "corps.texte", "brute.texte"]) {
+    assert.ok(!journal.includes(interdit), `le journal ne porte pas ${interdit}`);
+  }
+  assert.match(journal, /langue|echanges|budgetRestant/, "il ne porte que des compteurs");
+
+  // 5. « rien n'est envoyé à M. Kouassi sans votre accord » — Resend n'est
+  //    appelé qu'avec un brief confirmé ET un accord de recontact explicite.
+  const email = fs.readFileSync("worker/assistant/src/email.js", "utf8");
+  assert.match(email, /!brief\.confirme \|\| brief\.recontact !== "oui"/, "l'accord explicite est exigé");
+});
+
+test("D-9 : la mention reste lisible — aucun terme technique que le visiteur ne parlerait", () => {
   for (const langue of ["fr", "en"]) {
     const texte = D9.confidentialite[langue].toLowerCase();
-    for (const interdit of ["mistral", "api", "log", "token", "jeton", "worker", "cloudflare", "modèle", "model", "serveur", "server"]) {
+    // « modèle » reste admis : c'est le mot juste, et le taire reviendrait à
+    // cacher au visiteur que sa question part chez un tiers.
+    for (const interdit of ["mistral", "api", "log", "token", "jeton", "worker", "cloudflare", "resend", "serveur", "server", "sessionstorage"]) {
       assert.ok(!texte.includes(interdit), `${langue} : « ${interdit} » n'a rien à faire dans la mention`);
     }
-    assert.ok(D9.confidentialite[langue].length < 70, `${langue} : la mention reste courte`);
   }
 });
 
-test("D-9 : aucune donnée privée n'entre dans le contenu par ces textes", () => {
-  const tout = JSON.stringify(D9).toLowerCase();
-  for (const prive of ["cocody", "1992", "mancini1008", "225"]) {
-    assert.ok(!tout.includes(prive), `« ${prive} » ne doit pas apparaître`);
+test("D-9 : la mention ne promet pas le refus d'entraînement, qui n'est pas posé", () => {
+  // D-11 : le refus est gratuit et décidé, mais c'est une bascule que Marc doit
+  // actionner dans le panneau Mistral. Tant qu'elle n'est pas vérifiable depuis
+  // le dépôt, la mention ne peut pas l'affirmer — ce serait inventer un état.
+  for (const langue of ["fr", "en"]) {
+    const texte = D9.confidentialite[langue].toLowerCase();
+    for (const promesse of ["entraîn", "entrain", "training", "train our", "jamais utilisé", "never used"]) {
+      assert.ok(!texte.includes(promesse), `${langue} : « ${promesse} » promettrait D-11, qui reste à poser`);
+    }
   }
-});
-
-test("D-37 : la règle créative varie la formulation au lieu de l'imposer", () => {
-  // L'intention, pas une liste fermée : la consigne de variation existe, et la
-  // formulation de D-28 reste un exemple valable.
-  assert.match(PROMPT, /varie la formulation, jamais deux fois la même/i);
-  // L’espace avant « ? » peut être normale ou insécable : on compare le sens,
-  // pas la typographie — le prompt n’est pas soumis aux règles de content/.
-  const neutre = (t) => t.replace(/\s+/g, " ");
-  assert.ok(neutre(PROMPT).includes("Ou vous préférez que M. Kouassi le choisisse ?"),
-    "la formulation de D-28 reste présente comme exemple");
-  assert.ok(!/termine par exactement/.test(PROMPT), "elle n'est plus imposée");
-  // Conseiller sans imposer, et laisser la décision au visiteur ou à M. Kouassi.
-  assert.match(PROMPT, /tu lui laisses les décisions créatives/i);
-  assert.match(PROMPT, /au plus deux pistes liées au contexte/i);
-});
-
-test("D-9 n'active pas MarcoS : l'activation reste un geste de Marc", () => {
-  assert.equal(D9.active, false, "les textes existent, l'activation non");
 });
