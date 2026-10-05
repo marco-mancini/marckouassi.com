@@ -200,8 +200,15 @@ test("actif et avec une adresse, l'accueil porte la présence primaire, le panne
   const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
   assert.match(page, /<dialog[^>]*id="assistant"/, "le panneau est rendu");
   assert.match(page, /data-modal="false"/, "non modal : le portfolio reste parcourable");
+  // Sans avatar déclaré, trois entrées : Contact, le menu, la barre.
   const entrees = page.match(/data-modale-ouvrir="assistant"/g) || [];
-  assert.equal(entrees.length, 3, "Contact, le menu, et la barre de la présence");
+  assert.equal(entrees.length, 3, "Contact, le menu (D-4) et la barre de la présence");
+
+  // Avec l'avatar, les deux bustes en sont deux de plus : ils ouvrent et
+  // referment eux aussi le panneau.
+  const avatar = { etats: [{ etat: "rest", src: "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png" }] };
+  const avecBuste = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." }, avatar }, endpoint: "https://worker.test/api" });
+  assert.equal((avecBuste.match(/data-modale-ouvrir="assistant"/g) || []).length, 5, "les deux bustes sont des commandes");
   assert.match(page, /<div class="marcos" data-marcos data-etat="rest"/, "la présence naît au repos");
 });
 
@@ -238,7 +245,9 @@ test("la présence flottante est muette pour les technologies d'assistance, sauf
   const avatar = { etats: [{ etat: "rest", src: "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png" }] };
   const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." }, avatar }, endpoint: "https://worker.test/api" });
   const marcos = page.slice(page.indexOf('<div class="marcos"'));
-  assert.match(marcos, /<span class="av" aria-hidden="true">/, "le buste est décoratif");
+  // Le buste n'est plus décoratif : c'est une commande, qui ouvre et referme
+  // le panneau. Ce sont ses IMAGES qui ne disent rien.
+  assert.match(marcos, /<button class="av" type="button" aria-label="[^"]+" data-modale-ouvrir="assistant"/, "le buste est une commande nommée");
   assert.match(marcos, /<span class="onde" aria-hidden="true">/, "l'onde est décorative");
   assert.match(marcos, /<img[^>]*alt=""/, "l'image ne porte aucun texte alternatif");
   // L'activité n'est pas muette pour autant : elle a un nom, depuis le dictionnaire.
@@ -278,8 +287,8 @@ test("l'avatar reste visible pendant la conversation", () => {
   // c'était bien l'intention.
   const avatar = { etats: [{ etat: "rest", src: "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png" }] };
   const sortie = String(Assistant({ assistant: actif({ avatar }), ctx, endpoint: "https://worker.test/api/assistant" }));
-  assert.match(sortie, /class="socle socle-panneau"><span class="av"/, "le panneau porte son propre buste");
-  assert.match(sortie, /class="socle socle-barre"><span class="av"/, "la barre porte le sien");
+  assert.match(sortie, /class="socle socle-panneau"><button class="av"/, "le panneau porte son propre buste");
+  assert.match(sortie, /class="socle socle-barre"><button class="av"/, "la barre porte le sien");
   assert.match(sortie, /Avatar_MarcoS\/Avatar_02_NEUTRE_DISPONIBLE/, "l'expression neutre officielle");
 });
 

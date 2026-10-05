@@ -17,7 +17,7 @@
      commandes recoivent le clic. */
   pointer-events: none;
 }
-.marcos .barre, .marcos .modale--ancre { pointer-events: auto; }
+.marcos .barre, .marcos .modale--ancre, .marcos .av { pointer-events: auto; }
 
 /* --------------------------------------------------------------------------
    LE BUSTE — toujours POSE sur l'element actif, jamais devant ni derriere.
@@ -31,44 +31,55 @@
 .marcos .av {
   position: absolute; bottom: 100%;
   transform-origin: 50% 100%;
-  pointer-events: none;
+  /* Le buste est un bouton : il recoit le clic. Les images, elles, ne doivent
+     pas intercepter le pointeur a sa place. La zone cliquable est ramenee au
+     sujet : le reste du cadre est transparent, et un bouton y volerait les
+     liens du portfolio qui passent dessous. */
+  padding: 0; border: 0; background: transparent; cursor: pointer;
+  clip-path: inset(var(--marcos-buste-zone-haut) var(--marcos-buste-zone-cote) 0 var(--marcos-buste-zone-cote));
   animation: marcos-respire var(--marcos-respire) ease-in-out infinite;
   transition: left var(--marcos-t-moyen) var(--marcos-courbe),
               width var(--marcos-t-moyen) var(--marcos-courbe),
               opacity var(--marcos-t-moyen);
 }
 .marcos .avimg {
+  pointer-events: none;
   display: block; width: 100%; height: auto; border: 0;
-  filter: drop-shadow(0 6px 12px var(--shadow-board));
+  filter: drop-shadow(0 2px 6px var(--shadow-board));
 }
 .marcos .avimg[hidden] { display: none; }
 
-/* Ombre de contact, au ras du bord : c'est elle qui fait que MarcoS repose
-   sur quelque chose au lieu de flotter au-dessus. */
-.marcos .av::after {
-  content: ""; position: absolute; left: 50%; bottom: 0; translate: -50% 50%;
-  width: var(--marcos-ombre-contact); height: 8px; border-radius: 50%;
-  background: var(--filet); filter: blur(5px);
-  transition: width var(--marcos-t-moyen) var(--marcos-courbe), opacity var(--marcos-t-moyen);
-}
-
-/* Pose sur la barre : pleine largeur de la barre. */
-.marcos .socle-barre .av { left: 0; right: 0; width: 100%; }
+/* AUCUNE ombre de contact. La maquette en posait une — une ellipse floutee au
+   ras du bord — pour suggerer l'appui. Mais le buste touche REELLEMENT la barre
+   maintenant, et cette ellipse sombre peignait justement un jour entre les
+   deux. Le contact se voit mieux sans elle.
+   Le drop-shadow de l'image est reduit en consequence : porte vers le bas, il
+   produisait le meme effet de decollement. */
+/* Pose sur la barre, centre. */
+.marcos .socle-barre .av { left: var(--marcos-buste-decalage-barre); width: var(--marcos-buste-sur-barre); }
 /* Pose sur le panneau : centre, aux trois quarts de sa largeur. */
 .marcos .socle-panneau .av { left: var(--marcos-buste-decalage); width: var(--marcos-buste-sur-panneau); }
-.marcos .socle-panneau .av::after { width: var(--marcos-ombre-contact-panneau); }
 
-/* Un seul buste visible : celui du porteur actif. */
-.marcos[data-ouvert="0"] .socle-panneau .av { opacity: 0; }
-.marcos[data-ouvert="1"] .socle-barre .av { opacity: 0; }
+/* Un seul buste visible : celui du porteur actif. L'autre est RETIRE du
+   pointeur et du parcours clavier, pas seulement rendu transparent : a
+   `opacity: 0` il continuait de recevoir les clics, et celui de la barre —
+   place juste au-dessus d'elle — recouvrait le bas du panneau ouvert. */
+.marcos[data-ouvert="0"] .socle-panneau .av,
+.marcos[data-ouvert="1"] .socle-barre .av { opacity: 0; pointer-events: none; }
+.marcos[data-ouvert="0"] .socle-panneau .av { visibility: hidden; }
+.marcos[data-ouvert="1"] .socle-barre .av { visibility: hidden; }
 
 /* A l'ouverture, la barre se recentre sous le panneau. */
 .marcos .socle-barre { align-self: flex-end; transition: width var(--marcos-t-moyen) var(--marcos-courbe); }
 .marcos[data-ouvert="1"] .socle-barre { width: var(--marcos-barre-ouverte); align-self: center; }
 
+/* La respiration ne DECOLLE pas le buste : elle le fait enfler depuis son
+   point d'appui. `transform-origin: 50% 100%` fixe le bord bas, qui reste
+   donc au contact de son porteur pendant tout le cycle. Un translateY, lui,
+   ouvrait un jour de 3 px la moitie du temps. */
 @keyframes marcos-respire {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-3px) scale(1.008); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.012); }
 }
 
 /* --------------------------------------------------------------------------
@@ -76,19 +87,28 @@
    -------------------------------------------------------------------------- */
 .marcos .barre {
   position: relative; z-index: 2;
-  display: flex; align-items: center; justify-content: space-around;
-  padding: var(--space-1);
+  display: flex; align-items: center;
+  padding: var(--space-1) var(--marcos-barre-rembourrage);
   /* Un filet, que la maquette n'a pas : en theme sombre son encre #0f1109 se
      confond avec le fond de page #14180f, et la barre disparaissait. Le filet
      la detache sur n'importe quel fond, clair comme sombre. */
   border: var(--border-hairline) solid var(--marcos-barre-filet);
-  border-radius: var(--radius-pill); background: var(--marcos-barre-fond);
+  border-radius: var(--marcos-barre-rayon); background: var(--marcos-barre-fond);
   box-shadow: 0 10px 26px var(--shadow-board);
   transition: transform var(--marcos-t-moyen) var(--marcos-courbe),
               box-shadow var(--marcos-t-moyen);
 }
+/* Trois emplacements de largeur egale, chaque icone centree dans le sien.
+   Les separateurs ne prennent que leur epaisseur. */
+.marcos .barre > .bouton, .marcos .barre > .activite { flex: 1; }
+.marcos .barre > .sep { flex: none; }
+
 .marcos .barre .bouton {
   min-width: var(--marcos-cible-barre); min-height: var(--marcos-cible-barre);
+  /* Le bouton aligne son contenu a gauche par defaut : l'icone se retrouvait
+     a 16 px du centre de son emplacement. Ici chaque icone est centree dans
+     l'espace qui lui revient. */
+  justify-content: center;
   padding: 0; border: 0; border-radius: var(--radius-pill);
   color: var(--marcos-barre-encre); background: transparent;
   transition: background var(--marcos-t-court);
@@ -353,7 +373,6 @@
 /* HOVER : micro-reaction, rien de plus. Aucune ouverture automatique. */
 .marcos[data-etat="hover"] .barre { transform: translateY(var(--marcos-souleve)); box-shadow: 0 14px 32px var(--shadow-board); }
 .marcos[data-etat="hover"] .av { transform: translateY(var(--marcos-souleve-buste)) scale(1.04); animation-play-state: paused; }
-.marcos[data-etat="hover"] .av::after { width: var(--marcos-ombre-contact-survol); opacity: .7; }
 
 /* LISTENING : MarcoS recoit la demande. */
 .marcos[data-etat="listening"] .onde i { animation-duration: .75s; }
@@ -361,19 +380,20 @@
 
 /* THINKING : un mouvement DIFFERENT, pas une onde plus forte. */
 .marcos[data-etat="thinking"] .av { animation: marcos-reflechit var(--marcos-reflechit) ease-in-out infinite; }
+/* Meme principe : le balancement pivote autour du point d'appui, il ne leve pas. */
 @keyframes marcos-reflechit {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  35% { transform: translateY(-4px) rotate(-2.2deg); }
-  70% { transform: translateY(-1px) rotate(1.4deg); }
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(-2.2deg) scale(1.01); }
+  70% { transform: rotate(1.4deg); }
 }
 .marcos[data-etat="thinking"] .onde i { animation-duration: 2.1s; background: var(--accent-texte); }
 
 /* RESPONDING : MarcoS participe a l'echange. */
 .marcos[data-etat="responding"] .av { animation: marcos-parle var(--marcos-parle) ease-in-out infinite; }
 @keyframes marcos-parle {
-  0%, 100% { transform: translateY(0) scale(1); }
-  25% { transform: translateY(-2px) scale(1.015); }
-  60% { transform: translateY(-1px) scale(.995); }
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.018); }
+  60% { transform: scale(.994); }
 }
 .marcos[data-etat="responding"] .onde i { animation-duration: .55s; background: var(--olive-ghost); }
 
@@ -417,3 +437,27 @@
    changer de largeur selon qu'il y a ou non quelque chose a effacer. */
 .marcos .barre .bouton[disabled] { opacity: .35; cursor: default; }
 .marcos .barre .bouton[disabled]:hover { background: transparent; }
+
+/* Le focus clavier sur le buste doit se voir : il est rond, sans fond, et le
+   contour par defaut du site s'y perdrait. */
+.marcos .av:focus-visible { outline: 2px solid var(--accent-texte); outline-offset: 4px; border-radius: var(--marcos-barre-rayon); }
+
+/* Sur la couverture, MarcoS s'efface : il recouvrait « Le portfolio ↓ », qui
+   est l'entree du site. Il revient des la deuxieme planche. Le retrait porte
+   aussi sur le pointeur et le clavier — un bouton invisible ne doit etre ni
+   cliquable ni atteignable. */
+.marcos[data-retire="1"] {
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(var(--marcos-entree));
+  transition: opacity var(--marcos-t-moyen) var(--marcos-courbe),
+              transform var(--marcos-t-moyen) var(--marcos-courbe),
+              visibility 0s linear var(--marcos-t-moyen);
+}
+.marcos[data-retire="0"] {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity var(--marcos-t-moyen) var(--marcos-courbe),
+              transform var(--marcos-t-moyen) var(--marcos-rebond), visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marcos[data-retire="1"], .marcos[data-retire="0"] { transform: none; }
+}

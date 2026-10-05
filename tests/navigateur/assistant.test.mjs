@@ -88,7 +88,7 @@ async function ouvrirFenetre({ largeur = 1440, theme = "light", repondre } = {})
 test("MarcoS s'ouvre depuis Contact, depuis le menu et depuis sa présence flottante", async () => {
   const page = await ouvrirFenetre();
   const entrees = page.locator('[data-modale-ouvrir="assistant"]');
-  assert.equal(await entrees.count(), 3, "Contact, le menu (D-4) et la présence flottante");
+  assert.equal(await entrees.count(), 5, "Contact, le menu (D-4), la barre, et les deux bustes qui sont eux-mêmes des commandes");
   assert.equal(await page.locator(".marcos[data-etat=rest]").count(), 1, "la présence naît au repos");
   assert.equal(await page.locator("#assistant").evaluate((d) => d.open), false, "fermée au départ");
   // Le panneau est ancré : il ne couvre pas le portfolio, et il laisse la
@@ -181,7 +181,7 @@ test("au clavier seul : on atteint l'entrée, on ouvre, le focus entre, Échap f
 
 test("le journal est annoncé poliment, et l'état vide ne dit rien de faux", async () => {
   const page = await ouvrirFenetre();
-  await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
   const journal = page.locator("#assistant [role=log]");
   assert.equal(await journal.count(), 1);
@@ -193,7 +193,7 @@ test("le journal est annoncé poliment, et l'état vide ne dit rien de faux", as
 
 test("une question part, la réponse arrive, et les deux tours sont étiquetés", async () => {
   const page = await ouvrirFenetre();
-  await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
   await page.fill("#assistant-question", "Qui est M. Kouassi ?");
   await page.click("[data-assistant-envoyer]");
@@ -210,7 +210,7 @@ test("une question part, la réponse arrive, et les deux tours sont étiquetés"
 
 test("une réponse du modèle contenant du HTML est affichée comme du texte, jamais interprétée", async () => {
   const page = await ouvrirFenetre({ repondre: { status: 200, json: { texte: "<img src=x onerror=alert(1)><b>gras</b>", liens: [] } } });
-  await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
   await page.fill("#assistant-question", "Essai");
   await page.click("[data-assistant-envoyer]");
@@ -223,7 +223,7 @@ test("une réponse du modèle contenant du HTML est affichée comme du texte, ja
 test("chaque code d'erreur du Worker devient une phrase du dictionnaire, pas un code brut", async () => {
   for (const [code, statut] of [["quota_journalier", 429], ["indisponible", 503], ["trop_de_demandes", 429]]) {
     const page = await ouvrirFenetre({ repondre: { status: statut, json: { erreur: code } } });
-    await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+    await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
     await page.waitForFunction(() => document.getElementById("assistant").open);
     await page.fill("#assistant-question", "Essai");
     await page.click("[data-assistant-envoyer]");
@@ -248,7 +248,7 @@ test("chaque code d'erreur du Worker devient une phrase du dictionnaire, pas un 
 
 test("l'aide du champ compte les caractères restants, et le plafond est celui du Worker", async () => {
   const page = await ouvrirFenetre();
-  await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
   const aide = page.locator("#assistant-question-aide");
   assert.ok((await aide.textContent()).includes("500"));
@@ -261,7 +261,7 @@ test("l'aide du champ compte les caractères restants, et le plafond est celui d
 test("la fenêtre tient à 320, 375, 768, 1024 et 1440 px, en clair et en sombre", async () => {
   for (const theme of ["light", "dark"]) for (const largeur of [320, 375, 768, 1024, 1440]) {
     const page = await ouvrirFenetre({ largeur, theme });
-    await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+    await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
     await page.waitForFunction(() => document.getElementById("assistant").open);
     await attendreLaFinDesAnimations(page);
     const r = await page.evaluate(() => {
@@ -297,8 +297,8 @@ test("la fenêtre existe en anglais avec les mêmes repères", async () => {
   const anglais = path.resolve("_site", "essai-assistant-en.html");
   fs.writeFileSync(anglais, String(PageAccueil({ contenu: { ...contenu, site }, ctx })), "utf8");
   const page = await ouvrir(nav, `${serveur.url}/essai-assistant-en.html`, { largeur: 1440 });
-  assert.equal(await page.locator('[data-modale-ouvrir="assistant"]').count(), 3);
-  await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+  assert.equal(await page.locator('[data-modale-ouvrir="assistant"]').count(), 5);
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
   assert.equal(await page.locator("#assistant [role=log]").count(), 1);
   assert.ok((await page.locator("[data-assistant-accueil]").textContent()).includes(D9.accueil.en));
@@ -308,7 +308,7 @@ test("la fenêtre existe en anglais avec les mêmes repères", async () => {
 
 test("D-9 : le message d'accueil, les dix exemples et la mention s'affichent au mot près", async () => {
   const page = await ouvrirFenetre();
-  await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
 
   assert.equal((await page.locator("[data-assistant-accueil] .bulle__texte").textContent()).trim(), D9.accueil.fr);
@@ -324,7 +324,7 @@ test("D-9 : le message d'accueil, les dix exemples et la mention s'affichent au 
 
 test("un exemple cliqué remplit le champ sans envoyer : le visiteur garde la main", async () => {
   const page = await ouvrirFenetre();
-  await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
   await page.locator("[data-assistant-exemple]").first().click();
   assert.equal(await page.inputValue("#assistant-question"), D9.exemples[0].fr);
@@ -336,7 +336,7 @@ test("accessibilité axe-core de la fenêtre ouverte : aucune violation grave ou
   const axe = fs.readFileSync("node_modules/axe-core/axe.min.js", "utf8");
   for (const theme of ["light", "dark"]) {
     const page = await ouvrirFenetre({ theme, largeur: 1024 });
-    await page.locator('[data-modale-ouvrir="assistant"]').first().click();
+    await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
     await page.waitForFunction(() => document.getElementById("assistant").open);
     await page.fill("#assistant-question", "Qui est M. Kouassi ?");
     await page.click("[data-assistant-envoyer]");
