@@ -25,8 +25,8 @@
     "fermer": "Fermer l’étude du projet",
     "images": "Images du projet",
     "imagesAutres": "Voir les {nombre} autres images",
-    "projetPrecedent": "Projet précédent : {titre}",
-    "projetSuivant": "Projet suivant : {titre}",
+    "projetPrecedent": "Projet précédent : {titre}",
+    "projetSuivant": "Projet suivant : {titre}",
     "parcours": "Passer d’un projet à l’autre",
     "imagePrecedente": "Image précédente",
     "imageSuivanteSeule": "Image suivante",
@@ -40,7 +40,7 @@
     "retour": "Retour aux projets",
     "document": "Consulter le document",
     "categories": {
-      "numero": "Univers {numero}",
+      "numero": "Univers #{numero}",
       "vide": "Cet univers attend ses premières réalisations.",
       "navigation": "Parcourir les catégories de réalisations",
       "retour": "Retour aux catégories"
@@ -120,6 +120,7 @@
     "selection": "{nombre} projets · {plage}",
     "categorieEtPeriode": "{categorie} · {periode}",
     "rubrique": "{numero} / {nom}",
+    "numeroProjet": "#{numero}",
     "titrePage": "{titre} — {nom}"
   }
 }

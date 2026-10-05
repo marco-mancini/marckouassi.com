@@ -14,6 +14,8 @@
 }
 .bouton--pilule { padding: 0 var(--space-4); border-radius: var(--radius-pill); }
 .bouton--rond { width: var(--cible-tactile); height: var(--cible-tactile); padding: 0; border-radius: var(--radius-full); }
+/* Rond ET grand : la largeur suit la hauteur, sinon le cercle s'ovalise. */
+.bouton--rond.bouton--grand { width: var(--bouton-grand); height: var(--bouton-grand); }
 .bouton--libre { padding: 0; }
 .bouton--grand { min-height: var(--bouton-grand); }
 

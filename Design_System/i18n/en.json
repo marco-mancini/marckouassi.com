@@ -41,7 +41,7 @@
     "retour": "Back to projects",
     "document": "View the document",
     "categories": {
-      "numero": "Field {numero}",
+      "numero": "Field #{numero}",
       "vide": "This field is waiting for its first pieces of work.",
       "navigation": "Browse work categories",
       "retour": "Back to categories"
@@ -121,6 +121,7 @@
     "selection": "{nombre} projects · {plage}",
     "categorieEtPeriode": "{categorie} · {periode}",
     "rubrique": "{numero} / {nom}",
+    "numeroProjet": "#{numero}",
     "titrePage": "{titre} — {nom}"
   }
 }

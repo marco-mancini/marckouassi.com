@@ -623,9 +623,6 @@
   /* Decalage, depuis le coin haut droit de l'image, de l'element pose
      dessus. */
   --galerie-superposition-decalage: 14px;
-  /* Largeur minimale d'une image de l'etude : la grille en pose autant que la
-     place le permet, quatre au large, trois ensuite, sans palier ecrit. */
-  --galerie-detail-colonne-min: 280px;
   --galerie-detail-zoom: 1.12; /* zoom avant d'une image d'etude au survol */
   --visionneuse-hauteur-max: 72vh; /* hauteur maximale d'une image en plein ecran */
   --duration-fermer-tour: 9s; /* un tour complet de la croix de fermeture */

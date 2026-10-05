@@ -1,4 +1,4 @@
-import { html } from "../../fondations/rendu.js";
+import { html, attributs } from "../../fondations/rendu.js";
 import { Titre } from "../../composants/Titre/Titre.js";
 import { Champ } from "../../composants/Champ/Champ.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
@@ -6,9 +6,10 @@ import { Galerie, activerGaleries, activerVisionneuse } from "../../composants/G
 import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Modale, ouvrirModale } from "../../composants/Modale/Modale.js";
 
-// Huit images d'emblee : deux rangees pleines au large. Les autres
-// attendent derriere un seul bouton, qui dit combien il en reste.
-const IMAGES_DEMBLEE = 8;
+// Six images d'emblee : la grille fait trois colonnes sur deux rangees. Les
+// autres attendent derriere un seul bouton, qui dit combien il en reste et
+// les ouvre en grand.
+const IMAGES_DEMBLEE = 6;
 
 /**
  * Projet_etude — LA VUE ÉTUDE d'un projet : rubrique, titre, contexte,
@@ -27,7 +28,7 @@ const IMAGES_DEMBLEE = 8;
  * @param {1|2} [p.niveau]    niveau du titre : 1 sur la page du projet
  */
 /**
- * Le parcours d'un projet a l'autre, pose en tete de l'etude.
+ * Le parcours d'un projet a l'autre, pose tout au bas de l'etude.
  *
  * Chaque lien porte le CONTRAT D'OUVERTURE du voisin : dans la modale, il y
  * charge l'etude suivante ; sur la page du projet, c'est un vrai lien qui
@@ -39,7 +40,7 @@ function parcoursProjets(voisins, ctx) {
     texte: vue.titre, variante: "nu", href: vue.lien,
     options: { icone, attributs: { ...vue.ouverture, "aria-label": ctx.t(cle, { titre: vue.titre }) } },
   }) : html`<span></span>`);
-  return html`<nav class="projet-etude__parcours" aria-label="${ctx.t("projet.parcours")}">${lien(voisins.precedent, "projet.projetPrecedent", "retour")}${lien(voisins.suivant, "projet.projetSuivant", "suite")}</nav>`;
+  return html`<nav${attributs({ class: "projet-etude__parcours", "aria-label": ctx.t("projet.parcours") })}>${lien(voisins.precedent, "projet.projetPrecedent", "retour")}${lien(voisins.suivant, "projet.projetSuivant", "suite")}</nav>`;
 }
 
 export function Projet_etude({ vue, ctx, niveau = 1, voisins = null }) {
@@ -47,7 +48,7 @@ export function Projet_etude({ vue, ctx, niveau = 1, voisins = null }) {
   const document = vue.document
     ? Bouton({ texte: vue.document.libelle, variante: "texte", href: vue.document.href, options: { icone: "externe" } })
     : "";
-  return html`<article class="projet-etude" data-projet-etude="${vue.id}">${parcoursProjets(voisins, ctx)}<div class="projet-etude__texte"><div class="projet-etude__ligne-rubrique"><p class="projet-etude__rubrique texte-etiquette">${vue.categorieHtml}</p>${Pastille({ texte: vue.periode, variante: "contour", etiquette: ctx.t("projet.periode") })}</div><div class="projet-etude__titre">${Titre({ niveau, echelle: "etude", texte: vue.titre, id: vue.idEtude, sceau: false })}</div><p class="projet-etude__contexte texte-corps">${vue.contexteHtml}</p><div class="projet-etude__meta">${meta}</div><p class="projet-etude__libelle texte-etiquette">${ctx.t("projet.intention")}</p><p class="projet-etude__idee">${vue.ideeHtml}</p>${document}</div>${Galerie({ medias: vue.medias, variante: "detail", etiquette: ctx.t("projet.images"), premieres: IMAGES_DEMBLEE, libelleAutres: ctx.t("projet.imagesAutres") })}</article>`;
+  return html`<article class="projet-etude" data-projet-etude="${vue.id}"><div class="projet-etude__texte"><div class="projet-etude__ligne-rubrique"><p class="projet-etude__rubrique texte-etiquette">${vue.categorieHtml}</p>${Pastille({ texte: vue.periode, variante: "contour", etiquette: ctx.t("projet.periode") })}</div><div class="projet-etude__titre">${Titre({ niveau, echelle: "etude", texte: vue.titre, id: vue.idEtude, sceau: false })}</div><p class="projet-etude__contexte texte-corps">${vue.contexteHtml}</p><div class="projet-etude__meta">${meta}</div><p class="projet-etude__libelle texte-etiquette">${ctx.t("projet.intention")}</p><p class="projet-etude__idee">${vue.ideeHtml}</p>${document}</div>${Galerie({ medias: vue.medias, variante: "detail", etiquette: ctx.t("projet.images"), reste: { premieres: IMAGES_DEMBLEE, libelle: ctx.t("projet.imagesAutres") } })}${parcoursProjets(voisins, ctx)}</article>`;
 }
 
 /** La modale partagée du sommaire, vide : l'étude y est chargée à la demande. */

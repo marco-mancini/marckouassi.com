@@ -76,11 +76,7 @@ export function Projets({ section, contenu, ctx }) {
   const blocs = categories.map((categorie, rang) => {
     const cheminCategorie = `${chemin}.categories.${rang}`;
     const projets = projetsDeLaCategorie(contenu.projets, categorie.id);
-    // ÉTAT DE TRAVAIL — PROVISOIRE. On ne rend que la première carte de chaque
-    // catégorie, le temps de dessiner la carte avec Marc. Aucun identifiant
-    // n'est écrit ici : c'est un rang, pas un projet. À retirer dès que le
-    // dessin est validé, pour revenir à « toutes les cartes ».
-    const cartes = projets.slice(0, 1).map((projet, index) => Gabarit_Projet({
+    const cartes = projets.map((projet, index) => Gabarit_Projet({
       projet, ctx, mode: "carte", options: { rang: index, total: projets.length },
     }));
     // Une catégorie peut porter des réalisations isolées plutôt que des projets
@@ -95,7 +91,7 @@ export function Projets({ section, contenu, ctx }) {
         // relevait sur ces six visuels (§3.2, réutiliser avant de créer).
         const visuel = media(ctx, realisation.media, { chemin: `${cheminRealisation}.media` });
         const libelle = ctx.c(realisation.libelle, `${cheminRealisation}.libelle`);
-        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel">${Media({ media: { ...visuel, alt: libelle } })}${SigneOuverture({ classe: "categorie-projets__carte-fleche" })}</div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: numero(index), variante: "contour", forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
+        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel">${Media({ media: { ...visuel, alt: libelle } })}${SigneOuverture({ classe: "categorie-projets__carte-fleche" })}</div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: ctx.t("formats.numeroProjet", { numero: numero(index) }), variante: "contour" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
       }), colonnes: [4, 2, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })
       : null;
     return html`<section class="categorie-projets" id="categorie-${categorie.id}" aria-labelledby="titre-${categorie.id}">

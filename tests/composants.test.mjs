@@ -111,12 +111,12 @@ test("Media : dimensions, chargement différé, vidéo sans lecture auto, emplac
   assert.match(String(Media({ media: { alt: "absent" } })), /media--absent" role="img" aria-label="absent"/);
 });
 
-test("Galerie : aperçu borné à 6, nombre réel exposé", async () => {
+test("Galerie : aperçu borné à 3, nombre réel exposé", async () => {
   const { Galerie } = await charger("Galerie");
   const medias = Array.from({ length: 9 }, (_, i) => ({ src: `${i}.webp`, alt: `${i}` }));
   const sortie = String(Galerie({ medias }));
-  assert.match(sortie, /data-nombre="6"/);
-  assert.equal((sortie.match(/<img/g) || []).length, 6);
+  assert.match(sortie, /data-nombre="3"/);
+  assert.equal((sortie.match(/<img/g) || []).length, 3);
   assert.equal((String(Galerie({ medias, variante: "detail" })).match(/<img/g) || []).length, 9);
 });
 

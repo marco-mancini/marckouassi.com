@@ -27,5 +27,5 @@ export function Projet_carte({ vue, ctx }) {
     ...vue.ouverture,
     "data-apparition": "bas",
     "data-categorie": vue.categoriePrincipale,
-  })}>${Galerie({ medias: vue.medias, variante: "apercu", superposition: SigneOuverture() })}<header class="projet-carte__entete">${Pastille({ texte: vue.numero, forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${vue.titreHtml}</h3><p class="projet-carte__categorie">${ctx.t("formats.categorieEtPeriode", { categorie: vue.categorie, periode: vue.periode })}</p></div></header></a>`;
+  })}>${Galerie({ medias: vue.medias, variante: "apercu", superposition: SigneOuverture() })}<header class="projet-carte__entete">${Pastille({ texte: vue.numero, variante: "contour" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${vue.titreHtml}</h3><p class="projet-carte__categorie">${ctx.t("formats.categorieEtPeriode", { categorie: vue.categorie, periode: vue.periode })}</p></div></header></a>`;
 }

@@ -26,22 +26,22 @@ const REGLAGES = {
  * @param {"apercu"|"detail"|"bande"} [p.variante]
  * @param {string|null} [p.etiquette]                    nom accessible du groupe
  * @param {*} [p.superposition]                          action posée sur la galerie (ex. ouvrir)
- * @param {number|null} [p.premieres]                    images montrées d'emblée ; les
- *        autres attendent derrière un seul bouton, qui les déplie toutes d'un
- *        coup. Sans JavaScript, aucun bouton n'est posé et TOUTES les images
- *        restent visibles : une commande qui ne commande rien vaut moins que
- *        pas de commande, et une image cachée pour toujours vaudrait encore
- *        moins.
- * @param {string|null} [p.libelleAutres]                libellé de ce bouton, avec {nombre}
+ * @param {{premieres:number, libelle:string}|null} [p.reste]
+ *        `premieres` : images montrées d'emblée. Les autres attendent derrière
+ *        un seul bouton, dont `libelle` porte {nombre}. Sans JavaScript aucun
+ *        bouton n'est posé et TOUTES les images restent visibles : une commande
+ *        qui ne commande rien vaut moins que pas de commande, et une image
+ *        cachée pour toujours vaudrait encore moins.
  */
-export function Galerie({ medias = [], variante = "apercu", etiquette = null, superposition = null, premieres = null, libelleAutres = null }) {
+export function Galerie({ medias = [], variante = "apercu", etiquette = null, superposition = null, reste = null }) {
   const liste = variante === "apercu" ? medias.slice(0, APERCU_MAX) : medias;
   const reglage = REGLAGES[variante];
   // Le modèle dort dans un <template> : c'est le navigateur qui le pose, et
   // lui seul sait paginer. Le libellé vient du dictionnaire, par le gabarit.
-  const replie = premieres && liste.length > premieres;
+  const premieres = reste?.premieres ?? null;
+  const replie = Boolean(premieres) && liste.length > premieres;
   const modele = replie
-    ? html`<template data-galerie-modele-autres>${Bouton({ texte: String(libelleAutres ?? "").replace("{nombre}", String(liste.length - premieres)), variante: "contour", options: { icone: "bas", attributs: { "data-galerie-autres": "" } } })}</template>`
+    ? html`<template data-galerie-modele-autres>${Bouton({ texte: String(reste.libelle ?? "").replace("{nombre}", String(liste.length - premieres)), variante: "contour", options: { icone: "bas", attributs: { "data-galerie-autres": "" } } })}</template>`
     : "";
   return html`<div${attributs({ class: classes("galerie", `galerie--${variante}`), "data-nombre": liste.length, "data-galerie-premieres": replie ? String(premieres) : null, role: etiquette ? "group" : null, "aria-label": etiquette })}>${liste.map((media, rang) =>
     html`<div class="${classes("galerie__element", rang === 0 && "galerie__element--principal", rang === 1 && "galerie__element--second")}">${Media({ media, ...reglage })}</div>`
@@ -49,16 +49,18 @@ export function Galerie({ medias = [], variante = "apercu", etiquette = null, su
 }
 
 /**
- * DÉPLIAGE DES GALERIES — navigateur uniquement.
+ * LE RESTE D'UNE GALERIE — navigateur uniquement.
  *
  * Une galerie repliée montre ses premières images, puis UN bouton qui dit
- * combien il en reste et les ouvre toutes d'un coup. Un clic, pas quatre : le
- * visiteur n'a jamais à deviner où il en est.
+ * combien il en reste. Ce bouton n'allonge pas la page : il ouvre la
+ * visionneuse à la première image encore jamais vue, et le visiteur fait
+ * défiler le reste en grand, là où les images se regardent vraiment.
  *
  * Idempotent : une galerie déjà branchée est ignorée, ce qui permet de
  * rappeler la fonction après chaque chargement d'étude dans la modale.
  */
 export function activerGaleries(racine = document) {
+  const visionneuse = brancherVisionneuse();
   for (const galerie of racine.querySelectorAll("[data-galerie-premieres]")) {
     if (galerie.dataset.galerieDepliee) continue;
     galerie.dataset.galerieDepliee = "1";
@@ -75,11 +77,8 @@ export function activerGaleries(racine = document) {
     // d'une rangee et s'etirait en ellipse.
     galerie.after(enveloppe);
     bouton.addEventListener("click", () => {
-      elements.forEach((element) => { element.hidden = false; });
-      // Le bouton a fait son travail : il s'efface plutot que de rester la
-      // sans rien a ouvrir. Le focus passe a la premiere image revelee.
-      enveloppe.remove();
-      elements[premieres]?.focus?.();
+      const images = elements.map((element) => element.querySelector("img")).filter(Boolean);
+      if (visionneuse && images.length) visionneuse.ouvrir(images, premieres, bouton);
     });
   }
 }
@@ -97,11 +96,11 @@ export function Visionneuse({ ctx }) {
     // Les deux libelles voyagent avec le receptacle : le navigateur n'a pas
     // le dictionnaire, et aucun texte ne doit etre ecrit dans le script.
     entete: html`<p${attributs({ class: "visionneuse__compteur", "data-visionneuse-compteur": "", "data-modele": ctx.t("projet.imageCompteur"), "data-agrandir": ctx.t("projet.agrandir") })}></p>`,
-    contenu: html`<div class="visionneuse__scene"><div class="visionneuse__image" data-visionneuse-image></div></div><div class="visionneuse__commandes">${Bouton({
+    contenu: html`<div class="visionneuse__scene"><div class="visionneuse__commandes">${Bouton({
       texte: ctx.t("projet.imagePrecedente"), variante: "contour", forme: "rond", options: { icone: "retour", iconeSeule: true, taille: "grand", attributs: { "data-visionneuse-precedent": "" } },
     })}${Bouton({
       texte: ctx.t("projet.imageSuivanteSeule"), variante: "contour", forme: "rond", options: { icone: "suite", iconeSeule: true, taille: "grand", attributs: { "data-visionneuse-suivant": "" } },
-    })}</div>`,
+    })}</div><div class="visionneuse__image" data-visionneuse-image></div></div>`,
     options: { variante: "plein-ecran", libelleFermer: ctx.t("projet.fermer") },
   });
 }

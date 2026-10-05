@@ -80,7 +80,7 @@ export function vueProjet({ projet, ctx, rang = null, total = null }) {
     // L'identifiant du titre de l'étude. La modale le reprend en
     // `aria-labelledby` : les deux doivent toujours s'accorder.
     idEtude: `etude-${projet.id}`,
-    numero: numerote ? numero(rang) : null,
+    numero: numerote ? ctx.t("formats.numeroProjet", { numero: numero(rang) }) : null,
     compteur: numerote ? ctx.t("projet.compteur", { numero: numero(rang), total: String(total).padStart(2, "0") }) : null,
     // La même liste pour la carte et pour l'étude : seule la variante de
     // Galerie change. Résoudre deux fois, c'était risquer deux résultats.
