@@ -36,7 +36,11 @@ export function Intro({ intro, ctx, langues }) {
 </div>`;
   return html`<template id="intro-modele"${attributs({ "data-frequence": intro.frequence || "session" })}>${Modale({
     id: "intro", etiquette: t("intro.etiquette"), contenu,
-    options: { variante: "plein-ecran", libelleFermer: t("intro.passer"), fermeture: "texte" },
+    // Aucune commande de fermeture dans l'en-tête : le « Passer » qui s'y
+    // trouvait doublait la sortie que l'accueil offre déjà deux fois — son
+    // propre bouton d'entrée et le choix de langue — et il la proposait AVANT
+    // que le visiteur ait rien vu. Échap reste le chemin de fuite.
+    options: { variante: "plein-ecran", fermeture: "aucune" },
   })}</template>`;
 }
 
@@ -67,7 +71,7 @@ function memoriser(frequence) {
 /**
  * Lance l'accueil s'il existe et n'a pas encore été vu.
  * Réduction des animations : on va directement au choix de la langue.
- * « Passer » et Échap ferment à tout moment.
+ * Échap ferme à tout moment.
  */
 export async function lancerIntro({ reduit = false } = {}) {
   const modele = document.getElementById("intro-modele");

@@ -10,7 +10,7 @@
 | `etiquette` | `{id}` \| chaîne | `aria-labelledby` (titre dans le contenu) ou `aria-label`. |
 | `contenu` | HTML | Corps. |
 | `entete` | HTML | En-tête (compteur « 03 / 11 », libellé…). |
-| `options` | `{variante, libelleFermer, fermeture, modal, iconeFermer}` | `centre`, `plein-ecran` ou `ancre` ; `modal: false` ouvre avec `show()` ; libellé du bouton de fermeture, depuis le dictionnaire ; `fermeture: "texte"` rend ce libellé visible (bouton « Passer » de l'accueil). |
+| `options` | `{variante, libelleFermer, fermeture, modal, iconeFermer}` | `centre`, `plein-ecran` ou `ancre` ; `modal: false` ouvre avec `show()` ; libellé du bouton de fermeture, depuis le dictionnaire ; `fermeture: "texte"` rend ce libellé visible ; `fermeture: "aucune"` ne rend aucune commande, et `libelleFermer` devient inutile — c'est le cas de l'accueil animé, dont la sortie est son propre bouton d'entrée, le choix de langue, ou Échap. |
 
 ## Comportement (navigateur)
 

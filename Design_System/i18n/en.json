@@ -40,9 +40,8 @@
   },
   "intro": {
     "etiquette": "Welcome",
-    "passer": "Skip the introduction",
     "choisirLangue": "Choose your language",
-    "entrer": "Enter the portfolio"
+    "entrer": "Enter"
   },
   "cv": {
     "retour": "Back to the portfolio",

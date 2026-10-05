@@ -39,9 +39,8 @@
   },
   "intro": {
     "etiquette": "Accueil",
-    "passer": "Passer l’introduction",
     "choisirLangue": "Choisissez votre langue",
-    "entrer": "Entrer dans le portfolio"
+    "entrer": "Entrer"
   },
   "cv": {
     "retour": "Retour au portfolio",

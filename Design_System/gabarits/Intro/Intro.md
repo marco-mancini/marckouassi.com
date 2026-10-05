@@ -27,7 +27,7 @@
 ## Robustesse et accessibilité
 
 - Sans JavaScript, l'accueil n'existe pas : il est dans un `<template>`. Le portfolio, déjà dans le HTML, s'affiche directement.
-- « Passer l'introduction » est toujours visible ; Échap ferme aussi (comportement natif du `<dialog>`).
+- aucune commande de fermeture dans l'en-tête : la sortie est le bouton « Entrer » de l'étape de langue, le choix d'une langue, ou Échap (comportement natif du `<dialog>`).
 - Avec la réduction des animations : aucune animation, on arrive directement au choix de langue, et le choix ferme l'accueil.
 - Choisir l'autre langue enregistre l'accueil comme vu **avant** de changer de page : il ne se rejoue pas.
 - Aucune redirection automatique selon la langue du navigateur.

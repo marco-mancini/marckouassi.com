@@ -16,12 +16,16 @@ import { Bouton } from "../Bouton/Bouton.js";
  * @param {{id:string}|string} p.etiquette     id de l'élément titre, ou nom accessible
  * @param {*} p.contenu
  * @param {*} [p.entete]                       contenu de l'en-tête (ex. compteur)
- * @param {{variante?:"centre"|"plein-ecran"|"ancre", libelleFermer:string, fermeture?:"icone"|"texte", modal?:boolean, iconeFermer?:string}} p.options
+ * @param {{variante?:"centre"|"plein-ecran"|"ancre", libelleFermer?:string, fermeture?:"icone"|"texte"|"aucune", modal?:boolean, iconeFermer?:string}} p.options
  *        modal : false ouvre avec show() au lieu de showModal(). Le reste de la
  *        page demeure actif, et le focus n'est pas piégé — c'est ce que décrit
  *        la maquette de MarcoS (aria-modal="false") : le visiteur continue de
  *        parcourir le portfolio pendant la conversation.
- *        fermeture « texte » : bouton de fermeture à libellé visible (ex. « Passer l'introduction »)
+ *        fermeture « texte » : bouton de fermeture à libellé visible.
+ *        fermeture « aucune » : aucune commande dans l'en-tête. Réservé au cas
+ *        où la sortie est ailleurs — l'accueil animé se quitte par son propre
+ *        bouton d'entrée, par le choix de langue, ou par Échap. L'en-tête garde
+ *        sa hauteur, donc la composition en dessous ne bouge pas.
  */
 export function Modale({ id, etiquette, contenu, entete = "", options }) {
   const { variante = "centre", libelleFermer, fermeture = "icone", modal = true, iconeFermer = "fermer" } = options;
@@ -29,7 +33,7 @@ export function Modale({ id, etiquette, contenu, entete = "", options }) {
   return html`<dialog${attributs({
     class: classes("modale", `modale--${variante}`, variante === "plein-ecran" && "ilot-olive"),
     id, ...nom, "data-modal": modal ? null : "false",
-  })}><div class="modale__entete">${entete}${fermeture === "texte"
+  })}><div class="modale__entete">${entete}${fermeture === "aucune" ? "" : fermeture === "texte"
     ? Bouton({ texte: libelleFermer, variante: "contour", options: { attributs: { "data-modale-fermer": true } } })
     : Bouton({
       texte: libelleFermer, variante: variante === "plein-ecran" ? "contour" : "filet", forme: "rond",

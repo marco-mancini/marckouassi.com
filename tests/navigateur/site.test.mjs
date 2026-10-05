@@ -264,13 +264,13 @@ test("navigation : aria-current suit la section visible", async () => {
   await page.fermer();
 });
 
-test("accueil animé : apparaît, « Passer » le ferme, mémorisé ; animations réduites : choix de langue direct", async () => {
+test("accueil animé : apparaît, Échap le ferme, mémorisé ; animations réduites : choix de langue direct", async () => {
   const page = await ouvrir(nav, serveur.url + "/", { introVue: false });
   await page.waitForFunction(() => document.getElementById("intro")?.open);
-  const passer = page.locator('#intro [data-modale-fermer]');
-  assert.ok(await passer.isVisible());
-  assert.equal((await passer.textContent()).trim(), "Passer l’introduction");
-  await passer.click();
+  // L'en-tête ne porte plus aucune commande : le « Passer » doublait la sortie
+  // que l'accueil offre déjà par son bouton d'entrée et par le choix de langue.
+  assert.equal(await page.locator("#intro [data-modale-fermer]").count(), 0, "aucune commande de fermeture dans l'en-tête");
+  await page.keyboard.press("Escape");
   // L'événement « close » d'un <dialog> est asynchrone : on attend la condition.
   await page.waitForFunction(() => !document.getElementById("intro"), null, { timeout: 5000 });
   assert.equal(await page.evaluate(() => sessionStorage.getItem("mk-intro-vue")), "1");
@@ -340,7 +340,7 @@ test("intro : ouverture verrouille le défilement de la page", async () => {
 test("intro : fermeture libère le défilement de la page", async () => {
   const page = await ouvrir(nav, serveur.url + "/", { introVue: false });
   await page.waitForFunction(() => document.getElementById("intro")?.open);
-  await page.locator('#intro [data-modale-fermer]').click();
+  await page.keyboard.press("Escape");
   await page.waitForFunction(() => !document.getElementById("intro"));
   await verrouRendu(page);
   assert.deepEqual(await verrouille(page), { classe: false, overflow: "visible" });
