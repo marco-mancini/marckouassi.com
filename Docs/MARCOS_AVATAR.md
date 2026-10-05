@@ -2,15 +2,19 @@
 
 Rédigée le 2 octobre 2026 · issue [#76](https://github.com/marco-mancini/marckouassi.com/issues/76) (PM-076) · rattachée à [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) (PM-049, Avatar 3D de MarcoS).
 
-Ce document dit **ce que le site attend de recevoir** pour animer les 8 états de MarcoS décrits dans [MARCOS.md](MARCOS.md) §4. Marc réalise l'avatar lui-même. Rien n'est produit ni implémenté ici.
+Ce document dit **ce que le site attend de recevoir** pour les séquences d'animation
+futures de MarcoS. Marc réalise l'avatar lui-même. La présence V1 réutilise déjà
+l'asset neutre officiel ; ce document ne transforme pas les dix expressions en
+états runtime.
 
 Ce qui est dit de l'avatar lui-même (ressemblance, style, absence de costume, angles) reste dans [MARCOS.md](MARCOS.md) §3. Ce document ne le répète pas.
 
 ---
 
-> **Statut au 4 octobre 2026.** L'avatar n'est **pas en V1** (décision D-13) :
-> MarcoS se lance sans figurine, avec une entrée dans la section Contact et le
-> menu. Ce document décrit donc la **V2**.
+> **Statut au 5 octobre 2026.** D-35 place l'avatar 3D et la présence flottante en
+> **V1**. La présence flottante est l'entrée visuelle primaire ; Contact et menu
+> restent secondaires. Ce document décrit le format des assets et des séquences
+> d'animation, pas dix états runtime.
 >
 > Sur les cinq décisions que
 > [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) réservait à

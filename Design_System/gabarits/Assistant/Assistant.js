@@ -9,6 +9,9 @@ import { Message } from "../../composants/Message/Message.js";
 /** Longueur maximale d'une question, alignée sur la validation du Worker. */
 export const LONGUEUR_MAX = 500;
 
+/** Asset visuel officiel validé par l'issue #49 et D-35. */
+const AVATAR_NEUTRE = "/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png";
+
 /** Un texte traduisible est vide quand aucune langue n'est renseignée. */
 const renseigne = (valeur) => Boolean(valeur && Object.values(valeur).some((v) => String(v ?? "").trim()));
 
@@ -26,11 +29,12 @@ function libelles(t) {
 }
 
 /**
- * Assistant — assemblage V1 de MarcoS : Modale + Conversation + formulaire.
+ * Assistant — présence flottante + Modale + Conversation + formulaire.
  *
- * Ne rend rien sans adresse d'endpoint ni si `assistant.active` est faux : tant
- * que Marc n'a pas écrit l'accueil dans Paramètres, MarcoS n'existe pas pour le
- * visiteur (D-9, AI_UX.md). Aucune présence flottante, aucun avatar : D-13.
+ * La présence flottante est l'entrée visuelle primaire de MarcoS en V1 (D-35).
+ * L'avatar utilisé ici est l'expression neutre officielle ; les dix expressions
+ * restent une bibliothèque visuelle et ne deviennent pas dix états runtime.
+ * Sans endpoint ou sans activation D-9, rien n'est rendu.
  *
  * @param {object} p
  * @param {{active:boolean,accueil:object,exemples:Array<object>,confidentialite:object}} p.assistant
@@ -45,6 +49,9 @@ export function Assistant({ assistant, ctx, endpoint }) {
   const exemples = (assistant.exemples || []).map((exemple, rang) => ({ exemple, rang })).filter(({ exemple }) => renseigne(exemple));
 
   const contenu = html`<div class="assistant" data-assistant${attributs({ "data-endpoint": endpoint, "data-longueur-max": String(LONGUEUR_MAX), "data-libelles": JSON.stringify(libelles(t)) })}>
+    <div class="assistant__presence">
+      ${Bouton({ texte: t("assistant"), variante: "nu", options: { attributs: { "data-modale-ouvrir": "assistant", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-controls": "assistant", "data-assistant-presence": "" } } })}
+    </div>
     <div class="assistant__accueil" data-assistant-accueil>
       <p class="assistant__accueil-texte texte-corps">${ctx.c(assistant.accueil, "site.assistant.accueil")}</p>
       ${exemples.length ? html`<div class="assistant__exemples" data-assistant-exemples>${exemples.map(({ exemple, rang }) => Bouton({ texte: ctx.l(exemple, `site.assistant.exemples.${rang}`), variante: "filet", options: { attributs: { type: "button", "data-assistant-exemple": "" } } }))}</div>` : ""}
@@ -67,7 +74,7 @@ export function Assistant({ assistant, ctx, endpoint }) {
   return Modale({
     id: "assistant",
     etiquette: t("etiquette"),
-    entete: html`<span class="texte-etiquette">${t("assistant")}</span>${Bouton({ texte: t("effacer"), variante: "nu", options: { attributs: { type: "button", "data-assistant-effacer": "" } } })}`,
+    entete: html`<div class="assistant__entete-identite"><img class="assistant__avatar assistant__avatar--entete" src="${AVATAR_NEUTRE}" alt="" aria-hidden="true"><span class="texte-etiquette">${t("assistant")}</span></div>${Bouton({ texte: t("effacer"), variante: "nu", options: { attributs: { type: "button", "data-assistant-effacer": "" } } })}`,
     contenu,
     options: { variante: "centre", libelleFermer: t("fermer") },
   });
@@ -226,6 +233,10 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
   zoneEtat.addEventListener("click", (evenement) => {
     if (evenement.target.closest("[data-assistant-reessayer]") && derniere) demander(derniere);
   });
+
+  hote.querySelectorAll("[data-modale-ouvrir=\"assistant\"]").forEach((bouton) => bouton.addEventListener("click", () => {
+    requestAnimationFrame(() => champ?.focus());
+  }));
 
   hote.querySelectorAll("[data-assistant-exemple]").forEach((bouton) => bouton.addEventListener("click", () => {
     if (!champ) return;

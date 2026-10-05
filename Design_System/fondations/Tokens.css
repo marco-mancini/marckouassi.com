@@ -665,6 +665,11 @@
   --modale-plein-ecran-gouttiere-mobile: 22px; /* marges latérales de la modale plein écran sous 850 px */
   /* Assistant */
   --assistant-saisie-hauteur-min: 7rem; /* hauteur minimale du champ de question : les trois lignes demandées par AI_UX.md, sans écraser le journal */
+  --assistant-avatar-taille: 9rem; /* présence flottante desktop */
+  --assistant-avatar-taille-mobile: 7rem; /* présence flottante sous 850 px */
+  --assistant-avatar-entete-taille: 48px; /* avatar visible pendant la conversation */
+  --assistant-presence-z: 80; /* au-dessus du contenu, sous les toasts */
+  --motion-presence-survol: -2px; /* léger soulèvement au survol/focus */
   /* Decouverte : le parcours immersif de la section 06 (#128) */
   --decouverte-etape-espace: clamp(var(--space-6), 9vw, 7rem); /* respiration entre deux étapes de la narration */
   --decouverte-question-taille: clamp(1.9rem, 5.4vw, 4.2rem); /* la grande question : un événement, pas un titre de section */

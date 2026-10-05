@@ -160,7 +160,8 @@ validés. Rien n'est donc modifié. Ce point est consigné dans
 
 ### Ce que ces fichiers ne sont pas
 
-Ils ne sont **pas publiés** : D-13 place l'avatar en V2, et le site n'en rend
-aucun aujourd'hui. `tools/medias.mjs` aplatirait leur transparence sur le crème
+Ils sont **disponibles pour l'intégration V1** depuis `Public/Avatar_MarcoS/` : D-35
+place la présence flottante en V1. L'expression neutre est la pose initiale de
+l'interface ; les autres expressions restent des assets de référence. `tools/medias.mjs` aplatirait leur transparence sur le crème
 du site (`MARCOS_AVATAR.md` §7) ; le pipeline à transparence reste à écrire,
 avec ses tests, le jour de l'implémentation.

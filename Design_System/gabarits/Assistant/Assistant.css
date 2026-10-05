@@ -1,23 +1,37 @@
 /* ==========================================================================
-   ASSISTANT — assemblage V1 de MarcoS dans la Modale « centre »
-   Aucun element graphique nouveau : ni presence flottante, ni avatar, ni
-   degrade, ni lueur, ni effet de frappe (D-13, AI_UX.md). Seules les
-   mesures de composition vivent ici ; l'interieur des composants n'est
-   jamais redefini.
+   ASSISTANT — présence flottante + conversation MarcoS
+   D-35 : l'avatar 3D est l'entrée visuelle primaire de MarcoS en V1.
+   Les dix expressions restent des assets visuels, pas dix états runtime.
    ========================================================================== */
 .assistant { display: grid; gap: var(--space-5); }
+
+.assistant__presence { position: fixed; right: var(--space-5); bottom: var(--space-5); z-index: var(--assistant-presence-z); }
+.assistant__presence .bouton { width: var(--assistant-avatar-taille); min-height: var(--assistant-avatar-taille); padding: 0; border-radius: var(--radius-full); }
+.assistant__presence .bouton__ligne { display: grid; width: 100%; height: 100%; place-items: end center; overflow: hidden; border-radius: var(--radius-full); }
+.assistant__presence .bouton__texte { display: block; width: 100%; height: 100%; background: url("/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png") center bottom / contain no-repeat; font-size: 0; }
+.assistant__presence .bouton:hover .bouton__texte,
+.assistant__presence .bouton:focus-visible .bouton__texte { transform: translateY(var(--motion-presence-survol)); }
+.assistant__presence .bouton__texte { transition: transform var(--duration-fast) var(--ease-out); }
+
+.assistant__entete-identite { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.assistant__avatar--entete { width: var(--assistant-avatar-entete-taille); height: var(--assistant-avatar-entete-taille); object-fit: contain; flex: none; }
 
 .assistant__accueil { display: grid; gap: var(--space-4); }
 .assistant__accueil[hidden] { display: none; }
 .assistant__accueil-texte { max-width: var(--mesure-lecture); margin: 0; }
 .assistant__confidentialite { max-width: var(--mesure-lecture); margin: 0; }
-
 .assistant__exemples { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-
 .assistant__formulaire { display: grid; padding-top: var(--space-4); border-top: var(--border-hairline) solid var(--filet); gap: var(--space-3); }
 .assistant__formulaire .saisie--long { min-height: var(--assistant-saisie-hauteur-min); resize: vertical; }
-
 .assistant__actions { display: flex; justify-content: flex-end; }
-
 .assistant__etat:empty { display: none; }
 .assistant__etat .message { margin: 0; }
+
+@media (max-width: 850px) {
+  .assistant__presence { right: var(--space-4); bottom: var(--space-4); }
+  .assistant__presence .bouton { width: var(--assistant-avatar-taille-mobile); min-height: var(--assistant-avatar-taille-mobile); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant__presence .bouton__texte { transition: none; }
+}

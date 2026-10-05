@@ -164,14 +164,14 @@ test("l'accueil ne porte ni la modale de MarcoS ni son entrée tant qu'il n'est 
   }
 });
 
-test("actif et avec une adresse, l'accueil porte la modale et les deux entrées de D-4", () => {
-  // D-4 : l'entrée de MarcoS est dans Contact et dans le menu en V1. Pas de
-  // présence flottante, pas d'avatar — c'est la V2 (D-13).
+test("actif et avec une adresse, l'accueil porte la présence primaire, la modale et les accès secondaires", () => {
+  // D-35 : la présence flottante est l'entrée visuelle primaire en V1.
   const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
   assert.match(page, /<dialog[^>]*id="assistant"/, "la modale est rendue");
   const entrees = page.match(/data-modale-ouvrir="assistant"/g) || [];
-  assert.equal(entrees.length, 2, "exactement deux entrées : Contact et le menu");
-  assert.doesNotMatch(page, /assistant__presence|assistant-flottant/, "aucune présence flottante (D-13)");
+  assert.equal(entrees.length, 3, "trois entrées : présence flottante + Contact + menu");
+  assert.match(page, /data-assistant-presence/, "la présence flottante existe");
+  assert.match(page, /Avatar_MarcoS\/Avatar_02_NEUTRE_DISPONIBLE\.png/, "l'asset neutre officiel est utilisé");
 });
 
 test("chaque entrée de MarcoS annonce le dialogue qu'elle ouvre", () => {
@@ -181,6 +181,17 @@ test("chaque entrée de MarcoS annonce le dialogue qu'elle ouvre", () => {
   for (const attribut of ['aria-haspopup="dialog"', 'aria-controls="assistant"', 'aria-expanded="false"']) {
     assert.ok(page.includes(attribut), `l'entrée porte ${attribut}`);
   }
+});
+
+test("la présence flottante reste absente quand MarcoS est inactif", () => {
+  const page = accueil({ assistant: { active: false, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
+  assert.doesNotMatch(page, /data-assistant-presence/);
+});
+
+test("l'avatar reste présent dans l'en-tête de la conversation", () => {
+  const sortie = String(Assistant({ assistant: actif(), ctx, endpoint: "https://worker.test/api/assistant" }));
+  assert.match(sortie, /assistant__avatar--entete/);
+  assert.match(sortie, /Avatar_MarcoS\/Avatar_02_NEUTRE_DISPONIBLE\.png/);
 });
 
 test("le script du site branche MarcoS, et sort sans rien faire quand il est absent", () => {
