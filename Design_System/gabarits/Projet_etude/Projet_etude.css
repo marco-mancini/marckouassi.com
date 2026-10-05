@@ -1,9 +1,15 @@
 /* ==========================================================================
-   PROJET_ETUDE — disposition de l'etude : texte a gauche, galerie a droite
+   PROJET_ETUDE — disposition de l'etude : le texte en haut, les images dessous
    ========================================================================== */
-.projet-etude { display: grid; grid-template-columns: minmax(var(--projet-etude-colonne-texte-min), .8fr) minmax(0, 1.2fr); gap: var(--projet-etude-espace); }
-.projet-etude__texte { min-width: 0; }
-.projet-etude__rubrique { margin: 0 0 var(--space-3); color: var(--texte-etiquette); text-transform: uppercase; }
+.projet-etude { display: flex; flex-direction: column; gap: var(--projet-etude-espace); }
+/* Conteneur de mesure : le titre et les textes de l'etude se dimensionnent
+   sur la largeur de CETTE colonne, qui n'est pas celle de la fenetre. */
+.projet-etude__texte { min-width: 0; container: etude / inline-size; }
+.projet-etude__rubrique { margin: 0; color: var(--texte-etiquette); text-transform: uppercase; }
+/* Rubrique et periode face a face, au-dessus du titre. La periode ne quitte
+   pas sa ligne : c'est une annee, pas un texte. */
+.projet-etude__ligne-rubrique { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.projet-etude__ligne-rubrique .pastille { flex: none; }
 .projet-etude__titre { margin: var(--space-1) 0 var(--space-3); }
 .projet-etude__contexte { margin: 0; color: var(--texte-discret); }
 .projet-etude__meta { display: grid; margin: var(--space-5) 0; gap: var(--space-2); }
@@ -12,6 +18,11 @@
 .projet-etude__valeur { color: var(--texte-discret); }
 .projet-etude__texte > .bouton { margin-top: var(--space-3); }
 .projet-etude__compteur { margin: 0; }
+/* Le parcours ouvre l'etude : le projet d'avant a gauche, celui d'apres a
+   droite, sous la main des le premier regard. Quand il n'y a pas de voisin, la
+   place reste vide plutot que de faire glisser l'autre lien au milieu. */
+.projet-etude__parcours { display: grid; padding-bottom: var(--space-4); grid-template-columns: 1fr 1fr; align-items: center; gap: var(--space-4); border-bottom: var(--border-hairline) solid var(--filet); }
+.projet-etude__parcours > :last-child { justify-self: end; text-align: right; }
 
-@media (min-width: 851px) and (max-width: 1080px) { .projet-etude { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: var(--projet-etude-espace-tablette); } }
-@media (max-width: 850px) { .projet-etude { display: flex; flex-direction: column; gap: var(--projet-etude-espace-mobile); } }
+@media (min-width: 851px) and (max-width: 1080px) { .projet-etude { gap: var(--projet-etude-espace-tablette); } }
+@media (max-width: 850px) { .projet-etude { gap: var(--projet-etude-espace-mobile); } }

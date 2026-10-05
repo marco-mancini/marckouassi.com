@@ -2,6 +2,7 @@
   "_role": "Textes d'interface et d'accessibilite du site public, en francais. Le contenu editorial n'est PAS ici : il vit dans content/.",
   "langue": {
     "code": "FR",
+    "drapeau": "🇫🇷",
     "nom": "Français",
     "locale": "fr_FR",
     "selecteur": "Choisir la langue"
@@ -23,6 +24,14 @@
     "ouvrir": "Entrer dans le projet {titre} pour voir l’étude complète et toutes ses images",
     "fermer": "Fermer l’étude du projet",
     "images": "Images du projet",
+    "imagesAutres": "Voir les {nombre} autres images",
+    "projetPrecedent": "Projet précédent : {titre}",
+    "projetSuivant": "Projet suivant : {titre}",
+    "parcours": "Passer d’un projet à l’autre",
+    "imagePrecedente": "Image précédente",
+    "imageSuivanteSeule": "Image suivante",
+    "imageCompteur": "Image {numero} / {total}",
+    "agrandir": "Agrandir cette image",
     "role": "Mon rôle",
     "disciplines": "Disciplines",
     "periode": "Période",

@@ -18,9 +18,12 @@ import { html, attributs, classes } from "../../fondations/rendu.js";
  */
 export function Segments({ options, etiquette, mode = "liens", cle = null, variante = "pilule" }) {
   const elements = options.map((option) => {
+    // Le drapeau est une image, pas un sens : il est masqué des lecteurs
+    // d'écran, qui gardent le nom complet de la langue.
+    const drapeau = option.drapeau ? html`<span class="segments__drapeau" aria-hidden="true">${option.drapeau}</span>` : "";
     const libelle = option.nom
-      ? html`<span aria-hidden="true">${option.libelle}</span><span class="visually-hidden">${option.nom}</span>`
-      : option.libelle;
+      ? html`${drapeau}<span aria-hidden="true">${option.libelle}</span><span class="visually-hidden">${option.nom}</span>`
+      : html`${drapeau}${option.libelle}`;
     return mode === "liens"
       ? html`<a${attributs({ class: "segments__option", href: option.href, hreflang: option.lang || null, lang: option.lang || null, "aria-current": option.actif ? "true" : null })}>${libelle}</a>`
       : html`<button${attributs({ type: "button", class: "segments__option", "data-valeur": option.valeur, "aria-pressed": option.actif ? "true" : "false" })}>${libelle}</button>`;

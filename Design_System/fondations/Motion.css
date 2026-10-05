@@ -15,6 +15,7 @@ html.has-overlay { overflow: hidden; }
 @keyframes couverture-revelation { from { opacity: 0; transform: translateY(var(--motion-couverture-montee)); } to { opacity: 1; transform: translateY(0); } }
 @keyframes etape-entree { from { opacity: 0; transform: translateY(var(--space-4)) scale(var(--motion-etape-echelle)); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes fleche-avance { 0%, 100% { transform: translate(0, -50%); opacity: .55; } 50% { transform: translate(var(--process-arrow-travel), -50%); opacity: 1; } }
+@keyframes chevron-ouverture { 0%, 100% { transform: translate(0, 0); opacity: .7; } 50% { transform: translate(var(--carte-chevron-course), calc(var(--carte-chevron-course) * -1)); opacity: 1; } }
 @keyframes reflet-balayage { 0% { left: -60%; } 55%, 100% { left: 140%; } }
 @keyframes point-battement { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--glass-shine); } 50% { transform: scale(var(--motion-point-echelle)); box-shadow: 0 0 0 var(--motion-point-halo) transparent; } }
 

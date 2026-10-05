@@ -29,6 +29,18 @@ h3.carte__libelle { letter-spacing: var(--interlettrage-titre); }
   background: linear-gradient(var(--carte-reflet-angle), transparent, var(--glass-shine) 45%, var(--glass-shine) 55%, transparent);
 }
 
+/* Chevron d'ouverture : il dit que la carte est un lien. Purement decoratif —
+   le sens reste porte par le libelle et par le lien lui-meme. Meme glyphe que
+   l'icone « ouvrir » du Bouton, pour que l'ouverture se lise partout pareil. */
+.carte--lien::after {
+  content: "\2197"; position: absolute; top: var(--carte-rembourrage); right: var(--carte-rembourrage);
+  color: var(--accent-gold-soft); font-size: var(--type-body-emphasis); line-height: var(--leading-compact);
+  opacity: .7;
+}
+/* Au survol, le chevron part et revient, en boucle : le geste se voit d'abord,
+   la direction ensuite. La reduction de mouvement le fige (Motion.css). */
+.carte--lien:hover::after, .carte--lien:focus-visible::after { animation: chevron-ouverture var(--duration-process-loop) var(--ease-out) infinite; }
+
 /* Fleche de liaison, logee dans l'ecart avec la carte suivante. */
 .carte--liee:not(:last-child)::after {
   content: "\2192"; position: absolute; top: 50%; left: 100%; width: var(--process-column-gap);

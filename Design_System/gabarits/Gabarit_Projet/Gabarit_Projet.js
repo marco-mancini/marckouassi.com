@@ -90,7 +90,10 @@ export function vueProjet({ projet, ctx, rang = null, total = null }) {
     document: projet.document?.src
       ? { href: ctx.media(projet.document.src).src, libelle: projet.document.libelle ? ctx.c(projet.document.libelle, `${chemin}.document.libelle`) : ctx.t("projet.document") }
       : null,
-    champs: [["projet.role", projet.role, "role"], ["projet.disciplines", projet.disciplines, "disciplines"]]
+    // Les disciplines ne sont plus montrées dans l'étude : elles répétaient la
+    // catégorie posée juste au-dessus du titre. La donnée reste dans
+    // content/projets.json, et MarcoS continue de la lire (connaissance.js).
+    champs: [["projet.role", projet.role, "role"]]
       .map(([cle, valeur, nom]) => ({ etiquette: ctx.t(cle), contenu: ctx.l(valeur, `${chemin}.${nom}`) })),
     /**
      * LE CONTRAT D'OUVERTURE. Ces attributs, posés sur le lien d'entrée,
@@ -157,7 +160,22 @@ export function Gabarit_Projet({ projet = null, ctx, mode = "carte", options = {
   const retour = options.retour
     ? Bouton({ texte: ctx.t("projet.retour"), variante: "texte", href: options.retour, options: { icone: "retour" } })
     : "";
-  return html`<section class="planche-scene" aria-labelledby="${vue.idEtude}"><div class="planche page-projet">${retour}${Projet_etude({ vue, ctx, niveau: 1 })}</div></section>`;
+  return html`<section class="planche-scene" aria-labelledby="${vue.idEtude}"><div class="planche page-projet">${retour}${Projet_etude({ vue, ctx, niveau: 1, voisins: vuesVoisines(options.voisins, ctx) })}</div></section>`;
+}
+
+/**
+ * LES DEUX VOISINS D'UN PROJET, RÉSOLUS COMME LUI.
+ *
+ * `parcours` donne les enregistrements ; ici ils passent par `vueProjet`, le
+ * même chemin que le projet affiché. Les liens de parcours portent donc le
+ * CONTRAT D'OUVERTURE : cliqués dans la modale, ils y chargent l'étude
+ * suivante au lieu de quitter la page.
+ */
+function vuesVoisines(voisins, ctx) {
+  if (!voisins) return null;
+  const { rang, total, precedent, suivant } = voisins;
+  const vue = (projet, decalage) => (projet ? vueProjet({ projet, ctx, rang: rang + decalage, total }) : null);
+  return { precedent: vue(precedent, -1), suivant: vue(suivant, 1) };
 }
 
 /**

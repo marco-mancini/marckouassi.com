@@ -3,7 +3,7 @@ import { Planche, idTitre } from "../../composants/Planche/Planche.js";
 import { Titre } from "../../composants/Titre/Titre.js";
 import { Grille } from "../../composants/Grille/Grille.js";
 import { Carte } from "../../composants/Carte/Carte.js";
-import { Bouton } from "../../composants/Bouton/Bouton.js";
+import { Bouton, SigneOuverture } from "../../composants/Bouton/Bouton.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
 import { Media } from "../../composants/Media/Media.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
@@ -14,10 +14,14 @@ import { media, numero, projetsDeLaCategorie } from "../outils.js";
 
 /** Réaligne la catégorie choisie après que l'état :target a masqué l'accueil. */
 export function activerNavigationCategories(racine = document) {
+  let categorieOuverte = false;
+  const aligner = (element) => window.requestAnimationFrame(() => window.requestAnimationFrame(() => element.scrollIntoView({ block: "start" })));
   const alignerCategorie = () => {
     const id = decodeURIComponent(window.location.hash.slice(1));
     const cible = racine.getElementById(id);
     const categorieActive = cible?.classList.contains("categorie-projets") ? cible : null;
+    const onQuitteUneCategorie = categorieOuverte && !categorieActive;
+    categorieOuverte = Boolean(categorieActive);
     const page = racine.getElementById("contenu");
     page?.classList.toggle("page-planches--categorie", Boolean(categorieActive));
     page?.querySelectorAll(":scope > .planche-scene").forEach((scene) => {
@@ -28,18 +32,20 @@ export function activerNavigationCategories(racine = document) {
     // l'opacité 0 une fois le bloc ouvert. On les révèle à l'ouverture.
     if (categorieActive) {
       categorieActive.querySelectorAll("[data-apparition]").forEach(reveler);
-      window.requestAnimationFrame(() => window.requestAnimationFrame(() => categorieActive.scrollIntoView({ block: "start" })));
+      aligner(categorieActive);
+    } else if (onQuitteUneCategorie && cible) {
+      // En quittant une catégorie, les planches masquées reviennent d'un coup :
+      // le saut d'ancre du navigateur a mesuré une page qui n'existe plus, et
+      // l'on se retrouve en haut du site. On réaligne sur la cible retrouvée —
+      // les réalisations, d'où la catégorie avait été ouverte.
+      aligner(cible);
     }
   };
   window.addEventListener("hashchange", alignerCategorie);
-  racine.addEventListener("click", (event) => {
-    const retour = event.target.closest?.("[data-categorie-retour]");
-    if (!retour) return;
-    if (window.history.length > 1) {
-      event.preventDefault();
-      window.history.back();
-    }
-  });
+  // Le retour suit son propre lien, qui pointe vers la section. L'ancien
+  // raccourci par history.back() rendait la sortie imprévisible : il ramenait
+  // à la dernière ancre visitée — l'introduction, par exemple — et non aux
+  // réalisations d'où la catégorie avait été ouverte.
   alignerCategorie();
 }
 
@@ -70,7 +76,11 @@ export function Projets({ section, contenu, ctx }) {
   const blocs = categories.map((categorie, rang) => {
     const cheminCategorie = `${chemin}.categories.${rang}`;
     const projets = projetsDeLaCategorie(contenu.projets, categorie.id);
-    const cartes = projets.map((projet, index) => Gabarit_Projet({
+    // ÉTAT DE TRAVAIL — PROVISOIRE. On ne rend que la première carte de chaque
+    // catégorie, le temps de dessiner la carte avec Marc. Aucun identifiant
+    // n'est écrit ici : c'est un rang, pas un projet. À retirer dès que le
+    // dessin est validé, pour revenir à « toutes les cartes ».
+    const cartes = projets.slice(0, 1).map((projet, index) => Gabarit_Projet({
       projet, ctx, mode: "carte", options: { rang: index, total: projets.length },
     }));
     // Une catégorie peut porter des réalisations isolées plutôt que des projets
@@ -85,7 +95,7 @@ export function Projets({ section, contenu, ctx }) {
         // relevait sur ces six visuels (§3.2, réutiliser avant de créer).
         const visuel = media(ctx, realisation.media, { chemin: `${cheminRealisation}.media` });
         const libelle = ctx.c(realisation.libelle, `${cheminRealisation}.libelle`);
-        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel">${Media({ media: { ...visuel, alt: libelle } })}<span class="bouton bouton--surface bouton--rond categorie-projets__carte-fleche" aria-hidden="true"><span class="bouton__icone bouton__icone--ouvrir">↗</span></span></div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: numero(index), variante: "contour", forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
+        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel">${Media({ media: { ...visuel, alt: libelle } })}${SigneOuverture({ classe: "categorie-projets__carte-fleche" })}</div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: numero(index), variante: "contour", forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
       }), colonnes: [4, 2, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })
       : null;
     return html`<section class="categorie-projets" id="categorie-${categorie.id}" aria-labelledby="titre-${categorie.id}">
@@ -97,7 +107,7 @@ export function Projets({ section, contenu, ctx }) {
         <p class="categorie-projets__sous-titre texte-accroche">${ctx.c(categorie.note, `${cheminCategorie}.note`)}</p>
         <p class="categorie-projets__recit texte-corps">${ctx.c(categorie.recit, `${cheminCategorie}.recit`)}</p>
       </header>
-      ${projets.length ? Grille({ elements: cartes, colonnes: [2, 2, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] }) : cartesRealisations ?? html`<p class="categorie-projets__vide">${ctx.t("projet.categories.vide")}</p>`}
+      ${projets.length ? Grille({ elements: cartes, colonnes: [1, 1, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] }) : cartesRealisations ?? html`<p class="categorie-projets__vide">${ctx.t("projet.categories.vide")}</p>`}
     </section>`;
   });
 

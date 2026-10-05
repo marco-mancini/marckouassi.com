@@ -1,6 +1,7 @@
 import { html, attributs } from "../../fondations/rendu.js";
 import { Galerie } from "../../composants/Galerie/Galerie.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
+import { SigneOuverture } from "../../composants/Bouton/Bouton.js";
 
 /**
  * Projet_carte — LA VUE CARTE d'un projet, et rien d'autre : l'aperçu en
@@ -26,5 +27,5 @@ export function Projet_carte({ vue, ctx }) {
     ...vue.ouverture,
     "data-apparition": "bas",
     "data-categorie": vue.categoriePrincipale,
-  })}>${Galerie({ medias: vue.medias, variante: "apercu" })}<header class="projet-carte__entete">${Pastille({ texte: vue.numero, forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${vue.titreHtml}</h3><p class="projet-carte__categorie">${ctx.t("formats.categorieEtPeriode", { categorie: vue.categorie, periode: vue.periode })}</p></div></header></a>`;
+  })}>${Galerie({ medias: vue.medias, variante: "apercu", superposition: SigneOuverture() })}<header class="projet-carte__entete">${Pastille({ texte: vue.numero, forme: "rond" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${vue.titreHtml}</h3><p class="projet-carte__categorie">${ctx.t("formats.categorieEtPeriode", { categorie: vue.categorie, periode: vue.periode })}</p></div></header></a>`;
 }

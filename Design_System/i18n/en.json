@@ -3,6 +3,7 @@
   "_statut": "Relu le 2 octobre 2026 (PM-065, #65) et aligné sur Docs/GLOSSAIRE_EN.md ; proposé le 30 septembre 2026, validation de Marc à venir.",
   "langue": {
     "code": "EN",
+    "drapeau": "🇬🇧",
     "nom": "English",
     "locale": "en_US",
     "selecteur": "Choose language"
@@ -24,6 +25,14 @@
     "ouvrir": "Open the project {titre} to see the full case study and all its images",
     "fermer": "Close the case study",
     "images": "Project images",
+    "imagesAutres": "See the {nombre} other images",
+    "projetPrecedent": "Previous project: {titre}",
+    "projetSuivant": "Next project: {titre}",
+    "parcours": "Move from one project to another",
+    "imagePrecedente": "Previous image",
+    "imageSuivanteSeule": "Next image",
+    "imageCompteur": "Image {numero} / {total}",
+    "agrandir": "Enlarge this image",
     "role": "My role",
     "disciplines": "Disciplines",
     "periode": "Period",

@@ -313,7 +313,14 @@
   --type-prestations-titre: clamp(2.6rem, 10.2vw, 12rem);
   --leading-prestations-titre: 1.02;
   --type-prestations-accroche: clamp(1.25rem, 2.2vw, 2.75rem);
-  --type-project-title: clamp(3.5rem, 10vw, 10rem);
+  /* Le titre d'une etude vit dans une colonne, pas dans la fenetre : il se
+     mesure donc sur son conteneur (cqi), sinon 10vw lui donnait 144 px dans
+     une colonne de 477 px — 154 px de debordement, lignes superposees. */
+  --type-project-title: clamp(2.25rem, 7cqi, 5rem);
+  /* Interligne du titre d'etude. Il tombe presque toujours sur deux ou trois
+     lignes : sous 1, l'accent de SYSTEME venait toucher la ligne du dessus,
+     comme l'esperluette du titre des prestations. */
+  --leading-etude-titre: 1.02;
   --type-title-card: clamp(1.25rem, 2.2vw, 1.5rem);
   --type-mobile-navigation: clamp(2rem, 11vw, 3.25rem);
   --type-body: 1rem;
@@ -611,11 +618,17 @@
   --bouton-barres-croisement: 6px;
   --galerie-rangee-apercu: clamp(150px, 22vw, 370px);
   --galerie-rangee-apercu-seule: clamp(160px, 22vw, 310px);
-  --galerie-rangee-detail: clamp(140px, 17vw, 250px);
+  --galerie-rangee-detail: clamp(180px, 20vw, 320px);
   --galerie-espace-detail: 10px;
   /* Decalage, depuis le coin haut droit de l'image, de l'element pose
      dessus. */
   --galerie-superposition-decalage: 14px;
+  /* Largeur minimale d'une image de l'etude : la grille en pose autant que la
+     place le permet, quatre au large, trois ensuite, sans palier ecrit. */
+  --galerie-detail-colonne-min: 280px;
+  --galerie-detail-zoom: 1.12; /* zoom avant d'une image d'etude au survol */
+  --visionneuse-hauteur-max: 72vh; /* hauteur maximale d'une image en plein ecran */
+  --duration-fermer-tour: 9s; /* un tour complet de la croix de fermeture */
   --admin-colonne: 16rem;
   /* Espace entre les projets du sommaire, et en compact. */
   --projets-espace: clamp(34px, 5vw, 72px);
@@ -642,6 +655,7 @@
   --carte-ombre-survol-y: 18px; /* ombre de carte au survol : décalage vertical */
   --carte-ombre-survol-flou: 38px; /* ombre de carte au survol : flou */
   --carte-ombre-survol-retrait: -20px; /* ombre de carte au survol : retrait */
+  --carte-chevron-course: 0.22em; /* course du chevron d'ouverture au survol */
   /* EnTete */
   --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
   /* Galerie */
@@ -690,6 +704,7 @@
   --segments-padding: 2px; /* marge intérieure du sélecteur à segments */
   --segments-espace: 2px; /* écart entre deux segments */
   --segments-option-retrait: 6px; /* retrait de hauteur d'une option par rapport à la cible tactile */
+  --segments-drapeau-espace: 5px; /* écart entre le drapeau et le code de langue */
   /* TexteProgressif */
   --texte-progressif-curseur-hauteur: 1em; /* hauteur du curseur du texte progressif */
   --texte-progressif-curseur-marge: .06em; /* écart entre le texte et le curseur */

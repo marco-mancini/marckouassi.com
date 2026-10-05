@@ -13,7 +13,8 @@ import { Pastille } from "../../composants/Pastille/Pastille.js";
 import { Media } from "../../composants/Media/Media.js";
 import { Segments } from "../../composants/Segments/Segments.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
-import { Gabarit_Projet, vueProjet } from "../Gabarit_Projet/Gabarit_Projet.js";
+import { Gabarit_Projet, vueProjet, parcours } from "../Gabarit_Projet/Gabarit_Projet.js";
+import { Visionneuse } from "../../composants/Galerie/Galerie.js";
 import { Intro } from "../Intro/Intro.js";
 import { Assistant } from "../Assistant/Assistant.js";
 import { media } from "../outils.js";
@@ -47,7 +48,7 @@ export function PageAccueil({ contenu, ctx }) {
     .map((section) => GABARITS_SECTIONS[section.type]?.({ section, contenu, ctx }) ?? "");
   return Document({
     ctx, meta: meta(contenu, ctx),
-    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx) })}${Assistant({ assistant: contenu.site.assistant, ctx, endpoint: ctx.assistantEndpoint })}`,
+    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${Visionneuse({ ctx })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx) })}${Assistant({ assistant: contenu.site.assistant, ctx, endpoint: ctx.assistantEndpoint })}`,
   });
 }
 
@@ -61,7 +62,7 @@ export function PageProjet({ contenu, ctx, projet }) {
   const retour = `${versAccueil}#${contenu.sections.find((s) => s.type === "projets")?.id ?? ""}`;
   return Document({
     ctx, meta: { ...meta(contenu, ctx, { titre: ctx.t("formats.titrePage", { titre: vue.titre, nom: contenu.site.identite.nom }), description: vue.description, chemin: ctx.chemin }), type: "article" },
-    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${Gabarit_Projet({ projet, ctx, mode: "page", options: { retour } })}</main>${menu}`,
+    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${Gabarit_Projet({ projet, ctx, mode: "page", options: { retour, voisins: parcours(contenu.projets, projet.id) } })}</main>${Visionneuse({ ctx })}${menu}`,
   });
 }
 
