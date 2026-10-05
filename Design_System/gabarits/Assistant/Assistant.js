@@ -116,7 +116,13 @@ export function Assistant({ assistant, ctx, endpoint }) {
   const exemples = (assistant.exemples || []).map((exemple, rang) => ({ exemple, rang })).filter(({ exemple }) => renseigne(exemple));
 
   const buste = expressions({ assistant, ctx });
-  const socleBuste = buste ? html`<span class="av" aria-hidden="true">${buste}</span>` : "";
+  // Le buste est une COMMANDE, pas une image décorative : cliquer dessus ouvre
+  // et referme le panneau, comme la barre. Les images restent `aria-hidden` —
+  // c'est le bouton qui porte le nom, pas elles.
+  const socleBuste = buste ? html`<button class="av"${attributs({
+    type: "button", "aria-label": t("ouvrir"), "data-modale-ouvrir": "assistant",
+    "aria-haspopup": "dialog", "aria-expanded": "false", "aria-controls": "assistant",
+  })}>${buste}</button>` : "";
 
   const onde = html`<span class="onde" aria-hidden="true">${Array.from({ length: BARREAUX_ONDE }, (_, rang) => html`<i${attributs({ style: `--rang: ${rang}` })}></i>`)}</span>`;
 
@@ -296,7 +302,8 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
   const neuf = hote.querySelector("[data-assistant-neuf]");
   const envoyer = hote.querySelector("[data-assistant-envoyer]");
   const effacer = panneau?.querySelector("[data-assistant-effacer]") ?? racine.querySelector("[data-assistant-effacer]");
-  const ouvrir = racine.querySelector('[data-modale-ouvrir="assistant"]');
+  // Toutes les entrées de MarcoS : la barre, et les deux bustes.
+  const entrees = [...racine.querySelectorAll('[data-modale-ouvrir="assistant"]')];
   const endpoint = hote.dataset.endpoint;
   const longueurMax = Number(hote.dataset.longueurMax) || 500;
 
@@ -527,6 +534,18 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
     champ?.focus();
   });
 
+  // MarcoS n'apparaît qu'une fois la couverture passée : posé en bas à droite,
+  // il recouvrait « Le portfolio ↓ », qui est l'entrée du site. Il se montre
+  // dès la deuxième planche et se retire si l'on remonte.
+  const couverture = racine.querySelector("#accueil");
+  if (couverture && marcos && "IntersectionObserver" in window) {
+    const veille = new IntersectionObserver(([entree]) => {
+      marcos.dataset.retire = entree.isIntersecting ? "1" : "0";
+    }, { threshold: 0.35 });
+    marcos.dataset.retire = "1";
+    veille.observe(couverture);
+  }
+
   // Survol : micro-réaction, et seulement depuis le repos. Aucune ouverture
   // automatique, jamais.
   marcos?.addEventListener("pointerenter", () => { if (pilotage.etat() === ETAT_REPOS) pilotage.poser("hover"); });
@@ -536,9 +555,20 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
   // attribut, donc observable. Un seul chemin mène à l'état, quel que soit le
   // bouton — entrée, croix, Échap.
   if (panneau) {
+    // Le buste inactif sort du parcours clavier : il est invisible, il ne doit
+    // pas être atteignable par Tab.
+    const bustes = [...racine.querySelectorAll(".av")];
+    const accorderLeFocus = () => {
+      for (const b of bustes) {
+        const actif = panneau.open ? b.closest(".socle-panneau") : b.closest(".socle-barre");
+        b.tabIndex = actif ? 0 : -1;
+        b.setAttribute("aria-expanded", panneau.open ? "true" : "false");
+      }
+    };
     const ouverture = () => {
       pilotage.arreter();
       marcos.dataset.ouvert = "1";
+      accorderLeFocus();
       pilotage.poser("open");
       versLeBas();
       champ?.focus({ preventScroll: true });
@@ -546,19 +576,22 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
     const fermeture = () => {
       pilotage.arreter();
       marcos.dataset.ouvert = "0";
+      accorderLeFocus();
       pilotage.poser(ETAT_REPOS);
     };
     new MutationObserver(() => { if (panneau.open) ouverture(); else fermeture(); })
       .observe(panneau, { attributes: true, attributeFilter: ["open"] });
-    if (panneau.open) ouverture();
+    if (panneau.open) ouverture(); else accorderLeFocus();
   }
 
-  // L'entrée bascule : un second clic referme, comme dans la maquette, plutôt
-  // que de rouvrir un panneau déjà ouvert. En capture, avant la délégation.
-  ouvrir?.addEventListener("click", (evenement) => {
-    if (!panneau?.open) return;
-    evenement.preventDefault();
-    evenement.stopPropagation();
-    panneau.close();
-  }, true);
+  // Chaque entrée bascule : un second clic referme, plutôt que de rouvrir un
+  // panneau déjà ouvert. En capture, avant la délégation de la Modale.
+  for (const entree of entrees) {
+    entree.addEventListener("click", (evenement) => {
+      if (!panneau?.open) return;
+      evenement.preventDefault();
+      evenement.stopPropagation();
+      panneau.close();
+    }, true);
+  }
 }

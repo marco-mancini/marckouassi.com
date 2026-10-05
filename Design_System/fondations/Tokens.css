@@ -688,8 +688,10 @@
   --marcos-panneau-hauteur-mobile: min(58dvh, 420px); /* idem sur téléphone */
   --marcos-panneau-ecart: 10px; /* entre le panneau et la barre */
   --marcos-barre-ouverte: 75%; /* la barre se recentre sous le panneau à l'ouverture */
-  --marcos-buste-sur-panneau: 75%; /* largeur du buste posé sur le panneau */
-  --marcos-buste-decalage: 12.5%; /* ce qui le centre : (100 - 75) / 2 */
+  --marcos-buste-sur-barre: 90%; /* largeur du buste posé sur la barre */
+  --marcos-buste-sur-panneau: 67.5%; /* largeur du buste posé sur le panneau */
+  --marcos-buste-decalage-barre: 5%; /* ce qui le centre : (100 - 90) / 2 */
+  --marcos-buste-decalage: 16.25%; /* ce qui le centre sur le panneau : (100 - 67,5) / 2 */
   --marcos-ombre-contact: 52%; /* largeur de l'ombre au ras du bord */
   --marcos-ombre-contact-panneau: 60%; /* la même, quand le buste est plus large */
   --marcos-ombre-contact-survol: 48%; /* elle se resserre quand MarcoS se soulève */
@@ -701,7 +703,17 @@
   --marcos-onde-crete: 16px; /* hauteur d'un barreau au sommet */
   --marcos-onde-decalage: .12s; /* retard d'un barreau sur le précédent */
   --marcos-cible: 44px; /* cible tactile des commandes du panneau */
-  --marcos-cible-barre: 46px; /* cible tactile des trois boutons de la barre */
+  --marcos-cible-barre: 52px; /* cible tactile des trois boutons de la barre */
+  --marcos-barre-rembourrage: var(--space-6); /* respiration intérieure de la barre au repos */
+  --marcos-barre-ecart: var(--space-2); /* espace entre une commande et son séparateur */
+  --marcos-barre-rayon: 22px; /* arrondi de la barre : adouci, pas une pilule */
+  /* Zone cliquable du buste. Les fichiers ont des marges transparentes —
+     mesure du 5 octobre 2026 sur l'expression de repos : le sujet occupe
+     x 58→724 et y 122→666 sur 783 × 667. Hors de cette zone, le bouton
+     laisserait passer un clic sur une image vide et volerait les liens de la
+     page qui passent dessous. */
+  --marcos-buste-zone-haut: 18%;
+  --marcos-buste-zone-cote: 7%;
   --marcos-t-court: 180ms; /* survol, fond, couleur */
   --marcos-t-moyen: 320ms; /* ouverture du panneau, déplacement du buste */
   --marcos-t-long: 520ms; /* rayon de la barre */

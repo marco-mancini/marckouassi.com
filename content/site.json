@@ -135,6 +135,10 @@
           "src": "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png"
         },
         {
+          "etat": "hover",
+          "src": "Public/Avatar_MarcoS/Avatar_01_BIENVENUE.png"
+        },
+        {
           "etat": "open",
           "src": "Public/Avatar_MarcoS/Avatar_01_BIENVENUE.png"
         },
