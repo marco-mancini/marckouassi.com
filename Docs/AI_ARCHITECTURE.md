@@ -1,6 +1,6 @@
 # MarcoS, assistant du portfolio — architecture
 
-Statut : **architecture arrêtée, non implémentée.** Toutes les décisions sont
+Statut : **architecture arrêtée, interface V1 alignée sur D-35 ; clé et activation restent séparées.** Toutes les décisions sont
 prises : Marc a répondu le 2 octobre 2026, décision par décision, dans
 [MARCOS_DECISIONS.md](MARCOS_DECISIONS.md). Les deux questions ouvertes Q-1 et
 Q-2 sont tranchées, et les onze décisions D-1 à D-11 plus les huit relevées
@@ -52,9 +52,9 @@ MarcoS **n'est pas Marc** : il parle de lui à la **troisième personne** et
 
 ```text
  [Visiteur]
-     │  navigateur : pages statiques (_site), aucune clé
+     │  présence flottante en bas à droite
      ▼
- [MarcoS, dans le portfolio]  gabarit Assistant = Modale + Conversation + Champ/Saisie + Bouton + Message
+ [MarcoS, dans le portfolio]  présence + Modale + Conversation + Champ/Saisie + Bouton + Message
      │  HTTPS  POST /api/assistant   (JSON, sans clé, Origin contrôlée)
      ▼
  [Cloudflare Worker « assistant », sur workers.dev, offre Free]
@@ -126,9 +126,9 @@ dans une relecture humaine.
 
 ## Flux d'une requête
 
-1. Le visiteur ouvre MarcoS depuis la section Contact ou le menu (décision
-   D-4) ; le navigateur affiche le message d'accueil, tiré du contenu
-   `site.assistant` (voir [AI_UX.md](AI_UX.md)).
+1. Le visiteur ouvre MarcoS depuis la **présence flottante en bas à droite** ;
+   Contact et menu restent des accès secondaires. Le navigateur affiche le
+   message d'accueil tiré de `site.assistant` (voir [AI_UX.md](AI_UX.md)).
 2. Il envoie une question (500 caractères au plus). Le navigateur envoie :
 
    ```json
@@ -300,7 +300,7 @@ Le tableau complet, avec options, conséquences et motifs, est dans
 | D-10 | journaux : métadonnées seulement |
 | D-11 | refus d'entraînement activé chez Mistral — **gratuit, vérifié le 2 octobre** ; reste à faire dans la console |
 | D-12 | une seule langue par requête, et base réduite |
-| D-13 | avatar : **pas en V1**, prévu en V2 |
+| D-13 | calendrier historique de l'avatar, supersédé par D-35 |
 | D-14 | profil personnel de MARCOS.md §18-25 : **hors base** pour l'instant |
 | D-15 | troisième personne, vouvoiement |
 | D-16 | page courante seulement, pas d'historique de navigation |
