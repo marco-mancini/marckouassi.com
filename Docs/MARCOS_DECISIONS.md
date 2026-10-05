@@ -298,7 +298,6 @@ L'adresse `workers.dev` resterait utilisable en parallèle pour les previews.
 ---
 
 ## 5. Arbitrage C — #25 : les onze décisions D-1 à D-11
-
 Chaque décision est reprise ici **en entier** : la question, les options, la
 conséquence de chaque option, la recommandation et son motif. Le récapitulatif
 de la fin les reprend avec la colonne à remplir.
@@ -597,7 +596,6 @@ que tu as faite à un document de conception, et qu'un assistant public n'a pas 
 réciter à un inconnu. Je ne peux pas faire ce tri à ta place : tu es le seul à
 savoir ce que tu acceptes de rendre public. Dis-moi quelles sections passent en
 contenu, et je prépare le champ et les tests.
-
 ### D-15 — MarcoS parle-t-il de Marc à la troisième personne, ou en « je » ?
 
 **Contradiction interne de la documentation.**
@@ -897,7 +895,6 @@ enregistré, le pire cas est l'indisponibilité — jamais la dépense.
 ---
 
 ## 10. Les points à lever — un seul subsiste
-
 Tu avais demandé qu'on te signale toute option sans variante gratuite. Il y en
 avait deux. **Le 2 octobre 2026, l'une est levée** (D-11 : le refus
 d'entraînement est gratuit) ; l'autre se constatera à l'implémentation sans rien
@@ -1059,3 +1056,171 @@ Cette décision remplace la phrase « un seul secret dans tout le projet » de D
 sur le nombre de clés ; elle ne change pas la règle d'un seul fournisseur IA.
 L'idempotence de Resend évite les doublons d'une même session pendant 24 heures
 ([documentation officielle](https://resend.com/docs/dashboard/emails/idempotency-keys)).
+
+## D-35 — L'avatar 3D et la présence flottante passent en V1 (5 octobre 2026)
+
+**Statut : ACTIVE.** Cette décision est une décision explicite de Marc. Elle **supersède D-13 et D-4** pour tout ce qui concerne le moment de mise en service, le mode d'entrée et la présence visuelle de MarcoS.
+
+### Contexte
+
+La chronologie documentaire a été auditée avant cette décision.
+
+- **D-4 (2 octobre 2026)** imposait l'entrée de MarcoS dans la section Contact et le menu en V1, avec la présence flottante reportée.
+- **D-13 (2 octobre 2026)** avait retenu une mise en deux étapes : **V1 sans avatar, V2 avec avatar**.
+- **D-32 (3 octobre 2026)** a ensuite fixé la bibliothèque des dix expressions visuelles.
+- **D-33 (3 octobre 2026)** a fixé la planche de référence 3D.
+- **Issue #49 (4 octobre 2026)** a validé les assets produits, leur emplacement officiel et leur fond transparent.
+- **MARCOS_AVATAR_EXPRESSIONS.md v1.1 (4 octobre 2026)** confirme que les dix assets sont livrés, mais que leur publication était encore suspendue par D-13.
+
+Aucune décision du 3 ou du 4 octobre ne modifiait le calendrier V1/V2. Le passage de l'avatar en V1 est donc une **nouvelle décision**, et non une interprétation rétroactive de D-13.
+
+### Décision
+
+À compter du **5 octobre 2026**, MarcoS est conçu et implémenté avec **l'expérience avatar complète dès la V1**.
+
+La séparation « V1 sans avatar / V2 avec avatar » est supprimée.
+
+La présence principale de MarcoS devient une **présence flottante discrète en bas à droite**, portant la figurine 3D officielle. La figurine constitue le point d'entrée visuel de l'assistant.
+
+L'ouverture de la conversation se fait depuis cette présence. L'interface conversationnelle reste compacte au repos et s'ouvre de manière progressive lors de l'interaction, conformément aux spécifications UX déjà établies pour la présence avatar.
+
+### Annulation explicite de D-13
+
+**D-13 est annulée pour sa décision V1/V2.**
+
+La formulation historique de D-13 reste dans le journal pour conserver la traçabilité. Elle ne doit plus être interprétée comme une contrainte active.
+
+Nouvelle règle :
+
+> **MarcoS ne doit plus attendre une V2 pour utiliser son avatar. L'avatar fait partie de la V1.**
+
+Les conséquences de D-13 qui ne concernent pas le calendrier de mise en service restent valables uniquement lorsqu'elles ne sont pas contredites par cette décision ou par une décision ultérieure.
+
+### Annulation explicite de D-4
+
+**D-4 est annulée pour son choix du mode d'entrée V1.**
+
+L'entrée « Contact + menu » n'est plus le mode d'entrée imposé pour la V1.
+
+La présence flottante avec avatar devient le **point d'entrée principal** de MarcoS.
+
+Les accès éventuels depuis Contact ou le menu ne sont pas interdits par D-35 ; ils ne constituent simplement plus la décision architecturale qui définit l'entrée principale de l'assistant.
+
+### Assets concernés
+
+D-35 **ne recrée aucun asset**.
+
+Les assets officiels sont ceux déjà validés dans **#49** :
+
+- emplacement : `/Public/Avatar_MarcoS/` ;
+- 10 expressions 3D validées ;
+- fond transparent ;
+- identité basée sur la photo de M. Kouassi ;
+- style : personnage 3D modélisé inspiré de la photo et de la référence 3D retenue ;
+- aucun traitement ou remodelage supplémentaire des fichiers validés ;
+- aucune duplication ou nouvelle série d'avatars.
+
+La photo `Photo_Marc.png` reste inchangée et ne doit pas être supprimée sans vérification de son usage.
+
+### Les 10 expressions restent inchangées
+
+D-35 **ne remplace pas D-32** et ne transforme pas les dix expressions en dix états runtime.
+
+La bibliothèque officielle reste :
+
+1. 👋 Bienvenue
+2. 🙂 Neutre / disponible
+3. 🤔 Réflexion
+4. 🧐 Analyse
+5. 👂 À l'écoute
+6. 🤨 Question
+7. 💡 Idée / suggestion
+8. 🙌 Enthousiasme
+9. 📝 Prise de notes
+10. 😌 Succès / félicité
+
+Ces expressions sont des **assets visuels**. Elles doivent être mappées aux états et situations runtime réellement nécessaires, sans créer artificiellement dix nouveaux états métier ou conversationnels.
+
+D-35 ne crée donc pas de nouvelle nomenclature runtime.
+
+### États runtime et expressions : séparation obligatoire
+
+Les futurs documents et l'implémentation doivent distinguer explicitement :
+
+- **états runtime de l'interface** : comportement de l'assistant et de son interface ;
+- **expressions visuelles** : choix de l'asset 3D affiché pendant cet état ou cette situation.
+
+Une expression visuelle n'est pas automatiquement un état runtime.
+
+Aucune logique métier ne doit être codée sous la forme d'une correspondance rigide inventée uniquement pour faire fonctionner les assets. Le mapping doit réutiliser les états et contrats existants.
+
+### UX V1 résultante
+
+La V1 doit désormais couvrir :
+
+1. présence discrète de MarcoS en bas à droite ;
+2. avatar 3D officiel comme point d'entrée ;
+3. ouverture de l'interface conversationnelle depuis cette présence ;
+4. conversation compacte au repos ;
+5. panneau conversationnel borné lorsque l'échange devient long ;
+6. scroll interne pour les longues conversations ;
+7. avatar visible pendant la conversation selon les états prévus ;
+8. retour à une présence discrète après la conversation ;
+9. responsive desktop/mobile ;
+10. support de `prefers-reduced-motion` ;
+11. accessibilité clavier et interactions équivalentes ;
+12. conservation de la séparation UI / contexte IA déjà décidée.
+
+Cette décision ne crée pas une fenêtre plein écran automatique et ne change pas les règles de compaction du contexte conversationnel.
+
+### Ce que D-35 ne décide pas
+
+D-35 ne tranche pas de nouveaux sujets qui ne sont pas nécessaires à l'annulation de D-4/D-13 :
+
+- elle ne change pas les dix expressions de D-32 ;
+- elle ne change pas les assets validés par #49 ;
+- elle ne crée pas de nouveaux états runtime ;
+- elle ne choisit pas un nouvel outil de génération 3D ;
+- elle ne demande pas une nouvelle modélisation ;
+- elle ne modifie pas les règles de sécurité ou de confidentialité ;
+- elle ne modifie pas le fournisseur IA ;
+- elle ne change pas le comportement conversationnel de MarcoS ;
+- elle ne valide pas les trois textes D-9 ;
+- elle ne constitue pas à elle seule une autorisation générale d'implémentation de MarcoS hors du périmètre avatar/UI.
+
+### Obligations documentaires
+
+Cette décision devient la nouvelle source de vérité pour le calendrier V1/V2.
+
+Les documents dérivés qui citent D-4 ou D-13 comme règles actives doivent être alignés sur D-35, notamment :
+
+- `Docs/AI_UX.md` ;
+- `Docs/AI_ARCHITECTURE.md` ;
+- `Docs/AI_IMPLEMENTATION_PLAN.md` ;
+- `Docs/MARCOS.md` ;
+- `Docs/MARCOS_AVATAR.md` ;
+- `Docs/MARCOS_AVATAR_EXPRESSIONS.md` ;
+- `Design_System/gabarits/Assistant/Assistant.css` et les autres contrats d'interface concernés ;
+- les tests qui affirment encore « V1 sans avatar » ou « avatar = V2 ».
+
+**Important :** D-35 enregistre la décision. Ces modifications dérivées constituent une étape de travail distincte et ne doivent pas être effectuées implicitement dans le présent enregistrement.
+
+### Règle de lecture pour les agents
+
+Lorsqu'un agent rencontre une référence à D-4 ou D-13 :
+
+- il doit conserver la formulation historique pour comprendre pourquoi l'architecture actuelle existe ;
+- il doit considérer **D-35 comme la décision active la plus récente** sur ce sujet ;
+- il ne doit pas réintroduire une V1 sans avatar ;
+- il ne doit pas déplacer l'avatar en V2 ;
+- il ne doit pas considérer les dix expressions comme dix nouveaux états runtime ;
+- il doit vérifier les documents dérivés avant toute modification et proposer l'alignement nécessaire ;
+- il ne doit jamais reconstruire cette décision de mémoire.
+
+### Conséquence opérationnelle
+
+Le blocage « attendre une V2 pour intégrer l'avatar » est levé.
+
+L'intégration de l'avatar officiel dans la V1 peut désormais être planifiée, sous réserve des tests, de l'architecture existante, du responsive, du clair/sombre, du FR/EN, de l'accessibilité et de `prefers-reduced-motion`.
+
+**D-35 est la référence active à partir du 5 octobre 2026.**
