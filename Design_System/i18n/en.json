@@ -120,6 +120,7 @@
     "plageSelection": "{debut} — {fin}",
     "selection": "{nombre} projects",
     "selectionPlage": " · {plage}",
+    "complement": " · {texte}",
     "categorieEtPeriode": "{categorie} · {periode}",
     "rubrique": "{numero} / {nom}",
     "numeroProjet": "#{numero}",

@@ -27,7 +27,7 @@ export function Couverture({ section, contenu, ctx }) {
     // Un fait peut porter un complement : la part que l'ecran etroit laisse
     // tomber, nommee par la DONNEE et jamais devinee par le gabarit.
     const valeur = ctx.l(fait.valeur, `${chemin}.faits.${rang}.valeur`);
-    return fait.complement ? html`${valeur}${detail(ctx.l(fait.complement, `${chemin}.faits.${rang}.complement`))}` : valeur;
+    return fait.complement ? html`${valeur}${detail(ctx.t("formats.complement", { texte: ctx.c(fait.complement, `${chemin}.faits.${rang}.complement`) }))}` : valeur;
   };
   const faits = section.faits.map((fait, rang) => Champ({ etiquette: ctx.c(fait.etiquette, `${chemin}.faits.${rang}.etiquette`), contenu: valeurFait(fait, rang), variante: "fait" }));
   return Planche({
