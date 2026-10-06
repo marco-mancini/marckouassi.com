@@ -4,7 +4,8 @@
    filet existant, comme les listes du CV. Jetons uniquement ; aucune
    regle ne depend d'une page.
    ========================================================================== */
-.conversation { display: grid; margin: 0; padding: 0; gap: 0; list-style: none; }
+.conversation { display: grid; }
+.conversation__tours { display: grid; margin: 0; padding: 0; gap: 0; list-style: none; }
 
 .conversation__tour { padding: var(--space-5) 0; border-top: var(--border-hairline) solid var(--filet); }
 .conversation__tour:first-child { border-top: 0; }

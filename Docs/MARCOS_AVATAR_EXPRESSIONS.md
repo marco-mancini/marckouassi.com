@@ -1,6 +1,6 @@
 # MarcoS — planche d'expressions de référence
 
-**Version : 1.1 · 4 octobre 2026.** La version 1.0 décrivait ce qui était *demandé* ; celle-ci décrit en plus ce qui a été *livré*.
+**Version : 1.2 · 5 octobre 2026.** La version 1.0 décrivait ce qui était *demandé* ; celle-ci décrit en plus ce qui a été *livré*.
 
 Ce document complète `MARCOS_AVATAR.md`. Il formalise la planche d'expressions visuelles demandée pour la production de l'avatar 3D. Ces expressions sont une **bibliothèque visuelle**, pas dix états runtime supplémentaires.
 
@@ -158,10 +158,55 @@ artistique ; et Marc a écrit « aucun traitement supplémentaire » sur les fic
 validés. Rien n'est donc modifié. Ce point est consigné dans
 [#49](https://github.com/marco-mancini/marckouassi.com/issues/49).
 
+### Ce que le site rend aujourd'hui — D-39, 5 octobre 2026
+
+**Sept des dix expressions sont publiées**, une par état de MarcoS
+([MARCOS.md](MARCOS.md) §4). Elles ne sont pas modifiées : le build les convertit
+en WebP à transparence conservée, dimensions inchangées.
+
+| État | Expression (§3) | Fichier | Ce que le visiteur voit |
+|---|---|---|---|
+| `repos` | 02 — Neutre / disponible | `Avatar_02_NEUTRE_DISPONIBLE.png` | MarcoS est là, disponible, il ne sollicite pas |
+| `accueil` | 01 — Bienvenue | `Avatar_01_BIENVENUE.png` | le panneau vient de s'ouvrir |
+| `ecoute` | 05 — À l'écoute | `Avatar_05_ECOUTE.png` | le visiteur écrit sa question |
+| `reflexion` | 03 — Réflexion | `Avatar_03_REFLEXION.png` | la demande est partie, MarcoS cherche |
+| `reponse` | 07 — Idée / suggestion | `Avatar_07_IDEE_SUGGESTION.png` | la réponse vient d'arriver |
+| `fin` | 10 — Succès / félicité | `Avatar_10_SUCCES_FELICITE.png` | retour au calme avant le repos |
+| `erreur` | 06 — Question | `Avatar_06_QUESTION.png` | MarcoS n'a pas pu répondre |
+
+**Les trois autres restent en bibliothèque** : 04 Analyse, 08 Enthousiasme,
+09 Prise de notes. Aucun état ne les réclame aujourd'hui ; elles n'ont pas été
+supprimées et le CMS permet de les substituer (`site.assistant.avatar.etats`).
+
+**Le mapping ne vit pas dans le code.** Il est dans `content/site.json`, donc
+Marc peut changer l'expression d'un état sans toucher à un gabarit.
+
+**Correction du §7 précédent.** La version 1.1 affirmait que `tools/medias.mjs`
+aplatirait la transparence sur le crème du site. C'est faux et c'était vérifiable :
+le pipeline conserve l'alpha au-delà de 5 % de pixels non opaques, et ces fichiers
+sont entre 49,5 % et 66,8 %. Mesure après build : WebP RGBA, alpha conservé,
+264 Ko pour les sept. Voir [MARCOS_AVATAR.md](MARCOS_AVATAR.md) §7.
+
+### Ce qui reste ouvert
+
 ### Ce que ces fichiers ne sont pas
 
-Ils sont **disponibles pour l'intégration V1** depuis `Public/Avatar_MarcoS/` : D-35
-place la présence flottante en V1. L'expression neutre est la pose initiale de
-l'interface ; les autres expressions restent des assets de référence. `tools/medias.mjs` aplatirait leur transparence sur le crème
-du site (`MARCOS_AVATAR.md` §7) ; le pipeline à transparence reste à écrire,
-avec ses tests, le jour de l'implémentation.
+Ils sont **intégrés** depuis `Public/Avatar_MarcoS/` : D-35 place la présence
+flottante dans la version en cours, D-40 l'a rendue. L'expression neutre est la
+pose de repos ; cinq autres servent un état, et trois restent en bibliothèque.
+
+Ils ne sont pas un **buste**, en revanche. `MARCOS_AVATAR_UI` §3 demande tête et
+épaules, le visage prioritaire, identifiable entre 80 et 150 px de haut ; et
+`MARCOS_AVATAR.md` §3 impose un carré 512 × 512. Les fichiers montrent le
+personnage aux trois quarts en 783 × 667 : le visage reste petit à l'échelle
+d'affichage.
+
+C'est le seul écart qui subsiste, et il n'est pas tranché. Le recadrage est une
+décision artistique, et Marc a écrit « aucun traitement supplémentaire » sur les
+fichiers validés. Consigné dans
+[#49](https://github.com/marco-mancini/marckouassi.com/issues/49).
+
+**Le pipeline à transparence, lui, n'était pas à écrire : il existait.**
+`tools/medias.mjs` conserve l'alpha au-delà de 5 % de pixels non opaques, et ces
+fichiers sont entre 49,5 % et 66,8 %. Mesure après build : WebP RGBA, alpha
+conservé, 264 Ko pour les sept expressions publiées.

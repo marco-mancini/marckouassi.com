@@ -11,10 +11,13 @@ Ce qui est dit de l'avatar lui-même (ressemblance, style, absence de costume, a
 
 ---
 
-> **Statut au 5 octobre 2026.** D-35 place l'avatar 3D et la présence flottante en
-> **V1**. La présence flottante est l'entrée visuelle primaire ; Contact et menu
-> restent secondaires. Ce document décrit le format des assets et des séquences
-> d'animation, pas dix états runtime.
+> **Statut au 5 octobre 2026.** D-38 a supprimé la V2, D-35 place l'avatar 3D
+> et la présence flottante dans la version en cours, et **D-40 les a rendus** :
+> la présence flottante est l'entrée visuelle primaire, Contact et le menu
+> restent secondaires. Sept expressions sont publiées, une par état déclaré.
+> Ce document décrit le format des assets et des séquences d'animation — qui,
+> elles, n'existent pas encore — pas dix états d'exécution. Le pipeline à
+> transparence, lui, existait déjà : voir le §7.
 >
 > Sur les cinq décisions que
 > [#49](https://github.com/marco-mancini/marckouassi.com/issues/49) réservait à
@@ -210,18 +213,23 @@ Il n'y a **pas une animation par couple d'états** : 8 × 7 = 56 transitions, c'
 | Masters non compressés au préalable (pas de JPEG, pas de WebP) | toute recompression dégrade ; le build ne compresse qu'une fois |
 | Dimensions identiques, cadrage fixe, numérotation continue | le build assemble les planches sans recadrer |
 
-### Prérequis côté build, à réaliser à l'implémentation et non maintenant
+### Ce que le build fait déjà — vérifié le 5 octobre 2026
 
-Aujourd'hui, `tools/medias.mjs` **aplatit toute transparence** sur le crème du site (`flatten`) et réduit les images à 1600 px de large. Appliqué tel quel à l'avatar, ce traitement mettrait MarcoS dans un carré crème, visible en thème sombre.
+**Le pipeline à transparence n'est pas à écrire : il existe.** `tools/medias.mjs`
+mesure la part de pixels non opaques (`partTransparente`) et n'aplatit que sous
+`SEUIL_TRANSPARENCE`, fixé à **5 %**. Les dix expressions sont entre 49,5 % et
+66,8 % : leur alpha est conservé tel quel.
 
-L'implémentation devra donc, avec son issue et ses tests :
+Mesure après `npm run build`, sur les sept expressions publiées (D-39) :
 
-1. traiter `Public/images/MarcoS/` à part : WebP **avec** transparence, sans aplatissement ;
-2. assembler chaque séquence en une planche en grille, sans dépasser 16 383 px par côté (limite du format WebP) ;
-3. publier les dimensions et le nombre d'images de chaque planche à partir du manifeste ;
-4. vérifier par un test que la transparence survit (pixel d'angle transparent) et que les plafonds de poids du §3 sont tenus.
+| Contrôle | Résultat |
+|---|---|
+| Format publié | WebP, 4 canaux, `hasAlpha: true` |
+| Dimensions | 783 × 667, inchangées (sous `largeurMax` de 1600) |
+| Poids | **264 Ko** au total, contre 4,25 Mo de PNG sources |
+| Fond en thème sombre | transparent — aucun carré crème |
 
----
+Les documents antérieurs annonçaient l'inverse ; cette section les corrige.
 
 ## 8. Manifeste à joindre
 

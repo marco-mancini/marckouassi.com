@@ -75,5 +75,90 @@
   "langues": [
     "fr",
     "en"
-  ]
+  ],
+  "assistant": {
+    "active": false,
+    "accueil": {
+      "fr": "Bonjour 👋 Je suis MarcoS, l’assistant de M. Kouassi. En quoi puis-je vous aider ?",
+      "en": "Hello 👋 I’m MarcoS, Mr. Kouassi’s assistant. How can I help you?"
+    },
+    "exemples": [
+      {
+        "fr": "Qui est M. Kouassi ?",
+        "en": "Who is M. Kouassi?"
+      },
+      {
+        "fr": "Quel est son parcours ?",
+        "en": "What is his career path?"
+      },
+      {
+        "fr": "Quelles sont ses expertises ?",
+        "en": "What are his areas of expertise?"
+      },
+      {
+        "fr": "Quels projets a-t-il réalisés ?",
+        "en": "Which projects has he delivered?"
+      },
+      {
+        "fr": "Avec quelles marques a-t-il travaillé ?",
+        "en": "Which brands has he worked with?"
+      },
+      {
+        "fr": "Quels services propose-t-il ?",
+        "en": "What services does he offer?"
+      },
+      {
+        "fr": "Quel est son projet préféré ?",
+        "en": "What is his favorite project?"
+      },
+      {
+        "fr": "Où habite M. Kouassi ?",
+        "en": "Where does M. Kouassi live?"
+      },
+      {
+        "fr": "Quel est son numéro de téléphone personnel ?",
+        "en": "What is his personal phone number?"
+      },
+      {
+        "fr": "Quel temps fait-il aujourd’hui à Abidjan ?",
+        "en": "What is the weather in Abidjan today?"
+      }
+    ],
+    "confidentialite": {
+      "fr": "🔒 Vos échanges restent dans cet onglet et ne sont conservés nulle part. Votre question est transmise au modèle qui y répond, et rien n’est envoyé à M. Kouassi sans votre accord.",
+      "en": "🔒 Your conversation stays in this tab and is never stored. Your question is sent to the model that answers it, and nothing reaches Mr. Kouassi without your consent."
+    },
+    "avatar": {
+      "etats": [
+        {
+          "etat": "rest",
+          "src": "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png"
+        },
+        {
+          "etat": "hover",
+          "src": "Public/Avatar_MarcoS/Avatar_01_BIENVENUE.png"
+        },
+        {
+          "etat": "open",
+          "src": "Public/Avatar_MarcoS/Avatar_01_BIENVENUE.png"
+        },
+        {
+          "etat": "listening",
+          "src": "Public/Avatar_MarcoS/Avatar_05_ECOUTE.png"
+        },
+        {
+          "etat": "thinking",
+          "src": "Public/Avatar_MarcoS/Avatar_03_REFLEXION.png"
+        },
+        {
+          "etat": "responding",
+          "src": "Public/Avatar_MarcoS/Avatar_07_IDEE_SUGGESTION.png"
+        },
+        {
+          "etat": "end",
+          "src": "Public/Avatar_MarcoS/Avatar_10_SUCCES_FELICITE.png"
+        }
+      ]
+    }
+  }
 }

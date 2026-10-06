@@ -450,14 +450,37 @@ sur le fait de n'envoyer qu'une langue à la fois.
 
 ### D-9 — Les textes de MarcoS, à écrire par toi
 
-**La question.** Trois textes doivent exister avant que MarcoS soit visible, et
-aucun ne peut être écrit par une IA ni par moi.
+> ## ✅ D-9 est CLOS — 5 octobre 2026
+>
+> Les trois textes sont **écrits, posés dans `content/site.json` et verrouillés
+> par des tests**. Ils restent éditables dans `/admin/` → Paramètres, mais ils
+> ne sont plus du contenu à fournir : D-9 ne se rouvre que sur une décision
+> explicite et nouvelle de Marc.
+>
+> | Texte | État |
+> |---|---|
+> | Message d'accueil (FR + EN) | posé, figé au mot près par `tests/marcos-scenarios.test.mjs` |
+> | Dix exemples de questions (FR + EN) | posés dans l'ordre validé. Les sept premiers éprouvent ce que MarcoS sait ; les trois derniers — adresse, téléphone personnel, météo — éprouvent ce qu'il doit **refuser** |
+> | Mention de confidentialité (FR + EN) | posée **après audit du code**, et chaque membre de phrase est rattaché à un comportement prouvé par un test |
+>
+> **La mention a été réécrite, et c'est le seul écart avec le texte proposé le
+> 4 octobre.** « Vos échanges avec MarcoS restent privés. » promettait plus que
+> ce que le système tient : la question **est** transmise à un tiers pour
+> obtenir une réponse, et le refus d'entraînement (D-11) est une bascule que
+> Marc doit encore actionner dans le panneau Mistral. La mention dit désormais
+> ce qui est vérifiable, et rien d'autre.
+>
+> **Ce que D-9 ne clôt pas :** `assistant.active` reste à `false`. L'activation
+> est un geste de Marc, et elle demande en outre `ASSISTANT_URL`.
+
+**La question d'origine.** Trois textes doivent exister avant que MarcoS soit
+visible, et aucun ne peut être écrit par une IA ni par moi.
 
 | Texte | Où il vivra | Ce qu'il doit faire |
 |---|---|---|
 | **Message d'accueil** (FR + EN) | `content/site.json` → `assistant.accueil` | Dire en une à deux phrases qui est MarcoS et ce qu'on peut lui demander. Il ne doit **pas** laisser croire que c'est Marc. |
 | **Exemples de questions** (FR + EN) | `assistant.exemples[]` | Trois à quatre questions cliquables, envoyées telles quelles. Elles apprennent au visiteur ce que MarcoS sait faire. Sans elles, la zone n'apparaît pas. |
-| **Mention de confidentialité** (FR + EN) | `assistant.confidentialite` | Dire ce qu'il advient de la question : pas de conservation côté serveur, pas de texte dans les journaux. |
+| **Mention de confidentialité** (FR + EN) | `assistant.confidentialite` | Dire ce qu'il advient de la question : pas de conservation côté serveur, pas de texte dans les journaux. **Posée le 5 octobre après audit, et élargie** : elle nomme aussi la transmission au modèle et l'accord préalable avant tout envoi à M. Kouassi. |
 
 **Conséquence si ce n'est pas écrit :** `assistant.active` reste `false` et MarcoS
 **n'est pas rendu du tout**. C'est le seul verrou de ce dossier qui ne peut pas
@@ -772,6 +795,8 @@ Réponses de Marc du 2 octobre 2026. **A** = recommandation acceptée,
 | **D-11** | Refuser l'usage des données pour l'entraînement chez Mistral ? | **Oui**, avant la première question réelle |  **A — accepté, puis vérifié.** Marc avait d'abord accepté l'usage éventuel si le refus était payant (budget 0 € prime, questions de nature publique). **Vérification du 2 octobre : le refus est GRATUIT** et distinct de la rétention zéro, qui est payante. **Blocage levé** : on l'active. Reste à faire par Marc dans Admin → Privacy. |
 | **D-12** | Envoyer une ou deux langues dans le contexte ? | **Une seule** — divise le coût par deux sans rien retirer |  **A — accepté, et élargi.** Une seule langue à la fois. **Et réduire la base au strict nécessaire** — proposition mesurée demandée, rendue en [section 9](#9-réduction-de-la-base-de-connaissance-mesurée). |
 | **D-13** | Figurine 3D et présence flottante : MARCOS.md ou AI_UX.md ? | **Deux étapes**, et AI_UX.md doit écrire « pas en V1 » au lieu de « jamais » |  **A — accepté.** V1 sans avatar, V2 avec. `AI_UX.md` réécrit : « pas en V1 », plus « jamais ». |
+
+> **Mise à jour du 4 octobre 2026 — D-38.** Les deux étapes n'existent plus : il n'y a **plus de V2**, tout relève de la version en cours. L'avatar et la présence flottante ne sont plus reportés — ils ne sont simplement pas encore implémentés, et ce qui les retient est nommé dans [DECISIONS.md](DECISIONS.md) → D-38.
 | **D-14** | MarcoS connaît-il ton profil comportemental et personnel (MARCOS.md §18-25) ? | **Un tri, par toi** : méthode de travail en contenu public, confidences hors base |  **M — option a pour l'instant : hors base.** Les sections 18 à 25 de `MARCOS.md` restent un document de conception interne. Le tri sera tranché plus tard, une fois MarcoS en service. |
 | **D-15** | Troisième personne ou « je » de Marc ? Tutoiement ou vouvoiement ? | **Troisième personne, vouvoiement** ; les exemples de MARCOS.md §6-8 sont à réécrire |  **A — accepté.** Troisième personne, vouvoiement. Exemples de `MARCOS.md` §6 à §8 réécrits. |
 | **D-16** | MarcoS se souvient-il des pages visitées ? | **Page courante seulement en V1** ; l'historique est une décision à part |  **A — accepté.** Page courante seulement. |
@@ -1036,6 +1061,8 @@ de MarcoS plus que des faits. Dis-le si tu veux des propositions.
   Elles restent entières et à toi.
 - Les **trois textes de D-9** : à écrire dans `/admin/` → Paramètres, quand tu
   veux. Rien ne les attend pour avancer, et rien ne se publie sans eux.
+  **Mise à jour du 4 octobre 2026 :** ils sont écrits, avec la règle créative
+  de D-28 amendée. Voir [DECISIONS.md](DECISIONS.md) → D-37.
 
 ## D-20 — Resend ajoute un service d'envoi transactionnel (3 octobre 2026)
 

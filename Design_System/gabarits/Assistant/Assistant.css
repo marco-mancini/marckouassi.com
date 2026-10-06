@@ -1,37 +1,463 @@
 /* ==========================================================================
-   ASSISTANT — présence flottante + conversation MarcoS
-   D-35 : l'avatar 3D est l'entrée visuelle primaire de MarcoS en V1.
-   Les dix expressions restent des assets visuels, pas dix états runtime.
+   ASSISTANT — MarcoS, presence flottante en bas a droite et panneau de
+   conversation. Transposition fidele de la maquette d'interaction sur les
+   jetons du projet : aucune palette parallele, aucune valeur en dur.
+
+   TOUT EST PORTE SOUS .marcos. Les noms de classes sont ceux de la maquette
+   — socle, av, barre, panneau, fil, bulle, onde — et la racine les isole du
+   reste du site.
    ========================================================================== */
-.assistant { display: grid; gap: var(--space-5); }
+.marcos {
+  position: fixed; z-index: 50;
+  right: max(var(--marcos-marge), env(safe-area-inset-right, 0px));
+  bottom: max(var(--marcos-marge), env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; align-items: flex-end;
+  /* Le cadre de MarcoS est pose par-dessus le portfolio : s'il captait le
+     pointeur, il avalerait les liens qui passent dessous. Seules les
+     commandes recoivent le clic. */
+  pointer-events: none;
+}
+.marcos .barre, .marcos .modale--ancre, .marcos .av { pointer-events: auto; }
 
-.assistant__presence { position: fixed; right: var(--space-5); bottom: var(--space-5); z-index: var(--assistant-presence-z); }
-.assistant__presence .bouton { width: var(--assistant-avatar-taille); min-height: var(--assistant-avatar-taille); padding: 0; border-radius: var(--radius-full); }
-.assistant__presence .bouton__ligne { display: grid; width: 100%; height: 100%; place-items: end center; overflow: hidden; border-radius: var(--radius-full); }
-.assistant__presence .bouton__texte { display: block; width: 100%; height: 100%; background: url("/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png") center bottom / contain no-repeat; font-size: 0; }
-.assistant__presence .bouton:hover .bouton__texte,
-.assistant__presence .bouton:focus-visible .bouton__texte { transform: translateY(var(--motion-presence-survol)); }
-.assistant__presence .bouton__texte { transition: transform var(--duration-fast) var(--ease-out); }
+/* --------------------------------------------------------------------------
+   LE BUSTE — toujours POSE sur l'element actif, jamais devant ni derriere.
+   `bottom: 100%` du socle : le bord bas du buste touche l'arete haute de son
+   porteur. Comme le porteur change — la barre fermee, le panneau ouvert — il
+   y a un buste par socle, et un seul est visible a la fois.
+   -------------------------------------------------------------------------- */
+.marcos .socle { position: relative; }
+.marcos .socle-panneau { width: min(var(--marcos-panneau-largeur), calc(100vw - 2 * var(--marcos-marge))); }
 
-.assistant__entete-identite { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; }
-.assistant__avatar--entete { width: var(--assistant-avatar-entete-taille); height: var(--assistant-avatar-entete-taille); object-fit: contain; flex: none; }
+.marcos .av {
+  position: absolute; bottom: 100%;
+  transform-origin: 50% 100%;
+  /* Le buste est un bouton : il recoit le clic. Les images, elles, ne doivent
+     pas intercepter le pointeur a sa place. La zone cliquable est ramenee au
+     sujet : le reste du cadre est transparent, et un bouton y volerait les
+     liens du portfolio qui passent dessous. */
+  padding: 0; border: 0; background: transparent; cursor: pointer;
+  clip-path: inset(var(--marcos-buste-zone-haut) var(--marcos-buste-zone-cote) 0 var(--marcos-buste-zone-cote));
+  animation: marcos-respire var(--marcos-respire) ease-in-out infinite;
+  transition: left var(--marcos-t-moyen) var(--marcos-courbe),
+              width var(--marcos-t-moyen) var(--marcos-courbe),
+              opacity var(--marcos-t-moyen);
+}
+.marcos .avimg {
+  pointer-events: none;
+  display: block; width: 100%; height: auto; border: 0;
+  filter: drop-shadow(0 2px 6px var(--shadow-board));
+}
+.marcos .avimg[hidden] { display: none; }
 
-.assistant__accueil { display: grid; gap: var(--space-4); }
-.assistant__accueil[hidden] { display: none; }
-.assistant__accueil-texte { max-width: var(--mesure-lecture); margin: 0; }
-.assistant__confidentialite { max-width: var(--mesure-lecture); margin: 0; }
-.assistant__exemples { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-.assistant__formulaire { display: grid; padding-top: var(--space-4); border-top: var(--border-hairline) solid var(--filet); gap: var(--space-3); }
-.assistant__formulaire .saisie--long { min-height: var(--assistant-saisie-hauteur-min); resize: vertical; }
-.assistant__actions { display: flex; justify-content: flex-end; }
-.assistant__etat:empty { display: none; }
-.assistant__etat .message { margin: 0; }
+/* AUCUNE ombre de contact. La maquette en posait une — une ellipse floutee au
+   ras du bord — pour suggerer l'appui. Mais le buste touche REELLEMENT la barre
+   maintenant, et cette ellipse sombre peignait justement un jour entre les
+   deux. Le contact se voit mieux sans elle.
+   Le drop-shadow de l'image est reduit en consequence : porte vers le bas, il
+   produisait le meme effet de decollement. */
+/* Pose sur la barre, centre. */
+.marcos .socle-barre .av { left: var(--marcos-buste-decalage-barre); width: var(--marcos-buste-sur-barre); }
+/* Pose sur le panneau : centre, aux trois quarts de sa largeur. */
+.marcos .socle-panneau .av { left: var(--marcos-buste-decalage); width: var(--marcos-buste-sur-panneau); }
 
-@media (max-width: 850px) {
-  .assistant__presence { right: var(--space-4); bottom: var(--space-4); }
-  .assistant__presence .bouton { width: var(--assistant-avatar-taille-mobile); min-height: var(--assistant-avatar-taille-mobile); }
+/* Un seul buste visible : celui du porteur actif. L'autre est RETIRE du
+   pointeur et du parcours clavier, pas seulement rendu transparent : a
+   `opacity: 0` il continuait de recevoir les clics, et celui de la barre —
+   place juste au-dessus d'elle — recouvrait le bas du panneau ouvert. */
+.marcos[data-ouvert="0"] .socle-panneau .av,
+.marcos[data-ouvert="1"] .socle-barre .av { opacity: 0; pointer-events: none; }
+.marcos[data-ouvert="0"] .socle-panneau .av { visibility: hidden; }
+.marcos[data-ouvert="1"] .socle-barre .av { visibility: hidden; }
+
+/* A l'ouverture, la barre se recentre sous le panneau. */
+.marcos .socle-barre { align-self: flex-end; transition: width var(--marcos-t-moyen) var(--marcos-courbe); }
+.marcos[data-ouvert="1"] .socle-barre { width: var(--marcos-barre-ouverte); align-self: center; }
+
+/* La respiration ne DECOLLE pas le buste : elle le fait enfler depuis son
+   point d'appui. `transform-origin: 50% 100%` fixe le bord bas, qui reste
+   donc au contact de son porteur pendant tout le cycle. Un translateY, lui,
+   ouvrait un jour de 3 px la moitie du temps. */
+@keyframes marcos-respire {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.012); }
 }
 
+/* --------------------------------------------------------------------------
+   LA BARRE — trois commandes, deux separateurs, sur l'encre du theme.
+   -------------------------------------------------------------------------- */
+.marcos .barre {
+  position: relative; z-index: 2;
+  display: flex; align-items: center;
+  padding: var(--space-1) var(--marcos-barre-rembourrage);
+  /* Un filet, que la maquette n'a pas : en theme sombre son encre #0f1109 se
+     confond avec le fond de page #14180f, et la barre disparaissait. Le filet
+     la detache sur n'importe quel fond, clair comme sombre. */
+  border: var(--border-hairline) solid var(--marcos-barre-filet);
+  border-radius: var(--marcos-barre-rayon); background: var(--marcos-barre-fond);
+  box-shadow: 0 10px 26px var(--shadow-board);
+  transition: transform var(--marcos-t-moyen) var(--marcos-courbe),
+              box-shadow var(--marcos-t-moyen);
+}
+/* Trois emplacements de largeur egale, chaque icone centree dans le sien.
+   Les separateurs ne prennent que leur epaisseur. */
+.marcos .barre > .bouton, .marcos .barre > .activite { flex: 1; }
+.marcos .barre > .sep { flex: none; }
+
+.marcos .barre .bouton {
+  min-width: var(--marcos-cible-barre); min-height: var(--marcos-cible-barre);
+  /* Le bouton aligne son contenu a gauche par defaut : l'icone se retrouvait
+     a 16 px du centre de son emplacement. Ici chaque icone est centree dans
+     l'espace qui lui revient. */
+  justify-content: center;
+  padding: 0; border: 0; border-radius: var(--radius-pill);
+  color: var(--marcos-barre-encre); background: transparent;
+  transition: background var(--marcos-t-court);
+}
+.marcos .barre .bouton:hover { background: var(--marcos-barre-survol); box-shadow: 0 0 var(--marcos-halo) var(--marcos-barre-survol); }
+.marcos .barre .bouton:active { transform: scale(.92); }
+/* Le compteur bat une fois quand il passe sous son seuil. */
+.marcos .compteur[data-limite="1"] { animation: marcos-part var(--marcos-pulsation) var(--marcos-rebond); }
+.marcos .barre .bouton__icone { display: grid; place-items: center; }
+.marcos .barre svg { width: 19px; height: 19px; }
+.marcos .sep { width: 1px; height: 22px; background: var(--marcos-barre-filet); }
+.marcos .activite { display: grid; place-items: center; min-width: var(--marcos-cible-barre); min-height: var(--marcos-cible-barre); }
+
+.marcos svg { fill: none; stroke: currentcolor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* L'onde : cinq barreaux, chacun en retard sur le precedent. C'est le
+   decalage qui fait l'onde, pas cinq animations differentes. */
+.marcos .onde { display: flex; align-items: center; height: var(--marcos-onde-hauteur); gap: var(--marcos-onde-ecart); }
+.marcos .onde i {
+  width: var(--marcos-onde-barreau); height: var(--marcos-onde-repos);
+  border-radius: 2px; background: var(--olive-ghost);
+  animation: marcos-onde 1.5s ease-in-out infinite;
+  animation-delay: calc(var(--rang) * var(--marcos-onde-decalage));
+}
+@keyframes marcos-onde {
+  0%, 100% { height: var(--marcos-onde-repos); opacity: .5; }
+  50% { height: var(--marcos-onde-crete); opacity: 1; }
+}
+
+/* Vivante tant que MarcoS attend ; en veille des que le panneau est ouvert,
+   puis relancee par l'activite reelle. */
+.marcos[data-ouvert="1"] .onde i { animation-play-state: paused; opacity: .35; }
+.marcos[data-etat="listening"] .onde i,
+.marcos[data-etat="thinking"] .onde i,
+.marcos[data-etat="responding"] .onde i { animation-play-state: running; opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   LE PANNEAU — <dialog> non modal, pose au-dessus de la barre. Il reste dans
+   le flux : sans showModal(), il ne monte pas dans la couche superieure.
+   -------------------------------------------------------------------------- */
+.marcos .modale--ancre {
+  position: static; display: flex; flex-direction: column;
+  width: 100%; max-width: none; max-height: var(--marcos-panneau-hauteur);
+  margin: 0 0 var(--marcos-panneau-ecart); padding: 0; overflow: hidden;
+  border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-lg);
+  background: var(--fond); color: var(--texte);
+  box-shadow: 0 18px 50px var(--shadow-board);
+  transform-origin: 100% 100%;
+  opacity: 0; transform: translateY(var(--marcos-entree)) scale(var(--marcos-echelle-entree));
+  visibility: hidden; pointer-events: none;
+  transition: opacity var(--marcos-t-moyen) var(--marcos-courbe),
+              transform var(--marcos-t-moyen) var(--marcos-courbe),
+              visibility 0s linear var(--marcos-t-moyen);
+}
+.marcos[data-ouvert="1"] .modale--ancre[open] {
+  opacity: 1; transform: translateY(0) scale(1); visibility: visible; pointer-events: auto;
+  /* Un leger depassement a l'ouverture : le panneau se pose, il ne se colle pas. */
+  transition: opacity var(--marcos-t-moyen) var(--marcos-courbe),
+              transform var(--marcos-t-moyen) var(--marcos-rebond), visibility 0s;
+}
+
+/* L'interieur arrive en cascade, de haut en bas : en-tete, fil, saisie,
+   mention. Moins d'un tiers de seconde en tout — on anime, on ne retarde pas. */
+.marcos[data-ouvert="1"] .modale__entete { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) both; }
+.marcos[data-ouvert="1"] .zone-fil { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) var(--marcos-cascade) both; }
+.marcos[data-ouvert="1"] .saisie { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) calc(2 * var(--marcos-cascade)) both; }
+.marcos[data-ouvert="1"] .confid { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) calc(3 * var(--marcos-cascade)) both; }
+@keyframes marcos-etage {
+  from { opacity: 0; transform: translateY(var(--marcos-bulle-entree)); }
+  to { opacity: 1; transform: none; }
+}
+.marcos .modale--ancre::backdrop { background: transparent; }
+
+/* En-tete : le nom en caracteres de titre, son role en etiquette. */
+.marcos .modale__entete {
+  flex: none; display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-hairline) solid var(--filet);
+}
+.marcos .pan-tete__identite { display: grid; }
+/* « MarcoS » s'ecrit MarcoS. Pas de text-transform ici : la capitale forcee
+   deformerait le nom, et un nom ne se deforme pas. */
+.marcos .nom { font-family: var(--font-display); font-size: var(--type-body-emphasis); letter-spacing: .04em; color: var(--accent-texte); }
+.marcos .role { font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: .1em; text-transform: uppercase; color: var(--texte-discret); }
+.marcos .modale__entete .bouton {
+  margin-left: auto; min-width: var(--marcos-cible); min-height: var(--marcos-cible);
+  padding: 0; border: 0; border-radius: var(--radius-pill);
+  color: var(--texte-discret); background: transparent;
+}
+.marcos .modale__entete .bouton:hover { background: var(--surface-alt); }
+.marcos .modale__entete svg { width: 16px; height: 16px; stroke-width: 1.8; }
+
+/* Le corps de la Modale n'impose rien ici : c'est .assistant qui compose. */
+.marcos .modale__corps { display: flex; flex: 1; min-height: 0; flex-direction: column; max-height: none; padding: 0; overflow: visible; }
+.marcos .assistant { display: flex; flex: 1; min-height: 0; flex-direction: column; gap: 0; }
+
+/* --------------------------------------------------------------------------
+   LE FIL — bulles, scroll interne, marqueur de nouvelle reponse.
+   -------------------------------------------------------------------------- */
+.marcos .zone-fil { position: relative; display: flex; flex: 1 1 auto; min-height: 0; }
+.marcos .fil {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  display: flex; flex-direction: column; padding: var(--space-4); gap: var(--space-3);
+}
+.marcos .bulle {
+  max-width: var(--marcos-bulle-largeur); padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg); font-size: var(--type-body-compact);
+}
+.marcos .bulle.lui {
+  align-self: flex-start; background: var(--surface-alt);
+  border: var(--border-hairline) solid var(--filet);
+}
+.marcos .bulle[hidden] { display: none; }
+.marcos .bulle__texte { margin: 0; }
+
+/* Les suggestions, dans la bulle d'accueil : un defileur horizontal qui en
+   montre trois, les autres restant atteignables. Le masque signale qu'il
+   reste quelque chose a droite. */
+.marcos .exemples {
+  display: flex; align-items: center; margin-top: var(--space-2); gap: var(--space-2);
+  overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+  padding-bottom: 2px; -webkit-overflow-scrolling: touch;
+  /* Un masque ne lit que le canal alpha : `currentcolor` est opaque, il
+     joue le meme role que du noir sans ecrire de couleur hors de Tokens.css. */
+  mask-image: linear-gradient(to right, currentcolor 88%, transparent);
+}
+.marcos .exemples::-webkit-scrollbar { display: none; }
+/* Chaque suggestion se pose apres la precedente : le rang porte le retard. */
+.marcos[data-ouvert="1"] .exemples .bouton {
+  animation: marcos-exemple var(--marcos-bulle-duree) var(--marcos-rebond) both;
+  animation-delay: calc(3 * var(--marcos-cascade) + var(--rang) * var(--marcos-cascade-exemple));
+}
+@keyframes marcos-exemple {
+  from { opacity: 0; transform: translateY(var(--marcos-bulle-entree)) scale(var(--marcos-bulle-echelle)); }
+  to { opacity: 1; transform: none; }
+}
+.marcos .exemples .bouton {
+  flex: 0 0 auto; min-height: var(--marcos-cible); padding: 0 var(--space-3);
+  font-size: var(--type-micro); line-height: 1; white-space: nowrap;
+  color: var(--accent-texte);
+  transition: background var(--marcos-t-court), color var(--marcos-t-court), border-color var(--marcos-t-court);
+}
+.marcos .exemples .bouton:hover { background: var(--olive); color: var(--paper); border-color: var(--olive); }
+
+/* Marqueur de nouvelle reponse : il ne parait que si le visiteur a remonte
+   le fil. On ne le ramene jamais de force. */
+/* Le marqueur reprend le meme olive plein : c'est une action, pas une note. */
+.marcos .neuf {
+  background: var(--olive); color: var(--paper); border: 0;
+  position: absolute; left: 50%; bottom: var(--space-2); translate: -50% 0;
+  min-height: var(--marcos-cible); padding: 0 var(--space-4);
+  font-size: var(--type-label);
+  box-shadow: 0 6px 16px var(--shadow-board);
+  opacity: 0; pointer-events: none; transform: translateY(6px);
+  transition: opacity var(--marcos-t-court), transform var(--marcos-t-court);
+}
+.marcos .neuf[data-on="1"] { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+/* --------------------------------------------------------------------------
+   LES TOURS — le composant Conversation, rendu en bulles.
+   Sa structure ne change pas : role="log" sur l'enveloppe, une liste de
+   tours, une etiquette de role par tour. L'etiquette devient invisible a
+   l'ecran — l'alignement et la couleur la portent — mais reste lue.
+   -------------------------------------------------------------------------- */
+.marcos .conversation, .marcos .conversation__tours { display: contents; }
+/* Une bulle arrive de SON cote : celle du visiteur monte de la droite, celle
+   de MarcoS de la gauche. C'est le geste qui dit qui parle, avant la couleur. */
+.marcos .conversation__tour, .marcos .pense {
+  max-width: var(--marcos-bulle-largeur); padding: var(--space-2) var(--space-3);
+  border: 0; border-radius: var(--radius-lg); font-size: var(--type-body-compact);
+  animation: marcos-bulle-gauche var(--marcos-bulle-duree) var(--marcos-rebond) both;
+}
+.marcos .conversation__tour--visiteur { animation-name: marcos-bulle-droite; }
+@keyframes marcos-bulle-gauche {
+  from { opacity: 0; transform: translate(calc(-1 * var(--marcos-bulle-entree)), var(--marcos-bulle-entree)) scale(var(--marcos-bulle-echelle)); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes marcos-bulle-droite {
+  from { opacity: 0; transform: translate(var(--marcos-bulle-entree), var(--marcos-bulle-entree)) scale(var(--marcos-bulle-echelle)); }
+  to { opacity: 1; transform: none; }
+}
+.marcos .conversation__tour--assistant {
+  align-self: flex-start; background: var(--surface-alt);
+  border: var(--border-hairline) solid var(--filet);
+}
+.marcos .conversation__tour--visiteur { align-self: flex-end; background: var(--olive); color: var(--paper); }
+.marcos .conversation__etiquette {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; border: 0; clip: rect(0, 0, 0, 0); white-space: nowrap;
+}
+.marcos .conversation__texte { max-width: none; font-size: inherit; }
+.marcos .conversation__liens { margin-top: var(--space-2); }
+.marcos .conversation__liens .bouton { font-size: var(--type-label); letter-spacing: .08em; text-transform: uppercase; }
+.marcos .conversation__vide { display: none; }
+
+/* --------------------------------------------------------------------------
+   L'ERREUR — un bandeau dans le panneau, pas une alerte hors contexte.
+   -------------------------------------------------------------------------- */
+.marcos .erreur {
+  display: none; align-items: center; flex-wrap: wrap; gap: var(--space-2);
+  margin: 0 var(--space-4) var(--space-3); padding: var(--space-3);
+  border: var(--border-hairline) solid var(--erreur); border-radius: var(--radius-lg);
+  background: var(--surface-alt); color: var(--texte);
+  font-size: var(--type-body-compact); line-height: 1.45;
+}
+.marcos[data-erreur="1"] .erreur { display: flex; }
+/* Tant que l'erreur tient, la saisie et les suggestions sont en retrait :
+   relancer la meme requete ne servirait a rien. « Reessayer » reste actif. */
+.marcos[data-erreur="1"] .saisie .saisie,
+.marcos[data-erreur="1"] .exemples { opacity: .45; pointer-events: none; }
+
+/* --------------------------------------------------------------------------
+   LA SAISIE — une ligne, son compteur, et l'envoi.
+   -------------------------------------------------------------------------- */
+.marcos .saisie {
+  flex: none; display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-top: var(--border-hairline) solid var(--filet); background: var(--surface-alt);
+}
+.marcos .saisie .saisie {
+  flex: 1; min-width: 0; min-height: 0; padding: var(--space-2) 2px;
+  border: 0; background: transparent; color: var(--texte); font-size: var(--type-body-compact);
+}
+.marcos .saisie .saisie:focus { outline: none; }
+.marcos .compteur {
+  min-width: 34px; text-align: right;
+  font-family: var(--font-mono); font-size: var(--type-label); font-variant-numeric: tabular-nums;
+  color: var(--texte-discret);
+}
+.marcos .compteur[data-limite="1"] { color: var(--erreur); }
+/* L'envoi est olive plein, comme dans la maquette : la variante principale du
+   Design System rend l'encre du theme, qui sur le creme du panneau donnait un
+   rond creme sur creme. */
+.marcos .env {
+  flex: none; min-width: var(--marcos-cible); min-height: var(--marcos-cible); padding: 0;
+  border: 0; border-radius: var(--radius-pill);
+  background: var(--olive); color: var(--paper);
+  transition: transform var(--marcos-t-court), background var(--marcos-t-court);
+}
+.marcos .env:hover { background: var(--marcos-barre-fond); color: var(--marcos-barre-encre); }
+.marcos .env:active { transform: scale(.93); }
+/* La question part : le bouton se contracte puis se relache. */
+.marcos .env.part { animation: marcos-part var(--marcos-pulsation) var(--marcos-rebond); }
+@keyframes marcos-part {
+  0% { transform: scale(1); }
+  35% { transform: scale(.86); }
+  100% { transform: scale(1); }
+}
+.marcos .env svg { width: 16px; height: 16px; stroke-width: 1.8; }
+
+.marcos .confid {
+  flex: none; margin: 0; padding: var(--space-1) var(--space-3) var(--space-2);
+  font-family: var(--font-mono); font-size: var(--type-micro); line-height: 1.4;
+  color: var(--texte-discret); text-align: center;
+}
+
+/* ==========================================================================
+   LES ETATS — tous portes par data-etat, un seul attribut pour le buste,
+   la barre et le panneau.
+   ========================================================================== */
+
+/* HOVER : micro-reaction, rien de plus. Aucune ouverture automatique. */
+.marcos[data-etat="hover"] .barre { transform: translateY(var(--marcos-souleve)); box-shadow: 0 14px 32px var(--shadow-board); }
+.marcos[data-etat="hover"] .av { transform: translateY(var(--marcos-souleve-buste)) scale(1.04); animation-play-state: paused; }
+
+/* LISTENING : MarcoS recoit la demande. */
+.marcos[data-etat="listening"] .onde i { animation-duration: .75s; }
+.marcos[data-etat="listening"] .av { animation-duration: var(--marcos-ecoute); }
+
+/* THINKING : un mouvement DIFFERENT, pas une onde plus forte. */
+.marcos[data-etat="thinking"] .av { animation: marcos-reflechit var(--marcos-reflechit) ease-in-out infinite; }
+/* Meme principe : le balancement pivote autour du point d'appui, il ne leve pas. */
+@keyframes marcos-reflechit {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(-2.2deg) scale(1.01); }
+  70% { transform: rotate(1.4deg); }
+}
+.marcos[data-etat="thinking"] .onde i { animation-duration: 2.1s; background: var(--accent-texte); }
+
+/* RESPONDING : MarcoS participe a l'echange. */
+.marcos[data-etat="responding"] .av { animation: marcos-parle var(--marcos-parle) ease-in-out infinite; }
+@keyframes marcos-parle {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.018); }
+  60% { transform: scale(.994); }
+}
+.marcos[data-etat="responding"] .onde i { animation-duration: .55s; background: var(--olive-ghost); }
+
+/* END : le calme revient, sans disparition brutale. */
+.marcos[data-etat="end"] .av { animation: marcos-respire var(--marcos-respire-fin) ease-in-out infinite; opacity: .9; }
+.marcos[data-etat="end"] .onde i { animation-duration: 2.6s; opacity: .45; }
+
+/* ======== TELEPHONE ======== */
+@media (max-width: 520px) {
+  .marcos {
+    left: var(--marcos-marge-mobile); right: var(--marcos-marge-mobile);
+    bottom: max(var(--marcos-marge-mobile), env(safe-area-inset-bottom, 0px));
+    align-items: stretch;
+  }
+  .marcos .socle-panneau { width: 100%; }
+  .marcos .modale--ancre { max-height: var(--marcos-panneau-hauteur-mobile); }
+}
+
+/* ======== MOUVEMENT REDUIT ========
+   Toutes les boucles s'arretent. L'etat reste lisible par le buste et par la
+   position des elements : aucune information ne passe par la seule animation.
+   Le panneau parait sans se deplacer. */
 @media (prefers-reduced-motion: reduce) {
-  .assistant__presence .bouton__texte { transition: none; }
+  /* Aucune boucle, aucune entree animee, aucun deplacement. Les elements sont
+     la, a leur place, immediatement. La frappe progressive est coupee cote
+     script : le texte arrive d'un coup. */
+  .marcos *, .marcos *::before, .marcos *::after { animation: none !important; }
+  .marcos .av,
+  .marcos .modale--ancre,
+  .marcos[data-ouvert="1"] .modale--ancre[open],
+  .marcos[data-etat="hover"] .av,
+  .marcos[data-etat="hover"] .barre { transform: none; }
+  /* Les etages et les bulles n'ont plus d'animation : sans cela, leur etat
+     `both` les laisserait a l'opacite de depart, c'est-a-dire invisibles. */
+  .marcos .modale__entete, .marcos .zone-fil, .marcos .saisie, .marcos .confid,
+  .marcos .conversation__tour, .marcos .pense, .marcos .exemples .bouton { opacity: 1; }
+  .marcos .curseur { display: none; }
+}
+
+/* Une commande indisponible le dit, et garde sa place : la barre ne doit pas
+   changer de largeur selon qu'il y a ou non quelque chose a effacer. */
+.marcos .barre .bouton[disabled] { opacity: .35; cursor: default; }
+.marcos .barre .bouton[disabled]:hover { background: transparent; }
+
+/* Le focus clavier sur le buste doit se voir : il est rond, sans fond, et le
+   contour par defaut du site s'y perdrait. */
+.marcos .av:focus-visible { outline: 2px solid var(--accent-texte); outline-offset: 4px; border-radius: var(--marcos-barre-rayon); }
+
+/* Sur la couverture, MarcoS s'efface : il recouvrait « Le portfolio ↓ », qui
+   est l'entree du site. Il revient des la deuxieme planche. Le retrait porte
+   aussi sur le pointeur et le clavier — un bouton invisible ne doit etre ni
+   cliquable ni atteignable. */
+.marcos[data-retire="1"] {
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(var(--marcos-entree));
+  transition: opacity var(--marcos-t-moyen) var(--marcos-courbe),
+              transform var(--marcos-t-moyen) var(--marcos-courbe),
+              visibility 0s linear var(--marcos-t-moyen);
+}
+.marcos[data-retire="0"] {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity var(--marcos-t-moyen) var(--marcos-courbe),
+              transform var(--marcos-t-moyen) var(--marcos-rebond), visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marcos[data-retire="1"], .marcos[data-retire="0"] { transform: none; }
 }

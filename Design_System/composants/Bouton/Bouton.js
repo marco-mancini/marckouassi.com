@@ -1,10 +1,25 @@
-import { html, attributs, classes } from "../../fondations/rendu.js";
+import { html, brut, attributs, classes } from "../../fondations/rendu.js";
 
 /**
  * Icônes typographiques : présentation, pas contenu. Elles sont toujours
  * masquées des lecteurs d'écran ; le sens est porté par le texte.
  */
-const ICONES = { externe: "↗", bas: "↓", haut: "↑", retour: "←", suite: "→", fermer: "×", ouvrir: "↗", menu: "" };
+/**
+ * Glyphes typographiques pour le flux du site, et quatre tracés SVG pour les
+ * commandes de MarcoS : la maquette les dessine au trait, un caractère ne peut
+ * pas les rendre. Ils entrent ici plutôt que dans un composant parallèle — le
+ * contrat du bouton est inchangé, `ICONES[icone]` est déjà injecté en HTML.
+ */
+// `brut` : le tracé est du balisage, pas du texte. Sans lui, le gabarit
+// échappe le SVG et le visiteur lit la balise au lieu de voir l'icône.
+const trait = (d) => brut(`<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${d}"/></svg>`);
+const ICONES = {
+  externe: "↗", bas: "↓", haut: "↑", retour: "←", suite: "→", fermer: "×", ouvrir: "↗", menu: "",
+  bulle: trait("M4 5h11a4 4 0 0 1 4 4v3a4 4 0 0 1-4 4H9l-5 3z"),
+  corbeille: trait("M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"),
+  fleche: trait("M4 12h15M13 6l6 6-6 6"),
+  croix: trait("M6 6l12 12M18 6L6 18"),
+};
 const ICONES_AVANT = new Set(["retour"]);
 
 /**

@@ -106,7 +106,11 @@
       "indisponible": "MarcoS is temporarily unavailable. You can continue by e-mail.",
       "delai_depasse": "MarcoS did not answer in time. Try again, or continue by e-mail.",
       "hors_ligne": "The connection seems to be down. Please check it and try again."
-    }
+    },
+    "role": "Portfolio assistant",
+    "activite": "MarcoS activity",
+    "nouvelle": "New answer",
+    "placeholder": "Ask your question…"
   },
   "decouverte": {
     "_role": "Interface labels for the immersive journey of section 06. The narrative texts live in content/sections.json.",

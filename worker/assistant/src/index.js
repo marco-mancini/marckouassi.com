@@ -26,6 +26,8 @@ import { extraireLiens } from "./prompt.js";
 import { creerBrief } from "./qualification.js";
 import { construireCourrielBrief, envoyerAvecResend } from "./email.js";
 import { chargerConnaissancePublique } from "./connaissance.js";
+import { assembler } from "./prompt.js";
+import { creerFournisseur } from "./mistral.js";
 
 /**
  * Crée le gestionnaire. L'injection des dépendances n'est pas de la cérémonie :
@@ -121,6 +123,9 @@ export function creerGestionnaire(deps = {}) {
         systeme,
         messages,
         maxJetons: Number(env.MAX_JETONS_REPONSE ?? 180),
+        // La clé de cache de prompt porte la version et la langue (IA-05).
+        langue: requete.langue,
+        version: base._version,
       });
 
       // La réponse du modèle n'est JAMAIS rendue telle quelle : les références
@@ -146,11 +151,47 @@ export function creerGestionnaire(deps = {}) {
     } catch (cause) {
       // Jamais d'échec silencieux : on journalise le motif, sans le texte de la
       // question (décision D-10), et on rend un code stable.
-      deps.journaliser?.({ ...journal, sortie: "indisponible", motif: cause?.name ?? "erreur", ms: Date.now() - debut });
-      return erreur("indisponible", { entetes: cors });
+      //
+      // Le fournisseur sait distinguer ce que l'endpoint ne peut pas deviner :
+      // un 429 de Mistral vaut `quota_journalier`, un délai vaut
+      // `delai_depasse`. Quand il nomme son erreur par un code du contrat, on
+      // le relaie ; sinon on retombe sur `indisponible`.
+      const code = STATUTS[cause?.name] ? cause.name : "indisponible";
+      deps.journaliser?.({ ...journal, sortie: code, motif: cause?.name ?? "erreur", ms: Date.now() - debut });
+      const entetes = code === "quota_journalier" ? { ...cors, "retry-after": "3600" } : cors;
+      return erreur(code, { entetes });
     }
   };
 }
 
-export default { fetch: creerGestionnaire() };
+/**
+ * Chaîne réelle du Worker déployé.
+ *
+ * Construite une seule fois par isolat : le budget journalier vit dans le
+ * gestionnaire, et le recréer à chaque requête le remettrait à zéro — la
+ * dépense ne serait plus bornée.
+ *
+ * Sans `MISTRAL_CLE`, `creerFournisseur` rend `null` : la chaîne reste
+ * incomplète, l'endpoint répond `indisponible`, et **aucun appel réseau n'est
+ * tenté**. C'est le comportement voulu tant que Marc n'a pas fourni la clé.
+ */
+let gestionnaire = null;
+
+export function chaineReelle({ env, modeleSysteme, fetcher }) {
+  return creerGestionnaire({
+    contexte: ({ langue }) => chargerConnaissancePublique({ env, langue, ...(fetcher ? { fetcher } : {}) }),
+    assembler: ({ requete, base }) => assembler({ modele: modeleSysteme, base, requete }),
+    fournisseur: creerFournisseur({ env, ...(fetcher ? { fetcher } : {}) }),
+  });
+}
+
+/** Mémorise la chaîne par isolat. Exporté pour que les tests repartent à neuf. */
+export function reinitialiserChaine() { gestionnaire = null; }
+
+/** Point d'entrée `fetch` du Worker déployé, appelé par src/worker.js. */
+export function servir({ request, env = {}, ctx = undefined, modeleSysteme, fetcher }) {
+  gestionnaire ??= chaineReelle({ env, modeleSysteme, fetcher });
+  return gestionnaire(request, env, ctx);
+}
+
 export { STATUTS };

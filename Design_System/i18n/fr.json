@@ -105,7 +105,11 @@
       "indisponible": "MarcoS est momentanément indisponible. Vous pouvez poursuivre par e-mail.",
       "delai_depasse": "MarcoS n’a pas répondu à temps. Réessayez, ou poursuivez par e-mail.",
       "hors_ligne": "La connexion semble interrompue. Vérifiez-la, puis réessayez."
-    }
+    },
+    "role": "Assistant du portfolio",
+    "activite": "Activité de MarcoS",
+    "nouvelle": "Nouvelle réponse",
+    "placeholder": "Posez votre question…"
   },
   "decouverte": {
     "_role": "Libellés d’interface du parcours immersif de la section 06. Les textes narratifs vivent dans content/sections.json.",

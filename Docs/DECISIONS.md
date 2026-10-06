@@ -12,6 +12,269 @@ Règles :
 
 ---
 
+## 2026-10-05 — D-41 : D-9 est clos, et sa mention de confidentialité réécrite
+
+Décision de Marc (clôture demandée) · **clôt D-9** · **tient compte de D-10 et
+D-11**.
+
+**Problème.** Les trois textes de D-9 existaient depuis le 4 octobre, mais le
+projet continuait de les présenter comme du contenu à fournir, et la mention de
+confidentialité n'avait jamais été confrontée au code. Marc a demandé de vérifier
+avant d'écrire : « Ne rien inventer. »
+
+**Ce que l'audit a trouvé.** Cinq comportements, chacun lu dans le code :
+
+| Vérification | Résultat |
+|---|---|
+| Stockage navigateur | `sessionStorage` seulement — ni `localStorage`, ni IndexedDB, ni cookie. La conversation meurt avec l'onglet |
+| Stockage serveur | **aucun**. Le Worker ne déclare ni KV, ni D1, ni R2, ni Durable Object. Son unique cache porte sur la base de connaissance, qui est publique |
+| Transmission | la question **part bien** chez le fournisseur, avec le prompt système |
+| Journaux (D-10) | langue, nombre d'échanges, budget restant, code de sortie, durée. **Ni question, ni réponse** |
+| Resend | appelé seulement si le brief est exploitable **et** confirmé **et** que le visiteur a dit « oui » au recontact **et** qu'un contact existe |
+
+**Le problème que cela révèle.** La mention disait « Vos échanges avec MarcoS
+restent privés. » C'est plus que ce que le système tient : la question est
+transmise à un tiers, et le **refus d'entraînement** (D-11), bien que gratuit et
+décidé, est une bascule que Marc doit actionner dans le panneau Mistral —
+inactionnable et invérifiable depuis le dépôt.
+
+**Choix.** La mention est réécrite pour ne dire que le vérifiable :
+
+> 🔒 Vos échanges restent dans cet onglet et ne sont conservés nulle part. Votre
+> question est transmise au modèle qui y répond, et rien n'est envoyé à
+> M. Kouassi sans votre accord.
+
+**Motif.** Une promesse de confidentialité qu'on ne tient pas vaut moins que pas
+de promesse du tout. Les trois membres de phrase correspondent aux trois
+premières lignes du tableau ci-dessus, et un test les rattache un par un au code
+qui les rend vraies. Un autre test **interdit** d'écrire que les données ne
+servent pas à l'entraînement tant que D-11 n'est pas posé.
+
+**Impact.** L'accueil anglais prend la forme validée (« I'm MarcoS, Mr. Kouassi's
+assistant »). Les dix exemples sont inchangés, au mot près. Corrigé au passage :
+l'interrupteur de MarcoS s'annonçait « Afficher l'accueil animé » dans le CMS —
+le libellé de `site.intro.active`, pris par collision de nom. Il dit maintenant
+« Activer MarcoS ».
+
+**Réversibilité.** Les textes vivent dans `content/site.json` et restent
+éditables dans `/admin/`. Rien n'est figé dans le code ; seuls les tests disent
+ce qui a été validé, et ils se mettent à jour avec une décision nouvelle.
+
+---
+
+## 2026-10-05 — D-40 : la maquette d'interaction devient l'interface de MarcoS
+
+Décision de Marc · **précise D-39** (qui posait la présence flottante) ·
+maquette `marcos-maquette.html` fournie le 5 octobre.
+
+**Problème.** D-39 avait posé une présence flottante, mais dessinée par nous.
+Marc a fourni une maquette d'interaction complète — structure, proportions,
+états, animations — et demandé qu'elle devienne la référence visuelle, le vrai
+MarcoS étant branché à l'intérieur. Puis : « La maquette est juste une réponse
+UI donc toi, fait ce qui est meilleur. »
+
+**Choix.** La maquette est reprise fidèlement, sauf là où elle se trompe — et
+ces écarts sont listés plus bas, aucun n'est silencieux.
+
+**Ce qui vient de la maquette.**
+
+| Point | Ce qui est repris |
+|---|---|
+| Structure | `.marcos` → deux socles. Le buste est `position: absolute; bottom: 100 %` de son socle : il est **posé** sur son porteur. Le porteur change — la barre fermée, le panneau ouvert — donc il y a un buste par socle et un seul visible |
+| Ouverture | le buste passe sur le panneau (centré, 75 % de sa largeur), la barre se rétracte à 75 % et se centre dessous |
+| Barre | trois commandes — ouvrir, activité, effacer — deux séparateurs, fond d'encre, icônes au trait |
+| Panneau | **non modal** (`aria-modal="false"`) : le portfolio reste parcourable. Hauteur bornée, défilement interne |
+| Fil | bulles à gauche pour MarcoS, à droite pour le visiteur ; suggestions en défileur horizontal dans la bulle d'accueil ; marqueur « nouvelle réponse » ; bandeau d'erreur ; saisie d'une ligne avec compteur |
+| États | `rest · hover · open · listening · thinking · responding · end` — **sept états d'exécution**, pas dix. Les dix fichiers de `Public/Avatar_MarcoS/` restent une bibliothèque : six états déclarent une expression, `hover` retombe sur celle du repos |
+| Mouvement | respiration au repos, soulèvement au survol, balancement en réflexion, micro-mouvement en réponse, onde dont l'amplitude et le rythme suivent l'état |
+
+**Ce que Marc a demandé en plus, après la maquette.**
+
+- davantage de mouvement : ouverture en cascade (en-tête, fil, saisie, mention),
+  arrivée des bulles depuis leur côté, cascade des suggestions, curseur de
+  frappe, pulsation du bouton d'envoi, halo au survol des commandes ;
+- suggestions et mention de confidentialité en corps plus petit ;
+- **« MarcoS » s'écrit MarcoS.** La maquette force la capitale sur le nom dans
+  l'en-tête. Déformer un nom est interdit : `text-transform` est retiré.
+
+**Les quatre écarts assumés avec la maquette, et pourquoi.**
+
+| Écart | Raison |
+|---|---|
+| `end` garde le panneau ouvert | La maquette calcule `ouvert = (open\|listening\|thinking\|responding)` : `end` en est exclu, donc le panneau se refermait à la seconde où la réponse finissait de s'écrire, avant que le visiteur ait pu la lire — et le retour à `open` prévu 1,4 s plus tard ne se déclenchait jamais, puisqu'il se garde sur `ouvert`. Ici `data-ouvert` suit l'attribut `open` du `<dialog>` : une seule source, la question ne se pose plus |
+| « Effacer » est désactivé, pas masqué | La barre garde ses trois emplacements et ne change pas de largeur. Une commande indisponible le dit ; elle n'est pas un bouton mort (§6.8) |
+| Le champ a une étiquette | La maquette n'a qu'un `aria-label` et un placeholder — axe-core relève `label` et `label-title-only` en « serious ». Une étiquette invisible mais reliée corrige les deux |
+| Le compteur est annoncé | Le chiffre nu de la maquette est `aria-hidden` : il ne dit rien à un lecteur d'écran. La phrase complète du dictionnaire l'accompagne, invisible, en `aria-live` |
+
+**Ce qui n'a pas été dupliqué.** `Modale` reçoit une option `modal: false`
+plutôt qu'un second mécanisme de dialogue. `Conversation` garde sa structure —
+`role="log"`, liste de tours, étiquette de rôle — et change seulement
+d'habillage : l'étiquette devient invisible, l'alignement et la couleur la
+portent. `Bouton` gagne quatre tracés SVG dans son jeu d'icônes. `Saisie` gagne
+une invite. Aucun composant neuf.
+
+**Impact.** `assistant.active` reste à `false` : rien n'est publié. Le vrai
+pipeline est branché — endpoint, session, historique, codes d'erreur du Worker,
+liens internes validés, textes D-9 depuis le CMS, dictionnaires FR et EN.
+
+**Réversibilité.** Entière. La maquette d'origine n'est pas modifiée ; elle
+reste la référence. Revenir à l'état d'avant demande de rendre à
+`Assistant.{js,css}` leur version précédente et de retirer `modal` de `Modale`.
+
+---
+
+## 2026-10-05 — D-39 : MarcoS est une présence flottante, pas une boîte de dialogue
+
+Décision de Marc · **étend D-4** (qui donnait deux entrées) · **lève le dernier
+report de D-38** sur la présence en bas à droite.
+
+**Problème.** MarcoS n'existait que comme une modale centrée, ouverte depuis un
+lien dans Contact et un lien dans le menu. Le visiteur ne savait pas qu'il
+existait tant qu'il n'avait pas fait défiler jusqu'au pied de page. D-38 avait
+supprimé le palier qui reportait la figurine, mais rien ne l'avait implémentée :
+les dix expressions validées dormaient dans `Public/Avatar_MarcoS/`.
+
+**Options.**
+
+1. Garder la modale centrée et ajouter un simple bouton flottant.
+2. Une présence flottante en bas à droite — buste posé sur une barre compacte —
+   et un panneau **ancré** à cette présence, borné, qui ne couvre pas le
+   portfolio.
+3. Une fenêtre de chat classique plein écran.
+
+**Choix.** L'option 2. Les deux entrées de D-4 restent : il y a maintenant trois
+points d'entrée vers le même panneau.
+
+**Motif.** Marc : « il faut que MarcoS soit toujours flottant en bas droite avec
+une barre comme ça qui s'anime », puis « l'avatar doit être toujours collé sur
+le haut du cadre, jamais devant, jamais derrière mais toujours juste posé
+dessus ». L'option 3 est un rejet explicite de `MARCOS_AVATAR_UI` §14 : le
+portfolio reste prioritaire, MarcoS ne prend jamais la page.
+
+**Impact.**
+
+| Point | Ce qui est fait |
+|---|---|
+| Présence | `LanceurAssistant` : buste + barre, en bas à droite, `position: fixed` |
+| Assise du buste | posé **à plat** sur l'arête haute de la barre, `--lanceur-assise: 0` : ni devant, ni derrière, ni décollé. Les sept fichiers n'ont aucune bande transparente en bas (mesure du 4 octobre 2026), donc le contact est exact |
+| États | `repos · accueil · ecoute · reflexion · reponse · fin · erreur` — ceux de [MARCOS.md](MARCOS.md) §4. **Un seul** `data-etat`, sur `.lanceur`, pilote le buste ET la barre |
+| Panneau | nouvelle variante `modale--ancre` : `<dialog>` natif, donc piège à focus et Échap inchangés, mais posé au-dessus du lanceur, borné, fond transparent — MarcoS reste visible pendant la conversation |
+| Expressions | sept des dix fichiers validés, une par état, choisies dans [MARCOS_AVATAR_EXPRESSIONS.md](MARCOS_AVATAR_EXPRESSIONS.md) §3 ; les trois autres restent en bibliothèque |
+| Chargement | seule l'expression du repos est demandée au premier affichage ; les autres portent `hidden` et n'arrivent qu'avec leur état |
+| Données | `site.assistant.avatar.etats` dans `content/site.json` : aucun chemin de fichier en dur dans un gabarit, et le CMS laisse changer l'image d'un état |
+
+**Ce que D-39 ne tranche pas.** Le format. `MARCOS_AVATAR.md` §3 impose un carré
+512 × 512 ; les fichiers sont en 783 × 667 et montrent le personnage aux trois
+quarts, là où `MARCOS_AVATAR_UI` §3 demande un **buste** — tête et épaules, le
+visage prioritaire. À 124 px de haut, la tête reste petite. Recadrer, c'est
+choisir un cadrage, donc une décision artistique, et Marc a écrit « aucun
+traitement supplémentaire » sur les fichiers validés. Reste ouvert dans
+[#49](https://github.com/marco-mancini/marckouassi.com/issues/49).
+
+**Ce que D-38 annonçait et qui s'est révélé faux.** Le pipeline à transparence
+n'était pas à écrire : `tools/medias.mjs` garde déjà l'alpha au-delà de 5 % de
+pixels non opaques (`SEUIL_TRANSPARENCE`), et les avatars sont entre 49,5 % et
+66,8 %. Mesure après build : WebP RGBA, alpha conservé, **264 Ko** pour les sept
+expressions, contre 4,25 Mo de PNG sources.
+
+**Réversibilité.** Entière et sans migration. `assistant.active` reste à `false`
+tant que Marc ne l'active pas : rien de tout cela n'est publié aujourd'hui.
+Retirer `LanceurAssistant({...})` de `PageAccueil` et repasser la variante de la
+modale à `centre` rend l'état d'avant, les deux entrées de D-4 comprises.
+
+---
+
+## 2026-10-04 — D-38 : plus de V2, tout se fait en V1
+
+Décision de Marc · **remplace D-13** et la seconde moitié de **D-4**
+([MARCOS_DECISIONS.md](MARCOS_DECISIONS.md)).
+
+**Problème.** Le projet portait un découpage en deux temps : une V1 sans
+figurine, avec l'entrée de MarcoS dans Contact et dans le menu, puis une V2 qui
+aurait ajouté l'avatar 3D et une présence discrète en bas à droite. Ce
+découpage avait une raison — ne pas retarder une fonction qui marche en
+attendant un habillage inexistant — mais il a produit son propre coût : neuf
+documents décrivent une version future, l'issue
+[#49](https://github.com/marco-mancini/marckouassi.com/issues/49) est « reportée
+en V2 », et dix expressions d'avatar validées dorment dans le dépôt sans que
+rien ne les lise.
+
+**Choix de Marc.** **Il n'y a plus de V2.** Tout ce qui était prévu pour elle
+relève de la version en cours. Le découpage disparaît des documents ; ce qui
+reste à faire reste à faire, mais plus « plus tard par principe ».
+
+**Motif.** Une version future est une étagère commode : on y pose ce qu'on ne
+veut pas trancher. Les dix expressions sont livrées et validées depuis le
+4 octobre ; les garder derrière un palier qui n'a pas de date revient à les
+enterrer.
+
+**Impact — et ce que cette décision ne fait pas.** Elle lève un **report**, pas
+un **blocage**. Ce qui manquait à l'avatar manque toujours, et aucun de ces
+points n'est une question de calendrier :
+
+| Ce qui reste | Pourquoi ce n'est pas levé par D-38 |
+|---|---|
+| Format des fichiers | `MARCOS_AVATAR.md` §3 impose un carré **512 × 512** ; les dix expressions sont en **783 × 667**. Recadrer, c'est choisir un cadrage — une décision artistique — et Marc a écrit « aucun traitement supplémentaire » sur les fichiers validés |
+| Pipeline à transparence | `tools/medias.mjs` aplatit toute transparence sur le crème du site : publié tel quel, MarcoS apparaîtrait dans un carré crème en thème sombre |
+| Séquences d'animation | les ~230 masters n'existent pas, et leur stockage (dépôt, LFS, externe) n'est pas tranché |
+
+La **présence flottante**, elle, redevient ouverte : D-4 gardait l'entrée dans
+Contact et le menu « en V1 » et la présence en bas à droite « en V2 ». Les deux
+entrées actuelles restent en place ; ajouter la présence flottante est désormais
+une question d'implémentation, plus de palier. `MARCOS.md` §5 en garde les
+contraintes — ne pas couvrir le contenu sur téléphone, cible tactile, mouvement
+réduit.
+
+**Réversibilité.** Les documents gardent la trace du découpage dans les dossiers
+datés ; D-13 n'est pas effacée, elle est remplacée. Revenir à deux paliers
+demanderait une nouvelle décision.
+
+## 2026-10-04 — D-37 : les textes de MarcoS, et une formulation qui varie
+
+Décision de Marc · **remplace la seconde moitié de D-28**
+([MARCOS_DECISIONS_20261003.md](MARCOS_DECISIONS_20261003.md)) · met en œuvre
+**D-9**.
+
+**Problème.** D-9 réservait à Marc les trois textes de MarcoS : message
+d'accueil, exemples de questions, mention de confidentialité. Tant qu'ils
+n'existaient pas, `assistant.active` restait `false` et la fenêtre ne pouvait
+pas être montrée à un visiteur. D-28, de son côté, imposait **une phrase
+exacte** pour rendre la décision créative à M. Kouassi — ce qui, répété à
+chaque échange, devient une formule.
+
+**Choix de Marc.** Les quatre textes sont arrêtés, au mot près :
+
+| Élément | Texte validé |
+|---|---|
+| Accueil | « Bonjour 👋 Je suis MarcoS, l'assistant de M. Kouassi. En quoi puis-je vous aider ? » |
+| Exemples | dix questions, de « Qui est M. Kouassi ? » à « Quel temps fait-il aujourd'hui à Abidjan ? » |
+| Confidentialité | « 🔒 Vos échanges avec MarcoS restent privés. » |
+| Règle créative | MarcoS conseille sans imposer et **varie** la formulation qui rend la décision à M. Kouassi |
+
+Les dix exemples ne sont pas qu'un décor : les sept premiers vérifient ce que
+MarcoS sait réellement, les trois derniers ce qu'il refuse — une information
+personnelle, une information inconnue, une demande hors périmètre.
+
+**Motif.** Une phrase imposée se répète ; répétée, elle sonne faux et trahit le
+procédé. L'intention compte plus que la lettre : conseiller sans imposer, et
+reconnaître quand la décision revient à M. Kouassi. La formulation de D-28
+reste **un exemple valable**, elle n'est simplement plus la seule.
+
+**Impact.** Les textes vivent dans `content/site.json` → `assistant`, la couche
+prévue par l'architecture, et restent éditables dans `/admin/` → Paramètres. Le
+prompt système dit maintenant « varie la formulation, jamais deux fois la
+même », et il tient dans son budget : **754 jetons sur 760**. La mention de
+confidentialité reste courte et ne promet rien de technique : ni Mistral, ni
+journaux, ni jetons, ni infrastructure.
+
+**`assistant.active` reste `false`.** Les textes existent, mais l'activation est
+un geste de Marc dans Paramètres, et elle demande en outre `ASSISTANT_URL` —
+donc un Worker déployé, donc `MISTRAL_CLE`.
+
+**Réversibilité.** Les textes se modifient dans `/admin/` sans toucher au code.
+La règle créative est une phrase du prompt ; revenir à la formulation unique de
+D-28 se fait en la réécrivant.
+
 ## 2026-10-04 — D-36 : les réalisations restent repliées derrière les huit catégories
 
 Décision de Marc · issue [#123](https://github.com/marco-mancini/marckouassi.com/issues/123).

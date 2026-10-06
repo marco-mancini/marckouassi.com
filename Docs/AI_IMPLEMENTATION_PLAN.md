@@ -31,7 +31,7 @@ d'aperçu Vercel « Ready ».
 | Élément | Fourni par | Nécessaire à partir de | État |
 |---|---|---|---|
 | Décisions D-1 à D-19 | Marc | IA-01 | **acquis le 2 octobre 2026** |
-| Les trois textes de D-9 (accueil, exemples, confidentialité) | Marc, dans `/admin/` | **activation seulement** | à écrire quand il veut ; `assistant.active` reste `false` d'ici là |
+| ~~Les trois textes de D-9~~ | — | **plus un prérequis** | **D-9 CLOS le 5 octobre 2026** : les trois textes sont posés et verrouillés par des tests. Reste `assistant.active`, que Marc seul passe à `true` |
 | Compte Cloudflare **gratuit** + jeton d'API Wrangler | Marc | IA-10 (déploiement) ; le développement local n'en a pas besoin | à créer |
 | Clé API Mistral, **sur crédits gratuits, sans moyen de paiement** | Marc | IA-05 | à créer |
 | Clé Resend en permission d'envoi et adresse expéditeur d'un domaine vérifié | Marc | PM-112 (email du brief) | à créer/configurer, sans formule payante |
@@ -113,11 +113,13 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 ### IA-04 — Interface (sans clé, avec le Worker simulé)
 - Composant `Conversation` (CSS, JS, contrat `.md`) et gabarit `Assistant`
   ([AI_UX.md](AI_UX.md)).
-- **Présence flottante en bas à droite comme entrée primaire** (D-35). Contact
-  et menu restent des accès secondaires. L'asset neutre officiel #49 est utilisé,
-  sans créer de composant parallèle ; les dix expressions ne deviennent pas des
-  états runtime.
-  - Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
+- **Présence flottante en bas à droite comme entrée primaire** (D-35),
+  implémentée d'après la maquette d'interaction (D-40). Contact et le menu
+  restent des accès secondaires (D-4). Les expressions officielles de #49 sont
+  utilisées telles quelles, sans composant parallèle : six états en déclarent
+  une, et les dix fichiers restent une **bibliothèque**, pas dix états
+  d'exécution.
+- Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
   existant), à la **troisième personne et au vouvoiement** (D-15).
 - Contenu : **rien n'est écrit dans `content/site.json`.** Le bloc `assistant`
   est déclaré **facultatif** dans `tools/cms.mjs` (`FACULTATIFS.site`), donc
@@ -126,7 +128,7 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
   bloc amorcé à vide aurait perdu `accueil`, `exemples` et `confidentialite` au
   premier enregistrement — après quoi la configuration, déduite de la forme des
   données, ne les aurait plus proposés. Les trois textes restent ceux de Marc
-  (D-9) ; `active` n'existe qu'une fois qu'il les écrit.
+  (D-9, clos le 5 octobre 2026 : ils sont posés et testés).
 - Build : `ASSISTANT_URL` optionnelle ; sans elle, rien n'est rendu.
 - Tests : rien en dur, rendu sans JS, `comparer-reference` inchangé quand
   MarcoS est désactivé.
@@ -136,6 +138,26 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
   `id="assistant"` dans `_site/` — puisque ni le champ ni l'adresse n'existent.
 
 ### IA-05 — Mistral (clé Mistral, crédits gratuits)
+
+> **État au 4 octobre 2026 : l'adaptateur est écrit, testé et branché. Il
+> n'attend que `MISTRAL_CLE`.**
+>
+> `worker/assistant/src/mistral.js` implémente exactement la même interface que
+> le fournisseur simulé. `src/worker.js` — nouveau point d'entrée du déploiement
+> — importe le prompt comme module texte (règle `Text` de `wrangler.jsonc`) et
+> assemble la chaîne réelle : connaissance → prompt → fournisseur.
+>
+> **Sans la clé, rien ne casse et rien ne part** : `creerFournisseur` rend
+> `null`, la chaîne reste incomplète, l'endpoint répond `indisponible`, et
+> **aucun appel réseau n'est tenté**. Seize tests le vérifient sans clé et sans
+> réseau, `fetcher` injecté.
+>
+> Reste à faire par Marc, dans l'ordre : vérifier dans la console qu'aucun moyen
+> de paiement n'est enregistré et activer le refus d'entraînement (D-11), poser
+> le secret — `wrangler secret put MISTRAL_CLE` —, puis confirmer l'identifiant
+> du modèle avec `verifierModele()` (D-19). `MISTRAL_MODELE` vaut aujourd'hui
+> `mistral-small-2603` dans les trois environnements ; **cette valeur n'a jamais
+> été confirmée contre `/v1/models`**, faute de clé.
 - **Avant tout appel** : vérifier dans la console qu'**aucun moyen de paiement
   n'est enregistré**, et activer le **refus d'usage des données pour
   l'entraînement** (D-11). Si ce refus exige une formule payante, **arrêter** et
@@ -150,6 +172,18 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 - Mettre à jour l'architecture avec ces constats.
 
 ### IA-06 — Lecture de la base publiée (sans clé)
+
+> **État au 4 octobre 2026 : fait.** `connaissance.js` lit `version.json`
+> (cache 60 s) puis `connaissance.{langue}.json` (cache 24 h), sous la clé
+> `connaissance:{origine}:{version}:{langue}`. Une publication change la
+> version, donc la clé : **aucune invalidation à gérer**. Si le fichier devient
+> illisible, la dernière base connue de la même origine est servie plutôt que le
+> silence ; sans cache, l'erreur remonte. Treize tests couvrent cache froid,
+> cache chaud, expiration, nouvelle version, FR/EN, fichier absent, illisible,
+> tronqué, version illisible, adresse non chiffrée et absence de configuration.
+>
+> L'origine fait partie de la clé : sans elle, une adresse invalide aurait été
+> servie depuis une entrée remplie par une adresse saine.
 - Lecture de `connaissance.{langue}.json` par HTTP, cache par empreinte de
   version ([AI_DATA.md](AI_DATA.md#cache)).
 - Tests : fichier absent, fichier illisible, nouvelle version, cache froid et
@@ -190,7 +224,8 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 - Route email `POST /api/assistant/brief` : clé `RESEND_CLE` côté Worker,
   expéditeur vérifié, destinataire issu du contenu, transfert explicite et
   opt-in ; mention de confidentialité mise à jour avant activation.
-- Activation : Marc écrit ses trois textes dans `/admin/` (D-9), puis passe
+- Activation : les trois textes de D-9 sont posés depuis le 5 octobre 2026 ;
+  il reste à Marc à passer
   `assistant.active` à `true` et enregistre.
 - Vérification sur le Preview, puis en production.
 
@@ -224,11 +259,97 @@ gratuit).
 - Écrire un message d'accueil, des exemples ou une traduction à la place de Marc.
 - **Laisser MarcoS répondre en plus de trois phrases**, ou relever `max_tokens`
   au-dessus de 180 sans décision de Marc.
-- Revenir à une V1 sans présence flottante ou déplacer l'avatar en V2 : D-35
-  l'interdit.
+- Revenir à une version sans présence flottante, ou déplacer l'avatar dans un
+  palier ultérieur : D-35 l'interdit, D-38 a supprimé la V2, et D-40 a rendu la
+  présence. Seul le **cadrage** du buste reste ouvert
+  ([#49](https://github.com/marco-mancini/marckouassi.com/issues/49)).
 - Transmettre la liste des pages visitées (D-16), ou le profil personnel de
   MARCOS.md §18-25 (D-14).
 - Insérer la réponse du modèle comme HTML, ou suivre une URL qu'il a produite.
 - Conserver les conversations côté serveur ou les écrire dans les journaux.
 - Fusionner vers `main` sans Preview Ready.
 - **Étendre le travail au-delà des issues PM-109 à PM-114 sans nouvel ordre de Marc.**
+
+---
+
+## MarcoS — prêt pour la clé Mistral (4 octobre 2026)
+
+Ce qui suit répond à une seule question : **que reste-t-il à faire avant le
+premier appel réel ?** Réponse : fournir la clé.
+
+### Ce qui fonctionne déjà, sans aucune clé
+
+| Élément | État |
+|---|---|
+| Composant `Conversation`, gabarit `Assistant` | livrés, et branchés au rendu |
+| Entrées dans Contact et dans le menu (D-4) | livrées ; aucune présence flottante, aucun avatar (D-13) |
+| Dictionnaires FR/EN | livrés, clés identiques des deux côtés |
+| Champ de contenu `assistant` | proposé par le CMS sans rien écrire dans `content/site.json` |
+| Base de connaissance | publiée au build, lue et mise en cache par le Worker |
+| Validation, limites, budget journalier | livrés |
+| Fournisseur simulé | livré, compte ses appels |
+| **Fournisseur Mistral** | **livré**, même interface, éprouvé sans clé |
+| Fenêtre de chat | éprouvée au navigateur : clavier, focus, `role="log"`, erreurs, 5 largeurs, 2 thèmes, axe-core |
+
+### Comment travailler sans clé
+
+```sh
+npm test                 # tout, y compris le fournisseur Mistral (fetcher injecté)
+npm run test:navigateur  # la fenêtre de chat, réponses interceptées
+```
+
+Les tests n'appellent **jamais** le réseau. Le fournisseur simulé reste
+l'outil de développement ; il n'y a pas de troisième fournisseur, et il n'y en
+aura pas (D-2).
+
+### Comment injecter la clé, le moment venu
+
+En local, un fichier **`.dev.vars`** à la racine de `worker/assistant/` — il est
+déjà couvert par `.gitignore` (`.dev.vars*`) :
+
+```
+MISTRAL_CLE=…
+```
+
+En préproduction et en production, un secret, jamais une variable :
+
+```sh
+cd worker/assistant
+wrangler secret put MISTRAL_CLE --env preview
+wrangler secret put MISTRAL_CLE --env production
+```
+
+`MISTRAL_CLE` n'apparaît dans aucun bloc `vars` : un test du dépôt le vérifie.
+
+### Passer du fournisseur simulé au fournisseur réel
+
+Il n'y a rien à changer dans le code. `creerFournisseur({ env })` rend `null`
+tant que `MISTRAL_CLE` est absente, et le vrai fournisseur dès qu'elle existe.
+Le fournisseur simulé n'est utilisé que par les tests, qui l'injectent.
+
+### Confirmer l'identifiant du modèle (D-19)
+
+`MISTRAL_MODELE` vaut `mistral-small-2603`. **Cette valeur n'a jamais été
+confirmée** contre l'API, faute de clé. Le jour où elle existe :
+
+```js
+import { verifierModele } from "./src/mistral.js";
+await verifierModele({ env }); // { modele, present, connus }
+```
+
+Sans clé, cette fonction refuse avant tout réseau. Elle **dit** si le modèle
+existe ; elle n'en choisit jamais un autre à notre place.
+
+### Ce qui attend autre chose que la clé
+
+| Attend | Pour quoi | Bloquant pour le développement local ? |
+|---|---|---|
+| **`MISTRAL_CLE`** | le premier appel réel | **oui**, et c'est le seul |
+| ~~Les trois textes de D-9~~ | ~~activer MarcoS~~ | **CLOS le 5 octobre 2026** : posés, verrouillés par des tests, et la mention de confidentialité réécrite après audit du code |
+| Compte Cloudflare | déployer le Worker, binding de débit | non — le Worker tourne sous Node dans les tests |
+| `RESEND_CLE` | la transmission du brief par e-mail | non — route séparée, elle ne rappelle pas le modèle |
+
+Le binding de limitation de débit suit **D-6** : s'il est absent, le module le
+constate, le journalise et continue avec le budget journalier seul. Il ne fait
+jamais semblant d'avoir une protection qu'il n'a pas, et aucune option payante
+n'est utilisée.
