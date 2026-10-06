@@ -58,3 +58,26 @@ h3.carte__libelle { letter-spacing: var(--interlettrage-titre); }
 .carte--liee.est-apparu:not(:last-child)::after { animation: fleche-avance var(--duration-process-loop) var(--ease-out) calc(var(--i, 0) * var(--apparition-pas)) var(--cycles-decoratifs); }
 
 @media (max-width: 850px) { .carte--liee::after { display: none; } }
+
+/* Telephone : la note doree tombe. Le libelle porte le sens, la note etait un
+   accompagnement — et deux colonnes de cartes ne laissent pas la place aux
+   deux. Decision de Marc, prise sur le composant pour qu'elle vaille partout
+   ou la carte sert. */
+@media (max-width: 600px) {
+  .carte__note { display: none; }
+  /* Le numero quitte le filigrane du bas : petit, il remonte sur la ligne du
+     point, et le chevron prend le coin qu'il libere. Deux reperes sur une
+     meme ligne valent mieux qu'un chiffre geant derriere le libelle. */
+  /* Le numero redevient un element de la grille, dans la MEME rangee que le
+     point : pose en absolu, il se calait sur le haut de la carte, alors que
+     le contenu, lui, est aligne en bas. Les deux partagent la cellule, l'un a
+     gauche, l'autre a droite, et leurs lignes de base se repondent. */
+  .carte::before {
+    position: static; z-index: auto; grid-row: 1; grid-column: 1;
+    justify-self: end; align-self: start;
+    font-family: var(--font-mono); font-size: var(--carte-numero-taille-telephone); line-height: var(--carte-point-taille);
+  }
+  .carte__point { grid-row: 1; grid-column: 1; justify-self: start; }
+  .carte--lien::after { top: auto; bottom: var(--carte-rembourrage); }
+  .carte__note, .carte__libelle { padding-right: 0; }
+}

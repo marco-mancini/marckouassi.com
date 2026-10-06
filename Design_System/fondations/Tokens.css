@@ -605,14 +605,26 @@
      il mangeait l'ecran entier et repoussait le nom hors du premier regard. */
   --apropos-portrait-hauteur-telephone: min(38svh, 320px);
   --apropos-nom-ecart-telephone: .22em; /* espace entre les deux mots du nom, sur une ligne */
-  /* Le sol du portrait sur telephone : un filet clair au pied, et l'ombre
-     portee qui s'y ecrase. Sans eux, la silhouette detouree flottait. */
-  --apropos-sol-epaisseur: 1px;
-  --apropos-sol-hauteur-ombre: 16px;
-  --apropos-sol-largeur-ombre: 72%;
+  /* Le socle du portrait sur telephone : un trait court sous les pieds, dans
+     l'olive profond de la planche, et l'ombre qui s'y ecrase. Sans eux, la
+     silhouette detouree flottait. Court, et non pleine largeur : c'est un
+     sol, pas un filet. */
+  --apropos-sol-epaisseur: 3px;
+  --apropos-sol-largeur: 72%;
+  --apropos-sol-hauteur-ombre: 14px;
+  --apropos-sol-largeur-ombre: 64%;
+  --apropos-sol-decalage: 2%; /* le sol suit les pieds, pas le centre de la boite */
+  /* Le recit d'un jalon, sur telephone : 40 % de moins. Il accompagne le titre
+     et l'annee, il ne leur dispute pas la ligne. */
+  --jalon-recit-taille-telephone: calc(var(--type-board-copy) * .6);
+  --jalon-lieu-taille-telephone: .625rem; /* le lieu d'un jalon, sur téléphone */
+  --jalon-periode-taille-telephone: .5625rem; /* la période d'un jalon, sur téléphone */
+  --jalon-periode-air-telephone: var(--space-3); /* air entre la période et le titre */
+  /* L'accroche des réalisations, sur téléphone : 10 % de moins. */
+  --projets-accroche-taille-telephone: calc(var(--type-introduction-claim) * .9);
   /* « Bonjour, je suis » n'est qu'une entree en matiere : il laisse le nom
      tenir la ligne, sans jamais la lui disputer. */
-  --apropos-salut-taille-telephone: clamp(1.4rem, 6vw, 2.2rem);
+  --apropos-salut-taille-telephone: 11.6cqi; /* la salutation couvre exactement la largeur du nom */
   --bordure-controle: var(--ink);
   --carte-surface: var(--clair-olive);
   --carte-surface-profonde: var(--carte-sur-olive);
@@ -704,8 +716,10 @@
      deux colonnes y valent mieux qu'une liste de huit, et c'est le texte qui
      cede, pas la grille. */
   --carte-titre-taille-telephone: .95rem;
+  --carte-titre-taille-etroit: .78rem; /* libellé d'univers sous 391 px */
   --carte-note-taille-telephone: .8125rem;
   --carte-filigrane-taille-telephone: 1.6rem;
+  --carte-numero-taille-telephone: .75rem; /* le numéro d'une carte, remonté en face du point */
   /* EnTete */
   --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
   /* Galerie */

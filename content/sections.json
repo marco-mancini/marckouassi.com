@@ -258,7 +258,7 @@
           "en": "Campaign & imagery"
         },
         "note": {
-          "fr": "Transformer les idées en images.",
+          "fr": "Transformer des idées en images.",
           "en": "Turning ideas into images."
         }
       },
@@ -284,12 +284,12 @@
       },
       {
         "libelle": {
-          "fr": "IA & exploration créative",
-          "en": "AI & creative exploration"
+          "fr": "IA & créativité",
+          "en": "AI & creativity"
         },
         "note": {
-          "fr": "Imaginer ce qui n’existe pas encore.",
-          "en": "Imagining what does not exist yet."
+          "fr": "Imaginer ce qui n’existe pas.",
+          "en": "Imagining what does not exist."
         }
       }
     ]
@@ -536,8 +536,8 @@
       {
         "id": "identite-charte",
         "libelle": {
-          "fr": "Identité & charte graphique",
-          "en": "Brand identity"
+          "fr": "Identité & charte",
+          "en": "Identity & guidelines"
         },
         "note": {
           "fr": "Quand un signe devient un langage.",
@@ -551,7 +551,7 @@
       {
         "id": "campagne-publicitaire",
         "libelle": {
-          "fr": "Campagnes publicitaires",
+          "fr": "Campagnes pub",
           "en": "Advertising campaigns"
         },
         "note": {
@@ -566,7 +566,7 @@
       {
         "id": "direction-artistique",
         "libelle": {
-          "fr": "Direction artistique",
+          "fr": "Dir. artistique",
           "en": "Art direction"
         },
         "note": {
@@ -581,8 +581,8 @@
       {
         "id": "digital-ui-ux",
         "libelle": {
-          "fr": "Design digital & UI/UX",
-          "en": "Digital design & UI/UX"
+          "fr": "Digital & UI/UX",
+          "en": "Digital & UI/UX"
         },
         "note": {
           "fr": "Quand l’idée devient expérience.",
@@ -611,7 +611,7 @@
       {
         "id": "3d-production",
         "libelle": {
-          "fr": "3D & production visuelle",
+          "fr": "3D & production",
           "en": "3D & production"
         },
         "note": {
@@ -626,8 +626,8 @@
       {
         "id": "explorations-personnelles",
         "libelle": {
-          "fr": "Explorations personnelles",
-          "en": "Personal explorations"
+          "fr": "Explorations",
+          "en": "Explorations"
         },
         "note": {
           "fr": "Créer simplement par hobby.",

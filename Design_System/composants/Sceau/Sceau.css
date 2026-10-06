@@ -31,5 +31,9 @@ a.sceau { border-radius: var(--radius-full); }
 @media (prefers-reduced-motion: reduce) { .sceau--anime svg { --trace-epaisseur: 0; animation: none; } }
 html[data-animations="reduites"] .sceau--anime svg { --trace-epaisseur: 0; animation: none; }
 
-@media (max-width: 850px) { .sceau--couverture { width: var(--sceau-couverture-compact); } }
-@media (max-width: 390px) { .sceau--couverture { width: var(--sceau-couverture-telephone); } }
+/* Sous 851 px, TOUS les sceaux prennent la taille de celui de la couverture.
+   Ils valaient 76, 88 et 117 px sur un meme ecran de 390 : le monogramme est
+   une signature, il ne change pas de corps d'une planche a l'autre. La
+   couverture est la reference, c'est elle qu'on voit en premier. */
+@media (max-width: 850px) { .sceau { width: var(--sceau-couverture-compact); } }
+@media (max-width: 390px) { .sceau { width: var(--sceau-couverture-telephone); } }
