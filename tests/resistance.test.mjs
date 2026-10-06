@@ -57,7 +57,8 @@ test("11 → 12 projets : compteur, numéros, nombre en lettres et plage d'anné
   assert.equal(compteurs(page).length, total);
   assert.equal(compteurs(page).at(-1), `Projet ${String(total).padStart(2, "0")} / ${String(total).padStart(2, "0")}`);
   assert.equal(compteurs(page)[0], `Projet 01 / ${String(total).padStart(2, "0")}`);
-  assert.match(rendre(contenu).page, /Douze projets · 2022 — 2027/);
+  assert.match(rendre(contenu).page, /Douze projets/);
+  assert.match(rendre(contenu).page, /class="couverture__detail">\s*·\s*2022 — 2027</);
   assert.ok(cheminsPages(contenu).includes("projets/essai-douze/"));
   assert.match(rendre(contenu, { chemin: "projets/essai-douze/" }).page, /<h1/);
   assert.match(rendre(contenu, { langue: "en" }).page, /Twelve projects/);
