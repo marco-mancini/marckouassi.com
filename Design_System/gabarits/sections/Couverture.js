@@ -12,14 +12,22 @@ import { nombreEnLettres, plageDesProjets } from "../outils.js";
  * Un fait est soit une valeur du contenu, soit un calcul (« selection » :
  * nombre de projets en lettres et plage de leurs années), soit un lien.
  */
+/** La part d'un fait qui tombe sur un ecran etroit. */
+const detail = (contenu) => html`<span class="couverture__detail">${contenu}</span>`;
+
 export function Couverture({ section, contenu, ctx }) {
   const chemin = `sections.${section.id}`;
   const valeurFait = (fait, rang) => {
     if (fait.calcul === "selection") {
-      return ctx.t("formats.selection", { nombre: nombreEnLettres(contenu.projets.length, ctx, { majuscule: true }), plage: plageDesProjets(contenu.projets, ctx) });
+      // Le nombre d'abord, la plage ensuite : sur un ecran etroit, seule la
+      // seconde tombe. Elle est un detail, pas le fait.
+      return html`${ctx.t("formats.selection", { nombre: nombreEnLettres(contenu.projets.length, ctx, { majuscule: true }) })}${detail(ctx.t("formats.selectionPlage", { plage: plageDesProjets(contenu.projets, ctx) }))}`;
     }
     if (fait.lien) return Bouton({ texte: ctx.c(fait.lien.texte, `${chemin}.faits.${rang}.lien.texte`), variante: "texte", href: `#${fait.lien.cible}`, options: { icone: "bas" } });
-    return ctx.l(fait.valeur, `${chemin}.faits.${rang}.valeur`);
+    // Un fait peut porter un complement : la part que l'ecran etroit laisse
+    // tomber, nommee par la DONNEE et jamais devinee par le gabarit.
+    const valeur = ctx.l(fait.valeur, `${chemin}.faits.${rang}.valeur`);
+    return fait.complement ? html`${valeur}${detail(ctx.l(fait.complement, `${chemin}.faits.${rang}.complement`))}` : valeur;
   };
   const faits = section.faits.map((fait, rang) => Champ({ etiquette: ctx.c(fait.etiquette, `${chemin}.faits.${rang}.etiquette`), contenu: valeurFait(fait, rang), variante: "fait" }));
   return Planche({

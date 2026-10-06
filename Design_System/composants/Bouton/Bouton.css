@@ -51,12 +51,24 @@
 }
 
 /* Icone du menu : deux barres qui se croisent quand le menu est ouvert. */
-.bouton__barres { position: relative; display: block; width: var(--bouton-barres-largeur); height: var(--bouton-barres-hauteur); }
-.bouton__barres span { position: absolute; left: 0; width: 100%; height: var(--bouton-barres-epaisseur); background: currentColor; transition: transform var(--duration-fast) var(--ease-out), top var(--duration-fast) var(--ease-out), bottom var(--duration-fast) var(--ease-out); }
-.bouton__barres span:first-child { top: 0; }
-.bouton__barres span:last-child { bottom: 0; }
-.bouton[aria-expanded="true"] .bouton__barres span:first-child { top: var(--bouton-barres-croisement); transform: rotate(45deg); }
-.bouton[aria-expanded="true"] .bouton__barres span:last-child { bottom: var(--bouton-barres-croisement); transform: rotate(-45deg); }
+/* Trois barres inegales, alignees a gauche, qui respirent en boucle, decalees.
+   Ouvert, elles se croisent : la mediane s'efface, les deux autres pivotent. */
+.bouton__barres { display: flex; flex-direction: column; align-items: center; gap: var(--bouton-barres-ecart); }
+.bouton__barres span {
+  display: block; height: var(--bouton-barres-epaisseur); border-radius: var(--bouton-barres-epaisseur);
+  background: currentColor; transform-origin: center;
+  animation: barres-respiration var(--duration-barres-respiration) var(--ease-out) infinite;
+  transition: transform var(--duration-fast) var(--ease-out), width var(--duration-fast) var(--ease-out), opacity var(--duration-fast) var(--ease-out);
+}
+.bouton__barres span:nth-child(1) { width: var(--bouton-barres-largeur); }
+.bouton__barres span:nth-child(2) { width: var(--bouton-barres-largeur-mediane); background: var(--point-titre); animation-delay: var(--bouton-barres-decalage); }
+.bouton__barres span:nth-child(3) { width: var(--bouton-barres-largeur-basse); animation-delay: calc(var(--bouton-barres-decalage) * 2); }
+.bouton--menu { gap: 0; }
+.bouton--menu:hover { transform: scale(var(--bouton-barres-survol)); }
+.bouton[aria-expanded="true"] .bouton__barres span { animation: none; }
+.bouton[aria-expanded="true"] .bouton__barres span:nth-child(1) { width: var(--bouton-barres-largeur); transform: translateY(var(--bouton-barres-croisement)) rotate(45deg); }
+.bouton[aria-expanded="true"] .bouton__barres span:nth-child(2) { width: 0; opacity: 0; }
+.bouton[aria-expanded="true"] .bouton__barres span:nth-child(3) { width: var(--bouton-barres-largeur); transform: translateY(calc(var(--bouton-barres-croisement) * -1)) rotate(-45deg); }
 
 @media (max-width: 850px) {
   .bouton--surface.bouton--rond { width: var(--bouton-rond-surface-compact); height: var(--bouton-rond-surface-compact); }

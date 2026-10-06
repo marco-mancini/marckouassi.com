@@ -199,6 +199,9 @@
 
   /* --- Divers --- */
   --shadow-board: var(--clair-shadow-board);
+  /* Ombre portee d'une silhouette detouree sur son sol. Plus dense que l'ombre
+     d'une planche : elle doit se lire sur l'olive, pas sur le creme. */
+  --ombre-sol: rgba(20, 24, 15, .42);
   --glass-shine: var(--clair-glass-shine);
   --overlay-scrim: var(--clair-overlay-scrim);
 
@@ -569,6 +572,17 @@
   --duration-process-pulse: 2.8s;
   --type-process-ghost: clamp(2rem, 3.2vw, 2.9rem);
   --cover-padding-top-compact: 50px;
+  /* Telephone : l'ecran est haut et etroit, la couverture n'a pas a reserver
+     la place d'une composition large. Le nom monte tout en haut. */
+  /* Les trois faits de la couverture, resserres sur telephone : ils ferment la
+     page, ils ne la portent pas. */
+  --cover-fait-taille-telephone: .875rem;
+  /* Accueil anime sur telephone : la scene se resserre, la salutation cesse de
+     manger les deux mots qu'elle croise. */
+  --intro-espace-telephone: var(--space-5);
+  --intro-signature-salut-telephone: clamp(1.6rem, 7vw, 2.4rem);
+  --cover-edition-offset-telephone: var(--space-4);
+  --cover-padding-top-telephone: var(--space-4);
   --cover-padding-bottom-compact: var(--space-6);
 
 
@@ -586,6 +600,19 @@
   --planche-padding-mobile: 18px;
   /* Ecart lignes / colonnes de la ligne de credit sous 850 px. */
   --planche-credit-espace-compact: 5px 10px;
+  --planche-credit-taille-telephone: .6875rem; /* ligne de crédit sur téléphone */
+  /* Le portrait d'À propos se borne par sa HAUTEUR sur telephone : en largeur,
+     il mangeait l'ecran entier et repoussait le nom hors du premier regard. */
+  --apropos-portrait-hauteur-telephone: min(38svh, 320px);
+  --apropos-nom-ecart-telephone: .22em; /* espace entre les deux mots du nom, sur une ligne */
+  /* Le sol du portrait sur telephone : un filet clair au pied, et l'ombre
+     portee qui s'y ecrase. Sans eux, la silhouette detouree flottait. */
+  --apropos-sol-epaisseur: 1px;
+  --apropos-sol-hauteur-ombre: 16px;
+  --apropos-sol-largeur-ombre: 72%;
+  /* « Bonjour, je suis » n'est qu'une entree en matiere : il laisse le nom
+     tenir la ligne, sans jamais la lui disputer. */
+  --apropos-salut-taille-telephone: clamp(1.4rem, 6vw, 2.2rem);
   --bordure-controle: var(--ink);
   --carte-surface: var(--clair-olive);
   --carte-surface-profonde: var(--carte-sur-olive);
@@ -597,8 +624,10 @@
   --rayon-vignette-compact: 14px;
   --rayon-detail: 16px;
   --sceau-couverture: clamp(170px, 18vw, 280px);
-  --sceau-couverture-compact: 54px;
-  --sceau-couverture-telephone: 42px;
+  /* Sur telephone le sceau descend sur la ligne de DESIGN : il y tient le
+     role d'un point final, et doit donc peser autant que le mot. */
+  --sceau-couverture-compact: 96px;
+  --sceau-couverture-telephone: 76px;
   --sceau-grand: clamp(88px, 9vw, 150px);
   --sceau-moyen: clamp(88px, 9vw, 140px);
   /* Sceau de l'en-tete du CV (page document), valeur de la reference. */
@@ -610,9 +639,18 @@
   --bouton-rond-surface-compact: 46px;
   --bouton-grand: 54px;
   /* Hauteur de l'icone du menu (deux barres). */
-  --bouton-barres-hauteur: 14px;
-  --bouton-barres-largeur: 20px;
-  --bouton-barres-epaisseur: 1.5px;
+  /* Trois barres inegales, alignees a gauche, qui respirent en boucle : le
+     geste vient de la barre haute d'Anonymous, repose ici sur les jetons du
+     portfolio. La barre mediane porte le dore, comme le point d'un titre. */
+  --bouton-barres-largeur: 18px;
+  --bouton-barres-largeur-mediane: 13px;
+  --bouton-barres-largeur-basse: 15px;
+  --bouton-barres-ecart: 5px;
+  --bouton-barres-epaisseur: 2px;
+  --bouton-barres-compression: .6;
+  --bouton-barres-decalage: .3s;
+  --bouton-barres-survol: 1.06;
+  --duration-barres-respiration: 2s;
   /* Descente de chaque barre pour qu'elles se croisent au centre quand
      le menu est ouvert. */
   --bouton-barres-croisement: 6px;
@@ -653,6 +691,21 @@
   --carte-ombre-survol-flou: 38px; /* ombre de carte au survol : flou */
   --carte-ombre-survol-retrait: -20px; /* ombre de carte au survol : retrait */
   --carte-chevron-course: 0.22em; /* course du chevron d'ouverture au survol */
+  --carte-gouttiere-chevron: 1.6em; /* place reservee au chevron, a droite du libelle */
+  /* Largeur minimale d'une carte d'univers. En dessous, le libelle et sa note
+     passaient a deux lignes et la carte se serrait ; c'est la place qui decide
+     du nombre de colonnes, pas un palier ecrit. */
+  --projets-choix-colonne-min: 380px;
+  /* Note doree d'une carte : un cran sous le corps courant. Elle accompagne le
+     libelle, elle ne le concurrence pas. --accent-gold-soft mesure 4,73:1 sur
+     l'olive, le seuil du petit texte est donc tenu. */
+  --carte-note-taille: 1rem;
+  /* Les trois memes valeurs, resserrees pour la carte d'univers sur telephone :
+     deux colonnes y valent mieux qu'une liste de huit, et c'est le texte qui
+     cede, pas la grille. */
+  --carte-titre-taille-telephone: .95rem;
+  --carte-note-taille-telephone: .8125rem;
+  --carte-filigrane-taille-telephone: 1.6rem;
   /* EnTete */
   --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
   /* Galerie */

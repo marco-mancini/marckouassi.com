@@ -5,7 +5,10 @@
    et gabarits se dimensionnent d'eux-memes a partir de ces valeurs.
    ========================================================================== */
 @media (max-width: 850px) {
-  :root { --page-gutter: 14px; --header-height: 62px; --ancre-degagement: var(--space-4); --type-cover: clamp(3.05rem, 15vw, 5rem); --type-title-section: clamp(2.6rem, 10vw, 4.6rem); --type-contact-title: clamp(3rem, 13vw, 6rem); }
+  /* La signature manuscrite passait par-dessus PORTFOLIO sur un ecran etroit :
+     a cette largeur elle se pose, elle ne couvre plus. Seul le telephone est
+     concerne, le dessin d'origine tient au-dela. */
+  :root { --page-gutter: 14px; --header-height: 62px; --ancre-degagement: var(--space-4); --type-cover: clamp(3.05rem, 15vw, 5rem); --type-cover-signature: clamp(1.5rem, 6.6vw, 2.5rem); --type-title-section: clamp(2.6rem, 10vw, 4.6rem); --type-contact-title: clamp(3rem, 13vw, 6rem); }
 }
 
 @media (max-width: 390px) {

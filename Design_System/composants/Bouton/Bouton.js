@@ -41,7 +41,7 @@ export function Bouton({ texte, variante = "contour", forme = "pilule", href = n
   if (href) {
     return html`<a${attributs({ class: classe, href: desactive ? null : href, "aria-disabled": desactive ? "true" : null, "aria-busy": occupe, ...autres })}>${interieur}</a>`;
   }
-  return html`<button${attributs({ type: "button", class: classe, disabled: etat === "desactive", "aria-disabled": etat === "chargement" ? "true" : null, "aria-busy": occupe, ...autres })}>${icone === "menu" ? html`<span class="bouton__barres" aria-hidden="true"><span></span><span></span></span>` : ""}${interieur}</button>`;
+  return html`<button${attributs({ type: "button", class: classe, disabled: etat === "desactive", "aria-disabled": etat === "chargement" ? "true" : null, "aria-busy": occupe, ...autres })}>${icone === "menu" ? html`<span class="bouton__barres" aria-hidden="true"><span></span><span></span><span></span></span>` : ""}${interieur}</button>`;
 }
 
 /**

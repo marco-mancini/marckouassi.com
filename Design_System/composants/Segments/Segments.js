@@ -22,7 +22,7 @@ export function Segments({ options, etiquette, mode = "liens", cle = null, varia
     // d'écran, qui gardent le nom complet de la langue.
     const drapeau = option.drapeau ? html`<span class="segments__drapeau" aria-hidden="true">${option.drapeau}</span>` : "";
     const libelle = option.nom
-      ? html`${drapeau}<span aria-hidden="true">${option.libelle}</span><span class="visually-hidden">${option.nom}</span>`
+      ? html`${drapeau}<span class="segments__code" aria-hidden="true">${option.libelle}</span><span class="visually-hidden">${option.nom}</span>`
       : html`${drapeau}${option.libelle}`;
     return mode === "liens"
       ? html`<a${attributs({ class: "segments__option", href: option.href, hreflang: option.lang || null, lang: option.lang || null, "aria-current": option.actif ? "true" : null })}>${libelle}</a>`

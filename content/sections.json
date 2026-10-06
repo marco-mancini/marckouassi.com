@@ -35,8 +35,12 @@
           "en": "Based in"
         },
         "valeur": {
-          "fr": "Abidjan, Côte d’Ivoire",
-          "en": "Abidjan, Côte d’Ivoire"
+          "fr": "Abidjan",
+          "en": "Abidjan"
+        },
+        "complement": {
+          "fr": " · Côte d’Ivoire",
+          "en": " · Côte d’Ivoire"
         }
       },
       {
