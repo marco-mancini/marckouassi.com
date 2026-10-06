@@ -5,11 +5,14 @@
    et gabarits se dimensionnent d'eux-memes a partir de ces valeurs.
    ========================================================================== */
 @media (max-width: 850px) {
-  :root { --page-gutter: 14px; --header-height: 62px; --ancre-degagement: var(--space-4); --type-cover: clamp(3.05rem, 15vw, 5rem); --type-title-section: clamp(2.6rem, 10vw, 4.6rem); --type-project-title: clamp(2.5rem, 10vw, 4.8rem); --type-contact-title: clamp(3rem, 13vw, 6rem); }
+  /* La signature manuscrite passait par-dessus PORTFOLIO sur un ecran etroit :
+     a cette largeur elle se pose, elle ne couvre plus. Seul le telephone est
+     concerne, le dessin d'origine tient au-dela. */
+  :root { --page-gutter: 14px; --header-height: 62px; --ancre-degagement: var(--space-4); --type-cover: clamp(3.05rem, 15vw, 5rem); --type-cover-signature: clamp(1.5rem, 6.6vw, 2.5rem); --type-title-section: clamp(2.6rem, 10vw, 4.6rem); --type-contact-title: clamp(3rem, 13vw, 6rem); }
 }
 
 @media (max-width: 390px) {
-  :root { --page-gutter: 10px; --type-cover: clamp(3.35rem, 18vw, 4.5rem); --type-title-section: clamp(2.1rem, 10vw, 3.4rem); --type-project-title: clamp(2.25rem, 10vw, 3.2rem); --type-contact-title: clamp(2.7rem, 12vw, 4rem); }
+  :root { --page-gutter: 10px; --type-cover: clamp(3.35rem, 18vw, 4.5rem); --type-title-section: clamp(2.1rem, 10vw, 3.4rem); --type-contact-title: clamp(2.7rem, 12vw, 4rem); }
 }
 
 /* Ecart des liens de navigation entre le seuil du menu et 1200 px :
@@ -20,7 +23,7 @@
 }
 
 @media (min-width: 851px) and (max-width: 1080px) {
-  :root { --page-gutter: 24px; --type-cover: clamp(5rem, 13vw, 8rem); --type-project-title: clamp(3rem, 6vw, 5rem); }
+  :root { --page-gutter: 24px; --type-cover: clamp(5rem, 13vw, 8rem); }
 }
 
 /* Echelle typographique aux petites largeurs. */

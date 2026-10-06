@@ -57,6 +57,9 @@ export function liens(sections, ctx, { versAccueil = "" } = {}) {
 export function optionsLangues(ctx) {
   return ctx.langues.map((code) => ({
     libelle: ctx.dictionnaires[code].langue.code,
+    // Le drapeau vient du dictionnaire, comme le code et le nom : ajouter une
+    // langue, c'est ajouter un dictionnaire, jamais toucher à un gabarit.
+    drapeau: ctx.dictionnaires[code].langue.drapeau,
     nom: ctx.dictionnaires[code].langue.nom,
     href: ctx.pageDansLangue(code),
     lang: code,

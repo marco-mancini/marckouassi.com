@@ -2,6 +2,7 @@
   "_role": "Textes d'interface et d'accessibilite du site public, en francais. Le contenu editorial n'est PAS ici : il vit dans content/.",
   "langue": {
     "code": "FR",
+    "drapeau": "🇫🇷",
     "nom": "Français",
     "locale": "fr_FR",
     "selecteur": "Choisir la langue"
@@ -23,6 +24,14 @@
     "ouvrir": "Entrer dans le projet {titre} pour voir l’étude complète et toutes ses images",
     "fermer": "Fermer l’étude du projet",
     "images": "Images du projet",
+    "imagesAutres": "Voir les {nombre} autres images",
+    "projetPrecedent": "Projet précédent : {titre}",
+    "projetSuivant": "Projet suivant : {titre}",
+    "parcours": "Passer d’un projet à l’autre",
+    "imagePrecedente": "Image précédente",
+    "imageSuivanteSeule": "Image suivante",
+    "imageCompteur": "Image {numero} / {total}",
+    "agrandir": "Agrandir cette image",
     "role": "Mon rôle",
     "disciplines": "Disciplines",
     "periode": "Période",
@@ -31,7 +40,7 @@
     "retour": "Retour aux projets",
     "document": "Consulter le document",
     "categories": {
-      "numero": "Univers {numero}",
+      "numero": "Univers #{numero}",
       "vide": "Cet univers attend ses premières réalisations.",
       "navigation": "Parcourir les catégories de réalisations",
       "retour": "Retour aux catégories"
@@ -108,9 +117,12 @@
     "plageProjet": "{debut}–{fin}",
     "plageParcours": "{debut} — {fin}",
     "plageSelection": "{debut} — {fin}",
-    "selection": "{nombre} projets · {plage}",
+    "selection": "{nombre} projets",
+    "selectionPlage": " · {plage}",
+    "complement": " · {texte}",
     "categorieEtPeriode": "{categorie} · {periode}",
     "rubrique": "{numero} / {nom}",
+    "numeroProjet": "#{numero}",
     "titrePage": "{titre} — {nom}"
   }
 }

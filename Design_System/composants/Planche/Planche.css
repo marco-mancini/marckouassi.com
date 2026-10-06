@@ -44,3 +44,12 @@
   .planche { padding: var(--planche-padding-etroit); }
   .planche__credit { font-size: var(--type-micro); }
 }
+
+/* Telephone : la mention d'une planche tombe. Elle doublait la ligne de credit
+   sur deux rangs pour une phrase d'ambiance, quand le numero, le nom de la
+   section et la signature disent deja tout ce qu'il faut. */
+@media (max-width: 600px) {
+  .planche__credit:not(.planche__credit--deux) > :nth-child(2) { display: none; }
+  .planche__credit > :last-child:not(:first-child) { display: none; }
+  .planche__credit { font-size: var(--planche-credit-taille-telephone); }
+}

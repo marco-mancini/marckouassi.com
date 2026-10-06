@@ -10,3 +10,15 @@
 .intro__etape[data-etape="transition"] { color: var(--accent-gold); font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); text-transform: uppercase; }
 .intro__mots.est-active { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: var(--space-4) var(--space-8); margin: 0; padding: 0; list-style: none; }
 .intro__mots li { font-family: var(--font-display); font-size: var(--type-title-card); letter-spacing: var(--display-tracking); text-transform: uppercase; }
+
+@media (max-width: 600px) {
+  /* L'ecran est haut et etroit : la scene n'a pas besoin des grands ecarts
+     prevus pour un ecran large, et la salutation se pose au lieu de couvrir. */
+  .intro__scene { gap: var(--intro-espace-telephone); }
+  .intro__etape.est-active { gap: var(--space-4); }
+  .intro__scene .signature { --signature-taille-salut: var(--intro-signature-salut-telephone); }
+  /* « Passer l'introduction » tombe sur telephone : l'accueil s'y quitte par
+     son bouton d'entree, par le choix de langue, ou par Echap. Au-dela, la
+     commande reste. */
+  #intro .modale__entete [data-modale-fermer] { display: none; }
+}

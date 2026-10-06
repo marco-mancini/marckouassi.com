@@ -3,6 +3,7 @@
   "_statut": "Relu le 2 octobre 2026 (PM-065, #65) et aligné sur Docs/GLOSSAIRE_EN.md ; proposé le 30 septembre 2026, validation de Marc à venir.",
   "langue": {
     "code": "EN",
+    "drapeau": "🇬🇧",
     "nom": "English",
     "locale": "en_US",
     "selecteur": "Choose language"
@@ -24,6 +25,14 @@
     "ouvrir": "Open the project {titre} to see the full case study and all its images",
     "fermer": "Close the case study",
     "images": "Project images",
+    "imagesAutres": "See the {nombre} other images",
+    "projetPrecedent": "Previous project: {titre}",
+    "projetSuivant": "Next project: {titre}",
+    "parcours": "Move from one project to another",
+    "imagePrecedente": "Previous image",
+    "imageSuivanteSeule": "Next image",
+    "imageCompteur": "Image {numero} / {total}",
+    "agrandir": "Enlarge this image",
     "role": "My role",
     "disciplines": "Disciplines",
     "periode": "Period",
@@ -32,7 +41,7 @@
     "retour": "Back to projects",
     "document": "View the document",
     "categories": {
-      "numero": "Field {numero}",
+      "numero": "Field #{numero}",
       "vide": "This field is waiting for its first pieces of work.",
       "navigation": "Browse work categories",
       "retour": "Back to categories"
@@ -109,9 +118,12 @@
     "plageProjet": "{debut}–{fin}",
     "plageParcours": "{debut} — {fin}",
     "plageSelection": "{debut} — {fin}",
-    "selection": "{nombre} projects · {plage}",
+    "selection": "{nombre} projects",
+    "selectionPlage": " · {plage}",
+    "complement": " · {texte}",
     "categorieEtPeriode": "{categorie} · {periode}",
     "rubrique": "{numero} / {nom}",
+    "numeroProjet": "#{numero}",
     "titrePage": "{titre} — {nom}"
   }
 }

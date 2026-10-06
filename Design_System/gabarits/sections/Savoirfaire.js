@@ -17,6 +17,6 @@ export function Savoirfaire({ section, contenu, ctx }) {
   }));
   return Planche({
     ton: "olive", id: section.id, classe: "savoirfaire", credit: credit(section, contenu.sections, ctx),
-    contenu: html`<div class="savoirfaire__tete">${Titre({ texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id) })}<p class="savoirfaire__promesse texte-accroche">${section.promesse.map((temps, rang) => html`<span>${ctx.l(temps, `${chemin}.promesse.${rang}`, (t) => texteEnrichi(t, { grand: true }))}</span>`)}</p></div><div class="savoirfaire__images">${Galerie({ variante: "bande", medias: section.images.map((image, rang) => media(ctx, image, { chemin: `${chemin}.images.${rang}` })) })}</div>${Grille({ elements: domaines, colonnes: [3, 2, 1], espace: ["var(--space-5)", "var(--space-3)"] })}`,
+    contenu: html`<div class="savoirfaire__tete">${Titre({ texte: ctx.c(section.titre, `${chemin}.titre`), id: idTitre(section.id) })}<p class="savoirfaire__promesse texte-accroche">${section.promesse.map((temps, rang) => html`<span>${ctx.l(temps, `${chemin}.promesse.${rang}`, (t) => texteEnrichi(t, { grand: true }))}</span>`)}</p></div><div class="savoirfaire__images">${Galerie({ variante: "bande", medias: section.images.map((image, rang) => media(ctx, image, { chemin: `${chemin}.images.${rang}` })) })}</div>${Grille({ elements: domaines, colonnes: [3, 2, 2], espace: ["var(--space-5)", "var(--space-3)"] })}`,
   });
 }

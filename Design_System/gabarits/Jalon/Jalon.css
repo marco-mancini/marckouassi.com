@@ -23,3 +23,10 @@
   .jalon__lieu { grid-column: 2; grid-row: 1; max-width: var(--jalon-lieu-largeur-max-compact); }
   .jalon__texte { grid-column: 1 / -1; grid-row: 2; }
 }
+
+@media (max-width: 600px) {
+  .jalon__recit { font-size: var(--jalon-recit-taille-telephone); }
+  .jalon__lieu { max-width: none; align-self: center; font-size: var(--jalon-lieu-taille-telephone); white-space: nowrap; }
+  .jalon > .pastille { font-size: var(--jalon-periode-taille-telephone); }
+  .jalon__texte { margin-top: var(--jalon-periode-air-telephone); }
+}

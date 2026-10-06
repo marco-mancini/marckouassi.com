@@ -1,11 +1,16 @@
 /* ==========================================================================
    GALERIE — grille de medias, le premier mis en avant
-   apercu : trois colonnes, le premier sur deux ; au plus six medias.
-   detail : deux colonnes, le premier sur toute la largeur.
+   apercu : trois colonnes, le premier sur deux ; au plus trois medias.
+   detail : trois colonnes, deux rangees — six images d'un coup ; deux
+            colonnes sous 851 px, une sous 391 px.
    bande  : trois medias sur une ligne de hauteur fixe.
    ========================================================================== */
 .galerie { position: relative; display: grid; min-width: 0; }
 .galerie__element { min-width: 0; min-height: 0; }
+/* Filet clair autour de chaque visuel : il detache l'image de son fond sans
+   lui mettre de cadre. Pose sur l'element, pas sur le Media, pour ne pas
+   rogner le visuel ; le rayon est celui de la vignette. */
+.galerie--apercu .galerie__element, .galerie--detail .galerie__element { border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--rayon-vignette); overflow: hidden; }
 
 .galerie--apercu { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: var(--galerie-rangee-apercu); gap: var(--space-3); }
 .galerie--apercu .galerie__element--principal { grid-column: span 2; grid-row: span 2; }
@@ -13,21 +18,50 @@
 .galerie--apercu[data-nombre="1"] .galerie__element--principal { grid-column: auto; grid-row: auto; }
 .galerie--apercu[data-nombre="2"] .galerie__element--second { grid-column: 3; grid-row: span 2; }
 
-.galerie--detail { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: var(--galerie-rangee-detail); gap: var(--galerie-espace-detail); }
-.galerie--detail .galerie__element--principal { grid-column: 1 / -1; }
+.galerie--detail { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: var(--galerie-rangee-detail); gap: var(--galerie-espace-detail); }
 
 .galerie--bande { height: var(--expertise-bande-hauteur); grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); gap: var(--space-2); }
 
 .galerie__superposition { position: absolute; top: var(--galerie-superposition-decalage); right: var(--galerie-superposition-decalage); z-index: 2; }
+/* Le bouton de depliage prend toute la largeur sous la grille : il n'est pas
+   une image de plus, il est la porte vers les autres. */
+.galerie--detail .galerie__element { position: relative; }
+/* Une case qui s'agrandit le dit : le curseur change des que le navigateur
+   a pose le comportement, jamais avant. */
+.galerie--detail .galerie__element[role="button"] { cursor: zoom-in; }
+/* Zoom avant au survol, plus franc que celui d'une vignette de carte : ici
+   l'image est le sujet, pas l'illustration d'un titre. */
+.galerie--detail .galerie__element:hover .media--zoom img { transform: scale(var(--galerie-detail-zoom)); }
+.galerie__autres { display: flex; grid-column: 1 / -1; justify-content: center; }
 
 @media (min-width: 851px) and (max-width: 1080px) { .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-tablette); } }
 @media (max-width: 850px) {
   .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-mobile); gap: var(--galerie-espace-apercu-mobile); }
-  .galerie--detail { grid-auto-rows: var(--galerie-rangee-detail-mobile); gap: var(--galerie-espace-detail-mobile); }
+  .galerie--detail { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: var(--galerie-rangee-detail-mobile); gap: var(--galerie-espace-detail-mobile); }
   .galerie--bande { height: var(--galerie-bande-hauteur-mobile); }
   .galerie__superposition { top: var(--galerie-superposition-decalage-mobile); right: var(--galerie-superposition-decalage-mobile); }
 }
 @media (max-width: 390px) {
   .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-etroit); }
-  .galerie--detail { grid-auto-rows: var(--galerie-rangee-detail-etroit); }
+  .galerie--detail { grid-template-columns: minmax(0, 1fr); grid-auto-rows: var(--galerie-rangee-detail-etroit); }
+}
+
+/* --------------------------------------------------------------------------
+   VISIONNEUSE — une image en grand, et rien d'autre
+   -------------------------------------------------------------------------- */
+/* L'image au centre, une fleche de chaque cote : le geste suit la direction
+   qu'il annonce. Le clavier fait la meme chose avec les touches gauche et
+   droite. Sous 851 px les fleches passent sous l'image, ou la largeur manque. */
+.visionneuse__scene { display: grid; min-height: 0; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-4); }
+.visionneuse__image { display: grid; min-width: 0; place-items: center; }
+.visionneuse__image img { max-width: 100%; max-height: var(--visionneuse-hauteur-max); width: auto; height: auto; border-radius: var(--rayon-vignette); object-fit: contain; }
+.visionneuse__compteur { margin: 0; }
+.visionneuse__commandes { display: contents; }
+.visionneuse__commandes [data-visionneuse-precedent] { grid-column: 1; grid-row: 1; }
+.visionneuse__commandes [data-visionneuse-suivant] { grid-column: 3; grid-row: 1; }
+@media (max-width: 850px) {
+  .visionneuse__scene { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .visionneuse__commandes [data-visionneuse-precedent], .visionneuse__commandes [data-visionneuse-suivant] { grid-column: 1; grid-row: 2; }
+  .visionneuse__commandes [data-visionneuse-precedent] { justify-self: start; }
+  .visionneuse__commandes [data-visionneuse-suivant] { justify-self: end; }
 }

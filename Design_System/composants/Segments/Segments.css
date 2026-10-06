@@ -13,6 +13,9 @@
    pour tenir dans la pilule) ; sa zone cliquable, elle, garde toute la
    hauteur de la cible, sans rien changer au dessin (AGENTS.md §3.4). */
 .segments__option::after { content: ""; position: absolute; inset: calc(var(--segments-option-retrait) / -2) 0; }
+/* Drapeau : une image posee avant le code. Elle ne porte aucun sens — le nom
+   complet de la langue reste lu par les lecteurs d'ecran. */
+.segments__drapeau { margin-right: var(--segments-drapeau-espace); font-size: 1em; line-height: 1; }
 .segments__option:hover { background: var(--hover-on-dark); }
 .segments__option[aria-current="true"], .segments__option[aria-pressed="true"] { background: var(--texte); color: var(--fond); }
 
@@ -21,3 +24,18 @@
    s'empile en plusieurs rangs dans un contour unique, ce qui se lit mal.
    Les options gardent leur dessin, leur cible tactile et leur etat actif. */
 .segments--nue { display: flex; flex-wrap: wrap; padding: 0; border: 0; gap: var(--segments-espace-nue); }
+
+/* Telephone, barre du haut et menu : le selecteur ne montre plus que la langue
+   VERS LAQUELLE on va, son code seul et sans enveloppe. L'option deja active
+   ne menait nulle part et prenait la moitie de la place ; le drapeau et la
+   pilule, eux, encombraient une barre ou chaque pixel compte. Le nom complet
+   reste lu par les lecteurs d'ecran. L'accueil anime, lui, garde les deux
+   options et leurs drapeaux : c'est la qu'on CHOISIT. */
+@media (max-width: 600px) {
+  .en-tete .segments--liens,
+  #menu .segments--liens { padding: 0; border: 0; }
+  .en-tete .segments--liens .segments__option[aria-current="true"],
+  #menu .segments--liens .segments__option[aria-current="true"] { display: none; }
+  .en-tete .segments--liens .segments__drapeau,
+  #menu .segments--liens .segments__drapeau { display: none; }
+}

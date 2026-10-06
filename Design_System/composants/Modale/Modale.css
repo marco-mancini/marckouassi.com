@@ -9,6 +9,10 @@ html.has-overlay { overflow: hidden; }
 .modale { max-width: none; padding: 0; overflow: hidden; border: var(--border-hairline) solid var(--filet); color: var(--texte); background: var(--fond); }
 .modale::backdrop { background: var(--overlay-scrim); backdrop-filter: blur(var(--modale-fond-flou)); }
 .modale__entete { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+/* La croix tourne, lentement et sans fin : elle signale qu'elle est vivante
+   sans jamais attirer l'oeil plus que le contenu. La reduction de mouvement
+   l'arrete, comme toutes les autres (Motion.css). */
+.modale__entete [data-modale-fermer] .bouton__icone--fermer { display: inline-block; animation: rotation var(--duration-fermer-tour) linear infinite; }
 
 /* --- Centre --- */
 .modale--centre { width: min(var(--dialogue-largeur-max), calc(100vw - var(--dialogue-marge-ecran))); max-height: min(var(--dialogue-hauteur-ecran), var(--dialogue-hauteur-max)); border-radius: var(--radius-lg); }

@@ -41,5 +41,22 @@ export function Bouton({ texte, variante = "contour", forme = "pilule", href = n
   if (href) {
     return html`<a${attributs({ class: classe, href: desactive ? null : href, "aria-disabled": desactive ? "true" : null, "aria-busy": occupe, ...autres })}>${interieur}</a>`;
   }
-  return html`<button${attributs({ type: "button", class: classe, disabled: etat === "desactive", "aria-disabled": etat === "chargement" ? "true" : null, "aria-busy": occupe, ...autres })}>${icone === "menu" ? html`<span class="bouton__barres" aria-hidden="true"><span></span><span></span></span>` : ""}${interieur}</button>`;
+  return html`<button${attributs({ type: "button", class: classe, disabled: etat === "desactive", "aria-disabled": etat === "chargement" ? "true" : null, "aria-busy": occupe, ...autres })}>${icone === "menu" ? html`<span class="bouton__barres" aria-hidden="true"><span></span><span></span><span></span></span>` : ""}${interieur}</button>`;
+}
+
+/**
+ * Signe d'ouverture — le dessin d'un bouton, sans le bouton.
+ *
+ * Posé DANS une carte qui est déjà un lien : un vrai bouton imbriqué dans un
+ * lien n'est pas valide, et ferait une seconde cible pour la même action. Ce
+ * n'est qu'une image, donc il est masqué des lecteurs d'écran ; le nom
+ * accessible reste celui du lien qui le porte.
+ *
+ * @param {object} [p]
+ * @param {keyof ICONES} [p.icone]
+ * @param {"principal"|"contour"|"filet"|"surface"|"nu"} [p.variante]
+ * @param {string} [p.classe]   classe de placement, posée par l'appelant
+ */
+export function SigneOuverture({ icone = "ouvrir", variante = "surface", classe = "" } = {}) {
+  return html`<span class="${classes("bouton", `bouton--${variante}`, "bouton--rond", classe)}" aria-hidden="true"><span class="${classes("bouton__icone", `bouton__icone--${icone}`)}">${ICONES[icone] ?? ""}</span></span>`;
 }

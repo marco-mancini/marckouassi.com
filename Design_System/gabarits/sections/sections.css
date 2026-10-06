@@ -93,7 +93,7 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .projets__accroche-suite { max-width: var(--mesure-accroche); margin: 0; color: var(--texte-discret); }
 /* Les catégories utilisent la même Carte qu'Introduction et Savoir-faire. */
 .projets__categories { display: flex; margin: 0 0 var(--projets-filtres-marge-basse); flex: 1; }
-.projets__choix { display: grid; flex: 1; align-content: center; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--space-3); row-gap: var(--space-8); }
+.projets__choix { display: grid; flex: 1; align-content: center; grid-template-columns: repeat(auto-fit, minmax(min(var(--projets-choix-colonne-min), 100%), 1fr)); column-gap: var(--space-3); row-gap: var(--space-8); }
 .projets__choix .carte--choix { width: 100%; min-height: var(--projets-categorie-hauteur); appearance: none; font: inherit; text-align: left; cursor: pointer; }
 .projets__groupes { display: grid; gap: var(--space-8); }
 /* Pas de scroll-margin-top ici : html porte seul le dégagement d'ancre
@@ -232,7 +232,8 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .parcours__titre { margin-top: var(--parcours-titre-marge-haute-compact); }
   .projets__categories { margin-bottom: var(--projets-filtres-marge-basse-compact); }
   .planche.projets { min-height: 0; }
-  .projets__choix { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-6); }
+  /* Sous 851 px, la carte peut etre plus etroite sans que le libelle se brise. */
+  .projets__choix { --projets-choix-colonne-min: 300px; row-gap: var(--space-6); }
   .projets__choix .carte--choix { min-height: var(--projets-categorie-hauteur-compact); padding: var(--space-4); }
   .categorie-projets__entete { margin-top: var(--space-7); }
   .categorie-projets__recit { width: auto; white-space: normal; }
@@ -243,4 +244,77 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .contact__principal { padding: var(--contact-principal-padding-compact) 0; align-items: start; flex-direction: column; gap: var(--space-6); }
   .contact__pied { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
   .contact__credits { grid-column: 1 / -1; padding-top: var(--contact-credits-marge-haute-compact); text-align: left; }
+}
+
+/* Telephone : les cartes d'univers et les domaines du savoir-faire restent une
+   grille de deux colonnes plutot que de devenir une liste longue de plusieurs
+   ecrans. C'est le texte qui se resserre, pas la grille qui se defait — Marc
+   l'a tranche ainsi. */
+@media (max-width: 600px) {
+  /* À propos, maquette de Marc : la silhouette a gauche pose sur un socle
+     court, le sceau tient le haut a droite et le nom vient dessous, sur deux
+     lignes. Le texte reprend toute la largeur. Le texte et sa tete s'effacent
+     comme boites pour que les quatre pieces tombent dans la meme grille. */
+  .apropos__disposition { grid-template-columns: minmax(0, .95fr) minmax(0, 1fr); column-gap: var(--space-4); gap: 0; align-items: stretch; }
+  .apropos__texte, .apropos__tete { display: contents; }
+
+  .apropos__portrait { grid-area: 1 / 1 / 3 / 2; align-self: end; height: auto; min-height: 0; margin-bottom: 0; position: relative; }
+  .apropos__portrait .media { position: relative; z-index: 1; }
+  .apropos__portrait .media img { width: 100%; max-width: 100%; height: auto; object-fit: contain; }
+  /* L'ombre d'abord, le socle par-dessus : derriere la silhouette, les jambes
+     le coupaient en deux. */
+  .apropos__portrait::before {
+    content: ""; position: absolute; left: calc(50% + var(--apropos-sol-decalage)); bottom: 0; z-index: 0;
+    width: var(--apropos-sol-largeur-ombre); height: var(--apropos-sol-hauteur-ombre);
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, var(--ombre-sol) 0%, transparent 70%);
+  }
+  .apropos__portrait::after {
+    content: ""; position: absolute; left: calc(50% + var(--apropos-sol-decalage)); bottom: 0; z-index: 2;
+    width: var(--apropos-sol-largeur); height: var(--apropos-sol-epaisseur);
+    transform: translateX(-50%); border-radius: var(--apropos-sol-epaisseur);
+    background: var(--sombre-olive-deep);
+  }
+
+  .apropos__tete .sceau { display: block; grid-area: 1 / 2; justify-self: center; align-self: start; }
+  /* La signature est son propre conteneur de mesure : la salutation s'y cale
+     sur UNE ligne, de son B au point de KOUASSI. */
+  .apropos__tete .signature { grid-area: 2 / 2; align-self: end; container: signature / inline-size; --signature-taille-salut: var(--apropos-salut-taille-telephone); }
+  .apropos__tete .signature__salut { white-space: nowrap; }
+  .apropos__copie { grid-column: 1 / -1; }
+
+  /* Couverture : l'edition tient le coin haut droit, le nom et le titre
+     montent en haut a gauche. Les trois faits, eux, reviennent sur un seul
+     bord gauche : poses gauche / centre / droite, ils composaient trois
+     colonnes qui n'ont plus de sens des qu'elles s'empilent. */
+  .couverture__edition { margin-top: var(--cover-edition-offset-telephone); }
+  .couverture__disposition { padding-top: var(--cover-padding-top-telephone); }
+  /* Le titre s'efface comme boite : signature, role et promesse deviennent les
+     lignes de la disposition. Le sceau peut alors se caler sur le BAS de la
+     premiere ligne — celle de DESIGN — au lieu de flotter en haut. */
+  .couverture__titre { display: contents; }
+  .couverture__disposition > .signature, .couverture__role, .couverture__promesse { grid-column: 1; }
+  .couverture__sceau { grid-area: 1 / 2; align-self: end; }
+  /* Les deux faits tiennent cote a cote et ferment la couverture. Le lien
+     d'entree tombe : l'ecran suivant est a un pouce de defilement, et le menu
+     tient la navigation. */
+  .couverture__faits .grille { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .couverture__faits .grille > :nth-child(2) { text-align: left; }
+  .couverture__faits .grille > :last-child { display: none; }
+  .couverture__faits .champ--fait .champ__valeur { font-size: var(--cover-fait-taille-telephone); }
+  .couverture__detail { display: none; }
+  .projets__choix, .savoirfaire .grille {
+    --type-title-card: var(--carte-titre-taille-telephone);
+    --carte-note-taille: var(--carte-note-taille-telephone);
+    --type-process-ghost: var(--carte-filigrane-taille-telephone);
+  }
+  .projets__choix { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-5); }
+  .projets__accroche .texte-affirmation { font-size: var(--projets-accroche-taille-telephone); }
+  .projets__choix .carte__libelle { white-space: nowrap; }
+}
+
+@media (max-width: 390px) {
+  /* Deux colonnes dans 320 px : le libelle se resserre encore pour tenir sa
+     ligne, plutot que de se briser. */
+  .projets__choix { --type-title-card: var(--carte-titre-taille-etroit); }
 }
