@@ -94,6 +94,11 @@ async function main() {
   // Ni documentation (.md) ni page HTML : le Design System ne publie que des ressources.
   await copier("Design_System", "Design_System", (chemin) => !/\.(md|html)$/.test(chemin));
   await copier("Frontend/site.js", "Frontend/site.js");
+  // Les dix expressions officielles de MarcoS. Elles ne passent PAS par la
+  // table des medias : le gabarit Assistant les designe par un chemin absolu,
+  // et non par le contenu. Sans cette copie, /Avatar_MarcoS/… repond 404 le
+  // jour ou l'assistant s'affiche (PM-049).
+  await copier("Public/Avatar_MarcoS", "Avatar_MarcoS");
   // /admin/ : CMS Git (Sveltia). L'ancien back-office Supabase (tools/admin.mjs) est en sommeil.
   await construireCms({ racine: RACINE, sortie: SORTIE, contenu });
 
