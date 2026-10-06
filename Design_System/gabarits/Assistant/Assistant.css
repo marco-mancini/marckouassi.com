@@ -248,7 +248,11 @@
 .marcos .exemples .bouton {
   flex: 0 0 auto; min-height: var(--marcos-cible); padding: 0 var(--space-3);
   font-size: var(--type-micro); line-height: 1; white-space: nowrap;
-  color: var(--accent-texte);
+  /* --accent-texte tient 4,81:1 sur le creme de la page, mais la bulle est
+     posee sur --surface-alt, plus sombre : a 10 px il y tombait a 4,31, sous
+     le seuil du petit texte (mesure axe-core). --accent-label est precisement
+     l'olive assombri pour tenir ce seuil : il mesure 4,82 ici. */
+  color: var(--accent-label);
   transition: background var(--marcos-t-court), color var(--marcos-t-court), border-color var(--marcos-t-court);
 }
 .marcos .exemples .bouton:hover { background: var(--olive); color: var(--paper); border-color: var(--olive); }

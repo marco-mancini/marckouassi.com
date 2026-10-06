@@ -76,8 +76,21 @@ const attendreLeTexte = (page, extrait) => page.waitForFunction(
   (t) => [...document.querySelectorAll("#assistant .conversation__tour")].some((e) => e.textContent.includes(t)),
   extrait, { timeout: 15000 });
 
+/**
+ * D-35 : MarcoS ne se montre qu'une fois la couverture passée — posé en bas à
+ * droite, il recouvrait « Le portfolio ↓ », qui est l'entrée du site. Tant que
+ * la couverture occupe l'écran, `.marcos` porte `data-retire="1"` et reste
+ * `visibility: hidden`. Un visiteur descend avant de le voir ; le test fait
+ * donc la même chose, au lieu de cliquer dans le vide.
+ */
+async function descendreJusquaMarcoS(page) {
+  await page.evaluate(() => document.getElementById("introduction")?.scrollIntoView({ block: "start" }));
+  await page.waitForFunction(() => document.querySelector(".marcos")?.dataset.retire === "0");
+}
+
 async function ouvrirFenetre({ largeur = 1440, theme = "light", repondre } = {}) {
   const page = await ouvrir(nav, `${serveur.url}/${PAGE}`, { largeur, theme });
+  await descendreJusquaMarcoS(page);
   await page.route(`**${ENDPOINT}`, async (route) => {
     const r = repondre ?? { status: 200, json: { texte: "Réponse courte.", liens: [] } };
     await route.fulfill({ status: r.status, contentType: "application/json", body: JSON.stringify(r.json) });
@@ -159,6 +172,10 @@ test("seule l'expression du repos est chargee tant qu'aucun etat ne reclame les 
   assert.deepEqual(await chargees(), ["rest", "rest"], "une image par socle au premier affichage");
   await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.querySelector(".marcos").dataset.etat === "open");
+  // L'image est demandée à l'ouverture ; elle arrive un instant après. On
+  // attend le chargement au lieu de lire un état transitoire.
+  await page.waitForFunction(() => [...document.querySelectorAll("[data-expression]")]
+    .some((i) => i.dataset.expression === "open" && i.naturalWidth > 0), null, { timeout: 5000 });
   assert.ok((await chargees()).includes("open"), "l'expression d'ouverture n'est demandée qu'à l'ouverture");
   await page.fermer();
 });
@@ -297,6 +314,7 @@ test("la fenêtre existe en anglais avec les mêmes repères", async () => {
   const anglais = path.resolve("_site", "essai-assistant-en.html");
   fs.writeFileSync(anglais, String(PageAccueil({ contenu: { ...contenu, site }, ctx })), "utf8");
   const page = await ouvrir(nav, `${serveur.url}/essai-assistant-en.html`, { largeur: 1440 });
+  await descendreJusquaMarcoS(page);
   assert.equal(await page.locator('[data-modale-ouvrir="assistant"]').count(), 5);
   await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
@@ -341,11 +359,18 @@ test("accessibilité axe-core de la fenêtre ouverte : aucune violation grave ou
     await page.fill("#assistant-question", "Qui est M. Kouassi ?");
     await page.click("[data-assistant-envoyer]");
     await page.waitForFunction(() => document.querySelectorAll("#assistant .conversation__tour").length === 2);
+    // Les bulles entrent en fondu : mesurer pendant, c'est mesurer une couleur
+    // composite. axe lisait #f0f1e2 sur #687752 — 4,23 — là où la bulle posée
+    // vaut --paper sur --olive, soit 6,09. On attend qu'elles soient en place.
+    await attendreLaFinDesAnimations(page);
     await page.addScriptTag({ content: axe });
-    const violations = await page.evaluate(async () => (await window.axe.run("#assistant", { resultTypes: ["violations"] }))
+    const trouvees = await page.evaluate(async () => (await window.axe.run("#assistant", { resultTypes: ["violations"] }))
       .violations.filter((v) => ["serious", "critical"].includes(v.impact))
-      .map((v) => `${v.id} (${v.nodes.length})`));
-    assert.deepEqual(violations, [], theme);
+      .map((v) => ({ cle: `${v.id} (${v.nodes.length})`, ou: v.nodes.map((n) => `${n.target[0]} — ${(n.failureSummary || "").split("\n")[1] || ""}`) })));
+    const violations = trouvees.map((v) => v.cle);
+    // Le détail voyage avec l'échec : une violation sans son élément oblige à
+    // tout refaire à la main pour la retrouver.
+    assert.deepEqual(violations, [], `${theme} : ${JSON.stringify(trouvees, null, 1)}`);
     await page.fermer();
   }
 });
