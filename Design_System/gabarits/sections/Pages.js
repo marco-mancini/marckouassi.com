@@ -17,6 +17,7 @@ import { Gabarit_Projet, vueProjet, parcours } from "../Gabarit_Projet/Gabarit_P
 import { Visionneuse } from "../../composants/Galerie/Galerie.js";
 import { Intro } from "../Intro/Intro.js";
 import { Assistant } from "../Assistant/Assistant.js";
+import { Maintenance } from "../Maintenance/Maintenance.js";
 import { media } from "../outils.js";
 import { Document, enTeteEtMenu, enTeteDocument, optionsLangues, credit } from "./commun.js";
 import { Couverture } from "./Couverture.js";
@@ -49,6 +50,17 @@ export function PageAccueil({ contenu, ctx }) {
   return Document({
     ctx, meta: meta(contenu, ctx),
     corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${Visionneuse({ ctx })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx), contenu })}${Assistant({ assistant: contenu.site.assistant, ctx, endpoint: ctx.assistantEndpoint })}`,
+  });
+}
+
+/**
+ * Page de maintenance : rendue à chaque adresse publique quand le mode est
+ * coché dans le CMS. Jamais indexée : l'index garde les vraies pages.
+ */
+export function PageMaintenance({ contenu, ctx }) {
+  return Document({
+    ctx, meta: { ...meta(contenu, ctx, { chemin: ctx.chemin }), titre: ctx.t("formats.titrePage", { titre: ctx.t("maintenance.titre"), nom: contenu.site.identite.nom }), robots: "noindex" },
+    corps: Maintenance({ site: contenu.site, ctx, langues: optionsLangues(ctx) }),
   });
 }
 

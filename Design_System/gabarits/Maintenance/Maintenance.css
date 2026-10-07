@@ -1,0 +1,12 @@
+/* ==========================================================================
+   MAINTENANCE — la page unique du site en maintenance (Maintenance.js)
+   Plein ecran olive, le sceau au centre ; l'apparence vient des composants
+   (Sceau, Titre, Segments, Bouton) et de l'ilot olive.
+   ========================================================================== */
+.maintenance { display: flex; flex-direction: column; min-height: 100svh; padding: var(--space-4) var(--page-gutter); background: var(--fond); color: var(--texte); }
+.maintenance:focus { outline: none; }
+.maintenance__langues { display: flex; justify-content: flex-end; }
+.maintenance__coeur { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-5); width: min(100%, var(--maintenance-largeur-max)); margin-inline: auto; padding-block: var(--space-6); text-align: center; }
+.maintenance__coeur .sceau { width: var(--maintenance-sceau-taille); margin-block-end: var(--space-3); }
+.maintenance__etiquette { margin: 0; font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--intro-entrer-interlettrage); text-transform: uppercase; color: var(--texte-etiquette); }
+.maintenance__texte { max-width: var(--maintenance-texte-largeur); margin: 0; font-size: var(--type-board-copy); color: var(--texte-discret); }

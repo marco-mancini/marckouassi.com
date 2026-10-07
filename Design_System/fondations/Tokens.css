@@ -596,6 +596,10 @@
   --intro-fleche-course: .3em; /* sa descente */
   --intro-fleche-duree: 1.4s;
   --intro-entrer-interlettrage: .18em;
+  /* Page de maintenance (gabarits/Maintenance) */
+  --maintenance-sceau-taille: clamp(120px, 30vmin, 220px);
+  --maintenance-largeur-max: 52rem;
+  --maintenance-texte-largeur: 38ch;
   --cover-edition-offset-telephone: var(--space-4);
   --cover-padding-top-telephone: var(--space-4);
   --cover-padding-bottom-compact: var(--space-6);

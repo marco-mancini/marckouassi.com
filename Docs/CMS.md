@@ -95,7 +95,13 @@ et les aides viennent de `Design_System/i18n/admin.fr.json` (« champs »,
   suivant.
 - Champs facultatifs proposés même vides : image de partage (`seo.image`),
   CV à télécharger (`site.contact.cv`), document joint d'un projet, image
-  d'attente d'une vidéo.
+  d'attente d'une vidéo, MarcoS, **mode maintenance** et **mesure
+  d'audience**. Un champ déclaré l'emporte sur la déduction.
+- **Mode maintenance** (Paramètres du site → Mode maintenance) : cochée,
+  la case remplace toutes les pages publiques par la page de maintenance
+  au build suivant ; `/admin/` reste ouvert pour la décocher (D-38).
+- **Mesure d'audience** (`mesure.ga4`) : identifiant Google Analytics 4 ;
+  vidé, plus aucune mesure (D-38).
 - **Disciplines d'un projet** (`projets[].categories`) : choix multiple, et
   non saisie libre. Les options sont le catalogue lui-même
   (`sections[sommaire].categories`), libellés français compris. Saisi

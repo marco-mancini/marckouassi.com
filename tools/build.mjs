@@ -94,6 +94,7 @@ async function main() {
   // Ni documentation (.md) ni page HTML : le Design System ne publie que des ressources.
   await copier("Design_System", "Design_System", (chemin) => !/\.(md|html)$/.test(chemin));
   await copier("Frontend/site.js", "Frontend/site.js");
+  await copier("Frontend/mesure.js", "Frontend/mesure.js");
   // Les dix expressions officielles de MarcoS. Elles ne passent PAS par la
   // table des medias : le gabarit Assistant les designe par un chemin absolu,
   // et non par le contenu. Sans cette copie, /Avatar_MarcoS/… repond 404 le
