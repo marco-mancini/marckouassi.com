@@ -98,8 +98,8 @@ retombe sur celle du repos, et trois expressions ne servent à aucun état.
 | `open` | le panneau s'ouvre | Bienvenue | l'onde se met en veille |
 | `listening` | le visiteur écrit | À l'écoute | l'onde s'accélère |
 | `thinking` | la demande part | Réflexion | **mouvement différent** : le buste se balance, l'onde ralentit et change de teinte. Une bulle de trois points tient la place de la réponse |
-| `responding` | la réponse arrive | Idée / suggestion | micro-mouvement du buste, onde pleine ; le texte s'écrit lettre à lettre, curseur compris |
-| `end` | la réponse est écrite, 1,4 s | Succès / félicité | tout ralentit, puis retour à `open` |
+| `responding` | la réponse arrive | Idée / suggestion | micro-mouvement du buste, onde pleine ; la réponse se pose **entière, d'un seul coup**, et l'état tient 1,4 s |
+| `end` | 1,4 s après `responding` | Succès / félicité | tout ralentit, puis retour à `open` après 1,4 s |
 
 Un seul `data-etat`, sur `.marcos`, pilote le buste, la barre et le panneau.
 Aucune animation ne tourne sans rapport avec l'état réel.
@@ -129,8 +129,8 @@ débordement du viewport, champ de saisie toujours atteignable.
 - `aria-expanded`, `aria-haspopup="dialog"`, `aria-controls` sur les trois
   entrées ; Échap ferme ; le focus revient à la barre ;
 - `prefers-reduced-motion` coupe **toutes** les boucles et toutes les entrées
-  animées, et la frappe progressive est désactivée côté script : le texte
-  arrive d'un coup. Les éléments restent à leur place, visibles.
+  animées. Les éléments restent à leur place, visibles. Il n'y a pas de frappe
+  progressive à désactiver : la réponse arrive entière dans tous les cas.
 
 ### Performance
 
@@ -291,15 +291,11 @@ le Worker ne renvoie que le code.
 - Ordre : fermer, effacer, journal, exemples, champ, envoyer.
 - Le focus ne quitte pas le champ après un envoi ; la réponse est annoncée par
   le journal, sans voler le focus.
-- Les réponses ne sont **pas diffusées en flux** : le Worker rend la réponse
-  entière, en une fois. **Point ouvert, à arbitrer par Marc :** depuis D-40, le
-  texte reçu s'écrit ensuite lettre à lettre dans le journal `role="log"`
-  `aria-live="polite"`. L'annonce unique et complète que promettait cette ligne
-  n'est donc plus garantie pour un lecteur d'écran, qui peut recevoir des
-  fragments. La correction connue est peu coûteuse — écrire progressivement dans
-  un nœud `aria-hidden` et ne livrer le texte complet au nœud annoncé qu'une
-  fois — mais elle touche le rendu validé de la maquette, et n'est pas prise
-  d'office.
+- Les réponses sont annoncées **une fois, complètes**. Ni diffusion en flux
+  depuis le Worker, ni écriture progressive dans le navigateur : le journal
+  `role="log"` `aria-live="polite"` reçoit le texte entier en une mutation. Une
+  écriture caractère par caractère dans cette région ferait lire des fragments
+  (#168).
 - Langue : chaque tour porte `lang` si sa langue diffère de celle de la page.
 
 ## Mobile et bureau
@@ -319,20 +315,23 @@ le Worker ne renvoie que le code.
 
 Celles de la maquette, décrites plus haut (§ Le mouvement) : cascade
 d'ouverture, bulles arrivant de leur côté, cascade des suggestions, onde
-d'activité, curseur de frappe, pulsation du bouton d'envoi, halo au survol.
+d'activité, pulsation du bouton d'envoi, halo au survol.
 `prefers-reduced-motion` et `data-animations="reduites"` coupent toutes les
-boucles et toutes les entrées animées, et désactivent la frappe progressive :
-le texte arrive d'un coup, les éléments restent à leur place.
+boucles et toutes les entrées animées : les éléments restent à leur place.
 
-> **Corrigé le 7 octobre 2026.** Ce paragraphe disait « Aucun effet de frappe,
-> aucune pulsation, aucun indicateur décoratif » — la règle du 2 octobre. **D-40
-> (5 octobre, maquette validée par Marc) autorise explicitement le curseur de
-> frappe, la pulsation du bouton d'envoi et l'onde d'activité**
-> ([DECISIONS.md](DECISIONS.md)). Le code les implémente depuis cette décision :
-> le paragraphe contredisait à la fois la décision et le code. Les autres
-> interdits restent entiers : **ni dégradé, ni glassmorphism, ni lueur, ni néon,
-> ni carte générique de SaaS, aucune couleur et aucune typographie étrangères au
-> Design System.**
+**Aucun effet de frappe, dans aucune version.** L'interdit est sans réserve.
+Il ne porte pas que sur le goût : le texte de la réponse vit dans une région
+`aria-live`, et l'écrire caractère par caractère y fait lire des fragments.
+
+> **Tranché par Marc le 7 octobre 2026** (#168). Le lot de la maquette avait
+> introduit une écriture lettre à lettre de la réponse, à 18 ms par caractère,
+> et ce document avait été aligné sur elle au motif que D-40 listait un
+> « curseur de frappe » parmi les animations validées. Marc a tranché
+> l'inverse : **c'est une régression, pas un arbitrage.** L'écriture
+> progressive est retirée du code, et l'interdit reprend sa forme d'origine.
+> Les autres interdits n'ont jamais bougé : ni dégradé, ni glassmorphism, ni
+> lueur, ni néon, ni carte générique de SaaS, aucune couleur et aucune
+> typographie étrangères au Design System.
 
 ## Sans JavaScript, ou si MarcoS est indisponible
 
