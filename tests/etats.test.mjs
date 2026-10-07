@@ -96,3 +96,25 @@ test("maintenance : l'état « Maintenance » au même gabarit, titre h1", () =>
   assert.match(page, /<h1 class="message__titre"><span class="message__or">Main<\/span>tenance/);
   assert.match(page, /sceau--humeur sceau--bati/);
 });
+
+test("mode sceau « nu » : le même gabarit sans son îlot, pour MarcoS (#166)", () => {
+  // Le besoin : le panneau de MarcoS est déjà une surface à lui. Un second fond
+  // plein à l'intérieur ferait une boîte dans une boîte.
+  const nu = String(Message({ type: "chargement", titre: "*Char*gement", texte: "Phrase.", mode: { sceau: "chargement", compact: true, nu: true } }));
+  assert.match(nu, /class="message message--chargement message--sceau message--compact message--nu"/);
+  assert.doesNotMatch(nu, /ilot-olive/, "l'îlot tombe, donc les couleurs du thème s'appliquent");
+
+  // Ce qui NE change pas : le sceau, son humeur, son animation, le titre bicolore.
+  assert.match(nu, /class="sceau sceau--grand sceau--humeur sceau--chargement"[^>]*data-sceau-auto/);
+  assert.match(nu, /<span class="message__or">Char<\/span>gement/);
+  assert.match(nu, /<p class="message__phrase">Phrase\.<\/p>/);
+
+  // Le défaut reste l'îlot : aucun état du site existant ne bouge.
+  const habituel = String(Message({ type: "erreur", titre: "*In*disponible", texte: "Phrase.", mode: { sceau: "panne", compact: true } }));
+  assert.match(habituel, /ilot-olive/);
+  assert.doesNotMatch(habituel, /message--nu/);
+
+  // Le fond est bien retiré, et la couleur héritée.
+  const css = fs.readFileSync("Design_System/composants/Message/Message.css", "utf8");
+  assert.match(css, /\.message--nu \{ background: transparent; color: inherit; \}/);
+});

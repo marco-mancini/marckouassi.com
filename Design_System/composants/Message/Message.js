@@ -12,17 +12,27 @@ const ROLES = { erreur: "alert", succes: "status", info: "status", attention: "s
  * @param {string|null} [p.titre]
  * @param {string} p.texte
  * @param {*} [p.action]                         Bouton éventuel (ex. « Ajouter un projet »)
- * @param {"encart"|"toast"|{sceau:string, compact?:boolean, toast?:boolean, niveau?:number}} [p.mode]
+ * @param {"encart"|"toast"|{sceau:string, compact?:boolean, toast?:boolean, niveau?:number, nu?:boolean}} [p.mode]
  *        objet : l'état du site (#162) — sceau animé de l'humeur `sceau` (Sceau, HUMEURS),
  *        titre bicolore, phrase, actions ; même gabarit partout. `compact` : en petit
  *        (conversation, média, bas d'écran) ; `toast` : entrée d'un toast ; `niveau` :
- *        le titre devient un titre hN (page entière : 1).
+ *        le titre devient un titre hN (page entière : 1) ; `nu` : voir ci-dessous.
+ *
+ *        `nu` — le même gabarit SANS son îlot olive : le sceau animé, le titre et
+ *        la phrase se posent directement sur le fond qui les accueille. C'est ce
+ *        dont MarcoS a besoin : son panneau est déjà une surface à lui, et un
+ *        second fond plein à l'intérieur ferait une boîte dans une boîte. Les
+ *        tailles, l'animation et le titre bicolore ne changent pas — seuls le
+ *        fond et le contexte de couleurs tombent, donc les textes reprennent
+ *        ceux du thème au lieu de ceux de l'olive.
  */
 export function Message({ type = "info", titre = null, texte, action = null, mode = "encart" }) {
   if (mode && typeof mode === "object") {
     // Page entière (404, maintenance) : le titre est le h1 de la page.
     const balise = mode.niveau ? `h${mode.niveau}` : "p";
-    return html`<div${attributs({ class: classes("message", `message--${type}`, "message--sceau", mode.compact && "message--compact", mode.toast && "message--toast", "ilot-olive"), role: ROLES[type], "aria-busy": type === "chargement" ? "true" : null })}>${Sceau({ taille: "grand", anime: mode.sceau, auto: true })}${titre ? html`<${brut(balise)} class="message__titre">${titreBicolore(titre)}</${brut(balise)}>` : ""}<p class="message__phrase">${texte}</p>${action ? html`<div class="message__action">${action}</div>` : ""}</div>`;
+    // `nu` retire l'îlot olive ET sa classe : sans elle, les variables de
+    // couleur ne sont pas redéfinies, et le contenu lit celles du thème.
+    return html`<div${attributs({ class: classes("message", `message--${type}`, "message--sceau", mode.compact && "message--compact", mode.toast && "message--toast", mode.nu ? "message--nu" : "ilot-olive"), role: ROLES[type], "aria-busy": type === "chargement" ? "true" : null })}>${Sceau({ taille: "grand", anime: mode.sceau, auto: true })}${titre ? html`<${brut(balise)} class="message__titre">${titreBicolore(titre)}</${brut(balise)}>` : ""}<p class="message__phrase">${texte}</p>${action ? html`<div class="message__action">${action}</div>` : ""}</div>`;
   }
   return html`<div${attributs({ class: classes("message", `message--${type}`, `message--${mode}`), role: ROLES[type], "aria-busy": type === "chargement" ? "true" : null })}><div class="message__texte">${titre ? html`<p class="message__titre">${titre}</p>` : ""}<p>${texte}</p></div>${action ? html`<div class="message__action">${action}</div>` : ""}</div>`;
 }

@@ -48,5 +48,15 @@
 .message--compact .message__titre { font-size: var(--message-compact-titre); }
 .message--compact .message__phrase { font-size: var(--type-body-compact); }
 .message__adresse { flex-basis: 100%; font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--message-adresse-interlettrage); color: var(--texte-discret); user-select: all; }
+/* NU — le meme gabarit sans son ilot. Le sceau, le titre et la phrase se posent
+   directement sur le fond qui les accueille.
+
+   C'est ce dont MarcoS a besoin : son panneau est deja une surface a lui, et un
+   second fond plein a l'interieur ferait une boite dans une boite. Rien d'autre
+   ne change : memes tailles, meme animation, meme titre bicolore. Comme la
+   classe « ilot-olive » n'est pas posee, les variables de couleur ne sont pas
+   redefinies et le contenu lit celles du theme — clair comme sombre. */
+.message--nu { background: transparent; color: inherit; }
+
 /* Toast d'etat : pose sur des planches olive, il s'en detache par un filet et une ombre. */
 .message--sceau.message--toast { border: var(--border-hairline) solid var(--filet); box-shadow: 0 var(--shadow-board-y) var(--shadow-board-flou, var(--space-6)) var(--shadow-signature); }
