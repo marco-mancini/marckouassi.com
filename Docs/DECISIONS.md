@@ -23,6 +23,24 @@ Règles :
 
 ---
 
+## 2026-10-07 — Les périodes des projets sont celles du site, et la liste éditoriale se trompait
+
+Décision de Marc, en conversation à 20 h 10 · issue [#29](https://github.com/marco-mancini/marckouassi.com/issues/29) (PM-029).
+
+**Problème.** `CONTENT_CHECKLIST.md` et `content/projets.json` divergeaient sur trois périodes : World Cola (liste 2024 / site 2024–2025), La Béninoise (2023 / 2024–2025), ANACADI (2024 / 2025). La liste éditoriale qualifiait d'ailleurs huit des onze périodes d'« estimées ». La chronologie du CV ne départageait pas les deux valeurs, et aucune date ne pouvait être inventée (AGENTS.md §1.4).
+
+**Options.** 1. Retenir la liste éditoriale et corriger le contenu. 2. Retenir le contenu et corriger la liste. 3. Demander à Marc les dates exactes, projet par projet.
+
+**Choix de Marc : option 2.** « On utilise les dates du site, elles sont correctes. » Les onze périodes de `content/projets.json` sont confirmées **telles quelles**.
+
+**Motif.** Le contenu est la seule source de vérité du contenu (AGENTS.md §5.2) ; la liste de `CONTENT_CHECKLIST.md` n'en est qu'un reflet. C'est donc le reflet qui était faux, et le réparer ne touche à aucune donnée publiée.
+
+**Impact.** **Aucune ligne de `content/projets.json` n'est modifiée** — vérifié projet par projet : les onze valeurs correspondent exactement à celles que Marc a énumérées. `CONTENT_CHECKLIST.md` remplace sa liste par un tableau des onze périodes, retire toutes les mentions « estimée », et sa section « Points à confirmer » devient vide. Le document dit désormais explicitement qu'en cas d'écart, c'est le contenu qui fait foi.
+
+**Réversibilité.** Totale : les périodes s'éditent dans `/admin/`, champ `annees` de chaque projet.
+
+---
+
 ## 2026-10-07 — D-39 : un seul gabarit pour tous les états du site, animé par le sceau
 
 Décision de Marc, maquette validée en trois versions · issue [#162](https://github.com/marco-mancini/marckouassi.com/issues/162).

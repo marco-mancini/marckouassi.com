@@ -4,14 +4,29 @@ Les principaux projets présentés sur le site s’appuient sur les visuels et l
 
 ## Projets et périodes
 
-- FIFA 26 — campagne publicitaire pour Orange Sénégal, sponsor de la Coupe du monde 2026 ; année : 2026.
-- World Cola — campagne Ramadan pour SOBEBRA au Bénin ; période estimée : 2024.
-- La Béninoise — campagne de marque ; période estimée : 2023.
-- ANACADI — campagne pour la Journée d’excellence de la Région du Gbêkê ; période estimée : 2024.
-- CEELI Group — identité et charte graphique complète, projet distinct d’ANACADI ; période estimée : 2023.
-- VELANOVA — identité pour le lancement d’un projet d’équipements sportifs ; février 2025.
-- AUREX, FEROV, VOON et TP Solutions — périodes estimées à partir du parcours professionnel de Marc.
-- CI20 Connect — expérience UX/UI ; période estimée : 2025–2026.
+**Confirmées par Marc le 7 octobre 2026** (PM-029, [#29](https://github.com/marco-mancini/marckouassi.com/issues/29)) : « On utilise les dates du site, elles sont correctes. » Plus aucune période n'est estimée.
+
+La source est `content/projets.json`, champ `annees` de chaque projet. Cette liste en est le reflet, pas une seconde source : en cas d'écart, c'est le contenu qui fait foi.
+
+| Projet | Période | Nature |
+|---|---|---|
+| Orange Sénégal · FIFA 26 | 2026 | campagne publicitaire, sponsor de la Coupe du monde 2026 |
+| World Cola · Ramadan | 2024–2025 | campagne Ramadan pour SOBEBRA au Bénin |
+| La Béninoise | 2024–2025 | campagne de marque |
+| ANACADI | 2025 | campagne pour la Journée d'excellence de la Région du Gbêkê |
+| CEELI Group | 2023 | identité et charte graphique complète, projet distinct d'ANACADI |
+| VELANOVA | 2025 | identité pour le lancement d'un projet d'équipements sportifs |
+| AUREX | 2023 | identité |
+| FEROV | 2023 | identité |
+| VOON | 2022 | identité |
+| TP Solutions | 2023 | identité |
+| CI20 Connect | 2025–2026 | expérience UX/UI |
+
+> **D'où venaient les contradictions.** Trois projets différaient entre cette
+> liste et les données du site : World Cola, La Béninoise et ANACADI. L'arbitrage
+> du 7 octobre tranche que **c'était cette liste éditoriale qui se trompait**,
+> pas le contenu. Les onze périodes de `content/projets.json` sont confirmées
+> telles quelles, et **aucune n'a été modifiée**.
 
 ## Informations personnelles
 
@@ -35,7 +50,5 @@ Les principaux projets présentés sur le site s’appuient sur les visuels et l
 
 ## Points à confirmer
 
-- Périodes : trois projets diffèrent entre cette liste et les données du site, reprises telles quelles de l’ancienne page. À trancher par Marc, sans rien modifier d’ici là (PM-029, #29) :
-  - World Cola : liste 2024, site 2024–2025 ;
-  - La Béninoise : liste 2023, site 2024–2025 ;
-  - ANACADI : liste 2024, site 2025.
+Aucun. Le dernier — les périodes des projets — a été tranché par Marc le
+7 octobre 2026 (PM-029), en faveur des données du site.
