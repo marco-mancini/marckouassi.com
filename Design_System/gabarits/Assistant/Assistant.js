@@ -39,9 +39,13 @@ export const ETATS_OUVERTS = new Set(["open", "listening", "thinking", "respondi
 
 /**
  * Délais repris de la maquette, en millisecondes : la durée de l'état « end »
- * avant le retour au panneau ouvert, et le pas de la frappe progressive.
+ * avant le retour au panneau ouvert.
+ *
+ * Il n'y a PAS de pas de frappe. `AI_UX.md` interdit l'effet de frappe sans
+ * réserve et dans toutes les versions, et la réponse doit être annoncée une
+ * fois, complète (#168).
  */
-export const DELAIS = { fin: 1400, frappe: 18 };
+export const DELAIS = { fin: 1400 };
 
 /** En dessous de ce nombre de caractères restants, le compteur alerte. */
 export const SEUIL_COMPTEUR = 30;
@@ -154,7 +158,12 @@ export function Assistant({ assistant, ctx, endpoint }) {
     <div class="erreur" data-assistant-erreur role="alert"></div>
     <div class="saisie">
       <label class="visually-hidden" for="assistant-question">${t("question")}</label>
-      ${Saisie({ id: "assistant-question", type: "texte", options: { nom: "question", etat: { aide: true }, invite: t("placeholder") } })}
+      ${/* `long`, 3 lignes : c'est le contrat d'AI_UX.md (« Champ de question |
+            Champ + Saisie | formulaire + long (3 lignes) »). La maquette
+            dessinait une ligne, donc un `input` — et un `input` ne peut PAS
+            contenir de retour à la ligne, ce qui rendait « Maj + Entrée passe à
+            la ligne » impossible à tenir, quoi que fasse le script (#168). */ ""}
+      ${Saisie({ id: "assistant-question", type: "long", options: { nom: "question", lignes: 3, etat: { aide: true }, invite: t("placeholder") } })}
       <span class="compteur" data-assistant-compteur aria-hidden="true" data-limite="0">${String(LONGUEUR_MAX)}</span>
       <span class="visually-hidden" id="assistant-question-aide" data-assistant-aide aria-live="polite">${t("aide", { n: LONGUEUR_MAX })}</span>
       ${Bouton({ texte: t("envoyer"), variante: "principal", forme: "rond", options: { icone: "fleche", iconeSeule: true, attributs: { type: "button", class: "env", "data-assistant-envoyer": "" } } })}
@@ -380,10 +389,8 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
   majCompteur();
 
   /* ------------------------------------------------------------------ */
-  /* Réponse : apparition progressive, coupée en mouvement réduit.       */
+  /* Attente et réponse.                                                */
   /* ------------------------------------------------------------------ */
-
-  const sansMouvement = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /**
    * Bulle de réflexion : trois points qui tiennent la place de la réponse
@@ -406,27 +413,32 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
     retirer() { fil.querySelector("[data-assistant-pense]")?.remove(); },
   };
 
-  const ecrireProgressivement = (echange) => new Promise((termine) => {
-    const poser = () => { echanges[echanges.length - 1] = echange; afficher(); termine(); };
-    echanges.push({ ...echange, texte: "", liens: [] });
+  /**
+   * La réponse est posée D'UN SEUL COUP, entière.
+   *
+   * POURQUOI, et ce que cela remplace (#168). Cette fonction écrivait le texte
+   * caractère par caractère dans `.conversation__texte`, toutes les 18 ms. Or
+   * ce nœud vit dans le journal, qui porte `role="log"` et
+   * `aria-live="polite"` : une réponse de 200 caractères produisait 200
+   * mutations de la même région annoncée, et un lecteur d'écran pouvait en
+   * lire les fragments. `AI_UX.md` l'interdit deux fois — « aucun effet de
+   * frappe », sans réserve et dans toutes les versions, et « les réponses sont
+   * annoncées une fois, complètes ».
+   *
+   * Le curseur n'était d'ailleurs jamais visible : `.marcos .curseur` ne
+   * portait aucun style, seulement un `display: none` sous mouvement réduit.
+   * L'effet observable était un texte qui s'allongeait, pas un curseur.
+   *
+   * Le composant `TexteProgressif` fait la même chose correctement, pour
+   * l'accueil animé : texte complet dans un nœud lu, copie animée en
+   * `aria-hidden`. Il n'est pas réutilisé ici parce que la décision est de ne
+   * pas animer la réponse de MarcoS du tout, pas de l'animer autrement.
+   */
+  const poserReponse = (echange) => {
+    echanges.push(echange);
     afficher();
-    const cible = fil.querySelector(".conversation__tour:last-child .conversation__texte");
-    if (!cible || sansMouvement()) return poser();
-    // Le curseur suit la frappe : c'est lui qui donne l'impression que MarcoS
-    // écrit, plutôt qu'un texte qui s'allonge tout seul.
-    const curseur = document.createElement("span");
-    curseur.className = "curseur";
-    let i = 0;
-    const frappe = () => {
-      if (i > echange.texte.length) { curseur.remove(); return poser(); }
-      cible.textContent = echange.texte.slice(0, i);
-      cible.append(curseur);
-      i += 1;
-      suivre();
-      pilotage.plusTard(frappe, DELAIS.frappe);
-    };
-    frappe();
-  });
+    suivre();
+  };
 
   /* ------------------------------------------------------------------ */
   /* Le vrai pipeline : endpoint, session, historique, erreurs.          */
@@ -462,10 +474,21 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
       // Un lien doit avoir une adresse interne ET de quoi se nommer : sans nom
       // accessible il s'afficherait comme une ancre vide.
       const liens = (corps.liens || []).filter((lien) => String(lien.href || "").startsWith("/") && (lien.libelle || lien.id));
-      await ecrireProgressivement({ role: "assistant", texte: corps.texte, liens });
+      poserReponse({ role: "assistant", texte: corps.texte, liens });
       conversation.ecrire(JSON.stringify(echanges));
-      // Fin, puis retour au panneau ouvert : MarcoS ne s'éteint pas d'un coup.
-      pilotage.poser("end", { puis: "open", delai: DELAIS.fin });
+      // `responding` doit TENIR, maintenant que la réponse se pose d'un coup.
+      //
+      // Avant #168, cet état durait le temps de la frappe — une seconde et
+      // demie pour une réponse moyenne. En retirant la frappe, il tombait à
+      // zéro milliseconde : l'expression « Idée / suggestion » d'AI_UX.md
+      // n'était plus jamais affichée, et l'état n'existait que sur le papier.
+      //
+      // Il reçoit donc le MÊME séjour que `end`, qui est le seul délai de ce
+      // gabarit à être documenté (1,4 s). Aucune valeur nouvelle n'est
+      // inventée : la séquence devient responding → end → open.
+      // `poser(etat, { puis })` rappelle `puis` SANS options : on enchaîne donc
+      // à la main pour que `end` garde son propre retour à `open`.
+      pilotage.plusTard(() => pilotage.poser("end", { puis: "open", delai: DELAIS.fin }), DELAIS.fin);
     } catch (cause) {
       const code = libelle.erreurs?.[cause.message] ? cause.message : "indisponible";
       reflexion.retirer();
@@ -500,7 +523,12 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
 
   envoyer?.addEventListener("click", poser);
   champ?.addEventListener("keydown", (evenement) => {
-    if (evenement.key === "Enter") { evenement.preventDefault(); poser(); }
+    // `Entrée` envoie, `Maj + Entrée` passe à la ligne (AI_UX.md § Parcours).
+    // Sans le test du `shiftKey`, le champ de trois lignes ne pouvait JAMAIS
+    // recevoir de retour à la ligne : la combinaison envoyait la question.
+    if (evenement.key !== "Enter" || evenement.shiftKey) return;
+    evenement.preventDefault();
+    poser();
   });
   champ?.addEventListener("input", () => {
     majCompteur();

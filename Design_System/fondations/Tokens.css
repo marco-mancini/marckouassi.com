@@ -828,7 +828,6 @@
   --marcos-bulle-duree: 340ms; /* duree de son arrivee */
   --marcos-bulle-echelle: .96; /* echelle de depart d'une bulle */
   --marcos-rebond: cubic-bezier(.34, 1.56, .64, 1); /* leger depassement a l'ouverture */
-  --marcos-curseur: 1s; /* clignotement du curseur de frappe */
   --marcos-pulsation: 420ms; /* pulsation de l'envoi et du compteur */
   --marcos-halo: 18px; /* rayon du halo sous un bouton de la barre au survol */
   /* Decouverte : le parcours immersif de la section 06 (#128) */
