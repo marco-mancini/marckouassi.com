@@ -580,7 +580,7 @@
   /* Accueil anime sur telephone : la scene se resserre, la salutation cesse de
      manger les deux mots qu'elle croise. */
   --intro-espace-telephone: var(--space-5);
-  --intro-nom-taille: clamp(2.4rem, 9vw, 4.25rem); /* le nom manuscrit de l'accueil */
+  --intro-sceau-taille: clamp(180px, 46vmin, 340px); /* le sceau seul de l'accueil */
   --intro-soulignement-retrait: .45em;
   --cover-edition-offset-telephone: var(--space-4);
   --cover-padding-top-telephone: var(--space-4);
@@ -853,13 +853,14 @@
   --trace-epaisseur-anime: 2;
   /* Construction du sceau (Sceau, anime = "construction") : chaque forme
      se trace a son tour, puis le sceau se remplit. */
-  --construction-duree-trait: .85s;
-  --construction-delai-cercle: .15s;
-  --construction-delai-fantome: .45s;
-  --construction-delai-lettre: .55s;
-  --construction-delai-accent: .75s;
-  --construction-delai-remplissage: 1.15s;
-  --construction-duree-remplissage: .4s;
+  --construction-duree-trait: 1.4s;
+  --construction-delai-cercle: .2s;
+  --construction-delai-fantome: .7s;
+  --construction-delai-lettre: 1s;
+  --construction-delai-accent: 1.35s;
+  --construction-delai-remplissage: 2.3s;
+  --construction-duree-remplissage: .7s;
+  --construction-duree-totale: 3s; /* fin du remplissage : le temps de lire chaque trait */
   --construction-epaisseur: 2.4;
   --apparition-base: .05s;
   --apparition-pas: .11s;

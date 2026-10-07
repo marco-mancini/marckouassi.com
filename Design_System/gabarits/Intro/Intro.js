@@ -1,4 +1,4 @@
-import { html, attributs, classes } from "../../fondations/rendu.js";
+import { html, attributs } from "../../fondations/rendu.js";
 import { Modale, ouvrirModale, fermerModale } from "../../composants/Modale/Modale.js";
 import { Sceau, construireSceau } from "../../composants/Sceau/Sceau.js";
 import { Segments } from "../../composants/Segments/Segments.js";
@@ -9,10 +9,10 @@ const DIRECTIONS = ["gauche", "droite", "haut", "bas"];
 
 /**
  * Intro — expérience d'entrée, par assemblage :
- *   1. Sceau qui se construit  4. entrée par la langue (Segments nus)
- *   2. bienvenue : le nom      5. TexteProgressif
- *   3. Apparition              6. apparitions multidirectionnelles
- *                              7. rideau, puis navigation normale
+ *   1. Sceau qui se construit, seul, grand et centré
+ *   2. entrée par la langue (Segments nus)
+ *   3. TexteProgressif, puis apparitions multidirectionnelles
+ *   4. rideau, puis navigation normale
  * Un seul geste : choisir sa langue fait entrer dans le portfolio.
  *
  * Tout est rendu dans un <template> : sans JavaScript l'accueil n'existe
@@ -28,7 +28,6 @@ export function Intro({ intro, ctx, langues }) {
   const { t, c } = ctx;
   const contenu = html`<div class="intro__scene">
 <div class="intro__etape intro__etape--ouverture" data-etape="ouverture">${Sceau({ taille: "grand", anime: "construction" })}</div>
-<div class="${classes("intro__etape")}" data-etape="bienvenue"${attributs(attributsApparition({ direction: "fondu", declenchement: "etape" }))}><h2 class="intro__nom">${c(intro.signature.salutation, "site.intro.signature.salutation")}</h2></div>
 <div class="intro__etape intro__entrees" data-etape="langue"><p class="intro__invite">${t("intro.entrer")}</p>${Segments({ options: langues.map((langue) => ({ ...langue, libelle: langue.nom || langue.libelle, nom: null, drapeau: null })), etiquette: t("langue.selecteur"), variante: "nue" })}</div>
 <div class="intro__etape" data-etape="transition">${TexteProgressif({ texte: c(intro.transition, "site.intro.transition"), lang: ctx.langDe(intro.transition) })}</div>
 <ul class="intro__etape intro__mots" data-etape="mots">${(intro.mots || []).map((mot, rang) => html`<li${attributs({ ...attributsApparition({ direction: DIRECTIONS[rang % DIRECTIONS.length], indice: rang, declenchement: "etape" }), lang: ctx.langDe(mot) })}>${c(mot, `site.intro.mots.${rang}`)}</li>`)}</ul>
@@ -105,15 +104,10 @@ export async function lancerIntro({ reduit = false } = {}) {
     montrer("ouverture");
     // Le sceau se construit forme par forme : l'étape dure le temps de la construction.
     construireSceau(etape("ouverture").querySelector(".sceau"));
-    await pause(dureeJeton("--duration-trace", 900));
-    if (terminee) return;
-    montrer("bienvenue");
-    reveler(etape("bienvenue"));
-    await pause(1300);
+    await pause(dureeJeton("--construction-duree-totale", 3000));
     if (terminee) return;
   } else {
-    montrer("bienvenue");
-    reveler(etape("bienvenue"));
+    montrer("ouverture");
   }
   montrer("langue");
   dialogue.querySelector('.segments__option[aria-current="true"]')?.focus();
@@ -122,7 +116,6 @@ export async function lancerIntro({ reduit = false } = {}) {
   if (reduit) return fermerModale(dialogue);
 
   etape("langue").classList.remove("est-active");
-  etape("bienvenue").classList.remove("est-active");
   etape("ouverture").classList.remove("est-active");
   montrer("transition");
   await ecrire(etape("transition").querySelector("[data-texte-progressif]"), { reduit });
