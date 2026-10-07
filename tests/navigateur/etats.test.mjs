@@ -114,22 +114,15 @@ test("mouvement réduit : les sceaux des états sont immobiles", async () => {
   await page.fermer();
 });
 
-test("MarcoS : la bulle de réflexion pendant l'attente, puis le bandeau d'erreur et le hors-ligne", async () => {
-  // POURQUOI CE TEST A CHANGÉ DE FORME, et ce qu'il ne garantit plus.
+test("MarcoS : le gabarit d'état au sceau, sur une ligne à l'attente, cerné d'un filet à l'erreur", async () => {
+  // CE QUE CE TEST GARANTIT MAINTENANT, et pourquoi il a encore changé de forme.
   //
-  // Sa version du 7 octobre (#162) attendait `[data-assistant-etat] .message`
-  // avec un sceau `chargement`, `panne` puis `chantier` : D-39 voulait UN SEUL
-  // gabarit d'état pour tout le site, MarcoS compris.
-  //
-  // D-40 (5 octobre, maquette validée par Marc) a remplacé l'intérieur de
-  // MarcoS : plus de `Message` dans le panneau, mais une bulle de trois points
-  // pendant l'attente et un bandeau `role="alert"` pour l'erreur. Les deux
-  // décisions se contredisent, chacune venue d'une branche différente ; l'écart
-  // est consigné pour arbitrage et n'est PAS tranché ici.
-  //
-  // Ce test vérifie donc ce que l'interface fusionnée fait réellement. Les
-  // phrases de chaque code d'erreur restent couvertes une par une par
-  // `tests/navigateur/assistant.test.mjs`.
+  // Version du 7 octobre (#162) : le gabarit au sceau, mais sur l'ancienne
+  // fenêtre, avec des sélecteurs qui n'existent plus.
+  // Version suivante : la bulle à trois points de la maquette (D-40).
+  // Celle-ci : le gabarit au sceau revient, en mode `nu`, après arbitrage de
+  // Marc sur #166 — mais sur UNE LIGNE à l'attente, parce que le gabarit
+  // complet coûtait 173 px dans un panneau de 460 et faisait déborder le fil.
   const site = { ...contenu.site, assistant: { ...contenu.site.assistant, active: true } };
   const sprite = fs.readFileSync("Design_System/assets/logos-sprite.svg", "utf8");
   const ctx = contextePage({ site, langue: "fr", chemin: "", dictionnaires, medias: new Map(), ressources: { sprite, couleurTheme: await lireJeton(RACINE, "--clair-surface-page"), annee: 2030, assistantEndpoint: "https://worker.test/" } });
@@ -142,35 +135,54 @@ test("MarcoS : la bulle de réflexion pendant l'attente, puis le bandeau d'erreu
   await page.route("https://worker.test/**", async (r) => { await attente; r.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ erreur: "indisponible" }) }); });
   await page.goto(`${serveur.url}/`);
 
-  // MarcoS ne se montre qu'une fois la couverture passée (D-40) : un visiteur
-  // descend avant de le voir, le test fait de même.
   await page.evaluate(() => document.getElementById("introduction")?.scrollIntoView({ block: "start" }));
   await page.waitForFunction(() => document.querySelector(".marcos")?.dataset.retire === "0");
-
   await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
   await page.fill("#assistant-question", "Bonjour");
   await page.click("[data-assistant-envoyer]");
 
-  // Attente : la bulle de réflexion tient la place de la réponse, et l'état du
-  // buste passe à « thinking ».
-  await page.waitForSelector("[data-assistant-pense]");
-  assert.equal(await page.locator(".marcos[data-etat=thinking]").count(), 1, "le buste réfléchit pendant l'attente");
-  assert.equal(await page.locator("[data-assistant-pense] .points i").count(), 3, "trois points");
+  // ATTENTE — le sceau « chargement », sur une ligne, dans le fil.
+  await page.waitForSelector("[data-assistant-pense] .sceau--chargement.est-construit");
+  assert.equal(await page.locator(".marcos[data-etat=thinking]").count(), 1, "le buste réfléchit");
+  const attenteMesure = await page.evaluate(() => {
+    const m = document.querySelector("[data-assistant-pense] .message");
+    const p = document.querySelector("[data-assistant-pense] .message__phrase");
+    return { h: Math.round(m.getBoundingClientRect().height), ligne: m.classList.contains("message--ligne"),
+      phraseDansLeDom: Boolean(p?.textContent.trim()), phraseVisible: p.getBoundingClientRect().width > 2 };
+  });
+  assert.equal(attenteMesure.ligne, true);
+  assert.ok(attenteMesure.h < 80, `l'attente tient sur une ligne : ${attenteMesure.h} px`);
+  // La phrase est masquée à l'œil mais reste lue : c'est la contrepartie du mode `ligne`.
+  assert.equal(attenteMesure.phraseDansLeDom, true, "la phrase reste lue par un lecteur d'écran");
+  assert.equal(attenteMesure.phraseVisible, false, "mais elle n'occupe pas la place");
 
   relacher();
 
-  // Erreur : le bandeau porte la phrase du dictionnaire et « Réessayer ».
-  await page.waitForSelector("[data-assistant-reessayer]");
-  const bandeau = page.locator("[data-assistant-erreur]");
-  assert.equal(await bandeau.getAttribute("role"), "alert", "annoncé comme une alerte");
-  assert.ok((await bandeau.textContent()).includes(dictionnaires.fr.assistant.erreurs.indisponible));
-  assert.equal(await page.locator("[data-assistant-pense]").count(), 0, "la bulle d'attente a disparu");
-  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth), 0, "aucun débordement à 390 px");
+  // ERREUR — sous le fil, cernée d'un filet, titre « Indisponible », jamais tronquée.
+  await page.waitForSelector("[data-assistant-erreur] .sceau--panne.est-construit");
+  const zone = page.locator("[data-assistant-erreur]");
+  assert.equal(await zone.getAttribute("role"), "alert");
+  const erreurMesure = await page.evaluate(() => {
+    const m = document.querySelector("[data-assistant-erreur] .message");
+    const r = m.getBoundingClientRect(), p = document.querySelector("#assistant").getBoundingClientRect();
+    return { nu: m.classList.contains("message--nu"), filet: getComputedStyle(m).borderTopWidth,
+      titre: m.querySelector(".message__titre")?.textContent,
+      entiere: r.top >= p.top - 1 && r.bottom <= p.bottom + 1 };
+  });
+  assert.equal(erreurMesure.nu, true, "sans îlot : le panneau est déjà une surface");
+  assert.notEqual(erreurMesure.filet, "0px", "un filet la distingue d'un chargement");
+  assert.equal(erreurMesure.titre, simple(dictionnaires.fr.etats.indisponible.titre));
+  assert.equal(erreurMesure.entiere, true, "l'erreur n'est jamais tronquée : elle est sous le fil");
+  assert.ok((await zone.textContent()).includes(dictionnaires.fr.assistant.erreurs.indisponible));
+  assert.ok(await page.locator("[data-assistant-reessayer]").isVisible());
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth), 0);
 
-  // Hors ligne : la même phrase que le message du site, sans appel réseau.
+  // HORS LIGNE — son propre titre, son propre sceau.
   await page.context().setOffline(true);
   await page.click("[data-assistant-reessayer]");
-  await page.waitForFunction((phrase) => document.querySelector("[data-assistant-erreur]")?.textContent.includes(phrase), dictionnaires.fr.assistant.erreurs.hors_ligne);
+  await page.waitForSelector("[data-assistant-erreur] .sceau--chantier");
+  assert.equal(await page.evaluate(() => document.querySelector("[data-assistant-erreur] .message__titre").textContent),
+    simple(dictionnaires.fr.etats.horsConnexion.titre));
   await page.fermer();
 });

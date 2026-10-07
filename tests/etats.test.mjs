@@ -96,3 +96,85 @@ test("maintenance : l'état « Maintenance » au même gabarit, titre h1", () =>
   assert.match(page, /<h1 class="message__titre"><span class="message__or">Main<\/span>tenance/);
   assert.match(page, /sceau--humeur sceau--bati/);
 });
+
+test("mode sceau « nu » : le même gabarit sans son îlot, pour MarcoS (#166)", () => {
+  // Le besoin : le panneau de MarcoS est déjà une surface à lui. Un second fond
+  // plein à l'intérieur ferait une boîte dans une boîte.
+  const nu = String(Message({ type: "chargement", titre: "*Char*gement", texte: "Phrase.", mode: { sceau: "chargement", compact: true, nu: true } }));
+  assert.match(nu, /class="message message--chargement message--sceau message--compact message--nu"/);
+  assert.doesNotMatch(nu, /ilot-olive/, "l'îlot tombe, donc les couleurs du thème s'appliquent");
+
+  // Ce qui NE change pas : le sceau, son humeur, son animation, le titre bicolore.
+  assert.match(nu, /class="sceau sceau--grand sceau--humeur sceau--chargement"[^>]*data-sceau-auto/);
+  assert.match(nu, /<span class="message__or">Char<\/span>gement/);
+  assert.match(nu, /<p class="message__phrase">Phrase\.<\/p>/);
+
+  // Le défaut reste l'îlot : aucun état du site existant ne bouge.
+  const habituel = String(Message({ type: "erreur", titre: "*In*disponible", texte: "Phrase.", mode: { sceau: "panne", compact: true } }));
+  assert.match(habituel, /ilot-olive/);
+  assert.doesNotMatch(habituel, /message--nu/);
+
+  // Le fond est bien retiré, et la couleur héritée.
+  const css = fs.readFileSync("Design_System/composants/Message/Message.css", "utf8");
+  assert.match(css, /\.message--nu \{ background: transparent; color: inherit; \}/);
+});
+
+test("mode sceau « ligne » : l'état tient sur une ligne, et la phrase reste lue (#166)", () => {
+  // La mesure qui justifie ce mode : le gabarit complet coûte 173 px dans le
+  // panneau de MarcoS, haut de 460 — 38 % de la surface pour dire « j'attends »
+  // pendant deux secondes, et le fil se met à déborder.
+  const ligne = String(Message({ type: "chargement", titre: "*Char*gement", texte: "MarcoS cherche la réponse…", mode: { sceau: "chargement", compact: true, ligne: true, sansPhrase: true, nu: true } }));
+  assert.match(ligne, /message--compact message--ligne message--sans-phrase message--nu/);
+
+  // Les deux rôles sont SÉPARÉS, et c'est l'erreur qui l'a imposé : elle a
+  // besoin de l'en-tête sur une ligne, mais elle doit garder sa phrase et son
+  // bouton. Les confondre aurait rendu l'un des deux états faux.
+  const avecPhrase = String(Message({ type: "erreur", titre: "*In*disponible", texte: "Phrase.", mode: { sceau: "panne", compact: true, ligne: true, nu: true } }));
+  assert.match(avecPhrase, /message--ligne/);
+  assert.doesNotMatch(avecPhrase, /message--sans-phrase/, "l'erreur garde sa phrase à l'œil");
+
+  // La phrase est MASQUÉE À L'ŒIL, pas retirée : le titre la redit pour qui
+  // voit, et un lecteur d'écran garde la phrase entière.
+  assert.match(ligne, /<p class="message__phrase">MarcoS cherche la réponse…<\/p>/, "la phrase reste dans le DOM");
+  const css = fs.readFileSync("Design_System/composants/Message/Message.css", "utf8");
+  const regle = css.slice(css.indexOf(".message--sans-phrase .message__phrase"));
+  assert.match(regle, /clip-path: inset\(50%\)/, "masquée visuellement, pas par display:none");
+  assert.doesNotMatch(regle.slice(0, 200), /display:\s*none/, "display:none la retirerait aussi des lecteurs d'écran");
+
+  // Le sceau se réduit par un JETON, pas par une valeur en dur.
+  assert.match(css, /\.message--ligne \.sceau \{ width: var\(--message-ligne-sceau\)/);
+  assert.match(fs.readFileSync("Design_System/fondations/Tokens.css", "utf8"), /--message-ligne-sceau:\s*28px/);
+});
+
+test("le doré du titre suit le thème en mode nu, sinon il est illisible en clair (#166)", () => {
+  // Mesuré dans Chrome 154 : --accent-gold (#e0c182) sur le crème donne 1,72:1,
+  // très en dessous du 3:1 du grand texte. --accent-texte donne 4,81:1.
+  const css = fs.readFileSync("Design_System/composants/Message/Message.css", "utf8");
+  assert.match(css, /\.message--nu \.message__or \{ color: var\(--accent-texte\); \}/);
+  // Hors mode nu, l'îlot olive garde son doré : rien ne bouge pour le site.
+  assert.match(css, /\.message__or \{ color: var\(--accent-gold\); \}/);
+});
+
+test("une erreur nue se signale par un filet, sinon rien ne la distingue d'un chargement (#166)", () => {
+  // Mesuré : sans îlot, fond, bordure, ombre et couleur de texte étaient
+  // IDENTIQUES entre les deux états. Seuls le sceau et le titre changeaient.
+  const css = fs.readFileSync("Design_System/composants/Message/Message.css", "utf8");
+  assert.match(css, /\.message--nu\.message--erreur \{ border: var\(--border-hairline\) solid var\(--erreur\)/);
+});
+
+test("les phrases d'erreur ne répètent plus le titre qui les surmonte (#166)", () => {
+  // Seuls trois codes reçoivent un titre. Leur phrase commençait par le redire.
+  // Les autres n'ont pas de titre : leur phrase porte tout le sens, et reste
+  // entière — c'est la raison pour laquelle elles n'ont pas été touchées.
+  for (const langue of ["fr", "en"]) {
+    const d = JSON.parse(fs.readFileSync(`Design_System/i18n/${langue}.json`, "utf8"));
+    const e = d.assistant.erreurs;
+    const titreIndisponible = d.etats.indisponible.titre.replaceAll("*", "").toLowerCase();
+    assert.ok(!e.indisponible.toLowerCase().includes(titreIndisponible), `${langue} : « ${e.indisponible} » redit le titre`);
+    assert.ok(e.indisponible.length <= 40, `${langue} : ${e.indisponible.length} caractères, c'est encore long`);
+    // Ceux qui n'ont pas de titre gardent une phrase autonome.
+    for (const code of ["requete_invalide", "trop_long", "trop_de_demandes", "quota_journalier"]) {
+      assert.ok(e[code].length > 40, `${langue} · ${code} : sans titre, la phrase doit rester autonome`);
+    }
+  }
+});

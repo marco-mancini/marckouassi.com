@@ -777,7 +777,13 @@
   --marcos-marge: 24px; /* recul depuis le coin inférieur droit */
   --marcos-marge-mobile: 12px; /* idem sous 520 px */
   --marcos-panneau-largeur: 372px; /* largeur du panneau, et donc du socle */
-  --marcos-panneau-hauteur: min(460px, calc(100dvh - 240px)); /* hauteur bornée : jamais de croissance infinie */
+  /* Ce que MarcoS occupe VERTICALEMENT en plus de son panneau : le buste posé
+     dessus (214 px mesurés), le socle de la barre (72 px) et le recul du coin
+     (24 px). La hauteur du panneau se calcule en retirant cette réserve, sinon
+     le buste passe au-dessus du bord haut : mesuré, 14 px coupés dans une
+     fenêtre de 650 px, 71 px dans une fenêtre de 560. */
+  --marcos-reserve-verticale: 320px;
+  --marcos-panneau-hauteur: min(460px, calc(100dvh - var(--marcos-reserve-verticale))); /* hauteur bornée : jamais de croissance infinie */
   --marcos-panneau-hauteur-mobile: min(58dvh, 420px); /* idem sur téléphone */
   --marcos-panneau-ecart: 10px; /* entre le panneau et la barre */
   --marcos-barre-ouverte: 75%; /* la barre se recentre sous le panneau à l'ouverture */
@@ -796,17 +802,21 @@
   --marcos-onde-crete: 16px; /* hauteur d'un barreau au sommet */
   --marcos-onde-decalage: .12s; /* retard d'un barreau sur le précédent */
   --marcos-cible: 44px; /* cible tactile des commandes du panneau */
+  --marcos-saisie-marge: 16px; /* air autour du champ : a 12 px le texte touchait presque le bord */
+  --marcos-saisie-recul: 12px; /* recul de la zone de saisie depuis les bords du panneau */
+  --marcos-envoi-icone: 20px; /* la fleche d'envoi. A 16 px dans un disque de 44, elle s'y perdait */
   --marcos-cible-barre: 52px; /* cible tactile des trois boutons de la barre */
   --marcos-barre-rembourrage: var(--space-6); /* respiration intérieure de la barre au repos */
   --marcos-barre-ecart: var(--space-2); /* espace entre une commande et son séparateur */
   --marcos-barre-rayon: 22px; /* arrondi de la barre : adouci, pas une pilule */
-  /* Zone cliquable du buste. Les fichiers ont des marges transparentes —
-     mesure du 5 octobre 2026 sur l'expression de repos : le sujet occupe
-     x 58→724 et y 122→666 sur 783 × 667. Hors de cette zone, le bouton
-     laisserait passer un clic sur une image vide et volerait les liens de la
-     page qui passent dessous. */
-  --marcos-buste-zone-haut: 18%;
-  --marcos-buste-zone-cote: 7%;
+  /* Il y avait ici deux jetons de « zone cliquable du buste », 18 % et 7 %,
+     appliqués en clip-path sur le bouton. Retirés le 7 octobre 2026 : un
+     clip-path rogne le DESSIN autant que la zone, et il coupait 18 % du haut
+     du crâne. La mesure des marges transparentes reste vraie — le sujet occupe
+     x 58→724 et y 122→666 sur 783 × 667 — mais elle ne se traduit pas en
+     clip-path. Le bouton prend tout le cadre : sa marge transparente agrandit
+     la cible au lieu de la réduire, et les images portent déjà
+     « pointer-events: none ». */
   --marcos-t-court: 180ms; /* survol, fond, couleur */
   --marcos-t-moyen: 320ms; /* ouverture du panneau, déplacement du buste */
   --marcos-t-long: 520ms; /* rayon de la barre */
@@ -971,6 +981,7 @@
   --message-sceau-ecart: var(--space-3);
   --message-sceau-marge: var(--space-7) var(--space-5);
   --message-compact-sceau: 64px;
+  --message-ligne-sceau: 28px; /* etat sur une ligne : le sceau tient dans la hauteur du texte */
   --message-compact-titre: 1.5rem; /* 24 px : grand texte, l or sur olive (3,5:1) reste lisible */
   --message-compact-ecart: var(--space-2);
   --message-compact-marge: var(--space-5) var(--space-4);

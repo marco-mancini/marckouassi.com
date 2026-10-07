@@ -3,6 +3,8 @@ import { Modale } from "../../composants/Modale/Modale.js";
 import { Conversation } from "../../composants/Conversation/Conversation.js";
 import { Saisie } from "../../composants/Saisie/Saisie.js";
 import { Bouton } from "../../composants/Bouton/Bouton.js";
+import { Message } from "../../composants/Message/Message.js";
+import { activerSceaux } from "../../composants/Sceau/Sceau.js";
 
 /** Longueur maximale d'une question, alignée sur la validation du Worker. */
 export const LONGUEUR_MAX = 500;
@@ -50,9 +52,6 @@ export const DELAIS = { fin: 1400 };
 /** En dessous de ce nombre de caractères restants, le compteur alerte. */
 export const SEUIL_COMPTEUR = 30;
 
-/** Points de la bulle de réflexion. Le rang porte le décalage d'animation. */
-const POINTS_REFLEXION = 3;
-
 /** Un texte traduisible est vide quand aucune langue n'est renseignée. */
 const renseigne = (valeur) => Boolean(valeur && Object.values(valeur).some((v) => String(v ?? "").trim()));
 
@@ -61,12 +60,20 @@ const renseigne = (valeur) => Boolean(valeur && Object.values(valeur).some((v) =
  * plus. Ils voyagent dans un attribut `data-`, comme `data-frequence` d'Intro
  * et `data-compteur` de Projet_etude : aucun texte n'est écrit dans le script.
  */
-function libelles(t) {
+function libelles(t, tSite) {
   const erreurs = {};
   for (const code of ["requete_invalide", "origine_refusee", "trop_long", "trop_de_demandes", "quota_journalier", "indisponible", "delai_depasse", "hors_ligne"]) {
     erreurs[code] = t(`erreurs.${code}`);
   }
-  return { vous: t("vous"), assistant: t("assistant"), etiquette: t("etiquette"), reessayer: t("reessayer"), erreurs };
+  // Les titres bicolores des états, ceux de TOUT le site (#162, D-39) : MarcoS
+  // ne s'en invente pas. Seuls trois codes en ont un ; les autres gardent une
+  // phrase autonome, et c'est pour cela qu'elles n'ont pas été raccourcies.
+  const titres = {
+    chargement: tSite("etats.assistant.titre"),
+    indisponible: tSite("etats.indisponible.titre"),
+    hors_ligne: tSite("etats.horsConnexion.titre"),
+  };
+  return { vous: t("vous"), assistant: t("assistant"), etiquette: t("etiquette"), chargement: t("chargement"), reessayer: t("reessayer"), erreurs, titres };
 }
 
 /**
@@ -149,14 +156,18 @@ export function Assistant({ assistant, ctx, endpoint }) {
   </span>`;
 
   const contenu = html`<div class="assistant" data-assistant${attributs({
-    "data-endpoint": endpoint, "data-longueur-max": String(LONGUEUR_MAX), "data-libelles": JSON.stringify(libelles(t)),
+    "data-endpoint": endpoint, "data-longueur-max": String(LONGUEUR_MAX), "data-libelles": JSON.stringify(libelles(t, ctx.t)),
   })}>
     <div class="zone-fil">
       <div class="fil" data-assistant-log>${accueil}${Conversation({ echanges: [], etiquette: t("etiquette"), libelles: { visiteur: t("vous"), assistant: t("assistant") }, vide: "" })}</div>
       ${Bouton({ texte: t("nouvelle"), variante: "principal", options: { icone: "bas", attributs: { type: "button", class: "neuf", "data-assistant-neuf": "", "data-on": "0" } } })}
     </div>
     <div class="erreur" data-assistant-erreur role="alert"></div>
-    <div class="saisie">
+    ${/* « zone-saisie », PAS « saisie » : le champ porte deja cette classe, qu'il
+          tient du composant Saisie. Nommer la boite comme lui la faisait heriter
+          des styles du composant — dont « width: 100% », qui annulait la marge
+          et faisait deborder la boite de 11 px hors du panneau. Mesure. */ ""}
+    <div class="zone-saisie">
       <label class="visually-hidden" for="assistant-question">${t("question")}</label>
       ${/* `long`, 3 lignes : c'est le contrat d'AI_UX.md (« Champ de question |
             Champ + Saisie | formulaire + long (3 lignes) »). La maquette
@@ -374,15 +385,44 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
     if (aide && modeleAide) aide.textContent = modeleAide.replace(/\d+/, String(reste));
   };
 
+  /**
+   * L'erreur, rendue par le gabarit d'état du site (D-39), en mode `nu`.
+   *
+   * ELLE RESTE SOUS LE FIL, et c'est voulu. Posée DANS le fil, elle pousse la
+   * conversation hors du champ et finit elle-même tronquée — mesuré, 175 px de
+   * débordement. Ici elle n'est jamais coupée ; seule la conversation défile,
+   * et elle se relit.
+   *
+   * `nu` retire l'îlot : le panneau est déjà une surface. Le filet de
+   * `message--nu.message--erreur` rend le signal que l'îlot portait, sans
+   * ramener un second fond plein.
+   */
   const erreur = (code) => {
     marcos.dataset.erreur = code ? "1" : "0";
-    zoneErreur.textContent = code ? libelle.erreurs[code] : "";
+    zoneErreur.textContent = "";
     if (!code) return;
-    // « Réessayer » renvoie la MÊME question : elle n'est jamais perdue.
-    zoneErreur.insertAdjacentHTML("beforeend", String(Bouton({
-      texte: libelle.reessayer, variante: "nu",
-      options: { attributs: { type: "button", "data-assistant-reessayer": "" } },
+    const horsLigne = code === "hors_ligne";
+    // UN TITRE SEULEMENT QUAND IL EST VRAI. Trois codes en ont un ; les cinq
+    // autres n'en ont pas, et `titre: undefined` les laisse sans. Coiffer
+    // « Cette question est trop longue » d'un « Indisponible » serait faux, et
+    // c'est ce que faisait la première version de ce code.
+    zoneErreur.insertAdjacentHTML("beforeend", String(Message({
+      type: code === "trop_de_demandes" ? "attention" : "erreur",
+      titre: libelle.titres?.[code],
+      texte: libelle.erreurs[code],
+      mode: { sceau: horsLigne ? "chantier" : "panne", compact: true, ligne: true, nu: true },
+      // « Réessayer » renvoie la MÊME question : elle n'est jamais perdue.
+      action: Bouton({
+        texte: libelle.reessayer, variante: "nu",
+        options: { attributs: { type: "button", "data-assistant-reessayer": "" } },
+      }),
     })));
+    activerSceaux(zoneErreur);
+    // L'erreur reduit le fil d'un coup : sans ce rappel, il reste a la position
+    // qu'il avait AVANT, et sa derniere bulle se retrouve tranchee en deux par
+    // le bord. On le ramene en bas, comme a l'arrivee d'une reponse, pour que
+    // la conversation se termine sur une bulle entiere.
+    suivre();
   };
 
   afficher();
@@ -398,16 +438,27 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
    * pas un tour de conversation, c'est une attente.
    */
   const reflexion = {
+    /**
+     * SUR UNE LIGNE, et c'est une mesure, pas un goût : le gabarit complet
+     * coûte 173 px dans un panneau de 460 — 38 % de la surface pour dire
+     * « j'attends » pendant deux secondes, et le fil se met à déborder. Sur une
+     * ligne il en coûte 51, et le fil ne déborde plus.
+     *
+     * La phrase du dictionnaire reste dans le DOM, lue par les lecteurs
+     * d'écran ; seul l'œil ne la voit pas, parce que le titre la redit.
+     */
     poser() {
       if (fil.querySelector("[data-assistant-pense]")) return;
-      const bulle = document.createElement("div");
-      bulle.classList.add("bulle", "lui", "pense");
-      bulle.dataset.assistantPense = "";
-      const points = document.createElement("span");
-      points.classList.add("points");
-      for (let i = 0; i < POINTS_REFLEXION; i += 1) points.append(document.createElement("i"));
-      bulle.append(points);
-      fil.append(bulle);
+      const enveloppe = document.createElement("div");
+      enveloppe.dataset.assistantPense = "";
+      enveloppe.innerHTML = String(Message({
+        type: "chargement",
+        titre: libelle.titres?.chargement,
+        texte: libelle.chargement,
+        mode: { sceau: "chargement", compact: true, ligne: true, sansPhrase: true, nu: true },
+      }));
+      fil.append(enveloppe);
+      activerSceaux(enveloppe);
       suivre();
     },
     retirer() { fil.querySelector("[data-assistant-pense]")?.remove(); },

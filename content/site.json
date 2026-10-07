@@ -128,8 +128,8 @@
       }
     ],
     "confidentialite": {
-      "fr": "🔒 Vos échanges restent dans cet onglet et ne sont conservés nulle part. Votre question est transmise au modèle qui y répond, et rien n’est envoyé à M. Kouassi sans votre accord.",
-      "en": "🔒 Your conversation stays in this tab and is never stored. Your question is sent to the model that answers it, and nothing reaches Mr. Kouassi without your consent."
+      "fr": "🔒 Vos échanges restent dans cet onglet.",
+      "en": "🔒 Your conversation stays in this tab."
     },
     "avatar": {
       "etats": [

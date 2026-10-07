@@ -48,5 +48,51 @@
 .message--compact .message__titre { font-size: var(--message-compact-titre); }
 .message--compact .message__phrase { font-size: var(--type-body-compact); }
 .message__adresse { flex-basis: 100%; font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--message-adresse-interlettrage); color: var(--texte-discret); user-select: all; }
+/* NU — le meme gabarit sans son ilot. Le sceau, le titre et la phrase se posent
+   directement sur le fond qui les accueille.
+
+   C'est ce dont MarcoS a besoin : son panneau est deja une surface a lui, et un
+   second fond plein a l'interieur ferait une boite dans une boite. Rien d'autre
+   ne change : memes tailles, meme animation, meme titre bicolore. Comme la
+   classe « ilot-olive » n'est pas posee, les variables de couleur ne sont pas
+   redefinies et le contenu lit celles du theme — clair comme sombre. */
+.message--nu { background: transparent; color: inherit; }
+
+/* Le dore du titre bicolore suit le THEME, pas l'olive.
+
+   --accent-gold vaut #e0c182 : un dore pale concu pour se poser sur l'olive.
+   Sans l'ilot, il tombe sur le creme et donne 1,72:1 — tres en dessous du 3:1
+   du grand texte. --accent-texte est le meme role, mais resolu par le theme :
+   #96691a en clair (4,81:1), le dore pale en sombre. Mesure dans Chrome 154. */
+.message--nu .message__or { color: var(--accent-texte); }
+
+/* Une erreur doit se voir sans etre lue. Sans l'ilot, plus rien ne distinguait
+   une erreur d'un chargement : meme fond, meme bordure, meme couleur de texte.
+   Un filet le dit, sans ramener un second fond plein dans une surface qui en a
+   deja un. */
+.message--nu.message--erreur { border: var(--border-hairline) solid var(--erreur); border-radius: var(--radius-md); }
+
+/* EN-TETE SUR UNE LIGNE — pour une surface etroite.
+
+   Le sceau et le titre passent cote a cote ; la phrase et les actions, s'il y
+   en a, reviennent a la ligne. Mesure dans le panneau de MarcoS, haut de 460 px :
+   l'erreur passe de 232 px a 134, et la conversation visible de 32 px a 109.
+   C'est tout l'enjeu — a 32 px, le fil n'existait plus. */
+.message--ligne { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: var(--space-2); padding: var(--space-2) var(--space-3); text-align: start; }
+.message--ligne .sceau { width: var(--message-ligne-sceau); margin: 0; }
+.message--ligne .message__titre { font-size: var(--type-body-compact); }
+.message--ligne .message__phrase, .message--ligne .message__action { flex-basis: 100%; }
+.message--ligne .message__action { justify-content: flex-start; margin: 0; }
+
+/* SANS PHRASE — quand le titre la redit deja.
+
+   L'attente en est le cas : « Chargement » et « MarcoS cherche la reponse… »
+   disent la meme chose, et le gabarit complet coutait 173 px pour deux secondes
+   d'attente. Il en coute 51 ainsi.
+
+   La phrase est MASQUEE A L'OEIL, jamais retiree du DOM : un lecteur d'ecran la
+   garde entiere. « display: none » l'aurait retiree des deux. */
+.message--sans-phrase .message__phrase { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
 /* Toast d'etat : pose sur des planches olive, il s'en detache par un filet et une ombre. */
 .message--sceau.message--toast { border: var(--border-hairline) solid var(--filet); box-shadow: 0 var(--shadow-board-y) var(--shadow-board-flou, var(--space-6)) var(--shadow-signature); }

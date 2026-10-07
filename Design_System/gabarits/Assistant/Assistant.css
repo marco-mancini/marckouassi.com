@@ -31,12 +31,16 @@
 .marcos .av {
   position: absolute; bottom: 100%;
   transform-origin: 50% 100%;
-  /* Le buste est un bouton : il recoit le clic. Les images, elles, ne doivent
-     pas intercepter le pointeur a sa place. La zone cliquable est ramenee au
-     sujet : le reste du cadre est transparent, et un bouton y volerait les
-     liens du portfolio qui passent dessous. */
+  /* PAS DE clip-path ICI. Il y en avait un — inset(18% 7% 0) — pose pour
+     ramener la ZONE CLIQUABLE au sujet, le cadre du PNG etant transparent sur
+     ses bords. L'intention etait bonne, l'outil non : « clip-path » rogne le
+     DESSIN autant que la zone, et il coupait 18 % du haut du buste. Soit, sur
+     les 216 px rendus, une quarantaine de pixels de crane — visible a l'oeil,
+     et c'est ce que Marc a vu.
+     Le bouton garde donc tout le cadre. Sa marge transparente devient
+     cliquable, ce qui agrandit la cible plutot que de la reduire ; les images
+     portent deja « pointer-events: none » et n'interceptent rien. */
   padding: 0; border: 0; background: transparent; cursor: pointer;
-  clip-path: inset(var(--marcos-buste-zone-haut) var(--marcos-buste-zone-cote) 0 var(--marcos-buste-zone-cote));
   animation: marcos-respire var(--marcos-respire) ease-in-out infinite;
   transition: left var(--marcos-t-moyen) var(--marcos-courbe),
               width var(--marcos-t-moyen) var(--marcos-courbe),
@@ -174,7 +178,7 @@
    mention. Moins d'un tiers de seconde en tout — on anime, on ne retarde pas. */
 .marcos[data-ouvert="1"] .modale__entete { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) both; }
 .marcos[data-ouvert="1"] .zone-fil { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) var(--marcos-cascade) both; }
-.marcos[data-ouvert="1"] .saisie { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) calc(2 * var(--marcos-cascade)) both; }
+.marcos[data-ouvert="1"] .zone-saisie { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) calc(2 * var(--marcos-cascade)) both; }
 .marcos[data-ouvert="1"] .confid { animation: marcos-etage var(--marcos-t-moyen) var(--marcos-courbe) calc(3 * var(--marcos-cascade)) both; }
 @keyframes marcos-etage {
   from { opacity: 0; transform: translateY(var(--marcos-bulle-entree)); }
@@ -280,12 +284,15 @@
 .marcos .conversation, .marcos .conversation__tours { display: contents; }
 /* Une bulle arrive de SON cote : celle du visiteur monte de la droite, celle
    de MarcoS de la gauche. C'est le geste qui dit qui parle, avant la couleur. */
-.marcos .conversation__tour, .marcos .pense {
+.marcos .conversation__tour, .marcos [data-assistant-pense] {
   max-width: var(--marcos-bulle-largeur); padding: var(--space-2) var(--space-3);
   border: 0; border-radius: var(--radius-lg); font-size: var(--type-body-compact);
   animation: marcos-bulle-gauche var(--marcos-bulle-duree) var(--marcos-rebond) both;
 }
 .marcos .conversation__tour--visiteur { animation-name: marcos-bulle-droite; }
+/* L'attente est le gabarit d'etat sur une ligne, pas une bulle : elle garde
+   l'entree animee du fil, mais ni la largeur bornee ni la marge d'une bulle. */
+.marcos [data-assistant-pense] { max-width: none; padding: 0; }
 @keyframes marcos-bulle-gauche {
   from { opacity: 0; transform: translate(calc(-1 * var(--marcos-bulle-entree)), var(--marcos-bulle-entree)) scale(var(--marcos-bulle-echelle)); }
   to { opacity: 1; transform: none; }
@@ -309,19 +316,24 @@
 .marcos .conversation__vide { display: none; }
 
 /* --------------------------------------------------------------------------
-   L'ERREUR — un bandeau dans le panneau, pas une alerte hors contexte.
+   L'ERREUR — sous le fil, jamais tronquee.
+
+   Cette zone n'est plus qu'un EMPLACEMENT : le gabarit d'etat au sceau
+   (Message, mode nu) porte lui-meme son filet, son rayon et ses couleurs.
+   Lui laisser les siens donnait DEUX filets imbriques — vu a l'ecran, corrige.
+
+   Elle reste entre le fil et la saisie, et c'est la raison d'etre de ce
+   placement : dans le fil, l'erreur poussait la conversation hors du champ et
+   finissait elle-meme coupee — 175 px de debordement, mesure. Ici le fil defile
+   et l'erreur reste entiere.
    -------------------------------------------------------------------------- */
 .marcos .erreur {
-  display: none; align-items: center; flex-wrap: wrap; gap: var(--space-2);
-  margin: 0 var(--space-4) var(--space-3); padding: var(--space-3);
-  border: var(--border-hairline) solid var(--erreur); border-radius: var(--radius-lg);
-  background: var(--surface-alt); color: var(--texte);
-  font-size: var(--type-body-compact); line-height: 1.45;
+  display: none; margin: 0 var(--space-4) var(--space-3);
 }
 .marcos[data-erreur="1"] .erreur { display: flex; }
 /* Tant que l'erreur tient, la saisie et les suggestions sont en retrait :
    relancer la meme requete ne servirait a rien. « Reessayer » reste actif. */
-.marcos[data-erreur="1"] .saisie .saisie,
+.marcos[data-erreur="1"] .zone-saisie > .saisie,
 .marcos[data-erreur="1"] .exemples { opacity: .45; pointer-events: none; }
 
 /* --------------------------------------------------------------------------
@@ -332,19 +344,32 @@
    « Maj + Entree » (#168). Le compteur et l'envoi s'alignent donc en BAS,
    sinon ils flotteraient au milieu d'une zone haute de trois lignes.
    -------------------------------------------------------------------------- */
-.marcos .saisie {
-  flex: none; display: flex; align-items: flex-end; gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-top: var(--border-hairline) solid var(--filet); background: var(--surface-alt);
+/* ATTENTION AU SELECTEUR. La zone ET le champ portent tous deux la classe
+   « saisie », celle du composant Saisie — et elle en heritait « width: 100% »,
+   qui annulait sa marge et la faisait deborder de 11 px. Mesure. La boite
+   s'appelle donc « zone-saisie », et plus rien ne se chevauche. */
+.marcos .zone-saisie {
+  flex: none; display: flex; align-items: flex-end; gap: var(--space-3);
+  /* La zone ne touche PLUS les bords du panneau : elle s'y pose, avec le meme
+     recul que la zone d'erreur. Elle portait un filet haut sur toute la largeur
+     et des angles arrondis — un arrondi colle a un autre arrondi, qui lisait
+     comme une erreur de montage. Le filet n'a plus lieu d'etre : c'est le recul
+     qui separe la saisie du fil. */
+  margin: 0 var(--marcos-saisie-recul) var(--marcos-saisie-recul);
+  padding: var(--space-3) var(--marcos-saisie-marge);
+  border: 0; border-radius: var(--radius-lg); background: var(--surface-alt);
 }
-.marcos .saisie .saisie {
-  flex: 1; min-width: 0; min-height: 0; padding: var(--space-2) 2px;
+.marcos .zone-saisie > .saisie {
+  /* Le champ ne porte plus de marge horizontale propre : c'est la zone qui la
+     donne, une fois, pour les trois elements. Deux marges imbriquees donnaient
+     2 px ici et 12 la, et un texte colle au bord. */
+  flex: 1; min-width: 0; min-height: 0; margin: 0; padding: 0;
   border: 0; background: transparent; color: var(--texte); font-size: var(--type-body-compact);
   /* La poignee de redimensionnement du navigateur casserait la mise en page du
      panneau : la hauteur est celle des trois lignes, et elle ne bouge pas. */
   resize: none;
 }
-.marcos .saisie .saisie:focus { outline: none; }
+.marcos .zone-saisie > .saisie:focus { outline: none; }
 .marcos .compteur {
   min-width: 34px; text-align: right;
   font-family: var(--font-mono); font-size: var(--type-label); font-variant-numeric: tabular-nums;
@@ -369,7 +394,9 @@
   35% { transform: scale(.86); }
   100% { transform: scale(1); }
 }
-.marcos .env svg { width: 16px; height: 16px; stroke-width: 1.8; }
+/* La fleche remplit mieux son disque : a 16 px dans 44, elle s'y perdait et le
+   bouton lisait comme une pastille pleine posee la. */
+.marcos .env svg { width: var(--marcos-envoi-icone); height: var(--marcos-envoi-icone); stroke-width: 1.7; }
 
 .marcos .confid {
   flex: none; margin: 0; padding: var(--space-1) var(--space-3) var(--space-2);
@@ -440,8 +467,8 @@
   .marcos[data-etat="hover"] .barre { transform: none; }
   /* Les etages et les bulles n'ont plus d'animation : sans cela, leur etat
      `both` les laisserait a l'opacite de depart, c'est-a-dire invisibles. */
-  .marcos .modale__entete, .marcos .zone-fil, .marcos .saisie, .marcos .confid,
-  .marcos .conversation__tour, .marcos .pense, .marcos .exemples .bouton { opacity: 1; }
+  .marcos .modale__entete, .marcos .zone-fil, .marcos .zone-saisie, .marcos .confid,
+  .marcos .conversation__tour, .marcos [data-assistant-pense], .marcos .exemples .bouton { opacity: 1; }
 }
 
 /* Une commande indisponible le dit, et garde sa place : la barre ne doit pas
