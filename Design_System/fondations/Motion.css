@@ -14,6 +14,8 @@ html.has-overlay { overflow: hidden; }
 @keyframes planche-entree { from { opacity: .65; transform: translateY(var(--motion-planche-montee)) scale(var(--motion-planche-echelle)); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes couverture-revelation { from { opacity: 0; transform: translateY(var(--motion-couverture-montee)); } to { opacity: 1; transform: translateY(0); } }
 @keyframes etape-entree { from { opacity: 0; transform: translateY(var(--space-4)) scale(var(--motion-etape-echelle)); } to { opacity: 1; transform: translateY(0) scale(1); } }
+/* « Entrer » : la fleche descend, en continu (arretee par la reduction des animations). */
+@keyframes fleche-elan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(var(--intro-fleche-course)); } }
 @keyframes fleche-avance { 0%, 100% { transform: translate(0, -50%); opacity: .55; } 50% { transform: translate(var(--process-arrow-travel), -50%); opacity: 1; } }
 @keyframes barres-respiration { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(var(--bouton-barres-compression)); } }
 @keyframes chevron-ouverture { 0%, 100% { transform: translate(0, 0); opacity: .7; } 50% { transform: translate(var(--carte-chevron-course), calc(var(--carte-chevron-course) * -1)); opacity: 1; } }

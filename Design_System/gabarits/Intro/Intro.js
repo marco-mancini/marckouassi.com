@@ -1,13 +1,15 @@
 import { html, attributs } from "../../fondations/rendu.js";
 import { Modale, ouvrirModale, fermerModale } from "../../composants/Modale/Modale.js";
 import { Sceau, construireSceau } from "../../composants/Sceau/Sceau.js";
-import { Segments } from "../../composants/Segments/Segments.js";
+import { Segments, activerSegments } from "../../composants/Segments/Segments.js";
+import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Sequence, jouerSequence, preparerSequence } from "./Sequence.js";
 
 /**
  * Intro — expérience d'entrée, par assemblage :
  *   1. le sceau, seul, grand et centré, qui se construit (Sceau, anime : "construction")
- *   2. l'entrée par la langue (Segments nus) : un seul geste
+ *   2. en haut, le choix FR/EN (Segments, boutons) traduit l'accueil sur place ;
+ *      en bas, « Entrer » et sa flèche animée entrent dans la langue choisie
  *   3. la séquence d'ouverture (Sequence.js) : le sceau se désintègre et construit
  *      l'animation, qui se termine sur la couverture (page 1)
  *
@@ -23,9 +25,13 @@ import { Sequence, jouerSequence, preparerSequence } from "./Sequence.js";
 export function Intro({ intro, ctx, langues, contenu = null }) {
   if (!intro?.active) return "";
   const { t } = ctx;
-  const scene = html`<div class="intro__scene">
-<div class="intro__etape intro__etape--ouverture" data-etape="ouverture">${Sceau({ taille: "grand", anime: "construction" })}</div>
-<div class="intro__etape intro__entrees" data-etape="langue"><p class="intro__invite">${t("intro.entrer")}</p>${Segments({ options: langues.map((langue) => ({ ...langue, libelle: langue.nom || langue.libelle, nom: null, drapeau: null })), etiquette: t("langue.selecteur"), variante: "nue" })}</div>
+  // Textes de l'accueil dans chaque langue : le choix FR/EN les bascule sur place, sans recharger.
+  const traductions = (cle) => Object.fromEntries(langues.map((langue) => [`data-texte-${langue.lang}`, lireTexte(ctx.dictionnaires?.[langue.lang], cle) ?? t(cle)]));
+  const pages = Object.fromEntries(langues.map((langue) => [`data-page-${langue.lang}`, langue.href]));
+  const scene = html`<div class="intro__scene"${attributs({ tabindex: "-1", autofocus: true, ...traductions("intro.passer") })}>
+<div class="intro__etape intro__langues" data-etape="langue"${attributs(traductions("langue.selecteur"))}>${Segments({ options: langues.map((langue) => ({ libelle: langue.libelle, nom: langue.nom, valeur: langue.lang, actif: langue.actif })), etiquette: t("langue.selecteur"), mode: "boutons", cle: "intro-langue" })}</div>
+<div class="intro__etape intro__etape--ouverture" data-etape="ouverture"${attributs(traductions("intro.etiquette"))}>${Sceau({ taille: "grand", anime: "construction" })}</div>
+<div class="intro__etape intro__entree" data-etape="entree">${Bouton({ texte: t("intro.entrer"), variante: "nu", options: { icone: "bas", taille: "grand", attributs: { "data-intro-entrer": true, ...pages, ...traductions("intro.entrer") } } })}</div>
 </div>`;
   return html`<template id="intro-modele"${attributs({ "data-frequence": intro.frequence || "session" })}>${Modale({
     id: "intro", etiquette: t("intro.etiquette"), contenu: scene,
@@ -55,6 +61,12 @@ function dejaVue(frequence) {
 }
 function memoriser(frequence) {
   try { (frequence === "une-fois" ? localStorage : sessionStorage).setItem(CLE, "1"); } catch { /* stockage indisponible : l'accueil rejouera */ }
+}
+
+/** Texte d'un dictionnaire par sa clé pointée (« intro.entrer »), ou undefined. */
+function lireTexte(dictionnaire, cle) {
+  const valeur = cle.split(".").reduce((noeud, partie) => noeud?.[partie], dictionnaire);
+  return typeof valeur === "string" ? valeur : undefined;
 }
 
 /** Arrivée par l'autre langue : la séquence se joue sur la page d'arrivée. */
@@ -94,14 +106,27 @@ export async function lancerIntro({ reduit = false } = {}) {
     if (!enSequence) document.getElementById("contenu")?.focus({ preventScroll: true });
   });
 
-  // La langue courante fait entrer dans le portfolio. L'autre langue mène à
-  // sa page : l'accueil est marqué vu, et la séquence s'y jouera.
-  dialogue.addEventListener("click", (evenement) => {
-    const lien = evenement.target.closest(".segments__option");
-    if (!lien) return;
+  // Le choix FR/EN traduit l'accueil sur place ; « Entrer » entre dans la langue choisie.
+  const langueDePage = document.documentElement.lang;
+  let langueChoisie = langueDePage;
+  const entrer = dialogue.querySelector("[data-intro-entrer]");
+  const passer = dialogue.querySelector("[data-modale-fermer]");
+  const groupe = dialogue.querySelector("[data-segments]");
+  const traduire = (langue) => {
+    const texte = (element) => element?.getAttribute(`data-texte-${langue}`);
+    entrer.querySelector(".bouton__texte").textContent = texte(entrer);
+    entrer.setAttribute("lang", langue);
+    groupe.setAttribute("aria-label", texte(etape("langue")));
+    passer.querySelector(".bouton__texte").textContent = texte(dialogue.querySelector(".intro__scene"));
+    dialogue.setAttribute("aria-label", texte(etape("ouverture")));
+  };
+  activerSegments(groupe, (langue) => { langueChoisie = langue; traduire(langue); });
+  entrer.addEventListener("click", () => {
     memoriser(frequence);
-    if (lien.getAttribute("aria-current") === "true") { evenement.preventDefault(); dialogue.dispatchEvent(new Event("intro-continuer")); }
-    else if (!reduit) promettreSequence();
+    if (langueChoisie === langueDePage) { dialogue.dispatchEvent(new Event("intro-continuer")); return; }
+    // L'autre langue est une autre page : la séquence s'y jouera à l'arrivée.
+    if (!reduit) promettreSequence();
+    window.location.href = entrer.getAttribute(`data-page-${langueChoisie}`);
   });
   const choix = new Promise((resoudre) => dialogue.addEventListener("intro-continuer", resoudre, { once: true }));
 
@@ -114,7 +139,9 @@ export async function lancerIntro({ reduit = false } = {}) {
     if (terminee) return;
   }
   montrer("langue");
-  dialogue.querySelector('.segments__option[aria-current="true"]')?.focus();
+  montrer("entree");
+  // Pas de focus forcé : il afficherait un anneau sans geste au clavier. L'ordre de tabulation
+  // reste naturel : « Passer », FR/EN, puis « Entrer ».
   await choix;
   if (terminee) return;
   if (reduit) return fermerModale(dialogue);

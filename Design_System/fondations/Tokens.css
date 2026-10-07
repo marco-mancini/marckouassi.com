@@ -592,6 +592,10 @@
   --sequence-lueur-rayon: 26px; /* la charge du sceau avant sa dissolution */
   --sequence-lueur: color-mix(in srgb, var(--accent-gold) 75%, transparent);
   --intro-soulignement-retrait: .45em;
+  --intro-fleche-taille: clamp(2.25rem, 7vw, 3.5rem); /* la fleche d'« Entrer » */
+  --intro-fleche-course: .3em; /* sa descente */
+  --intro-fleche-duree: 1.4s;
+  --intro-entrer-interlettrage: .18em;
   --cover-edition-offset-telephone: var(--space-4);
   --cover-padding-top-telephone: var(--space-4);
   --cover-padding-bottom-compact: var(--space-6);

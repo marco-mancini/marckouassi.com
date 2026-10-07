@@ -269,7 +269,7 @@ test("accueil animé : apparaît, « Passer » le ferme, mémorisé ; animations
   await page.waitForFunction(() => document.getElementById("intro")?.open);
   const passer = page.locator('#intro [data-modale-fermer]');
   assert.ok(await passer.isVisible());
-  assert.equal((await passer.textContent()).trim(), "Passer l’introduction");
+  assert.equal((await passer.textContent()).trim(), "Passer");
   await passer.click();
   // L'événement « close » d'un <dialog> est asynchrone : on attend la condition.
   await page.waitForFunction(() => !document.getElementById("intro"), null, { timeout: 5000 });
@@ -282,7 +282,8 @@ test("accueil animé : apparaît, « Passer » le ferme, mémorisé ; animations
   const reduit = await ouvrir(nav, serveur.url + "/", { introVue: false, reduit: true });
   await reduit.waitForFunction(() => document.getElementById("intro")?.open);
   assert.ok(await reduit.locator('#intro [data-etape="langue"]').isVisible());
-  await reduit.locator('#intro .segments__option[lang="en"]').click();
+  await reduit.locator('#intro .segments__option[data-valeur="en"]').click();
+  await reduit.locator("#intro [data-intro-entrer]").click();
   await reduit.waitForURL(/\/en\/$/);
   await reduit.waitForTimeout(500);
   assert.equal(await reduit.locator("#intro").count(), 0, "l'accueil ne se rejoue pas après le choix de langue");
@@ -317,7 +318,7 @@ test("séquence : de l'accueil à la couverture, sceau relayé au pixel aux deux
     const page = await accueilPret({ largeur, hauteur, theme });
     const cadreAccueil = await zone(page, "#intro .sceau", 30);
     const avant = await page.screenshot({ clip: cadreAccueil });
-    await page.click('#intro .segments__option[aria-current="true"]');
+    await page.click("#intro [data-intro-entrer]");
     await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
     await attendreReel(150);
     // Premier relais : le sceau de la séquence est celui de l'accueil, au pixel.
@@ -348,7 +349,7 @@ test("séquence : de l'accueil à la couverture, sceau relayé au pixel aux deux
 test("séquence : « Passer » et Échap rendent la couverture sur-le-champ", async () => {
   for (const geste of ["passer", "echap"]) {
     const page = await accueilPret({ largeur: 390, hauteur: 844 });
-    await page.click('#intro .segments__option[aria-current="true"]');
+    await page.click("#intro [data-intro-entrer]");
     await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
     await page.clock.runFor(2500);
     if (geste === "passer") await page.click("[data-sequence-passer]"); else await page.keyboard.press("Escape");
@@ -366,7 +367,10 @@ test("séquence : « Passer » et Échap rendent la couverture sur-le-champ", as
 
 test("séquence : choisir l'autre langue la joue sur la page d'arrivée, sans repasser par l'accueil", async () => {
   const page = await accueilPret({ largeur: 390, hauteur: 844 });
-  await page.click('#intro .segments__option[lang="en"]');
+  await page.click('#intro .segments__option[data-valeur="en"]');
+  assert.equal((await page.textContent("#intro [data-intro-entrer] .bouton__texte")).trim(), "Enter the portfolio", "l'accueil se traduit sur place");
+  assert.equal((await page.textContent("#intro [data-modale-fermer]")).trim(), "Skip");
+  await page.click("#intro [data-intro-entrer]");
   await page.waitForURL(/\/en\/$/);
   await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
   assert.equal(await page.locator("#intro").count(), 0, "l'accueil ne se rejoue pas");
@@ -382,7 +386,7 @@ test("séquence : choisir l'autre langue la joue sur la page d'arrivée, sans re
 test("séquence : absente en mouvement réduit et sans JavaScript", async () => {
   const reduit = await ouvrir(nav, serveur.url + "/", { introVue: false, reduit: true });
   await reduit.waitForFunction(() => document.getElementById("intro")?.open);
-  await reduit.locator('#intro .segments__option[aria-current="true"]').click();
+  await reduit.locator("#intro [data-intro-entrer]").click();
   await reduit.waitForFunction(() => !document.getElementById("intro"));
   assert.equal(await reduit.locator(".sequence").count(), 0, "mouvement réduit : aucune séquence");
   await reduit.fermer();

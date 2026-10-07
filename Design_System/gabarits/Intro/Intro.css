@@ -5,28 +5,29 @@
    (Sequence.js) suit : ses couleurs et tailles sont des jetons.
    ========================================================================== */
 .intro__scene { display: flex; flex: 1; flex-direction: column; width: min(100%, var(--intro-largeur-max)); margin-inline: auto; align-items: center; gap: var(--space-6); text-align: center; }
-/* Le sceau seul, grand et centre : c'est lui qui ouvrira la sequence.
-   L'entree par la langue descend en bas, a portee de pouce. */
+/* En haut le choix FR/EN, au centre le sceau seul (c'est lui qui ouvrira la
+   sequence), en bas « Entrer », a portee de pouce. */
 .intro__etape--ouverture { margin-block: auto; }
 .intro__etape--ouverture .sceau { width: var(--intro-sceau-taille); }
-.intro__entrees.est-active { gap: var(--space-3); }
 .intro__etape { display: none; }
 .intro__etape.est-active { display: flex; flex-direction: column; align-items: center; gap: var(--space-5); }
-/* Entree : deux liens fins, sans bouton. Le soulignement suit la langue courante. */
-.intro__entrees .segments { justify-content: center; gap: var(--space-6); }
-.intro__entrees .segments__option, .intro__entrees .segments__option[aria-current="true"] { background: none; color: var(--paper); border-radius: 0; padding: 0; text-transform: none; letter-spacing: var(--interlettrage-commande); text-underline-offset: var(--intro-soulignement-retrait); }
-.intro__entrees .segments__option[aria-current="true"] { text-decoration: underline; text-decoration-thickness: var(--border-hairline); }
-.intro__entrees .segments__option:hover { background: none; text-decoration: underline; }
-.intro__invite { margin: 0; color: var(--texte-discret); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-commande); text-transform: uppercase; }
+/* Entrer : un libelle fin et, dessous, une grande fleche qui descend sans cesse. */
+.intro__entree .bouton__ligne { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.intro__entree .bouton { color: var(--paper); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--intro-entrer-interlettrage); text-transform: uppercase; }
+.intro__entree .bouton:hover .bouton__texte { text-decoration: underline; text-underline-offset: var(--intro-soulignement-retrait); }
+.intro__entree .bouton__icone { font-family: var(--font-mono); font-size: var(--intro-fleche-taille); font-weight: 300; line-height: 1; animation: fleche-elan var(--intro-fleche-duree) ease-in-out infinite; }
+/* Le focus initial de la modale se pose sur la scene (non interactive) : aucun anneau
+   n'apparait sans geste au clavier ; Tab mene ensuite a FR/EN, puis a « Entrer ». */
+.intro__scene:focus { outline: none; }
+/* « Passer » : discret, en haut a droite. La zone de clic garde ses 44 px. */
+#intro .modale__entete [data-modale-fermer], [data-sequence-passer] { min-height: var(--cible-tactile); padding: 0 var(--space-2); border: 0; background: none; color: var(--paper); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-commande); opacity: .75; }
+#intro .modale__entete [data-modale-fermer]:hover, [data-sequence-passer]:hover { opacity: 1; text-decoration: underline; }
 
 @media (max-width: 600px) {
   /* L'ecran est haut et etroit : la scene n'a pas besoin des grands ecarts
      prevus pour un ecran large. */
   .intro__scene { gap: var(--intro-espace-telephone); }
   .intro__etape.est-active { gap: var(--space-4); }
-  /* « Passer l'introduction » tombe sur telephone : l'accueil s'y quitte par
-     le choix de langue, ou par Echap. Au-dela, la commande reste. */
-  #intro .modale__entete [data-modale-fermer] { display: none; }
 }
 
 /* ==========================================================================
@@ -77,6 +78,6 @@
 .sequence__bande-texte[data-bande="1"] { clip-path: inset(33% 0 33% 0); }
 .sequence__bande-texte[data-bande="2"] { clip-path: inset(66% 0 0 0); }
 .sequence__metier { margin: 0; color: var(--paper); font: 500 var(--sequence-metier-taille)/1 var(--font-mono); text-transform: uppercase; white-space: nowrap; opacity: 0; }
-[data-sequence-passer] { position: fixed; z-index: 101; right: var(--space-4); bottom: max(var(--space-4), env(safe-area-inset-bottom)); color: var(--paper); border-color: var(--paper); background: color-mix(in srgb, var(--olive-deep) 70%, transparent); }
+[data-sequence-passer] { position: fixed; z-index: 101; top: max(var(--space-2), env(safe-area-inset-top)); right: var(--page-gutter); }
 [data-sequence-passer][hidden] { display: none; }
 @media (max-aspect-ratio: 4 / 5) { .sequence__ligne { font-size: var(--sequence-nom-taille-portrait); } }

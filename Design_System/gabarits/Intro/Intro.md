@@ -5,7 +5,11 @@
 ## Parcours
 
 1. **Accueil** : le sceau seul, grand et centré, se construit en 3 s (Sceau, `anime: "construction"`, jetons `--construction-*`, `--intro-sceau-taille`).
-2. **Entrée par la langue** : deux liens fins (Segments nus). La langue courante fait entrer ; l'autre mène à `/` ou `/en/`, où la séquence se joue à l'arrivée. Un seul geste, pas de bouton.
+2. **Langue et entrée** :
+   - en haut, le choix **FR / EN** (Segments, boutons) traduit l'accueil **sur place**, sans recharger. Il part de la langue de la page, jamais de celle du navigateur ;
+   - en bas, **« Entrer dans le portfolio »** et sa grande flèche vers le bas, qui descend en continu (`fleche-elan`, jetons `--intro-fleche-*`, arrêtée par la réduction des animations). Il entre dans la langue choisie : celle de la page lance la séquence ici ; l'autre mène à sa page, où la séquence se joue à l'arrivée ;
+   - **« Passer »**, petit, en haut à droite (zone de clic de 44 px conservée) ;
+   - le focus initial se pose sur la scène, non interactive : aucun anneau sans geste au clavier ; Tab mène à FR/EN puis à « Entrer ».
 3. **Séquence d'ouverture** (`Sequence.js`, 7,9 s) :
    - le sceau de l'accueil, relevé au pixel, se charge de lumière puis se désintègre de gauche à droite en particules ;
    - les particules tourbillonnent en galaxie et s'abattent sur la grille de la page, avec une onde d'impact ;
@@ -38,7 +42,7 @@ Les deux bascules sont mesurées dans le navigateur (tests `séquence : …`, é
 
 - Sans JavaScript, ni l'accueil ni la séquence n'existent (`<template>`) : le portfolio s'affiche directement.
 - Mouvement réduit : ni construction ni séquence ; le choix de langue ferme l'accueil.
-- « Passer l'introduction » est toujours disponible, puis le bouton « Passer » de la séquence, qui reçoit le focus ; Échap ferme aussi. Les deux rendent immédiatement la couverture complète.
+- « Passer » est toujours disponible sur l'accueil, puis sur la séquence (où il reçoit le focus) ; Échap ferme aussi. Les deux rendent immédiatement la couverture complète.
 - Le défilement reste verrouillé pendant la séquence (verrou compté partagé avec `Modale`) et rendu à la fin.
 - La séquence est décorative (`aria-hidden`) : les mêmes informations sont dans la couverture.
 - Son synthétisé, sans fichier, seulement après le geste d'entrée ; à l'arrivée par l'autre langue, le navigateur interdit le son sans geste : la séquence y est muette.
