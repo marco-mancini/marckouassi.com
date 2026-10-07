@@ -163,7 +163,11 @@ export function Assistant({ assistant, ctx, endpoint }) {
       ${Bouton({ texte: t("nouvelle"), variante: "principal", options: { icone: "bas", attributs: { type: "button", class: "neuf", "data-assistant-neuf": "", "data-on": "0" } } })}
     </div>
     <div class="erreur" data-assistant-erreur role="alert"></div>
-    <div class="saisie">
+    ${/* « zone-saisie », PAS « saisie » : le champ porte deja cette classe, qu'il
+          tient du composant Saisie. Nommer la boite comme lui la faisait heriter
+          des styles du composant — dont « width: 100% », qui annulait la marge
+          et faisait deborder la boite de 11 px hors du panneau. Mesure. */ ""}
+    <div class="zone-saisie">
       <label class="visually-hidden" for="assistant-question">${t("question")}</label>
       ${/* `long`, 3 lignes : c'est le contrat d'AI_UX.md (« Champ de question |
             Champ + Saisie | formulaire + long (3 lignes) »). La maquette

@@ -802,17 +802,21 @@
   --marcos-onde-crete: 16px; /* hauteur d'un barreau au sommet */
   --marcos-onde-decalage: .12s; /* retard d'un barreau sur le précédent */
   --marcos-cible: 44px; /* cible tactile des commandes du panneau */
+  --marcos-saisie-marge: 16px; /* air autour du champ : a 12 px le texte touchait presque le bord */
+  --marcos-saisie-recul: 12px; /* recul de la zone de saisie depuis les bords du panneau */
+  --marcos-envoi-icone: 20px; /* la fleche d'envoi. A 16 px dans un disque de 44, elle s'y perdait */
   --marcos-cible-barre: 52px; /* cible tactile des trois boutons de la barre */
   --marcos-barre-rembourrage: var(--space-6); /* respiration intérieure de la barre au repos */
   --marcos-barre-ecart: var(--space-2); /* espace entre une commande et son séparateur */
   --marcos-barre-rayon: 22px; /* arrondi de la barre : adouci, pas une pilule */
-  /* Zone cliquable du buste. Les fichiers ont des marges transparentes —
-     mesure du 5 octobre 2026 sur l'expression de repos : le sujet occupe
-     x 58→724 et y 122→666 sur 783 × 667. Hors de cette zone, le bouton
-     laisserait passer un clic sur une image vide et volerait les liens de la
-     page qui passent dessous. */
-  --marcos-buste-zone-haut: 18%;
-  --marcos-buste-zone-cote: 7%;
+  /* Il y avait ici deux jetons de « zone cliquable du buste », 18 % et 7 %,
+     appliqués en clip-path sur le bouton. Retirés le 7 octobre 2026 : un
+     clip-path rogne le DESSIN autant que la zone, et il coupait 18 % du haut
+     du crâne. La mesure des marges transparentes reste vraie — le sujet occupe
+     x 58→724 et y 122→666 sur 783 × 667 — mais elle ne se traduit pas en
+     clip-path. Le bouton prend tout le cadre : sa marge transparente agrandit
+     la cible au lieu de la réduire, et les images portent déjà
+     « pointer-events: none ». */
   --marcos-t-court: 180ms; /* survol, fond, couleur */
   --marcos-t-moyen: 320ms; /* ouverture du panneau, déplacement du buste */
   --marcos-t-long: 520ms; /* rayon de la barre */
