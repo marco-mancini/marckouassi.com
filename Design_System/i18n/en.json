@@ -103,9 +103,9 @@
       "trop_long": "This question is too long. Please shorten it to 500 characters at most.",
       "trop_de_demandes": "Too many questions in a row. Please wait a moment and try again.",
       "quota_journalier": "MarcoS has reached today’s limit. You can continue by e-mail.",
-      "indisponible": "MarcoS is temporarily unavailable. You can continue by e-mail.",
+      "indisponible": "You can e-mail Mr. Kouassi.",
       "delai_depasse": "MarcoS did not answer in time. Try again, or continue by e-mail.",
-      "hors_ligne": "The connection seems to be down. Please check it and try again."
+      "hors_ligne": "Please check your connection and try again."
     },
     "role": "Portfolio assistant",
     "activite": "MarcoS activity",

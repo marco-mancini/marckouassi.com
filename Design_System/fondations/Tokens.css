@@ -777,7 +777,13 @@
   --marcos-marge: 24px; /* recul depuis le coin inférieur droit */
   --marcos-marge-mobile: 12px; /* idem sous 520 px */
   --marcos-panneau-largeur: 372px; /* largeur du panneau, et donc du socle */
-  --marcos-panneau-hauteur: min(460px, calc(100dvh - 240px)); /* hauteur bornée : jamais de croissance infinie */
+  /* Ce que MarcoS occupe VERTICALEMENT en plus de son panneau : le buste posé
+     dessus (214 px mesurés), le socle de la barre (72 px) et le recul du coin
+     (24 px). La hauteur du panneau se calcule en retirant cette réserve, sinon
+     le buste passe au-dessus du bord haut : mesuré, 14 px coupés dans une
+     fenêtre de 650 px, 71 px dans une fenêtre de 560. */
+  --marcos-reserve-verticale: 320px;
+  --marcos-panneau-hauteur: min(460px, calc(100dvh - var(--marcos-reserve-verticale))); /* hauteur bornée : jamais de croissance infinie */
   --marcos-panneau-hauteur-mobile: min(58dvh, 420px); /* idem sur téléphone */
   --marcos-panneau-ecart: 10px; /* entre le panneau et la barre */
   --marcos-barre-ouverte: 75%; /* la barre se recentre sous le panneau à l'ouverture */
@@ -972,6 +978,7 @@
   --message-sceau-ecart: var(--space-3);
   --message-sceau-marge: var(--space-7) var(--space-5);
   --message-compact-sceau: 64px;
+  --message-ligne-sceau: 28px; /* etat sur une ligne : le sceau tient dans la hauteur du texte */
   --message-compact-titre: 1.5rem; /* 24 px : grand texte, l or sur olive (3,5:1) reste lisible */
   --message-compact-ecart: var(--space-2);
   --message-compact-marge: var(--space-5) var(--space-4);

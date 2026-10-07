@@ -171,20 +171,31 @@ test("D-9 : les trois derniers exemples sont ceux que MarcoS doit REFUSER", () =
 });
 
 test("D-9 : la mention de confidentialité ne dit que des choses vérifiées dans le code", () => {
-  // Elle a été réécrite le 5 octobre 2026 après audit du code. L'ancienne —
-  // « Vos échanges avec MarcoS restent privés. » — promettait plus que ce que
-  // le système tient : la question EST transmise à un tiers pour obtenir une
-  // réponse, et le refus d'entraînement (D-11) est une action que Marc doit
-  // encore poser dans le panneau Mistral. Chaque membre de phrase ci-dessous
-  // correspond à un comportement prouvé, et à rien d'autre.
-  assert.equal(
-    D9.confidentialite.fr,
-    "🔒 Vos échanges restent dans cet onglet et ne sont conservés nulle part. Votre question est transmise au modèle qui y répond, et rien n’est envoyé à M. Kouassi sans votre accord.",
-  );
-  assert.equal(
-    D9.confidentialite.en,
-    "🔒 Your conversation stays in this tab and is never stored. Your question is sent to the model that answers it, and nothing reaches Mr. Kouassi without your consent.",
-  );
+  // HISTOIRE DE CETTE PHRASE, parce qu'elle a changé deux fois pour des raisons
+  // opposées et qu'on ne doit pas refaire le premier aller-retour.
+  //
+  // 1. À l'origine : « Vos échanges avec MarcoS restent privés. » L'audit du
+  //    5 octobre (D-41) l'a retirée — elle promettait plus que le système ne
+  //    tient, puisque la question EST transmise à un tiers pour obtenir sa
+  //    réponse, et que le refus d'entraînement (D-11) reste une bascule que
+  //    Marc doit poser dans le panneau Mistral.
+  // 2. Sa remplaçante disait les trois choses vérifiables — mais elle tenait
+  //    CINQ LIGNES dans un panneau de 372 px, mesuré. Marc l'a raccourcie le
+  //    7 octobre.
+  // 3. Celle-ci ne garde que la promesse qui tient en une ligne ET reste vraie.
+  //    Elle ne dit plus que la question part chez le modèle : elle ne le nie
+  //    pas davantage, là où « restent privés » l'aurait nié.
+  assert.equal(D9.confidentialite.fr, "🔒 Vos échanges restent dans cet onglet.");
+  assert.equal(D9.confidentialite.en, "🔒 Your conversation stays in this tab.");
+
+  // Le garde-fou qui compte maintenant : ne JAMAIS reprendre une formulation
+  // qui laisserait croire que l'échange ne sort pas du navigateur.
+  for (const langue of ["fr", "en"]) {
+    const texte = D9.confidentialite[langue].toLowerCase();
+    for (const interdit of ["privé", "prive", "private", "confidentiel", "chiffré", "encrypted", "entre nous"]) {
+      assert.ok(!texte.includes(interdit), `${langue} : « ${interdit} » promettrait ce que D-41 a retiré`);
+    }
+  }
 });
 
 test("D-9 : chaque promesse de la mention correspond à un comportement du code", () => {

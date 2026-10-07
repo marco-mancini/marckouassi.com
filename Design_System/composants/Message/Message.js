@@ -12,11 +12,19 @@ const ROLES = { erreur: "alert", succes: "status", info: "status", attention: "s
  * @param {string|null} [p.titre]
  * @param {string} p.texte
  * @param {*} [p.action]                         Bouton éventuel (ex. « Ajouter un projet »)
- * @param {"encart"|"toast"|{sceau:string, compact?:boolean, toast?:boolean, niveau?:number, nu?:boolean}} [p.mode]
+ * @param {"encart"|"toast"|{sceau:string, compact?:boolean, ligne?:boolean, sansPhrase?:boolean, toast?:boolean, niveau?:number, nu?:boolean}} [p.mode]
  *        objet : l'état du site (#162) — sceau animé de l'humeur `sceau` (Sceau, HUMEURS),
  *        titre bicolore, phrase, actions ; même gabarit partout. `compact` : en petit
  *        (conversation, média, bas d'écran) ; `toast` : entrée d'un toast ; `niveau` :
  *        le titre devient un titre hN (page entière : 1) ; `nu` : voir ci-dessous.
+ *
+ *        `ligne` — sceau réduit et titre À CÔTÉ de lui ; la phrase et les actions
+ *        reviennent à la ligne. Pour une surface étroite, où le gabarit complet
+ *        mangerait la place de ce qu'il interrompt.
+ *
+ *        `sansPhrase` — la phrase est masquée À L'ŒIL quand le titre la redit
+ *        déjà. Elle reste dans le DOM, lue par les lecteurs d'écran : c'est la
+ *        différence avec `display: none`, qui l'aurait retirée des deux.
  *
  *        `nu` — le même gabarit SANS son îlot olive : le sceau animé, le titre et
  *        la phrase se posent directement sur le fond qui les accueille. C'est ce
@@ -32,7 +40,7 @@ export function Message({ type = "info", titre = null, texte, action = null, mod
     const balise = mode.niveau ? `h${mode.niveau}` : "p";
     // `nu` retire l'îlot olive ET sa classe : sans elle, les variables de
     // couleur ne sont pas redéfinies, et le contenu lit celles du thème.
-    return html`<div${attributs({ class: classes("message", `message--${type}`, "message--sceau", mode.compact && "message--compact", mode.toast && "message--toast", mode.nu ? "message--nu" : "ilot-olive"), role: ROLES[type], "aria-busy": type === "chargement" ? "true" : null })}>${Sceau({ taille: "grand", anime: mode.sceau, auto: true })}${titre ? html`<${brut(balise)} class="message__titre">${titreBicolore(titre)}</${brut(balise)}>` : ""}<p class="message__phrase">${texte}</p>${action ? html`<div class="message__action">${action}</div>` : ""}</div>`;
+    return html`<div${attributs({ class: classes("message", `message--${type}`, "message--sceau", mode.compact && "message--compact", mode.ligne && "message--ligne", mode.sansPhrase && "message--sans-phrase", mode.toast && "message--toast", mode.nu ? "message--nu" : "ilot-olive"), role: ROLES[type], "aria-busy": type === "chargement" ? "true" : null })}>${Sceau({ taille: "grand", anime: mode.sceau, auto: true })}${titre ? html`<${brut(balise)} class="message__titre">${titreBicolore(titre)}</${brut(balise)}>` : ""}<p class="message__phrase">${texte}</p>${action ? html`<div class="message__action">${action}</div>` : ""}</div>`;
   }
   return html`<div${attributs({ class: classes("message", `message--${type}`, `message--${mode}`), role: ROLES[type], "aria-busy": type === "chargement" ? "true" : null })}><div class="message__texte">${titre ? html`<p class="message__titre">${titre}</p>` : ""}<p>${texte}</p></div>${action ? html`<div class="message__action">${action}</div>` : ""}</div>`;
 }

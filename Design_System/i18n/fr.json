@@ -102,9 +102,9 @@
       "trop_long": "Cette question est trop longue. Raccourcissez-la à 500 caractères au plus.",
       "trop_de_demandes": "Trop de questions d’affilée. Patientez un instant, puis réessayez.",
       "quota_journalier": "MarcoS a atteint sa limite du jour. Vous pouvez poursuivre par e-mail.",
-      "indisponible": "MarcoS est momentanément indisponible. Vous pouvez poursuivre par e-mail.",
+      "indisponible": "Vous pouvez écrire à M. Kouassi.",
       "delai_depasse": "MarcoS n’a pas répondu à temps. Réessayez, ou poursuivez par e-mail.",
-      "hors_ligne": "La connexion semble interrompue. Vérifiez-la, puis réessayez."
+      "hors_ligne": "Vérifiez votre connexion, puis réessayez."
     },
     "role": "Assistant du portfolio",
     "activite": "Activité de MarcoS",

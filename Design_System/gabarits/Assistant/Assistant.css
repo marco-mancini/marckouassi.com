@@ -280,12 +280,15 @@
 .marcos .conversation, .marcos .conversation__tours { display: contents; }
 /* Une bulle arrive de SON cote : celle du visiteur monte de la droite, celle
    de MarcoS de la gauche. C'est le geste qui dit qui parle, avant la couleur. */
-.marcos .conversation__tour, .marcos .pense {
+.marcos .conversation__tour, .marcos [data-assistant-pense] {
   max-width: var(--marcos-bulle-largeur); padding: var(--space-2) var(--space-3);
   border: 0; border-radius: var(--radius-lg); font-size: var(--type-body-compact);
   animation: marcos-bulle-gauche var(--marcos-bulle-duree) var(--marcos-rebond) both;
 }
 .marcos .conversation__tour--visiteur { animation-name: marcos-bulle-droite; }
+/* L'attente est le gabarit d'etat sur une ligne, pas une bulle : elle garde
+   l'entree animee du fil, mais ni la largeur bornee ni la marge d'une bulle. */
+.marcos [data-assistant-pense] { max-width: none; padding: 0; }
 @keyframes marcos-bulle-gauche {
   from { opacity: 0; transform: translate(calc(-1 * var(--marcos-bulle-entree)), var(--marcos-bulle-entree)) scale(var(--marcos-bulle-echelle)); }
   to { opacity: 1; transform: none; }
@@ -309,14 +312,19 @@
 .marcos .conversation__vide { display: none; }
 
 /* --------------------------------------------------------------------------
-   L'ERREUR — un bandeau dans le panneau, pas une alerte hors contexte.
+   L'ERREUR — sous le fil, jamais tronquee.
+
+   Cette zone n'est plus qu'un EMPLACEMENT : le gabarit d'etat au sceau
+   (Message, mode nu) porte lui-meme son filet, son rayon et ses couleurs.
+   Lui laisser les siens donnait DEUX filets imbriques — vu a l'ecran, corrige.
+
+   Elle reste entre le fil et la saisie, et c'est la raison d'etre de ce
+   placement : dans le fil, l'erreur poussait la conversation hors du champ et
+   finissait elle-meme coupee — 175 px de debordement, mesure. Ici le fil defile
+   et l'erreur reste entiere.
    -------------------------------------------------------------------------- */
 .marcos .erreur {
-  display: none; align-items: center; flex-wrap: wrap; gap: var(--space-2);
-  margin: 0 var(--space-4) var(--space-3); padding: var(--space-3);
-  border: var(--border-hairline) solid var(--erreur); border-radius: var(--radius-lg);
-  background: var(--surface-alt); color: var(--texte);
-  font-size: var(--type-body-compact); line-height: 1.45;
+  display: none; margin: 0 var(--space-4) var(--space-3);
 }
 .marcos[data-erreur="1"] .erreur { display: flex; }
 /* Tant que l'erreur tient, la saisie et les suggestions sont en retrait :
@@ -433,7 +441,7 @@
   /* Les etages et les bulles n'ont plus d'animation : sans cela, leur etat
      `both` les laisserait a l'opacite de depart, c'est-a-dire invisibles. */
   .marcos .modale__entete, .marcos .zone-fil, .marcos .saisie, .marcos .confid,
-  .marcos .conversation__tour, .marcos .pense, .marcos .exemples .bouton { opacity: 1; }
+  .marcos .conversation__tour, .marcos [data-assistant-pense], .marcos .exemples .bouton { opacity: 1; }
   .marcos .curseur { display: none; }
 }
 
