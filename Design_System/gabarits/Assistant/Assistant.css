@@ -325,16 +325,24 @@
 .marcos[data-erreur="1"] .exemples { opacity: .45; pointer-events: none; }
 
 /* --------------------------------------------------------------------------
-   LA SAISIE — une ligne, son compteur, et l'envoi.
+   LA SAISIE — trois lignes, son compteur, et l'envoi.
+
+   C'est un <textarea> de trois lignes, pas un champ d'une ligne : AI_UX.md
+   l'exige, et un <input> ne peut pas recevoir le retour a la ligne de
+   « Maj + Entree » (#168). Le compteur et l'envoi s'alignent donc en BAS,
+   sinon ils flotteraient au milieu d'une zone haute de trois lignes.
    -------------------------------------------------------------------------- */
 .marcos .saisie {
-  flex: none; display: flex; align-items: center; gap: var(--space-2);
+  flex: none; display: flex; align-items: flex-end; gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
   border-top: var(--border-hairline) solid var(--filet); background: var(--surface-alt);
 }
 .marcos .saisie .saisie {
   flex: 1; min-width: 0; min-height: 0; padding: var(--space-2) 2px;
   border: 0; background: transparent; color: var(--texte); font-size: var(--type-body-compact);
+  /* La poignee de redimensionnement du navigateur casserait la mise en page du
+     panneau : la hauteur est celle des trois lignes, et elle ne bouge pas. */
+  resize: none;
 }
 .marcos .saisie .saisie:focus { outline: none; }
 .marcos .compteur {
@@ -434,7 +442,6 @@
      `both` les laisserait a l'opacite de depart, c'est-a-dire invisibles. */
   .marcos .modale__entete, .marcos .zone-fil, .marcos .saisie, .marcos .confid,
   .marcos .conversation__tour, .marcos .pense, .marcos .exemples .bouton { opacity: 1; }
-  .marcos .curseur { display: none; }
 }
 
 /* Une commande indisponible le dit, et garde sa place : la barre ne doit pas

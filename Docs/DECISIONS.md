@@ -38,6 +38,40 @@ Décision de Marc, en conversation à 20 h 10 · issue [#29](https://github.com/
 **Impact.** **Aucune ligne de `content/projets.json` n'est modifiée** — vérifié projet par projet : les onze valeurs correspondent exactement à celles que Marc a énumérées. `CONTENT_CHECKLIST.md` remplace sa liste par un tableau des onze périodes, retire toutes les mentions « estimée », et sa section « Points à confirmer » devient vide. Le document dit désormais explicitement qu'en cas d'écart, c'est le contenu qui fait foi.
 
 **Réversibilité.** Totale : les périodes s'éditent dans `/admin/`, champ `annees` de chaque projet.
+## 2026-10-07 — L'effet de frappe de MarcoS est une régression, pas un arbitrage
+
+Décision de Marc, en conversation · issue [#168](https://github.com/marco-mancini/marckouassi.com/issues/168).
+
+**Problème.** Le lot de la maquette écrivait la réponse de MarcoS caractère par
+caractère, à 18 ms par caractère. Signalé comme un point d'arbitrage entre D-40,
+qui listait un « curseur de frappe » parmi les animations demandées, et
+`AI_UX.md`, qui interdit l'effet de frappe « sans réserve ». La question posée
+était : laquelle des deux l'emporte.
+
+**Options.** 1. La maquette fait foi, et `AI_UX.md` s'aligne. 2. Garder
+l'animation mais la rendre inoffensive pour un lecteur d'écran, comme le fait
+déjà `TexteProgressif` (texte complet dans un nœud lu, copie animée en
+`aria-hidden`). 3. Retirer l'animation.
+
+**Choix de Marc : option 3.** « C'est une régression, pas un arbitrage. »
+L'interdit d'`AI_UX.md` vaut sans réserve et dans toutes les versions.
+
+**Motif.** La réponse vit dans le journal `role="log"` `aria-live="polite"`. Une
+réponse de 200 caractères y produisait 200 mutations de la même région annoncée,
+contre la promesse « annoncées une fois, complètes ». Le curseur n'était même
+jamais visible : `.marcos .curseur` ne portait aucun style, seulement un
+`display: none` sous mouvement réduit.
+
+**Impact.** `ecrireProgressivement` est remplacée par une pose unique.
+`DELAIS.frappe`, le jeton mort `--marcos-curseur` et la règle CSS du curseur
+disparaissent. `AI_UX.md` reprend sa formulation d'origine, et D-40 est amendée
+à l'endroit où elle listait le curseur. Corrigé dans la même passe, au même
+contrat : `Maj + Entrée` ne passait pas à la ligne — `keydown` n'examinait pas
+`shiftKey`, donc le champ de trois lignes ne pouvait jamais en recevoir un.
+
+**Réversibilité.** Totale, mais elle demanderait une décision nouvelle. Si
+l'animation revenait un jour, elle passerait par `TexteProgressif` : le texte
+complet dans le nœud annoncé, la copie animée en `aria-hidden`.
 
 ---
 
@@ -205,8 +239,10 @@ ces écarts sont listés plus bas, aucun n'est silencieux.
 **Ce que Marc a demandé en plus, après la maquette.**
 
 - davantage de mouvement : ouverture en cascade (en-tête, fil, saisie, mention),
-  arrivée des bulles depuis leur côté, cascade des suggestions, curseur de
-  frappe, pulsation du bouton d'envoi, halo au survol des commandes ;
+  arrivée des bulles depuis leur côté, cascade des suggestions, ~~curseur de
+  frappe~~, pulsation du bouton d'envoi, halo au survol des commandes ;
+  *(le curseur de frappe est **retiré** par la décision du 7 octobre ci-dessus,*
+  *#168 : il écrivait la réponse dans une région `aria-live`.)*
 - suggestions et mention de confidentialité en corps plus petit ;
 - **« MarcoS » s'écrit MarcoS.** La maquette force la capitale sur le nom dans
   l'en-tête. Déformer un nom est interdit : `text-transform` est retiré.

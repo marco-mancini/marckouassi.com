@@ -804,6 +804,15 @@ Réponses de Marc du 2 octobre 2026. **A** = recommandation acceptée,
 | **D-18** | Quels plafonds de dépense, et qui ouvre les comptes ? | **100 questions/jour, plafond Mistral 5 $/mois** pour commencer ; comptes à ouvrir par toi |  **M — plafond le plus bas possible.** 100 questions/jour, et **plafond de dépense Mistral à 0 $** tant que les crédits gratuits suffisent. **MarcoS ne doit jamais pouvoir générer une facture.** |
 | **D-19** | Les identifiants de modèles sont-ils encore valides ? | **À revérifier à l'implémentation**, jamais écrits à deux endroits |  **A — accepté.** Vérifier à l'implémentation. |
 
+> **Amendées le 7 octobre 2026 — D-37.** **D-2** (« aucune carte bancaire ») et
+> **D-18** (« plafond de dépense Mistral à 0 $ […] MarcoS ne doit jamais pouvoir
+> générer une facture ») restent **actives et inchangées**. D-37 ne les annule
+> pas : elle constate que l'API Mistral exige un moyen de paiement pour activer
+> Pay-As-You-Go, met MarcoS **en pause**, et pose une question que Marc n'a pas
+> tranchée — *une carte assortie d'une limite de dépenses à 0 respecte-t-elle
+> l'esprit du budget 0 € ?* Voir
+> [MARCOS_DECISIONS_20261007.md](MARCOS_DECISIONS_20261007.md).
+
 ### Ce que ces réponses ont débloqué, et ce qu'elles ont retiré
 
 | Effet | Détail |
