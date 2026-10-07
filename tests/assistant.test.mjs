@@ -8,7 +8,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { Conversation } from "../Design_System/composants/Conversation/Conversation.js";
-import { Assistant, LONGUEUR_MAX, ETATS, ETAT_REPOS, ETATS_OUVERTS } from "../Design_System/gabarits/Assistant/Assistant.js";
+import { Assistant, LONGUEUR_MAX, ETATS, ETAT_REPOS, ETATS_OUVERTS, DELAIS } from "../Design_System/gabarits/Assistant/Assistant.js";
 import { CODES } from "../worker/assistant/src/erreurs.js";
 import { contextePage } from "../Design_System/gabarits/pages.js";
 import { PageAccueil } from "../Design_System/gabarits/sections/Pages.js";
@@ -304,4 +304,22 @@ test("le build ne donne une adresse à MarcoS que si ASSISTANT_URL existe", () =
   // publié est identique, sans drapeau à retirer ni code mort.
   const build = fs.readFileSync("tools/build.mjs", "utf8");
   assert.match(build, /assistantEndpoint: env\.ASSISTANT_URL \|\| null/);
+});
+
+test("aucun mécanisme de frappe ne subsiste dans le gabarit ni dans ses jetons (#168)", () => {
+  // Garde-fou de source, en plus du test de navigateur : il attrape une
+  // réintroduction avant même qu'un navigateur ne démarre.
+  const gabarit = fs.readFileSync("Design_System/gabarits/Assistant/Assistant.js", "utf8");
+  // On regarde le CODE, pas les commentaires : ceux-ci expliquent justement
+  // pourquoi la frappe a été retirée, et doivent pouvoir la nommer.
+  const code = gabarit.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+  for (const motif of ["ecrireProgressivement", "DELAIS.frappe", 'className = "curseur"']) {
+    assert.ok(!code.includes(motif), `« ${motif} » est de retour dans le gabarit`);
+  }
+  assert.deepEqual(Object.keys(DELAIS), ["fin"], "DELAIS ne porte plus de pas de frappe");
+
+  const css = fs.readFileSync("Design_System/gabarits/Assistant/Assistant.css", "utf8");
+  assert.ok(!css.includes(".curseur"), "la règle du curseur est partie avec le mécanisme");
+  const jetons = fs.readFileSync("Design_System/fondations/Tokens.css", "utf8");
+  assert.ok(!jetons.includes("--marcos-curseur"), "le jeton du curseur est parti avec le mécanisme");
 });

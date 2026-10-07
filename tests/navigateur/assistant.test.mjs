@@ -374,3 +374,67 @@ test("accessibilité axe-core de la fenêtre ouverte : aucune violation grave ou
     await page.fermer();
   }
 });
+
+test("la réponse se pose entière, d'un seul coup : aucune écriture lettre à lettre (#168)", async () => {
+  // Le défaut que ce test ferme. La réponse s'écrivait caractère par caractère
+  // dans `.conversation__texte`, toutes les 18 ms. Ce nœud vit dans le journal
+  // `role="log"` `aria-live="polite"` : une réponse de 200 caractères y faisait
+  // 200 mutations de la même région annoncée, et un lecteur d'écran pouvait en
+  // lire les fragments. AI_UX.md l'interdit deux fois.
+  //
+  // La mesure est faite par un MutationObserver, pas par des captures à
+  // intervalles : une boucle de sondage ne prouverait rien, elle pourrait
+  // simplement tomber entre deux frappes.
+  const phrase = "M. Kouassi est directeur artistique, et il travaille à Abidjan depuis plusieurs années.";
+  const page = await ouvrirFenetre({ repondre: { status: 200, json: { texte: phrase, liens: [] } } });
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
+  await page.waitForFunction(() => document.getElementById("assistant").open);
+
+  // L'observateur est posé AVANT l'envoi, sur le journal entier.
+  await page.evaluate(() => {
+    window.__etapes = [];
+    const journal = document.querySelector("#assistant [data-assistant-log]");
+    new MutationObserver(() => {
+      const dernier = [...journal.querySelectorAll(".conversation__texte")].at(-1);
+      if (dernier) window.__etapes.push(dernier.textContent);
+    }).observe(journal, { childList: true, subtree: true, characterData: true });
+  });
+
+  await page.fill("#assistant-question", "Qui est M. Kouassi ?");
+  await page.click("[data-assistant-envoyer]");
+  await attendreLeTexte(page, phrase);
+  // Large marge : à 18 ms par caractère, l'ancienne frappe durait 1,5 s.
+  await page.waitForTimeout(600);
+
+  const etapes = await page.evaluate(() => window.__etapes);
+  // Aucune étape ne doit porter un PRÉFIXE strict de la phrase : c'est la
+  // signature d'une frappe, et elle ne peut pas arriver autrement.
+  const prefixes = etapes.filter((e) => e && e.length > 0 && e !== phrase && phrase.startsWith(e));
+  assert.deepEqual(prefixes, [], `la réponse s'est écrite progressivement : ${JSON.stringify(prefixes.slice(0, 5))}`);
+  assert.ok(etapes.includes(phrase), "le texte complet est apparu en une fois");
+  assert.equal(await page.locator("#assistant .curseur").count(), 0, "aucun curseur de frappe");
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
+
+test("Entrée envoie, Maj + Entrée passe à la ligne (#168)", async () => {
+  // AI_UX.md § Parcours : « Entrée envoie, Maj + Entrée passe à la ligne ».
+  // `keydown` n'examinait pas `shiftKey` : la combinaison envoyait la question,
+  // et le champ de trois lignes ne pouvait jamais recevoir de retour à la ligne.
+  const page = await ouvrirFenetre();
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
+  await page.waitForFunction(() => document.getElementById("assistant").open);
+
+  await page.fill("#assistant-question", "Première ligne");
+  await page.locator("#assistant-question").press("Shift+Enter");
+  await page.locator("#assistant-question").type("seconde ligne");
+  assert.equal(await page.locator("#assistant-question").inputValue(), "Première ligne\nseconde ligne", "Maj + Entrée a inséré un retour à la ligne");
+  assert.equal(await page.locator("#assistant .conversation__tour").count(), 0, "rien n'a été envoyé");
+
+  // Entrée seule, elle, envoie — et vide le champ.
+  await page.locator("#assistant-question").press("Enter");
+  await attendreLeTexte(page, "Réponse courte.");
+  assert.equal(await page.locator("#assistant-question").inputValue(), "", "le champ est vidé après l'envoi");
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
