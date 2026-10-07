@@ -291,24 +291,48 @@ le Worker ne renvoie que le code.
 - Ordre : fermer, effacer, journal, exemples, champ, envoyer.
 - Le focus ne quitte pas le champ après un envoi ; la réponse est annoncée par
   le journal, sans voler le focus.
-- Les réponses sont annoncées **une fois, complètes** (pas de diffusion mot à mot
-  en V1 : un flux ferait lire des fragments).
+- Les réponses ne sont **pas diffusées en flux** : le Worker rend la réponse
+  entière, en une fois. **Point ouvert, à arbitrer par Marc :** depuis D-40, le
+  texte reçu s'écrit ensuite lettre à lettre dans le journal `role="log"`
+  `aria-live="polite"`. L'annonce unique et complète que promettait cette ligne
+  n'est donc plus garantie pour un lecteur d'écran, qui peut recevoir des
+  fragments. La correction connue est peu coûteuse — écrire progressivement dans
+  un nœud `aria-hidden` et ne livrer le texte complet au nœud annoncé qu'une
+  fois — mais elle touche le rendu validé de la maquette, et n'est pas prise
+  d'office.
 - Langue : chaque tour porte `lang` si sa langue diffère de celle de la page.
 
 ## Mobile et bureau
 
-- Une seule Modale `centre`, qui occupe la largeur moins la marge d'écran sur
-  téléphone (comportement actuel de l'étude de projet). La présence flottante
-  reste en bas à droite et utilise uniquement les tokens du Design System.
+- Une seule `Modale`, variante **`ancre`** et **non modale**
+  (`aria-modal="false"`) : le portfolio reste parcourable pendant la
+  conversation, comme la maquette le décrit. Elle est posée sur le socle du
+  panneau, en bas à droite, et n'utilise que les jetons du Design System.
+  *(Cette ligne disait « une seule Modale `centre` » : c'était la fenêtre
+  d'avant D-40.)*
 - Le champ reste visible au-dessus du clavier virtuel (`max-height` en `dvh`,
-  déjà utilisé par la Modale).
-- Testé à 320, 375, 768, 850, 1024 et 1440 px, en clair et en sombre.
+  déjà utilisé par la Modale), safe areas comprises sous 520 px.
+- Testé à 320, 375, 390, 768, 1024, 1280 et 1440 px — les sept seuils
+  d'`AGENTS.md` §3.4 — en clair et en sombre.
 
 ## Animations
 
-Seules les animations existantes de la Modale. Aucun effet de frappe, aucune
-pulsation, aucun indicateur décoratif. `prefers-reduced-motion` et
-`data-animations="reduites"` sont déjà gérés par la Modale.
+Celles de la maquette, décrites plus haut (§ Le mouvement) : cascade
+d'ouverture, bulles arrivant de leur côté, cascade des suggestions, onde
+d'activité, curseur de frappe, pulsation du bouton d'envoi, halo au survol.
+`prefers-reduced-motion` et `data-animations="reduites"` coupent toutes les
+boucles et toutes les entrées animées, et désactivent la frappe progressive :
+le texte arrive d'un coup, les éléments restent à leur place.
+
+> **Corrigé le 7 octobre 2026.** Ce paragraphe disait « Aucun effet de frappe,
+> aucune pulsation, aucun indicateur décoratif » — la règle du 2 octobre. **D-40
+> (5 octobre, maquette validée par Marc) autorise explicitement le curseur de
+> frappe, la pulsation du bouton d'envoi et l'onde d'activité**
+> ([DECISIONS.md](DECISIONS.md)). Le code les implémente depuis cette décision :
+> le paragraphe contredisait à la fois la décision et le code. Les autres
+> interdits restent entiers : **ni dégradé, ni glassmorphism, ni lueur, ni néon,
+> ni carte générique de SaaS, aucune couleur et aucune typographie étrangères au
+> Design System.**
 
 ## Sans JavaScript, ou si MarcoS est indisponible
 

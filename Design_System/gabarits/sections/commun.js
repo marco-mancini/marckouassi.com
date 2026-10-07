@@ -3,6 +3,7 @@
  * document HTML, en-tête, menu mobile, sélecteur de langue, crédit
  * numéroté. Aucun texte : dictionnaire (ctx.t) et contenu (ctx.c / ctx.l).
  */
+import { EtatsDuNavigateur } from "../Etats/Etats.js";
 import { html, brut, attributs } from "../../fondations/rendu.js";
 import { EnTete } from "../../composants/EnTete/EnTete.js";
 import { Navigation } from "../../composants/Navigation/Navigation.js";
@@ -131,6 +132,7 @@ ${ctx.alternatives.map((alt) => html`<link rel="alternate"${attributs({ hreflang
 ${ctx.alternatives.filter((alt) => alt.langue !== ctx.langue).map((alt) => html`<meta property="og:locale:alternate"${attributs({ content: ctx.dictionnaires[alt.langue].langue.locale })}>`)}
 ${meta.image ? html`<meta property="og:image"${attributs({ content: meta.image })}>` : ""}
 ${meta.robots ? html`<meta name="robots"${attributs({ content: meta.robots })}>` : ""}
+${ctx.mesure ? html`<meta name="mesure-ga4"${attributs({ content: ctx.mesure })}>` : ""}
 <link rel="icon"${attributs({ href: `${r}Design_System/assets/logo-mk-seal.svg`, type: "image/svg+xml" })}>
 <link rel="stylesheet"${attributs({ href: `${r}Design_System/styles/Index.css` })}>
 <script type="module"${attributs({ src: `${r}Frontend/site.js` })}></script>
@@ -139,6 +141,7 @@ ${meta.robots ? html`<meta name="robots"${attributs({ content: meta.robots })}>`
 ${brut(ctx.sprite)}
 <a class="skip-link" href="#contenu">${ctx.t("accessibilite.allerAuContenu")}</a>
 ${corps}
+${EtatsDuNavigateur({ ctx })}
 </body>
 </html>
 `;

@@ -263,8 +263,11 @@ test("le CMS propose MarcoS même si le contenu ne porte pas le bloc", () => {
   assert.equal(assistant.required, false);
 
   const noms = assistant.fields.map((f) => f.name);
-  assert.deepEqual(noms, ["active", "accueil", "exemples", "confidentialite"]);
-  assert.ok(assistant.fields.every((f) => f.required === false), "aucun des quatre n'est obligatoire");
+  // Les quatre champs de D-9, plus les expressions du buste : depuis que main
+  // fait gagner un champ DÉCLARÉ sur un champ déduit (`sousChamps`), le filet
+  // doit porter `avatar` lui aussi, sinon la clé disparaîtrait de l'éditeur.
+  assert.deepEqual(noms, ["active", "accueil", "exemples", "confidentialite", "avatar"]);
+  assert.ok(assistant.fields.every((f) => f.required === false), "aucun des cinq n'est obligatoire");
 
   // Les libellés viennent du dictionnaire admin, jamais du code.
   assert.equal(assistant.label, fr.champs.assistant);

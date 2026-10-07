@@ -48,7 +48,7 @@
   },
   "intro": {
     "etiquette": "Accueil",
-    "passer": "Passer l’introduction",
+    "passer": "Passer",
     "choisirLangue": "Choisissez votre langue",
     "entrer": "Entrer dans le portfolio"
   },
@@ -128,5 +128,41 @@
     "rubrique": "{numero} / {nom}",
     "numeroProjet": "#{numero}",
     "titrePage": "{titre} — {nom}"
+  },
+  "maintenance": {
+    "titre": "Portfolio en maintenance",
+    "texte": "Le site est en cours de mise à jour. Merci de revenir un peu plus tard."
+  },
+  "etats": {
+    "_role": "Titres et textes des états du site (Message, mode sceau, #162). Dans un titre, la partie entre astérisques est dorée ; sans astérisques, le premier mot.",
+    "chargement": {
+      "titre": "*Char*gement"
+    },
+    "horsConnexion": {
+      "titre": "*Hors* connexion"
+    },
+    "retablie": {
+      "titre": "*Connexion* rétablie",
+      "texte": "La page reprend là où vous l’aviez laissée."
+    },
+    "indisponible": {
+      "titre": "*In*disponible"
+    },
+    "introuvable": {
+      "titre": "*Page* introuvable",
+      "texte": "Cette adresse ne mène à aucune page du portfolio.",
+      "retour": "Retour au portfolio",
+      "onglet": "Page introuvable"
+    },
+    "media": {
+      "titre": "*Image* indisponible",
+      "texte": "Ce visuel n’a pas pu se charger."
+    },
+    "maintenance": {
+      "titre": "*Main*tenance"
+    },
+    "assistant": {
+      "titre": "*Mar*coS"
+    }
   }
 }

@@ -43,8 +43,12 @@ export function Modale({ id, etiquette, contenu, entete = "", options }) {
 
 let ouvertes = 0;
 
-function verrouiller() { ouvertes += 1; document.documentElement.classList.add("has-overlay"); }
-function deverrouiller() { ouvertes = Math.max(0, ouvertes - 1); if (!ouvertes) document.documentElement.classList.remove("has-overlay"); }
+/**
+ * Verrou du défilement, compté : chaque surface plein écran (modale, séquence
+ * d'ouverture) prend le sien et le rend. La page ne se libère qu'au dernier.
+ */
+export function verrouiller() { ouvertes += 1; document.documentElement.classList.add("has-overlay"); }
+export function deverrouiller() { ouvertes = Math.max(0, ouvertes - 1); if (!ouvertes) document.documentElement.classList.remove("has-overlay"); }
 
 /**
  * Ouvre une modale et mémorise le déclencheur pour lui rendre le focus.

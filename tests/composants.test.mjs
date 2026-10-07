@@ -176,3 +176,14 @@ test("Carte, Apparition, TexteProgressif : visibles sans script, texte complet p
   const css = fs.readFileSync(path.join(RACINE, "Apparition/Apparition.css"), "utf8");
   assert.match(css, /html\.js-anime \[data-apparition\]/);
 });
+
+test("Sceau : la variante construction se distingue de l'entrée animée, sans rien changer aux autres sceaux", async () => {
+  const { Sceau } = await charger("Sceau");
+  const construction = String(Sceau({ anime: "construction" }));
+  assert.match(construction, /class="sceau sceau--moyen sceau--construction"/);
+  assert.doesNotMatch(construction, /sceau--anime/);
+  // Le dessin reste une référence au sprite : sans script, c'est le sceau statique.
+  assert.match(construction, /<use href="#logo-mk-seal"><\/use>/);
+  assert.match(String(Sceau({ anime: true })), /class="sceau sceau--moyen sceau--anime"/);
+  assert.doesNotMatch(String(Sceau()), /sceau--anime|sceau--construction/);
+});

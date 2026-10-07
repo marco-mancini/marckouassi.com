@@ -28,8 +28,95 @@ a.sceau { border-radius: var(--radius-full); }
   stroke-dasharray: var(--trace-longueur);
   animation: trace var(--duration-trace) var(--ease-out) both, trace-remplissage var(--duration-trace) linear both;
 }
-@media (prefers-reduced-motion: reduce) { .sceau--anime svg { --trace-epaisseur: 0; animation: none; } }
+/* Construction : chaque forme se trace a son tour, puis se remplit.
+   Les formes sont copiees du sprite par construireSceau (Sceau.js) ; sans
+   script, .est-construit manque et le sceau reste statique. */
+.sceau--construction.est-construit svg { --trace-epaisseur: var(--construction-epaisseur); }
+.sceau--construction.est-construit [data-forme] {
+  stroke-dasharray: 1 1; stroke-width: var(--construction-epaisseur);
+  /* Affinage : en se remplissant, chaque trait revient a l'epaisseur du sceau fixe,
+     pour que le sceau construit soit identique, au pixel, a tous les autres. */
+  animation: trace-unitaire var(--construction-duree-trait) var(--ease-out) both, remplissage var(--construction-duree-remplissage) linear both, affinage-lettre var(--construction-duree-remplissage) linear both;
+  animation-delay: var(--construction-delai, var(--duration-none)), var(--construction-delai-remplissage), var(--construction-delai-remplissage);
+}
+.sceau--construction.est-construit [data-forme="cercle"] { --construction-delai: var(--construction-delai-cercle); animation-name: trace-unitaire, remplissage, affinage-trait; }
+.sceau--construction.est-construit [data-forme="fantome"] { --construction-delai: var(--construction-delai-fantome); animation-name: trace-unitaire, none, affinage-trait; }
+.sceau--construction.est-construit [data-forme="lettre"] { --construction-delai: var(--construction-delai-lettre); }
+.sceau--construction.est-construit [data-forme="accent"] { --construction-delai: var(--construction-delai-accent); }
+@media (prefers-reduced-motion: reduce) { .sceau--anime svg { --trace-epaisseur: 0; animation: none; } .sceau--construction.est-construit [data-forme] { animation: none; stroke-dasharray: none; } }
 html[data-animations="reduites"] .sceau--anime svg { --trace-epaisseur: 0; animation: none; }
+html[data-animations="reduites"] .sceau--construction.est-construit [data-forme] { animation: none; stroke-dasharray: none; }
+
+/* ==========================================================================
+   HUMEURS — les etats du site (Message, mode sceau ; #162)
+   Memes formes que la construction (construireSceau). Sur l'olive, tout
+   contour se trace en creme : jamais de vert sur vert.
+   ========================================================================== */
+.sceau--humeur svg { --trace-epaisseur: var(--construction-epaisseur); }
+.sceau--humeur [data-forme="cercle"] { --encre-fin: var(--logo-accent); }
+.sceau--humeur [data-forme="fantome"] { --encre-fin: var(--logo-lettre); }
+.sceau--humeur [data-forme="lettre"] { --encre-fin: var(--logo-lettre); }
+.sceau--humeur [data-forme="accent"] { --encre-fin: var(--logo-accent); }
+
+/* Bati : la construction, contour creme jusqu'au remplissage. Panne et perdu
+   y ajoutent une suite sur l'accent (--humeur-suite). */
+.sceau--bati.est-construit [data-forme] {
+  stroke-dasharray: 1 1; stroke-width: var(--construction-epaisseur);
+  animation:
+    trace-unitaire var(--construction-duree-trait) var(--ease-out) var(--construction-delai, var(--duration-none)) both,
+    var(--humeur-remplissage, remplissage) var(--construction-duree-remplissage) linear var(--construction-delai-remplissage) both,
+    encre-creme var(--construction-duree-remplissage) linear var(--construction-delai-remplissage) both,
+    var(--humeur-affinage, affinage-lettre) var(--construction-duree-remplissage) linear var(--construction-delai-remplissage) both,
+    var(--humeur-suite, none);
+}
+.sceau--bati.est-construit [data-forme="cercle"] { --construction-delai: var(--construction-delai-cercle); --humeur-affinage: affinage-trait; }
+.sceau--bati.est-construit [data-forme="fantome"] { --construction-delai: var(--construction-delai-fantome); --humeur-remplissage: none; --humeur-affinage: affinage-trait; }
+.sceau--bati.est-construit [data-forme="lettre"] { --construction-delai: var(--construction-delai-lettre); }
+.sceau--bati.est-construit [data-forme="accent"] { --construction-delai: var(--construction-delai-accent); }
+.sceau--panne.est-construit [data-forme="accent"] { --humeur-suite: defaillance var(--humeur-panne-duree) steps(1) var(--construction-duree-totale) infinite; }
+.sceau--perdu.est-construit [data-forme="accent"] { transform-box: fill-box; transform-origin: var(--humeur-decroche-pivot); --humeur-suite: decroche var(--humeur-decroche-duree) var(--humeur-decroche-courbe) var(--construction-duree-totale) both; }
+
+/* Chargement : trace creme, remplissage en couleurs, effacement, en boucle. */
+.sceau--chargement.est-construit [data-forme] {
+  stroke-dasharray: 1 1; stroke-width: var(--construction-epaisseur);
+  animation:
+    boucle-trace var(--humeur-chargement-duree) var(--ease-in-out) var(--humeur-delai, var(--duration-none)) infinite,
+    var(--humeur-remplissage, boucle-plein) var(--humeur-chargement-duree) linear var(--humeur-delai, var(--duration-none)) infinite,
+    boucle-encre var(--humeur-chargement-duree) linear var(--humeur-delai, var(--duration-none)) infinite;
+}
+.sceau--chargement.est-construit [data-forme="fantome"] { --humeur-delai: var(--humeur-chargement-pas); --humeur-remplissage: none; }
+.sceau--chargement.est-construit [data-forme="lettre"] { --humeur-delai: calc(2 * var(--humeur-chargement-pas)); }
+.sceau--chargement.est-construit [data-forme="accent"] { --humeur-delai: calc(4 * var(--humeur-chargement-pas)); }
+
+/* Chantier et vide : tout en creme, sans disque. Les lettres prennent le
+   creme et l'or par leurs variables (leur contour est un style en ligne). */
+.sceau--chantier [data-forme], .sceau--vide [data-forme] { stroke: var(--paper); }
+.sceau--chantier [data-forme="cercle"], .sceau--vide [data-forme="cercle"] { fill: var(--paper); fill-opacity: var(--humeur-voile); stroke-width: var(--humeur-trait-cercle); opacity: var(--humeur-cercle-opacite); }
+.sceau--chantier [data-forme="fantome"], .sceau--vide [data-forme="fantome"] { stroke-width: var(--humeur-trait-fantome); }
+.sceau--chantier [data-forme="lettre"] { --logo-lettre: var(--paper); }
+.sceau--chantier [data-forme="accent"] { --logo-accent: var(--accent-gold); }
+.sceau--vide [data-forme="lettre"], .sceau--vide [data-forme="accent"] { display: none; }
+.sceau--chantier.est-construit [data-forme], .sceau--vide.est-construit [data-forme] { stroke-dasharray: 1 1; }
+.sceau--chantier.est-construit [data-forme="cercle"] { animation: chantier-cercle var(--humeur-chantier-duree) var(--ease-in-out) infinite; }
+.sceau--chantier.est-construit [data-forme="fantome"] { animation: chantier-fantome var(--humeur-chantier-duree) var(--ease-in-out) infinite; }
+.sceau--chantier.est-construit [data-forme="lettre"] { animation: chantier-lettre var(--humeur-chantier-duree) var(--ease-in-out) infinite; }
+.sceau--chantier.est-construit [data-forme="accent"] { animation: chantier-accent var(--humeur-chantier-duree) var(--ease-in-out) infinite; }
+.sceau--vide.est-construit [data-forme="cercle"] { animation: trace-unitaire var(--construction-duree-trait) var(--ease-out) both; }
+.sceau--vide.est-construit [data-forme="fantome"] { animation: trace-unitaire var(--humeur-vide-trace) var(--ease-out) var(--construction-delai-cercle) both, respire var(--humeur-respire-duree) var(--ease-in-out) var(--humeur-vide-trace) infinite; }
+
+/* Mouvement reduit : l'etat final, immobile. */
+@media (prefers-reduced-motion: reduce) {
+  .sceau--humeur.est-construit [data-forme] { animation: none; stroke-dasharray: none; }
+  .sceau--bati.est-construit svg, .sceau--chargement.est-construit svg { --trace-epaisseur: 0; }
+  .sceau--bati.est-construit :is([data-forme="cercle"], [data-forme="fantome"]), .sceau--chargement.est-construit :is([data-forme="cercle"], [data-forme="fantome"]) { stroke-width: var(--humeur-trait-fin); }
+  .sceau--perdu.est-construit [data-forme="accent"] { transform: var(--humeur-decroche); }
+  .sceau--panne.est-construit [data-forme="accent"] { opacity: var(--humeur-eteint); }
+}
+html[data-animations="reduites"] .sceau--humeur.est-construit [data-forme] { animation: none; stroke-dasharray: none; }
+html[data-animations="reduites"] .sceau--bati.est-construit svg, html[data-animations="reduites"] .sceau--chargement.est-construit svg { --trace-epaisseur: 0; }
+html[data-animations="reduites"] :is(.sceau--bati, .sceau--chargement).est-construit :is([data-forme="cercle"], [data-forme="fantome"]) { stroke-width: var(--humeur-trait-fin); }
+html[data-animations="reduites"] .sceau--perdu.est-construit [data-forme="accent"] { transform: var(--humeur-decroche); }
+html[data-animations="reduites"] .sceau--panne.est-construit [data-forme="accent"] { opacity: var(--humeur-eteint); }
 
 /* Sous 851 px, TOUS les sceaux prennent la taille de celui de la couverture.
    Ils valaient 76, 88 et 117 px sur un meme ecran de 390 : le monogramme est

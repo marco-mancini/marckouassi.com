@@ -49,7 +49,7 @@
   },
   "intro": {
     "etiquette": "Welcome",
-    "passer": "Skip the introduction",
+    "passer": "Skip",
     "choisirLangue": "Choose your language",
     "entrer": "Enter the portfolio"
   },
@@ -129,5 +129,41 @@
     "rubrique": "{numero} / {nom}",
     "numeroProjet": "#{numero}",
     "titrePage": "{titre} — {nom}"
+  },
+  "maintenance": {
+    "titre": "Portfolio under maintenance",
+    "texte": "The site is being updated. Please check back a little later."
+  },
+  "etats": {
+    "_role": "Titles and texts of the site states (Message, seal mode, #162). In a title, the part between asterisks is gold; without asterisks, the first word.",
+    "chargement": {
+      "titre": "*Load*ing"
+    },
+    "horsConnexion": {
+      "titre": "*Off*line"
+    },
+    "retablie": {
+      "titre": "*Back* online",
+      "texte": "The page picks up where you left off."
+    },
+    "indisponible": {
+      "titre": "*Un*available"
+    },
+    "introuvable": {
+      "titre": "*Page* not found",
+      "texte": "This address does not lead to any page of the portfolio.",
+      "retour": "Back to the portfolio",
+      "onglet": "Page not found"
+    },
+    "media": {
+      "titre": "*Image* unavailable",
+      "texte": "This visual could not be loaded."
+    },
+    "maintenance": {
+      "titre": "*Main*tenance"
+    },
+    "assistant": {
+      "titre": "*Mar*coS"
+    }
   }
 }

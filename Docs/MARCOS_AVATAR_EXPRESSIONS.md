@@ -1,6 +1,6 @@
 # MarcoS — planche d'expressions de référence
 
-**Version : 1.2 · 5 octobre 2026.** La version 1.0 décrivait ce qui était *demandé* ; celle-ci décrit en plus ce qui a été *livré*.
+**Version : 1.3 · 7 octobre 2026.** La version 1.0 décrivait ce qui était *demandé* ; celle-ci décrit en plus ce qui a été *livré*, et rectifie une mesure d'angle (§7).
 
 Ce document complète `MARCOS_AVATAR.md`. Il formalise la planche d'expressions visuelles demandée pour la production de l'avatar 3D. Ces expressions sont une **bibliothèque visuelle**, pas dix états runtime supplémentaires.
 
@@ -132,9 +132,18 @@ source. Aucun traitement ni modélisation supplémentaire n'est demandé sur eux
 |---|---|
 | Dimensions | 783 × 667 px, identiques sur les dix |
 | Format | PNG RGBA 8 bits, espace sRGB |
-| Transparence | droite, fond entièrement transparent (alpha nul dans les angles) ; 49,5 % à 66,8 % de pixels non opaques |
+| Transparence | droite, fond transparent ; 49,5 % à 66,8 % de pixels non opaques |
 | Poids unitaire | 356 à 561 Ko |
 | Poids total | 4,25 Mo |
+
+> **Rectifié le 7 octobre 2026, mesuré.** La version 1.1 écrivait « alpha nul
+> dans les angles » pour les dix fichiers. C'est vrai pour neuf d'entre eux.
+> `Avatar_07_IDEE_SUGGESTION.png` porte **alpha 75** dans son angle bas droit,
+> dans la source : le geste touche le cadre. Rien n'est retouché — Marc a écrit
+> « aucun traitement supplémentaire » (#49) — et rien n'en dépend : le seuil de
+> transparence du build regarde la part de pixels non opaques, pas les angles.
+> Le test de `tests/medias.test.mjs` compare donc la sortie à la source, angle
+> par angle, au lieu d'exiger un zéro qui n'a jamais existé.
 
 ### Ce que ces mesures satisfont déjà
 

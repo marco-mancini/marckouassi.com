@@ -18,7 +18,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { cheminLangue, creerContexte } from "../Design_System/i18n/langue.js";
 import { formaterErreurs } from "../Design_System/gabarits/donnees.js";
-import { cheminsPages, contextePage, rendrePage } from "./pages.mjs";
+import { cheminsPages, contextePage, rendrePage, PageIntrouvable } from "./pages.mjs";
 import { chargerFichiers, chargerPublication, valider, referencesMedias } from "./contenu.mjs";
 import { publierMedias, sourceLocale, sourceDistante, lireJeton } from "./medias.mjs";
 import { construireCms } from "./cms.mjs";
@@ -90,15 +90,25 @@ async function main() {
     }
   }
 
+  // Page introuvable : une seule, servie par l'hébergeur à toute adresse
+  // inconnue, d'où sa racine absolue ; en maintenance, la page de maintenance (#162).
+  const ctxIntrouvable = contextePage({ site, langue: defaut, chemin: "", dictionnaires, medias, ressources: { ...ressources, racine: "/" } });
+  await ecrire("404.html", String(site.maintenance?.active === true
+    ? rendrePage({ contenu, ctx: ctxIntrouvable, chemin: "" })
+    : PageIntrouvable({ contenu, ctx: ctxIntrouvable })));
+
   // 4. Fichiers statiques : Design System et script du site
   // Ni documentation (.md) ni page HTML : le Design System ne publie que des ressources.
   await copier("Design_System", "Design_System", (chemin) => !/\.(md|html)$/.test(chemin));
   await copier("Frontend/site.js", "Frontend/site.js");
-  // Les dix expressions officielles de MarcoS. Elles ne passent PAS par la
-  // table des medias : le gabarit Assistant les designe par un chemin absolu,
-  // et non par le contenu. Sans cette copie, /Avatar_MarcoS/… repond 404 le
-  // jour ou l'assistant s'affiche (PM-049).
-  await copier("Public/Avatar_MarcoS", "Avatar_MarcoS");
+  await copier("Frontend/mesure.js", "Frontend/mesure.js");
+  // Les dix expressions de MarcoS ne sont PLUS copiées en brut ici. Cette copie
+  // existait parce que le gabarit Assistant les désignait par un chemin absolu
+  // (#49) ; le contenu porte désormais `site.assistant.avatar.etats`, et la
+  // table des médias les publie en WebP à transparence conservée dans
+  // `_site/Public/Avatar_MarcoS/`. La copie brute ajoutait 4,5 Mo de PNG que
+  // plus aucune page ne demandait. Un test interdit tout chemin d'avatar en dur
+  // dans le gabarit (tests/assistant.test.mjs).
   // /admin/ : CMS Git (Sveltia). L'ancien back-office Supabase (tools/admin.mjs) est en sommeil.
   await construireCms({ racine: RACINE, sortie: SORTIE, contenu });
 

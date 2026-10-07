@@ -595,7 +595,22 @@
   /* Accueil anime sur telephone : la scene se resserre, la salutation cesse de
      manger les deux mots qu'elle croise. */
   --intro-espace-telephone: var(--space-5);
-  --intro-signature-salut-telephone: clamp(1.6rem, 7vw, 2.4rem);
+  --intro-sceau-taille: clamp(180px, 46vmin, 340px); /* le sceau seul de l'accueil */
+  /* Sequence d'ouverture (gabarits/Intro/Sequence.js) */
+  --sequence-mot-taille: clamp(1.75rem, 9vw, 11.5rem); /* une categorie par temps */
+  --sequence-nom-taille: min(22vw, 26vh); /* le nom recompose en bandes */
+  --sequence-nom-taille-portrait: 27vw;
+  --sequence-metier-taille: clamp(.625rem, 1.4vw, .95rem);
+  --sequence-interlettrage: .16em;
+  --sequence-creux-trait: 1.5px; /* contour des categories en creux */
+  --sequence-eclair-hauteur: 2px;
+  --sequence-lueur-rayon: 26px; /* la charge du sceau avant sa dissolution */
+  --sequence-lueur: color-mix(in srgb, var(--accent-gold) 75%, transparent);
+  --intro-soulignement-retrait: .45em;
+  --intro-fleche-taille: clamp(2.25rem, 7vw, 3.5rem); /* la fleche d'« Entrer » */
+  --intro-fleche-course: .3em; /* sa descente */
+  --intro-fleche-duree: 1.4s;
+  --intro-entrer-interlettrage: .18em;
   --cover-edition-offset-telephone: var(--space-4);
   --cover-padding-top-telephone: var(--space-4);
   --cover-padding-bottom-compact: var(--space-6);
@@ -899,6 +914,7 @@
 
   /* --- Mouvement --- */
   --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in-out: cubic-bezier(.6, 0, .3, 1);
   --duration-none: 0s;
   --duration-fast: .25s;
   --duration-base: .6s;
@@ -918,6 +934,49 @@
   /* période de clignement du curseur */
   --duration-clignement: 1s;
   --trace-epaisseur-anime: 2;
+  /* Construction du sceau (Sceau, anime = "construction") : chaque forme
+     se trace a son tour, puis le sceau se remplit. */
+  --construction-duree-trait: 1.4s;
+  --construction-delai-cercle: .2s;
+  --construction-delai-fantome: .7s;
+  --construction-delai-lettre: 1s;
+  --construction-delai-accent: 1.35s;
+  --construction-delai-remplissage: 2.3s;
+  --construction-duree-remplissage: .7s;
+  --construction-duree-totale: 3s; /* fin du remplissage : le temps de lire chaque trait */
+  --construction-epaisseur: 2.4;
+  /* Humeurs du sceau : etats du site (#162) */
+  --humeur-chargement-duree: 3.2s;
+  --humeur-chargement-pas: .15s; /* decalage entre les formes */
+  --humeur-chantier-duree: 7s;
+  --humeur-vide-trace: 2.4s;
+  --humeur-respire-duree: 5s;
+  --humeur-panne-duree: 4s;
+  --humeur-decroche-duree: 1.4s;
+  --humeur-decroche-courbe: cubic-bezier(.5, 0, .2, 1.4);
+  --humeur-decroche: translate(14px, 46px) rotate(24deg); /* unites du dessin du sceau */
+  --humeur-decroche-pivot: 85% 10%;
+  --humeur-eteint: .28;
+  --humeur-voile: .08;
+  --humeur-cercle-opacite: .6;
+  --humeur-trait-cercle: 2;
+  --humeur-trait-fantome: 1.6; /* lignes de construction lisibles en petit */
+  --humeur-trait-fin: 1; /* cercle et lignes du sceau au repos */
+  /* Message, mode sceau : le gabarit unique des etats du site (#162) */
+  --message-sceau-taille: clamp(96px, 26vw, 128px);
+  --message-sceau-titre: clamp(1.6rem, 6.2vw, 2.1rem); /* titre bicolore : raisonnable */
+  --message-sceau-titre-interlettrage: .01em;
+  --message-sceau-interligne: 1;
+  --message-sceau-phrase: .95rem;
+  --message-sceau-mesure: 30ch;
+  --message-sceau-ecart: var(--space-3);
+  --message-sceau-marge: var(--space-7) var(--space-5);
+  --message-compact-sceau: 64px;
+  --message-compact-titre: 1.5rem; /* 24 px : grand texte, l or sur olive (3,5:1) reste lisible */
+  --message-compact-ecart: var(--space-2);
+  --message-compact-marge: var(--space-5) var(--space-4);
+  --message-adresse-interlettrage: .04em;
+  --etats-retablie-duree: 3s; /* « Connexion retablie » reste a l'ecran */
   --apparition-base: .05s;
   --apparition-pas: .11s;
   --apparition-pas-serre: .05s;

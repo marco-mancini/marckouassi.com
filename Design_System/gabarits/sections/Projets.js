@@ -1,3 +1,4 @@
+import { Message } from "../../composants/Message/Message.js";
 import { html } from "../../fondations/rendu.js";
 import { Planche, idTitre } from "../../composants/Planche/Planche.js";
 import { Titre } from "../../composants/Titre/Titre.js";
@@ -103,7 +104,7 @@ export function Projets({ section, contenu, ctx }) {
         <p class="categorie-projets__sous-titre texte-accroche">${ctx.c(categorie.note, `${cheminCategorie}.note`)}</p>
         <p class="categorie-projets__recit texte-corps">${ctx.c(categorie.recit, `${cheminCategorie}.recit`)}</p>
       </header>
-      ${projets.length ? Grille({ elements: cartes, colonnes: [1, 1, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] }) : cartesRealisations ?? html`<p class="categorie-projets__vide">${ctx.t("projet.categories.vide")}</p>`}
+      ${projets.length ? Grille({ elements: cartes, colonnes: [1, 1, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] }) : cartesRealisations ?? Message({ type: "vide", titre: ctx.t("projet.categories.numero", { numero: numero(rang) }), texte: ctx.t("projet.categories.vide"), mode: { sceau: "vide" } })}
     </section>`;
   });
 

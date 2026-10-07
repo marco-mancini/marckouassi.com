@@ -1,0 +1,9 @@
+/* ==========================================================================
+   MAINTENANCE — la page unique du site en maintenance (Maintenance.js)
+   Plein ecran olive, l'etat « Maintenance » au centre ; l'apparence vient
+   de Message (mode sceau) et de Segments.
+   ========================================================================== */
+.maintenance { display: flex; flex-direction: column; min-height: 100svh; padding: var(--space-4) var(--page-gutter); background: var(--fond); color: var(--texte); }
+.maintenance:focus { outline: none; }
+.maintenance__langues { display: flex; justify-content: flex-end; }
+.maintenance__coeur { display: grid; flex: 1; place-items: center; padding-block: var(--space-6); }

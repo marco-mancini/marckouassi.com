@@ -269,7 +269,7 @@ test("accueil animé : apparaît, « Passer » le ferme, mémorisé ; animations
   await page.waitForFunction(() => document.getElementById("intro")?.open);
   const passer = page.locator('#intro [data-modale-fermer]');
   assert.ok(await passer.isVisible());
-  assert.equal((await passer.textContent()).trim(), "Passer l’introduction");
+  assert.equal((await passer.textContent()).trim(), "Passer");
   await passer.click();
   // L'événement « close » d'un <dialog> est asynchrone : on attend la condition.
   await page.waitForFunction(() => !document.getElementById("intro"), null, { timeout: 5000 });
@@ -282,13 +282,119 @@ test("accueil animé : apparaît, « Passer » le ferme, mémorisé ; animations
   const reduit = await ouvrir(nav, serveur.url + "/", { introVue: false, reduit: true });
   await reduit.waitForFunction(() => document.getElementById("intro")?.open);
   assert.ok(await reduit.locator('#intro [data-etape="langue"]').isVisible());
-  await reduit.locator('#intro .segments__option[lang="en"]').click();
+  await reduit.locator('#intro .segments__option[data-valeur="en"]').click();
+  await reduit.locator("#intro [data-intro-entrer]").click();
   await reduit.waitForURL(/\/en\/$/);
   await reduit.waitForTimeout(500);
   assert.equal(await reduit.locator("#intro").count(), 0, "l'accueil ne se rejoue pas après le choix de langue");
   await reduit.fermer();
 });
 
+
+/* ------------------------------------------------------------------ */
+/* Séquence d'ouverture (gabarits/Intro/Sequence.js) — #40, D-35, D-37 */
+/* ------------------------------------------------------------------ */
+
+const attendreReel = (ms) => new Promise((r) => setTimeout(r, ms));
+/** Écart moyen (0–255) entre deux captures de même taille. */
+async function ecart(a, b) {
+  const sharp = (await import("sharp")).default;
+  const [x, y] = await Promise.all([a, b].map((tampon) => sharp(tampon).raw().toBuffer()));
+  let somme = 0; for (let i = 0; i < x.length; i++) somme += Math.abs(x[i] - y[i]);
+  return somme / x.length;
+}
+/** Ouvre l'accueil et attend l'entrée par la langue. La construction du sceau est en CSS (temps réel), sa pause en JS (horloge pilotée). */
+async function accueilPret(options = {}) {
+  const page = await ouvrir(nav, serveur.url + (options.chemin || "/"), { introVue: false, horloge: true, ...options });
+  await page.waitForFunction(() => document.getElementById("intro")?.open);
+  await attendreReel(3300); await page.clock.runFor(3100);
+  await page.waitForFunction(() => document.querySelector('#intro [data-etape="langue"].est-active'));
+  return page;
+}
+const zone = (page, selecteur, marge) => page.evaluate(([s, m]) => { const r = document.querySelector(s).getBoundingClientRect(); return { x: Math.max(0, Math.floor(r.left) - m), y: Math.max(0, Math.floor(r.top) - m), width: Math.ceil(r.width) + 2 * m, height: Math.ceil(r.height) + 2 * m }; }, [selecteur, marge]);
+
+test("séquence : de l'accueil à la couverture, sceau relayé au pixel aux deux bouts, page rendue", async () => {
+  for (const [largeur, hauteur, theme] of [[390, 844, "light"], [1280, 900, "dark"]]) {
+    const page = await accueilPret({ largeur, hauteur, theme });
+    const cadreAccueil = await zone(page, "#intro .sceau", 30);
+    const avant = await page.screenshot({ clip: cadreAccueil });
+    await page.click("#intro [data-intro-entrer]");
+    await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
+    await attendreReel(150);
+    // Premier relais : le sceau de la séquence est celui de l'accueil, au pixel.
+    assert.ok(await ecart(avant, await page.screenshot({ clip: cadreAccueil })) < 1, `${largeur} : relais accueil → séquence`);
+    assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), true, "défilement verrouillé pendant la séquence");
+    assert.equal(await page.evaluate(() => document.activeElement?.hasAttribute("data-sequence-passer")), true, "le focus est sur « Passer »");
+    assert.equal(await page.evaluate(() => scrollY), 0, "la séquence se joue sur la page 1");
+    // Le sceau final se construit (CSS, temps réel), puis on se place juste avant et juste après la bascule.
+    await page.clock.runFor(3550); await attendreReel(300);
+    await page.clock.runFor(3480);
+    const cadreCouverture = await zone(page, "#accueil .sceau", 6);
+    const sequence = await page.screenshot({ clip: cadreCouverture });
+    await page.clock.runFor(30);
+    assert.ok(await ecart(sequence, await page.screenshot({ clip: cadreCouverture })) < 1, `${largeur} : relais séquence → couverture`);
+    await page.clock.runFor(1200); await attendreReel(100);
+    const fin = await page.evaluate(() => ({
+      y: scrollY, reste: !!document.querySelector("[data-sequence-hote]"), verrou: document.documentElement.classList.contains("has-overlay"),
+      vue: sessionStorage.getItem("mk-intro-vue"), sceau: getComputedStyle(document.querySelector("#accueil .sceau")).opacity,
+      couverture: [...document.querySelectorAll("#accueil .signature--couverture, #accueil .couverture__role, #accueil .couverture__promesse")].map((e) => getComputedStyle(e).opacity),
+      debordement: document.documentElement.scrollWidth - innerWidth,
+    }));
+    assert.deepEqual(fin, { y: 0, reste: false, verrou: false, vue: "1", sceau: "1", couverture: ["1", "1", "1"], debordement: 0 }, `${largeur} ${theme}`);
+    assert.deepEqual(page.erreurs, []);
+    await page.fermer();
+  }
+});
+
+test("séquence : « Passer » et Échap rendent la couverture sur-le-champ", async () => {
+  for (const geste of ["passer", "echap"]) {
+    const page = await accueilPret({ largeur: 390, hauteur: 844 });
+    await page.click("#intro [data-intro-entrer]");
+    await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
+    await page.clock.runFor(2500);
+    if (geste === "passer") await page.click("[data-sequence-passer]"); else await page.keyboard.press("Escape");
+    const etat = await page.evaluate(() => ({
+      reste: !!document.querySelector("[data-sequence-hote]"), verrou: document.documentElement.classList.contains("has-overlay"),
+      sceau: getComputedStyle(document.querySelector("#accueil .sceau")).opacity, signature: getComputedStyle(document.querySelector("#accueil .signature--couverture")).opacity, y: scrollY,
+    }));
+    assert.deepEqual(etat, { reste: false, verrou: false, sceau: "1", signature: "1", y: 0 }, geste);
+    await page.clock.resume(); // la molette se mesure image par image : l'horloge reprend son cours
+    assert.ok(await molette(page), `${geste} : le défilement utilisateur doit être rendu`);
+    assert.deepEqual(page.erreurs, []);
+    await page.fermer();
+  }
+});
+
+test("séquence : choisir l'autre langue la joue sur la page d'arrivée, sans repasser par l'accueil", async () => {
+  const page = await accueilPret({ largeur: 390, hauteur: 844 });
+  await page.click('#intro .segments__option[data-valeur="en"]');
+  assert.equal((await page.textContent("#intro [data-intro-entrer] .bouton__texte")).trim(), "Enter the portfolio", "l'accueil se traduit sur place");
+  assert.equal((await page.textContent("#intro [data-modale-fermer]")).trim(), "Skip");
+  await page.click("#intro [data-intro-entrer]");
+  await page.waitForURL(/\/en\/$/);
+  await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
+  assert.equal(await page.locator("#intro").count(), 0, "l'accueil ne se rejoue pas");
+  await attendreReel(300); // décodage des visuels, en temps réel, avant le départ de l'horloge de la séquence
+  assert.equal(await page.textContent(".sequence__metier"), await page.textContent("#accueil .couverture__role"), "le métier vient de la couverture");
+  await page.clock.runFor(8500); await attendreReel(100);
+  assert.equal(await page.locator("[data-sequence-hote]").count(), 0);
+  assert.equal(await page.evaluate(() => sessionStorage.getItem("mk-intro-sequence")), null, "la promesse est consommée");
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
+
+test("séquence : absente en mouvement réduit et sans JavaScript", async () => {
+  const reduit = await ouvrir(nav, serveur.url + "/", { introVue: false, reduit: true });
+  await reduit.waitForFunction(() => document.getElementById("intro")?.open);
+  await reduit.locator("#intro [data-intro-entrer]").click();
+  await reduit.waitForFunction(() => !document.getElementById("intro"));
+  assert.equal(await reduit.locator(".sequence").count(), 0, "mouvement réduit : aucune séquence");
+  await reduit.fermer();
+  const sansJs = await ouvrir(nav, serveur.url + "/", { introVue: false, js: false });
+  assert.equal(await sansJs.locator(".sequence").count(), 0, "sans script : la séquence n'existe pas");
+  assert.ok(await sansJs.locator("#accueil .signature--couverture").isVisible());
+  await sansJs.fermer();
+});
 
 /**
  * L'événement « close » d'un <dialog> est ASYNCHRONE : .open bascule avant que
@@ -378,6 +484,37 @@ test("menu mobile : le verrou reste libéré après fermeture", async () => {
   await page.fermer();
 });
 
+test("sceau en construction : formes copiées du sprite, tracées à leur tour, figées en mouvement réduit", async () => {
+  for (const reduit of [false, true]) {
+    const page = await ouvrir(nav, serveur.url + "/", { reduit });
+    const mesure = await page.evaluate(async () => {
+      const { Sceau, construireSceau } = await import("./Design_System/composants/Sceau/Sceau.js");
+      const hote = document.createElement("div"); hote.innerHTML = Sceau({ taille: "grand", anime: "construction" });
+      document.body.append(hote);
+      const sceau = hote.firstElementChild;
+      const avant = sceau.querySelectorAll("[data-forme]").length;
+      const lance = construireSceau(sceau);
+      const formes = [...sceau.querySelectorAll("[data-forme]")];
+      const compte = (nom) => formes.filter((f) => f.dataset.forme === nom).length;
+      const lettre = sceau.querySelector('[data-forme="lettre"]');
+      return {
+        avant, lance, construit: sceau.classList.contains("est-construit"), reference: !!sceau.querySelector("use"),
+        cercle: compte("cercle"), fantome: compte("fantome"), lettre: compte("lettre"), accent: compte("accent"),
+        normalise: formes.every((f) => f.getAttribute("pathLength") === "1"),
+        animation: getComputedStyle(lettre).animationName,
+      };
+    });
+    assert.equal(mesure.avant, 0, "avant construction : la simple référence au sprite");
+    assert.ok(mesure.lance && mesure.construit && !mesure.reference);
+    assert.deepEqual([mesure.cercle, mesure.fantome, mesure.lettre, mesure.accent], [1, 3, 1, 1]);
+    assert.ok(mesure.normalise, "contours normalisés");
+    if (reduit) assert.equal(mesure.animation, "none", "mouvement réduit : aucun tracé");
+    else assert.match(mesure.animation, /trace-unitaire/);
+    assert.deepEqual(page.erreurs, []);
+    await page.fermer();
+  }
+});
+
 test("accessibilité (axe-core) : aucune violation grave ou critique", async () => {
   const categories = await catalogueDuContenu();
   const cheminVide = categories.find((categorie) => categorie.travaux.length === 0)?.id;
@@ -433,7 +570,7 @@ test("une carte déplie sa seule catégorie, avec ses seules réalisations ou so
     assert.equal((await bloc.locator("h2").first().textContent()).replace(/\.$/, ""), categorie.libelle.fr, categorie.id);
     assert.equal(await page.locator(".projet-carte:visible").count(), categorie.travaux.length, categorie.id);
     if (!categorie.travaux.length && !(categorie.realisations ?? []).length) {
-      assert.ok((await bloc.locator(".categorie-projets__vide").textContent()).length > 0, categorie.id);
+      assert.ok((await bloc.locator(".message--vide .message__phrase").textContent()).length > 0, categorie.id);
     }
     const intruses = await page.$$eval(".projet-carte", (cartes, id) => cartes.filter((c) => c.offsetParent !== null && c.dataset.categorie !== id).length, categorie.id);
     assert.equal(intruses, 0, `${categorie.id} : une réalisation d'une autre catégorie est visible`);

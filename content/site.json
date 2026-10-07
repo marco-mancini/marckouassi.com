@@ -1,5 +1,5 @@
 {
-  "_role": "Paramètres généraux du site : identité, SEO, coordonnées, navigation, accueil animé. Toute valeur { fr, en } est traduisible ; les autres sont communes. « url » est l'adresse publique du site (canonique, partages, sitemap, robots) : le jour où un domaine est acheté, c'est la seule valeur à changer. Sans « contact.cv » (PDF), le lien CV du contact mène à la page /cv/.",
+  "_role": "Paramètres généraux du site : identité, SEO, coordonnées, navigation, accueil animé, mesure d'audience (« mesure.ga4 » : identifiant Google Analytics 4 ; vide, aucune mesure) et mode maintenance (« maintenance.active » : tout le site public affiche la page de maintenance, /admin/ reste ouvert). Toute valeur { fr, en } est traduisible ; les autres sont communes. « url » est l'adresse publique du site (canonique, partages, sitemap, robots) : le jour où un domaine est acheté, c'est la seule valeur à changer. Sans « contact.cv » (PDF), le lien CV du contact mène à la page /cv/.",
   "langueParDefaut": "fr",
   "url": "https://marckouassi-com.vercel.app",
   "identite": {
@@ -71,6 +71,9 @@
         "en": "Give form"
       }
     ]
+  },
+  "mesure": {
+    "ga4": "G-KWQ5D3KE9R"
   },
   "langues": [
     "fr",

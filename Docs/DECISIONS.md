@@ -12,6 +12,102 @@ Règles :
 
 ---
 
+> **Collision de numéros, à arbitrer par Marc.** Deux branches parallèles ont
+> attribué **D-37, D-38 et D-39** au même moment, à partir de D-36 du 4 octobre :
+> une fois pour MarcoS les 4 et 5 octobre, une fois pour le site le 7 octobre.
+> Les six entrées sont conservées telles qu'elles ont été écrites, chacune avec
+> sa date, parce que les renuméroter réécrirait une trentaine de citations dans
+> dix documents et deux fichiers de tests — et une décision ne se réécrit pas de
+> mémoire (MARCOS_DECISIONS_20261003.md, D-34). **Lire un numéro avec sa date :**
+> 7 octobre = le site ; 4 et 5 octobre = MarcoS.
+
+---
+
+## 2026-10-07 — D-39 : un seul gabarit pour tous les états du site, animé par le sceau
+
+Décision de Marc, maquette validée en trois versions · issue [#162](https://github.com/marco-mancini/marckouassi.com/issues/162).
+
+**Problème.** Le site n'avait ni page 404 (Vercel servait sa page grise), ni message hors connexion, ni repli pour un média en échec ; l'état vide et les erreurs de MarcoS étaient de simples lignes de texte.
+
+**Options.** Un composant « État » nouveau ; étendre `Message`, qui couvre déjà chargement, vide et erreur.
+
+**Choix.** Étendre `Message` (mode sceau) et `Sceau` (humeurs). Un seul gabarit, sans exception : le sceau animé, un titre bicolore (partie dorée choisie par Marc : *Char*gement, *In*disponible, *Main*tenance ; sinon le premier mot), une phrase, ses actions. Mêmes tailles et même place partout. La page de maintenance perd son grand titre.
+
+**Motif.** Cohérence visuelle uniforme (demande de Marc) ; AGENTS.md 3.2 : réutiliser avant de créer, pas de composant doublon.
+
+**Impact.** Nouvelle page `404.html` (FR/EN). Hors connexion : un message en bas d'écran, pas une page plein écran (il faudrait un service worker). Aucun chargement n'est simulé là où rien ne se charge : l'humeur `chargement` ne sert qu'à MarcoS.
+
+**Réversibilité.** Totale : un état revient à son ancien rendu en retirant `mode: { sceau }`.
+
+---
+
+## 2026-10-07 — D-38 : mesure d'audience GA4 et mode maintenance
+
+Décision de Marc, en conversation · issue [#160](https://github.com/marco-mancini/marckouassi.com/issues/160).
+
+**Problème.** Le site n'avait ni mesure d'audience, ni moyen de le fermer le temps d'une mise à jour.
+
+**Options.** Mesure : GA4 sans bandeau, GA4 avec bandeau de consentement, outil sans cookie. Maintenance : case dans le CMS, variable Vercel, page à la main.
+
+**Choix.** GA4 (`G-KWQ5D3KE9R`) **sans bandeau**, choix de Marc après avertissement sur le consentement. Maintenance par une **case du CMS** (`site.maintenance.active`).
+
+**Motif.** Tout se pilote depuis le CMS, sans toucher au code : l'identifiant vit dans `content/site.json` (`mesure.ga4`, vide = aucune mesure) et la case reconstruit le site.
+
+**Impact.**
+- La mesure ne part que depuis l'adresse publique (`site.url`) : ni aperçu Vercel, ni poste local, ni test ne la déclenchent (`Frontend/mesure.js`).
+- Maintenance cochée : chaque adresse publique, en FR et EN, rend la page de maintenance (`gabarits/Maintenance`), `noindex` ; `/admin/` reste ouvert pour décocher. Plan du site et robots inchangés.
+
+**Réversibilité.** Totale : vider `mesure.ga4` coupe la mesure ; décocher la case rouvre le site au build suivant.
+
+---
+
+## 2026-10-07 — D-37 : arbitrages sur #6, #7, #13, #40 et #49
+
+Décision de Marc, en conversation, sur les recommandations de Claude · issues
+[#6](https://github.com/marco-mancini/marckouassi.com/issues/6),
+[#7](https://github.com/marco-mancini/marckouassi.com/issues/7),
+[#13](https://github.com/marco-mancini/marckouassi.com/issues/13),
+[#40](https://github.com/marco-mancini/marckouassi.com/issues/40),
+[#49](https://github.com/marco-mancini/marckouassi.com/issues/49),
+[#158](https://github.com/marco-mancini/marckouassi.com/issues/158).
+
+**Problème.** Cinq issues `decision-marc` attendaient un arbitrage. La plus
+grave : le dépôt est public, et l'historique Git sert encore l'ancien PDF du CV
+(téléphone, date de naissance), indépendamment des anciens déploiements Vercel.
+
+**Options pour l'historique public (#6).** Dépôt privé ; réécriture de
+l'historique puis force-push ; acceptation.
+
+**Choix.**
+
+1. **#6** — passer le dépôt **en privé** maintenant, puis supprimer les
+   déploiements Vercel antérieurs à `eb837ee`. Pas de réécriture d'historique
+   pour l'instant.
+2. **#7** — Marc active lui-même les workflows *Auto-add* et *Item closed →
+   Fait* du Project.
+3. **#13** — supprimer les **54 branches absorbées**, toutes étiquetées
+   `archive/<branche>`. Le critère de #13 est restreint à ces branches ; les
+   **43 branches à commits uniques** sont triées à part dans #158, sans aucune
+   suppression d'ici là.
+4. **#40** — le verrou reste : rien avant le domaine (#9) et le résumé du CV
+   (#11).
+5. **#49** — `Photo_Marc.jpg` est **conservé** ; le stockage des masters
+   d'animation est **reporté** à leur production ; la mise en ligne de l'avatar
+   se tranche dans #26.
+
+**Motif.** Le dépôt privé ferme l'exposition la plus large en une commande
+réversible, sans casser les 62 étiquettes ni les SHA cités. Supprimer une
+branche absorbée et étiquetée ne fait rien perdre ; supprimer une branche à
+commits uniques le pourrait.
+
+**Impact.** Aucun changement de code. Vérifier, après le passage en privé, que
+le déploiement Vercel et la publication par Sveltia CMS fonctionnent toujours.
+
+**Réversibilité.** Totale : la visibilité se rebascule, chaque branche supprimée
+se recrée depuis son étiquette. Seule la suppression des déploiements Vercel est
+définitive, et c'est son but.
+
+---
 ## 2026-10-05 — D-41 : D-9 est clos, et sa mention de confidentialité réécrite
 
 Décision de Marc (clôture demandée) · **clôt D-9** · **tient compte de D-10 et

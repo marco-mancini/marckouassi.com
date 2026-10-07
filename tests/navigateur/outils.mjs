@@ -15,7 +15,12 @@ export function servir(dossier = "_site") {
     let chemin = decodeURIComponent(new URL(requete.url, "http://x").pathname);
     if (chemin.endsWith("/")) chemin += "index.html";
     const fichier = path.join(racine, chemin);
-    if (!fichier.startsWith(racine) || !fs.existsSync(fichier) || fs.statSync(fichier).isDirectory()) { reponse.writeHead(404); reponse.end("introuvable"); return; }
+    if (!fichier.startsWith(racine) || !fs.existsSync(fichier) || fs.statSync(fichier).isDirectory()) {
+      // Comme Vercel : une page inconnue reçoit 404.html, avec le statut 404.
+      const page404 = path.join(racine, "404.html");
+      if (chemin.endsWith(".html") && fs.existsSync(page404)) { reponse.writeHead(404, { "content-type": TYPES[".html"] }); fs.createReadStream(page404).pipe(reponse); return; }
+      reponse.writeHead(404); reponse.end("introuvable"); return;
+    }
     reponse.writeHead(200, { "content-type": TYPES[path.extname(fichier)] || "application/octet-stream" });
     fs.createReadStream(fichier).pipe(reponse);
   });
@@ -27,16 +32,19 @@ export async function lancer() {
 }
 
 /**
- * Ouvre une page. Options : largeur, js, reduit, theme, introVue (défaut : vrai),
- * bloquerScript (simule un script en échec). Collecte les erreurs console.
+ * Ouvre une page. Options : largeur, hauteur, js, reduit, theme, introVue (défaut : vrai),
+ * bloquerScript (simule un script en échec), horloge (horloge du navigateur à l'arrêt,
+ * avancée par page.clock.runFor : les animations scriptées deviennent mesurables image par image).
+ * Collecte les erreurs console.
  */
-export async function ouvrir(navigateur, url, { largeur = 1440, js = true, reduit = false, theme = "light", introVue = true, bloquerScript = false } = {}) {
-  const contexte = await navigateur.newContext({ viewport: { width: largeur, height: 900 }, javaScriptEnabled: js, reducedMotion: reduit ? "reduce" : "no-preference", colorScheme: theme });
+export async function ouvrir(navigateur, url, { largeur = 1440, hauteur = 900, js = true, reduit = false, theme = "light", introVue = true, bloquerScript = false, horloge = false } = {}) {
+  const contexte = await navigateur.newContext({ viewport: { width: largeur, height: hauteur }, javaScriptEnabled: js, reducedMotion: reduit ? "reduce" : "no-preference", colorScheme: theme });
   const page = await contexte.newPage();
   page.erreurs = [];
   page.on("pageerror", (e) => page.erreurs.push(e.message));
   page.on("console", (m) => { if (m.type() === "error") page.erreurs.push(m.text()); });
   if (introVue) await page.addInitScript(() => { try { sessionStorage.setItem("mk-intro-vue", "1"); } catch { /* */ } });
+  if (horloge) { await page.clock.install({ time: new Date("2026-10-07T10:00:00") }); await page.clock.pauseAt(new Date("2026-10-07T10:00:01")); }
   if (bloquerScript) await page.route(/site\.js$/, (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: 'throw new Error("échec simulé")' }));
   await page.goto(url, { waitUntil: "load" });
   page.fermer = () => contexte.close();

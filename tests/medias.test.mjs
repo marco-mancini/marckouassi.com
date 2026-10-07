@@ -56,3 +56,63 @@ test("le portrait détourée du dépôt dépasse le seuil, les autres images non
     assert.ok(autre < SEUIL_TRANSPARENCE, `${f} est à ${(autre * 100).toFixed(1)} %, il doit rester aplati`);
   }
 });
+
+test("les dix expressions de MarcoS sortent du build en WebP, transparence intacte", async () => {
+  // Le piège que ce test ferme : `publierMedias` aplatit par défaut sur la
+  // couleur papier. Appliqué aux avatars, il mettrait MarcoS dans un carré
+  // crème — invisible en thème clair, flagrant en thème sombre.
+  //
+  // La garantie est comparative, et pas « l'angle vaut zéro » : l'angle bas
+  // droit d'`Avatar_07_IDEE_SUGGESTION.png` vaut déjà 75 DANS LA SOURCE (le
+  // geste touche le cadre). Ce qui doit être vrai, c'est que la sortie ne soit
+  // pas PLUS opaque que l'entrée. Un aplatissement porterait les quatre angles
+  // à 255 d'un coup.
+  const fs = await import("node:fs");
+  const fsp = await import("node:fs/promises");
+  const os = await import("node:os");
+  const path = await import("node:path");
+  const { publierMedias, sourceLocale, SEUIL_TRANSPARENCE: seuil } = await import("../tools/medias.mjs");
+
+  /** Les quatre angles d'une image, en alpha. */
+  const angles = async (octets) => {
+    const { data, info } = await sharp(octets).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    const alpha = (x, y) => data[(y * info.width + x) * 4 + 3];
+    return { canaux: info.channels, coins: [alpha(0, 0), alpha(info.width - 1, 0), alpha(0, info.height - 1), alpha(info.width - 1, info.height - 1)] };
+  };
+
+  const sources = fs.readdirSync("Public/Avatar_MarcoS").filter((f) => f.endsWith(".png")).sort();
+  assert.equal(sources.length, 10, "les dix expressions officielles (#49)");
+
+  const sortie = await fsp.mkdtemp(path.join(os.tmpdir(), "avatars-"));
+  try {
+    const { table, bilan } = await publierMedias({
+      references: sources.map((f) => `Public/Avatar_MarcoS/${f}`),
+      racine: process.cwd(),
+      sortie,
+      lireSource: sourceLocale(process.cwd()),
+      journal: { log() {} },
+    });
+    assert.deepEqual(bilan.echecs, []);
+
+    for (const nom of sources) {
+      const source = `Public/Avatar_MarcoS/${nom}`;
+      const publie = table.get(source);
+      assert.match(publie.src, /\.webp$/, `${nom} est publié en WebP`);
+
+      const octets = fs.readFileSync(path.join(sortie, publie.src));
+      const avant = await angles(fs.readFileSync(source));
+      const apres = await angles(octets);
+
+      assert.equal(apres.canaux, 4, `${nom} garde son canal alpha`);
+      // 6/255 de marge : le WebP est à perte, il ne recopie pas l'alpha au bit.
+      apres.coins.forEach((alpha, rang) => {
+        assert.ok(alpha <= avant.coins[rang] + 6, `${nom} : l'angle ${rang} passe de ${avant.coins[rang]} à ${alpha} — la transparence a été aplatie`);
+      });
+
+      const part = await partTransparente(octets);
+      assert.ok(part >= seuil, `${nom} publié n'est transparent qu'à ${(part * 100).toFixed(1)} %`);
+    }
+  } finally {
+    await fsp.rm(sortie, { recursive: true, force: true });
+  }
+});
