@@ -31,7 +31,7 @@ d'aperçu Vercel « Ready ».
 | Élément | Fourni par | Nécessaire à partir de | État |
 |---|---|---|---|
 | Décisions D-1 à D-19 | Marc | IA-01 | **acquis le 2 octobre 2026** |
-| Les trois textes de D-9 (accueil, exemples, confidentialité) | Marc, dans `/admin/` | **activation seulement** | à écrire quand il veut ; `assistant.active` reste `false` d'ici là |
+| ~~Les trois textes de D-9~~ | — | **plus un prérequis** | **D-9 CLOS le 5 octobre 2026** : les trois textes sont posés et verrouillés par des tests. Reste `assistant.active`, que Marc seul passe à `true` |
 | Compte Cloudflare **gratuit** + jeton d'API Wrangler | Marc | IA-10 (déploiement) ; le développement local n'en a pas besoin | à créer |
 | Clé API Mistral, **sur crédits gratuits, sans moyen de paiement** | Marc | IA-05 | à créer |
 | Clé Resend en permission d'envoi et adresse expéditeur d'un domaine vérifié | Marc | PM-112 (email du brief) | à créer/configurer, sans formule payante |
@@ -113,11 +113,13 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 ### IA-04 — Interface (sans clé, avec le Worker simulé)
 - Composant `Conversation` (CSS, JS, contrat `.md`) et gabarit `Assistant`
   ([AI_UX.md](AI_UX.md)).
-- **Présence flottante en bas à droite comme entrée primaire** (D-35). Contact
-  et menu restent des accès secondaires. L'asset neutre officiel #49 est utilisé,
-  sans créer de composant parallèle ; les dix expressions ne deviennent pas des
-  états runtime.
-  - Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
+- **Présence flottante en bas à droite comme entrée primaire** (D-35),
+  implémentée d'après la maquette d'interaction (D-40). Contact et le menu
+  restent des accès secondaires (D-4). Les expressions officielles de #49 sont
+  utilisées telles quelles, sans composant parallèle : six états en déclarent
+  une, et les dix fichiers restent une **bibliothèque**, pas dix états
+  d'exécution.
+- Dictionnaires : clé `assistant` dans `fr.json` et `en.json` (mêmes clés, test
   existant), à la **troisième personne et au vouvoiement** (D-15).
 - Contenu : **rien n'est écrit dans `content/site.json`.** Le bloc `assistant`
   est déclaré **facultatif** dans `tools/cms.mjs` (`FACULTATIFS.site`), donc
@@ -126,7 +128,7 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
   bloc amorcé à vide aurait perdu `accueil`, `exemples` et `confidentialite` au
   premier enregistrement — après quoi la configuration, déduite de la forme des
   données, ne les aurait plus proposés. Les trois textes restent ceux de Marc
-  (D-9) ; `active` n'existe qu'une fois qu'il les écrit.
+  (D-9, clos le 5 octobre 2026 : ils sont posés et testés).
 - Build : `ASSISTANT_URL` optionnelle ; sans elle, rien n'est rendu.
 - Tests : rien en dur, rendu sans JS, `comparer-reference` inchangé quand
   MarcoS est désactivé.
@@ -222,7 +224,8 @@ sont tenus sans clé ni appel réseau, répartis selon leur nature :
 - Route email `POST /api/assistant/brief` : clé `RESEND_CLE` côté Worker,
   expéditeur vérifié, destinataire issu du contenu, transfert explicite et
   opt-in ; mention de confidentialité mise à jour avant activation.
-- Activation : Marc écrit ses trois textes dans `/admin/` (D-9), puis passe
+- Activation : les trois textes de D-9 sont posés depuis le 5 octobre 2026 ;
+  il reste à Marc à passer
   `assistant.active` à `true` et enregistre.
 - Vérification sur le Preview, puis en production.
 
@@ -256,8 +259,10 @@ gratuit).
 - Écrire un message d'accueil, des exemples ou une traduction à la place de Marc.
 - **Laisser MarcoS répondre en plus de trois phrases**, ou relever `max_tokens`
   au-dessus de 180 sans décision de Marc.
-- Revenir à une V1 sans présence flottante ou déplacer l'avatar en V2 : D-35
-  l'interdit.
+- Revenir à une version sans présence flottante, ou déplacer l'avatar dans un
+  palier ultérieur : D-35 l'interdit, D-38 a supprimé la V2, et D-40 a rendu la
+  présence. Seul le **cadrage** du buste reste ouvert
+  ([#49](https://github.com/marco-mancini/marckouassi.com/issues/49)).
 - Transmettre la liste des pages visitées (D-16), ou le profil personnel de
   MARCOS.md §18-25 (D-14).
 - Insérer la réponse du modèle comme HTML, ou suivre une URL qu'il a produite.
@@ -340,7 +345,7 @@ existe ; elle n'en choisit jamais un autre à notre place.
 | Attend | Pour quoi | Bloquant pour le développement local ? |
 |---|---|---|
 | **`MISTRAL_CLE`** | le premier appel réel | **oui**, et c'est le seul |
-| Les trois textes de D-9 | activer MarcoS pour les visiteurs | non — la fenêtre est éprouvée avec des textes d'essai |
+| ~~Les trois textes de D-9~~ | ~~activer MarcoS~~ | **CLOS le 5 octobre 2026** : posés, verrouillés par des tests, et la mention de confidentialité réécrite après audit du code |
 | Compte Cloudflare | déployer le Worker, binding de débit | non — le Worker tourne sous Node dans les tests |
 | `RESEND_CLE` | la transmission du brief par e-mail | non — route séparée, elle ne rappelle pas le modèle |
 

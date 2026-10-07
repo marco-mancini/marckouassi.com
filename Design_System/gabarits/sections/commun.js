@@ -13,9 +13,11 @@ import { Modale } from "../../composants/Modale/Modale.js";
 import { numero } from "../outils.js";
 
 /**
- * Entrée secondaire de MarcoS. D-35 : Contact et le menu peuvent rester des
- * accès secondaires ; l'entrée visuelle primaire est la présence flottante rendue
- * par le gabarit Assistant. La condition reste identique au gabarit Assistant.
+ * Entrée secondaire de MarcoS. D-35 : Contact et le menu restent des accès
+ * secondaires ; l'entrée visuelle primaire est la présence flottante, rendue
+ * par le gabarit Assistant et dessinée d'après la maquette d'interaction
+ * (D-40). La condition est exactement celle du gabarit — sans elle, le bouton
+ * ouvrirait un panneau absent de la page, c'est-à-dire un bouton mort (§6.8).
  */
 export function entreeAssistant({ contenu, ctx, taille }) {
   if (!contenu.site.assistant?.active || !ctx.assistantEndpoint) return "";

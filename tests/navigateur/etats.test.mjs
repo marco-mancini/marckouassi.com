@@ -114,33 +114,63 @@ test("mouvement réduit : les sceaux des états sont immobiles", async () => {
   await page.fermer();
 });
 
-test("MarcoS : « Chargement » pendant l'attente, puis « Indisponible » ou « Hors connexion »", async () => {
-  // MarcoS n'est pas encore actif dans le contenu : la page est rendue ici
-  // actif, avec une adresse de Worker simulée.
-  const site = { ...contenu.site, assistant: { active: true, accueil: { fr: "Bonjour." }, exemples: [], confidentialite: { fr: "" } } };
+test("MarcoS : la bulle de réflexion pendant l'attente, puis le bandeau d'erreur et le hors-ligne", async () => {
+  // POURQUOI CE TEST A CHANGÉ DE FORME, et ce qu'il ne garantit plus.
+  //
+  // Sa version du 7 octobre (#162) attendait `[data-assistant-etat] .message`
+  // avec un sceau `chargement`, `panne` puis `chantier` : D-39 voulait UN SEUL
+  // gabarit d'état pour tout le site, MarcoS compris.
+  //
+  // D-40 (5 octobre, maquette validée par Marc) a remplacé l'intérieur de
+  // MarcoS : plus de `Message` dans le panneau, mais une bulle de trois points
+  // pendant l'attente et un bandeau `role="alert"` pour l'erreur. Les deux
+  // décisions se contredisent, chacune venue d'une branche différente ; l'écart
+  // est consigné pour arbitrage et n'est PAS tranché ici.
+  //
+  // Ce test vérifie donc ce que l'interface fusionnée fait réellement. Les
+  // phrases de chaque code d'erreur restent couvertes une par une par
+  // `tests/navigateur/assistant.test.mjs`.
+  const site = { ...contenu.site, assistant: { ...contenu.site.assistant, active: true } };
   const sprite = fs.readFileSync("Design_System/assets/logos-sprite.svg", "utf8");
   const ctx = contextePage({ site, langue: "fr", chemin: "", dictionnaires, medias: new Map(), ressources: { sprite, couleurTheme: await lireJeton(RACINE, "--clair-surface-page"), annee: 2030, assistantEndpoint: "https://worker.test/" } });
   const html = String(rendrePage({ contenu: { ...contenu, site }, ctx, chemin: "" }));
+
   const page = await ouvrir(nav, "about:blank", { largeur: 390 });
   let relacher;
   const attente = new Promise((r) => { relacher = r; });
   await page.route(`${serveur.url}/`, (r) => r.fulfill({ status: 200, contentType: "text/html; charset=utf-8", body: html }));
-  await page.route("https://worker.test/**", async (r) => { await attente; r.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ code: "indisponible" }) }); });
+  await page.route("https://worker.test/**", async (r) => { await attente; r.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ erreur: "indisponible" }) }); });
   await page.goto(`${serveur.url}/`);
-  await page.evaluate(() => document.querySelector('[data-modale-ouvrir="assistant"]')?.click());
-  await page.fill("[data-assistant-form] textarea", "Bonjour");
-  await page.click("[data-assistant-form] button[type=submit]");
-  await page.waitForSelector("[data-assistant-etat] .sceau--chargement.est-construit");
-  assert.equal((await mesurer(page, "[data-assistant-etat] .message")).titre, simple(dictionnaires.fr.etats.assistant.titre));
+
+  // MarcoS ne se montre qu'une fois la couverture passée (D-40) : un visiteur
+  // descend avant de le voir, le test fait de même.
+  await page.evaluate(() => document.getElementById("introduction")?.scrollIntoView({ block: "start" }));
+  await page.waitForFunction(() => document.querySelector(".marcos")?.dataset.retire === "0");
+
+  await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
+  await page.waitForFunction(() => document.getElementById("assistant").open);
+  await page.fill("#assistant-question", "Bonjour");
+  await page.click("[data-assistant-envoyer]");
+
+  // Attente : la bulle de réflexion tient la place de la réponse, et l'état du
+  // buste passe à « thinking ».
+  await page.waitForSelector("[data-assistant-pense]");
+  assert.equal(await page.locator(".marcos[data-etat=thinking]").count(), 1, "le buste réfléchit pendant l'attente");
+  assert.equal(await page.locator("[data-assistant-pense] .points i").count(), 3, "trois points");
+
   relacher();
-  await page.waitForSelector("[data-assistant-etat] .sceau--panne.est-construit");
-  const etat = await mesurer(page, "[data-assistant-etat] .message");
-  assert.equal(etat.titre, simple(dictionnaires.fr.etats.indisponible.titre));
-  assert.ok(await page.locator("[data-assistant-etat] [data-assistant-reessayer]").isVisible(), "Réessayer reste là");
-  // Hors ligne : la même phrase que le message du site, sceau « chantier ».
+
+  // Erreur : le bandeau porte la phrase du dictionnaire et « Réessayer ».
+  await page.waitForSelector("[data-assistant-reessayer]");
+  const bandeau = page.locator("[data-assistant-erreur]");
+  assert.equal(await bandeau.getAttribute("role"), "alert", "annoncé comme une alerte");
+  assert.ok((await bandeau.textContent()).includes(dictionnaires.fr.assistant.erreurs.indisponible));
+  assert.equal(await page.locator("[data-assistant-pense]").count(), 0, "la bulle d'attente a disparu");
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth), 0, "aucun débordement à 390 px");
+
+  // Hors ligne : la même phrase que le message du site, sans appel réseau.
   await page.context().setOffline(true);
-  await page.click("[data-assistant-etat] [data-assistant-reessayer]");
-  await page.waitForSelector("[data-assistant-etat] .sceau--chantier");
-  assert.equal((await mesurer(page, "[data-assistant-etat] .message")).titre, simple(dictionnaires.fr.etats.horsConnexion.titre));
+  await page.click("[data-assistant-reessayer]");
+  await page.waitForFunction((phrase) => document.querySelector("[data-assistant-erreur]")?.textContent.includes(phrase), dictionnaires.fr.assistant.erreurs.hors_ligne);
   await page.fermer();
 });

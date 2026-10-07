@@ -102,11 +102,13 @@ async function main() {
   await copier("Design_System", "Design_System", (chemin) => !/\.(md|html)$/.test(chemin));
   await copier("Frontend/site.js", "Frontend/site.js");
   await copier("Frontend/mesure.js", "Frontend/mesure.js");
-  // Les dix expressions officielles de MarcoS. Elles ne passent PAS par la
-  // table des medias : le gabarit Assistant les designe par un chemin absolu,
-  // et non par le contenu. Sans cette copie, /Avatar_MarcoS/… repond 404 le
-  // jour ou l'assistant s'affiche (PM-049).
-  await copier("Public/Avatar_MarcoS", "Avatar_MarcoS");
+  // Les dix expressions de MarcoS ne sont PLUS copiées en brut ici. Cette copie
+  // existait parce que le gabarit Assistant les désignait par un chemin absolu
+  // (#49) ; le contenu porte désormais `site.assistant.avatar.etats`, et la
+  // table des médias les publie en WebP à transparence conservée dans
+  // `_site/Public/Avatar_MarcoS/`. La copie brute ajoutait 4,5 Mo de PNG que
+  // plus aucune page ne demandait. Un test interdit tout chemin d'avatar en dur
+  // dans le gabarit (tests/assistant.test.mjs).
   // /admin/ : CMS Git (Sveltia). L'ancien back-office Supabase (tools/admin.mjs) est en sommeil.
   await construireCms({ racine: RACINE, sortie: SORTIE, contenu });
 

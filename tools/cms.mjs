@@ -85,6 +85,21 @@ export function configurationCms({ contenu, fr }) {
       traduisible({ name: "accueil", label: libelle("accueil"), required: false }, []),
       { name: "exemples", label: libelle("exemples"), label_singular: libelle("exemples"), required: false, widget: "list", field: traduisible({ name: "valeur", label: libelle("exemples"), required: true }, []) },
       traduisible({ name: "confidentialite", label: libelle("confidentialite"), required: false }, []),
+      /* Les expressions du buste, une par état d'interface. Déclarées ici
+         parce qu'un champ déclaré l'emporte désormais sur la déduction
+         (`sousChamps`) : sans cette ligne, `avatar` disparaîtrait de l'éditeur
+         dès que le bloc `assistant` est déclaré, et le CMS réordonnerait la
+         clé à l'enregistrement. */
+      {
+        name: "avatar", label: libelle("avatar"), required: false, widget: "object",
+        fields: [{
+          name: "etats", label: libelle("etats"), label_singular: libelle("etats"), required: false, widget: "list",
+          fields: [
+            { name: "etat", label: libelle("etat"), required: true, widget: "string" },
+            { name: "src", label: libelle("src"), required: true, widget: "image", hint: fr.medias.aideImage },
+          ],
+        }],
+      },
     ],
   }, {
     /* Mode maintenance : absent ou décoché, le site s'affiche ; coché, toutes
@@ -98,11 +113,17 @@ export function configurationCms({ contenu, fr }) {
     fields: [{ name: "ga4", label: libelle("ga4"), required: false, widget: "string" }],
   }];
 
+  /* Quelques clés portent le même nom à deux endroits du contenu et n'y
+     désignent pas la même chose. Le libellé suit alors le CHEMIN, pas le nom :
+     sans cela, l'interrupteur de MarcoS s'annonçait « Afficher l'accueil
+     animé », qui est celui de `site.intro.active`. */
+  const LIBELLES_PAR_CHEMIN = { "site.assistant.active": "assistantActif" };
+
   /** Champ déduit de toutes les valeurs rencontrées pour une même clé. */
   function champ(cle, valeurs, chemin) {
     const presentes = valeurs.filter((v) => v !== null && v !== undefined);
     const natures = new Set(presentes.map(nature));
-    const base = { name: cle, label: libelle(cle), required: presentes.length === valeurs.length && presentes.length > 0 };
+    const base = { name: cle, label: libelle(LIBELLES_PAR_CHEMIN[chemin] ?? cle), required: presentes.length === valeurs.length && presentes.length > 0 };
 
     if (TECHNIQUES.has(cle)) return { name: cle, widget: "hidden" };
     // L'aide de l'identifiant dépend de ce qu'il identifie : celui d'un projet

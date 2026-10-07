@@ -115,3 +115,133 @@ test("le projet FIFA 26 existe bien dans la base : la brièveté n'est pas de l'
     assert.ok(texteDe(langue).includes("fifa"), `${langue} : le projet est connu`);
   }
 });
+
+/* ------------------------------------------------------------------ */
+/* D-9 — les quatre textes validés par Marc, au mot près.              */
+/* ------------------------------------------------------------------ */
+
+const D9 = JSON.parse(fs.readFileSync("content/site.json", "utf8")).assistant;
+
+test("D-9 : le message d'accueil est celui que Marc a validé, sans reformulation", () => {
+  assert.ok(D9, "le bloc assistant est dans le contenu");
+  assert.equal(
+    D9.accueil.fr,
+    "Bonjour 👋 Je suis MarcoS, l’assistant de M. Kouassi. En quoi puis-je vous aider ?",
+  );
+  // « M. Kouassi », jamais « Marc » : c'est la règle de nommage de MarcoS.
+  assert.ok(D9.accueil.fr.includes("M. Kouassi"));
+  assert.ok(!/\bMarc\b(?! Kouassi)/.test(D9.accueil.fr.replace("MarcoS", "")), "jamais « Marc » seul");
+  assert.equal(
+    D9.accueil.en,
+    "Hello 👋 I’m MarcoS, Mr. Kouassi’s assistant. How can I help you?",
+  );
+  // L'anglais nomme « Mr. Kouassi », le français « M. Kouassi » : chaque langue
+  // prend sa propre abréviation de civilité. Jamais le prénom seul.
+  assert.ok(D9.accueil.en.includes("Mr. Kouassi"));
+  assert.ok(!/\bMarc\b(?! Kouassi)/.test(D9.accueil.en.replace("MarcoS", "")), "jamais « Marc » seul");
+});
+
+test("D-9 : les dix exemples sont exactement ceux validés, dans l'ordre", () => {
+  const attendus = [
+    "Qui est M. Kouassi ?",
+    "Quel est son parcours ?",
+    "Quelles sont ses expertises ?",
+    "Quels projets a-t-il réalisés ?",
+    "Avec quelles marques a-t-il travaillé ?",
+    "Quels services propose-t-il ?",
+    "Quel est son projet préféré ?",
+    "Où habite M. Kouassi ?",
+    "Quel est son numéro de téléphone personnel ?",
+    "Quel temps fait-il aujourd’hui à Abidjan ?",
+  ];
+  assert.deepEqual(D9.exemples.map((e) => e.fr), attendus);
+  assert.equal(D9.exemples.filter((e) => e.en && e.en.trim()).length, 10, "chacun a sa version anglaise");
+});
+
+test("D-9 : les trois derniers exemples sont ceux que MarcoS doit REFUSER", () => {
+  // Ils ne sont pas là par hasard : ils éprouvent la vie privée, l'information
+  // inconnue et le hors-périmètre. Les règles correspondantes doivent exister.
+  const [habite, telephone, meteo] = D9.exemples.slice(7).map((e) => e.fr);
+  assert.match(habite, /habite/);
+  assert.match(telephone, /téléphone personnel/);
+  assert.match(meteo, /temps fait-il/);
+  assert.match(PROMPT, /adresse personnelle/i, "la règle sur l'adresse existe");
+  assert.match(PROMPT, /Jamais de téléphone/i, "la règle sur le téléphone existe");
+  assert.match(PROMPT, /N'invente rien/i, "la règle contre l'invention existe");
+});
+
+test("D-9 : la mention de confidentialité ne dit que des choses vérifiées dans le code", () => {
+  // Elle a été réécrite le 5 octobre 2026 après audit du code. L'ancienne —
+  // « Vos échanges avec MarcoS restent privés. » — promettait plus que ce que
+  // le système tient : la question EST transmise à un tiers pour obtenir une
+  // réponse, et le refus d'entraînement (D-11) est une action que Marc doit
+  // encore poser dans le panneau Mistral. Chaque membre de phrase ci-dessous
+  // correspond à un comportement prouvé, et à rien d'autre.
+  assert.equal(
+    D9.confidentialite.fr,
+    "🔒 Vos échanges restent dans cet onglet et ne sont conservés nulle part. Votre question est transmise au modèle qui y répond, et rien n’est envoyé à M. Kouassi sans votre accord.",
+  );
+  assert.equal(
+    D9.confidentialite.en,
+    "🔒 Your conversation stays in this tab and is never stored. Your question is sent to the model that answers it, and nothing reaches Mr. Kouassi without your consent.",
+  );
+});
+
+test("D-9 : chaque promesse de la mention correspond à un comportement du code", () => {
+  // 1. « reste dans cet onglet » — la conversation vit en sessionStorage, et
+  //    nulle part ailleurs côté navigateur.
+  const gabarit = fs.readFileSync("Design_System/gabarits/Assistant/Assistant.js", "utf8");
+  assert.match(gabarit, /sessionStorage/, "la conversation vit dans l'onglet");
+  assert.doesNotMatch(gabarit, /localStorage|indexedDB|document\.cookie/, "rien ne survit à l'onglet");
+
+  // 2. « ne sont conservés nulle part » — le Worker ne persiste aucun échange.
+  //    Son seul cache porte sur la base de connaissance, qui est publique.
+  const connaissance = fs.readFileSync("worker/assistant/src/connaissance.js", "utf8");
+  assert.match(connaissance, /connaissance:\$\{adresse\.origin\}/, "le cache porte sur la base, pas sur les échanges");
+  const wrangler = fs.readFileSync("worker/assistant/wrangler.jsonc", "utf8");
+  for (const stockage of ["kv_namespaces", "d1_databases", "r2_buckets", "durable_objects"]) {
+    assert.ok(!new RegExp(`"${stockage}"`).test(wrangler), `aucun ${stockage} : rien à persister`);
+  }
+
+  // 3. « transmise au modèle qui y répond » — les messages du visiteur partent
+  //    bien chez le fournisseur, et la mention ne le cache pas.
+  const mistral = fs.readFileSync("worker/assistant/src/mistral.js", "utf8");
+  assert.match(mistral, /messages: \[\s*\{ role: "system"/, "le prompt et les messages sont envoyés");
+
+  // 4. D-10 : les journaux ne gardent que des métadonnées. Si une question ou
+  //    une réponse y entrait, la mention deviendrait fausse.
+  const index = fs.readFileSync("worker/assistant/src/index.js", "utf8");
+  const journal = index.slice(index.indexOf("const journal = {"), index.indexOf("const journal = {") + 240);
+  for (const interdit of ["requete.messages[", "corps.texte", "brute.texte"]) {
+    assert.ok(!journal.includes(interdit), `le journal ne porte pas ${interdit}`);
+  }
+  assert.match(journal, /langue|echanges|budgetRestant/, "il ne porte que des compteurs");
+
+  // 5. « rien n'est envoyé à M. Kouassi sans votre accord » — Resend n'est
+  //    appelé qu'avec un brief confirmé ET un accord de recontact explicite.
+  const email = fs.readFileSync("worker/assistant/src/email.js", "utf8");
+  assert.match(email, /!brief\.confirme \|\| brief\.recontact !== "oui"/, "l'accord explicite est exigé");
+});
+
+test("D-9 : la mention reste lisible — aucun terme technique que le visiteur ne parlerait", () => {
+  for (const langue of ["fr", "en"]) {
+    const texte = D9.confidentialite[langue].toLowerCase();
+    // « modèle » reste admis : c'est le mot juste, et le taire reviendrait à
+    // cacher au visiteur que sa question part chez un tiers.
+    for (const interdit of ["mistral", "api", "log", "token", "jeton", "worker", "cloudflare", "resend", "serveur", "server", "sessionstorage"]) {
+      assert.ok(!texte.includes(interdit), `${langue} : « ${interdit} » n'a rien à faire dans la mention`);
+    }
+  }
+});
+
+test("D-9 : la mention ne promet pas le refus d'entraînement, qui n'est pas posé", () => {
+  // D-11 : le refus est gratuit et décidé, mais c'est une bascule que Marc doit
+  // actionner dans le panneau Mistral. Tant qu'elle n'est pas vérifiable depuis
+  // le dépôt, la mention ne peut pas l'affirmer — ce serait inventer un état.
+  for (const langue of ["fr", "en"]) {
+    const texte = D9.confidentialite[langue].toLowerCase();
+    for (const promesse of ["entraîn", "entrain", "training", "train our", "jamais utilisé", "never used"]) {
+      assert.ok(!texte.includes(promesse), `${langue} : « ${promesse} » promettrait D-11, qui reste à poser`);
+    }
+  }
+});
