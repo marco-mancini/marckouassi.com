@@ -570,7 +570,7 @@ test("une carte déplie sa seule catégorie, avec ses seules réalisations ou so
     assert.equal((await bloc.locator("h2").first().textContent()).replace(/\.$/, ""), categorie.libelle.fr, categorie.id);
     assert.equal(await page.locator(".projet-carte:visible").count(), categorie.travaux.length, categorie.id);
     if (!categorie.travaux.length && !(categorie.realisations ?? []).length) {
-      assert.ok((await bloc.locator(".categorie-projets__vide").textContent()).length > 0, categorie.id);
+      assert.ok((await bloc.locator(".message--vide .message__phrase").textContent()).length > 0, categorie.id);
     }
     const intruses = await page.$$eval(".projet-carte", (cartes, id) => cartes.filter((c) => c.offsetParent !== null && c.dataset.categorie !== id).length, categorie.id);
     assert.equal(intruses, 0, `${categorie.id} : une réalisation d'une autre catégorie est visible`);

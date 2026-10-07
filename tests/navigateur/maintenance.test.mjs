@@ -57,7 +57,7 @@ test("maintenance : page complète, sceau construit, contact joignable, aucun d�
         contact: document.querySelector('[data-maintenance] a[href^="mailto:"]')?.getBoundingClientRect().height,
       }));
       const lieu = `${largeur} px, ${theme}`;
-      assert.ok(etat.titre?.includes(dictionnaires.fr.maintenance.titre), lieu);
+      assert.equal(etat.titre, `${dictionnaires.fr.etats.maintenance.titre.replaceAll("*", "")}.`, lieu);
       assert.equal(etat.construit, true, `sceau construit : ${lieu}`);
       assert.equal(etat.deborde, 0, `débordement : ${lieu}`);
       assert.equal(etat.robots, "noindex");
@@ -69,10 +69,14 @@ test("maintenance : page complète, sceau construit, contact joignable, aucun d�
   }
 });
 
-test("maintenance : mouvement réduit, le sceau reste statique", async () => {
+test("maintenance : mouvement réduit, le sceau est immobile et complet", async () => {
   const page = await ouvrirMaintenance({ reduit: true });
-  assert.equal(await page.locator("[data-maintenance] .sceau.est-construit").count(), 0);
-  assert.equal(await page.locator("[data-maintenance] .sceau svg use").count(), 1, "le sceau du sprite, intact");
+  const etat = await page.evaluate(() => {
+    const sceau = document.querySelector("[data-maintenance] .sceau");
+    return { animations: sceau.getAnimations({ subtree: true }).length, formes: sceau.querySelectorAll("[data-forme]").length };
+  });
+  assert.equal(etat.animations, 0);
+  assert.ok(etat.formes >= 4, "les formes du sceau sont là");
   await page.fermer();
 });
 

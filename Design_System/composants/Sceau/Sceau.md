@@ -34,3 +34,18 @@ Navigateur uniquement. `construireSceau(element, { rejouer })` copie les formes 
 ## Dépendances
 
 `fondations/rendu.js`.
+
+## Humeurs — les états du site (#162, D-39)
+
+`anime` accepte aussi une humeur (`HUMEURS`), utilisée par `Message` en mode sceau ; `auto: true` ajoute `data-sceau-auto`, que `activerSceaux(racine)` construit. Sur l'olive, tout contour se trace en **crème** : jamais de vert sur vert.
+
+| Humeur | Animation | Jetons |
+|---|---|---|
+| `bati` | construction ; contour crème jusqu'au remplissage, puis couleurs | `--construction-*` |
+| `chargement` | tracé, remplissage, effacement, en boucle | `--humeur-chargement-*` |
+| `chantier` | cercle, lignes de construction, puis le MK ; tout s'éteint et recommence | `--humeur-chantier-duree` |
+| `vide` | cercle et lignes de construction, qui respirent | `--humeur-vide-trace`, `--humeur-respire-duree` |
+| `panne` | `bati`, puis le K grésille et reste éteint | `--humeur-panne-duree`, `--humeur-eteint` |
+| `perdu` | `bati`, puis le K se décroche et reste penché | `--humeur-decroche*` |
+
+Mouvement réduit (`prefers-reduced-motion` ou `data-animations="reduites"`) : aucune animation, l'état final immobile (sceau complet ; lignes et MK crème pour `chantier` ; K éteint ou penché).

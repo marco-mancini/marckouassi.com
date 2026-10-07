@@ -15,7 +15,12 @@ export function servir(dossier = "_site") {
     let chemin = decodeURIComponent(new URL(requete.url, "http://x").pathname);
     if (chemin.endsWith("/")) chemin += "index.html";
     const fichier = path.join(racine, chemin);
-    if (!fichier.startsWith(racine) || !fs.existsSync(fichier) || fs.statSync(fichier).isDirectory()) { reponse.writeHead(404); reponse.end("introuvable"); return; }
+    if (!fichier.startsWith(racine) || !fs.existsSync(fichier) || fs.statSync(fichier).isDirectory()) {
+      // Comme Vercel : une page inconnue reçoit 404.html, avec le statut 404.
+      const page404 = path.join(racine, "404.html");
+      if (chemin.endsWith(".html") && fs.existsSync(page404)) { reponse.writeHead(404, { "content-type": TYPES[".html"] }); fs.createReadStream(page404).pipe(reponse); return; }
+      reponse.writeHead(404); reponse.end("introuvable"); return;
+    }
     reponse.writeHead(200, { "content-type": TYPES[path.extname(fichier)] || "application/octet-stream" });
     fs.createReadStream(fichier).pipe(reponse);
   });

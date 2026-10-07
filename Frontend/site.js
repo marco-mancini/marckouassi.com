@@ -18,7 +18,7 @@ import { activerNavigationCategories } from "../Design_System/gabarits/sections/
 import { activerDecouverte } from "../Design_System/gabarits/Decouverte/Decouverte.js";
 import { lancerIntro } from "../Design_System/gabarits/Intro/Intro.js";
 import { activerAssistant } from "../Design_System/gabarits/Assistant/Assistant.js";
-import { activerMaintenance } from "../Design_System/gabarits/Maintenance/Maintenance.js";
+import { activerEtats } from "../Design_System/gabarits/Etats/Etats.js";
 import { activerMesure } from "./mesure.js";
 
 const racine = document.documentElement;
@@ -36,7 +36,7 @@ activerDecouverte(document, { reduit });
 activerApparitions(document, { reduit });
 // Sans [data-assistant] dans la page, activerAssistant sort immédiatement.
 activerAssistant(document);
-// Sans [data-maintenance] dans la page, activerMaintenance sort immédiatement.
-activerMaintenance(document, { reduit });
+// États du site (#162) : sceaux des messages, 404, réseau, médias en échec.
+activerEtats(document);
 racine.classList.add("js-anime");
 lancerIntro({ reduit });

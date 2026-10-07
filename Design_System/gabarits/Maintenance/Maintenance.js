@@ -2,14 +2,14 @@
  * MAINTENANCE — la page qui remplace tout le site public quand
  * content/site.json → maintenance.active est coché dans le CMS.
  *
- * Composition, pas composant : le sceau qui se construit (Sceau, variante
- * construction), un Titre, le choix de langue (Segments) et le bouton
- * « écrire » du site. Aucun texte ici : dictionnaire « maintenance » et
- * contenu du site (nom, bouton « écrire », adresse). Décision : Docs/DECISIONS.md, D-38.
+ * Composition, pas composant : le choix de langue (Segments) et l'état
+ * « Maintenance » (Message, mode sceau : le gabarit de tous les états du
+ * site, #162), avec le bouton « écrire » du site et l'adresse. Aucun texte
+ * ici : dictionnaires « etats » et « maintenance », contenu du site.
+ * Décisions : D-38, D-39.
  */
 import { html } from "../../fondations/rendu.js";
-import { Sceau, construireSceau } from "../../composants/Sceau/Sceau.js";
-import { Titre } from "../../composants/Titre/Titre.js";
+import { Message } from "../../composants/Message/Message.js";
 import { Segments } from "../../composants/Segments/Segments.js";
 import { Bouton } from "../../composants/Bouton/Bouton.js";
 
@@ -21,30 +21,12 @@ import { Bouton } from "../../composants/Bouton/Bouton.js";
  */
 export function Maintenance({ site, ctx, langues }) {
   const { t } = ctx;
-  const ecrire = site.contact?.email
-    ? Bouton({ texte: ctx.c(site.navigation.ecrire, "site.navigation.ecrire"), href: `mailto:${site.contact.email}`, variante: "contour", options: { icone: "externe" } })
-    : "";
+  const email = site.contact?.email;
+  const ecrire = email
+    ? html`${Bouton({ texte: ctx.c(site.navigation.ecrire, "site.navigation.ecrire"), href: `mailto:${email}`, variante: "contour", options: { icone: "externe" } })}<span class="message__adresse">${email}</span>`
+    : null;
   return html`<main id="contenu" class="maintenance ilot-olive" tabindex="-1" data-maintenance>
 <div class="maintenance__langues">${Segments({ options: langues, etiquette: t("langue.selecteur") })}</div>
-<div class="maintenance__coeur">
-${Sceau({ taille: "grand", anime: "construction" })}
-<p class="maintenance__etiquette">${site.identite.nom}</p>
-${Titre({ niveau: 1, echelle: "appel", texte: t("maintenance.titre") })}
-<p class="maintenance__texte">${t("maintenance.texte")}</p>
-${ecrire}
-</div>
+<div class="maintenance__coeur">${Message({ type: "info", titre: t("etats.maintenance.titre"), texte: t("maintenance.texte"), action: ecrire, mode: { sceau: "bati", niveau: 1 } })}</div>
 </main>`;
-}
-
-/**
- * Navigateur : construit le sceau de la page de maintenance. Mouvement
- * réduit : le sceau reste statique.
- * @param {Document} document
- * @param {object} [o]
- * @param {boolean} [o.reduit]
- */
-export function activerMaintenance(document, { reduit = false } = {}) {
-  const sceau = document.querySelector("[data-maintenance] .sceau--construction");
-  if (!sceau || reduit) return false;
-  return construireSceau(sceau);
 }
