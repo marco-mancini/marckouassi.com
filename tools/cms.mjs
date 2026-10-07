@@ -86,6 +86,16 @@ export function configurationCms({ contenu, fr }) {
       { name: "exemples", label: libelle("exemples"), label_singular: libelle("exemples"), required: false, widget: "list", field: traduisible({ name: "valeur", label: libelle("exemples"), required: true }, []) },
       traduisible({ name: "confidentialite", label: libelle("confidentialite"), required: false }, []),
     ],
+  }, {
+    /* Mode maintenance : absent ou décoché, le site s'affiche ; coché, toutes
+       les pages publiques laissent place à la page de maintenance. Déclaré ici
+       pour rester proposé quand le contenu ne le porte pas (case jamais cochée). */
+    name: "maintenance", label: libelle("maintenance"), required: false, widget: "object",
+    fields: [{ name: "active", label: libelle("maintenanceActif"), required: false, widget: "boolean" }],
+  }, {
+    /* Mesure d'audience : l'identifiant GA4 vidé, aucune mesure. */
+    name: "mesure", label: libelle("mesure"), required: false, widget: "object",
+    fields: [{ name: "ga4", label: libelle("ga4"), required: false, widget: "string" }],
   }];
 
   /** Champ déduit de toutes les valeurs rencontrées pour une même clé. */
@@ -133,8 +143,11 @@ export function configurationCms({ contenu, fr }) {
   /** Objet : l'union des clés de toutes les occurrences, dans leur ordre d'apparition. */
   function sousChamps(objets, chemin) {
     const cles = [...new Set(objets.flatMap((o) => Object.keys(o)))];
-    const deduits = cles.map((cle) => champ(cle, objets.map((o) => o[cle]), `${chemin}.${cle}`));
-    return [...deduits, ...(FACULTATIFS[chemin] ?? []).filter((f) => !cles.includes(f.name))];
+    const declares = FACULTATIFS[chemin] ?? [];
+    // Un champ déclaré l'emporte sur la déduction, présent ou non dans les
+    // données : un identifiant GA4 saisi une fois ne devient pas obligatoire.
+    const deduits = cles.map((cle) => declares.find((f) => f.name === cle) ?? champ(cle, objets.map((o) => o[cle]), `${chemin}.${cle}`));
+    return [...deduits, ...declares.filter((f) => !cles.includes(f.name))];
   }
 
   function objet(base, valeurs, chemin) {

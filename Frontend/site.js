@@ -18,10 +18,14 @@ import { activerNavigationCategories } from "../Design_System/gabarits/sections/
 import { activerDecouverte } from "../Design_System/gabarits/Decouverte/Decouverte.js";
 import { lancerIntro } from "../Design_System/gabarits/Intro/Intro.js";
 import { activerAssistant } from "../Design_System/gabarits/Assistant/Assistant.js";
+import { activerMaintenance } from "../Design_System/gabarits/Maintenance/Maintenance.js";
+import { activerMesure } from "./mesure.js";
 
 const racine = document.documentElement;
 const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches || racine.dataset.animations === "reduites";
 
+// En premier : la visite est comptée même si un comportement suivant échoue.
+activerMesure(document);
 activerModales(document);
 activerEnTete(document.querySelector('[data-en-tete="site"]'));
 suivreSectionCourante(document);
@@ -32,5 +36,7 @@ activerDecouverte(document, { reduit });
 activerApparitions(document, { reduit });
 // Sans [data-assistant] dans la page, activerAssistant sort immédiatement.
 activerAssistant(document);
+// Sans [data-maintenance] dans la page, activerMaintenance sort immédiatement.
+activerMaintenance(document, { reduit });
 racine.classList.add("js-anime");
 lancerIntro({ reduit });

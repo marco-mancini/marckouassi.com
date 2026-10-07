@@ -54,8 +54,18 @@ test("aucun texte en dur dans les pages rendues (FR, EN ; accueil, CV, projet)",
   }
 });
 
+test("aucun texte en dur dans la page de maintenance (FR, EN)", () => {
+  const site = { ...contenu.site, maintenance: { active: true } };
+  for (const langue of vrai.site.langues) {
+    const ctx = contextePage({ site, langue, chemin: "", dictionnaires, medias, ressources: { sprite: "", couleurTheme: "#000000", annee: 2030 } });
+    const page = String(rendrePage({ contenu: { ...contenu, site }, ctx, chemin: "" }));
+    assert.match(page, /data-maintenance/);
+    assert.deepEqual([...new Set(motsRestants(page).map((t) => t.trim()))], [], langue);
+  }
+});
+
 test("aucun gabarit ni script du site ne contient de texte en dur", () => {
-  const fichiers = ["Frontend/site.js", "tools/pages.mjs", ...fs.readdirSync("Design_System/gabarits", { recursive: true }).filter((f) => f.endsWith(".js")).map((f) => `Design_System/gabarits/${f}`)];
+  const fichiers = ["Frontend/site.js", "Frontend/mesure.js", "tools/pages.mjs", ...fs.readdirSync("Design_System/gabarits", { recursive: true }).filter((f) => f.endsWith(".js")).map((f) => `Design_System/gabarits/${f}`)];
   for (const fichier of fichiers) assert.deepEqual(textesLitteraux(fs.readFileSync(fichier, "utf8")), [], fichier);
 });
 

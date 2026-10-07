@@ -125,5 +125,9 @@
     "rubrique": "{numero} / {nom}",
     "numeroProjet": "#{numero}",
     "titrePage": "{titre} — {nom}"
+  },
+  "maintenance": {
+    "titre": "Portfolio under maintenance",
+    "texte": "The site is being updated. Please check back a little later."
   }
 }

@@ -12,6 +12,26 @@ Règles :
 
 ---
 
+## 2026-10-07 — D-38 : mesure d'audience GA4 et mode maintenance
+
+Décision de Marc, en conversation · issue [#160](https://github.com/marco-mancini/marckouassi.com/issues/160).
+
+**Problème.** Le site n'avait ni mesure d'audience, ni moyen de le fermer le temps d'une mise à jour.
+
+**Options.** Mesure : GA4 sans bandeau, GA4 avec bandeau de consentement, outil sans cookie. Maintenance : case dans le CMS, variable Vercel, page à la main.
+
+**Choix.** GA4 (`G-KWQ5D3KE9R`) **sans bandeau**, choix de Marc après avertissement sur le consentement. Maintenance par une **case du CMS** (`site.maintenance.active`).
+
+**Motif.** Tout se pilote depuis le CMS, sans toucher au code : l'identifiant vit dans `content/site.json` (`mesure.ga4`, vide = aucune mesure) et la case reconstruit le site.
+
+**Impact.**
+- La mesure ne part que depuis l'adresse publique (`site.url`) : ni aperçu Vercel, ni poste local, ni test ne la déclenchent (`Frontend/mesure.js`).
+- Maintenance cochée : chaque adresse publique, en FR et EN, rend la page de maintenance (`gabarits/Maintenance`), `noindex` ; `/admin/` reste ouvert pour décocher. Plan du site et robots inchangés.
+
+**Réversibilité.** Totale : vider `mesure.ga4` coupe la mesure ; décocher la case rouvre le site au build suivant.
+
+---
+
 ## 2026-10-07 — D-37 : arbitrages sur #6, #7, #13, #40 et #49
 
 Décision de Marc, en conversation, sur les recommandations de Claude · issues

@@ -263,7 +263,11 @@
     "assistantActif": "Activer MarcoS",
     "accueil": "Message d’accueil",
     "exemples": "Exemples de questions",
-    "confidentialite": "Mention de confidentialité"
+    "confidentialite": "Mention de confidentialité",
+    "mesure": "Mesure d’audience",
+    "ga4": "Identifiant Google Analytics 4 (G-…)",
+    "maintenance": "Mode maintenance",
+    "maintenanceActif": "Mettre le site en maintenance"
   },
   "frequences": {
     "session": "Une fois par visite",

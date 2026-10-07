@@ -4,7 +4,7 @@
  * façon de produire une page, sans lecture de fichier ni réseau.
  */
 import { creerContexte, cheminLangue, versRacine } from "../i18n/langue.js";
-import { PageAccueil, PageProjet, PageCv } from "./sections/Pages.js";
+import { PageAccueil, PageProjet, PageCv, PageMaintenance } from "./sections/Pages.js";
 
 /** Chemins des pages, sans préfixe de langue : accueil, CV et projets. */
 export function cheminsPages(contenu) {
@@ -26,6 +26,8 @@ export function contextePage({ site, langue, chemin, dictionnaires, medias, ress
   const ctx = creerContexte({ langue, langueParDefaut: defaut, dictionnaires });
   return Object.assign(ctx, {
     racine, chemin, langues: site.langues, dictionnaires, ...ressources,
+    // Identifiant GA4 (content/site.json → mesure.ga4) : vide, aucune mesure.
+    mesure: site.mesure?.ga4 || null,
     media: (src) => {
       const publie = medias.get(src);
       return publie ? { ...publie, src: racine + publie.src } : {};
@@ -39,11 +41,16 @@ export function contextePage({ site, langue, chemin, dictionnaires, medias, ress
   });
 }
 
-/** Rend la page d'un chemin avec le gabarit qui lui correspond. */
+/**
+ * Rend la page d'un chemin avec le gabarit qui lui correspond.
+ * Mode maintenance (content/site.json → maintenance.active) : chaque adresse
+ * existante rend la page de maintenance ; une adresse inconnue reste une erreur.
+ */
 export function rendrePage({ contenu, ctx, chemin }) {
+  const projet = contenu.projets.find((p) => chemin === `projets/${p.id}/`);
+  if (chemin !== "" && chemin !== "cv/" && !projet) throw new Error(`Aucune page pour « ${chemin} »`);
+  if (contenu.site.maintenance?.active === true) return PageMaintenance({ contenu, ctx });
   if (chemin === "") return PageAccueil({ contenu, ctx });
   if (chemin === "cv/") return PageCv({ contenu, ctx });
-  const projet = contenu.projets.find((p) => chemin === `projets/${p.id}/`);
-  if (projet) return PageProjet({ contenu, ctx, projet });
-  throw new Error(`Aucune page pour « ${chemin} »`);
+  return PageProjet({ contenu, ctx, projet });
 }
