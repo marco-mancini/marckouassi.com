@@ -10,7 +10,7 @@ Règles :
 - format d'une issue : Contexte · Ce qui est attendu · Comment vérifier · Ce qui bloque ;
 - `decision-marc` : ce que Marc seul peut trancher ou exécuter.
 
-Projet GitHub « Portfolio Marc Kouassi » : à créer par Marc (PM-007).
+Projet GitHub « Portfolio Marc Kouassi » : https://github.com/users/marco-mancini/projects/1 ; workflows à activer par Marc (PM-007).
 
 État au 4 octobre 2026, de PM-004 à PM-127 : 11 issues ouvertes, 73 fermées. Chiffres relevés par `npm run comparer-issues`.
 
@@ -27,7 +27,7 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-010 | [#10](https://github.com/marco-mancini/marckouassi.com/issues/10) | Refaire le PDF du CV sans données personnelles | decision-marc, contenu | — | ouverte — plus de dépendance technique : le CMS est éprouvé (PM-005) |
 | PM-011 | [#11](https://github.com/marco-mancini/marckouassi.com/issues/11) | Réécrire le résumé du CV | decision-marc, contenu | — | ouverte — plus de dépendance technique : le CMS est éprouvé (PM-005) |
 | PM-012 | [#12](https://github.com/marco-mancini/marckouassi.com/issues/12) | Poser les étiquettes d'archive des 8 branches obsolètes | decision-marc, infrastructure | — | fermée — 8 étiquettes annotées sur le distant, 8/8 sur le SHA attendu ([BRANCHES.md](BRANCHES.md)) |
-| PM-013 | [#13](https://github.com/marco-mancini/marckouassi.com/issues/13) | Supprimer les 8 branches obsolètes | decision-marc, infrastructure | — | ouverte — les 8 branches de `BRANCHES.md` supprimées le 4 octobre 2026, étiquettes `archive/*` conservées et commits joignables ; 85 branches distantes → 77. Il reste 54 branches absorbées, sans étiquette d'archive : la seconde vague attend une décision |
+| PM-013 | [#13](https://github.com/marco-mancini/marckouassi.com/issues/13) | Supprimer les branches distantes absorbées dans main | decision-marc, infrastructure | — | ouverte — les 8 branches de `BRANCHES.md` supprimées le 4 octobre 2026. Périmètre élargi le 7 octobre 2026 (D-37) aux **54 branches absorbées**, toutes étiquetées `archive/*` ; suppression autorisée par Marc, refusée par l'environnement de Claude, à lancer par Marc. Branches à commits uniques : PM-158 |
 | PM-014 | [#14](https://github.com/marco-mancini/marckouassi.com/issues/14) | Envoyer le lien du site à l'auteur de la police Reey | decision-marc | — | ouverte |
 | PM-015 | [#15](https://github.com/marco-mancini/marckouassi.com/issues/15) | Vérifier l'orthographe des 20 noms de référence du CV | decision-marc, contenu | — | fermée — les 20 noms validés par Marc le 4 octobre ; `references` identique à la liste, et une seule graphie « BNI Finance » dans `content/` depuis la PR #144 |
 | PM-016 | [#16](https://github.com/marco-mancini/marckouassi.com/issues/16) | Traduire en anglais la phrase « depuis 13 ans » de l'accueil | contenu, decision-marc | — | fermée — réglée par la PR #67 (lot 1) ; `accroche.en` porte « **for 13 years.** » |
@@ -102,3 +102,4 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-125 | [#134](https://github.com/marco-mancini/marckouassi.com/issues/134) | Exécution autonome — lots #104 #105 #115 #116 #128 #21 | documentation | — | fermée — suivi du lot clos : PM-113, PM-105, PM-114 et PM-119 prouvés, PM-021 laissé en veille sur son propre critère ; PM-104 et PM-121 restent ouvertes, en attente des textes de Marc |
 | PM-126 | [#135](https://github.com/marco-mancini/marckouassi.com/issues/135) | Placeholder | documentation | — | fermée |
 | PM-127 | [#142](https://github.com/marco-mancini/marckouassi.com/issues/142) | Refaire complètement le CV HTML sur la base du PDF existant | contenu | PM-010 | fermée — réglée par la PR #153 (`7701835`) ; le PDF retrouvé dans l'historique a servi de source visuelle, couleurs échantillonnées, 28 configurations vérifiées, axe-core sans violation |
+| PM-158 | [#158](https://github.com/marco-mancini/marckouassi.com/issues/158) | Trier les 43 branches distantes qui portent des commits uniques | decision-marc, infrastructure | PM-013 | ouverte — inventaire du 7 octobre 2026 (D-37) ; aucune suppression sans décision branche par branche |
