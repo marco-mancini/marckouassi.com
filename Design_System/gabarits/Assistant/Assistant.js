@@ -202,7 +202,10 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
         }),
       });
       const corps = await reponse.json().catch(() => ({}));
-      if (!reponse.ok) throw new Error(corps.code || "indisponible");
+      // Le contrat du Worker est « { erreur: code } » (worker/.../erreurs.js).
+      // Lire « corps.code » écrasait chaque code par « indisponible » : le
+      // quota et la limite de débit n'étaient jamais annoncés au visiteur.
+      if (!reponse.ok) throw new Error(corps.erreur || "indisponible");
       echanges.push({ role: "assistant", texte: corps.texte, liens: (corps.liens || []).filter((lien) => String(lien.href || "").startsWith("/")) });
       conversation.ecrire(JSON.stringify(echanges));
       afficher();

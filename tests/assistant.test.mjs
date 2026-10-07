@@ -32,7 +32,7 @@ const actif = (surcharge = {}) => ({ active: true, accueil: { fr: "Bonjour.", en
 
 test("Conversation rend un journal annoncé poliment, et rien d'autre", () => {
   const sortie = String(Conversation({ echanges: [], etiquette: "É", libelles: { visiteur: "V", assistant: "A" }, vide: "—" }));
-  assert.match(sortie, /<ol class="conversation" role="log" aria-live="polite" aria-relevant="additions"/);
+  assert.match(sortie, /<div class="conversation" role="log" aria-live="polite" aria-relevant="additions"/);
   assert.match(sortie, /aria-label="É"/);
   assert.match(sortie, /conversation__vide/, "le vide est explicite (AGENTS.md §6.8)");
 });

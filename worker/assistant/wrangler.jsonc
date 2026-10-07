@@ -23,12 +23,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "marcos-assistant",
-  "main": "src/index.js",
+  "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
 
   // Journaux : métadonnées seulement (décision D-10). Jamais le texte des
   // questions ni des réponses, jamais l'IP en clair.
   "observability": { "enabled": true },
+  // Le prompt système vit dans UN fichier, lisible et relu comme un document.
+  // Cette règle le donne au Worker comme module texte : pas de copie dans le
+  // code, pas de dépendance, une seule source (IA-05).
+  "rules": [{ "type": "Text", "globs": ["**/*.md"], "fallthrough": true }],
 
   // `workers.dev` est l'adresse de production (décision #24). Le jour où un
   // domaine existe, une route `<domaine>/api/*` s'ajoute ici — et le code ne
