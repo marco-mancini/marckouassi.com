@@ -4,7 +4,8 @@
  * façon de produire une page, sans lecture de fichier ni réseau.
  */
 import { creerContexte, cheminLangue, versRacine } from "../i18n/langue.js";
-import { PageAccueil, PageProjet, PageCv, PageMaintenance } from "./sections/Pages.js";
+import { PageAccueil, PageProjet, PageCv, PageMaintenance, PageIntrouvable } from "./sections/Pages.js";
+export { PageIntrouvable };
 
 /** Chemins des pages, sans préfixe de langue : accueil, CV et projets. */
 export function cheminsPages(contenu) {
@@ -22,7 +23,8 @@ export function cheminsPages(contenu) {
  */
 export function contextePage({ site, langue, chemin, dictionnaires, medias, ressources }) {
   const defaut = site.langueParDefaut;
-  const racine = versRacine(cheminLangue(langue, defaut, chemin));
+  // Racine absolue (« / ») pour une page servie à toutes les adresses : la 404.
+  const racine = ressources.racine ?? versRacine(cheminLangue(langue, defaut, chemin));
   const ctx = creerContexte({ langue, langueParDefaut: defaut, dictionnaires });
   return Object.assign(ctx, {
     racine, chemin, langues: site.langues, dictionnaires, ...ressources,

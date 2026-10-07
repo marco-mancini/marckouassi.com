@@ -18,6 +18,7 @@ import { Visionneuse } from "../../composants/Galerie/Galerie.js";
 import { Intro } from "../Intro/Intro.js";
 import { Assistant } from "../Assistant/Assistant.js";
 import { Maintenance } from "../Maintenance/Maintenance.js";
+import { Introuvable } from "../Etats/Etats.js";
 import { media } from "../outils.js";
 import { Document, enTeteEtMenu, enTeteDocument, optionsLangues, credit } from "./commun.js";
 import { Couverture } from "./Couverture.js";
@@ -61,6 +62,17 @@ export function PageMaintenance({ contenu, ctx }) {
   return Document({
     ctx, meta: { ...meta(contenu, ctx, { chemin: ctx.chemin }), titre: ctx.t("formats.titrePage", { titre: ctx.t("maintenance.titre"), nom: contenu.site.identite.nom }), robots: "noindex" },
     corps: Maintenance({ site: contenu.site, ctx, langues: optionsLangues(ctx) }),
+  });
+}
+
+/**
+ * Page introuvable (404) : servie par l'hébergeur à toute adresse inconnue,
+ * avec une racine absolue. Jamais indexée.
+ */
+export function PageIntrouvable({ contenu, ctx }) {
+  return Document({
+    ctx, meta: { ...meta(contenu, ctx), titre: ctx.t("formats.titrePage", { titre: ctx.t("etats.introuvable.onglet"), nom: contenu.site.identite.nom }), robots: "noindex" },
+    corps: Introuvable({ ctx }),
   });
 }
 

@@ -3,6 +3,7 @@
  * document HTML, en-tête, menu mobile, sélecteur de langue, crédit
  * numéroté. Aucun texte : dictionnaire (ctx.t) et contenu (ctx.c / ctx.l).
  */
+import { EtatsDuNavigateur } from "../Etats/Etats.js";
 import { html, brut, attributs } from "../../fondations/rendu.js";
 import { EnTete } from "../../composants/EnTete/EnTete.js";
 import { Navigation } from "../../composants/Navigation/Navigation.js";
@@ -138,6 +139,7 @@ ${ctx.mesure ? html`<meta name="mesure-ga4"${attributs({ content: ctx.mesure })}
 ${brut(ctx.sprite)}
 <a class="skip-link" href="#contenu">${ctx.t("accessibilite.allerAuContenu")}</a>
 ${corps}
+${EtatsDuNavigateur({ ctx })}
 </body>
 </html>
 `;

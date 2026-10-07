@@ -127,7 +127,6 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .planche__credit-retour [data-categorie-retour]:focus-visible::before { background: var(--olive); }
 .categorie-projets__sous-titre { margin: 0; color: var(--accent-texte-grand); font-weight: var(--weight-strong); }
 .categorie-projets__recit { width: max-content; max-width: 100%; margin: 0; color: var(--texte-discret); white-space: nowrap; }
-.categorie-projets__vide { min-height: var(--space-8); margin: 0; color: var(--texte-discret); }
 .categorie-projets__carte-vide { aspect-ratio: var(--projet-carte-vide-ratio); border: var(--border-hairline) solid var(--filet); border-radius: var(--rayon-vignette); background: var(--carte-surface); }
 .categorie-projets__carte-image { min-width: 0; margin: 0; container: realisation / inline-size; }
 .categorie-projets__carte-visuel { position: relative; }

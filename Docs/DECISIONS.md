@@ -12,6 +12,24 @@ Règles :
 
 ---
 
+## 2026-10-07 — D-39 : un seul gabarit pour tous les états du site, animé par le sceau
+
+Décision de Marc, maquette validée en trois versions · issue [#162](https://github.com/marco-mancini/marckouassi.com/issues/162).
+
+**Problème.** Le site n'avait ni page 404 (Vercel servait sa page grise), ni message hors connexion, ni repli pour un média en échec ; l'état vide et les erreurs de MarcoS étaient de simples lignes de texte.
+
+**Options.** Un composant « État » nouveau ; étendre `Message`, qui couvre déjà chargement, vide et erreur.
+
+**Choix.** Étendre `Message` (mode sceau) et `Sceau` (humeurs). Un seul gabarit, sans exception : le sceau animé, un titre bicolore (partie dorée choisie par Marc : *Char*gement, *In*disponible, *Main*tenance ; sinon le premier mot), une phrase, ses actions. Mêmes tailles et même place partout. La page de maintenance perd son grand titre.
+
+**Motif.** Cohérence visuelle uniforme (demande de Marc) ; AGENTS.md 3.2 : réutiliser avant de créer, pas de composant doublon.
+
+**Impact.** Nouvelle page `404.html` (FR/EN). Hors connexion : un message en bas d'écran, pas une page plein écran (il faudrait un service worker). Aucun chargement n'est simulé là où rien ne se charge : l'humeur `chargement` ne sert qu'à MarcoS.
+
+**Réversibilité.** Totale : un état revient à son ancien rendu en retirant `mode: { sceau }`.
+
+---
+
 ## 2026-10-07 — D-38 : mesure d'audience GA4 et mode maintenance
 
 Décision de Marc, en conversation · issue [#160](https://github.com/marco-mancini/marckouassi.com/issues/160).

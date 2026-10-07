@@ -27,3 +27,26 @@
 /* Position reglable par le contexte (le back-office les place sous l'en-tete, loin de sa barre d'actions). */
 .messages { position: fixed; top: var(--messages-haut, auto); right: var(--space-5); bottom: var(--messages-bas, var(--space-5)); z-index: 90; display: grid; width: min(24rem, calc(100vw - 2 * var(--space-5))); gap: var(--space-2); }
 .message--toast { animation: message-entree var(--duration-base) var(--ease-out) both; }
+
+/* ==========================================================================
+   MODE SCEAU — les etats du site (#162) : le sceau anime, un titre bicolore,
+   une phrase, ses actions. Meme gabarit, memes tailles, partout. Pose sur
+   l'ilot olive : il garde son fond, quelle que soit la planche.
+   ========================================================================== */
+.message--sceau {
+  flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; gap: var(--message-sceau-ecart);
+  padding: var(--message-sceau-marge); border: 0; border-radius: var(--radius-md);
+  background: var(--fond); color: var(--texte); text-align: center;
+}
+.message--sceau .sceau { width: var(--message-sceau-taille); margin-block-end: var(--space-1); }
+.message--sceau .message__titre { margin: 0; font-family: var(--font-display); font-size: var(--message-sceau-titre); font-weight: var(--weight-regular); line-height: var(--message-sceau-interligne); letter-spacing: var(--message-sceau-titre-interlettrage); text-transform: uppercase; text-wrap: balance; }
+.message__or { color: var(--accent-gold); }
+.message__phrase { max-width: var(--message-sceau-mesure); font-size: var(--message-sceau-phrase); line-height: var(--leading-body); text-wrap: balance; }
+.message--sceau .message__action { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--space-2); margin-block-start: var(--space-1); }
+.message--compact { gap: var(--message-compact-ecart); padding: var(--message-compact-marge); }
+.message--compact .sceau { width: var(--message-compact-sceau); margin: 0; }
+.message--compact .message__titre { font-size: var(--message-compact-titre); }
+.message--compact .message__phrase { font-size: var(--type-body-compact); }
+.message__adresse { flex-basis: 100%; font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--message-adresse-interlettrage); color: var(--texte-discret); user-select: all; }
+/* Toast d'etat : pose sur des planches olive, il s'en detache par un filet et une ombre. */
+.message--sceau.message--toast { border: var(--border-hairline) solid var(--filet); box-shadow: 0 var(--shadow-board-y) var(--shadow-board-flou, var(--space-6)) var(--shadow-signature); }

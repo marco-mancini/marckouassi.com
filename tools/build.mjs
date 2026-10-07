@@ -18,7 +18,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { cheminLangue, creerContexte } from "../Design_System/i18n/langue.js";
 import { formaterErreurs } from "../Design_System/gabarits/donnees.js";
-import { cheminsPages, contextePage, rendrePage } from "./pages.mjs";
+import { cheminsPages, contextePage, rendrePage, PageIntrouvable } from "./pages.mjs";
 import { chargerFichiers, chargerPublication, valider, referencesMedias } from "./contenu.mjs";
 import { publierMedias, sourceLocale, sourceDistante, lireJeton } from "./medias.mjs";
 import { construireCms } from "./cms.mjs";
@@ -89,6 +89,13 @@ async function main() {
       manquants.push(...ctx.manquants);
     }
   }
+
+  // Page introuvable : une seule, servie par l'hébergeur à toute adresse
+  // inconnue, d'où sa racine absolue ; en maintenance, la page de maintenance (#162).
+  const ctxIntrouvable = contextePage({ site, langue: defaut, chemin: "", dictionnaires, medias, ressources: { ...ressources, racine: "/" } });
+  await ecrire("404.html", String(site.maintenance?.active === true
+    ? rendrePage({ contenu, ctx: ctxIntrouvable, chemin: "" })
+    : PageIntrouvable({ contenu, ctx: ctxIntrouvable })));
 
   // 4. Fichiers statiques : Design System et script du site
   // Ni documentation (.md) ni page HTML : le Design System ne publie que des ressources.

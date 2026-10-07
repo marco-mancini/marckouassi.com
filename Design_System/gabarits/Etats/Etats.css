@@ -1,0 +1,10 @@
+/* ==========================================================================
+   ETATS — page introuvable, reseau, media indisponible (Etats.js, #162)
+   L'apparence vient de Message (mode sceau) ; ici, la seule disposition.
+   ========================================================================== */
+.introuvable { display: grid; place-items: center; min-height: 100svh; padding: var(--space-4) var(--page-gutter); background: var(--fond); }
+.introuvable:focus { outline: none; }
+.introuvable__langue[hidden] { display: none; }
+/* Media indisponible : le message remplit le cadre du media. */
+.media--indisponible { display: grid; }
+.media--indisponible .message--sceau { justify-content: center; border-radius: 0; }

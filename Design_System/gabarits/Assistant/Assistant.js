@@ -5,6 +5,7 @@ import { Champ } from "../../composants/Champ/Champ.js";
 import { Saisie } from "../../composants/Saisie/Saisie.js";
 import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Message } from "../../composants/Message/Message.js";
+import { activerSceaux } from "../../composants/Sceau/Sceau.js";
 
 /** Longueur maximale d'une question, alignée sur la validation du Worker. */
 export const LONGUEUR_MAX = 500;
@@ -20,12 +21,14 @@ const renseigne = (valeur) => Boolean(valeur && Object.values(valeur).some((v) =
  * plus. Ils voyagent dans un attribut `data-`, comme `data-frequence` d'Intro
  * et `data-compteur` de Projet_etude : aucun texte n'est écrit dans le script.
  */
-function libelles(t) {
+function libelles(t, tSite) {
   const erreurs = {};
   for (const code of ["requete_invalide", "origine_refusee", "trop_long", "trop_de_demandes", "quota_journalier", "indisponible", "delai_depasse", "hors_ligne"]) {
     erreurs[code] = t(`erreurs.${code}`);
   }
-  return { vous: t("vous"), assistant: t("assistant"), etiquette: t("etiquette"), chargement: t("chargement"), reessayer: t("reessayer"), aide: t("aide"), erreurs };
+  // Titres bicolores des états (#162) : ceux de tout le site, dictionnaire « etats ».
+  const titres = { chargement: tSite("etats.assistant.titre"), indisponible: tSite("etats.indisponible.titre"), hors_ligne: tSite("etats.horsConnexion.titre") };
+  return { vous: t("vous"), assistant: t("assistant"), etiquette: t("etiquette"), chargement: t("chargement"), reessayer: t("reessayer"), aide: t("aide"), erreurs, titres };
 }
 
 /**
@@ -48,7 +51,7 @@ export function Assistant({ assistant, ctx, endpoint }) {
   // ajouter une ligne avant de la remplir.
   const exemples = (assistant.exemples || []).map((exemple, rang) => ({ exemple, rang })).filter(({ exemple }) => renseigne(exemple));
 
-  const contenu = html`<div class="assistant" data-assistant${attributs({ "data-endpoint": endpoint, "data-longueur-max": String(LONGUEUR_MAX), "data-libelles": JSON.stringify(libelles(t)) })}>
+  const contenu = html`<div class="assistant" data-assistant${attributs({ "data-endpoint": endpoint, "data-longueur-max": String(LONGUEUR_MAX), "data-libelles": JSON.stringify(libelles(t, ctx.t)) })}>
     <div class="assistant__presence">
       ${Bouton({ texte: t("assistant"), variante: "nu", options: { attributs: { "data-modale-ouvrir": "assistant", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-controls": "assistant", "data-assistant-presence": "" } } })}
     </div>
@@ -174,7 +177,7 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
     // L'accueil est masqué dès le premier échange : il tient la place du vide.
     if (accueil) accueil.hidden = echanges.length > 0;
   };
-  const etat = (noeud) => { zoneEtat.innerHTML = noeud ? String(noeud) : ""; };
+  const etat = (noeud) => { zoneEtat.innerHTML = noeud ? String(noeud) : ""; activerSceaux(zoneEtat); };
   const compteur = () => {
     if (aide && libelle.aide) aide.textContent = libelle.aide.replace("{n}", String(longueurMax - (champ?.value.length || 0)));
   };
@@ -185,7 +188,7 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
 
   const demander = async (contenu) => {
     derniere = contenu;
-    etat(Message({ type: "chargement", texte: libelle.chargement }));
+    etat(Message({ type: "chargement", titre: libelle.titres?.chargement, texte: libelle.chargement, mode: { sceau: "chargement", compact: true } }));
     envoyer?.setAttribute("aria-busy", "true");
     journal.setAttribute("aria-busy", "true");
     try {
@@ -207,9 +210,12 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
       if (champ) { champ.value = ""; compteur(); }
     } catch (erreur) {
       const code = libelle.erreurs?.[erreur.message] ? erreur.message : "indisponible";
+      const horsLigne = code === "hors_ligne";
       etat(Message({
         type: code === "trop_de_demandes" ? "attention" : "erreur",
+        titre: horsLigne ? libelle.titres?.hors_ligne : libelle.titres?.indisponible,
         texte: libelle.erreurs[code],
+        mode: { sceau: horsLigne ? "chantier" : "panne", compact: true },
         action: Bouton({ texte: libelle.reessayer, variante: "nu", options: { attributs: { type: "button", "data-assistant-reessayer": "" } } }),
       }));
     } finally {

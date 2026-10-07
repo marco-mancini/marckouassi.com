@@ -21,7 +21,7 @@ qui le porte. Il branche, dans cet ordre :
 | `activerDecouverte` | parcours immersif de la section 06 |
 | `activerApparitions` | apparitions au défilement |
 | `activerAssistant` | MarcoS, s'il est actif |
-| `activerMaintenance` | sceau de la page de maintenance |
+| `activerEtats` | états du site : sceaux des messages, 404, réseau, médias en échec (#162) |
 
 Puis il pose `html.js-anime`, **en dernier** : tant que cette classe manque —
 script absent, bloqué, ou en échec avant la fin — rien n'est masqué par une
