@@ -361,3 +361,73 @@ test("le budget n'est pas relevé : 20 s dans la configuration, 15 s par appel",
     assert.ok(Number(bloc.match(/\d+/)[0]) <= 15000, "aucun environnement ne dépasse 15 s par appel");
   }
 });
+
+test("la chaîne déployée JOURNALISE son motif de refus, et n'y met rien d'interdit (D-10)", async () => {
+  // Le défaut que ce test ferme. `creerGestionnaire` nomme le motif exact de
+  // chaque sortie — « chaine_incomplete », « connaissance_indisponible », le
+  // nom de l'erreur du fournisseur — mais `chaineReelle` ne lui passait AUCUN
+  // journaliser. Le Worker déployé était muet : `observability` activé dans
+  // wrangler.jsonc, et `wrangler tail` ne montrant que « "logs": [] ».
+  //
+  // Le coût n'est pas théorique : un `indisponible` en production a dû être
+  // diagnostiqué par déduction, en mesurant le temps d'exécution et en
+  // constatant qu'aucune sous-requête n'avait eu lieu.
+  reinitialiserChaine();
+  const lignes = [];
+  const SECRET = "cle-secrete-a-ne-jamais-journaliser";
+  const QUESTION = "Combien coûte une identité visuelle complète ?";
+  // Pas de MISTRAL_CLE : la chaîne est incomplète, et c'est exactement le cas
+  // qu'il a fallu diagnostiquer à l'aveugle.
+  const env = { ORIGINES_AUTORISEES: "http://localhost:*", MISTRAL_MODELE: "mistral-small-2603" };
+  const gerer = chaineReelle({
+    env, modeleSysteme: "M", fetcher: async () => { throw new Error("aucun appel attendu"); },
+    journaliser: (entree) => lignes.push(entree),
+  });
+  const reponse = await gerer(new Request("https://w.test/api/assistant", {
+    method: "POST", headers: { origin: "http://localhost:4173", "content-type": "application/json" },
+    body: JSON.stringify({ version: 1, langue: "fr", page: "/", session: "abcdef123456", messages: [{ role: "user", contenu: QUESTION }] }),
+  }), { ...env, MISTRAL_CLE_FACTICE: SECRET });
+
+  assert.equal(reponse.status, 503);
+  assert.equal(lignes.length, 1, "une ligne par requête, exactement");
+  const [ligne] = lignes;
+  // LA garantie : le motif est nommé. Sans lui, « indisponible » ne distingue
+  // pas une clé absente d'une base de connaissance en panne.
+  assert.equal(ligne.motif, "chaine_incomplete");
+  assert.equal(ligne.sortie, "indisponible");
+  assert.equal(ligne.langue, "fr");
+  assert.equal(ligne.echanges, 1);
+  assert.equal(typeof ligne.ms, "number");
+
+  // D-10 : ni la question, ni la réponse, ni l'IP, ni la clé.
+  const serialise = JSON.stringify(ligne);
+  assert.ok(!serialise.includes(QUESTION), "la question n'est pas journalisée");
+  assert.ok(!serialise.includes(SECRET), "aucun secret n'est journalisé");
+  assert.ok(!serialise.includes("abcdef123456"), "l'identifiant de session non plus");
+  // Le contrat est une liste FERMÉE : un champ ajouté par mégarde est attrapé.
+  assert.deepEqual(Object.keys(ligne).sort(), ["budgetRestant", "echanges", "langue", "limiteur", "motif", "ms", "sortie"]);
+});
+
+test("par défaut, la chaîne déployée écrit sa ligne sur la console — sinon le Worker est muet", async () => {
+  // Le défaut initial n'était pas « journalConsole est mauvais », c'était
+  // « aucun journaliser n'est passé ». Ce test défend le branchement PAR
+  // DÉFAUT : c'est lui qui manquait, et un paramètre facultatif se re-oublie.
+  reinitialiserChaine();
+  const vraiLog = console.log;
+  const vues = [];
+  console.log = (...args) => vues.push(args.join(" "));
+  try {
+    const env = { ORIGINES_AUTORISEES: "http://localhost:*", MISTRAL_MODELE: "mistral-small-2603" };
+    const gerer = chaineReelle({ env, modeleSysteme: "M", fetcher: async () => { throw new Error("aucun appel attendu"); } });
+    await gerer(new Request("https://w.test/api/assistant", {
+      method: "POST", headers: { origin: "http://localhost:4173", "content-type": "application/json" },
+      body: JSON.stringify({ version: 1, langue: "fr", page: "/", session: "abcdef123456", messages: [{ role: "user", contenu: "Bonjour" }] }),
+    }), env);
+  } finally {
+    console.log = vraiLog;
+  }
+  assert.equal(vues.length, 1, "une ligne écrite sans qu'on ait rien à brancher");
+  const ligne = JSON.parse(vues[0]);
+  assert.equal(ligne.worker, "assistant", "la ligne se reconnaît dans un flux partagé");
+  assert.equal(ligne.motif, "chaine_incomplete");
+});

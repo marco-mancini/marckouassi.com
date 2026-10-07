@@ -177,20 +177,50 @@ export function creerGestionnaire(deps = {}) {
  */
 let gestionnaire = null;
 
-export function chaineReelle({ env, modeleSysteme, fetcher }) {
+export function chaineReelle({ env, modeleSysteme, fetcher, journaliser = journalConsole }) {
   return creerGestionnaire({
     contexte: ({ langue }) => chargerConnaissancePublique({ env, langue, ...(fetcher ? { fetcher } : {}) }),
     assembler: ({ requete, base }) => assembler({ modele: modeleSysteme, base, requete }),
     fournisseur: creerFournisseur({ env, ...(fetcher ? { fetcher } : {}) }),
+    journaliser,
   });
+}
+
+/**
+ * Journal du Worker déployé. UNE seule ligne par requête, en JSON.
+ *
+ * POURQUOI CETTE FONCTION EXISTE. `creerGestionnaire` appelle
+ * `deps.journaliser?.()` à chaque sortie, et nomme le motif exact de chaque
+ * refus — « chaine_incomplete », « connaissance_indisponible », le nom de
+ * l'erreur du fournisseur. Mais `chaineReelle` ne lui en passait AUCUN. Le
+ * Worker déployé était donc muet : `observability` était activé dans
+ * `wrangler.jsonc`, et `wrangler tail` ne montrait que `"logs": []`.
+ *
+ * Ce que cela a coûté, concrètement : un `indisponible` en production a dû être
+ * diagnostiqué par déduction — mesurer le temps d'exécution, constater qu'aucune
+ * sous-requête n'avait eu lieu, relire le code pour trouver le seul chemin qui
+ * produit cette signature. Le motif était écrit dans le code, à une ligne près,
+ * et personne ne pouvait le lire. AGENTS.md §6.8 : un échec silencieux est
+ * interdit lorsqu'il masque un problème réel.
+ *
+ * CE QUI N'Y ENTRE PAS, et c'est la décision D-10 : ni la question, ni la
+ * réponse, ni l'adresse IP, ni la clé. Le gestionnaire ne compose déjà que des
+ * métadonnées — langue, nombre d'échanges, budget restant, code de sortie,
+ * motif, durée, nombre de liens, jetons. Cette fonction ne fait que les écrire,
+ * elle n'en ajoute aucune.
+ */
+export function journalConsole(entree) {
+  // `console.log` est le seul transport : c'est lui que lisent `wrangler tail`
+  // et le tableau de bord. Une ligne JSON reste filtrable et agrégeable.
+  console.log(JSON.stringify({ worker: "assistant", ...entree }));
 }
 
 /** Mémorise la chaîne par isolat. Exporté pour que les tests repartent à neuf. */
 export function reinitialiserChaine() { gestionnaire = null; }
 
 /** Point d'entrée `fetch` du Worker déployé, appelé par src/worker.js. */
-export function servir({ request, env = {}, ctx = undefined, modeleSysteme, fetcher }) {
-  gestionnaire ??= chaineReelle({ env, modeleSysteme, fetcher });
+export function servir({ request, env = {}, ctx = undefined, modeleSysteme, fetcher, journaliser }) {
+  gestionnaire ??= chaineReelle({ env, modeleSysteme, fetcher, ...(journaliser ? { journaliser } : {}) });
   return gestionnaire(request, env, ctx);
 }
 
