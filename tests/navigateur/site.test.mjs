@@ -378,6 +378,37 @@ test("menu mobile : le verrou reste libéré après fermeture", async () => {
   await page.fermer();
 });
 
+test("sceau en construction : formes copiées du sprite, tracées à leur tour, figées en mouvement réduit", async () => {
+  for (const reduit of [false, true]) {
+    const page = await ouvrir(nav, serveur.url + "/", { reduit });
+    const mesure = await page.evaluate(async () => {
+      const { Sceau, construireSceau } = await import("./Design_System/composants/Sceau/Sceau.js");
+      const hote = document.createElement("div"); hote.innerHTML = Sceau({ taille: "grand", anime: "construction" });
+      document.body.append(hote);
+      const sceau = hote.firstElementChild;
+      const avant = sceau.querySelectorAll("[data-forme]").length;
+      const lance = construireSceau(sceau);
+      const formes = [...sceau.querySelectorAll("[data-forme]")];
+      const compte = (nom) => formes.filter((f) => f.dataset.forme === nom).length;
+      const lettre = sceau.querySelector('[data-forme="lettre"]');
+      return {
+        avant, lance, construit: sceau.classList.contains("est-construit"), reference: !!sceau.querySelector("use"),
+        cercle: compte("cercle"), fantome: compte("fantome"), lettre: compte("lettre"), accent: compte("accent"),
+        normalise: formes.every((f) => f.getAttribute("pathLength") === "1"),
+        animation: getComputedStyle(lettre).animationName,
+      };
+    });
+    assert.equal(mesure.avant, 0, "avant construction : la simple référence au sprite");
+    assert.ok(mesure.lance && mesure.construit && !mesure.reference);
+    assert.deepEqual([mesure.cercle, mesure.fantome, mesure.lettre, mesure.accent], [1, 3, 1, 1]);
+    assert.ok(mesure.normalise, "contours normalisés");
+    if (reduit) assert.equal(mesure.animation, "none", "mouvement réduit : aucun tracé");
+    else assert.match(mesure.animation, /trace-unitaire/);
+    assert.deepEqual(page.erreurs, []);
+    await page.fermer();
+  }
+});
+
 test("accessibilité (axe-core) : aucune violation grave ou critique", async () => {
   const categories = await catalogueDuContenu();
   const cheminVide = categories.find((categorie) => categorie.travaux.length === 0)?.id;

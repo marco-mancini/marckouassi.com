@@ -850,6 +850,16 @@
   /* période de clignement du curseur */
   --duration-clignement: 1s;
   --trace-epaisseur-anime: 2;
+  /* Construction du sceau (Sceau, anime = "construction") : chaque forme
+     se trace a son tour, puis le sceau se remplit. */
+  --construction-duree-trait: .85s;
+  --construction-delai-cercle: .15s;
+  --construction-delai-fantome: .45s;
+  --construction-delai-lettre: .55s;
+  --construction-delai-accent: .75s;
+  --construction-delai-remplissage: 1.15s;
+  --construction-duree-remplissage: .4s;
+  --construction-epaisseur: 2.4;
   --apparition-base: .05s;
   --apparition-pas: .11s;
   --apparition-pas-serre: .05s;

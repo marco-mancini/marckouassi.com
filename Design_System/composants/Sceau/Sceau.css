@@ -28,8 +28,22 @@ a.sceau { border-radius: var(--radius-full); }
   stroke-dasharray: var(--trace-longueur);
   animation: trace var(--duration-trace) var(--ease-out) both, trace-remplissage var(--duration-trace) linear both;
 }
-@media (prefers-reduced-motion: reduce) { .sceau--anime svg { --trace-epaisseur: 0; animation: none; } }
+/* Construction : chaque forme se trace a son tour, puis se remplit.
+   Les formes sont copiees du sprite par construireSceau (Sceau.js) ; sans
+   script, .est-construit manque et le sceau reste statique. */
+.sceau--construction.est-construit svg { --trace-epaisseur: var(--construction-epaisseur); }
+.sceau--construction.est-construit [data-forme] {
+  stroke-dasharray: 1 1; stroke-width: var(--construction-epaisseur);
+  animation: trace-unitaire var(--construction-duree-trait) var(--ease-out) both, remplissage var(--construction-duree-remplissage) linear both;
+  animation-delay: var(--construction-delai, var(--duration-none)), var(--construction-delai-remplissage);
+}
+.sceau--construction.est-construit [data-forme="cercle"] { --construction-delai: var(--construction-delai-cercle); }
+.sceau--construction.est-construit [data-forme="fantome"] { --construction-delai: var(--construction-delai-fantome); animation-name: trace-unitaire, none; }
+.sceau--construction.est-construit [data-forme="lettre"] { --construction-delai: var(--construction-delai-lettre); }
+.sceau--construction.est-construit [data-forme="accent"] { --construction-delai: var(--construction-delai-accent); }
+@media (prefers-reduced-motion: reduce) { .sceau--anime svg { --trace-epaisseur: 0; animation: none; } .sceau--construction.est-construit [data-forme] { animation: none; stroke-dasharray: none; } }
 html[data-animations="reduites"] .sceau--anime svg { --trace-epaisseur: 0; animation: none; }
+html[data-animations="reduites"] .sceau--construction.est-construit [data-forme] { animation: none; stroke-dasharray: none; }
 
 /* Sous 851 px, TOUS les sceaux prennent la taille de celui de la couverture.
    Ils valaient 76, 88 et 117 px sur un meme ecran de 390 : le monogramme est
