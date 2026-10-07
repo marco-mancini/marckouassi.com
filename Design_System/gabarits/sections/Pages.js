@@ -48,7 +48,7 @@ export function PageAccueil({ contenu, ctx }) {
     .map((section) => GABARITS_SECTIONS[section.type]?.({ section, contenu, ctx }) ?? "");
   return Document({
     ctx, meta: meta(contenu, ctx),
-    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${Visionneuse({ ctx })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx) })}${Assistant({ assistant: contenu.site.assistant, ctx, endpoint: ctx.assistantEndpoint })}`,
+    corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${Visionneuse({ ctx })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx), contenu })}${Assistant({ assistant: contenu.site.assistant, ctx, endpoint: ctx.assistantEndpoint })}`,
   });
 }
 

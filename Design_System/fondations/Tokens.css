@@ -580,7 +580,22 @@
   /* Accueil anime sur telephone : la scene se resserre, la salutation cesse de
      manger les deux mots qu'elle croise. */
   --intro-espace-telephone: var(--space-5);
-  --intro-signature-salut-telephone: clamp(1.6rem, 7vw, 2.4rem);
+  --intro-sceau-taille: clamp(180px, 46vmin, 340px); /* le sceau seul de l'accueil */
+  /* Sequence d'ouverture (gabarits/Intro/Sequence.js) */
+  --sequence-mot-taille: clamp(1.75rem, 9vw, 11.5rem); /* une categorie par temps */
+  --sequence-nom-taille: min(22vw, 26vh); /* le nom recompose en bandes */
+  --sequence-nom-taille-portrait: 27vw;
+  --sequence-metier-taille: clamp(.625rem, 1.4vw, .95rem);
+  --sequence-interlettrage: .16em;
+  --sequence-creux-trait: 1.5px; /* contour des categories en creux */
+  --sequence-eclair-hauteur: 2px;
+  --sequence-lueur-rayon: 26px; /* la charge du sceau avant sa dissolution */
+  --sequence-lueur: color-mix(in srgb, var(--accent-gold) 75%, transparent);
+  --intro-soulignement-retrait: .45em;
+  --intro-fleche-taille: clamp(2.25rem, 7vw, 3.5rem); /* la fleche d'« Entrer » */
+  --intro-fleche-course: .3em; /* sa descente */
+  --intro-fleche-duree: 1.4s;
+  --intro-entrer-interlettrage: .18em;
   --cover-edition-offset-telephone: var(--space-4);
   --cover-padding-top-telephone: var(--space-4);
   --cover-padding-bottom-compact: var(--space-6);
@@ -850,6 +865,17 @@
   /* période de clignement du curseur */
   --duration-clignement: 1s;
   --trace-epaisseur-anime: 2;
+  /* Construction du sceau (Sceau, anime = "construction") : chaque forme
+     se trace a son tour, puis le sceau se remplit. */
+  --construction-duree-trait: 1.4s;
+  --construction-delai-cercle: .2s;
+  --construction-delai-fantome: .7s;
+  --construction-delai-lettre: 1s;
+  --construction-delai-accent: 1.35s;
+  --construction-delai-remplissage: 2.3s;
+  --construction-duree-remplissage: .7s;
+  --construction-duree-totale: 3s; /* fin du remplissage : le temps de lire chaque trait */
+  --construction-epaisseur: 2.4;
   --apparition-base: .05s;
   --apparition-pas: .11s;
   --apparition-pas-serre: .05s;

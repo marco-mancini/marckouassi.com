@@ -12,6 +12,54 @@ Règles :
 
 ---
 
+## 2026-10-07 — D-37 : arbitrages sur #6, #7, #13, #40 et #49
+
+Décision de Marc, en conversation, sur les recommandations de Claude · issues
+[#6](https://github.com/marco-mancini/marckouassi.com/issues/6),
+[#7](https://github.com/marco-mancini/marckouassi.com/issues/7),
+[#13](https://github.com/marco-mancini/marckouassi.com/issues/13),
+[#40](https://github.com/marco-mancini/marckouassi.com/issues/40),
+[#49](https://github.com/marco-mancini/marckouassi.com/issues/49),
+[#158](https://github.com/marco-mancini/marckouassi.com/issues/158).
+
+**Problème.** Cinq issues `decision-marc` attendaient un arbitrage. La plus
+grave : le dépôt est public, et l'historique Git sert encore l'ancien PDF du CV
+(téléphone, date de naissance), indépendamment des anciens déploiements Vercel.
+
+**Options pour l'historique public (#6).** Dépôt privé ; réécriture de
+l'historique puis force-push ; acceptation.
+
+**Choix.**
+
+1. **#6** — passer le dépôt **en privé** maintenant, puis supprimer les
+   déploiements Vercel antérieurs à `eb837ee`. Pas de réécriture d'historique
+   pour l'instant.
+2. **#7** — Marc active lui-même les workflows *Auto-add* et *Item closed →
+   Fait* du Project.
+3. **#13** — supprimer les **54 branches absorbées**, toutes étiquetées
+   `archive/<branche>`. Le critère de #13 est restreint à ces branches ; les
+   **43 branches à commits uniques** sont triées à part dans #158, sans aucune
+   suppression d'ici là.
+4. **#40** — le verrou reste : rien avant le domaine (#9) et le résumé du CV
+   (#11).
+5. **#49** — `Photo_Marc.jpg` est **conservé** ; le stockage des masters
+   d'animation est **reporté** à leur production ; la mise en ligne de l'avatar
+   se tranche dans #26.
+
+**Motif.** Le dépôt privé ferme l'exposition la plus large en une commande
+réversible, sans casser les 62 étiquettes ni les SHA cités. Supprimer une
+branche absorbée et étiquetée ne fait rien perdre ; supprimer une branche à
+commits uniques le pourrait.
+
+**Impact.** Aucun changement de code. Vérifier, après le passage en privé, que
+le déploiement Vercel et la publication par Sveltia CMS fonctionnent toujours.
+
+**Réversibilité.** Totale : la visibilité se rebascule, chaque branche supprimée
+se recrée depuis son étiquette. Seule la suppression des déploiements Vercel est
+définitive, et c'est son but.
+
+---
+
 ## 2026-10-04 — D-36 : les réalisations restent repliées derrière les huit catégories
 
 Décision de Marc · issue [#123](https://github.com/marco-mancini/marckouassi.com/issues/123).
