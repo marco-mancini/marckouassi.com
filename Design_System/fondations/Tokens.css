@@ -581,6 +581,16 @@
      manger les deux mots qu'elle croise. */
   --intro-espace-telephone: var(--space-5);
   --intro-sceau-taille: clamp(180px, 46vmin, 340px); /* le sceau seul de l'accueil */
+  /* Sequence d'ouverture (gabarits/Intro/Sequence.js) */
+  --sequence-mot-taille: clamp(1.75rem, 9vw, 11.5rem); /* une categorie par temps */
+  --sequence-nom-taille: min(22vw, 26vh); /* le nom recompose en bandes */
+  --sequence-nom-taille-portrait: 27vw;
+  --sequence-metier-taille: clamp(.625rem, 1.4vw, .95rem);
+  --sequence-interlettrage: .16em;
+  --sequence-creux-trait: 1.5px; /* contour des categories en creux */
+  --sequence-eclair-hauteur: 2px;
+  --sequence-lueur-rayon: 26px; /* la charge du sceau avant sa dissolution */
+  --sequence-lueur: color-mix(in srgb, var(--accent-gold) 75%, transparent);
   --intro-soulignement-retrait: .45em;
   --cover-edition-offset-telephone: var(--space-4);
   --cover-padding-top-telephone: var(--space-4);

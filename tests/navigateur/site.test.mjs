@@ -290,6 +290,108 @@ test("accueil animé : apparaît, « Passer » le ferme, mémorisé ; animations
 });
 
 
+/* ------------------------------------------------------------------ */
+/* Séquence d'ouverture (gabarits/Intro/Sequence.js) — #40, D-35, D-37 */
+/* ------------------------------------------------------------------ */
+
+const attendreReel = (ms) => new Promise((r) => setTimeout(r, ms));
+/** Écart moyen (0–255) entre deux captures de même taille. */
+async function ecart(a, b) {
+  const sharp = (await import("sharp")).default;
+  const [x, y] = await Promise.all([a, b].map((tampon) => sharp(tampon).raw().toBuffer()));
+  let somme = 0; for (let i = 0; i < x.length; i++) somme += Math.abs(x[i] - y[i]);
+  return somme / x.length;
+}
+/** Ouvre l'accueil et attend l'entrée par la langue. La construction du sceau est en CSS (temps réel), sa pause en JS (horloge pilotée). */
+async function accueilPret(options = {}) {
+  const page = await ouvrir(nav, serveur.url + (options.chemin || "/"), { introVue: false, horloge: true, ...options });
+  await page.waitForFunction(() => document.getElementById("intro")?.open);
+  await attendreReel(3300); await page.clock.runFor(3100);
+  await page.waitForFunction(() => document.querySelector('#intro [data-etape="langue"].est-active'));
+  return page;
+}
+const zone = (page, selecteur, marge) => page.evaluate(([s, m]) => { const r = document.querySelector(s).getBoundingClientRect(); return { x: Math.max(0, Math.floor(r.left) - m), y: Math.max(0, Math.floor(r.top) - m), width: Math.ceil(r.width) + 2 * m, height: Math.ceil(r.height) + 2 * m }; }, [selecteur, marge]);
+
+test("séquence : de l'accueil à la couverture, sceau relayé au pixel aux deux bouts, page rendue", async () => {
+  for (const [largeur, hauteur, theme] of [[390, 844, "light"], [1280, 900, "dark"]]) {
+    const page = await accueilPret({ largeur, hauteur, theme });
+    const cadreAccueil = await zone(page, "#intro .sceau", 30);
+    const avant = await page.screenshot({ clip: cadreAccueil });
+    await page.click('#intro .segments__option[aria-current="true"]');
+    await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
+    await attendreReel(150);
+    // Premier relais : le sceau de la séquence est celui de l'accueil, au pixel.
+    assert.ok(await ecart(avant, await page.screenshot({ clip: cadreAccueil })) < 1, `${largeur} : relais accueil → séquence`);
+    assert.equal(await page.evaluate(() => document.documentElement.classList.contains("has-overlay")), true, "défilement verrouillé pendant la séquence");
+    assert.equal(await page.evaluate(() => document.activeElement?.hasAttribute("data-sequence-passer")), true, "le focus est sur « Passer »");
+    assert.equal(await page.evaluate(() => scrollY), 0, "la séquence se joue sur la page 1");
+    // Le sceau final se construit (CSS, temps réel), puis on se place juste avant et juste après la bascule.
+    await page.clock.runFor(3550); await attendreReel(300);
+    await page.clock.runFor(3480);
+    const cadreCouverture = await zone(page, "#accueil .sceau", 6);
+    const sequence = await page.screenshot({ clip: cadreCouverture });
+    await page.clock.runFor(30);
+    assert.ok(await ecart(sequence, await page.screenshot({ clip: cadreCouverture })) < 1, `${largeur} : relais séquence → couverture`);
+    await page.clock.runFor(1200); await attendreReel(100);
+    const fin = await page.evaluate(() => ({
+      y: scrollY, reste: !!document.querySelector("[data-sequence-hote]"), verrou: document.documentElement.classList.contains("has-overlay"),
+      vue: sessionStorage.getItem("mk-intro-vue"), sceau: getComputedStyle(document.querySelector("#accueil .sceau")).opacity,
+      couverture: [...document.querySelectorAll("#accueil .signature--couverture, #accueil .couverture__role, #accueil .couverture__promesse")].map((e) => getComputedStyle(e).opacity),
+      debordement: document.documentElement.scrollWidth - innerWidth,
+    }));
+    assert.deepEqual(fin, { y: 0, reste: false, verrou: false, vue: "1", sceau: "1", couverture: ["1", "1", "1"], debordement: 0 }, `${largeur} ${theme}`);
+    assert.deepEqual(page.erreurs, []);
+    await page.fermer();
+  }
+});
+
+test("séquence : « Passer » et Échap rendent la couverture sur-le-champ", async () => {
+  for (const geste of ["passer", "echap"]) {
+    const page = await accueilPret({ largeur: 390, hauteur: 844 });
+    await page.click('#intro .segments__option[aria-current="true"]');
+    await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
+    await page.clock.runFor(2500);
+    if (geste === "passer") await page.click("[data-sequence-passer]"); else await page.keyboard.press("Escape");
+    const etat = await page.evaluate(() => ({
+      reste: !!document.querySelector("[data-sequence-hote]"), verrou: document.documentElement.classList.contains("has-overlay"),
+      sceau: getComputedStyle(document.querySelector("#accueil .sceau")).opacity, signature: getComputedStyle(document.querySelector("#accueil .signature--couverture")).opacity, y: scrollY,
+    }));
+    assert.deepEqual(etat, { reste: false, verrou: false, sceau: "1", signature: "1", y: 0 }, geste);
+    await page.clock.resume(); // la molette se mesure image par image : l'horloge reprend son cours
+    assert.ok(await molette(page), `${geste} : le défilement utilisateur doit être rendu`);
+    assert.deepEqual(page.erreurs, []);
+    await page.fermer();
+  }
+});
+
+test("séquence : choisir l'autre langue la joue sur la page d'arrivée, sans repasser par l'accueil", async () => {
+  const page = await accueilPret({ largeur: 390, hauteur: 844 });
+  await page.click('#intro .segments__option[lang="en"]');
+  await page.waitForURL(/\/en\/$/);
+  await page.waitForFunction(() => document.querySelector(".sequence") && !document.querySelector(".sequence").hidden);
+  assert.equal(await page.locator("#intro").count(), 0, "l'accueil ne se rejoue pas");
+  await attendreReel(300); // décodage des visuels, en temps réel, avant le départ de l'horloge de la séquence
+  assert.equal(await page.textContent(".sequence__metier"), await page.textContent("#accueil .couverture__role"), "le métier vient de la couverture");
+  await page.clock.runFor(8500); await attendreReel(100);
+  assert.equal(await page.locator("[data-sequence-hote]").count(), 0);
+  assert.equal(await page.evaluate(() => sessionStorage.getItem("mk-intro-sequence")), null, "la promesse est consommée");
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
+
+test("séquence : absente en mouvement réduit et sans JavaScript", async () => {
+  const reduit = await ouvrir(nav, serveur.url + "/", { introVue: false, reduit: true });
+  await reduit.waitForFunction(() => document.getElementById("intro")?.open);
+  await reduit.locator('#intro .segments__option[aria-current="true"]').click();
+  await reduit.waitForFunction(() => !document.getElementById("intro"));
+  assert.equal(await reduit.locator(".sequence").count(), 0, "mouvement réduit : aucune séquence");
+  await reduit.fermer();
+  const sansJs = await ouvrir(nav, serveur.url + "/", { introVue: false, js: false });
+  assert.equal(await sansJs.locator(".sequence").count(), 0, "sans script : la séquence n'existe pas");
+  assert.ok(await sansJs.locator("#accueil .signature--couverture").isVisible());
+  await sansJs.fermer();
+});
+
 /**
  * L'événement « close » d'un <dialog> est ASYNCHRONE : .open bascule avant que
  * l'écouteur ne s'exécute. Attendre .open puis vérifier le verrou court contre
