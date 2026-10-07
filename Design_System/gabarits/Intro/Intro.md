@@ -4,9 +4,9 @@
 
 ## Séquence
 
-1. Sceau animé.
-2. Bienvenue : Signature en fondu (Apparition, déclenchée par étape).
-3. Choix FR/EN : Segments en liens vers `/` et `/en/`, ou « Entrer » pour rester dans la langue courante.
+1. Sceau qui se construit (Sceau, `anime: "construction"`).
+2. Bienvenue : le nom manuscrit en fondu (Apparition, déclenchée par étape).
+3. Entrée par la langue : deux liens fins (Segments nus). La langue courante fait entrer ; l'autre mène à `/` ou `/en/`. Un seul geste, pas de bouton.
 4. Texte de transition qui s'écrit (TexteProgressif).
 5. Mots qui arrivent de quatre côtés (Apparition multidirectionnelle).
 6. Rideau : la modale remonte et se ferme.
@@ -18,7 +18,7 @@
 |---|---|
 | `active` | L'accueil existe ou non. |
 | `frequence` | `session` (défaut), `une-fois` ou `toujours`. |
-| `signature` | `{salutation, accent, mot}`, traduisibles. |
+| `signature` | `{salutation, accent, mot}`, traduisibles. Seule `salutation` (le nom) est affichée depuis le 7 octobre 2026 ; `accent` et `mot` restent dans le contenu, inutilisés par l'accueil. |
 | `transition` | Texte qui s'écrit, traduisible. |
 | `mots` | Liste de mots, traduisibles. |
 

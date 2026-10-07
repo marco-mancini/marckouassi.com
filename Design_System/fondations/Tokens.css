@@ -580,7 +580,8 @@
   /* Accueil anime sur telephone : la scene se resserre, la salutation cesse de
      manger les deux mots qu'elle croise. */
   --intro-espace-telephone: var(--space-5);
-  --intro-signature-salut-telephone: clamp(1.6rem, 7vw, 2.4rem);
+  --intro-nom-taille: clamp(2.4rem, 9vw, 4.25rem); /* le nom manuscrit de l'accueil */
+  --intro-soulignement-retrait: .45em;
   --cover-edition-offset-telephone: var(--space-4);
   --cover-padding-top-telephone: var(--space-4);
   --cover-padding-bottom-compact: var(--space-6);

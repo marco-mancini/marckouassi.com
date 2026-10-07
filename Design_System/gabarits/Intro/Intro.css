@@ -3,9 +3,18 @@
    Ne regle que la disposition des etapes ; l'apparence vient des
    composants (Modale, Sceau, Signature, Segments, TexteProgressif).
    ========================================================================== */
-.intro__scene { display: grid; width: min(100%, var(--intro-largeur-max)); margin-inline: auto; justify-items: center; gap: var(--space-8); text-align: center; }
+.intro__scene { display: flex; flex: 1; flex-direction: column; width: min(100%, var(--intro-largeur-max)); margin-inline: auto; align-items: center; gap: var(--space-6); text-align: center; }
+/* Le sceau et le nom au centre ; l'entree par la langue descend en bas, a portee de pouce. */
+.intro__etape--ouverture { margin-top: auto; }
+.intro__entrees.est-active { margin-top: auto; gap: var(--space-3); }
+.intro__nom { margin: 0; font-family: var(--font-script); font-size: var(--intro-nom-taille); font-weight: 400; line-height: 1; color: var(--paper); }
 .intro__etape { display: none; }
 .intro__etape.est-active { display: flex; flex-direction: column; align-items: center; gap: var(--space-5); }
+/* Entree : deux liens fins, sans bouton. Le soulignement suit la langue courante. */
+.intro__entrees .segments { justify-content: center; gap: var(--space-6); }
+.intro__entrees .segments__option, .intro__entrees .segments__option[aria-current="true"] { background: none; color: var(--paper); border-radius: 0; padding: 0; text-transform: none; letter-spacing: var(--interlettrage-commande); text-underline-offset: var(--intro-soulignement-retrait); }
+.intro__entrees .segments__option[aria-current="true"] { text-decoration: underline; text-decoration-thickness: var(--border-hairline); }
+.intro__entrees .segments__option:hover { background: none; text-decoration: underline; }
 .intro__invite { margin: 0; color: var(--texte-discret); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-commande); text-transform: uppercase; }
 .intro__etape[data-etape="transition"] { color: var(--accent-gold); font-family: var(--font-display); font-size: var(--type-introduction-claim); line-height: var(--leading-cover); text-transform: uppercase; }
 .intro__mots.est-active { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: var(--space-4) var(--space-8); margin: 0; padding: 0; list-style: none; }
@@ -16,9 +25,7 @@
      prevus pour un ecran large, et la salutation se pose au lieu de couvrir. */
   .intro__scene { gap: var(--intro-espace-telephone); }
   .intro__etape.est-active { gap: var(--space-4); }
-  .intro__scene .signature { --signature-taille-salut: var(--intro-signature-salut-telephone); }
   /* « Passer l'introduction » tombe sur telephone : l'accueil s'y quitte par
-     son bouton d'entree, par le choix de langue, ou par Echap. Au-dela, la
-     commande reste. */
+     le choix de langue, ou par Echap. Au-dela, la commande reste. */
   #intro .modale__entete [data-modale-fermer] { display: none; }
 }
