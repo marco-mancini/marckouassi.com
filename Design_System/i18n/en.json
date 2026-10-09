@@ -21,6 +21,7 @@
     "explorer": "Explore"
   },
   "projet": {
+    "logotype": { "logo": "Primary logo", "isotype": "Isotype", "palette": "Color palette", "typographie": "Typography" },
     "compteur": "Project {numero} / {total}",
     "ouvrir": "Open the project {titre} to see the full case study and all its images",
     "fermer": "Close the case study",

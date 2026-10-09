@@ -137,6 +137,49 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .categorie-projets__carte-legende { min-height: var(--projet-carte-entete-hauteur-min); padding: var(--projet-carte-entete-marge-haute) var(--projet-carte-entete-retrait) var(--projet-carte-entete-retrait); align-items: center; gap: var(--space-3); }
 .categorie-projets__carte-legende .categorie-projets__carte-sous-titre { color: var(--accent-gold-soft); }
 
+/* Planche éditoriale réservée aux déclinaisons Logotype. */
+.categorie-projets__carte-image--logotype { grid-column: 1 / -1; }
+.logotype__planche { display: grid; aspect-ratio: var(--logotype-planche-ratio); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, .96fr); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: var(--border-frame); padding: var(--border-frame); border-radius: var(--rayon-vignette); background: var(--paper); }
+.logotype__panneau { display: grid; min-width: 0; min-height: 0; padding: var(--space-4); grid-template-rows: auto minmax(0, 1fr); justify-items: center; gap: var(--space-2); border: var(--border-hairline) solid var(--filet); background: var(--paper); text-align: center; }
+.logotype__libelle { margin: 0; color: var(--clair-accent-gold-ink); font-family: var(--font-display); font-size: var(--type-label); text-align: center; }
+.logotype__visuel { display: grid; width: 100%; min-height: 0; place-items: center; }
+.logotype__visuel .media { width: 100%; min-height: 0; background: transparent; }
+.logotype__visuel img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.logotype__planche--wona .logotype__panneau--isotype { background: var(--logotype-wona-1); }
+.logotype__planche--eigth .logotype__panneau--isotype { background: var(--logotype-eigth-1); }
+.logotype__planche--bni .logotype__panneau--isotype { background: var(--paper); }
+.logotype__planche--wona .logotype__panneau--isotype .logotype__libelle,
+.logotype__planche--eigth .logotype__panneau--isotype .logotype__libelle { color: var(--logotype-wona-3); }
+.logotype__couleurs, .logotype__typographies { display: flex; width: 100%; margin: 0; padding: 0; align-items: center; justify-content: space-evenly; gap: var(--space-3); list-style: none; }
+.logotype__couleur { display: grid; justify-items: center; gap: var(--space-2); }
+.logotype__pastille-couleur { display: block; width: var(--bouton-grand); aspect-ratio: 1; border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-pill); }
+.logotype__planche--wona .logotype__pastille-couleur--1 { background: var(--logotype-wona-1); }
+.logotype__planche--wona .logotype__pastille-couleur--2 { background: var(--logotype-wona-2); }
+.logotype__planche--wona .logotype__pastille-couleur--3 { background: var(--logotype-wona-3); }
+.logotype__planche--eigth .logotype__pastille-couleur--1 { background: var(--logotype-eigth-1); }
+.logotype__planche--eigth .logotype__pastille-couleur--2 { background: var(--logotype-eigth-2); }
+.logotype__planche--eigth .logotype__pastille-couleur--3 { background: var(--logotype-eigth-3); }
+.logotype__planche--bni .logotype__pastille-couleur--1 { background: var(--logotype-bni-1); }
+.logotype__planche--bni .logotype__pastille-couleur--2 { background: var(--logotype-bni-2); }
+.logotype__planche--bni .logotype__pastille-couleur--3 { background: var(--logotype-bni-3); }
+.logotype__code-couleur { display: block; margin: 0; color: var(--clair-ink); font-family: var(--font-display); font-size: var(--type-label); line-height: var(--leading-compact); }
+.logotype__typographies { flex-direction: column; }
+.logotype__typographies p { display: block; margin: 0; color: var(--clair-ink); font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-strong); line-height: var(--leading-compact); }
+.logotype__mockups { display: grid; min-width: 0; min-height: 0; grid-column: 3; grid-row: 1 / -1; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: var(--border-frame); }
+.logotype__mockup { min-height: 0; overflow: hidden; border-radius: var(--rayon-vignette); }
+.logotype__mockup .media { width: 100%; height: 100%; background: var(--surface-image); }
+.logotype__mockup img { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+@media (max-width: 767px) {
+  .logotype__planche { aspect-ratio: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(128px, 1fr)) auto; }
+  .logotype__mockups { grid-column: 1 / -1; grid-row: 3; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
+  .logotype__mockup { aspect-ratio: var(--logotype-panneau-ratio); }
+  .logotype__panneau { padding: var(--space-2); }
+  .logotype__pastille-couleur { width: var(--cible-tactile); }
+  .logotype__couleurs { gap: var(--space-2); }
+  .logotype__code-couleur { font-size: var(--type-micro); }
+}
+
 @container realisation (max-width: 360px) {
   .categorie-projets__carte-legende { min-height: 0; padding: clamp(6px, 2.4cqi, 10px) 0; gap: clamp(6px, 2.4cqi, 10px); }
   .categorie-projets__carte-legende .pastille--rond { width: clamp(28px, 10cqi, 36px); height: clamp(28px, 10cqi, 36px); padding: 0; font-size: clamp(10px, 3.3cqi, 12px); }

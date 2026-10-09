@@ -23,6 +23,19 @@
 :root {
   color-scheme: light dark;
 
+  /* Palettes des planches Logotype, relevées sur la référence de Marc. */
+  --logotype-wona-1: #9E6B32;
+  --logotype-wona-2: #4B7B50;
+  --logotype-wona-3: #FFFFFF;
+  --logotype-eigth-1: #D3001E;
+  --logotype-eigth-2: #1F191A;
+  --logotype-eigth-3: #FFFFFF;
+  --logotype-bni-1: #3B8C4E;
+  --logotype-bni-2: #DC9C4C;
+  --logotype-bni-3: #333333;
+  --logotype-panneau-ratio: 1.15;
+  --logotype-planche-ratio: 2.55;
+
   /* ======================================================================
      1. PALETTES SOURCES
      Les deux themes sont nommes UNE FOIS ici. Les jetons de thete plus

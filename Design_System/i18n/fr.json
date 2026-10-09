@@ -20,6 +20,7 @@
     "explorer": "Explorer"
   },
   "projet": {
+    "logotype": { "logo": "Logo primaire", "isotype": "Isotype", "palette": "Palette de couleur", "typographie": "Typographie" },
     "compteur": "Projet {numero} / {total}",
     "ouvrir": "Entrer dans le projet {titre} pour voir l’étude complète et toutes ses images",
     "fermer": "Fermer l’étude du projet",
