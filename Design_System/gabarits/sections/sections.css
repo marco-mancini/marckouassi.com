@@ -129,6 +129,7 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .categorie-projets__recit { width: max-content; max-width: 100%; margin: 0; color: var(--texte-discret); white-space: nowrap; }
 .categorie-projets__carte-vide { aspect-ratio: var(--projet-carte-vide-ratio); border: var(--border-hairline) solid var(--filet); border-radius: var(--rayon-vignette); background: var(--carte-surface); }
 .categorie-projets__carte-image { min-width: 0; margin: 0; container: realisation / inline-size; }
+.categorie-projets__carte-image--composition { grid-column: 1 / -1; }
 .categorie-projets__carte-visuel { position: relative; }
 .categorie-projets__carte-visuel img { display: block; width: 100%; height: auto; aspect-ratio: var(--projet-carte-vide-ratio); overflow: hidden; border: var(--border-hairline) solid var(--filet); border-radius: var(--rayon-vignette); object-fit: cover; }
 .categorie-projets__carte-fleche { position: absolute; top: var(--space-4); right: var(--space-4); }

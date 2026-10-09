@@ -4,9 +4,9 @@ import { Planche, idTitre } from "../../composants/Planche/Planche.js";
 import { Titre } from "../../composants/Titre/Titre.js";
 import { Grille } from "../../composants/Grille/Grille.js";
 import { Carte } from "../../composants/Carte/Carte.js";
-import { Bouton, SigneOuverture } from "../../composants/Bouton/Bouton.js";
+import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
-import { Media } from "../../composants/Media/Media.js";
+import { Galerie } from "../../composants/Galerie/Galerie.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
 import { Gabarit_Projet } from "../Gabarit_Projet/Gabarit_Projet.js";
 import { credit } from "./commun.js";
@@ -86,13 +86,15 @@ export function Projets({ section, contenu, ctx }) {
     const cartesRealisations = (categorie.realisations ?? []).length
       ? Grille({ elements: categorie.realisations.map((realisation, index) => {
         const cheminRealisation = `${cheminCategorie}.realisations.${index}`;
-        // Media, pas un <img> écrit ici : lui seul pose width/height depuis la
-        // table des médias, et sans eux l'image décale la mise en page en se
-        // chargeant. Le test « toutes les images réservent leur place » le
-        // relevait sur ces six visuels (§3.2, réutiliser avant de créer).
-        const visuel = media(ctx, realisation.media, { chemin: `${cheminRealisation}.media` });
         const libelle = ctx.c(realisation.libelle, `${cheminRealisation}.libelle`);
-        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel">${Media({ media: { ...visuel, alt: libelle } })}${SigneOuverture({ classe: "categorie-projets__carte-fleche" })}</div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: ctx.t("formats.numeroProjet", { numero: numero(index) }), variante: "contour" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
+        const entrees = realisation.medias ?? (realisation.media ? [realisation.media] : []);
+        const medias = entrees.map((entree, rang) => media(ctx, entree, {
+          motifAlt: `${libelle} — visuel {numero}`,
+          rang,
+          chemin: `${cheminRealisation}.medias.${rang}`,
+          cheminMotif: `${cheminRealisation}.libelle`,
+        }));
+        return html`<article class="categorie-projets__carte-image${medias.length > 1 ? " categorie-projets__carte-image--composition" : ""}"><div class="categorie-projets__carte-visuel">${Galerie({ medias, variante: "apercu", etiquette: libelle })}</div><div class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: ctx.t("formats.numeroProjet", { numero: numero(index) }), variante: "contour" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></div></article>`;
       }), colonnes: [4, 2, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })
       : null;
     return html`<section class="categorie-projets" id="categorie-${categorie.id}" aria-labelledby="titre-${categorie.id}">

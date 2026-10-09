@@ -462,9 +462,9 @@
               "fr": "Logotype · Création de marque",
               "en": "Logo design · Brand identity"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_ArriProd.jpg"
-            }
+            "medias": [
+              { "src": "Public/images/Logotype/Logo_ArriProd.jpg", "alt": { "fr": "Logotype ArriProd", "en": "ArriProd logo" } }
+            ]
           },
           {
             "libelle": {
@@ -475,9 +475,11 @@
               "fr": "Logotype · Création de marque",
               "en": "Logo design · Brand identity"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Eigth.jpg"
-            }
+            "medias": [
+              { "src": "Public/images/Logotype/Logo_Eigth.jpg", "alt": { "fr": "Logotype Eigth", "en": "Eigth logo" } },
+              { "src": "Public/images/Logotype/Mockup_Eigth_01.jpg", "alt": { "fr": "Enseigne de façade avec le logo Eigth", "en": "Facade sign with the Eigth logo" } },
+              { "src": "Public/images/Logotype/Mockup_Eigth_02.jpg", "alt": { "fr": "Mockup Eigth sur tee-shirts, casquettes et sac", "en": "Eigth mockup on T-shirts, caps and tote bag" } }
+            ]
           },
           {
             "libelle": {
@@ -488,9 +490,9 @@
               "fr": "Logotype · Création de marque",
               "en": "Logo design · Brand identity"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Ivoire_Cosm.jpg"
-            }
+            "medias": [
+              { "src": "Public/images/Logotype/Logo_Ivoire_Cosm.jpg", "alt": { "fr": "Logotype Ivoire Cosm", "en": "Ivoire Cosm logo" } }
+            ]
           },
           {
             "libelle": {
@@ -501,9 +503,9 @@
               "fr": "Logotype · Création de marque",
               "en": "Logo design · Brand identity"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Nanama.jpg"
-            }
+            "medias": [
+              { "src": "Public/images/Logotype/Logo_Nanama.jpg", "alt": { "fr": "Logotype Nanama", "en": "Nanama logo" } }
+            ]
           },
           {
             "libelle": {
@@ -514,9 +516,10 @@
               "fr": "Logotype · Création de marque",
               "en": "Logo design · Brand identity"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Nova.jpg"
-            }
+            "medias": [
+              { "src": "Public/images/Logotype/Logo_Nova.jpg", "alt": { "fr": "Logotype Nova", "en": "Nova logo" } },
+              { "src": "Public/images/Logotype/Mockup_Nova_01.jpg", "alt": { "fr": "Mockup Nova Studio sur tee-shirts, casquettes et sac", "en": "Nova Studio mockup on T-shirts, caps and tote bag" } }
+            ]
           },
           {
             "libelle": {
@@ -527,9 +530,24 @@
               "fr": "Logotype · Création de marque",
               "en": "Logo design · Brand identity"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Wona.jpg"
-            }
+            "medias": [
+              { "src": "Public/images/Logotype/Logo_Wona.jpg", "alt": { "fr": "Logotype Wona", "en": "Wona logo" } },
+              { "src": "Public/images/Logotype/Mockup_Wona_01.jpg", "alt": { "fr": "Enseigne ronde Wona sur une façade", "en": "Round Wona sign on a facade" } },
+              { "src": "Public/images/Logotype/Mockup_Wona_02.jpg", "alt": { "fr": "Mockup Wona sur tee-shirts, casquettes et sac", "en": "Wona mockup on T-shirts, caps and tote bag" } }
+            ]
+          },
+          {
+            "libelle": {
+              "fr": "BNI Finances",
+              "en": "BNI Finances"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logo design · Brand identity"
+            },
+            "medias": [
+              { "src": "Public/images/Logotype/Mockup_BNI_01.jpg", "alt": { "fr": "Enseigne BNI Finances sur la façade d’un bâtiment", "en": "BNI Finances sign on a building facade" } }
+            ]
           }
         ]
       },

@@ -883,3 +883,26 @@ gratuits et au contrat d'email documenté.
 
 **Réversibilité.** L'autorisation porte sur le travail demandé ; toute décision
 produit nouvelle hors du périmètre PM-109 à PM-114 reste à Marc.
+
+## 2026-10-09 — D-41 : les réalisations Logotype utilisent la galerie commune
+
+Décision de Marc · issue [#181](https://github.com/marco-mancini/marckouassi.com/issues/181).
+
+**Problème.** Les six réalisations Logotype n'affichaient chacune qu'une image,
+à part du gabarit partagé des projets.
+
+**Choix.** Réutiliser la galerie d'aperçu existante et garder chaque liste de
+médias dans `content/sections.json`. Les catégories ordinaires gardent leurs
+projets et leur ordre éditorial. Les mockups fournis sont associés à Eigth,
+Nova, Wona et BNI Finances.
+
+**Motif.** La même composition peut présenter un visuel principal et jusqu'à
+deux visuels complémentaires, sans coder de nom ni d'ordre dans le gabarit.
+
+**Impact.** Les visuels et alternatives FR/EN vivent dans le contenu. Les fiches
+Logotype n'ont pas encore de descriptions d'étude complètes. Leur flèche d'accès
+reste absente tant qu'il n'existe pas de fiche réelle à ouvrir ; aucune donnée
+n'est inventée ici.
+
+**Réversibilité.** Retirer ou réordonner un média dans `content/sections.json`
+ne change pas le gabarit.
