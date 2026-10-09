@@ -4,8 +4,9 @@ import { Planche, idTitre } from "../../composants/Planche/Planche.js";
 import { Titre } from "../../composants/Titre/Titre.js";
 import { Grille } from "../../composants/Grille/Grille.js";
 import { Carte } from "../../composants/Carte/Carte.js";
-import { Bouton, SigneOuverture } from "../../composants/Bouton/Bouton.js";
+import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
+import { Galerie } from "../../composants/Galerie/Galerie.js";
 import { Media } from "../../composants/Media/Media.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
 import { Gabarit_Projet } from "../Gabarit_Projet/Gabarit_Projet.js";
@@ -56,6 +57,22 @@ function accrocheRealisations(texte) {
   return html`<div class="projets__accroche"><p class="introduction__accroche texte-affirmation">${principale}</p><p class="projets__accroche-suite texte-detail">${texteEnrichi(suite)}</p></div>`;
 }
 
+/** Déclinaisons propres aux fiches Logotype, toutes pilotées par le contenu. */
+function plancheLogotype(presentation, medias, libelle, ctx) {
+  const logo = media(ctx, presentation.logo);
+  const isotype = media(ctx, presentation.isotype);
+  const couleurs = presentation.palette ?? [];
+  const typographies = presentation.typographies ?? [];
+  const classePalette = presentation.variant;
+  return html`<div class="logotype__planche logotype__planche--${classePalette}">
+    <section class="logotype__panneau logotype__panneau--logo"><h4 class="logotype__libelle">${ctx.t("projet.logotype.logo")}</h4><div class="logotype__visuel">${Media({ media: logo, ajustement: "contenir" })}</div></section>
+    <section class="logotype__panneau logotype__panneau--isotype"><h4 class="logotype__libelle">${ctx.t("projet.logotype.isotype")}</h4><div class="logotype__visuel">${Media({ media: isotype, ajustement: "contenir" })}</div></section>
+    <section class="logotype__panneau logotype__panneau--palette"><h4 class="logotype__libelle">${ctx.t("projet.logotype.palette")}</h4><div class="logotype__couleurs">${couleurs.map((couleur, index) => html`<div class="logotype__couleur"><span class="logotype__pastille-couleur logotype__pastille-couleur--${index + 1}" aria-hidden="true"></span><p class="logotype__code-couleur">${couleur}</p></div>`)}</div></section>
+    <section class="logotype__panneau logotype__panneau--typo"><h4 class="logotype__libelle">${ctx.t("projet.logotype.typographie")}</h4><div class="logotype__typographies">${typographies.map((nom) => html`<p>${nom}</p>`)}</div></section>
+    <div class="logotype__mockups">${medias.map((m) => html`<div class="logotype__mockup">${Media({ media: m, ajustement: "recadrer", cadre: "vignette" })}</div>`)}</div>
+  </div>`;
+}
+
 /**
  * Réalisations — une page d'accueil unique, découpée par catégorie.
  *
@@ -86,13 +103,18 @@ export function Projets({ section, contenu, ctx }) {
     const cartesRealisations = (categorie.realisations ?? []).length
       ? Grille({ elements: categorie.realisations.map((realisation, index) => {
         const cheminRealisation = `${cheminCategorie}.realisations.${index}`;
-        // Media, pas un <img> écrit ici : lui seul pose width/height depuis la
-        // table des médias, et sans eux l'image décale la mise en page en se
-        // chargeant. Le test « toutes les images réservent leur place » le
-        // relevait sur ces six visuels (§3.2, réutiliser avant de créer).
-        const visuel = media(ctx, realisation.media, { chemin: `${cheminRealisation}.media` });
         const libelle = ctx.c(realisation.libelle, `${cheminRealisation}.libelle`);
-        return html`<figure class="categorie-projets__carte-image"><div class="categorie-projets__carte-visuel">${Media({ media: { ...visuel, alt: libelle } })}${SigneOuverture({ classe: "categorie-projets__carte-fleche" })}</div><figcaption class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: ctx.t("formats.numeroProjet", { numero: numero(index) }), variante: "contour" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></figcaption></figure>`;
+        const entrees = realisation.medias ?? (realisation.media ? [realisation.media] : []);
+        const medias = entrees.map((entree, rang) => media(ctx, entree, {
+          motifAlt: `${libelle} — visuel {numero}`,
+          rang,
+          chemin: `${cheminRealisation}.medias.${rang}`,
+          cheminMotif: `${cheminRealisation}.libelle`,
+        }));
+        const contenuVisuel = realisation.presentation
+          ? plancheLogotype(realisation.presentation, medias, libelle, ctx)
+          : html`<div class="categorie-projets__carte-visuel">${Galerie({ medias, variante: "apercu", etiquette: libelle })}</div>`;
+        return html`<article class="categorie-projets__carte-image${medias.length > 1 ? " categorie-projets__carte-image--composition" : ""}${realisation.presentation ? " categorie-projets__carte-image--logotype" : ""}">${contenuVisuel}<div class="categorie-projets__carte-legende projet-carte__entete">${Pastille({ texte: ctx.t("formats.numeroProjet", { numero: numero(index) }), variante: "contour" })}<div class="projet-carte__nom"><h3 class="projet-carte__titre">${libelle}</h3><p class="projet-carte__categorie categorie-projets__carte-sous-titre">${ctx.c(realisation.description, `${cheminRealisation}.description`)}</p></div></div></article>`;
       }), colonnes: [4, 2, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })
       : null;
     return html`<section class="categorie-projets" id="categorie-${categorie.id}" aria-labelledby="titre-${categorie.id}">

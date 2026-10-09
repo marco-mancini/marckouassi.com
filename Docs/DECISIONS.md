@@ -883,3 +883,28 @@ gratuits et au contrat d'email documenté.
 
 **Réversibilité.** L'autorisation porte sur le travail demandé ; toute décision
 produit nouvelle hors du périmètre PM-109 à PM-114 reste à Marc.
+
+## 2026-10-09 — D-41 : les déclinaisons Logotype viennent des fichiers de Marc
+
+Décision de Marc · issue [#181](https://github.com/marco-mancini/marckouassi.com/issues/181).
+
+**Problème.** Les réalisations Logotype n'affichaient pas la composition de
+présentation définie par Marc.
+
+**Choix.** Garder les logos SVG, isotypes recadrés et mockups dans le dossier
+fourni `MOCKUP/M`, puis les référencer depuis `content/sections.json`. Wona,
+Eigth et BNI Finances reçoivent la planche logo, isotype, palette, typographie
+et deux mockups. Les autres réalisations restent des cartes image simples,
+car les fichiers fournis ne renseignent pas leurs palettes ni leurs polices.
+
+**Motif.** La planche est commune et pilotée par les données ; les valeurs de
+palette et les noms de polices des trois marques viennent de la capture de
+Marc. Aucun projet des autres SVG du dossier n'est ajouté sans figurer déjà
+dans le portfolio.
+
+**Impact.** Les visuels et alternatives FR/EN vivent dans le contenu. Les SVG
+sont copiés sans rasterisation et leur `viewBox` réserve les dimensions. Les
+fiches Logotype n'ont pas encore de descriptions d'étude complètes.
+
+**Réversibilité.** Retirer ou réordonner un média dans `content/sections.json`
+ne change pas le gabarit.

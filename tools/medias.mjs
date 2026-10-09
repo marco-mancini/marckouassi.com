@@ -47,6 +47,7 @@ export async function partTransparente(entree) {
   return nonOpaques / (info.width * info.height);
 }
 const IMAGES = new Set([".png", ".jpg", ".jpeg", ".webp"]);
+const SVG = ".svg";
 export const PREFIXE_STOCKAGE = "stockage:";
 
 /** Crème d'aplatissement, lu dans Tokens.css : aucune couleur recopiée. */
@@ -76,6 +77,7 @@ export async function publierMedias({ references, racine, sortie, lireSource, jo
   for (const src of references) {
     const extension = path.extname(src).toLowerCase();
     const estImage = IMAGES.has(extension);
+    const estSvg = extension === SVG;
     // Un média du stockage (« stockage:medias/x.png ») est publié sous Public/medias/.
     const base = src.startsWith(PREFIXE_STOCKAGE) ? `Public/${src.slice(PREFIXE_STOCKAGE.length)}` : src;
     const publie = estImage ? base.slice(0, -extension.length) + ".webp" : base;
@@ -83,6 +85,19 @@ export async function publierMedias({ references, racine, sortie, lireSource, jo
     try {
       const source = await lireSource(src);
       await fs.mkdir(path.dirname(cible), { recursive: true });
+      if (estSvg) {
+        const texte = source.contenu.toString("utf8");
+        const racineSvg = texte.match(/<svg\b[^>]*>/i)?.[0];
+        const viewBox = racineSvg?.match(/\bviewBox=["']\s*([\d.+-]+)[ ,]+([\d.+-]+)[ ,]+([\d.+-]+)[ ,]+([\d.+-]+)\s*["']/i);
+        if (!racineSvg || !viewBox) throw new Error("SVG sans viewBox exploitable");
+        const largeur = Number(viewBox[3]);
+        const hauteur = Number(viewBox[4]);
+        if (!(largeur > 0 && hauteur > 0)) throw new Error("Dimensions SVG invalides");
+        await fs.writeFile(cible, source.contenu);
+        table.set(src, { src: publie, type: "image", largeur, hauteur, mime: "image/svg+xml" });
+        bilan.copies += 1;
+        continue;
+      }
       if (!estImage) {
         await fs.writeFile(cible, source.contenu);
         table.set(src, { src: publie, type: extension === ".pdf" ? "document" : extension.match(/\.(mp4|webm)$/) ? "video" : "fichier" });

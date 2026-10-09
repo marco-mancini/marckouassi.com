@@ -455,15 +455,54 @@
         "realisations": [
           {
             "libelle": {
-              "fr": "ArriProd",
-              "en": "ArriProd"
+              "fr": "Wona",
+              "en": "Wona"
             },
             "description": {
               "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
+              "en": "Logotype · Création de marque"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_ArriProd.jpg"
+            "medias": [
+              {
+                "src": "Public/images/Logotype/Mockup_WONA_01.jpg",
+                "alt": {
+                  "fr": "Enseigne ronde Wona sur une façade",
+                  "en": "Round Wona sign on a facade"
+                }
+              },
+              {
+                "src": "Public/images/Logotype/Mockup_WONA_02.jpg",
+                "alt": {
+                  "fr": "Mockup Wona sur tee-shirts, casquettes et sac",
+                  "en": "Wona mockup on T-shirts, caps and tote bag"
+                }
+              }
+            ],
+            "presentation": {
+              "logo": {
+                "src": "Public/images/Logotype/SVG/LOGO-09.svg",
+                "alt": {
+                  "fr": "Logo principal Wona",
+                  "en": "Wona primary logo"
+                }
+              },
+              "isotype": {
+                "src": "Public/images/Logotype/SVG/ISOTYPE-09.svg",
+                "alt": {
+                  "fr": "Isotype Wona",
+                  "en": "Wona symbol"
+                }
+              },
+              "palette": [
+                "#9E6B32",
+                "#4B7B50",
+                "#FFFFFF"
+              ],
+              "typographies": [
+                "World of Water",
+                "Nexa"
+              ],
+              "variant": "wona"
             }
           },
           {
@@ -473,11 +512,119 @@
             },
             "description": {
               "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
+              "en": "Logotype · Création de marque"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Eigth.jpg"
+            "medias": [
+              {
+                "src": "Public/images/Logotype/Mockup_EIGTH_01.jpg",
+                "alt": {
+                  "fr": "Enseigne de façade avec le logo Eigth",
+                  "en": "Facade sign with the Eigth logo"
+                }
+              },
+              {
+                "src": "Public/images/Logotype/Mockup_EIGTH_02.jpg",
+                "alt": {
+                  "fr": "Mockup Eigth sur tee-shirts, casquettes et sac",
+                  "en": "Eigth mockup on T-shirts, caps and tote bag"
+                }
+              }
+            ],
+            "presentation": {
+              "logo": {
+                "src": "Public/images/Logotype/SVG/LOGO-06.svg",
+                "alt": {
+                  "fr": "Logo principal Eigth Concept",
+                  "en": "Eigth Concept primary logo"
+                }
+              },
+              "isotype": {
+                "src": "Public/images/Logotype/SVG/ISOTYPE-06.svg",
+                "alt": {
+                  "fr": "Isotype Eigth Concept",
+                  "en": "Eigth Concept symbol"
+                }
+              },
+              "palette": [
+                "#D3001E",
+                "#1F191A",
+                "#FFFFFF"
+              ],
+              "typographies": [
+                "Rockwell"
+              ],
+              "variant": "eigth"
             }
+          },
+          {
+            "libelle": {
+              "fr": "BNI Finances",
+              "en": "BNI Finances"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logotype · Création de marque"
+            },
+            "medias": [
+              {
+                "src": "Public/images/Logotype/Mockup_BNI_01.jpg",
+                "alt": {
+                  "fr": "Enseigne BNI Finances sur la façade d’un bâtiment",
+                  "en": "BNI Finances sign on a building facade"
+                }
+              },
+              {
+                "src": "Public/images/Logotype/Mockup_BNI_02.jpg",
+                "alt": {
+                  "fr": "Supports de communication BNI Finances",
+                  "en": "BNI Finances communication materials"
+                }
+              }
+            ],
+            "presentation": {
+              "logo": {
+                "src": "Public/images/Logotype/SVG/LOGO-19.svg",
+                "alt": {
+                  "fr": "Logo principal BNI Finances",
+                  "en": "BNI Finances primary logo"
+                }
+              },
+              "isotype": {
+                "src": "Public/images/Logotype/SVG/ISOTYPE-19.svg",
+                "alt": {
+                  "fr": "Isotype BNI Finances",
+                  "en": "BNI Finances symbol"
+                }
+              },
+              "palette": [
+                "#3B8C4E",
+                "#DC9C4C",
+                "#333333"
+              ],
+              "typographies": [
+                "Nexa Family"
+              ],
+              "variant": "bni"
+            }
+          },
+          {
+            "libelle": {
+              "fr": "ArriProd",
+              "en": "ArriProd"
+            },
+            "description": {
+              "fr": "Logotype · Création de marque",
+              "en": "Logotype · Création de marque"
+            },
+            "medias": [
+              {
+                "src": "Public/images/Logotype/SVG/LOGO-05.svg",
+                "alt": {
+                  "fr": "Logotype ArriProd",
+                  "en": "ArriProd logo"
+                }
+              }
+            ]
           },
           {
             "libelle": {
@@ -486,11 +633,17 @@
             },
             "description": {
               "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
+              "en": "Logotype · Création de marque"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Ivoire_Cosm.jpg"
-            }
+            "medias": [
+              {
+                "src": "Public/images/Logotype/SVG/LOGO-07.svg",
+                "alt": {
+                  "fr": "Logotype Ivoire Cosmétique",
+                  "en": "Ivoire Cosmetics logo"
+                }
+              }
+            ]
           },
           {
             "libelle": {
@@ -499,11 +652,17 @@
             },
             "description": {
               "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
+              "en": "Logotype · Création de marque"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Nanama.jpg"
-            }
+            "medias": [
+              {
+                "src": "Public/images/Logotype/SVG/LOGO-08.svg",
+                "alt": {
+                  "fr": "Logotype Nanama Bijoux",
+                  "en": "Nanama Jewellery logo"
+                }
+              }
+            ]
           },
           {
             "libelle": {
@@ -512,24 +671,31 @@
             },
             "description": {
               "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
+              "en": "Logotype · Création de marque"
             },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Nova.jpg"
-            }
-          },
-          {
-            "libelle": {
-              "fr": "Wona",
-              "en": "Wona"
-            },
-            "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
-            },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Wona.jpg"
-            }
+            "medias": [
+              {
+                "src": "Public/images/Logotype/Mockup_NOVA_01.jpg",
+                "alt": {
+                  "fr": "Mockup Nova Studio sur tee-shirts, casquettes et sac",
+                  "en": "Nova Studio mockup on T-shirts, caps and tote bag"
+                }
+              },
+              {
+                "src": "Public/images/Logotype/Mockup_NOVA_02.jpg",
+                "alt": {
+                  "fr": "Enseigne Nova Studio suspendue",
+                  "en": "Nova Studio hanging sign"
+                }
+              },
+              {
+                "src": "Public/images/Logotype/SVG/LOGO-10.svg",
+                "alt": {
+                  "fr": "Logotype Nova Studio",
+                  "en": "Nova Studio logo"
+                }
+              }
+            ]
           }
         ]
       },
