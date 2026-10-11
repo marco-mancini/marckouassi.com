@@ -125,3 +125,4 @@ Comparaison avec GitHub : `npm run comparer-issues` (voir `tools/comparer-issues
 | PM-190 | [#190](https://github.com/marco-mancini/marckouassi.com/issues/190) | Anglais : « Directeur artistique » devient « Art Director » | contenu | — | fermée — réglée par la PR #189 (fusionnée le 11 octobre 2026) |
 | PM-191 | [#191](https://github.com/marco-mancini/marckouassi.com/issues/191) | Mes réalisations : cartes de catégories « Rideau », animées en continu | enhancement, design | — | ouverte |
 | PM-192 | [#192](https://github.com/marco-mancini/marckouassi.com/issues/192) | Index des issues : écarts après la fusion de #189 | documentation | — | ouverte — réglée par la PR qui accompagne cette ligne |
+| PM-194 | [#194](https://github.com/marco-mancini/marckouassi.com/issues/194) | Test navigateur instable : ouverture de l'étude AUREX (timeout du clic) | bug | — | ouverte — échecs intermittents sur la CI depuis le 7 octobre, jamais reproduits en local ; non traité |
