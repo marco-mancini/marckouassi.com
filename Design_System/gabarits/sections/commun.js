@@ -108,6 +108,14 @@ export function enTeteDocument({ contenu, ctx, versAccueil = "" }) {
 }
 
 /**
+ * Données structurées en JSON-LD, sûres dans un <script> : « < » échappé,
+ * aucune donnée ne peut fermer la balise (#185).
+ */
+export function jsonLd(donnees) {
+  return JSON.stringify(donnees).replace(/</g, "\\u003c").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+}
+
+/**
  * Document HTML complet : métadonnées externalisées, alternatives de
  * langue (hreflang), sprite unique, lien d'évitement, script du site.
  */
@@ -130,10 +138,20 @@ ${ctx.alternatives.map((alt) => html`<link rel="alternate"${attributs({ hreflang
 <meta property="og:url"${attributs({ content: meta.canonique })}>
 <meta property="og:locale"${attributs({ content: ctx.t("langue.locale") })}>
 ${ctx.alternatives.filter((alt) => alt.langue !== ctx.langue).map((alt) => html`<meta property="og:locale:alternate"${attributs({ content: ctx.dictionnaires[alt.langue].langue.locale })}>`)}
-${meta.image ? html`<meta property="og:image"${attributs({ content: meta.image })}>` : ""}
+<meta property="og:site_name"${attributs({ content: ctx.nomSite })}>
+${meta.image ? html`<meta property="og:image"${attributs({ content: meta.image.url })}>
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width"${attributs({ content: meta.image.largeur })}>
+<meta property="og:image:height"${attributs({ content: meta.image.hauteur })}>
+<meta property="og:image:alt"${attributs({ content: meta.image.alt })}>` : ""}
+<meta name="twitter:card"${attributs({ content: meta.image ? "summary_large_image" : "summary" })}>
+${meta.donnees ? html`<script type="application/ld+json">${brut(jsonLd(meta.donnees))}</script>` : ""}
 ${meta.robots ? html`<meta name="robots"${attributs({ content: meta.robots })}>` : ""}
 ${ctx.mesure ? html`<meta name="mesure-ga4"${attributs({ content: ctx.mesure })}>` : ""}
-<link rel="icon"${attributs({ href: `${r}Design_System/assets/logo-mk-seal.svg`, type: "image/svg+xml" })}>
+<link rel="icon"${attributs({ href: `${r}favicon.ico`, sizes: "32x32" })}>
+<link rel="icon"${attributs({ href: `${r}favicon.svg`, type: "image/svg+xml" })}>
+<link rel="apple-touch-icon"${attributs({ href: `${r}apple-touch-icon.png` })}>
+<link rel="manifest"${attributs({ href: `${r}site.webmanifest` })}>
 <link rel="stylesheet"${attributs({ href: `${r}Design_System/styles/Index.css` })}>
 <script type="module"${attributs({ src: `${r}Frontend/site.js` })}></script>
 </head>

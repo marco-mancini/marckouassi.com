@@ -55,6 +55,28 @@ Décision de Marc, en conversation, sur maquette validée · issue [#191](https:
 
 ---
 
+## 2026-10-11 — Favicon, carte de partage et référencement
+
+Décisions de Marc, en conversation les 10 et 11 octobre, sur aperçus publiés (https://claude.ai/artifact/Tw3Qd9pamLQn2NJDYMMng5) · issues [#183](https://github.com/marco-mancini/marckouassi.com/issues/183), [#184](https://github.com/marco-mancini/marckouassi.com/issues/184), [#185](https://github.com/marco-mancini/marckouassi.com/issues/185), [#186](https://github.com/marco-mancini/marckouassi.com/issues/186).
+
+**Problème.** Le seul favicon était le sceau crème en SVG : peu lisible en onglet, absent sur iPhone, `/favicon.ico` en 404. Aucune page n'avait d'image de partage ni de données structurées ; les descriptions des projets dépassaient la longueur affichée par Google.
+
+**Options.** Favicon : sceau simplifié (sans traits de fond), sceau actuel, fichier fourni par Marc. Carte : carte générée, photo seule, visuel de projet. Descriptions : champ dédié, ou ne rien changer.
+
+**Choix.**
+- Favicon : le sceau **complet** (toute sa composition), **fond vert**, jamais flou ni pixelisé. Généré au build depuis le symbole du sprite avec les jetons `--sceau-vert-*` : SVG vectoriel, plus ICO et PNG pour les plateformes qui ignorent le SVG.
+- Carte de partage : la proposition « Éditorial » — fond crème, portrait devant le sceau vert, signature de la couverture à droite, **sans l'adresse du site**. Les projets partagent leur propre image.
+- Descriptions : champ facultatif `seo.description` par projet ; **Marc rédige les textes**, aucun n'est écrit à sa place.
+- Données structurées `Person`, `WebSite`, `ProfilePage`, `CreativeWork`, dérivées du contenu ; `lastmod` = date du build.
+
+**Motif.** Une seule source pour chaque élément : le sceau vient du sprite, les couleurs de Tokens.css, les textes de la carte de la couverture. La carte est capturée par `npm run partage` parce que Vercel n'a pas de navigateur et que Sharp ne dessine pas les polices WOFF2 ; une empreinte des textes signale une carte périmée.
+
+**Impact.** Les fichiers d'icônes et les vignettes sont générés, jamais versionnés ; seules les deux cartes (`Public/images/Partage/`) le sont. Une modification de la couverture impose de relancer `npm run partage` (test et avertissement du build).
+
+**Réversibilité.** Totale : retirer l'appel du build et les balises du gabarit de page rend l'état antérieur.
+
+---
+
 ## 2026-10-07 — Les périodes des projets sont celles du site, et la liste éditoriale se trompait
 
 Décision de Marc, en conversation à 20 h 10 · issue [#29](https://github.com/marco-mancini/marckouassi.com/issues/29) (PM-029).

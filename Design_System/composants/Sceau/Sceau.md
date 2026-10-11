@@ -6,7 +6,7 @@
 
 | Prop | Type | Défaut | Rôle |
 |---|---|---|---|
-| `taille` | `couverture` \| `grand` \| `moyen` \| `petit` \| `document` | `moyen` | Taille, par jeton `--sceau-*` ; `document` : en-tête du CV. |
+| `taille` | `couverture` \| `grand` \| `moyen` \| `petit` \| `document` \| `partage` | `moyen` | Taille, par jeton `--sceau-*` ; `document` : en-tête du CV ; `partage` : carte de partage, **rond vert** (`--sceau-vert-*` : M crème, K doré clair, comme le favicon, #183 #184). |
 | `lien` | URL \| `null` | `null` | Rend un `<a>`. |
 | `libelle` | chaîne \| `null` | `null` | Nom accessible (du dictionnaire). Sans lui, le sceau est `aria-hidden`. |
 | `anime` | booléen \| `"construction"` | `false` | Expérience d'accueil : le sceau apparaît, son contour et son monogramme se tracent (`--duration-trace`), puis se remplissent. Hors animation, l'épaisseur du tracé vaut 0 : les autres sceaux sont inchangés. Mouvement réduit : pas de tracé. `"construction"` : le sceau se construit forme par forme — cercle, lignes de construction, M, K, puis remplissage — une fois `construireSceau(element)` appelé (jetons `--construction-*`). |
@@ -30,6 +30,7 @@ Navigateur uniquement. `construireSceau(element, { rejouer })` copie les formes 
 
 - Le symbole `#logo-mk-seal` vient du sprite unique `assets/logos-sprite.svg`, inséré une seule fois par page par le gabarit de page.
 - Les couleurs des lettres ne suivent jamais le thème.
+- Le favicon n'utilise pas ce composant : `tools/icones.mjs` lit le même symbole du sprite et lui applique les jetons `--sceau-vert-*` (aucun dessin recopié).
 
 ## Dépendances
 

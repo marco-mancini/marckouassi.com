@@ -6,7 +6,7 @@ import { html, attributs, classes, brut } from "../../fondations/rendu.js";
  *
  * @param {object} p
  * @param {1|2} [p.niveau]
- * @param {"couverture"|"section"} [p.echelle]
+ * @param {"couverture"|"section"|"partage"} [p.echelle]  partage : carte de partage, taille fixe
  * @param {{salutation:string, accent:string, mot:string}} p.textes
  * @param {string|null} [p.id]
  */

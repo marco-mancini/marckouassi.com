@@ -95,6 +95,13 @@
   /* Rond du sceau : creme nacre, identique dans les deux themes.
      Lu par le sprite SVG (Design_System/assets/logos-sprite.svg). */
   --clair-logo-fond: #f3efe1;
+  /* Sceau sur fond vert : favicon et carte de partage (#183, #184). Le rond
+     prend le vert des lettres ; sur ce fond sombre, la regle ci-dessus
+     donne M creme et K dore clair. Lus par le composant Sceau (variante
+     « vert ») et par le build, qui genere les icones (tools/icones.mjs). */
+  --sceau-vert-fond: var(--clair-logo-lettre);
+  --sceau-vert-lettre: var(--sombre-logo-lettre);
+  --sceau-vert-accent: var(--sombre-logo-accent);
   --clair-olive: #576740;
   --clair-olive-deep: #505843;
   --clair-olive-ghost: #b0c197;
@@ -673,6 +680,28 @@
   /* Sceau de l'en-tete du CV (page document), valeur de la reference. */
   --sceau-document: clamp(64px, 10vw, 128px);
   --sceau-petit: clamp(56px, 6vw, 110px);
+  /* Carte de partage (og:image, #184) : une image fixe de 1200 x 630,
+     capturee par tools/partage.mjs. Valeurs en pixels : elle ne s'adapte
+     a aucun ecran, elle EST le format attendu par les reseaux. */
+  --sceau-partage: 540px;
+  --partage-largeur: 1200px;
+  --partage-hauteur: 630px;
+  --partage-sceau-gauche: 48px;
+  --partage-sceau-haut: 44px;
+  --partage-portrait-gauche: 150px;
+  --partage-texte-marge: 48px;
+  --partage-texte-droite: 60px;
+  --partage-texte-largeur: 528px;
+  --partage-espace: 17px;
+  --partage-signature-haut: 40px;
+  --partage-type-etiquette: 20px;
+  --partage-type-salut: 53px;
+  --partage-type-mot: 104px;
+  --partage-type-promesse: 37px;
+  --partage-signature-chevauchement: -.42em;
+  --partage-interligne-mot: .9;
+  --partage-interligne-promesse: 1.05;
+  --partage-espacement-etiquette: .08em;
   --pastille-rond: 42px;
   --pastille-rond-compact: 36px;
   --bouton-rond-surface: 58px;

@@ -46,3 +46,20 @@ test("_site : feuilles de style, script et images référencés par l'accueil so
   assert.ok(locales.length > 5, `trop peu de ressources locales trouvées (${locales.length})`);
   for (const chemin of locales) assert.ok(fs.existsSync(path.join(SITE, chemin)), `ressource absente : ${chemin}`);
 });
+
+test("_site : favicon, icônes, manifeste et image de partage de chaque page sont publiés (#183, #184)", () => {
+  for (const fichier of ["favicon.svg", "favicon.ico", "apple-touch-icon.png", "icone-192.png", "icone-512.png", "site.webmanifest"]) {
+    assert.ok(fs.existsSync(path.join(SITE, fichier)), `absent : ${fichier}`);
+  }
+  for (const langue of site.langues) {
+    for (const chemin of cheminsPages(contenu)) {
+      const page = fs.readFileSync(path.join(SITE, cheminLangue(langue, site.langueParDefaut, chemin), "index.html"), "utf8");
+      const image = page.match(/<meta property="og:image" content="([^"]+)">/)?.[1];
+      assert.ok(image?.startsWith(`${site.url}/`), `og:image absente : ${langue} /${chemin}`);
+      assert.ok(fs.existsSync(path.join(SITE, image.slice(site.url.length + 1))), `image de partage absente : ${image}`);
+      assert.match(page, /<script type="application\/ld\+json">/);
+    }
+  }
+  const plan = fs.readFileSync(path.join(SITE, "sitemap.xml"), "utf8");
+  assert.equal([...plan.matchAll(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g)].length, cheminsPages(contenu).length * site.langues.length);
+});

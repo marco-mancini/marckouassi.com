@@ -14,7 +14,8 @@
     "verifier": "npm test && npm run test:sommeil && npm run build && npm run test:navigateur",
     "comparer-reference": "node tools/comparer-reference.mjs",
     "comparer-issues": "node tools/comparer-issues.mjs",
-    "etat-mobile": "node tools/etat-mobile.mjs"
+    "etat-mobile": "node tools/etat-mobile.mjs",
+    "partage": "node tools/partage.mjs"
   },
   "dependencies": {
     "@fontsource-variable/material-symbols-outlined": "5.3.8",

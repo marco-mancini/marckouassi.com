@@ -93,7 +93,9 @@ et les aides viennent de `Design_System/i18n/admin.fr.json` (« champs »,
   manque dans la configuration.
 - Un champ ajouté au contenu apparaît de lui-même dans le CMS au build
   suivant.
-- Champs facultatifs proposés même vides : image de partage (`seo.image`),
+- Champs facultatifs proposés même vides : image de partage (`seo.image`,
+  du site, du CV et de chaque projet), description courte d'un projet pour
+  les moteurs de recherche (`seo.description`, ≈ 155 caractères, #186),
   CV à télécharger (`site.contact.cv`), document joint d'un projet, image
   d'attente d'une vidéo, MarcoS, **mode maintenance** et **mesure
   d'audience**. Un champ déclaré l'emporte sur la déduction.
