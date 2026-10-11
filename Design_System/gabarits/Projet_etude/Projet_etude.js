@@ -27,9 +27,9 @@ const IMAGES_DEMBLEE = 6;
  * @param {object} p.ctx
  * @param {1|2} [p.niveau]    niveau du titre : 1 sur la page du projet
  *
- * `vue.periode`, `vue.ideeHtml` et `vue.medias` sont facultatifs : une
- * realisation isolee n'a ni annees ni page, et sa carte porte deja ses
- * visuels. Un emplacement vide ne s'affiche pas.
+ * `vue.periode`, `vue.ideeHtml` et `vue.medias` sont facultatifs : un projet
+ * peut n'avoir ni annees ni role (les logos, #200). Un emplacement vide ne
+ * s'affiche pas.
  */
 /**
  * Le parcours d'un projet a l'autre, pose tout au bas de l'etude.

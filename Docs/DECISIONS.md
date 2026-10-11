@@ -23,6 +23,30 @@ Règles :
 
 ---
 
+## 2026-10-11 — Mes réalisations : un seul modèle, une seule carte
+
+Décisions de Marc, en conversation le 11 octobre · issues [#200](https://github.com/marco-mancini/marckouassi.com/issues/200), [#181](https://github.com/marco-mancini/marckouassi.com/issues/181), [#187](https://github.com/marco-mancini/marckouassi.com/issues/187).
+
+**Problème.** Deux modèles coexistaient : les projets (`content/projets.json`, `Projet_carte`, page dédiée) et les « réalisations » de Logotype (`categories[].realisations`, `Realisation_carte`, fiche cachée dans la page). Chaque catégorie pouvait donc se comporter différemment.
+
+**Options.** Garder deux composants ; généraliser `Realisation_carte` ; faire des réalisations des projets.
+
+**Choix.**
+- Les dix logos deviennent des **projets** (`categoriePrincipale: "logotype"`). Une seule carte (`Projet_carte`), une seule étude, une page par logo. « Je ne veux pas avoir des comportements différents sur chaque catégorie. »
+- Le dessin de carte réglé par Marc sur Logotype (image entière sur fond papier, arrondis, pastille sombre, sous-titre doré) s'applique à **toutes** les catégories.
+- Années, rôle, disciplines et valeur deviennent **facultatifs** pour tous les projets : rien n'est inventé, un champ vide ne s'affiche pas.
+- Couverture : « Onze projets · dix logos » ; la catégorie comptée à part est nommée par la donnée (`faits[].part`).
+- Plafond de la base de MarcoS : 4 200 → **5 000** jetons (fichier), 4 400 → 5 200 (prompt).
+- En-tête : écart fluide entre liens et menu compact sous 1 200 px, pour que « Contact » ne passe plus sous FR/EN.
+
+**Motif.** Une catégorie fournit des données, jamais une mise en page (AGENTS.md §3.2 : un composant existant s'étend, il ne se recopie pas).
+
+**Impact.** 46 pages au lieu de 26 ; chaque logo a sa page, son image de partage, sa place dans le CMS et dans la base de MarcoS. Les textes des logos, écrits par une autre session à partir des visuels, restent à relire par Marc.
+
+**Réversibilité.** Totale par Git ; les données d'origine sont dans l'historique de `content/sections.json`.
+
+---
+
 ## 2026-10-11 — Les choix de catégorie deviennent des cartes « Rideau », animées en continu
 
 Décision de Marc, en conversation, sur maquette validée · issue [#191](https://github.com/marco-mancini/marckouassi.com/issues/191) (PM-191).

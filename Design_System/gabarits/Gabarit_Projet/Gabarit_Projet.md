@@ -110,3 +110,7 @@ Le contrôle est automatique : `tests/projets-filtres.test.mjs` cherche les 51 i
 - Le numéro affiché est la position du projet dans l'**ensemble** : « Projet 07 / 11 » veut dire la même chose quel que soit le filtre actif.
 - `Escape` ferme la modale et rend le focus au lien déclencheur (`Modale`).
 - Le titre de l'étude est abaissé au niveau 2 quand elle entre dans la modale : une page n'a qu'un seul `h1`.
+
+## Champs facultatifs (#200)
+
+Seuls `titre`, `categorie`, `contexte` et `idee` sont exigés (`donnees.js`). `annees`, `periode`, `role`, `disciplines` et `valeur` sont facultatifs pour **tous** les projets : la vue renvoie une valeur vide, et la carte comme l’\étude n’ffichent rien à cet emplacement. Rien n’st inventé pour combler un vide.
