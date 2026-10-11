@@ -48,7 +48,7 @@
 .galerie--detail .galerie__element { position: relative; }
 /* Une case qui s'agrandit le dit : le curseur change des que le navigateur
    a pose le comportement, jamais avant. */
-.galerie--detail .galerie__element[role="button"], .galerie--vitrine .galerie__element[role="button"] { cursor: zoom-in; }
+.galerie--detail .galerie__element[role="button"] { cursor: zoom-in; }
 /* Zoom avant au survol, plus franc que celui d'une vignette de carte : ici
    l'image est le sujet, pas l'illustration d'un titre. */
 .galerie--detail .galerie__element:hover .media--zoom img { transform: scale(var(--galerie-detail-zoom)); }

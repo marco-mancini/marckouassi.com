@@ -459,8 +459,8 @@
               "en": "8ight Concept"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · identité et objets de marque",
+              "en": "Logotype · identity and branded objects"
             },
             "medias": [
               {
@@ -484,7 +484,15 @@
                   "en": "Red T-shirt, cap and tote bag printed with the 8ight Concept logo"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent une marque bâtie sur un chiffre : le 8 ouvre le mot et sert aussi de symbole seul. La planche réunit le logotype, l’isotype, les trois couleurs et la typographie ; les mises en situation le portent sur une façade et sur une série de vêtements.",
+              "en": "The images show a brand built on a number: the 8 opens the word and also stands alone as the symbol. The sheet brings together the logotype, the symbol, the three colours and the typeface; the mock-ups carry it onto a facade and onto a set of garments."
+            },
+            "idee": {
+              "fr": "Le chiffre et la lettre se confondent. Les contreformes du 8 sont découpées en quartiers, ce qui donne au symbole une géométrie reconnaissable même réduite à un badge brodé.",
+              "en": "Number and letter merge. The counters of the 8 are cut into quarters, giving the symbol a geometry that stays recognisable even shrunk to an embroidered badge."
+            }
           },
           {
             "libelle": {
@@ -492,8 +500,8 @@
               "en": "AFOR"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · agence foncière",
+              "en": "Logotype · land agency"
             },
             "medias": [
               {
@@ -517,7 +525,15 @@
                   "en": "AFOR banner over an aerial view of rural plots"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’une agence foncière rurale : un livre ouvert sur lequel se déploie un parcellaire, surmonté d’un repère de carte. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches de terrain.",
+              "en": "The images show the identity of a rural land agency: an open book carrying a pattern of plots, topped by a map pin. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto field posters."
+            },
+            "idee": {
+              "fr": "Le parcellaire et le repère de carte disent le métier sans un mot : la terre, mesurée, située. L’orange et le vert séparent la trame cultivée du support qui la porte.",
+              "en": "The plots and the map pin state the trade without a word: land, measured and located. Orange and green separate the cultivated grid from the ground that carries it."
+            }
           },
           {
             "libelle": {
@@ -525,8 +541,8 @@
               "en": "BNI Finances"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · filiale financière",
+              "en": "Logotype · financial subsidiary"
             },
             "medias": [
               {
@@ -550,7 +566,15 @@
                   "en": "BNI Finances visual, a hand stopping falling dominoes beside a stack of coins"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’une filiale financière : une courbe inscrite dans un cartouche, suivie du nom et de sa signature. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur une enseigne de façade et sur des supports de communication.",
+              "en": "The images show the identity of a financial subsidiary: a rising curve set in a cartouche, followed by the name and its tagline. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto a building sign and onto communication material."
+            },
+            "idee": {
+              "fr": "La courbe de progression tient lieu de symbole. Enfermée dans un cartouche sombre, elle reste lisible en petit, sur une carte de visite comme sur une enseigne.",
+              "en": "The rising curve serves as the symbol. Held inside a dark cartouche, it stays legible when small, on a business card as much as on a sign."
+            }
           },
           {
             "libelle": {
@@ -558,8 +582,8 @@
               "en": "Ileve11 Communication"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · agence de communication",
+              "en": "Logotype · communication agency"
             },
             "medias": [
               {
@@ -583,7 +607,15 @@
                   "en": "Ileve11 Communication poster over a city at night"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’une agence de communication : chaque lettre du nom prend sa pastille et sa couleur, et les deux derniers caractères se lisent comme un nombre. La planche réunit le logotype, l’isotype, les six couleurs et la typographie ; les mises en situation le portent sur des affiches.",
+              "en": "The images show the identity of a communication agency: each letter of the name takes its own dot and colour, and the last two characters read as a number. The sheet brings together the logotype, the symbol, the six colours and the typeface; the mock-ups carry it onto posters."
+            },
+            "idee": {
+              "fr": "Le nom se compte autant qu’il se lit. La série de pastilles colorées fait du mot une suite d’unités, et le nombre final reprend cette forme en symbole.",
+              "en": "The name is counted as much as it is read. The row of coloured dots turns the word into a series of units, and the closing number takes that shape as the symbol."
+            }
           },
           {
             "libelle": {
@@ -591,8 +623,8 @@
               "en": "Impact Communication"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · agence de communication",
+              "en": "Logotype · communication agency"
             },
             "medias": [
               {
@@ -616,7 +648,15 @@
                   "en": "Impact Communication poster, a woman at a laptop"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’une agence de communication : une tache de peinture traverse le mot et en devient le symbole. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches.",
+              "en": "The images show the identity of a communication agency: a paint splash crosses the word and becomes its symbol. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto posters."
+            },
+            "idee": {
+              "fr": "La tache dit le mot. Projetée sur une lettre, elle laisse au nom sa lisibilité tout en donnant à la marque un signe qui vit seul.",
+              "en": "The splash states the word. Thrown across one letter, it leaves the name legible while giving the brand a mark that stands on its own."
+            }
           },
           {
             "libelle": {
@@ -624,8 +664,8 @@
               "en": "M&M Auto"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · vente de véhicules",
+              "en": "Logotype · vehicle dealership"
             },
             "medias": [
               {
@@ -649,7 +689,15 @@
                   "en": "M&M Auto banner in front of a car dealership"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’un vendeur de véhicules : un monogramme inscrit dans un cercle, décliné en bleu et en blanc. La planche réunit le logotype, l’isotype, les deux couleurs et la typographie ; les mises en situation le portent sur le site et sur une bannière de concession.",
+              "en": "The images show the identity of a vehicle dealership: a monogram set in a circle, declined in blue and white. The sheet brings together the logotype, the symbol, the two colours and the typeface; the mock-ups carry it onto the website and onto a dealership banner."
+            },
+            "idee": {
+              "fr": "Les deux M se partagent un jambage et forment une seule silhouette. Le cercle les tient, et le signe reste net à la taille d’une icône comme sur une façade.",
+              "en": "The two Ms share a stem and form a single silhouette. The circle holds them, and the mark stays sharp at icon size as well as on a facade."
+            }
           },
           {
             "libelle": {
@@ -657,8 +705,8 @@
               "en": "MarcoS"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · assistant virtuel",
+              "en": "Logotype · virtual assistant"
             },
             "medias": [
               {
@@ -682,7 +730,15 @@
                   "en": "MarcoS conversation open on a hand-held phone"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’un assistant virtuel : un mot manuscrit dont la dernière lettre se prolonge en boucle, et un monogramme tiré du M. La planche réunit le logotype, l’isotype, les quatre couleurs et les deux typographies ; les mises en situation le portent sur un écran d’ordinateur et sur un téléphone.",
+              "en": "The images show the identity of a virtual assistant: a handwritten word whose last letter extends into a loop, and a monogram drawn from the M. The sheet brings together the logotype, the symbol, the four colours and the two typefaces; the mock-ups carry it onto a laptop screen and onto a phone."
+            },
+            "idee": {
+              "fr": "La boucle finale relie l’écrit à la parole. Le monogramme reprend le mouvement du M, de sorte que la marque garde son geste même réduite à la pastille d’une application.",
+              "en": "The closing loop ties writing to speech. The monogram takes up the movement of the M, so the brand keeps its gesture even when reduced to an app icon."
+            }
           },
           {
             "libelle": {
@@ -690,8 +746,8 @@
               "en": "Tako"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · restauration",
+              "en": "Logotype · food service"
             },
             "medias": [
               {
@@ -715,7 +771,15 @@
                   "en": "Tako cups and takeaway box with tacos served"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’une enseigne de restauration : un mot compact dont une lettre est traversée par une arche, reprise seule en symbole. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur une devanture et sur des emballages.",
+              "en": "The images show the identity of a food outlet: a compact word in which one letter is crossed by an arch, taken up alone as the symbol. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto a storefront and onto takeaway packaging."
+            },
+            "idee": {
+              "fr": "L’arche est à la fois la forme du plat et celle d’un toit. Elle sort du mot pour devenir le signe, et tient sur un gobelet comme sur une façade.",
+              "en": "The arch is at once the shape of the dish and that of a roof. It steps out of the word to become the mark, and holds on a cup as well as on a facade."
+            }
           },
           {
             "libelle": {
@@ -723,8 +787,8 @@
               "en": "Up’ in Africa"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · innovation et entrepreneuriat",
+              "en": "Logotype · innovation and entrepreneurship"
             },
             "medias": [
               {
@@ -748,7 +812,15 @@
                   "en": "Up’ in Africa poster over a stylised map of the continent"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’un catalyseur d’innovation : un blason partagé en deux couleurs, surmonté du nom et de sa signature. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches.",
+              "en": "The images show the identity of an innovation catalyst: a shield split into two colours, topped by the name and its tagline. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto posters."
+            },
+            "idee": {
+              "fr": "Le blason monte. Sa pointe et l’étoile qu’il abrite donnent une direction au nom, et les deux couleurs séparent l’élan de ce qui le soutient.",
+              "en": "The shield rises. Its point and the star it holds give the name a direction, and the two colours separate the momentum from what carries it."
+            }
           },
           {
             "libelle": {
@@ -756,8 +828,8 @@
               "en": "Wona"
             },
             "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logotype · Brand creation"
+              "fr": "Logotype · média culturel",
+              "en": "Logotype · cultural media"
             },
             "medias": [
               {
@@ -781,7 +853,15 @@
                   "en": "Wona poster, a portrait of a woman wearing a headwrap over an African landscape"
                 }
               }
-            ]
+            ],
+            "contexte": {
+              "fr": "Les images montrent l’identité d’un média culturel : un mot dont une lettre devient un triangle et une autre un signe plein, accompagné de sa signature. La planche réunit le logotype, l’isotype, la palette et les deux typographies ; les mises en situation le portent sur une enseigne ronde et sur une affiche.",
+              "en": "The images show the identity of a cultural media brand: a word in which one letter becomes a triangle and another a solid mark, carried with its tagline. The sheet brings together the logotype, the symbol, the palette and the two typefaces; the mock-ups carry it onto a round sign and onto a poster."
+            },
+            "idee": {
+              "fr": "La lettre devient forme. Le triangle et le signe plein donnent au mot une structure qui se lit de loin, et l’isotype garde cette géométrie quand le nom disparaît.",
+              "en": "The letter turns into shape. The triangle and the solid mark give the word a structure that reads from a distance, and the symbol keeps that geometry once the name is gone."
+            }
           }
         ]
       },

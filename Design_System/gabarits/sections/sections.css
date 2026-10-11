@@ -128,10 +128,6 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .categorie-projets__sous-titre { margin: 0; color: var(--accent-texte-grand); font-weight: var(--weight-strong); }
 .categorie-projets__recit { width: max-content; max-width: 100%; margin: 0; color: var(--texte-discret); white-space: nowrap; }
 
-/* Planche éditoriale réservée aux déclinaisons Logotype. */
-
-@media (max-width: 767px) {
-}
 
 @container realisation (max-width: 360px) {
 }

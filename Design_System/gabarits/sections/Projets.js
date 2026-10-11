@@ -85,7 +85,7 @@ export function Projets({ section, contenu, ctx }) {
     // La categorie donne ses DONNEES ; la carte est le gabarit commun.
     const cartesRealisations = (categorie.realisations ?? []).length
       ? Grille({ elements: categorie.realisations.map((realisation, index) => Realisation_carte({
-        vue: vueRealisation({ realisation, ctx, chemin: `${cheminCategorie}.realisations.${index}`, rang: index }),
+        vue: vueRealisation({ realisation, ctx, chemin: `${cheminCategorie}.realisations.${index}`, rang: index }), ctx,
       })), colonnes: [1, 1, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })
       : null;
     return html`<section class="categorie-projets" id="categorie-${categorie.id}" aria-labelledby="titre-${categorie.id}">

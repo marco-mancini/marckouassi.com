@@ -35,3 +35,11 @@
 .realisation-carte .galerie__superposition .bouton { border-color: var(--carte-surface-profonde); background: var(--carte-surface-profonde); color: var(--paper); }
 .realisation-carte:hover .galerie__superposition .bouton,
 .realisation-carte:focus-within .galerie__superposition .bouton { transform: rotate(45deg); }
+
+/* La fiche vit dans le flux : sans script, son texte reste lisible sous la
+   carte. Des que le script a demarre, elle se replie et c'est la modale
+   partagee qui la montre. Meme principe que les apparitions : rien n'est
+   masque tant que le comportement n'est pas pose. */
+html.js-anime .realisation-carte__fiche { display: none; }
+html.js-anime .realisation-carte__cadre[role="button"] { cursor: pointer; }
+.realisation-carte__fiche { margin-top: var(--space-5); }

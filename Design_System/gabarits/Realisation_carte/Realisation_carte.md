@@ -19,6 +19,23 @@ visuels sont **contenus**, pas recadrés, et le fond papier de chaque case tient
 la place autour d'eux. Une planche de marque porte du texte et des codes
 couleur — la rogner la mutile.
 
+## La fiche
+
+Une réalisation n'a ni identifiant, ni page dédiée : sa fiche ne peut pas être
+chargée depuis une page comme l'est une étude de projet. Elle est **rendue avec
+la carte, dans le flux**, par `Projet_etude` — le gabarit des études, dont
+`periode`, `ideeHtml` et `medias` sont devenus facultatifs.
+
+Sans JavaScript, la fiche reste visible sous la carte : le texte n'est jamais
+perdu, et aucune flèche n'annonce une ouverture qui n'aurait pas lieu. Dès que
+le script a démarré, `activerRealisations` replie la fiche, découvre le signe,
+fait de la carte une commande (`role="button"`, clavier, `aria-haspopup`) et
+ouvre la fiche dans la **modale partagée des études**.
+
+La carte entière est la seule commande : ses visuels ne sont pas cliquables
+séparément — un bouton dans un bouton n'a pas de sens. Ils s'agrandissent
+depuis la fiche, où la galerie `detail` les reprend.
+
 ## Emploi
 
 ```js
@@ -34,6 +51,14 @@ Realisation_carte({ vue });
 | `description` | sous-titre |
 | `medias` (ou `media`) | jusqu'à trois visuels, le premier mis en avant |
 | `altImages` | motif de texte alternatif quand un média n'a pas le sien |
+| `categorie` | rubrique de la fiche ; à défaut, `description` la tient |
+| `contexte` | premier paragraphe de la fiche |
+| `idee` | l'intention, sous son intitulé |
+| `role` | champ méta de la fiche |
+
+Tous les champs de texte sont **facultatifs** : ce que la donnée ne porte pas
+ne s'affiche pas. Sans `contexte` ni `idee`, la fiche se réduit à sa rubrique,
+son titre et ses visuels.
 
 Le numéro vient du rang dans la catégorie, par `formats.numeroProjet`.
 

@@ -128,12 +128,12 @@ export function Visionneuse({ ctx }) {
 export function activerVisionneuse(racine = document) {
   const commande = brancherVisionneuse();
   if (!commande) return;
-  for (const galerie of racine.querySelectorAll(".galerie--detail, .galerie--vitrine")) {
+  // La vitrine en est exclue : sa carte entiere est deja une commande, et un
+  // bouton dans un bouton n'a pas de sens. Ses visuels s'agrandissent depuis
+  // la fiche, ou la galerie « detail » les reprend.
+  for (const galerie of racine.querySelectorAll(".galerie--detail")) {
     if (galerie.dataset.galerieAgrandie) continue;
     galerie.dataset.galerieAgrandie = "1";
-    // Le signe d'ouverture n'apparait qu'ici : il annonce un comportement qui
-    // vient d'etre pose, jamais une promesse sans suite.
-    galerie.parentElement?.querySelector("[data-vitrine-signe]")?.removeAttribute("hidden");
     const cases = [...galerie.querySelectorAll(".galerie__element")];
     cases.forEach((element, index) => {
       if (!element.querySelector("img")) return;

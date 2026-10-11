@@ -26,6 +26,10 @@ const IMAGES_DEMBLEE = 6;
  * @param {object} p.vue      sortie de `vueProjet` (Gabarit_Projet)
  * @param {object} p.ctx
  * @param {1|2} [p.niveau]    niveau du titre : 1 sur la page du projet
+ *
+ * `vue.periode`, `vue.ideeHtml` et `vue.medias` sont facultatifs : une
+ * realisation isolee n'a ni annees ni page, et sa carte porte deja ses
+ * visuels. Un emplacement vide ne s'affiche pas.
  */
 /**
  * Le parcours d'un projet a l'autre, pose tout au bas de l'etude.
@@ -48,7 +52,7 @@ export function Projet_etude({ vue, ctx, niveau = 1, voisins = null }) {
   const document = vue.document
     ? Bouton({ texte: vue.document.libelle, variante: "texte", href: vue.document.href, options: { icone: "externe" } })
     : "";
-  return html`<article class="projet-etude" data-projet-etude="${vue.id}"><div class="projet-etude__texte"><div class="projet-etude__ligne-rubrique"><p class="projet-etude__rubrique texte-etiquette">${vue.categorieHtml}</p>${Pastille({ texte: vue.periode, variante: "contour", etiquette: ctx.t("projet.periode") })}</div><div class="projet-etude__titre">${Titre({ niveau, echelle: "etude", texte: vue.titre, id: vue.idEtude, sceau: false })}</div><p class="projet-etude__contexte texte-corps">${vue.contexteHtml}</p><div class="projet-etude__meta">${meta}</div><p class="projet-etude__libelle texte-etiquette">${ctx.t("projet.intention")}</p><p class="projet-etude__idee">${vue.ideeHtml}</p>${document}</div>${Galerie({ medias: vue.medias, variante: "detail", etiquette: ctx.t("projet.images"), reste: { premieres: IMAGES_DEMBLEE, libelle: ctx.t("projet.imagesAutres") } })}${parcoursProjets(voisins, ctx)}</article>`;
+  return html`<article class="projet-etude" data-projet-etude="${vue.id}"><div class="projet-etude__texte"><div class="projet-etude__ligne-rubrique"><p class="projet-etude__rubrique texte-etiquette">${vue.categorieHtml}</p>${vue.periode ? Pastille({ texte: vue.periode, variante: "contour", etiquette: ctx.t("projet.periode") }) : ""}</div><div class="projet-etude__titre">${Titre({ niveau, echelle: "etude", texte: vue.titre, id: vue.idEtude, sceau: false })}</div><p class="projet-etude__contexte texte-corps">${vue.contexteHtml}</p><div class="projet-etude__meta">${meta}</div>${vue.ideeHtml ? html`<p class="projet-etude__libelle texte-etiquette">${ctx.t("projet.intention")}</p><p class="projet-etude__idee">${vue.ideeHtml}</p>` : ""}${document}</div>${vue.medias.length ? Galerie({ medias: vue.medias, variante: "detail", etiquette: ctx.t("projet.images"), reste: { premieres: IMAGES_DEMBLEE, libelle: ctx.t("projet.imagesAutres") } }) : ""}${parcoursProjets(voisins, ctx)}</article>`;
 }
 
 /** La modale partagée du sommaire, vide : l'étude y est chargée à la demande. */
