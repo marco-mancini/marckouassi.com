@@ -18,6 +18,7 @@ import { Visionneuse } from "../../composants/Galerie/Galerie.js";
 import { Intro } from "../Intro/Intro.js";
 import { Assistant } from "../Assistant/Assistant.js";
 import { Maintenance } from "../Maintenance/Maintenance.js";
+import { textesPartage } from "../Partage/Partage.js";
 import { Introuvable } from "../Etats/Etats.js";
 import { media } from "../outils.js";
 import { Document, enTeteEtMenu, enTeteDocument, optionsLangues, credit } from "./commun.js";
@@ -42,6 +43,16 @@ function imagePartage(ctx, entree, alt) {
   return entree ? { url: ctx.urlFichier(entree.src), largeur: entree.largeur, hauteur: entree.hauteur, alt } : null;
 }
 
+/**
+ * Texte alternatif de la carte : le portrait et la signature qu'elle montre,
+ * lus dans le contenu (modèle du dictionnaire « partage.alt »). Sans
+ * couverture ni portrait, le nom du site.
+ */
+function altCarte(contenu, ctx) {
+  const textes = textesPartage({ contenu, ctx });
+  return textes ? ctx.t("partage.alt", { portrait: textes.portrait.alt, accent: textes.accent, mot: textes.mot }) : contenu.site.identite.nom;
+}
+
 function meta(contenu, ctx, { titre = null, description = null, chemin = "", image } = {}) {
   const seo = contenu.site.seo;
   const titrePage = titre ?? ctx.c(seo.titre, "site.seo.titre");
@@ -50,7 +61,7 @@ function meta(contenu, ctx, { titre = null, description = null, chemin = "", ima
     description: description ?? ctx.c(seo.description, "site.seo.description"),
     canonique: ctx.url(chemin),
     // Par défaut, la carte de partage du site dans la langue de la page.
-    image: image !== undefined ? image : imagePartage(ctx, ctx.partage?.site?.[ctx.langue], ctx.t("partage.alt", { nom: contenu.site.identite.nom })),
+    image: image !== undefined ? image : imagePartage(ctx, ctx.partage?.site?.[ctx.langue], altCarte(contenu, ctx)),
   };
 }
 

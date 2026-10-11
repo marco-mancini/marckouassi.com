@@ -92,7 +92,9 @@ test("partage : l'accueil et le CV portent la carte de leur langue, en adresse a
       assert.equal(meta(page, "og:image"), `${site.url}/${fichierCarte(langue)}`, `${langue} /${chemin}`);
       assert.equal(meta(page, "og:image:width"), "1200");
       assert.equal(meta(page, "og:image:height"), "630");
-      assert.ok(meta(page, "og:image:alt"));
+      // Texte alternatif : modèle du dictionnaire rempli par le contenu.
+      const textes = textesPartage({ contenu, ctx: contextePage({ site, langue, chemin, dictionnaires, medias, ressources: { sprite: "" } }) });
+      assert.equal(meta(page, "og:image:alt"), `${textes.portrait.alt} ${textes.accent} ${textes.mot}.`.replace(/'/g, "&#39;"));
       assert.equal(meta(page, "twitter:card"), "summary_large_image");
       assert.equal(meta(page, "og:site_name"), site.identite.nom);
     }
