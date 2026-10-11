@@ -651,15 +651,11 @@
       "mention": {
         "fr": "Ce que je prends en charge",
         "en": "What I take on"
-      },
-      "signature": {
-        "fr": "Tarifs",
-        "en": "Rates"
       }
     },
     "titre": {
-      "fr": "Prestations & tarifs",
-      "en": "Services & rates"
+      "fr": "Prestations",
+      "en": "Services"
     },
     "accroche": {
       "fr": "{nombre} façons de travailler ensemble.",
@@ -918,10 +914,6 @@
             "en": "Starter kit of first materials"
           }
         ],
-        "prix": {
-          "fr": "Sur devis",
-          "en": "On request"
-        },
         "id": "identite-de-marque",
         "qualification": {
           "declencheur": {
@@ -983,10 +975,6 @@
             "en": "Follow-through to the finished piece"
           }
         ],
-        "prix": {
-          "fr": "Sur devis",
-          "en": "On request"
-        },
         "id": "direction-artistique",
         "qualification": {
           "declencheur": {
@@ -1048,10 +1036,6 @@
             "en": "Developer-ready handoff"
           }
         ],
-        "prix": {
-          "fr": "Sur devis",
-          "en": "On request"
-        },
         "id": "design-ux-ui",
         "qualification": {
           "declencheur": {
@@ -1109,10 +1093,6 @@
             "en": "Print-ready file preparation"
           }
         ],
-        "prix": {
-          "fr": "Sur devis",
-          "en": "On request"
-        },
         "id": "edition-supports",
         "qualification": {
           "declencheur": {

@@ -200,15 +200,21 @@ test("actif et avec une adresse, l'accueil porte la présence primaire, le panne
   const page = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." } }, endpoint: "https://worker.test/api" });
   assert.match(page, /<dialog[^>]*id="assistant"/, "le panneau est rendu");
   assert.match(page, /data-modal="false"/, "non modal : le portfolio reste parcourable");
-  // Sans avatar déclaré, trois entrées : Contact, le menu, la barre.
-  const entrees = page.match(/data-modale-ouvrir="assistant"/g) || [];
-  assert.equal(entrees.length, 3, "Contact, le menu (D-4) et la barre de la présence");
+  // Sans avatar déclaré, trois entrées générales : Contact, le menu, la barre.
+  // S'y ajoute une entrée par offre des prestations, qui apporte sa question
+  // (« Parler de ce projet », #199).
+  const entrees = (page.match(/<[^>]*data-modale-ouvrir="assistant"[^>]*>/g) || []);
+  const generales = entrees.filter((e) => !e.includes("data-assistant-question"));
+  assert.equal(generales.length, 3, "Contact, le menu (D-4) et la barre de la présence");
+  const offres = contenuReel.sections.find((s) => s.type === "prestations").offres;
+  assert.equal(entrees.length - generales.length, offres.length, "une entrée par offre");
 
   // Avec l'avatar, les deux bustes en sont deux de plus : ils ouvrent et
   // referment eux aussi le panneau.
   const avatar = { etats: [{ etat: "rest", src: "Public/Avatar_MarcoS/Avatar_02_NEUTRE_DISPONIBLE.png" }] };
   const avecBuste = accueil({ assistant: { active: true, accueil: { fr: "Bonjour." }, avatar }, endpoint: "https://worker.test/api" });
-  assert.equal((avecBuste.match(/data-modale-ouvrir="assistant"/g) || []).length, 5, "les deux bustes sont des commandes");
+  const generalesAvecBuste = (avecBuste.match(/<[^>]*data-modale-ouvrir="assistant"[^>]*>/g) || []).filter((e) => !e.includes("data-assistant-question"));
+  assert.equal(generalesAvecBuste.length, 5, "les deux bustes sont des commandes");
   assert.match(page, /<div class="marcos" data-marcos data-etat="rest"/, "la présence naît au repos");
 });
 

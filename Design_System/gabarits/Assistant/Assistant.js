@@ -663,6 +663,19 @@ export function activerAssistant(racine, { langue = document.documentElement.lan
     if (panneau.open) ouverture(); else accorderLeFocus();
   }
 
+  // Une entrée peut apporter sa question (« Parler de ce projet », #199) :
+  // elle remplit le champ s'il est vide, sans l'envoyer. Le visiteur relit,
+  // corrige ou complète avant d'écrire à MarcoS.
+  for (const entree of entrees) {
+    const question = entree.dataset.assistantQuestion;
+    if (!question || !champ) continue;
+    entree.addEventListener("click", () => {
+      if (champ.value.trim()) return;
+      champ.value = question;
+      champ.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+  }
+
   // Chaque entrée bascule : un second clic referme, plutôt que de rouvrir un
   // panneau déjà ouvert. En capture, avant la délégation de la Modale.
   for (const entree of entrees) {

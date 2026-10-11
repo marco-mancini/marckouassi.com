@@ -21,6 +21,7 @@ qui le porte. Il branche, dans cet ordre :
 | `activerDecouverte` | parcours immersif de la section 06 |
 | `activerApparitions` | apparitions au défilement |
 | `activerRideaux` | carte vedette des choix de catégorie, à tour de rôle (#191) |
+| `activerVolets` | offres des prestations : accordéon, ou liste et volet côte à côte (#199) |
 | `activerAssistant` | MarcoS, s'il est actif |
 | `activerEtats` | états du site : sceaux des messages, 404, réseau, médias en échec (#162) |
 

@@ -100,7 +100,8 @@ async function ouvrirFenetre({ largeur = 1440, theme = "light", repondre } = {})
 
 test("MarcoS s'ouvre depuis Contact, depuis le menu et depuis sa présence flottante", async () => {
   const page = await ouvrirFenetre();
-  const entrees = page.locator('[data-modale-ouvrir="assistant"]');
+  // Les offres des prestations sont aussi des entrées (#199) : elles portent leur question.
+  const entrees = page.locator('[data-modale-ouvrir="assistant"]:not([data-assistant-question])');
   assert.equal(await entrees.count(), 5, "Contact, le menu (D-4), la barre, et les deux bustes qui sont eux-mêmes des commandes");
   assert.equal(await page.locator(".marcos[data-etat=rest]").count(), 1, "la présence naît au repos");
   assert.equal(await page.locator("#assistant").evaluate((d) => d.open), false, "fermée au départ");
@@ -302,6 +303,20 @@ test("la fenêtre tient à 320, 375, 768, 1024 et 1440 px, en clair et en sombre
   }
 });
 
+test("« Parler de ce projet » ouvre MarcoS avec la question de l'offre, sans l'envoyer (#199)", async () => {
+  const page = await ouvrirFenetre();
+  const offre = page.locator("#prestations .volets__panneau:not([hidden]) [data-assistant-question]");
+  assert.equal(await offre.count(), 1, "l'offre ouverte porte son entrée vers MarcoS");
+  const question = await offre.getAttribute("data-assistant-question");
+  await offre.scrollIntoViewIfNeeded();
+  await offre.click();
+  await page.waitForFunction(() => document.querySelector("#assistant")?.open === true);
+  assert.equal(await page.locator("#assistant-question").inputValue(), question, "la question est préremplie");
+  assert.equal(await page.locator(".conversation .echange, [data-assistant-log] .bulle.vous").count(), 0, "rien n'est envoyé");
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
+
 test("la fenêtre existe en anglais avec les mêmes repères", async () => {
   const contenu = await chargerFichiers(process.cwd());
   const dictionnaires = Object.fromEntries(contenu.site.langues.map((l) => [l,
@@ -315,7 +330,7 @@ test("la fenêtre existe en anglais avec les mêmes repères", async () => {
   fs.writeFileSync(anglais, String(PageAccueil({ contenu: { ...contenu, site }, ctx })), "utf8");
   const page = await ouvrir(nav, `${serveur.url}/essai-assistant-en.html`, { largeur: 1440 });
   await descendreJusquaMarcoS(page);
-  assert.equal(await page.locator('[data-modale-ouvrir="assistant"]').count(), 5);
+  assert.equal(await page.locator('[data-modale-ouvrir="assistant"]:not([data-assistant-question])').count(), 5);
   await page.locator('.barre [data-modale-ouvrir="assistant"]').click();
   await page.waitForFunction(() => document.getElementById("assistant").open);
   assert.equal(await page.locator("#assistant [role=log]").count(), 1);

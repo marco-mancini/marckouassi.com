@@ -168,5 +168,15 @@
   },
   "partage": {
     "alt": "{portrait} {accent} {mot}."
+  },
+  "prestations": {
+    "_role": "Interface labels of the Services section (#199). The offers themselves live in content/sections.json.",
+    "choisir": "Choose what you need",
+    "offres": "The offers",
+    "offre": "Offer {numero} / {total}",
+    "livre": "What I deliver",
+    "parler": "Talk about this project",
+    "question": "I would like to talk about a project: {offre}.",
+    "avant": "Before you choose"
   }
 }

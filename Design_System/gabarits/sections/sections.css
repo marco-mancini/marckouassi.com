@@ -145,8 +145,26 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 }
 
 /* --- Prestations --- */
-.prestations__tete { display: grid; margin: var(--prestations-tete-marge-haute) 0 var(--prestations-tete-marge-basse); justify-items: center; gap: var(--prestations-masthead-gap); text-align: center; }
-.prestations__accroche { max-width: var(--mesure-accroche); margin: 0; color: var(--texte); font-family: var(--font-display); font-size: var(--type-prestations-accroche); line-height: var(--leading-heading); text-transform: uppercase; }
+/* La tete est celle des autres planches (savoirfaire__tete, projets__accroche) :
+   rien de propre ici, sauf l'invitation a choisir (#199). */
+.prestations__choisir { margin: 0; color: var(--accent-texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-etiquette); }
+/* Une offre ouverte, dans son volet. */
+.prestations__offre { display: grid; gap: var(--space-4); }
+.prestations__offre-rang, .prestations__offre-sous { margin: 0; color: var(--accent-texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-etiquette); text-transform: uppercase; }
+.prestations__offre-titre { margin: 0; color: var(--texte-titre); font-family: var(--font-display); font-size: var(--prestations-offre-titre-taille); line-height: var(--leading-heading); text-transform: uppercase; }
+.prestations__livrables { gap: var(--space-3); }
+.prestations__offre-pied { display: flex; flex-wrap: wrap; padding-top: var(--space-4); border-top: var(--border-hairline) solid var(--filet); }
+/* En accordeon, le titre est deja dans l'onglet juste au-dessus. */
+@media (max-width: 850px) { .prestations__offre-rang, .prestations__offre-titre { display: none; } }
+@media (min-width: 851px) { .prestations__livrables { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-5); } }
+/* Le parcours, porte par sa question. Il n'existe qu'avec le script, comme son bouton. */
+.prestations__invitation { display: none; margin-top: var(--prestations-invitation-marge); padding: var(--prestations-invitation-rembourrage); border-radius: var(--radius-xl); background: var(--fond); color: var(--texte); }
+html.js-anime .prestations__invitation { display: grid; gap: var(--space-5); align-items: end; }
+@media (min-width: 851px) { html.js-anime .prestations__invitation { grid-template-columns: minmax(0, 1fr) auto; } }
+.prestations__invitation-texte { display: grid; gap: var(--space-2); }
+.prestations__invitation-amorce { margin: 0; color: var(--accent-texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-etiquette); text-transform: uppercase; }
+.prestations__invitation-question { margin: 0; color: var(--texte-titre); font-family: var(--font-display); font-size: var(--prestations-invitation-taille); line-height: var(--leading-heading); text-transform: uppercase; text-wrap: balance; }
+.prestations__invitation .prestations__entree { margin-top: 0; justify-content: flex-start; }
 
 /* --- Contact : fait office de pied de page --- */
 .contact { display: flex; min-height: min(var(--contact-hauteur-min), calc(100svh - var(--contact-degagement))); flex-direction: column; }
