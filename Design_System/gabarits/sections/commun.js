@@ -134,7 +134,6 @@ ${ctx.alternatives.map((alt) => html`<link rel="alternate"${attributs({ hreflang
 <link rel="alternate" hreflang="x-default"${attributs({ href: ctx.alternatives.find((alt) => alt.langue === ctx.langueParDefaut)?.href })}>
 <meta property="og:type"${attributs({ content: meta.type || "website" })}>
 <meta property="og:title"${attributs({ content: meta.titre })}>
-<meta property="og:description"${attributs({ content: meta.description })}>
 <meta property="og:url"${attributs({ content: meta.canonique })}>
 <meta property="og:locale"${attributs({ content: ctx.t("langue.locale") })}>
 ${ctx.alternatives.filter((alt) => alt.langue !== ctx.langue).map((alt) => html`<meta property="og:locale:alternate"${attributs({ content: ctx.dictionnaires[alt.langue].langue.locale })}>`)}
