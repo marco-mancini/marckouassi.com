@@ -1,0 +1,85 @@
+/* ==========================================================================
+   RIDEAU — carte d'entree animee, toujours un lien (#191)
+   Surface par les roles --carte-surface / --carte-surface-profonde, comme la
+   Carte : le contexte .ilot-olive la creuse d'un cran. La creme qui monte, son
+   encre et ses ors ne dependent pas du theme : ce sont ceux du sceau.
+   Mouvement : l'entree passe par Apparition (« rideau ») ; le reflet, la
+   poussee de la fleche et son onde demarrent une fois la carte apparue et
+   tournent en continu, par decision de Marc. La reduction des animations les
+   fige (Motion.css), et activerRideaux() n'y designe aucune vedette.
+   ========================================================================== */
+.rideau {
+  position: relative; display: grid; isolation: isolate; overflow: hidden; container-type: inline-size;
+  grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr;
+  column-gap: var(--space-2); row-gap: var(--space-2);
+  min-height: var(--rideau-hauteur-min); padding: var(--rideau-rembourrage);
+  border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--radius-lg);
+  background: linear-gradient(var(--carte-degrade-angle), var(--carte-surface) 0%, var(--carte-surface-profonde) 100%);
+  color: var(--paper); text-decoration: none; -webkit-tap-highlight-color: transparent;
+  transition: transform var(--duration-base) var(--rideau-sortie), box-shadow var(--duration-base) var(--rideau-sortie), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+/* La creme qui monte, du bas vers le haut. */
+.rideau::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--rideau-creme); transform: scaleY(0); transform-origin: 50% 100%;
+  transition: transform var(--duration-base) var(--rideau-sortie);
+}
+/* Le reflet qui traverse la carte. */
+.rideau::after {
+  content: ""; position: absolute; top: 0; left: -60%; z-index: -1; width: var(--rideau-reflet-largeur); height: 100%; transform: skewX(var(--rideau-reflet-inclinaison));
+  background: linear-gradient(var(--carte-reflet-angle), transparent, var(--glass-shine) 45%, var(--glass-shine) 55%, transparent);
+  pointer-events: none;
+}
+
+.rideau__libelle {
+  grid-column: 1; grid-row: 1; align-self: start;
+  font-family: var(--font-display); font-size: min(var(--rideau-titre-taille), var(--rideau-titre-etroit)); font-weight: var(--weight-regular);
+  line-height: var(--leading-heading); letter-spacing: var(--interlettrage-titre); text-transform: uppercase; text-wrap: balance;
+}
+/* Note : --accent-gold-soft est le seul dore qui tienne 4,5:1 sur ce fond. */
+.rideau__note {
+  grid-column: 1 / -1; grid-row: 2; max-width: var(--rideau-note-mesure);
+  color: var(--accent-gold-soft); font-size: var(--rideau-note-taille); line-height: var(--leading-compact);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+/* Le rang, en creux et en filigrane dans le coin bas droit : il n'est pas lu. */
+.rideau__rang {
+  position: absolute; right: var(--space-2); bottom: var(--rideau-rang-debord); z-index: -1;
+  color: transparent; font-family: var(--font-display); font-size: var(--rideau-rang-taille); line-height: var(--rideau-rang-interligne);
+  -webkit-text-stroke: var(--rideau-rang-trait) var(--rideau-rang-couleur);
+  pointer-events: none;
+  transition: transform var(--duration-base) var(--rideau-sortie), -webkit-text-stroke-color var(--duration-fast) var(--ease-out);
+}
+/* Signe d'ouverture : meme glyphe que l'icone « ouvrir » du Bouton et que le
+   chevron de la Carte, pour que l'ouverture se lise partout pareil. */
+.rideau__fleche {
+  position: relative; display: grid; grid-column: 2; grid-row: 1; align-self: start; place-items: center;
+  width: var(--rideau-fleche); height: var(--rideau-fleche);
+  border: var(--border-hairline) solid currentColor; border-radius: var(--radius-full);
+  font-size: var(--rideau-fleche-glyphe); line-height: var(--rideau-fleche-interligne);
+  transition: transform var(--duration-base) var(--rideau-sortie), background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.rideau__fleche::before { content: "\2197"; }
+.rideau__fleche::after {
+  content: ""; position: absolute; inset: calc(var(--border-hairline) * -1);
+  border: var(--border-hairline) solid var(--accent-gold); border-radius: var(--radius-full); opacity: 0;
+}
+
+/* Survol, focus, appui — et la vedette, qui fait la meme chose sans geste. */
+.rideau:hover, .rideau:focus-visible, .rideau.est-vedette {
+  color: var(--rideau-encre); border-color: transparent; transform: translateY(var(--rideau-souleve));
+  box-shadow: 0 var(--carte-ombre-survol-y) var(--carte-ombre-survol-flou) var(--carte-ombre-survol-retrait) var(--shadow-board);
+}
+.rideau:hover::before, .rideau:focus-visible::before, .rideau.est-vedette::before { transform: scaleY(1); }
+.rideau:hover .rideau__note, .rideau:focus-visible .rideau__note, .rideau.est-vedette .rideau__note { color: var(--rideau-note-creme); }
+.rideau:hover .rideau__rang, .rideau:focus-visible .rideau__rang, .rideau.est-vedette .rideau__rang { transform: translateY(var(--rideau-souleve)); -webkit-text-stroke-color: var(--rideau-rang-couleur-creme); }
+.rideau:hover .rideau__fleche, .rideau:focus-visible .rideau__fleche, .rideau.est-vedette .rideau__fleche { background-color: var(--rideau-encre); border-color: var(--rideau-encre); color: var(--rideau-creme); }
+.rideau:hover .rideau__fleche, .rideau:focus-visible .rideau__fleche, .rideau.est-vedette .rideau__fleche { transform: rotate(var(--rideau-fleche-rotation)); }
+.rideau:active { transform: scale(var(--rideau-presse)); }
+
+/* Mouvement continu, une fois la carte apparue. Delais tires du rang --i :
+   le reflet passe d'une carte a l'autre en vague. */
+.rideau.est-apparu .rideau__rang { animation: rideau-monte var(--duration-slow) var(--rideau-sortie) calc(var(--i, 0) * var(--rideau-pas) + var(--duration-fast)) both; }
+.rideau.est-apparu::after { animation: reflet-balayage var(--rideau-reflet-duree) var(--ease-in-out) calc(var(--i, 0) * var(--rideau-reflet-pas) + var(--duration-slow)) infinite; }
+.rideau.est-apparu .rideau__fleche::before { animation: chevron-ouverture var(--rideau-pousse-duree) var(--ease-in-out) calc(var(--i, 0) * var(--rideau-pas) * 2) infinite; }
+.rideau.est-apparu .rideau__fleche::after { animation: rideau-onde var(--rideau-onde-duree) var(--ease-out) calc(var(--i, 0) * var(--rideau-onde-pas)) infinite; }

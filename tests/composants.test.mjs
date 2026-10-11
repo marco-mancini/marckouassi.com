@@ -13,11 +13,13 @@ const RACINE = path.resolve(import.meta.dirname, "../Design_System/composants");
 const NOMS = fs.readdirSync(RACINE).filter((n) => fs.statSync(path.join(RACINE, n)).isDirectory());
 const charger = (nom) => import(`../Design_System/composants/${nom}/${nom}.js`);
 
-test("les 26 composants de l'audit existent, chacun avec css + js + md", () => {
+test("les 27 composants existent, chacun avec css + js + md", () => {
   // 26 depuis IA-04 : « Conversation » est le seul composant que l'audit n'avait
   // pas, et AI_UX.md le décide — aucun existant ne porte la sémantique d'un
   // journal d'échanges, et Message annoncerait chaque réponse comme une alerte.
-  const attendus = ["Planche", "Encart", "Grille", "Pile", "CadreAdmin", "EnTete", "Navigation", "Segments", "Titre", "Signature", "Accent", "Champ", "Pastille", "Bouton", "Saisie", "Liste", "Televersement", "Media", "Galerie", "Sceau", "Carte", "Modale", "Message", "Conversation", "Apparition", "TexteProgressif"];
+  // 27 depuis #191 : « Rideau », carte d'entrée animée en continu, que Carte —
+  // jalon calme aux animations bornées — ne pouvait pas devenir sans se trahir.
+  const attendus = ["Planche", "Encart", "Grille", "Pile", "CadreAdmin", "EnTete", "Navigation", "Segments", "Titre", "Signature", "Accent", "Champ", "Pastille", "Bouton", "Saisie", "Liste", "Televersement", "Media", "Galerie", "Sceau", "Carte", "Rideau", "Modale", "Message", "Conversation", "Apparition", "TexteProgressif"];
   assert.deepEqual([...NOMS].sort(), [...attendus].sort());
   for (const nom of NOMS) for (const ext of ["css", "js", "md"]) assert.ok(fs.existsSync(path.join(RACINE, nom, `${nom}.${ext}`)), `${nom}.${ext} manquant`);
 });
@@ -175,6 +177,20 @@ test("Carte, Apparition, TexteProgressif : visibles sans script, texte complet p
   assert.match(texte, /visually-hidden">Bonjour<\/span><span class="texte-progressif__visible" aria-hidden="true">Bonjour/);
   const css = fs.readFileSync(path.join(RACINE, "Apparition/Apparition.css"), "utf8");
   assert.match(css, /html\.js-anime \[data-apparition\]/);
+});
+
+test("Rideau : un lien entier, rang et signe muets, apparition en rideau décalée par rang", async () => {
+  const { Rideau } = await charger("Rideau");
+  const sortie = String(Rideau({ rang: "03", libelle: "L <b>", note: "N", href: "#categorie-x", indice: 2 }));
+  assert.match(sortie, /^<a class="rideau" href="#categorie-x" data-apparition="rideau" style="--i: 2">/);
+  assert.match(sortie, /<span class="rideau__libelle">L &lt;b&gt;<\/span>/);
+  assert.match(sortie, /<span class="rideau__note">N<\/span>/);
+  assert.match(sortie, /<span class="rideau__rang" aria-hidden="true">03<\/span>/);
+  assert.match(sortie, /<span class="rideau__fleche" aria-hidden="true"><\/span>/);
+  assert.doesNotMatch(String(Rideau({ rang: "01", libelle: "L", href: "#x" })), /rideau__note/);
+  // Le rideau suit le décalage par rang des autres apparitions.
+  const css = fs.readFileSync(path.join(RACINE, "Apparition/Apparition.css"), "utf8");
+  assert.match(css, /\[data-apparition="rideau"\]\.est-apparu \{ animation: rideau-ouverture [^;]*var\(--i, 0\) \* var\(--apparition-pas\)/);
 });
 
 test("Sceau : la variante construction se distingue de l'entrée animée, sans rien changer aux autres sceaux", async () => {

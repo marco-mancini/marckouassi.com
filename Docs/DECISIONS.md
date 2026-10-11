@@ -23,6 +23,38 @@ Règles :
 
 ---
 
+## 2026-10-11 — Les choix de catégorie deviennent des cartes « Rideau », animées en continu
+
+Décision de Marc, en conversation, sur maquette validée · issue [#191](https://github.com/marco-mancini/marckouassi.com/issues/191) (PM-191).
+
+**Problème.** Dans « Mes réalisations », les huit choix de catégorie utilisaient la `Carte` universelle (variante `carte--choix`). Marc veut des cartes propres à la section, plus basses et « totalement animées », qui montrent d'elles-mêmes qu'elles sont cliquables. Sur téléphone, aucun survol ne le dit.
+
+**Options.**
+1. **Une variante de `Carte`.** Mais `Carte` est un jalon calme, partagé avec le savoir-faire, et ses animations s'arrêtent après `--cycles-decoratifs` (3). Il aurait fallu la trahir pour une seule section.
+2. **Un nouveau composant `Rideau`.** Il réutilise les rôles de surface, le reflet, le chevron, les mouvements de `Motion.css` et l'apparition `rideau` d'`Apparition`.
+3. **Une orbite plein cadre en motion design** (maquettes v1 à v3). Elle est plus ambitieuse : Marc la garde pour plus tard, sur la branche `Animation_Section_Realisations`.
+
+**Choix.** Option 2. Après trois propositions (Rideau, Sceau, Index), Marc a retenu Rideau, en demandant une hauteur réduite et une animation continue.
+
+**Motif.**
+- Le mouvement continu est une demande explicite de Marc. Il contredit volontairement la borne `--cycles-decoratifs`, qui reste valable pour `Carte`.
+- La « vedette » qui passe d'une carte à l'autre donne aux visiteurs sur téléphone le signal que le survol donne sur ordinateur.
+- Le mouvement s'arrête :
+  - dès qu'on survole, touche ou parcourt les cartes au clavier ;
+  - hors de l'écran ;
+  - avec la réduction des animations du système ou le réglage du visiteur. Ce réglage est le moyen d'arrêt attendu par le critère WCAG 2.2.2.
+
+**Impact.**
+- Nouveau composant `Rideau`, qui porte l'inventaire à 27, avec ses jetons `--rideau-*`.
+- L'apparition `rideau` est désormais décalée par rang, comme les autres directions. Elle n'avait aucun autre usage.
+- Quatre jetons sont devenus sans usage et sont retirés : `--projets-choix-colonne-min`, `--projets-categorie-hauteur`, `--projets-categorie-hauteur-compact` et `--carte-titre-taille-etroit`.
+- `site.js` branche `activerRideaux`.
+- Sur téléphone, la note des catégories reste affichée. La `Carte` la masque sous 600 px, mais Marc a validé la maquette avec elle.
+
+**Réversibilité.** Totale. On revient à `Carte` en changeant l'appel dans `Projets.js` et les sélecteurs des tests. La maquette validée est https://claude.ai/artifact/JzqvzumTpgeBw8ADy1X2pA
+
+---
+
 ## 2026-10-07 — Les périodes des projets sont celles du site, et la liste éditoriale se trompait
 
 Décision de Marc, en conversation à 20 h 10 · issue [#29](https://github.com/marco-mancini/marckouassi.com/issues/29) (PM-029).

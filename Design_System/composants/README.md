@@ -41,7 +41,7 @@ Les composants interactifs exportent en plus une fonction `activer…()` (ou `ou
 6. **Accessibilité intégrée**, et non ajoutée après coup : noms accessibles, `aria-current`, `aria-pressed`, `aria-busy`, `aria-invalid`, `aria-describedby`, régions vivantes, focus visible, cibles de 44 px, réduction des animations.
 7. **HTML visible par défaut.** Une animation n'est jamais une condition de visibilité : le masquage en attente n'existe que sous `html.js-anime`, classe posée à la fin de l'initialisation du script.
 
-## Inventaire (25)
+## Inventaire (27)
 
 | Famille | Composants |
 |---|---|
@@ -49,8 +49,8 @@ Les composants interactifs exportent en plus une fonction `activer…()` (ou `ou
 | Navigation | EnTete, Navigation, Segments |
 | Texte | Titre, Signature, Accent, Champ, Pastille |
 | Actions et formulaires | Bouton, Saisie, Liste, Televersement |
-| Médias | Media, Galerie, Sceau, Carte |
-| Surcouches | Modale, Message |
+| Médias | Media, Galerie, Sceau, Carte, Rideau |
+| Surcouches | Modale, Message, Conversation |
 | Mouvement | Apparition, TexteProgressif |
 
 **Ne sont pas des composants**, et s'obtiennent par assemblage :

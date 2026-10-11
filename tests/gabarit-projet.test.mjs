@@ -194,7 +194,7 @@ test("l'accueil porte un choix par catégorie, et chaque projet garde sa page", 
   for (const langue of contenu.site.langues) {
     const accueil = String(rendrePage({ contenu, ctx: contexte(langue), chemin: "" }));
     assert.equal(
-      (accueil.match(/class="carte carte--lien carte--choix"/g) ?? []).length,
+      (accueil.match(/class="rideau" href="#categorie-/g) ?? []).length,
       section.categories.length,
       `${langue} : un choix par catégorie`,
     );
