@@ -918,10 +918,10 @@
     "categoriePrincipale": "logotype"
   },
   {
-    "id": "8ight-concept",
+    "id": "eight-concept",
     "titre": {
-      "fr": "8ight Concept",
-      "en": "8ight Concept"
+      "fr": "Eight Concept",
+      "en": "Eight Concept"
     },
     "categorie": {
       "fr": "Logotype · agence de communication",
@@ -939,22 +939,22 @@
       {
         "src": "Public/images/Logotype/Mockup_EIGTH_01.jpg",
         "alt": {
-          "fr": "Planche de déclinaisons 8ight Concept — logo, isotype, palette et typographie",
-          "en": "8ight Concept brand sheet — logo, symbol, palette and typography"
+          "fr": "Planche de déclinaisons Eight Concept — logo, isotype, palette et typographie",
+          "en": "Eight Concept brand sheet — logo, symbol, palette and typography"
         }
       },
       {
         "src": "Public/images/Logotype/Mockup_EIGTH_02.jpg",
         "alt": {
-          "fr": "Logo 8ight Concept en relief sur un bardage rouge",
-          "en": "8ight Concept logo in relief on red cladding"
+          "fr": "Logo Eight Concept en relief sur un bardage rouge",
+          "en": "Eight Concept logo in relief on red cladding"
         }
       },
       {
         "src": "Public/images/Logotype/Mockup_EIGTH_03.jpg",
         "alt": {
-          "fr": "Tee-shirt, casquette et sac rouges floqués 8ight Concept",
-          "en": "Red T-shirt, cap and tote bag printed with the 8ight Concept logo"
+          "fr": "Tee-shirt, casquette et sac rouges floqués Eight Concept",
+          "en": "Red T-shirt, cap and tote bag printed with the Eight Concept logo"
         }
       }
     ],
