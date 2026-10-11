@@ -1,0 +1,26 @@
+{
+  "fr": {
+    "edition": "Édition 2026",
+    "salutation": "Marc Kouassi",
+    "accent": "Portfolio",
+    "mot": "Design",
+    "role": "Directeur artistique",
+    "promesse": "Des idées fortes. Des images qui restent...",
+    "portrait": {
+      "src": "Public/images/Photo_Marc.png",
+      "alt": "Portrait de Marc Kouassi."
+    }
+  },
+  "en": {
+    "edition": "2026 Edition",
+    "salutation": "Marc Kouassi",
+    "accent": "Portfolio",
+    "mot": "Design",
+    "role": "Directeur artistique",
+    "promesse": "Strong ideas. Images that stay.",
+    "portrait": {
+      "src": "Public/images/Photo_Marc.png",
+      "alt": "Portrait of Marc Kouassi."
+    }
+  }
+}

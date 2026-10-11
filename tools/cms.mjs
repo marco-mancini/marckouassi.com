@@ -66,7 +66,13 @@ export function configurationCms({ contenu, fr }) {
   const FACULTATIFS = {
     "site.seo": [{ name: "image", label: libelle("image"), required: false, widget: "object", fields: [{ name: "src", label: libelle("src"), required: false, widget: "image", hint: fr.medias.aideImage }] }],
     "site.contact": [{ name: "cv", label: libelle("cv"), required: false, widget: "object", fields: [fichierJoint(fr.medias.aideDocument), traduisible({ name: "nomTelechargement", label: libelle("nomTelechargement"), required: false }, [])] }],
-    "projets[]": [{ name: "document", label: libelle("document"), required: false, widget: "object", fields: [fichierJoint(fr.medias.aideDocument), traduisible({ name: "libelle", label: libelle("libelle"), required: false }, [])] }],
+    // Référencement d'un projet (#186) : description courte rédigée par Marc
+    // (≈ 155 caractères) et image de partage ; vides, la page reprend le
+    // résumé du projet et sa première image.
+    "projets[]": [{ name: "seo", label: libelle("seo"), required: false, widget: "object", fields: [
+      traduisible({ name: "description", label: libelle("descriptionCourte"), required: false, hint: fr.editeur.aideDescriptionCourte }, []),
+      { name: "image", label: libelle("image"), required: false, widget: "object", fields: [{ name: "src", label: libelle("src"), required: false, widget: "image", hint: fr.medias.aideImage }] },
+    ] }, { name: "document", label: libelle("document"), required: false, widget: "object", fields: [fichierJoint(fr.medias.aideDocument), traduisible({ name: "libelle", label: libelle("libelle"), required: false }, [])] }],
     "projets[].medias[]": [{ name: "poster", label: libelle("poster"), required: false, widget: "image", hint: fr.medias.aideImage }],
   };
   FACULTATIFS["cv.seo"] = FACULTATIFS["site.seo"];
@@ -247,6 +253,7 @@ function page({ fr, nom }) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>${echapper(fr.titre.replace("{nom}", nom))}</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link href="config.json" type="application/json" rel="cms-config-url">
 </head>
 <body>

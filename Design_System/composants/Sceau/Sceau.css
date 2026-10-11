@@ -16,6 +16,14 @@
 .sceau--grand { width: var(--sceau-grand); }
 .sceau--petit { width: var(--sceau-petit); }
 .sceau--document { width: var(--sceau-document); }
+/* Carte de partage : rond vert, les memes formes avec les couleurs du sceau
+   sur fond sombre, comme le favicon (#183, #184). */
+.sceau--partage {
+  width: var(--sceau-partage);
+  --logo-fond: var(--sceau-vert-fond);
+  --logo-lettre: var(--sceau-vert-lettre);
+  --logo-accent: var(--sceau-vert-accent);
+}
 .sceau--couverture:hover, a.sceau:hover { transform: rotate(-4deg) scale(1.03); }
 a.sceau { border-radius: var(--radius-full); }
 

@@ -33,14 +33,55 @@ import { Contact } from "./Contact.js";
 /** Gabarit de chaque type de section. Un nouveau type = une entrée ici + son gabarit. */
 export const GABARITS_SECTIONS = { couverture: Couverture, introduction: Introduction, apropos: Apropos, savoirfaire: Savoirfaire, parcours: Parcours, projets: Projets, prestations: Prestations, contact: Contact };
 
-function meta(contenu, ctx, { titre = null, description = null, chemin = "" } = {}) {
+/**
+ * Image de partage (og:image) : une entrée de la table produite par le build
+ * (tools/partage.mjs → ctx.partage), en adresse absolue. Sans table (tests,
+ * aperçu), aucune image : la page reste correcte.
+ */
+function imagePartage(ctx, entree, alt) {
+  return entree ? { url: ctx.urlFichier(entree.src), largeur: entree.largeur, hauteur: entree.hauteur, alt } : null;
+}
+
+function meta(contenu, ctx, { titre = null, description = null, chemin = "", image } = {}) {
   const seo = contenu.site.seo;
+  const titrePage = titre ?? ctx.c(seo.titre, "site.seo.titre");
   return {
-    titre: titre ?? ctx.c(seo.titre, "site.seo.titre"),
+    titre: titrePage,
     description: description ?? ctx.c(seo.description, "site.seo.description"),
     canonique: ctx.url(chemin),
-    image: seo.image ? ctx.url(ctx.media(seo.image.src).src.replace(ctx.racine, "")) : null,
+    // Par défaut, la carte de partage du site dans la langue de la page.
+    image: image !== undefined ? image : imagePartage(ctx, ctx.partage?.site?.[ctx.langue], ctx.t("partage.alt", { nom: contenu.site.identite.nom })),
   };
+}
+
+/**
+ * Données structurées (JSON-LD, #185) : la personne et le site, communs à
+ * toutes les pages, plus ce que la page décrit. Tout est dérivé du contenu ;
+ * une donnée absente n'est pas écrite.
+ */
+function donnees(contenu, ctx, page = null) {
+  const { site } = contenu;
+  const couverture = contenu.sections.find((section) => section.type === "couverture");
+  const portrait = contenu.sections.find((section) => section.type === "apropos")?.portrait;
+  const publie = portrait?.src ? ctx.media(portrait.src).src : null;
+  const personne = {
+    "@type": "Person",
+    "@id": `${site.url}/#personne`,
+    name: site.identite.nom,
+    url: `${site.url}/`,
+    ...(couverture?.role ? { jobTitle: ctx.c(couverture.role, `sections.${couverture.id}.role`) } : {}),
+    ...(publie ? { image: ctx.urlFichier(publie.slice(ctx.racine.length)) } : {}),
+    ...(site.contact?.linkedin ? { sameAs: [site.contact.linkedin] } : {}),
+  };
+  const siteWeb = {
+    "@type": "WebSite",
+    "@id": `${site.url}/#site`,
+    url: ctx.url(""),
+    name: ctx.c(site.seo.titre, "site.seo.titre"),
+    inLanguage: ctx.langue,
+    author: { "@id": personne["@id"] },
+  };
+  return { "@context": "https://schema.org", "@graph": [personne, siteWeb, ...(page ? [page] : [])] };
 }
 
 /** Page d'accueil : toutes les sections, la modale d'étude, le menu, l'accueil animé. */
@@ -49,7 +90,7 @@ export function PageAccueil({ contenu, ctx }) {
   const sections = contenu.sections.filter((section) => section.visible !== false)
     .map((section) => GABARITS_SECTIONS[section.type]?.({ section, contenu, ctx }) ?? "");
   return Document({
-    ctx, meta: meta(contenu, ctx),
+    ctx, meta: { ...meta(contenu, ctx), donnees: donnees(contenu, ctx) },
     corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${sections}</main>${Gabarit_Projet({ ctx, mode: "modale" })}${Visionneuse({ ctx })}${menu}${Intro({ intro: contenu.site.intro, ctx, langues: optionsLangues(ctx), contenu })}${Assistant({ assistant: contenu.site.assistant, ctx, endpoint: ctx.assistantEndpoint })}`,
   });
 }
@@ -84,8 +125,29 @@ export function PageProjet({ contenu, ctx, projet }) {
   // ailleurs : la page ne recalcule plus ce que le gabarit central résout.
   const vue = vueProjet({ projet, ctx });
   const retour = `${versAccueil}#${contenu.sections.find((s) => s.type === "projets")?.id ?? ""}`;
+  // Description courte (#186) : saisie par Marc dans le CMS, prise seulement
+  // dans la langue de la page ; sinon, le résumé du projet.
+  const courte = projet.seo?.description ? ctx.resoudre(projet.seo.description, `${vue.chemin}.seo.description`, { consigner: false }) : null;
+  const description = courte?.texte && !courte.lang ? courte.texte : vue.description;
+  // Image : la vignette de partage du projet (son image SEO, sinon sa première image).
+  const premiere = vue.medias.find((m) => m.type === "image");
+  const image = ctx.partage?.projets?.[projet.id]
+    ? imagePartage(ctx, ctx.partage.projets[projet.id], (!projet.seo?.image?.src && premiere?.alt) || vue.titre)
+    : undefined;
+  const pageMeta = meta(contenu, ctx, { titre: ctx.t("formats.titrePage", { titre: vue.titre, nom: contenu.site.identite.nom }), description, chemin: ctx.chemin, image });
+  const oeuvre = {
+    "@type": "CreativeWork",
+    "@id": `${pageMeta.canonique}#projet`,
+    name: vue.titre,
+    description,
+    url: pageMeta.canonique,
+    inLanguage: ctx.langue,
+    ...(pageMeta.image ? { image: pageMeta.image.url } : {}),
+    creator: { "@id": `${contenu.site.url}/#personne` },
+    isPartOf: { "@id": `${contenu.site.url}/#site` },
+  };
   return Document({
-    ctx, meta: { ...meta(contenu, ctx, { titre: ctx.t("formats.titrePage", { titre: vue.titre, nom: contenu.site.identite.nom }), description: vue.description, chemin: ctx.chemin }), type: "article" },
+    ctx, meta: { ...pageMeta, type: "article", donnees: donnees(contenu, ctx, oeuvre) },
     corps: html`${entete}<main id="contenu" class="page-planches" tabindex="-1">${Gabarit_Projet({ projet, ctx, mode: "page", options: { retour, voisins: parcours(contenu.projets, projet.id) } })}</main>${Visionneuse({ ctx })}${menu}`,
   });
 }
@@ -124,8 +186,11 @@ export function PageCv({ contenu, ctx }) {
   // tete de la colonne de droite, au-dessus des experiences ; le portrait et
   // les deux bandeaux lateraux dans le panneau de gauche.
   const identite = html`<div class="cv-identite">${Titre({ niveau: 1, echelle: "document", texte: ctx.l(cv.nom, "cv.nom", (t) => texteEnrichi(t, { grand: true })), id: titreId })}<p class="cv-identite__titre">${ctx.l(cv.titre, "cv.titre", texteEnrichi)}</p><p class="cv-identite__resume texte-corps">${ctx.l(cv.resume, "cv.resume", texteEnrichi)}</p></div>`;
+  const image = ctx.partage?.cv ? imagePartage(ctx, ctx.partage.cv, ctx.c(cv.seo.titre, "cv.seo.titre")) : undefined;
+  const pageMeta = meta(contenu, ctx, { titre: ctx.c(cv.seo.titre, "cv.seo.titre"), description: ctx.c(cv.seo.description, "cv.seo.description"), chemin: ctx.chemin, image });
+  const profil = { "@type": "ProfilePage", "@id": `${pageMeta.canonique}#cv`, url: pageMeta.canonique, name: pageMeta.titre, inLanguage: ctx.langue, mainEntity: { "@id": `${contenu.site.url}/#personne` } };
   return Document({
-    ctx, meta: { ...meta(contenu, ctx, { titre: ctx.c(cv.seo.titre, "cv.seo.titre"), description: ctx.c(cv.seo.description, "cv.seo.description"), chemin: ctx.chemin }), type: "profile" },
+    ctx, meta: { ...pageMeta, type: "profile", donnees: donnees(contenu, ctx, profil) },
     corps: html`${entete}<main id="contenu" class="page-planches page-cv" tabindex="-1">
 ${Planche({ classe: "cv-corps", contenu: html`<div class="cv-corps__colonnes"><div class="cv-corps__lateral">${portrait}${bandeau(cv.titres.informations, "titres.informations", informations)}${bandeau(cv.titres.competences, "titres.competences", competences)}</div><div class="cv-corps__principal">${identite}${bandeau(cv.titres.experience, "titres.experience", postes)}</div></div>` })}
 ${Planche({ classe: "cv-corps", contenu: html`${bandeau(cv.titres.formation, "titres.formation", formation)}${Grille({ min: "var(--cv-carte-min)", espace: ["var(--space-6)"], elements: [bandeau(cv.titres.ia, "titres.ia", liste(cv.ia, "ia", "liste-puces cv__aeree")), bandeau(cv.titres.forces, "titres.forces", liste(cv.forces, "forces", "liste-puces cv__aeree"))] })}${bandeau(cv.titres.references, "titres.references", html`<ul class="cv__references">${cv.references.map((reference, rang) => html`<li>${Pastille({ texte: ctx.c(reference, `cv.references.${rang}`), variante: "contour" })}</li>`)}</ul>`)}` })}

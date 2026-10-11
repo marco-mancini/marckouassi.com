@@ -41,7 +41,7 @@ function motsRestants(page) {
   const attributs = [...corps.matchAll(/\s(?:alt|title|aria-label|placeholder|content|data-compteur)="([^"]*)"/g)].map((m) => m[1]);
   return [...textes, ...attributs]
     .map((t) => t.replaceAll(MARQUE, " ").replace(/&[a-z#0-9]+;/gi, " ").replace(/https?:\/\/\S+/g, " "))
-    .filter((t) => /\p{L}{2,}/u.test(t) && !/^\s*(width=device-width|text\/html|summary_large_image|website|article|profile|noindex|index, follow)/.test(t.trim()));
+    .filter((t) => /\p{L}{2,}/u.test(t) && !/^\s*(width=device-width|text\/html|summary_large_image|summary|website|article|profile|noindex|index, follow)/.test(t.trim()));
 }
 
 test("aucun texte en dur dans les pages rendues (FR, EN ; accueil, CV, projet)", () => {

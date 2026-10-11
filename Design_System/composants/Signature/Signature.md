@@ -7,13 +7,13 @@
 | Prop | Type | Défaut | Rôle |
 |---|---|---|---|
 | `niveau` | 1 \| 2 | 2 | Niveau réel du titre. |
-| `echelle` | `couverture` \| `section` | `section` | Taille et chevauchement. |
+| `echelle` | `couverture` \| `section` \| `partage` | `section` | Taille et chevauchement ; `partage` : tailles fixes en pixels de la carte de partage (`--partage-*`, #184). |
 | `textes` | `{salutation, accent, mot}` | — | Les trois registres, depuis le contenu. |
 | `id` | chaîne | `null` | Cible d'`aria-labelledby`. |
 
 ## Usages
 
-Couverture (h1), À propos, message de bienvenue de l'accueil, écran de connexion du back-office.
+Couverture (h1), carte de partage, À propos, message de bienvenue de l'accueil, écran de connexion du back-office.
 
 ## Accessibilité
 
