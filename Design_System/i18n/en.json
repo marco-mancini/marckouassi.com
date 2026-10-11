@@ -124,6 +124,7 @@
     "plageParcours": "{debut} — {fin}",
     "plageSelection": "{debut} — {fin}",
     "selection": "{nombre} projects",
+    "selectionAvecPart": "{nombre} projects · {part} {libelle}",
     "selectionPlage": " · {plage}",
     "complement": " · {texte}",
     "categorieEtPeriode": "{categorie} · {periode}",

@@ -58,7 +58,10 @@ test("un projet de plus : compteur, numéros, nombre en lettres et plage d'anné
   assert.equal(compteurs(page).at(-1), `Projet ${String(total).padStart(2, "0")} / ${String(total).padStart(2, "0")}`);
   assert.equal(compteurs(page)[0], `Projet 01 / ${String(total).padStart(2, "0")}`);
   // Le total s'écrit en lettres tant que le dictionnaire le connaît, sinon en chiffres.
-  const nombre = (langue) => { const mots = JSON.parse(fs.readFileSync(`Design_System/i18n/${langue}.json`, "utf8")).nombres; const mot = mots[contenu.projets.length] ?? String(contenu.projets.length); return mot.charAt(0).toUpperCase() + mot.slice(1); };
+  // Le fait « Sélection » peut compter une catégorie à part (#200) : elle sort du total principal.
+  const fait = contenu.sections.find((s) => s.type === "couverture").faits.find((f) => f.calcul === "selection");
+  const principal = contenu.projets.length - contenu.projets.filter((p) => p.categoriePrincipale === fait.part?.categorie).length;
+  const nombre = (langue) => { const mots = JSON.parse(fs.readFileSync(`Design_System/i18n/${langue}.json`, "utf8")).nombres; const mot = mots[principal] ?? String(principal); return mot.charAt(0).toUpperCase() + mot.slice(1); };
   assert.ok(rendre(contenu).page.includes(`${nombre("fr")} projets`));
   assert.match(rendre(contenu).page, /class="couverture__detail">\s*·\s*2022 — 2027</);
   assert.ok(cheminsPages(contenu).includes("projets/essai-douze/"));
@@ -172,4 +175,16 @@ test("chaque champ « à traduire » désigne un chemin réel des données (pour
     assert.ok(valeur !== undefined && valeur !== null, `chemin introuvable : ${cle}`);
     assert.ok(typeof valeur === "object" && "fr" in valeur && !("en" in valeur), `${cle} n'est pas un texte traduisible sans EN`);
   }
+});
+
+test("couverture : une catégorie comptée à part s'affiche après le total (#200)", () => {
+  const contenu = copie();
+  const fait = contenu.sections.find((s) => s.type === "couverture").faits.find((f) => f.calcul === "selection");
+  const part = contenu.projets.filter((p) => p.categoriePrincipale === fait.part.categorie).length;
+  assert.ok(part > 0);
+  const page = rendre(contenu).page;
+  const mots = JSON.parse(fs.readFileSync("Design_System/i18n/fr.json", "utf8")).nombres;
+  assert.ok(page.includes(`${mots[part] ?? part} ${fait.part.libelle.fr}`), "la part comptée à part apparaît");
+  delete fait.part;
+  assert.ok(!rendre(contenu).page.includes(`${mots[part] ?? part} ${"logos"}`), "sans part, un seul total");
 });

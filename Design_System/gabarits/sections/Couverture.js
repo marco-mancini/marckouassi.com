@@ -21,7 +21,14 @@ export function Couverture({ section, contenu, ctx }) {
     if (fait.calcul === "selection") {
       // Le nombre d'abord, la plage ensuite : sur un ecran etroit, seule la
       // seconde tombe. Elle est un detail, pas le fait.
-      return html`${ctx.t("formats.selection", { nombre: nombreEnLettres(contenu.projets.length, ctx, { majuscule: true }) })}${detail(ctx.t("formats.selectionPlage", { plage: plageDesProjets(contenu.projets, ctx) }))}`;
+      // Une catégorie peut être comptée à part (« Onze projets · dix logos ») :
+      // c'est la DONNÉE du fait qui la nomme, jamais le gabarit (#200).
+      const part = fait.part?.categorie ? contenu.projets.filter((p) => p.categoriePrincipale === fait.part.categorie).length : 0;
+      const nombre = nombreEnLettres(contenu.projets.length - part, ctx, { majuscule: true });
+      const compte = part
+        ? ctx.t("formats.selectionAvecPart", { nombre, part: nombreEnLettres(part, ctx), libelle: ctx.c(fait.part.libelle, `${chemin}.faits.${rang}.part.libelle`) })
+        : ctx.t("formats.selection", { nombre });
+      return html`${compte}${detail(ctx.t("formats.selectionPlage", { plage: plageDesProjets(contenu.projets, ctx) }))}`;
     }
     if (fait.lien) return Bouton({ texte: ctx.c(fait.lien.texte, `${chemin}.faits.${rang}.lien.texte`), variante: "texte", href: `#${fait.lien.cible}`, options: { icone: "bas" } });
     // Un fait peut porter un complement : la part que l'ecran etroit laisse

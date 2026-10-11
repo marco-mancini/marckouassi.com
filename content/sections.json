@@ -48,7 +48,14 @@
           "fr": "Sélection",
           "en": "Selection"
         },
-        "calcul": "selection"
+        "calcul": "selection",
+        "part": {
+          "categorie": "logotype",
+          "libelle": {
+            "fr": "logos",
+            "en": "logos"
+          }
+        }
       },
       {
         "etiquette": {
