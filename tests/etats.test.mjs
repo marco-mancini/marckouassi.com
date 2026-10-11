@@ -83,7 +83,7 @@ test("une catégorie sans réalisation affiche l'état vide, sceau « vide » ; 
   const blocs = page.split('<section class="categorie-projets"').slice(1).map((b) => b.slice(0, b.indexOf("</section>")));
   assert.ok(blocs.length > 0);
   for (const bloc of blocs) {
-    const rempli = /projet-carte|categorie-projets__carte-image/.test(bloc);
+    const rempli = /projet-carte|realisation-carte/.test(bloc);
     assert.equal(/message--vide message--sceau/.test(bloc), !rempli, bloc.slice(0, 60));
     if (!rempli) assert.match(bloc, /sceau--humeur sceau--vide/);
   }

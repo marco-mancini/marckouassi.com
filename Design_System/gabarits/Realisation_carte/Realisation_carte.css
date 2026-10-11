@@ -1,0 +1,37 @@
+/* ==========================================================================
+   REALISATION_CARTE — une realisation isolee, dans toutes les categories
+   Le cadre tient la forme : paysage 15 x 10, fond papier, filet. La galerie
+   « vitrine » le remplit et contient les visuels, jamais ne les rogne.
+   ========================================================================== */
+.realisation-carte { min-width: 0; margin: 0; container: realisation / inline-size; }
+/* Aucun cadre autour de la composition : comme les projets, elle prend toute
+   la largeur de la carte et se pose directement sur le fond de la planche.
+   Le fond papier vit DANS chaque case : l'image y entre entiere, et ce qui
+   reste autour d'elle est blanc, jamais olive. */
+.realisation-carte__cadre { position: relative; }
+.realisation-carte__cadre .galerie__element { background: var(--paper); }
+.realisation-carte__cadre .media { background: var(--paper); }
+.realisation-carte__entete {
+  display: flex;
+  min-height: var(--projet-carte-entete-hauteur-min);
+  padding: var(--projet-carte-entete-marge-haute) var(--projet-carte-entete-retrait) var(--projet-carte-entete-retrait);
+  align-items: center;
+  gap: var(--space-3);
+}
+.realisation-carte__nom { min-width: 0; }
+.realisation-carte__titre { margin: 0; font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-strong); letter-spacing: var(--display-tracking); }
+.realisation-carte__sous-titre { margin: 0; color: var(--accent-gold-soft); }
+
+@container realisation (max-width: 520px) {
+  .realisation-carte__entete { min-height: 0; padding: clamp(6px, 2.4cqi, 10px) 0; gap: clamp(6px, 2.4cqi, 10px); }
+  .realisation-carte__entete .pastille--rond { width: clamp(28px, 10cqi, 36px); height: clamp(28px, 10cqi, 36px); padding: 0; font-size: clamp(10px, 3.3cqi, 12px); }
+  .realisation-carte__titre { margin-bottom: 2px; font-size: clamp(15px, 5.6cqi, 20px); line-height: 1.1; }
+  .realisation-carte__sous-titre { font-size: clamp(11px, 4cqi, 14px); line-height: 1.25; overflow-wrap: anywhere; }
+}
+
+/* La pastille d'ouverture est SOMBRE au repos : posee sur le papier d'une
+   planche, la variante de surface s'y effacait, fleche comprise. Le survol ne
+   change que l'inclinaison. */
+.realisation-carte .galerie__superposition .bouton { border-color: var(--carte-surface-profonde); background: var(--carte-surface-profonde); color: var(--paper); }
+.realisation-carte:hover .galerie__superposition .bouton,
+.realisation-carte:focus-within .galerie__superposition .bouton { transform: rotate(45deg); }

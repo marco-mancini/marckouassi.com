@@ -10,13 +10,33 @@
 /* Filet clair autour de chaque visuel : il detache l'image de son fond sans
    lui mettre de cadre. Pose sur l'element, pas sur le Media, pour ne pas
    rogner le visuel ; le rayon est celui de la vignette. */
-.galerie--apercu .galerie__element, .galerie--detail .galerie__element { border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--rayon-vignette); overflow: hidden; }
+.galerie--apercu .galerie__element, .galerie--vitrine .galerie__element, .galerie--detail .galerie__element { border: var(--border-hairline) solid var(--border-on-dark-soft); border-radius: var(--rayon-vignette); overflow: hidden; }
 
-.galerie--apercu { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: var(--galerie-rangee-apercu); gap: var(--space-3); }
-.galerie--apercu .galerie__element--principal { grid-column: span 2; grid-row: span 2; }
-.galerie--apercu[data-nombre="1"] { grid-template-columns: minmax(0, 1fr); grid-auto-rows: var(--galerie-rangee-apercu-seule); }
-.galerie--apercu[data-nombre="1"] .galerie__element--principal { grid-column: auto; grid-row: auto; }
-.galerie--apercu[data-nombre="2"] .galerie__element--second { grid-column: 3; grid-row: span 2; }
+.galerie--apercu, .galerie--vitrine { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: var(--galerie-rangee-apercu); gap: var(--space-3); }
+/* La vitrine ne fixe AUCUNE hauteur de rangee : c'est le premier visuel qui
+   donne la sienne, par son format reel, et les deux cases de droite se
+   partagent ce qu'il a defini. Rien a recalculer quand les images changent,
+   et aucune bande vide : la grille suit les fichiers, pas l'inverse. */
+.galerie--vitrine { grid-auto-rows: auto; }
+.galerie--vitrine .galerie__element--principal .media,
+.galerie--vitrine .galerie__element--principal img { height: auto; }
+
+/* Les coins qui regardent le CENTRE de la composition restent droits : la
+   vitrine se lit comme une seule planche, pas comme trois vignettes posees
+   cote a cote. Seuls les quatre coins exterieurs sont arrondis. */
+.galerie--vitrine .galerie__element--principal { border-radius: var(--rayon-vignette) 0 0 var(--rayon-vignette); }
+.galerie--vitrine .galerie__element--second { border-radius: 0 var(--rayon-vignette) 0 0; }
+/* La troisieme case : ni la principale, ni la seconde. « :last-of-type » la
+   manquait, la superposition etant le dernier div de la galerie. */
+.galerie--vitrine .galerie__element:not(.galerie__element--principal):not(.galerie__element--second) { border-radius: 0 0 var(--rayon-vignette) 0; }
+/* Deux visuels : la case de droite tient toute la hauteur, ses deux coins
+   exterieurs sont arrondis. Un seul : la case est la planche entiere. */
+.galerie--vitrine[data-nombre="2"] .galerie__element--second { border-radius: 0 var(--rayon-vignette) var(--rayon-vignette) 0; }
+.galerie--vitrine[data-nombre="1"] .galerie__element--principal { border-radius: var(--rayon-vignette); }
+.galerie--apercu .galerie__element--principal, .galerie--vitrine .galerie__element--principal { grid-column: span 2; grid-row: span 2; }
+.galerie--apercu[data-nombre="1"], .galerie--vitrine[data-nombre="1"] { grid-template-columns: minmax(0, 1fr); grid-auto-rows: var(--galerie-rangee-apercu-seule); }
+.galerie--apercu[data-nombre="1"] .galerie__element--principal, .galerie--vitrine[data-nombre="1"] .galerie__element--principal { grid-column: auto; grid-row: auto; }
+.galerie--apercu[data-nombre="2"] .galerie__element--second, .galerie--vitrine[data-nombre="2"] .galerie__element--second { grid-column: 3; grid-row: span 2; }
 
 .galerie--detail { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: var(--galerie-rangee-detail); gap: var(--galerie-espace-detail); }
 
@@ -28,7 +48,7 @@
 .galerie--detail .galerie__element { position: relative; }
 /* Une case qui s'agrandit le dit : le curseur change des que le navigateur
    a pose le comportement, jamais avant. */
-.galerie--detail .galerie__element[role="button"] { cursor: zoom-in; }
+.galerie--detail .galerie__element[role="button"], .galerie--vitrine .galerie__element[role="button"] { cursor: zoom-in; }
 /* Zoom avant au survol, plus franc que celui d'une vignette de carte : ici
    l'image est le sujet, pas l'illustration d'un titre. */
 .galerie--detail .galerie__element:hover .media--zoom img { transform: scale(var(--galerie-detail-zoom)); }
@@ -36,7 +56,8 @@
 
 @media (min-width: 851px) and (max-width: 1080px) { .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-tablette); } }
 @media (max-width: 850px) {
-  .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-mobile); gap: var(--galerie-espace-apercu-mobile); }
+  .galerie--apercu { grid-auto-rows: var(--galerie-rangee-apercu-mobile); }
+  .galerie--apercu, .galerie--vitrine { gap: var(--galerie-espace-apercu-mobile); }
   .galerie--detail { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: var(--galerie-rangee-detail-mobile); gap: var(--galerie-espace-detail-mobile); }
   .galerie--bande { height: var(--galerie-bande-hauteur-mobile); }
   .galerie__superposition { top: var(--galerie-superposition-decalage-mobile); right: var(--galerie-superposition-decalage-mobile); }

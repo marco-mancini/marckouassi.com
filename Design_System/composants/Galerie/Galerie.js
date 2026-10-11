@@ -7,9 +7,17 @@ import { Modale, ouvrirModale } from "../Modale/Modale.js";
 // de droite. La rangee du bas alourdissait la carte sans rien dire de plus —
 // l'etude complete, elle, montre tout.
 const APERCU_MAX = 3;
+// Les deux variantes qui mettent le premier media en avant, et s'arretent a trois.
+const APERCU = new Set(["apercu", "vitrine"]);
 
 const REGLAGES = {
   apercu: { cadre: "vignette", ajustement: "recadrer", zoom: true },
+  // « vitrine » : la grille de l'apercu, au pixel pres, mais l'image ENTIERE.
+  // Une planche de marque porte du texte et des codes couleur : la rogner la
+  // mutile. Le fond de la case tient la forme, l'image reste lisible.
+  // Le cadre est « aucun » : le rayon vit sur la CASE, qui seule sait quels
+  // coins regardent l'exterieur de la composition et lesquels le centre.
+  vitrine: { cadre: "aucun", ajustement: "contenir", zoom: true },
   // « contenir », et pas « recadrer » : les visuels des etudes sont des pages
   // et des planches, de sept formats differents du 16:9 au portrait. Remplir
   // la case coupait leurs bords — le S de SOMMAIRE, la premiere lettre des
@@ -23,7 +31,7 @@ const REGLAGES = {
  *
  * @param {object} p
  * @param {Array} p.medias                               objets média (voir Media)
- * @param {"apercu"|"detail"|"bande"} [p.variante]
+ * @param {"apercu"|"vitrine"|"detail"|"bande"} [p.variante]
  * @param {string|null} [p.etiquette]                    nom accessible du groupe
  * @param {*} [p.superposition]                          action posée sur la galerie (ex. ouvrir)
  * @param {{premieres:number, libelle:string}|null} [p.reste]
@@ -34,7 +42,7 @@ const REGLAGES = {
  *        cachée pour toujours vaudrait encore moins.
  */
 export function Galerie({ medias = [], variante = "apercu", etiquette = null, superposition = null, reste = null }) {
-  const liste = variante === "apercu" ? medias.slice(0, APERCU_MAX) : medias;
+  const liste = APERCU.has(variante) ? medias.slice(0, APERCU_MAX) : medias;
   const reglage = REGLAGES[variante];
   // Le modèle dort dans un <template> : c'est le navigateur qui le pose, et
   // lui seul sait paginer. Le libellé vient du dictionnaire, par le gabarit.
@@ -120,9 +128,12 @@ export function Visionneuse({ ctx }) {
 export function activerVisionneuse(racine = document) {
   const commande = brancherVisionneuse();
   if (!commande) return;
-  for (const galerie of racine.querySelectorAll(".galerie--detail")) {
+  for (const galerie of racine.querySelectorAll(".galerie--detail, .galerie--vitrine")) {
     if (galerie.dataset.galerieAgrandie) continue;
     galerie.dataset.galerieAgrandie = "1";
+    // Le signe d'ouverture n'apparait qu'ici : il annonce un comportement qui
+    // vient d'etre pose, jamais une promesse sans suite.
+    galerie.parentElement?.querySelector("[data-vitrine-signe]")?.removeAttribute("hidden");
     const cases = [...galerie.querySelectorAll(".galerie__element")];
     cases.forEach((element, index) => {
       if (!element.querySelector("img")) return;
