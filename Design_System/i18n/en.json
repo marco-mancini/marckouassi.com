@@ -23,6 +23,7 @@
   "projet": {
     "compteur": "Project {numero} / {total}",
     "ouvrir": "Open the project {titre} to see the full case study and all its images",
+    "ouvrirFiche": "Open the {titre} fact sheet",
     "fermer": "Close the case study",
     "images": "Project images",
     "imagesAutres": "See the {nombre} other images",

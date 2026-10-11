@@ -127,21 +127,9 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .planche__credit-retour [data-categorie-retour]:focus-visible::before { background: var(--olive); }
 .categorie-projets__sous-titre { margin: 0; color: var(--accent-texte-grand); font-weight: var(--weight-strong); }
 .categorie-projets__recit { width: max-content; max-width: 100%; margin: 0; color: var(--texte-discret); white-space: nowrap; }
-.categorie-projets__carte-vide { aspect-ratio: var(--projet-carte-vide-ratio); border: var(--border-hairline) solid var(--filet); border-radius: var(--rayon-vignette); background: var(--carte-surface); }
-.categorie-projets__carte-image { min-width: 0; margin: 0; container: realisation / inline-size; }
-.categorie-projets__carte-visuel { position: relative; }
-.categorie-projets__carte-visuel img { display: block; width: 100%; height: auto; aspect-ratio: var(--projet-carte-vide-ratio); overflow: hidden; border: var(--border-hairline) solid var(--filet); border-radius: var(--rayon-vignette); object-fit: cover; }
-.categorie-projets__carte-fleche { position: absolute; top: var(--space-4); right: var(--space-4); }
-.categorie-projets__carte-visuel:hover .categorie-projets__carte-fleche { transform: rotate(45deg); }
-.categorie-projets__carte-legende { min-height: var(--projet-carte-entete-hauteur-min); padding: var(--projet-carte-entete-marge-haute) var(--projet-carte-entete-retrait) var(--projet-carte-entete-retrait); align-items: center; gap: var(--space-3); }
-.categorie-projets__carte-legende .categorie-projets__carte-sous-titre { color: var(--accent-gold-soft); }
+
 
 @container realisation (max-width: 360px) {
-  .categorie-projets__carte-legende { min-height: 0; padding: clamp(6px, 2.4cqi, 10px) 0; gap: clamp(6px, 2.4cqi, 10px); }
-  .categorie-projets__carte-legende .pastille--rond { width: clamp(28px, 10cqi, 36px); height: clamp(28px, 10cqi, 36px); padding: 0; font-size: clamp(10px, 3.3cqi, 12px); }
-  .categorie-projets__carte-legende .projet-carte__titre { margin-bottom: 2px; font-size: clamp(15px, 5.6cqi, 20px); line-height: 1.1; }
-  .categorie-projets__carte-legende .projet-carte__categorie { font-size: clamp(11px, 4cqi, 14px); line-height: 1.25; overflow-wrap: anywhere; }
-  .categorie-projets__carte-visuel .categorie-projets__carte-fleche { top: clamp(6px, 2.5cqi, 10px); right: clamp(6px, 2.5cqi, 10px); width: clamp(32px, 12cqi, 44px); height: clamp(32px, 12cqi, 44px); font-size: clamp(13px, 5cqi, 18px); }
 }
 
 /* --- Prestations --- */
@@ -236,7 +224,6 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .projets__choix .carte--choix { min-height: var(--projets-categorie-hauteur-compact); padding: var(--space-4); }
   .categorie-projets__entete { margin-top: var(--space-7); }
   .categorie-projets__recit { width: auto; white-space: normal; }
-  .categorie-projets__carte-legende { min-height: var(--projet-carte-entete-hauteur-min-compact); padding-top: var(--space-2); }
   .categorie-projets__ligne-titre { gap: var(--space-3); }
   .planche__credit-retour [data-categorie-retour]::before { width: var(--bouton-retour-categorie-diametre-compact); height: var(--bouton-retour-categorie-diametre-compact); }
   .contact { min-height: var(--contact-hauteur-min-compact); }
