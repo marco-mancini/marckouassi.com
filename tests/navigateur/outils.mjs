@@ -45,7 +45,7 @@ export async function ouvrir(navigateur, url, { largeur = 1440, hauteur = 900, j
   page.on("console", (m) => { if (m.type() === "error") page.erreurs.push(m.text()); });
   if (introVue) await page.addInitScript(() => { try { sessionStorage.setItem("mk-intro-vue", "1"); } catch { /* */ } });
   if (horloge) { await page.clock.install({ time: new Date("2026-10-07T10:00:00") }); await page.clock.pauseAt(new Date("2026-10-07T10:00:01")); }
-  if (bloquerScript) await page.route(/site\.js$/, (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: 'throw new Error("échec simulé")' }));
+  if (bloquerScript) await page.route(/\/site\.js(\?|$)/, (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: 'throw new Error("échec simulé")' }));
   await page.goto(url, { waitUntil: "load" });
   page.fermer = () => contexte.close();
   return page;

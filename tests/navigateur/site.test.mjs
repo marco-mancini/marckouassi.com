@@ -561,6 +561,29 @@ test("l'accueil propose les huit catégories et replie toutes les réalisations"
   await page.fermer();
 });
 
+test("feuilles et modules se chargent tous avec l'empreinte du build, sans échec (#197)", async () => {
+  // Une page neuve ne doit jamais s'assembler avec d'anciennes ressources
+  // restées en cache : toute feuille et tout module porte ?v=<empreinte>,
+  // la même partout.
+  const contexte = await nav.newContext();
+  const page = await contexte.newPage();
+  const ressources = [], echecs = [];
+  page.on("request", (r) => { if (/\/(Design_System|Frontend)\/.*\.(css|js)(\?|$)/.test(r.url())) ressources.push(r.url()); });
+  page.on("requestfailed", (r) => echecs.push(r.url()));
+  page.on("response", (r) => { if (r.status() >= 400) echecs.push(`${r.status()} ${r.url()}`); });
+  await page.addInitScript(() => { try { sessionStorage.setItem("mk-intro-vue", "1"); } catch { /* */ } });
+  await page.goto(serveur.url + "/", { waitUntil: "load" });
+  await page.waitForTimeout(500);
+  assert.ok(ressources.length > 30, `${ressources.length} ressources seulement`);
+  const empreintes = new Set(ressources.map((u) => new URL(u).searchParams.get("v")));
+  assert.equal(empreintes.size, 1, `empreintes : ${[...empreintes].join(", ")}`);
+  assert.match([...empreintes][0] ?? "", /^[0-9a-f]{10}$/);
+  assert.deepEqual(echecs, []);
+  // Et le composant Rideau est bien stylé : la règle de sa feuille s'applique.
+  assert.equal(await page.$eval(".projets__choix .rideau", (e) => getComputedStyle(e).display), "grid");
+  await contexte.close();
+});
+
 test("les cartes Rideau désignent une vedette à tour de rôle, et s'effacent sous la main", async () => {
   // Décision de Marc (#191) : les cartes montrent d'elles-mêmes qu'elles
   // s'ouvrent. Une seule vedette à la fois ; elle passe à la suivante ; elle

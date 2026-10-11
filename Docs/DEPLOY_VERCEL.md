@@ -83,6 +83,18 @@ Les variables `CONTENU_SOURCE`, `PUBLICATION_VERSION`, `SUPABASE_*`,
 `ADMIN_SUPABASE_*` et `ADMIN_DEMO` ne servent qu'au back-office Supabase,
 en sommeil. Ne jamais y mettre une clé secrète : le build la refuse.
 
+## Ressources versionnées (#197)
+
+Les pages chargent `Design_System/styles/Index.css?v=<empreinte>` et `Frontend/site.js?v=<empreinte>`. Dans `_site/`, les `@import` des feuilles et les imports relatifs des modules portent la même empreinte. C'est `tools/empreinte.mjs` qui s'en charge au build.
+
+L'empreinte est un hachage du **contenu** des feuilles et des modules publiés :
+- un déploiement qui ne touche à aucune ressource garde les mêmes adresses ;
+- un seul changement, et toutes les adresses changent ensemble.
+
+Sans elle, un navigateur pouvait assembler une page neuve avec d'anciennes feuilles restées en cache. C'est arrivé le 11 octobre 2026 : les cartes Rideau s'affichaient en texte brut sur téléphone.
+
+Pour contrôler : la source de la page en ligne montre `?v=` suivi de 10 caractères hexadécimaux sur `Index.css` et `site.js`.
+
 ## Domaine personnalisé (le jour de l'achat)
 
 1. Dans `content/site.json`, remplacer `url` par l'adresse du domaine : c'est
