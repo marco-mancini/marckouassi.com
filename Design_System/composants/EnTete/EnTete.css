@@ -1,7 +1,7 @@
 /* ==========================================================================
    EN-TETE — marque, navigation, actions
    Variante site : contexte .ilot-olive tant qu'on n'a pas defile, puis
-   surface de page. Sous 1000 px le bouton de menu remplace la navigation,
+   surface de page. Sous 1200 px le bouton de menu remplace la navigation (#187),
    mais seulement si le script a demarre (html.js-anime) : sinon la
    navigation reste accessible en rangee defilante, a hauteur egale.
    ========================================================================== */
@@ -15,11 +15,13 @@
 .en-tete__marque { display: inline-flex; min-width: var(--cible-tactile); min-height: var(--cible-tactile); flex: none; align-items: center; }
 .en-tete__marque svg { width: var(--en-tete-marque-largeur); height: auto; aspect-ratio: var(--logo-header-ratio); }
 .en-tete__navigation { min-width: 0; }
+/* Un lien ne se coupe jamais en deux lignes ; l'ecart se resserre (#187). */
+.en-tete__navigation .navigation { gap: var(--en-tete-navigation-ecart); white-space: nowrap; }
 .en-tete__actions { display: flex; flex: none; align-items: center; gap: var(--space-3); }
 .en-tete__large, .en-tete__compact { display: flex; align-items: center; gap: var(--space-3); }
 .en-tete__compact { display: none; }
 
-@media (max-width: 999px) {
+@media (max-width: 1199px) {
   html.js-anime .en-tete__navigation, .en-tete__large { display: none; }
   html.js-anime .en-tete__compact { display: flex; }
   html:not(.js-anime) .en-tete__navigation { flex: 1; overflow-x: auto; scrollbar-width: none; }

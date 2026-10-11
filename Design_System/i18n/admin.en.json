@@ -183,6 +183,7 @@
     "declencheur": "Trigger",
     "description": "Description",
     "descriptionCourte": "Short description (search engines)",
+    "part": "Count separately",
     "detail": "Detail",
     "disciplines": "Disciplines",
     "document": "Attached document",

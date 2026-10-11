@@ -167,7 +167,8 @@ test("tous les identifiants de la liste des pages sont réellement convertibles"
 test("le prompt assemblé tient dans le budget, dans les deux langues", () => {
   // Borne de la phase IA-03. Elle échoue si le contenu gonfle, au lieu de
   // laisser la latence et la facture dériver en silence.
-  const PLAFOND = 4400;
+  // Relevé de 4 400 à 5 200 avec le plafond du fichier (#200, décision de Marc).
+  const PLAFOND = 5200;
   for (const [langue, b] of [["fr", base], ["en", baseEn]]) {
     const assemble = assembler({ modele: MODELE, base: b, requete: requete("Une question de longueur ordinaire ?", langue) });
     const taille = mesurerEntree(assemble);

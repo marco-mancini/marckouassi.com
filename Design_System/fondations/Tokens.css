@@ -805,6 +805,11 @@
   --rideau-vedette-attente: 1.6s; /* le temps que la rangée finisse de s'ouvrir */
   /* EnTete */
   --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
+  /* Ecart entre les liens de la navigation du site (#187) : 64 px quand tout
+     tient (1 407 px en francais), resserre jusqu'a 24 px ; 17 px de marge pour une
+     barre de defilement, que 100vw compte. Sous 1 200 px, le
+     menu compact prend le relais : les sept liens n'y tiennent plus. */
+  --en-tete-navigation-ecart: clamp(24px, calc((100vw - 1040px) / 6), 64px);
   /* Galerie */
   --galerie-rangee-apercu-tablette: clamp(120px, 13.5vw, 220px); /* hauteur des rangées de la galerie d'aperçu, 851 à 1080 px */
   --galerie-rangee-apercu-mobile: clamp(82px, 27vw, 150px); /* rangées de la galerie d'aperçu sous 850 px */

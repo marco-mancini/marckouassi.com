@@ -48,7 +48,14 @@
           "fr": "Sélection",
           "en": "Selection"
         },
-        "calcul": "selection"
+        "calcul": "selection",
+        "part": {
+          "categorie": "logotype",
+          "libelle": {
+            "fr": "logos",
+            "en": "logos"
+          }
+        }
       },
       {
         "etiquette": {
@@ -451,87 +458,7 @@
         "recit": {
           "fr": "Parfois, quelques lignes suffisent pour faire naître un signe capable d’être reconnu, mémorisé et porté.",
           "en": "A few lines search for balance; then a mark emerges, ready to carry a story."
-        },
-        "realisations": [
-          {
-            "libelle": {
-              "fr": "ArriProd",
-              "en": "ArriProd"
-            },
-            "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
-            },
-            "media": {
-              "src": "Public/images/Logotype/Logo_ArriProd.jpg"
-            }
-          },
-          {
-            "libelle": {
-              "fr": "Eigth",
-              "en": "Eigth"
-            },
-            "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
-            },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Eigth.jpg"
-            }
-          },
-          {
-            "libelle": {
-              "fr": "Ivoire Cosm",
-              "en": "Ivoire Cosm"
-            },
-            "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
-            },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Ivoire_Cosm.jpg"
-            }
-          },
-          {
-            "libelle": {
-              "fr": "Nanama",
-              "en": "Nanama"
-            },
-            "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
-            },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Nanama.jpg"
-            }
-          },
-          {
-            "libelle": {
-              "fr": "Nova",
-              "en": "Nova"
-            },
-            "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
-            },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Nova.jpg"
-            }
-          },
-          {
-            "libelle": {
-              "fr": "Wona",
-              "en": "Wona"
-            },
-            "description": {
-              "fr": "Logotype · Création de marque",
-              "en": "Logo design · Brand identity"
-            },
-            "media": {
-              "src": "Public/images/Logotype/Logo_Wona.jpg"
-            }
-          }
-        ]
+        }
       },
       {
         "id": "identite-charte",

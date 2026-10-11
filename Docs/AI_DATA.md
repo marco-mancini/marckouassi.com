@@ -208,7 +208,7 @@ La liste des pages citables est **dans** la base (section « pages ») : elle
 n'est plus comptée à part. Sortie plafonnée à **180 jetons**. Détail dans
 l'[architecture](AI_ARCHITECTURE.md#taille-du-contexte-mesurée).
 
-Le **plafond est défendu par le build** : `PLAFOND_JETONS = 4200` sur le fichier
+Le **plafond est défendu par le build** : `PLAFOND_JETONS = 5000` (4 200 jusqu'au 11 octobre 2026, relevé par Marc pour les dix logos, #200) sur le fichier
 publié. Un contenu qui gonfle casse la construction au lieu de dégrader en
 silence la latence et le coût. Relever ce plafond est une décision, pas un
 ajustement.

@@ -34,6 +34,8 @@ export const JETONS_PAR_CARACTERE = 1 / 3.5;
  * Plafond du FICHIER publié, en jetons estimés, pour UNE langue.
  *
  * Mesuré le 2 octobre 2026 : 3 834 jetons en français, 3 644 en anglais.
+ * Relevé à 5 000 le 11 octobre 2026, décision de Marc (#200) : les dix logos
+ * deviennent des projets, la base passe à 4 794 (fr) et 4 587 (en).
  * Le plafond laisse la marge de deux ou trois projets supplémentaires. Au-delà,
  * c'est une décision de Marc et non un ajustement : la contrainte de verbosité
  * minimale se défend ici, par un build qui échoue.
@@ -45,7 +47,7 @@ export const JETONS_PAR_CARACTERE = 1 / 3.5;
  * structure, qui n'ont pas leur place dans un gabarit du Design System
  * (AGENTS.md : rien en dur).
  */
-export const PLAFOND_JETONS = 4200;
+export const PLAFOND_JETONS = 5000;
 
 /**
  * Nettoie un texte de contenu pour le contexte du modèle :

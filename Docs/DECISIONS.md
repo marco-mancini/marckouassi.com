@@ -23,6 +23,30 @@ Règles :
 
 ---
 
+## 2026-10-11 — Mes réalisations : un seul modèle, une seule carte
+
+Décisions de Marc, en conversation le 11 octobre · issues [#200](https://github.com/marco-mancini/marckouassi.com/issues/200), [#181](https://github.com/marco-mancini/marckouassi.com/issues/181), [#187](https://github.com/marco-mancini/marckouassi.com/issues/187).
+
+**Problème.** Deux modèles coexistaient : les projets (`content/projets.json`, `Projet_carte`, page dédiée) et les « réalisations » de Logotype (`categories[].realisations`, `Realisation_carte`, fiche cachée dans la page). Chaque catégorie pouvait donc se comporter différemment.
+
+**Options.** Garder deux composants ; généraliser `Realisation_carte` ; faire des réalisations des projets.
+
+**Choix.**
+- Les dix logos deviennent des **projets** (`categoriePrincipale: "logotype"`). Une seule carte (`Projet_carte`), une seule étude, une page par logo. « Je ne veux pas avoir des comportements différents sur chaque catégorie. »
+- Le dessin de carte réglé par Marc sur Logotype (image entière sur fond papier, arrondis, pastille sombre, sous-titre doré) s'applique à **toutes** les catégories.
+- Années, rôle, disciplines et valeur deviennent **facultatifs** pour tous les projets : rien n'est inventé, un champ vide ne s'affiche pas.
+- Couverture : « Onze projets · dix logos » ; la catégorie comptée à part est nommée par la donnée (`faits[].part`).
+- Plafond de la base de MarcoS : 4 200 → **5 000** jetons (fichier), 4 400 → 5 200 (prompt).
+- En-tête : écart fluide entre liens et menu compact sous 1 200 px, pour que « Contact » ne passe plus sous FR/EN.
+
+**Motif.** Une catégorie fournit des données, jamais une mise en page (AGENTS.md §3.2 : un composant existant s'étend, il ne se recopie pas).
+
+**Impact.** 46 pages au lieu de 26 ; chaque logo a sa page, son image de partage, sa place dans le CMS et dans la base de MarcoS. Les textes des logos, écrits par une autre session à partir des visuels, restent à relire par Marc.
+
+**Réversibilité.** Totale par Git ; les données d'origine sont dans l'historique de `content/sections.json`.
+
+---
+
 ## 2026-10-11 — Les choix de catégorie deviennent des cartes « Rideau », animées en continu
 
 Décision de Marc, en conversation, sur maquette validée · issue [#191](https://github.com/marco-mancini/marckouassi.com/issues/191) (PM-191).
@@ -937,3 +961,83 @@ gratuits et au contrat d'email documenté.
 
 **Réversibilité.** L'autorisation porte sur le travail demandé ; toute décision
 produit nouvelle hors du périmètre PM-109 à PM-114 reste à Marc.
+
+## 2026-10-09 — D-41 : les déclinaisons Logotype viennent des fichiers de Marc
+
+Décision de Marc · issue [#181](https://github.com/marco-mancini/marckouassi.com/issues/181).
+
+**Problème.** Les réalisations Logotype n'affichaient pas la composition de
+présentation définie par Marc.
+
+**Choix.** Garder les logos SVG, isotypes recadrés et mockups dans le dossier
+fourni `MOCKUP/M`, puis les référencer depuis `content/sections.json`. Wona,
+Eigth et BNI Finances reçoivent la planche logo, isotype, palette, typographie
+et deux mockups. Les autres réalisations restent des cartes image simples,
+car les fichiers fournis ne renseignent pas leurs palettes ni leurs polices.
+
+**Motif.** La planche est commune et pilotée par les données ; les valeurs de
+palette et les noms de polices des trois marques viennent de la capture de
+Marc. Aucun projet des autres SVG du dossier n'est ajouté sans figurer déjà
+dans le portfolio.
+
+**Impact.** Les visuels et alternatives FR/EN vivent dans le contenu. Les SVG
+sont copiés sans rasterisation et leur `viewBox` réserve les dimensions. Les
+fiches Logotype n'ont pas encore de descriptions d'étude complètes.
+
+**Réversibilité.** Retirer ou réordonner un média dans `content/sections.json`
+ne change pas le gabarit.
+
+## 2026-10-11 — D-42 : la carte d'une réalisation est un gabarit commun, et ses textes sont écrits par l'agent
+
+Décision de Marc · issue [#181](https://github.com/marco-mancini/marckouassi.com/issues/181).
+
+**Problème.** Deux questions, le même jour. La première : la catégorie Logotype
+composait sa propre mise en page — une planche reconstruite en HTML, ses
+classes, ses jetons de palette. Chaque catégorie aurait fini par avoir la
+sienne. La seconde : Marc veut que ces cartes se comportent comme celles
+d'« Identité & charte » — entièrement cliquables, et porteuses d'informations
+sur chaque projet. Or une réalisation isolée n'a ni identifiant, ni page
+dédiée, ni aucun des sept champs de texte d'un projet. Sans texte, pas de
+fiche ; et le § 1.4 interdit d'inventer.
+
+**Options.** 1. Verser les dix marques dans `content/projets.json`, avec page
+et étude, ce qui demande les textes de Marc. 2. Laisser les cartes muettes et
+cliquables vers la seule visionneuse. 3. Écrire les textes depuis ce que les
+visuels montrent, et étendre le gabarit commun pour qu'il porte une fiche.
+
+**Choix.** La troisième, demandée explicitement par Marc le 11 octobre 2026 :
+« Mets les textes toi-même dans Logotype mais garde une cohérence totale avec
+le projet. Consigne juste. »
+
+**Règle que l'agent s'est donnée, faute de brief.** Chaque phrase décrit CE QUE
+LES VISUELS MONTRENT, rien d'autre : la construction du signe, les couleurs et
+les typographies de la planche, les supports des mises en situation. Aucun
+client, aucune date, aucun résultat, aucune promesse commerciale, aucun rôle
+que Marc n'aurait pas tenu. C'est la tournure qu'emploient déjà les études du
+site — « les images montrent… » — reprise mot pour mot. Les champs `annees`,
+`role` et `disciplines` restent VIDES : ils ne se lisent pas sur une image.
+
+**Ce qui est écrit.** Pour chacune des dix marques : `description` (la ligne
+sous le titre, propre à chaque marque au lieu d'une formule commune),
+`contexte` et `idee`, en français et en anglais.
+
+**Impact.** `Realisation_carte` devient le gabarit de toute réalisation isolée,
+quelle que soit sa catégorie : carte, fiche, et contrat d'ouverture. La fiche
+est rendue par `Projet_etude`, le gabarit des études, dont trois champs
+deviennent facultatifs (`periode`, `ideeHtml`, `medias`) — une réalisation n'a
+ni années ni page. La galerie gagne la variante `vitrine`. Aucune ligne du code
+ne nomme une catégorie : une autre catégorie qui recevra des réalisations aura
+tout cela sans une ligne de plus.
+
+**Progressivité.** Sans JavaScript, la fiche reste dans la page, lisible : le
+texte n'est jamais perdu, et aucune flèche n'annonce une ouverture qui n'aurait
+pas lieu. Avec le script, la fiche se replie et s'ouvre dans la modale partagée
+des études.
+
+**Ce qui reste à Marc.** Relire les vingt textes. Ils décrivent ce qui se voit ;
+ils ne disent rien du brief, du client ni de l'année, et c'est voulu. Le jour
+où Marc donne ces éléments, les champs existent déjà dans le gabarit.
+
+**Réversibilité.** Les textes vivent dans `content/sections.json` : les
+réécrire ne touche pas une ligne de code. Retirer `contexte` et `idee` d'une
+réalisation fait disparaître sa fiche sans rien casser.

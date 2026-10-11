@@ -113,7 +113,7 @@ comptée à part. Le **fichier publié** pèse davantage que ce qui est envoyé 
 jetons en français — parce que le JSON porte son enveloppe ; le Worker rend la
 base en lignes « clé: valeur », ce qui économise 532 jetons mesurés (phase IA-03).
 
-Un **plafond** est défendu par le build (`PLAFOND_JETONS = 4200` sur le fichier) :
+Un **plafond** est défendu par le build (`PLAFOND_JETONS = 5000` (4 200 jusqu'au 11 octobre 2026, relevé par Marc pour les dix logos, #200) sur le fichier) :
 un contenu qui gonfle casse la construction au lieu de dégrader en silence la
 latence et la facture.
 

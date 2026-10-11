@@ -67,9 +67,10 @@ test("validation : erreurs structurées, phrases du dictionnaire", () => {
   const essai = structuredClone(contenu);
   essai.projets.push({ ...elementVide(essai.projets[0]), id: "" });
   const erreurs = valider(essai);
-  assert.ok(erreurs.some((e) => e.code === "identifiant" && e.chemin === "projets.11.id"));
+  const rang = essai.projets.length - 1;
+  assert.ok(erreurs.some((e) => e.code === "identifiant" && e.chemin === `projets.${rang}.id`));
   assert.ok(erreurs.every((e) => fr.validation[e.code]));
-  assert.match(formaterErreurs(erreurs, ctx.t)[0], /projets\.11/);
+  assert.ok(formaterErreurs(erreurs, ctx.t)[0].includes(`projets.${rang}`));
 });
 
 test("Gabarit_Bo : coquille commune (évitement, main, navigation active, menu en Modale, barre)", () => {

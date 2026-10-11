@@ -72,8 +72,12 @@ export function valider(contenu) {
     if (!/^[a-z0-9-]+$/.test(projet.id || "")) erreurs.push({ code: "identifiant", chemin: `${base}.id` });
     if (idsProjets.has(projet.id)) erreurs.push({ code: "doublon", chemin: `${base}.id` });
     idsProjets.add(projet.id);
-    for (const champ of ["titre", "categorie", "contexte", "role", "disciplines", "idee", "valeur"]) requis(projet[champ], `${base}.${champ}`);
-    if (!projet.annees?.debut) erreurs.push({ code: "annee", chemin: `${base}.annees.debut` });
+    // Un seul modèle pour toutes les catégories (#200) : seuls le titre, la
+    // rubrique, le contexte et l'intention sont exigés. Années, rôle,
+    // disciplines et valeur sont facultatifs — ce qui manque ne s'affiche pas,
+    // et rien n'est inventé pour remplir le vide.
+    for (const champ of ["titre", "categorie", "contexte", "idee"]) requis(projet[champ], `${base}.${champ}`);
+    if (projet.annees && !projet.annees.debut) erreurs.push({ code: "annee", chemin: `${base}.annees.debut` });
     // Une seule catégorie principale, référencée par son identifiant.
     if (!projet.categoriePrincipale || !disciplines.has(projet.categoriePrincipale)) {
       erreurs.push({ code: "identifiant", chemin: `${base}.categoriePrincipale` });

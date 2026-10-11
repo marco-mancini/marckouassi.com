@@ -1,20 +1,34 @@
 /* ==========================================================================
-   PROJET_CARTE — disposition de la carte d'un projet
+   PROJET_CARTE — LA carte de toutes les catégories (#200)
+   Reprend le dessin validé par Marc sur Logotype (#181) : galerie « vitrine »
+   qui montre chaque visuel ENTIER sur fond papier, coins arrondis de planche,
+   pastille d'ouverture sombre, titre puis sous-titre doré.
    ========================================================================== */
-.projet-carte { display: block; min-width: 0; color: inherit; text-decoration: none; transition: transform var(--duration-fast) var(--ease-out); }
-.projet-carte:hover { transform: translateY(-3px); }
-/* Signe d'ouverture, pose sur la galerie : la fleche pivote d'un quart de tour
-   au survol et passe de la diagonale a l'horizontale — meme geste que sur les
-   cartes de realisation. La transition vient du .bouton. */
-.projet-carte:hover .galerie__superposition .bouton, .projet-carte:focus-visible .galerie__superposition .bouton { transform: rotate(45deg); }
-/* Numero, titre et categorie posent sur UNE seule ligne de base : centrer
-   les boites ne suffisait pas, l'Anton du titre remplissant sa boite tout
-   autrement que le texte courant de la categorie. */
-.projet-carte__entete { display: flex; min-height: var(--projet-carte-entete-hauteur-min); padding: var(--projet-carte-entete-marge-haute) var(--projet-carte-entete-retrait) var(--projet-carte-entete-retrait); align-items: baseline; gap: var(--space-3); }
-/* Le titre et sa categorie se suivent sur une meme ligne de base ; ils ne
-   passent a la ligne que si la carte devient trop etroite. */
-.projet-carte__nom { display: flex; min-width: 0; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
-.projet-carte__titre { margin: 0; font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-regular); line-height: var(--leading-heading); letter-spacing: var(--interlettrage-titre); }
-.projet-carte__categorie { margin: 0; color: var(--texte-discret); }
+.projet-carte { display: block; min-width: 0; color: inherit; text-decoration: none; container: projet-carte / inline-size; }
+/* Le fond papier vit DANS chaque case : l'image y entre entière, et ce qui
+   reste autour d'elle est blanc, jamais olive. */
+.projet-carte .galerie__element, .projet-carte .media { background: var(--paper); }
+.projet-carte__entete {
+  display: flex;
+  min-height: var(--projet-carte-entete-hauteur-min);
+  padding: var(--projet-carte-entete-marge-haute) var(--projet-carte-entete-retrait) var(--projet-carte-entete-retrait);
+  align-items: center;
+  gap: var(--space-3);
+}
+.projet-carte__nom { min-width: 0; }
+.projet-carte__titre { margin: 0; font-family: var(--font-display); font-size: var(--type-title-card); font-weight: var(--weight-strong); letter-spacing: var(--display-tracking); }
+.projet-carte__sous-titre { margin: 0; color: var(--accent-gold-soft); }
 
-@media (max-width: 850px) { .projet-carte__entete { min-height: var(--projet-carte-entete-hauteur-min-compact); padding-top: var(--space-2); } }
+@container projet-carte (max-width: 520px) {
+  .projet-carte__entete { min-height: 0; padding: clamp(6px, 2.4cqi, 10px) 0; gap: clamp(6px, 2.4cqi, 10px); }
+  .projet-carte__entete .pastille--rond { width: clamp(28px, 10cqi, 36px); height: clamp(28px, 10cqi, 36px); padding: 0; font-size: clamp(10px, 3.3cqi, 12px); }
+  .projet-carte__titre { margin-bottom: 2px; font-size: clamp(15px, 5.6cqi, 20px); line-height: 1.1; }
+  .projet-carte__sous-titre { font-size: clamp(11px, 4cqi, 14px); line-height: 1.25; overflow-wrap: anywhere; }
+}
+
+/* La pastille d'ouverture est SOMBRE au repos : posée sur le papier d'une
+   planche, la variante de surface s'y effaçait, flèche comprise. Le survol ne
+   change que l'inclinaison. */
+.projet-carte .galerie__superposition .bouton { border-color: var(--carte-surface-profonde); background: var(--carte-surface-profonde); color: var(--paper); }
+.projet-carte:hover .galerie__superposition .bouton,
+.projet-carte:focus-visible .galerie__superposition .bouton { transform: rotate(45deg); }

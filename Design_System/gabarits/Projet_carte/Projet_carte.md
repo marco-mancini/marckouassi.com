@@ -1,6 +1,12 @@
 # Projet_carte (gabarit)
 
-**Responsabilité** : la **disposition** d'une carte de projet dans le sommaire — un assemblage de `Galerie` (aperçu), `Bouton` (entrée) et `Pastille` (numéro).
+**Responsabilité** : **la** carte de toutes les catégories de « Mes réalisations » (#200) — un assemblage de `Galerie` (variante `vitrine`), du signe d'ouverture et de `Pastille` (numéro). Il n'existe pas d'autre carte : une catégorie fournit des projets, jamais une mise en page.
+
+## Dessin (validé par Marc sur Logotype, #181)
+
+- Chaque visuel est montré **entier** sur fond papier, jamais recadré ; arrondis de planche.
+- Pastille d'ouverture **sombre** en haut à droite ; au survol, la flèche pivote.
+- Sous la galerie : numéro, titre, puis sous-titre doré (`catégorie · période`, ou la catégorie seule quand le projet n'a pas d'années).
 
 Elle ne lit plus l'enregistrement du projet : elle reçoit la **vue** résolue par [`Gabarit_Projet`](../Gabarit_Projet/Gabarit_Projet.md). Même titre, mêmes médias, même contrat d'ouverture que l'étude et la page.
 
@@ -11,7 +17,7 @@ Rien n'est lu dans `projets.json` ici. Tout vient de `vue` : `titre`, `titreHtml
 **Calculé par `Gabarit_Projet`, jamais stocké** :
 - le numéro (rang + 1) ;
 - le compteur « Projet 03 / 11 » (dictionnaire, rang et total) ;
-- la période affichée ;
+- la période affichée, absente quand le projet n'a ni `annees` ni `periode` ;
 - le texte alternatif de chaque image : le motif du projet, rempli avec le rang de l'image.
 
 Les **disciplines** (`projets[].categories`) sont une liste d'identifiants du catalogue déclaré dans la section du sommaire. La carte les pose en attribut `data-disciplines`, séparées par une espace. C'est ce que lit le filtre : aucune liste de projets n'existe côté script, chaque carte dit elle-même à quoi elle appartient.

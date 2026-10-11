@@ -73,7 +73,7 @@ export function vueProjet({ projet, ctx, rang = null, total = null }) {
     description: ctx.c(projet.contexte, `${chemin}.contexte`),
     contexteHtml: ctx.l(projet.contexte, `${chemin}.contexte`),
     ideeHtml: ctx.l(projet.idee, `${chemin}.idee`),
-    valeurHtml: ctx.l(projet.valeur, `${chemin}.valeur`),
+    valeurHtml: projet.valeur ? ctx.l(projet.valeur, `${chemin}.valeur`) : "",
     periode: periodeProjet(projet, ctx),
     categoriePrincipale: projet.categoriePrincipale,
     lien: ctx.pageProjet(projet),
@@ -92,8 +92,9 @@ export function vueProjet({ projet, ctx, rang = null, total = null }) {
       : null,
     // Les disciplines ne sont plus montrées dans l'étude : elles répétaient la
     // catégorie posée juste au-dessus du titre. La donnée reste dans
-    // content/projets.json, et MarcoS continue de la lire (connaissance.js).
+    // content/projets.json, et l'assistant continue de la lire (connaissance.js).
     champs: [["projet.role", projet.role, "role"]]
+      .filter(([, valeur]) => valeur)
       .map(([cle, valeur, nom]) => ({ etiquette: ctx.t(cle), contenu: ctx.l(valeur, `${chemin}.${nom}`) })),
     /**
      * LE CONTRAT D'OUVERTURE. Ces attributs, posés sur le lien d'entrée,

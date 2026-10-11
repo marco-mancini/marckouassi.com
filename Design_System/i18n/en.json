@@ -23,6 +23,7 @@
   "projet": {
     "compteur": "Project {numero} / {total}",
     "ouvrir": "Open the project {titre} to see the full case study and all its images",
+    "ouvrirFiche": "Open the {titre} fact sheet",
     "fermer": "Close the case study",
     "images": "Project images",
     "imagesAutres": "See the {nombre} other images",
@@ -123,6 +124,7 @@
     "plageParcours": "{debut} — {fin}",
     "plageSelection": "{debut} — {fin}",
     "selection": "{nombre} projects",
+    "selectionAvecPart": "{nombre} projects · {part} {libelle}",
     "selectionPlage": " · {plage}",
     "complement": " · {texte}",
     "categorieEtPeriode": "{categorie} · {periode}",

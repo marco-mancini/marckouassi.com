@@ -181,10 +181,21 @@ test("sans JavaScript, la navigation mobile reste accessible (pas de bouton de m
 test("étude de projet : ouverture en modale, compteur calculé, Échap, focus rendu ; sans JS : page du projet", async () => {
   // Le filtrage vit dans l'accueil (décision de Marc, #123) : on déplie la
   // catégorie par son ancre, puis on ouvre l'étude depuis son bloc.
-  const page = await ouvrir(nav, serveur.url + "/#categorie-identite-charte");
+  // #194 : le clic partait parfois sur une carte encore en mouvement (défilement
+  // fluide vers l'ancre, animation d'entrée) : « element is not stable », puis
+  // un clic qui n'aboutit pas en CI. Le mouvement n'est pas le sujet de ce test
+  // (les animations ont les leurs) : mouvement réduit, aucune carte ne bouge.
+  const page = await ouvrir(nav, serveur.url + "/#categorie-identite-charte", { reduit: true });
   const lien = page.locator('a[data-etude="aurex"]');
+  // État prêt : script initialisé, carte apparue, plus aucune animation finie en cours.
+  await page.waitForFunction(() => document.documentElement.classList.contains("js-anime"));
   await lien.scrollIntoViewIfNeeded();
-  await lien.click();
+  await page.waitForFunction(() => {
+    const carte = document.querySelector('a[data-etude="aurex"]');
+    return carte?.classList.contains("est-apparu")
+      && carte.getAnimations({ subtree: true }).every((a) => a.playState !== "running" || a.effect?.getTiming?.().iterations === Infinity);
+  });
+  await lien.click({ noWaitAfter: true });
   await page.waitForFunction(() => document.getElementById("etude").open);
   assert.equal(await page.textContent("[data-etude-compteur]"), "Projet 03 / 05");
   assert.equal(await page.getAttribute("#etude", "aria-labelledby"), "etude-aurex");
@@ -703,6 +714,30 @@ test("les catégories dépliées tiennent en FR/EN, clair/sombre, à toutes les 
       const debordement = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       assert.equal(debordement, 0, `${langue} ${theme} ${largeur}px`);
       assert.deepEqual(page.erreurs, [], `${langue} ${theme} ${largeur}px`);
+      await page.fermer();
+    }
+  }
+});
+
+test("en-tête : les liens tiennent sur une ligne et ne passent jamais sous le choix de langue (#187)", async () => {
+  for (const largeur of [1200, 1280, 1366, 1440, 1920]) {
+    for (const chemin of ["/", "/en/"]) {
+      const page = await ouvrir(nav, serveur.url + chemin, { largeur });
+      const mesure = await page.evaluate(() => {
+        const entete = document.querySelector('[data-en-tete="site"]');
+        const liens = [...entete.querySelectorAll(".en-tete__navigation .navigation a")];
+        const actions = entete.querySelector(".en-tete__actions").getBoundingClientRect();
+        const hauteurLigne = Math.min(...liens.map((a) => a.getBoundingClientRect().height));
+        return {
+          visibles: liens.filter((a) => a.getBoundingClientRect().width > 0).length,
+          total: liens.length,
+          chevauchement: Math.max(...liens.map((a) => a.getBoundingClientRect().right)) - actions.left,
+          surDeuxLignes: liens.filter((a) => a.getBoundingClientRect().height > hauteurLigne + 4).length,
+        };
+      });
+      assert.equal(mesure.visibles, mesure.total, `${largeur} ${chemin} : liens visibles`);
+      assert.ok(mesure.chevauchement < 0, `${largeur} ${chemin} : le dernier lien passe sous les actions (${mesure.chevauchement} px)`);
+      assert.equal(mesure.surDeuxLignes, 0, `${largeur} ${chemin} : lien coupé sur deux lignes`);
       await page.fermer();
     }
   }
