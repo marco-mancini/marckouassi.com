@@ -181,16 +181,20 @@ test("sans JavaScript, la navigation mobile reste accessible (pas de bouton de m
 test("étude de projet : ouverture en modale, compteur calculé, Échap, focus rendu ; sans JS : page du projet", async () => {
   // Le filtrage vit dans l'accueil (décision de Marc, #123) : on déplie la
   // catégorie par son ancre, puis on ouvre l'étude depuis son bloc.
-  const page = await ouvrir(nav, serveur.url + "/#categorie-identite-charte");
+  // #194 : le clic partait parfois sur une carte encore en mouvement (défilement
+  // fluide vers l'ancre, animation d'entrée) : « element is not stable », puis
+  // un clic qui n'aboutit pas en CI. Le mouvement n'est pas le sujet de ce test
+  // (les animations ont les leurs) : mouvement réduit, aucune carte ne bouge.
+  const page = await ouvrir(nav, serveur.url + "/#categorie-identite-charte", { reduit: true });
   const lien = page.locator('a[data-etude="aurex"]');
-  // #194 : le clic partait parfois avant que la page soit prête (carte encore
-  // en animation d'entrée, comportements pas encore branchés) et Playwright
-  // attendait une navigation qui n'est pas le sujet du test. On attend
-  // l'état prêt — script initialisé, carte apparue — puis on vérifie le seul
-  // effet attendu : la modale s'ouvre.
+  // État prêt : script initialisé, carte apparue, plus aucune animation finie en cours.
   await page.waitForFunction(() => document.documentElement.classList.contains("js-anime"));
   await lien.scrollIntoViewIfNeeded();
-  await page.waitForFunction(() => document.querySelector('a[data-etude="aurex"]')?.classList.contains("est-apparu"));
+  await page.waitForFunction(() => {
+    const carte = document.querySelector('a[data-etude="aurex"]');
+    return carte?.classList.contains("est-apparu")
+      && carte.getAnimations({ subtree: true }).every((a) => a.playState !== "running" || a.effect?.getTiming?.().iterations === Infinity);
+  });
   await lien.click({ noWaitAfter: true });
   await page.waitForFunction(() => document.getElementById("etude").open);
   assert.equal(await page.textContent("[data-etude-compteur]"), "Projet 03 / 05");
