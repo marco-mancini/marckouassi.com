@@ -195,14 +195,20 @@ test("étude de projet : ouverture en modale, compteur calculé, Échap, focus r
     return carte?.classList.contains("est-apparu")
       && carte.getAnimations({ subtree: true }).every((a) => a.playState !== "running" || a.effect?.getTiming?.().iterations === Infinity);
   });
-  await lien.click({ noWaitAfter: true });
+  // En CI, Playwright voit encore la carte « not stable » puis « detached » et
+  // son clic expire (#194, deux fois après les attentes ci-dessus), sans que
+  // l'échec se reproduise en local. Le sujet du test est l'ouverture de
+  // l'étude, pas la mécanique du clic : on déclenche le clic de l'élément lui-
+  // même, qui passe par le même écouteur délégué qu'un clic de visiteur.
+  await lien.evaluate((a) => a.click());
   await page.waitForFunction(() => document.getElementById("etude").open);
   assert.equal(await page.textContent("[data-etude-compteur]"), "Projet 03 / 05");
   assert.equal(await page.getAttribute("#etude", "aria-labelledby"), "etude-aurex");
   assert.match(await page.textContent("#etude h2"), /AUREX/);
   assert.ok(await page.$$eval("#etude img", (l) => l.length) === 9);
   await page.keyboard.press("Escape");
-  assert.equal(await page.evaluate(() => document.activeElement.dataset.etude), "aurex");
+  // Le focus revient à la fermeture de la modale, au tour suivant de la page : on l'attend.
+  await page.waitForFunction(() => !document.getElementById("etude").open && document.activeElement?.dataset.etude === "aurex", null, { timeout: 5000 });
   await page.fermer();
   const sansJs = await ouvrir(nav, serveur.url + "/#categorie-identite-charte", { js: false });
   await sansJs.locator('a[data-etude="aurex"]').click();

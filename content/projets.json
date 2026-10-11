@@ -789,129 +789,43 @@
     "categoriePrincipale": "digital-ui-ux"
   },
   {
-    "id": "8ight-concept",
+    "id": "impact-communication",
     "titre": {
-      "fr": "8ight Concept",
-      "en": "8ight Concept"
+      "fr": "Impact Communication",
+      "en": "Impact Communication"
     },
     "categorie": {
-      "fr": "Logotype · identité et objets de marque",
-      "en": "Logotype · identity and branded objects"
+      "fr": "Logotype · agence de communication",
+      "en": "Logotype · communication agency"
     },
     "contexte": {
-      "fr": "Les images montrent une marque bâtie sur un chiffre : le 8 ouvre le mot et sert aussi de symbole seul. La planche réunit le logotype, l’isotype, les trois couleurs et la typographie ; les mises en situation le portent sur une façade et sur une série de vêtements.",
-      "en": "The images show a brand built on a number: the 8 opens the word and also stands alone as the symbol. The sheet brings together the logotype, the symbol, the three colours and the typeface; the mock-ups carry it onto a facade and onto a set of garments."
+      "fr": "Les images montrent l’identité d’une agence de communication : une tache de peinture traverse le mot et en devient le symbole. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches.",
+      "en": "The images show the identity of a communication agency: a paint splash crosses the word and becomes its symbol. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto posters."
     },
     "idee": {
-      "fr": "Le chiffre et la lettre se confondent. Les contreformes du 8 sont découpées en quartiers, ce qui donne au symbole une géométrie reconnaissable même réduite à un badge brodé.",
-      "en": "Number and letter merge. The counters of the 8 are cut into quarters, giving the symbol a geometry that stays recognisable even shrunk to an embroidered badge."
+      "fr": "La tache dit le mot. Projetée sur une lettre, elle laisse au nom sa lisibilité tout en donnant à la marque un signe qui vit seul.",
+      "en": "The splash states the word. Thrown across one letter, it leaves the name legible while giving the brand a mark that stands on its own."
     },
     "medias": [
       {
-        "src": "Public/images/Logotype/Mockup_EIGTH_01.jpg",
+        "src": "Public/images/Logotype/Mockup_IMPACT_01.jpg",
         "alt": {
-          "fr": "Planche de déclinaisons 8ight Concept — logo, isotype, palette et typographie",
-          "en": "8ight Concept brand sheet — logo, symbol, palette and typography"
+          "fr": "Planche de déclinaisons Impact Communication — logo, isotype, palette et typographie",
+          "en": "Impact Communication brand sheet — logo, symbol, palette and typography"
         }
       },
       {
-        "src": "Public/images/Logotype/Mockup_EIGTH_02.jpg",
+        "src": "Public/images/Logotype/Mockup_IMPACT_02.jpg",
         "alt": {
-          "fr": "Logo 8ight Concept en relief sur un bardage rouge",
-          "en": "8ight Concept logo in relief on red cladding"
+          "fr": "Affiche Impact Communication, un homme tenant une tablette devant une ville",
+          "en": "Impact Communication poster, a man holding a tablet in front of a city"
         }
       },
       {
-        "src": "Public/images/Logotype/Mockup_EIGTH_03.jpg",
+        "src": "Public/images/Logotype/Mockup_IMPACT_03.jpg",
         "alt": {
-          "fr": "Tee-shirt, casquette et sac rouges floqués 8ight Concept",
-          "en": "Red T-shirt, cap and tote bag printed with the 8ight Concept logo"
-        }
-      }
-    ],
-    "categoriePrincipale": "logotype"
-  },
-  {
-    "id": "afor",
-    "titre": {
-      "fr": "AFOR",
-      "en": "AFOR"
-    },
-    "categorie": {
-      "fr": "Logotype · agence foncière",
-      "en": "Logotype · land agency"
-    },
-    "contexte": {
-      "fr": "Les images montrent l’identité d’une agence foncière rurale : un livre ouvert sur lequel se déploie un parcellaire, surmonté d’un repère de carte. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches de terrain.",
-      "en": "The images show the identity of a rural land agency: an open book carrying a pattern of plots, topped by a map pin. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto field posters."
-    },
-    "idee": {
-      "fr": "Le parcellaire et le repère de carte disent le métier sans un mot : la terre, mesurée, située. L’orange et le vert séparent la trame cultivée du support qui la porte.",
-      "en": "The plots and the map pin state the trade without a word: land, measured and located. Orange and green separate the cultivated grid from the ground that carries it."
-    },
-    "medias": [
-      {
-        "src": "Public/images/Logotype/Mockup_AFOR_01.jpg",
-        "alt": {
-          "fr": "Planche de déclinaisons AFOR — logo, isotype, palette et typographie",
-          "en": "AFOR brand sheet — logo, symbol, palette and typography"
-        }
-      },
-      {
-        "src": "Public/images/Logotype/Mockup_AFOR_02.jpg",
-        "alt": {
-          "fr": "Affiche AFOR présentant une carte parcellaire du territoire",
-          "en": "AFOR poster showing a land parcel map of the territory"
-        }
-      },
-      {
-        "src": "Public/images/Logotype/Mockup_AFOR_03.jpg",
-        "alt": {
-          "fr": "Bannière AFOR sur une vue aérienne de parcelles rurales",
-          "en": "AFOR banner over an aerial view of rural plots"
-        }
-      }
-    ],
-    "categoriePrincipale": "logotype"
-  },
-  {
-    "id": "bni-finances",
-    "titre": {
-      "fr": "BNI Finances",
-      "en": "BNI Finances"
-    },
-    "categorie": {
-      "fr": "Logotype · filiale financière",
-      "en": "Logotype · financial subsidiary"
-    },
-    "contexte": {
-      "fr": "Les images montrent l’identité d’une filiale financière : une courbe inscrite dans un cartouche, suivie du nom et de sa signature. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur une enseigne de façade et sur des supports de communication.",
-      "en": "The images show the identity of a financial subsidiary: a rising curve set in a cartouche, followed by the name and its tagline. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto a building sign and onto communication material."
-    },
-    "idee": {
-      "fr": "La courbe de progression tient lieu de symbole. Enfermée dans un cartouche sombre, elle reste lisible en petit, sur une carte de visite comme sur une enseigne.",
-      "en": "The rising curve serves as the symbol. Held inside a dark cartouche, it stays legible when small, on a business card as much as on a sign."
-    },
-    "medias": [
-      {
-        "src": "Public/images/Logotype/Mockup_BNI_01.jpg",
-        "alt": {
-          "fr": "Planche de déclinaisons BNI Finances — logo, isotype, palette et typographie",
-          "en": "BNI Finances brand sheet — logo, symbol, palette and typography"
-        }
-      },
-      {
-        "src": "Public/images/Logotype/Mockup_BNI_02.jpg",
-        "alt": {
-          "fr": "Enseigne BNI Finances sur la façade d’un immeuble",
-          "en": "BNI Finances sign on a building facade"
-        }
-      },
-      {
-        "src": "Public/images/Logotype/Mockup_BNI_03.jpg",
-        "alt": {
-          "fr": "Visuel BNI Finances, une main retenant une chute de dominos près d’une pile de pièces",
-          "en": "BNI Finances visual, a hand stopping falling dominoes beside a stack of coins"
+          "fr": "Affiche Impact Communication, une femme devant un ordinateur portable",
+          "en": "Impact Communication poster, a woman at a laptop"
         }
       }
     ],
@@ -961,43 +875,172 @@
     "categoriePrincipale": "logotype"
   },
   {
-    "id": "impact-communication",
+    "id": "wona",
     "titre": {
-      "fr": "Impact Communication",
-      "en": "Impact Communication"
+      "fr": "Wona",
+      "en": "Wona"
+    },
+    "categorie": {
+      "fr": "Logotype · documentaire",
+      "en": "Logotype · documentary"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’un documentaire au cœur de l’Afrique : un mot dont une lettre devient un triangle et une autre un signe plein, accompagné de sa signature. La planche réunit le logotype, l’isotype, la palette et les deux typographies ; les mises en situation le portent sur une enseigne ronde et sur une affiche.",
+      "en": "The images show the identity of a documentary set in the heart of Africa: a word in which one letter becomes a triangle and another a solid mark, carried with its tagline. The sheet brings together the logotype, the symbol, the palette and the two typefaces; the mock-ups carry it onto a round sign and onto a poster."
+    },
+    "idee": {
+      "fr": "La lettre devient forme. Le triangle et le signe plein donnent au mot une structure qui se lit de loin, et l’isotype garde cette géométrie quand le nom disparaît.",
+      "en": "The letter turns into shape. The triangle and the solid mark give the word a structure that reads from a distance, and the symbol keeps that geometry once the name is gone."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_WONA_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons Wona — logo, isotype, palette et typographie",
+          "en": "Wona brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_WONA_02.jpg",
+        "alt": {
+          "fr": "Enseigne ronde Wona sur une façade",
+          "en": "Round Wona sign on a facade"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_WONA_03.jpg",
+        "alt": {
+          "fr": "Affiche Wona, portrait d’une femme au foulard sur un paysage africain",
+          "en": "Wona poster, a portrait of a woman wearing a headwrap over an African landscape"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "eight-concept",
+    "titre": {
+      "fr": "Eight Concept",
+      "en": "Eight Concept"
     },
     "categorie": {
       "fr": "Logotype · agence de communication",
       "en": "Logotype · communication agency"
     },
     "contexte": {
-      "fr": "Les images montrent l’identité d’une agence de communication : une tache de peinture traverse le mot et en devient le symbole. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches.",
-      "en": "The images show the identity of a communication agency: a paint splash crosses the word and becomes its symbol. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto posters."
+      "fr": "Les images montrent l’identité d’une agence de communication bâtie sur un chiffre : le 8 ouvre le mot et sert aussi de symbole seul. La planche réunit le logotype, l’isotype, les trois couleurs et la typographie ; les mises en situation le portent sur une façade et sur une série de vêtements.",
+      "en": "The images show the identity of a communication agency built on a number: the 8 opens the word and also stands alone as the symbol. The sheet brings together the logotype, the symbol, the three colours and the typeface; the mock-ups carry it onto a facade and onto a set of garments."
     },
     "idee": {
-      "fr": "La tache dit le mot. Projetée sur une lettre, elle laisse au nom sa lisibilité tout en donnant à la marque un signe qui vit seul.",
-      "en": "The splash states the word. Thrown across one letter, it leaves the name legible while giving the brand a mark that stands on its own."
+      "fr": "Le chiffre et la lettre se confondent. Les contreformes du 8 sont découpées en quartiers, ce qui donne au symbole une géométrie reconnaissable même réduite à un badge brodé.",
+      "en": "Number and letter merge. The counters of the 8 are cut into quarters, giving the symbol a geometry that stays recognisable even shrunk to an embroidered badge."
     },
     "medias": [
       {
-        "src": "Public/images/Logotype/Mockup_IMPACT_01.jpg",
+        "src": "Public/images/Logotype/Mockup_EIGTH_01.jpg",
         "alt": {
-          "fr": "Planche de déclinaisons Impact Communication — logo, isotype, palette et typographie",
-          "en": "Impact Communication brand sheet — logo, symbol, palette and typography"
+          "fr": "Planche de déclinaisons Eight Concept — logo, isotype, palette et typographie",
+          "en": "Eight Concept brand sheet — logo, symbol, palette and typography"
         }
       },
       {
-        "src": "Public/images/Logotype/Mockup_IMPACT_02.jpg",
+        "src": "Public/images/Logotype/Mockup_EIGTH_02.jpg",
         "alt": {
-          "fr": "Affiche Impact Communication, un homme tenant une tablette devant une ville",
-          "en": "Impact Communication poster, a man holding a tablet in front of a city"
+          "fr": "Logo Eight Concept en relief sur un bardage rouge",
+          "en": "Eight Concept logo in relief on red cladding"
         }
       },
       {
-        "src": "Public/images/Logotype/Mockup_IMPACT_03.jpg",
+        "src": "Public/images/Logotype/Mockup_EIGTH_03.jpg",
         "alt": {
-          "fr": "Affiche Impact Communication, une femme devant un ordinateur portable",
-          "en": "Impact Communication poster, a woman at a laptop"
+          "fr": "Tee-shirt, casquette et sac rouges floqués Eight Concept",
+          "en": "Red T-shirt, cap and tote bag printed with the Eight Concept logo"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "bni-finances",
+    "titre": {
+      "fr": "BNI Finances",
+      "en": "BNI Finances"
+    },
+    "categorie": {
+      "fr": "Logotype · filiale financière",
+      "en": "Logotype · financial subsidiary"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’une filiale financière : une courbe inscrite dans un cartouche, suivie du nom et de sa signature. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur une enseigne de façade et sur des supports de communication.",
+      "en": "The images show the identity of a financial subsidiary: a rising curve set in a cartouche, followed by the name and its tagline. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto a building sign and onto communication material."
+    },
+    "idee": {
+      "fr": "La courbe de progression tient lieu de symbole. Enfermée dans un cartouche sombre, elle reste lisible en petit, sur une carte de visite comme sur une enseigne.",
+      "en": "The rising curve serves as the symbol. Held inside a dark cartouche, it stays legible when small, on a business card as much as on a sign."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_BNI_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons BNI Finances — logo, isotype, palette et typographie",
+          "en": "BNI Finances brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_BNI_02.jpg",
+        "alt": {
+          "fr": "Enseigne BNI Finances sur la façade d’un immeuble",
+          "en": "BNI Finances sign on a building facade"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_BNI_03.jpg",
+        "alt": {
+          "fr": "Visuel BNI Finances, une main retenant une chute de dominos près d’une pile de pièces",
+          "en": "BNI Finances visual, a hand stopping falling dominoes beside a stack of coins"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "afor",
+    "titre": {
+      "fr": "AFOR",
+      "en": "AFOR"
+    },
+    "categorie": {
+      "fr": "Logotype · agence foncière",
+      "en": "Logotype · land agency"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’une agence foncière rurale : un livre ouvert sur lequel se déploie un parcellaire, surmonté d’un repère de carte. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches de terrain.",
+      "en": "The images show the identity of a rural land agency: an open book carrying a pattern of plots, topped by a map pin. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto field posters."
+    },
+    "idee": {
+      "fr": "Le parcellaire et le repère de carte disent le métier sans un mot : la terre, mesurée, située. L’orange et le vert séparent la trame cultivée du support qui la porte.",
+      "en": "The plots and the map pin state the trade without a word: land, measured and located. Orange and green separate the cultivated grid from the ground that carries it."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_AFOR_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons AFOR — logo, isotype, palette et typographie",
+          "en": "AFOR brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_AFOR_02.jpg",
+        "alt": {
+          "fr": "Affiche AFOR présentant une carte parcellaire du territoire",
+          "en": "AFOR poster showing a land parcel map of the territory"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_AFOR_03.jpg",
+        "alt": {
+          "fr": "Bannière AFOR sur une vue aérienne de parcelles rurales",
+          "en": "AFOR banner over an aerial view of rural plots"
         }
       }
     ],
@@ -1041,49 +1084,6 @@
         "alt": {
           "fr": "Bannière M&M Auto devant une concession automobile",
           "en": "M&M Auto banner in front of a car dealership"
-        }
-      }
-    ],
-    "categoriePrincipale": "logotype"
-  },
-  {
-    "id": "marcos",
-    "titre": {
-      "fr": "MarcoS",
-      "en": "MarcoS"
-    },
-    "categorie": {
-      "fr": "Logotype · assistant virtuel",
-      "en": "Logotype · virtual assistant"
-    },
-    "contexte": {
-      "fr": "Les images montrent l’identité d’un assistant virtuel : un mot manuscrit dont la dernière lettre se prolonge en boucle, et un monogramme tiré du M. La planche réunit le logotype, l’isotype, les quatre couleurs et les deux typographies ; les mises en situation le portent sur un écran d’ordinateur et sur un téléphone.",
-      "en": "The images show the identity of a virtual assistant: a handwritten word whose last letter extends into a loop, and a monogram drawn from the M. The sheet brings together the logotype, the symbol, the four colours and the two typefaces; the mock-ups carry it onto a laptop screen and onto a phone."
-    },
-    "idee": {
-      "fr": "La boucle finale relie l’écrit à la parole. Le monogramme reprend le mouvement du M, de sorte que la marque garde son geste même réduite à la pastille d’une application.",
-      "en": "The closing loop ties writing to speech. The monogram takes up the movement of the M, so the brand keeps its gesture even when reduced to an app icon."
-    },
-    "medias": [
-      {
-        "src": "Public/images/Logotype/Mockup_MARCOS_01.jpg",
-        "alt": {
-          "fr": "Planche de déclinaisons MarcoS — logo, isotype, palette et typographie",
-          "en": "MarcoS brand sheet — logo, symbol, palette and typography"
-        }
-      },
-      {
-        "src": "Public/images/Logotype/Mockup_MARCOS_02.jpg",
-        "alt": {
-          "fr": "Logo MarcoS affiché sur l’écran d’un ordinateur portable",
-          "en": "MarcoS logo on a laptop screen"
-        }
-      },
-      {
-        "src": "Public/images/Logotype/Mockup_MARCOS_03.jpg",
-        "alt": {
-          "fr": "Conversation MarcoS ouverte sur un téléphone tenu en main",
-          "en": "MarcoS conversation open on a hand-held phone"
         }
       }
     ],
@@ -1176,43 +1176,43 @@
     "categoriePrincipale": "logotype"
   },
   {
-    "id": "wona",
+    "id": "marcos",
     "titre": {
-      "fr": "Wona",
-      "en": "Wona"
+      "fr": "MarcoS",
+      "en": "MarcoS"
     },
     "categorie": {
-      "fr": "Logotype · média culturel",
-      "en": "Logotype · cultural media"
+      "fr": "Logotype · assistant virtuel",
+      "en": "Logotype · virtual assistant"
     },
     "contexte": {
-      "fr": "Les images montrent l’identité d’un média culturel : un mot dont une lettre devient un triangle et une autre un signe plein, accompagné de sa signature. La planche réunit le logotype, l’isotype, la palette et les deux typographies ; les mises en situation le portent sur une enseigne ronde et sur une affiche.",
-      "en": "The images show the identity of a cultural media brand: a word in which one letter becomes a triangle and another a solid mark, carried with its tagline. The sheet brings together the logotype, the symbol, the palette and the two typefaces; the mock-ups carry it onto a round sign and onto a poster."
+      "fr": "Les images montrent l’identité d’un assistant virtuel : un mot manuscrit dont la dernière lettre se prolonge en boucle, et un monogramme tiré du M. La planche réunit le logotype, l’isotype, les quatre couleurs et les deux typographies ; les mises en situation le portent sur un écran d’ordinateur et sur un téléphone.",
+      "en": "The images show the identity of a virtual assistant: a handwritten word whose last letter extends into a loop, and a monogram drawn from the M. The sheet brings together the logotype, the symbol, the four colours and the two typefaces; the mock-ups carry it onto a laptop screen and onto a phone."
     },
     "idee": {
-      "fr": "La lettre devient forme. Le triangle et le signe plein donnent au mot une structure qui se lit de loin, et l’isotype garde cette géométrie quand le nom disparaît.",
-      "en": "The letter turns into shape. The triangle and the solid mark give the word a structure that reads from a distance, and the symbol keeps that geometry once the name is gone."
+      "fr": "La boucle finale relie l’écrit à la parole. Le monogramme reprend le mouvement du M, de sorte que la marque garde son geste même réduite à la pastille d’une application.",
+      "en": "The closing loop ties writing to speech. The monogram takes up the movement of the M, so the brand keeps its gesture even when reduced to an app icon."
     },
     "medias": [
       {
-        "src": "Public/images/Logotype/Mockup_WONA_01.jpg",
+        "src": "Public/images/Logotype/Mockup_MARCOS_01.jpg",
         "alt": {
-          "fr": "Planche de déclinaisons Wona — logo, isotype, palette et typographie",
-          "en": "Wona brand sheet — logo, symbol, palette and typography"
+          "fr": "Planche de déclinaisons MarcoS — logo, isotype, palette et typographie",
+          "en": "MarcoS brand sheet — logo, symbol, palette and typography"
         }
       },
       {
-        "src": "Public/images/Logotype/Mockup_WONA_02.jpg",
+        "src": "Public/images/Logotype/Mockup_MARCOS_02.jpg",
         "alt": {
-          "fr": "Enseigne ronde Wona sur une façade",
-          "en": "Round Wona sign on a facade"
+          "fr": "Logo MarcoS affiché sur l’écran d’un ordinateur portable",
+          "en": "MarcoS logo on a laptop screen"
         }
       },
       {
-        "src": "Public/images/Logotype/Mockup_WONA_03.jpg",
+        "src": "Public/images/Logotype/Mockup_MARCOS_03.jpg",
         "alt": {
-          "fr": "Affiche Wona, portrait d’une femme au foulard sur un paysage africain",
-          "en": "Wona poster, a portrait of a woman wearing a headwrap over an African landscape"
+          "fr": "Conversation MarcoS ouverte sur un téléphone tenu en main",
+          "en": "MarcoS conversation open on a hand-held phone"
         }
       }
     ],
