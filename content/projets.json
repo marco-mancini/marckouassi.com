@@ -78,7 +78,13 @@
         "src": "Public/images/Projet_FIFA26_13.png"
       }
     ],
-    "categoriePrincipale": "campagne-publicitaire"
+    "categoriePrincipale": "campagne-publicitaire",
+    "seo": {
+      "description": {
+        "fr": "Campagne Orange Sénégal pour la Coupe du monde 2026 : le rythme et l’intensité du football au cœur de l’expérience Orange. Par Marc Kouassi.",
+        "en": "Orange Sénégal campaign for the 2026 World Cup: the rhythm and intensity of football at the heart of the Orange experience. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "world-cola",
@@ -135,7 +141,13 @@
         "src": "Public/images/Projet_WorldCola_05.png"
       }
     ],
-    "categoriePrincipale": "campagne-publicitaire"
+    "categoriePrincipale": "campagne-publicitaire",
+    "seo": {
+      "description": {
+        "fr": "Campagne Ramadan pour World Cola (SOBEBRA, Bénin) : la boisson au cœur des moments de partage et de convivialité. Par Marc Kouassi.",
+        "en": "Ramadan campaign for World Cola (SOBEBRA, Benin): the drink at the heart of moments of sharing and conviviality. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "beninoise",
@@ -201,7 +213,13 @@
         "src": "Public/images/Projet_LaBeninoise_08.png"
       }
     ],
-    "categoriePrincipale": "campagne-publicitaire"
+    "categoriePrincipale": "campagne-publicitaire",
+    "seo": {
+      "description": {
+        "fr": "Campagne pour La Béninoise, « La bière du Bénin » : une marque populaire mise en scène dans sa capacité à rassembler. Par Marc Kouassi.",
+        "en": "Campaign for La Béninoise, “The beer of Benin”: a popular brand staged through its power to bring people together. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "anacadi",
@@ -276,7 +294,13 @@
         "src": "Public/images/Projet_ANACADI_11.png"
       }
     ],
-    "categoriePrincipale": "campagne-publicitaire"
+    "categoriePrincipale": "campagne-publicitaire",
+    "seo": {
+      "description": {
+        "fr": "Campagne de la Journée d’excellence du Gbêkê pour ANACADI : un même langage visuel, de l’affiche aux emballages. Par Marc Kouassi.",
+        "en": "Campaign for ANACADI’s Journée d’excellence du Gbêkê: one visual language, from poster to packaging. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "ceeli",
@@ -408,7 +432,13 @@
         "src": "Public/images/Charte_Graphique/31.png"
       }
     ],
-    "categoriePrincipale": "identite-charte"
+    "categoriePrincipale": "identite-charte",
+    "seo": {
+      "description": {
+        "fr": "Charte graphique complète de CEELI Group : un cadre simple qui garde l’identité claire sur tous les supports. Par Marc Kouassi.",
+        "en": "Full brand guidelines for CEELI Group: one simple frame that keeps the identity clear on every medium. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "velanova",
@@ -484,6 +514,12 @@
       }
     ],
     "categoriePrincipale": "identite-charte",
+    "seo": {
+      "description": {
+        "fr": "Identité de lancement de VELANOVA, marque d’équipements sportifs : mouvement, ambition et un système prêt à se décliner. Par Marc Kouassi.",
+        "en": "Launch identity for VELANOVA, a sports equipment brand: movement, ambition and a system ready to extend. By Marc Kouassi."
+      }
+    },
     "periode": {
       "fr": "Février 2025",
       "en": "February 2025"
@@ -556,7 +592,13 @@
         "src": "Public/images/Projet_AUREX_09.png"
       }
     ],
-    "categoriePrincipale": "identite-charte"
+    "categoriePrincipale": "identite-charte",
+    "seo": {
+      "description": {
+        "fr": "Identité AUREX : le X comme point d’ancrage d’une charte qui relie imprimés, véhicules et visuels de campagne. Par Marc Kouassi.",
+        "en": "AUREX identity: the X as the anchor of guidelines linking print, vehicles and campaign visuals. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "ferov",
@@ -613,7 +655,13 @@
         "src": "Public/images/Projet_FEROV_05.png"
       }
     ],
-    "categoriePrincipale": "identite-charte"
+    "categoriePrincipale": "identite-charte",
+    "seo": {
+      "description": {
+        "fr": "Identité de mode FEROV : une signature typographique franche et une palette contrastée, du textile aux supports de marque. Par Marc Kouassi.",
+        "en": "FEROV fashion identity: a bold typographic signature and a contrasting palette, from fabric to brand materials. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "voon",
@@ -664,7 +712,13 @@
         "src": "Public/images/Projet_VOON_03.png"
       }
     ],
-    "categoriePrincipale": "identite-charte"
+    "categoriePrincipale": "identite-charte",
+    "seo": {
+      "description": {
+        "fr": "Identité VOON : deux O entrelacés en un signe compact, reconnaissable même en petit sur les accessoires. Par Marc Kouassi.",
+        "en": "VOON identity: two interlocking O’s forming a compact sign, recognizable even small on accessories. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "tp-solutions",
@@ -727,7 +781,13 @@
         "src": "Public/images/Projet_TP_Solution_08.png"
       }
     ],
-    "categoriePrincipale": "print-edition"
+    "categoriePrincipale": "print-edition",
+    "seo": {
+      "description": {
+        "fr": "Supports d’édition TP Solutions : une hiérarchie claire qui rend l’offre lisible, du premier regard aux détails. Par Marc Kouassi.",
+        "en": "TP Solutions editorial materials: a clear hierarchy that makes the offer readable, from first glance to details. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "ci20-connect",
@@ -786,7 +846,13 @@
         }
       }
     ],
-    "categoriePrincipale": "digital-ui-ux"
+    "categoriePrincipale": "digital-ui-ux",
+    "seo": {
+      "description": {
+        "fr": "Expérience UX/UI de CI20 Connect : réseau, formation, mentorat et opportunités rendus simples pour les entrepreneurs. Par Marc Kouassi.",
+        "en": "UX/UI experience for CI20 Connect: network, training, mentoring and opportunities made simple for entrepreneurs. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "impact-communication",
@@ -829,7 +895,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype Impact Communication : une tache de peinture traverse le mot et devient le symbole de l’agence. Par Marc Kouassi.",
+        "en": "Impact Communication logotype: a paint splash crosses the word and becomes the agency’s symbol. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "ileve11-communication",
@@ -872,7 +944,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype Ileve11 Communication : une pastille de couleur par lettre, un nom qui se compte autant qu’il se lit. Par Marc Kouassi.",
+        "en": "Ileve11 Communication logotype: one coloured dot per letter, a name counted as much as read. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "wona",
@@ -915,7 +993,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype de Wona, documentaire au cœur de l’Afrique : des lettres devenues formes pour un mot qui se lit de loin. Par Marc Kouassi.",
+        "en": "Logotype for Wona, a documentary set in the heart of Africa: letters turned into shapes for a word that reads from afar. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "eight-concept",
@@ -958,7 +1042,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype Eight Concept, agence de communication : le 8 ouvre le mot et devient symbole, de la façade au badge brodé. Par Marc Kouassi.",
+        "en": "Eight Concept logotype, a communication agency: the 8 opens the word and becomes the symbol, from facade to embroidered badge. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "bni-finances",
@@ -1001,7 +1091,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype BNI Finances : une courbe de progression dans un cartouche, lisible de la carte de visite à l’enseigne. Par Marc Kouassi.",
+        "en": "BNI Finances logotype: a rising curve in a cartouche, legible from business card to building sign. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "afor",
@@ -1044,7 +1140,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype AFOR, agence foncière rurale : un livre ouvert, un parcellaire et un repère de carte disent le métier. Par Marc Kouassi.",
+        "en": "AFOR logotype, a rural land agency: an open book, a pattern of plots and a map pin state the trade. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "mm-auto",
@@ -1087,7 +1189,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype M&M Auto : deux M qui partagent un jambage dans un cercle, net de l’icône à la façade. Par Marc Kouassi.",
+        "en": "M&M Auto logotype: two Ms sharing a stem inside a circle, sharp from icon to facade. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "tako",
@@ -1130,7 +1238,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype Tako, enseigne de restauration : une arche, forme du plat et du toit, du gobelet à la devanture. Par Marc Kouassi.",
+        "en": "Tako logotype, a food outlet: an arch, the shape of the dish and of a roof, from cup to storefront. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "up-in-africa",
@@ -1173,7 +1287,13 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype Up’ in Africa, catalyseur d’innovation : un blason bicolore qui monte et donne une direction au nom. Par Marc Kouassi.",
+        "en": "Up’ in Africa logotype, an innovation catalyst: a rising two-colour shield that gives the name a direction. By Marc Kouassi."
+      }
+    }
   },
   {
     "id": "marcos",
@@ -1216,6 +1336,12 @@
         }
       }
     ],
-    "categoriePrincipale": "logotype"
+    "categoriePrincipale": "logotype",
+    "seo": {
+      "description": {
+        "fr": "Logotype de MarcoS, assistant virtuel : un mot manuscrit dont la boucle relie l’écrit à la parole. Par Marc Kouassi.",
+        "en": "Logotype for MarcoS, a virtual assistant: a handwritten word whose loop ties writing to speech. By Marc Kouassi."
+      }
+    }
   }
 ]
