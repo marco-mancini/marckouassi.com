@@ -20,12 +20,14 @@ ce glossaire.
     Production, GBICH, Voodoo, Kaméléo, RTI1, RTI2, BNI Finance,
     PFCTCAL, Schneider) ;
   - **Icône Solution** et **MarcoS**, tels quels ;
-  - **titres de postes** (consigne de Marc) : *Directeur artistique*,
-    *Fondateur & directeur de création*, *Infographiste*, *Project
-    Manager & Lead UX/UI*, *Fondateur & CEO* restent dans leur langue
-    d'origine. Dans une phrase, le métier se traduit (« Directeur
-    artistique, 13 ans d'expérience » → « Art director with 13 years of
-    experience ») ;
+  - **titres de postes** (consigne de Marc) : *Fondateur & directeur de
+    création*, *Infographiste*, *Project Manager & Lead UX/UI*,
+    *Fondateur & CEO* restent dans leur langue d'origine. **Exception,
+    décision de Marc du 11 octobre 2026 ([#190](https://github.com/marco-mancini/marckouassi.com/issues/190)) :
+    *Directeur artistique* s'écrit *Art Director* en anglais** (rôle de
+    la couverture, parcours, CV). Dans une phrase, le métier se traduit
+    (« Directeur artistique, 13 ans d'expérience » → « Art director with
+    13 years of experience ») ;
   - noms d'événements et d'émissions : *Journée d'excellence du Gbêkê*,
     *Météo RTI1 & RTI2* ;
   - signatures de marque citées : *La bière du Bénin*.

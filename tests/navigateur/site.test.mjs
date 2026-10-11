@@ -546,17 +546,82 @@ const catalogueDuContenu = async () => {
 test("l'accueil propose les huit catégories et replie toutes les réalisations", async () => {
   // DÉCISION DE MARC (#123, 4 octobre 2026) : les onze réalisations restent
   // REPLIÉES derrière les huit cartes, qui sont le seul point d'entrée.
+  // Depuis #191, ces cartes sont des Rideau.
   const categories = await catalogueDuContenu();
   const page = await ouvrir(nav, serveur.url + "/");
-  assert.equal(await page.locator(".projets__choix .carte").count(), categories.length);
+  assert.equal(await page.locator(".projets__choix .rideau").count(), categories.length);
   assert.equal(await page.locator(".projets .projet-carte:visible").count(), 0, "aucune réalisation visible sur l'accueil");
   for (const categorie of categories) {
     const carte = page.locator(`.projets__choix a[href="#categorie-${categorie.id}"]`);
     assert.equal(await carte.count(), 1, categorie.id);
-    assert.equal(await carte.locator(".carte__note").textContent(), categorie.note.fr);
+    assert.equal(await carte.locator(".rideau__libelle").textContent(), categorie.libelle.fr);
+    assert.equal(await carte.locator(".rideau__note").textContent(), categorie.note.fr);
   }
   assert.deepEqual(page.erreurs, []);
   await page.fermer();
+});
+
+test("feuilles et modules se chargent tous avec l'empreinte du build, sans échec (#197)", async () => {
+  // Une page neuve ne doit jamais s'assembler avec d'anciennes ressources
+  // restées en cache : toute feuille et tout module porte ?v=<empreinte>,
+  // la même partout.
+  const contexte = await nav.newContext();
+  const page = await contexte.newPage();
+  const ressources = [], echecs = [];
+  page.on("request", (r) => { if (/\/(Design_System|Frontend)\/.*\.(css|js)(\?|$)/.test(r.url())) ressources.push(r.url()); });
+  page.on("requestfailed", (r) => echecs.push(r.url()));
+  page.on("response", (r) => { if (r.status() >= 400) echecs.push(`${r.status()} ${r.url()}`); });
+  await page.addInitScript(() => { try { sessionStorage.setItem("mk-intro-vue", "1"); } catch { /* */ } });
+  await page.goto(serveur.url + "/", { waitUntil: "load" });
+  await page.waitForTimeout(500);
+  assert.ok(ressources.length > 30, `${ressources.length} ressources seulement`);
+  const empreintes = new Set(ressources.map((u) => new URL(u).searchParams.get("v")));
+  assert.equal(empreintes.size, 1, `empreintes : ${[...empreintes].join(", ")}`);
+  assert.match([...empreintes][0] ?? "", /^[0-9a-f]{10}$/);
+  assert.deepEqual(echecs, []);
+  // Et le composant Rideau est bien stylé : la règle de sa feuille s'applique.
+  assert.equal(await page.$eval(".projets__choix .rideau", (e) => getComputedStyle(e).display), "grid");
+  await contexte.close();
+});
+
+test("les cartes Rideau désignent une vedette à tour de rôle, et s'effacent sous la main", async () => {
+  // Décision de Marc (#191) : les cartes montrent d'elles-mêmes qu'elles
+  // s'ouvrent. Une seule vedette à la fois ; elle passe à la suivante ; elle
+  // disparaît dès qu'un pointeur entre dans la rangée.
+  const page = await ouvrir(nav, serveur.url + "/", { largeur: 390, hauteur: 844 });
+  await page.evaluate(() => document.getElementById("sommaire").scrollIntoView({ behavior: "instant" }));
+  await page.waitForFunction(() => document.querySelectorAll(".projets__choix .rideau.est-vedette").length === 1, null, { timeout: 8000 });
+  const premiere = await page.$eval(".rideau.est-vedette", (e) => e.getAttribute("href"));
+  await page.waitForFunction((h) => document.querySelector(".rideau.est-vedette")?.getAttribute("href") !== h, premiere, { timeout: 8000 });
+  assert.equal(await page.locator(".rideau.est-vedette").count(), 1, "une seule vedette");
+  // La vedette prend l'état du survol : la crème monte.
+  await page.waitForTimeout(800);
+  const creme = await page.$eval(".rideau.est-vedette", (e) => getComputedStyle(e, "::before").transform);
+  assert.equal(creme, "matrix(1, 0, 0, 1, 0, 0)");
+  await page.hover(".projets__choix .rideau >> nth=0");
+  assert.equal(await page.locator(".rideau.est-vedette").count(), 0, "la main efface la vedette");
+  // Toute la carte est une cible tactile.
+  const hauteurs = await page.$$eval(".projets__choix .rideau", (l) => l.map((e) => e.getBoundingClientRect().height));
+  assert.ok(Math.min(...hauteurs) >= 44, `cible trop petite : ${Math.min(...hauteurs)} px`);
+  assert.deepEqual(page.erreurs, []);
+  await page.fermer();
+});
+
+test("mouvement réduit : les cartes Rideau restent immobiles, sans vedette", async () => {
+  for (const reglage of ["systeme", "visiteur"]) {
+    const page = await ouvrir(nav, serveur.url + "/", { largeur: 390, hauteur: 844, reduit: reglage === "systeme" });
+    if (reglage === "visiteur") await page.evaluate(() => { document.documentElement.dataset.animations = "reduites"; });
+    await page.evaluate(() => document.getElementById("sommaire").scrollIntoView({ behavior: "instant" }));
+    await page.waitForTimeout(5000);
+    assert.equal(await page.locator(".rideau.est-vedette").count(), 0, reglage);
+    if (reglage === "systeme") {
+      const enCours = await page.$$eval(".projets__choix .rideau", (l) => l.flatMap((e) => e.getAnimations({ subtree: true })).filter((a) => a.playState === "running").length);
+      assert.equal(enCours, 0, "aucune animation ne tourne");
+      assert.equal(await page.locator(".projets__choix .rideau:visible").count(), 8);
+    }
+    assert.deepEqual(page.erreurs, [], reglage);
+    await page.fermer();
+  }
 });
 
 test("une carte déplie sa seule catégorie, avec ses seules réalisations ou son état vide", async () => {

@@ -19,7 +19,7 @@ export function cheminsPages(contenu) {
  * @param {string} p.chemin          chemin sans préfixe de langue
  * @param {object} p.dictionnaires   { fr, en }
  * @param {Map}    p.medias          table source → fichier publié
- * @param {object} p.ressources      { sprite, couleurTheme, annee, assistantEndpoint }
+ * @param {object} p.ressources      { sprite, couleurTheme, annee, empreinte, assistantEndpoint }
  */
 export function contextePage({ site, langue, chemin, dictionnaires, medias, ressources }) {
   const defaut = site.langueParDefaut;
@@ -35,6 +35,10 @@ export function contextePage({ site, langue, chemin, dictionnaires, medias, ress
       return publie ? { ...publie, src: racine + publie.src } : {};
     },
     url: (c = chemin) => `${site.url}/${cheminLangue(langue, defaut, c)}`,
+    // Adresse absolue d'un fichier publié (image de partage…) : jamais
+    // préfixée par la langue, contrairement à une page.
+    urlFichier: (fichier) => `${site.url}/${fichier}`,
+    nomSite: site.identite.nom,
     pageDansLangue: (code) => racine + cheminLangue(code, defaut, chemin),
     pageAccueil: () => racine + cheminLangue(langue, defaut, ""),
     pageProjet: (projet) => racine + cheminLangue(langue, defaut, `projets/${projet.id}/`),

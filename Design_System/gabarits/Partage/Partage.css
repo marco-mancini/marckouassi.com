@@ -1,0 +1,27 @@
+/* ==========================================================================
+   PARTAGE — carte de partage (og:image), 1200 x 630, capturee en image
+   Fond creme fixe : la carte ne suit jamais le theme. Le sceau vert et le
+   portrait a gauche ; a droite PORTFOLIO DESIGN. en grand, le role dessous
+   (#184, version du 11 octobre).
+   ========================================================================== */
+.partage {
+  /* Couleurs du fond clair, quel que soit le theme de la capture. */
+  --texte: var(--clair-logo-lettre);
+  --accent-gold: var(--clair-logo-accent);
+  --point-titre: var(--clair-logo-accent);
+  --shadow-signature: transparent;
+  position: relative; overflow: hidden;
+  width: var(--partage-largeur); height: var(--partage-hauteur);
+  background: var(--clair-surface-page); color: var(--texte);
+}
+.partage__sceau { position: absolute; left: var(--partage-sceau-gauche); top: var(--partage-sceau-haut); }
+.partage__portrait { position: absolute; left: var(--partage-portrait-gauche); bottom: 0; height: 100%; width: auto; max-width: none; }
+.partage__texte {
+  position: absolute; top: 0; bottom: 0; right: var(--partage-texte-droite);
+  width: var(--partage-texte-largeur);
+  display: flex; flex-direction: column; justify-content: center; gap: var(--partage-espace);
+}
+.partage__role {
+  margin: 0; font-family: var(--font-mono); font-size: var(--partage-type-etiquette);
+  letter-spacing: var(--partage-espacement-etiquette); text-transform: uppercase; color: var(--texte);
+}

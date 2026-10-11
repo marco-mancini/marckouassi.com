@@ -93,8 +93,8 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .projets__accroche-suite { max-width: var(--mesure-accroche); margin: 0; color: var(--texte-discret); }
 /* Les catégories utilisent la même Carte qu'Introduction et Savoir-faire. */
 .projets__categories { display: flex; margin: 0 0 var(--projets-filtres-marge-basse); flex: 1; }
-.projets__choix { display: grid; flex: 1; align-content: center; grid-template-columns: repeat(auto-fit, minmax(min(var(--projets-choix-colonne-min), 100%), 1fr)); column-gap: var(--space-3); row-gap: var(--space-8); }
-.projets__choix .carte--choix { width: 100%; min-height: var(--projets-categorie-hauteur); appearance: none; font: inherit; text-align: left; cursor: pointer; }
+/* Huit cartes Rideau (#191) : quatre colonnes, deux sur telephone. */
+.projets__choix { display: grid; flex: 1; align-content: center; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); }
 .projets__groupes { display: grid; gap: var(--space-8); }
 /* Pas de scroll-margin-top ici : html porte seul le dégagement d'ancre
    (Theme.css, scroll-padding-top). Deux mécanismes s'additionneraient — c'est
@@ -220,8 +220,6 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .projets__categories { margin-bottom: var(--projets-filtres-marge-basse-compact); }
   .planche.projets { min-height: 0; }
   /* Sous 851 px, la carte peut etre plus etroite sans que le libelle se brise. */
-  .projets__choix { --projets-choix-colonne-min: 300px; row-gap: var(--space-6); }
-  .projets__choix .carte--choix { min-height: var(--projets-categorie-hauteur-compact); padding: var(--space-4); }
   .categorie-projets__entete { margin-top: var(--space-7); }
   .categorie-projets__recit { width: auto; white-space: normal; }
   .categorie-projets__ligne-titre { gap: var(--space-3); }
@@ -289,18 +287,11 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
   .couverture__faits .grille > :last-child { display: none; }
   .couverture__faits .champ--fait .champ__valeur { font-size: var(--cover-fait-taille-telephone); }
   .couverture__detail { display: none; }
-  .projets__choix, .savoirfaire .grille {
+  .savoirfaire .grille {
     --type-title-card: var(--carte-titre-taille-telephone);
     --carte-note-taille: var(--carte-note-taille-telephone);
     --type-process-ghost: var(--carte-filigrane-taille-telephone);
   }
-  .projets__choix { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-5); }
+  .projets__choix { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
   .projets__accroche .texte-affirmation { font-size: var(--projets-accroche-taille-telephone); }
-  .projets__choix .carte__libelle { white-space: nowrap; }
-}
-
-@media (max-width: 390px) {
-  /* Deux colonnes dans 320 px : le libelle se resserre encore pour tenir sa
-     ligne, plutot que de se briser. */
-  .projets__choix { --type-title-card: var(--carte-titre-taille-etroit); }
 }

@@ -1,0 +1,20 @@
+{
+  "fr": {
+    "accent": "Portfolio",
+    "mot": "Design",
+    "role": "Directeur artistique",
+    "portrait": {
+      "src": "Public/images/Photo_Marc.png",
+      "alt": "Portrait de Marc Kouassi."
+    }
+  },
+  "en": {
+    "accent": "Portfolio",
+    "mot": "Design",
+    "role": "Art Director",
+    "portrait": {
+      "src": "Public/images/Photo_Marc.png",
+      "alt": "Portrait of Marc Kouassi."
+    }
+  }
+}

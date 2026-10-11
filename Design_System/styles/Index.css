@@ -32,6 +32,7 @@
 @import url("../composants/Galerie/Galerie.css");
 @import url("../composants/Sceau/Sceau.css");
 @import url("../composants/Carte/Carte.css");
+@import url("../composants/Rideau/Rideau.css");
 @import url("../composants/Modale/Modale.css");
 @import url("../composants/Conversation/Conversation.css");
 @import url("../composants/Message/Message.css");
@@ -50,6 +51,7 @@
 @import url("../gabarits/Jalon/Jalon.css");
 @import url("../gabarits/Intro/Intro.css");
 @import url("../gabarits/Maintenance/Maintenance.css");
+@import url("../gabarits/Partage/Partage.css");
 @import url("../gabarits/Etats/Etats.css");
 @import url("../gabarits/Assistant/Assistant.css");
 @import url("../gabarits/Decouverte/Decouverte.css");

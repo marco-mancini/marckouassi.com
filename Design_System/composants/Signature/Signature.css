@@ -17,6 +17,11 @@
   --signature-taille-salut: var(--type-cover-signature);
   --signature-chevauchement: var(--cover-signature-chevauchement);
 }
+/* Carte de partage : image fixe de 1200 x 630, tailles en pixels (#184). */
+.signature--partage {
+  --signature-taille: var(--partage-type-mot);
+  --signature-interligne: var(--partage-interligne-mot);
+}
 .signature__salut {
   z-index: 3; margin-bottom: var(--signature-chevauchement); color: var(--texte);
   font-family: var(--font-script); font-size: var(--signature-taille-salut); font-weight: var(--weight-regular);

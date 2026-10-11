@@ -166,5 +166,8 @@
     "assistant": {
       "titre": "*Mar*coS"
     }
+  },
+  "partage": {
+    "alt": "{portrait} {accent} {mot}."
   }
 }

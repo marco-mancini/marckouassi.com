@@ -23,6 +23,60 @@ Règles :
 
 ---
 
+## 2026-10-11 — Les choix de catégorie deviennent des cartes « Rideau », animées en continu
+
+Décision de Marc, en conversation, sur maquette validée · issue [#191](https://github.com/marco-mancini/marckouassi.com/issues/191) (PM-191).
+
+**Problème.** Dans « Mes réalisations », les huit choix de catégorie utilisaient la `Carte` universelle (variante `carte--choix`). Marc veut des cartes propres à la section, plus basses et « totalement animées », qui montrent d'elles-mêmes qu'elles sont cliquables. Sur téléphone, aucun survol ne le dit.
+
+**Options.**
+1. **Une variante de `Carte`.** Mais `Carte` est un jalon calme, partagé avec le savoir-faire, et ses animations s'arrêtent après `--cycles-decoratifs` (3). Il aurait fallu la trahir pour une seule section.
+2. **Un nouveau composant `Rideau`.** Il réutilise les rôles de surface, le reflet, le chevron, les mouvements de `Motion.css` et l'apparition `rideau` d'`Apparition`.
+3. **Une orbite plein cadre en motion design** (maquettes v1 à v3). Elle est plus ambitieuse : Marc la garde pour plus tard, sur la branche `Animation_Section_Realisations`.
+
+**Choix.** Option 2. Après trois propositions (Rideau, Sceau, Index), Marc a retenu Rideau, en demandant une hauteur réduite et une animation continue.
+
+**Motif.**
+- Le mouvement continu est une demande explicite de Marc. Il contredit volontairement la borne `--cycles-decoratifs`, qui reste valable pour `Carte`.
+- La « vedette » qui passe d'une carte à l'autre donne aux visiteurs sur téléphone le signal que le survol donne sur ordinateur.
+- Le mouvement s'arrête :
+  - dès qu'on survole, touche ou parcourt les cartes au clavier ;
+  - hors de l'écran ;
+  - avec la réduction des animations du système ou le réglage du visiteur. Ce réglage est le moyen d'arrêt attendu par le critère WCAG 2.2.2.
+
+**Impact.**
+- Nouveau composant `Rideau`, qui porte l'inventaire à 27, avec ses jetons `--rideau-*`.
+- L'apparition `rideau` est désormais décalée par rang, comme les autres directions. Elle n'avait aucun autre usage.
+- Quatre jetons sont devenus sans usage et sont retirés : `--projets-choix-colonne-min`, `--projets-categorie-hauteur`, `--projets-categorie-hauteur-compact` et `--carte-titre-taille-etroit`.
+- `site.js` branche `activerRideaux`.
+- Sur téléphone, la note des catégories reste affichée. La `Carte` la masque sous 600 px, mais Marc a validé la maquette avec elle.
+
+**Réversibilité.** Totale. On revient à `Carte` en changeant l'appel dans `Projets.js` et les sélecteurs des tests. La maquette validée est https://claude.ai/artifact/JzqvzumTpgeBw8ADy1X2pA
+
+---
+
+## 2026-10-11 — Favicon, carte de partage et référencement
+
+Décisions de Marc, en conversation les 10 et 11 octobre, sur aperçus publiés (https://claude.ai/artifact/Tw3Qd9pamLQn2NJDYMMng5) · issues [#183](https://github.com/marco-mancini/marckouassi.com/issues/183), [#184](https://github.com/marco-mancini/marckouassi.com/issues/184), [#185](https://github.com/marco-mancini/marckouassi.com/issues/185), [#186](https://github.com/marco-mancini/marckouassi.com/issues/186).
+
+**Problème.** Le seul favicon était le sceau crème en SVG : peu lisible en onglet, absent sur iPhone, `/favicon.ico` en 404. Aucune page n'avait d'image de partage ni de données structurées ; les descriptions des projets dépassaient la longueur affichée par Google.
+
+**Options.** Favicon : sceau simplifié (sans traits de fond), sceau actuel, fichier fourni par Marc. Carte : carte générée, photo seule, visuel de projet. Descriptions : champ dédié, ou ne rien changer.
+
+**Choix.**
+- Favicon : le sceau **complet** (toute sa composition), **fond vert**, jamais flou ni pixelisé. Généré au build depuis le symbole du sprite avec les jetons `--sceau-vert-*` : SVG vectoriel, plus ICO et PNG pour les plateformes qui ignorent le SVG.
+- Carte de partage : la proposition « Éditorial » — fond crème, portrait devant le sceau vert, signature de la couverture à droite, **sans l'adresse du site**. Les projets partagent leur propre image.
+- Descriptions : champ facultatif `seo.description` par projet ; **Marc rédige les textes**, aucun n'est écrit à sa place.
+- Données structurées `Person`, `WebSite`, `ProfilePage`, `CreativeWork`, dérivées du contenu ; `lastmod` = date du build.
+
+**Motif.** Une seule source pour chaque élément : le sceau vient du sprite, les couleurs de Tokens.css, les textes de la carte de la couverture. La carte est capturée par `npm run partage` parce que Vercel n'a pas de navigateur et que Sharp ne dessine pas les polices WOFF2 ; une empreinte des textes signale une carte périmée.
+
+**Impact.** Les fichiers d'icônes et les vignettes sont générés, jamais versionnés ; seules les deux cartes (`Public/images/Partage/`) le sont. Une modification de la couverture impose de relancer `npm run partage` (test et avertissement du build).
+
+**Réversibilité.** Totale : retirer l'appel du build et les balises du gabarit de page rend l'état antérieur.
+
+---
+
 ## 2026-10-07 — Les périodes des projets sont celles du site, et la liste éditoriale se trompait
 
 Décision de Marc, en conversation à 20 h 10 · issue [#29](https://github.com/marco-mancini/marckouassi.com/issues/29) (PM-029).

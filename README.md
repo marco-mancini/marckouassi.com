@@ -25,7 +25,8 @@ Docs/                 Documentation : déploiement, contenus, assistant MarcoS
 ```sh
 npm ci
 npm test                 # rendu, langues, résistance, rien en dur, CMS, secrets
-npm run build            # génère _site/ (pages FR et EN, médias optimisés, sitemap)
+npm run build            # génère _site/ (pages FR et EN, médias optimisés, sitemap, favicon, images de partage)
+npm run partage          # recapture la carte de partage (og:image) après un changement de la couverture ou du portrait
 npm run test:navigateur  # Chromium : accessibilité, responsive, sans JS, site généré, CMS
 npm run comparer-reference  # aucune dérive par rapport à la référence (9d51394), 320 à 1440 px, clair et sombre ; code 1 au moindre écart
 ```
