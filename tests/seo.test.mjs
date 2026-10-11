@@ -176,10 +176,12 @@ test("JSON-LD : aucune donnée ne peut fermer la balise script", () => {
 
 test("description courte : prise dans sa langue seulement, sinon le résumé du projet", () => {
   const avec = { ...contenu, projets: contenu.projets.map((p, i) => (i === 0 ? { ...p, seo: { description: { fr: "Courte en français." } } } : p)) };
+  // Référence : le même projet sans description courte (le contenu réel en porte une depuis #206).
+  const sans = { ...contenu, projets: contenu.projets.map((p, i) => (i === 0 ? { ...p, seo: undefined } : p)) };
   assert.equal(meta(rendre({ donnees: avec, chemin: `projets/${projet.id}/` }), "description"), "Courte en français.");
   const anglais = meta(rendre({ donnees: avec, langue: "en", chemin: `projets/${projet.id}/` }), "description");
   assert.notEqual(anglais, "Courte en français.");
-  assert.equal(anglais, meta(rendre({ langue: "en", chemin: `projets/${projet.id}/` }), "description"));
+  assert.equal(anglais, meta(rendre({ donnees: sans, langue: "en", chemin: `projets/${projet.id}/` }), "description"));
 });
 
 test("description courte : proposée dans le CMS pour chaque projet, avec son image de partage", () => {
