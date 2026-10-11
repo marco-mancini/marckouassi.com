@@ -1,0 +1,399 @@
+<title>Bulles des réalisations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : en-tête crème du site, puis une planche olive par piste, avec la ligne de crédit du site. */
+:root {
+  --page: #fffff2; --ink: #505843; --ink-soft: #6f775e; --line: #dcdcc8;
+  --planche: #576740; --planche-deep: #3e4a2e; --sceau: #f3efe1; --or: #e0c182; --bronze: #ca9e67; --papier: #fffff2;
+  --display: "Anton", Impact, "Arial Narrow", sans-serif;
+  --body: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --page: #14180f; --ink: #e8ecdc; --ink-soft: #a6ad95; --line: #2e3626; --planche: #3b4530; --planche-deep: #232a1b; color-scheme: dark } }
+:root[data-theme="dark"] { --page: #14180f; --ink: #e8ecdc; --ink-soft: #a6ad95; --line: #2e3626; --planche: #3b4530; --planche-deep: #232a1b; color-scheme: dark }
+
+html, body { height: 100%; }
+body { background: var(--page); color: var(--ink); font-family: var(--body); padding-inline: 16px; overflow-x: hidden; }
+.wrap { max-width: 1040px; margin: 0 auto; display: grid; gap: 14px; padding-block: 16px 28px; }
+.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+h1 { margin: 0; font: 400 clamp(30px, 8vw, 54px)/.95 var(--display); text-transform: uppercase; text-wrap: balance; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; }
+.tabs button { min-height: 44px; border: 0; border-radius: 999px; background: transparent; color: var(--ink); font: 500 12px/1.1 var(--mono); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--planche); color: var(--papier); }
+.tabs button:focus-visible, .stage button:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
+.legend { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink-soft); max-width: 64ch; }
+.legend b { color: var(--ink); }
+
+/* Planche */
+.stage { position: relative; height: min(78svh, 740px); min-height: 520px; border-radius: 22px; overflow: hidden; background: var(--planche); color: var(--papier); touch-action: none; user-select: none; -webkit-user-select: none; isolation: isolate; }
+.credit { position: absolute; z-index: 3; left: 18px; right: 18px; top: 14px; display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,242,.22); font: 400 11px/1 var(--mono); letter-spacing: .04em; pointer-events: none; }
+.scene { position: absolute; inset: 0; }
+.scene[hidden] { display: none !important; }
+.hint { position: absolute; z-index: 3; left: 50%; bottom: 14px; transform: translateX(-50%); padding: 9px 14px; border-radius: 999px; background: rgba(35,42,27,.55); color: var(--sceau); font: 500 10px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; pointer-events: none; transition: opacity .6s; }
+.hint.off { opacity: 0; }
+
+/* La pastille-sceau : le disque crème du monogramme, ses lignes de vague, son liseré or. */
+.sceau-disc { border-radius: 50%; background: var(--sceau) var(--vagues) center / 100% 100% no-repeat; box-shadow: inset 0 0 0 1px var(--bronze), 0 18px 40px rgba(20,24,15,.35); color: #4b5537; display: grid; place-items: center; text-align: center; }
+.sceau-disc .num { font: 500 10px/1 var(--mono); letter-spacing: .14em; color: #a5782f; }
+.sceau-disc .lib { font: 400 var(--fs, 18px)/1 var(--display); text-transform: uppercase; text-wrap: balance; }
+
+/* ---------- A · ORBITE ---------- */
+.orb-seal { position: absolute; z-index: 50; width: var(--seal); height: var(--seal); left: 50%; top: var(--cy); margin: calc(var(--seal) / -2) 0 0 calc(var(--seal) / -2); background: var(--seal-img) center / contain no-repeat; filter: drop-shadow(0 20px 40px rgba(20,24,15,.4)); pointer-events: none; }
+.orb-item { position: absolute; left: 0; top: 0; width: var(--d); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2); border: 0; padding: 0; cursor: pointer; will-change: transform, filter; }
+.orb-item .in { display: grid; gap: 4px; justify-items: center; padding: 0 12%; }
+.orb-cap { position: absolute; z-index: 60; left: 18px; right: 18px; bottom: 54px; display: grid; gap: 8px; justify-items: center; text-align: center; pointer-events: none; }
+.orb-cap .n { font: 500 11px/1 var(--mono); letter-spacing: .16em; color: var(--or); }
+.orb-cap .t { font: 400 clamp(40px, 12vw, 86px)/.92 var(--display); text-transform: uppercase; text-wrap: balance; }
+.orb-cap .s { font-size: 16px; color: var(--or); font-weight: 600; }
+.orb-cap > * { transition: opacity .35s, transform .5s cubic-bezier(.2,.8,.2,1); }
+.orb-cap.swap > * { opacity: 0; transform: translateY(14px); }
+
+/* ---------- B · INDEX 3D ---------- */
+.idx { position: absolute; inset: 0; perspective: 900px; perspective-origin: 30% 50%; }
+.idx-row { position: absolute; left: 18px; right: 18px; top: 50%; display: flex; align-items: baseline; gap: 12px; border: 0; padding: 0; background: none; color: var(--papier); text-align: left; cursor: pointer; transform-origin: 0 50%; will-change: transform, opacity; backface-visibility: hidden; }
+.idx-row .n { font: 500 12px/1 var(--mono); letter-spacing: .1em; color: var(--or); min-width: 2.2em; }
+.idx-row .t { font: 400 clamp(32px, 10vw, 112px)/1 var(--display); text-transform: uppercase; white-space: nowrap; transition: color .3s; }
+.idx-row.on .t { color: var(--or); }
+.idx-bulle { position: absolute; z-index: 5; right: 18px; bottom: 58px; width: clamp(118px, 32vw, 190px); height: clamp(118px, 32vw, 190px); pointer-events: none; }
+.idx-bulle .sceau-disc { width: 100%; height: 100%; gap: 6px; padding: 14%; }
+.idx-bulle .big { font: 400 clamp(38px, 11vw, 64px)/1 var(--display); color: #4b5537; }
+.idx-bulle .note { font-size: clamp(11px, 3vw, 14px); line-height: 1.25; color: #4b5537; }
+.idx-bulle.pop .sceau-disc { animation: pop .7s cubic-bezier(.3,1.6,.4,1); }
+@keyframes pop { 0% { transform: scale(.7) rotate(-14deg); } 100% { transform: scale(1) rotate(0); } }
+.idx-veil { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(var(--planche) 0, transparent 26%, transparent 74%, var(--planche) 100%); }
+
+/* ---------- C · GRAVITÉ ---------- */
+.grav-item { position: absolute; left: 0; top: 0; width: var(--d); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2); border: 0; padding: 0; cursor: grab; will-change: transform; }
+.grav-item .in { display: grid; gap: 3px; justify-items: center; padding: 0 10%; }
+.grav-title { position: absolute; z-index: 0; left: 18px; right: 18px; top: 48px; font: 400 clamp(54px, 17vw, 150px)/.86 var(--display); text-transform: uppercase; color: rgba(255,255,242,.1); pointer-events: none; }
+.shake { position: absolute; z-index: 4; right: 18px; top: 46px; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255,255,242,.45); background: rgba(35,42,27,.35); color: var(--papier); font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+
+/* Détail : la pastille s'ouvre et devient la planche de la catégorie */
+.detail { position: absolute; inset: 0; z-index: 80; display: grid; align-content: end; gap: 12px; padding: 28px 22px 26px; background: var(--planche-deep); color: var(--papier); clip-path: circle(0 at var(--ox, 50%) var(--oy, 50%)); transition: clip-path .8s cubic-bezier(.7,0,.2,1); pointer-events: none; }
+.detail.open { clip-path: circle(150% at var(--ox, 50%) var(--oy, 50%)); pointer-events: auto; }
+.detail .d-num { font: 500 12px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--or); }
+.detail h2 { margin: 0; font: 400 clamp(48px, 14vw, 104px)/.9 var(--display); text-transform: uppercase; text-wrap: balance; }
+.detail .d-note { margin: 0; font-size: 18px; font-weight: 600; color: var(--or); }
+.detail .d-recit { margin: 0; font-size: 15px; line-height: 1.55; max-width: 46ch; opacity: .88; }
+.detail .d-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.detail .d-actions button { min-height: 44px; padding: 0 20px; border-radius: 999px; font: 500 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.detail .ouvrir { background: var(--or); color: #232a1b; border: 0; }
+.detail .fermer { background: transparent; color: var(--papier); border: 1px solid rgba(255,255,242,.5); }
+.detail > * { opacity: 0; transform: translateY(14px); transition: opacity .4s, transform .5s cubic-bezier(.2,.8,.2,1); }
+.detail.open > * { opacity: 1; transform: none; }
+.detail.open > :nth-child(1) { transition-delay: .22s; } .detail.open > :nth-child(2) { transition-delay: .28s; }
+.detail.open > :nth-child(3) { transition-delay: .34s; } .detail.open > :nth-child(4) { transition-delay: .4s; } .detail.open > :nth-child(5) { transition-delay: .46s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .detail, .detail > *, .orb-cap > * { transition: none; }
+  .idx-bulle.pop .sceau-disc { animation: none; }
+}
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:10px">
+    <span class="eyebrow">Mes réalisations · 3 nouvelles pistes</span>
+    <h1>Choisis l’effet</h1>
+    <div class="tabs" role="tablist" aria-label="Pistes de motion design">
+      <button role="tab" id="t-orbite" data-tab="orbite" aria-selected="true">A · Orbite</button>
+      <button role="tab" id="t-index" data-tab="index" aria-selected="false">B · Index 3D</button>
+      <button role="tab" id="t-gravite" data-tab="gravite" aria-selected="false">C · Gravité</button>
+    </div>
+  </header>
+
+  <main class="stage" id="stage" aria-label="Catégories de réalisations">
+    <div class="credit"><span>05 / Mes réalisations</span><span>Sommaire illustré</span></div>
+
+    <section class="scene" data-scene="orbite">
+      <div class="orb-seal" aria-hidden="true"></div>
+      <div id="orbField"></div>
+      <div class="orb-cap" id="orbCap" aria-live="polite"><span class="n"></span><span class="t"></span><span class="s"></span></div>
+    </section>
+
+    <section class="scene" data-scene="index" hidden>
+      <div class="idx" id="idx"></div>
+      <div class="idx-veil"></div>
+      <div class="idx-bulle" id="idxBulle" aria-hidden="true"><div class="sceau-disc"><span class="big"></span><span class="note"></span></div></div>
+    </section>
+
+    <section class="scene" data-scene="gravite" hidden>
+      <div class="grav-title" aria-hidden="true">Mes<br>réalisations</div>
+      <button class="shake" type="button" id="shake">Secouer</button>
+      <div id="gravField"></div>
+    </section>
+
+    <div class="hint" id="hint"></div>
+    <section class="detail" id="detail" aria-hidden="true">
+      <span class="d-num" id="dNum"></span>
+      <h2 id="dLib"></h2>
+      <p class="d-note" id="dNote"></p>
+      <p class="d-recit" id="dRecit"></p>
+      <div class="d-actions"><button class="ouvrir" type="button" id="dOpen">Voir la catégorie</button><button class="fermer" type="button" id="dClose">Retour</button></div>
+    </section>
+  </main>
+
+  <p class="legend" id="legend"></p>
+</div>
+
+<script>
+const SEAL = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczpjMnBhPSJodHRwOi8vYzJwYS5vcmcvbWFuaWZlc3QiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDM4NS44IDM4MSI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI5LjAuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4wIEJ1aWxkIDE5MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiBub25lOwogICAgICAgIHN0cm9rZTogIzU3NjAzZjsKICAgICAgICBzdHJva2UtbGluZWNhcDogcm91bmQ7CiAgICAgICAgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsKICAgICAgfQoKICAgICAgLnN0MSB7CiAgICAgICAgZmlsbDogI2NhOWU2NzsKICAgICAgfQoKICAgICAgLnN0MiB7CiAgICAgICAgb3BhY2l0eTogLjM7CiAgICAgIH0KCiAgICAgIC5zdDMgewogICAgICAgIGZpbGw6ICM1NzYwM2Y7CiAgICAgIH0KCiAgICAgIC5zdDQgewogICAgICAgIGZpbGw6ICNmM2VmZTE7CiAgICAgICAgc3Ryb2tlOiAjY2E5ZTY3OwogICAgICAgIHN0cm9rZS1taXRlcmxpbWl0OiAxMDsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPGNpcmNsZSBjbGFzcz0ic3Q0IiBjeD0iMTkyLjkiIGN5PSIxOTAuNSIgcj0iMTgyLjMiLz4KICA8Zz4KICAgIDxnIGNsYXNzPSJzdDIiPgogICAgICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjY5LjIsMjQuOGMzLjgsMS43LDcuNSwzLjYsMTEuMSw1LjYtNS40LDEwLjYtMTEuNSwyOC41LTE4LjYsNTQuNi04LjIsMzAtMTcuOCw3MC44LTI5LjMsMTIzLjktNy43LDM1LjMtMTYuMyw3Ni4xLTI1LjksMTIyLjctMS4zLDYuMy0zLjUsMTIuNS03LDE3LjktOC41LDEzLjUtMjEuOCwyMC41LTM5LjgsMTQuNS0yOC4zLTkuNC0zNy42LTU1LjctNDIuMy04MS40LS44LTQuMy0yLjItMTMuOS00LjItMjYuOS0uNS0zLjYtMS4xLTcuNS0xLjgtMTEuNy03LjktNTEuOC0yMi4yLTE0MC4yLTM5LjYtMTkwLjFoMGMxMi4yLTEwLjgsMjUuOC0yMCw0MC41LTI3LjMsMTAuNCwyMi41LDE4LjUsNTMuNywyNS40LDg3LjUsMS4xLDUuNCwyLjIsMTAuOSwzLjIsMTYuNCwxMy4yLDY5LjQsMjEuOSwxNDUsMzQuNiwxNzUuNyw2LjYsMTYsMTMuNCwzMi44LDIzLjksMTYuNiwyLjMtMy42LDMuOS03LjUsNS0xMS42LDEwLTM3LjIsMTcuOS03NS41LDI1LjUtMTEzLjksOC43LTQzLjUsMTYuOS04Ny4yLDI3LjQtMTI5LjUsMi43LTExLjEsNS42LTIyLDguNy0zMi45LDEtMy42LDItNywzLjEtMTAuMmguMVoiLz4KICAgICAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTM1NC44LDI3NC42aC0uMWMtMjEuNC0xMDEuOS0zNC4xLTE4Mi45LTQ1LjgtMjI0LjgsNDAuNSwzMy40LDY2LjQsODQuMSw2Ni40LDE0MC43LDAsMCwxLjgsNDAuOS0yMC41LDg0LjFaIi8+CiAgICA8L2c+CiAgICA8ZyBjbGFzcz0ic3QyIj4KICAgICAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTI4LjMsMTEyYzE1LjMsNzQsMjQuNCwxNjAuOSwzOC4yLDE5NC40LDYuNiwxNiwxMy40LDMyLjgsMjMuOSwxNi42LDIuMy0zLjYsMy45LTcuNSw1LTExLjYsNS45LTIyLjEsMTEuMS00NC41LDE2LTY3LjIsOS4yLTQzLjEsMTcuMi04Ni45LDI2LjQtMTI5LjksNS43LTI2LjgsMTEuOS01My40LDE5LjMtNzkuMywyLjctOS43LDUuNS0xOC4xLDkuMS0yNC45LDguNy0xLjMsMTcuNy0yLDI2LjctMiwxNS44LDAsMzEuMiwyLDQ1LjgsNS44LDkuNywxNi40LDE0LjgsMzguMywxOC40LDUyLjcuMS40LjIuOS4zLDEuMywxLjQsNS43LDIuOCwxMS40LDQuMiwxNy4xaC4xYzE5LjIsODAsMzMsMTYyLjUsNTAuNywyNDMuMS0xNC4zLDEyLjQtMzAuNSwyMi42LTQ4LjEsMzAuMS0xMi45LTU0LjMtMjMuMi0xMDQuOC0zMS45LTE0OS4zLS44LTMuOS0xLjUtNy43LTIuMi0xMS41QzE5NC42LDEzLjksMTg3LTYxLDE0MS4xLDEzMC42Yy04LDMzLjQtMTcuMiw3NC44LTI3LjgsMTI1LjItNSwyMy4zLTEwLjIsNDguNi0xNS44LDc1LjgtLjgsNC0yLDgtMy43LDExLjhDNDMuNiwzMTEsMTAuNiwyNTQuNiwxMC42LDE5MC41YzAsMC0xLjctMzguNCwxNy43LTc4LjVaIi8+CiAgICA8L2c+CiAgPC9nPgogIDxnPgogICAgPHBhdGggY2xhc3M9InN0MyIgZD0iTTI1My44LDI2OS45aC00OC41di0yLjljMi41LjIsNy43LS4yLDEwLjQtMi4xLDEuNC0uOSwxLjktMi43LDEuNS00LjMtMzMuNi0xNDAtMjQuOS0yMTkuMS02Ny4zLTEzLjgtLjUsMi41LTEuNCw0LjktMi44LDcuMS0zLjQsNS4zLTguNyw4LjItMTUuOCw1LjgtMTEuMy0zLjgtMTUtMjIuMi0xNi45LTMyLjQtMi4xLTExLjMtMTUuMi0xMTQuOC0zMC0xMDUuMi0xLjIuNy0xLjksMS45LTIuMiwzLjEtMTEuNCw0NC45LTE5LjQsOTAuOC0yOS44LDEzNS45LDAsNC44LDEwLjEsNi4zLDEzLjcsNi4xdjIuOWgtMzEuMXYtMi45YzQuNC4yLDEyLjMtMSwxNC4zLTUuN2wyOC4yLTEzMS4zYy41LTIuNiwxLjMtNS4xLDIuMi03LjcsMy4yLTguNyw3LjUtMTIuOCwxOS40LTExLjEsMjQuNSwzLjksMjguMywxMDAuNywzOC41LDEyNS40LDIuNiw2LjQsNS4zLDEzLjEsOS41LDYuNi45LTEuNSwxLjYtMi45LDItNC42LDkuNi0zNiwxNC41LTc0LjUsMjQuNS0xMTAuMiwzLjYtMTIuNSw3LTE5LjYsMjEuNy0xNy4xLDExLjYsMiwxNS43LDIwLjEsMTguMSwyOS43LDEwLDM5LjQsMTYuMSw4MC41LDI1LjYsMTIwLDIsNS42LDkuMSw1LjUsMTQsNi4zbC43LDIuNWguMVoiLz4KICAgIDxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0yOTQuNCwyNjkuOXYtMi44YzEuNC0uMiwzLjQtLjQsNS4yLS45LDIuNS0uNiw0LjItMy4xLDMuOC01LjhoMGMtLjEtLjctLjMtMS41LS43LTIuMS0xMi42LTE5LjgtMzAuOS0zOC42LTQzLjMtNTguMi0xLjMtMS45LTIuMi00LTIuOC02LjItNy4zLTI2LjYsMzkuOS00My44LDU0LjgtNTkuNSwzLjctMy40LDMuMS01LS40LTUuMS0xLjUsMC0yLjguMi00LjMuNS0yOSw3LjMtNTcuMiwzNy45LTcwLjYsNjUuOC0uNiwxLjQtMi42LjUtMi4yLS44LDkuMS0zMi43LDcwLjktOTIuMiwxMDAuMy04Mi41LDMsMS4yLDUuMiwzLjQsNSw2LjMsMCwxLjQtLjYsMi41LTEuNSwzLjYtMTcsMjAuMS02Ny42LDM2LjctNTcuMyw2OSwuNywyLjIsMS44LDQuNCwyLjksNi40LDEyLjMsMjAuOSwyNy44LDQ0LjgsNDUuNCw2MS41LDYuMiw1LjksMTQuNSw2LjksMjIuMSw4djIuOGgtNTYuNS4xWiIvPgogIDwvZz4KPC9zdmc+";
+// Lignes de vague du sceau, redessinées en motif léger pour chaque pastille.
+const VAGUES = "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><g fill="none" stroke="#57603f" stroke-opacity=".16" stroke-width=".5">${[0,1,2,3,4,5].map(k => { const x = 6 + k * 18; return `<path d="M${x} -5 C ${x+14} 20, ${x-14} 45, ${x} 60 S ${x+12} 95, ${x-2} 105"/>`; }).join("")}</g></svg>`);
+document.documentElement.style.setProperty("--vagues", `url("${VAGUES}")`);
+document.documentElement.style.setProperty("--seal-img", `url("${SEAL}")`);
+
+const CATS = [
+  ["Logotype","Donner un visage à une idée.","Parfois, quelques lignes suffisent pour faire naître un signe capable d’être reconnu, mémorisé et porté."],
+  ["Identité & charte","Quand un signe devient un langage.","Une identité prend vie lorsque couleurs, formes, typographies et images commencent à raconter la même histoire."],
+  ["Campagnes pub","Faire résonner une idée.","Une campagne cherche le bon regard, le bon mot, la bonne image pour transformer une idée en émotion."],
+  ["Dir. artistique","Donner une vision à l’idée.","Trouver le ton, construire l’univers et donner à chaque détail sa place dans une histoire plus grande."],
+  ["Digital & UI/UX","Quand l’idée devient expérience.","Derrière chaque écran, je cherche cet équilibre fragile où l’esthétique rencontre l’usage et où tout semble enfin évident."],
+  ["Print & édition","Donner corps aux images.","Du premier regard au dernier détail, le papier offre aux idées une matière, une présence et une autre manière d’exister."],
+  ["3D & production","Faire prendre vie à l’imaginaire.","Modeler, éclairer, composer et produire jusqu’à ce qu’une idée quitte l’imagination pour devenir presque réelle."],
+  ["Explorations","Créer simplement par hobby.","Sans brief, sans contrainte, sans autre objectif que celui de suivre une intuition et de découvrir où elle peut mener."],
+];
+const N = CATS.length, num = i => String(i + 1).padStart(2, "0");
+const LEGENDS = {
+  orbite: "<b>A · Orbite.</b> Le sceau MK au centre, les 8 catégories en pastilles-sceaux qui tournent autour en 3D. Celle de devant grossit, celles de derrière passent sous le sceau et se floutent. Le grand titre change à chaque tour.",
+  index: "<b>B · Index 3D.</b> Les catégories en très grand, en Anton, sur une roue qui tourne au doigt comme un sélecteur. La catégorie active passe en or et une pastille-sceau rebondit avec son numéro et sa phrase.",
+  gravite: "<b>C · Gravité.</b> Les pastilles tombent dans la planche et s’empilent. On les attrape, on les lance, elles roulent et se cognent. Le bouton « Secouer » les relance toutes. Une pastille touchée sans la lancer s’ouvre.",
+};
+const HINTS = { orbite: "Glisse pour tourner", index: "Glisse vers le haut ou le bas", gravite: "Attrape et lance" };
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const stage = document.getElementById("stage"), hint = document.getElementById("hint"), detail = document.getElementById("detail");
+let W = 0, H = 0, scene = "orbite", lastInteract = 0;
+const measure = () => { const r = stage.getBoundingClientRect(); W = r.width; H = r.height; };
+
+/* ---------- Détail partagé ---------- */
+let returnFocus = null;
+function openDetail(i, el) {
+  const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect();
+  detail.style.setProperty("--ox", (r.left + r.width / 2 - s.left) + "px");
+  detail.style.setProperty("--oy", (r.top + r.height / 2 - s.top) + "px");
+  document.getElementById("dNum").textContent = `Catégorie ${num(i)} / ${num(N - 1)}`;
+  document.getElementById("dLib").textContent = CATS[i][0];
+  document.getElementById("dNote").textContent = CATS[i][1];
+  document.getElementById("dRecit").textContent = CATS[i][2];
+  detail.classList.add("open"); detail.setAttribute("aria-hidden", "false");
+  returnFocus = el; document.getElementById("dClose").focus({ preventScroll: true });
+}
+function closeDetail() { detail.classList.remove("open"); detail.setAttribute("aria-hidden", "true"); returnFocus?.focus({ preventScroll: true }); }
+document.getElementById("dNum").textContent = "";
+document.getElementById("dClose").addEventListener("click", closeDetail);
+document.getElementById("dOpen").addEventListener("click", closeDetail);
+addEventListener("keydown", e => { if (e.key === "Escape" && detail.classList.contains("open")) closeDetail(); });
+
+function disc(i, cls) {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = `${cls} sceau-disc`;
+  b.setAttribute("aria-label", `${CATS[i][0]} — ${CATS[i][1]}`);
+  b.innerHTML = `<span class="in"><span class="num">${num(i)}</span><span class="lib">${CATS[i][0]}</span></span>`;
+  return b;
+}
+
+/* ---------- Geste commun : glisser avec inertie ---------- */
+function gesture(target, { onStart, onMove, onEnd, onTap }) {
+  let p = null;
+  target.addEventListener("pointerdown", e => {
+    if (detail.classList.contains("open")) return;
+    p = { x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, t: performance.now(), vx: 0, vy: 0, moved: false, id: e.pointerId, el: e.target.closest("button") };
+    lastInteract = performance.now(); onStart?.(e, p);
+  });
+  target.addEventListener("pointermove", e => {
+    if (!p) return;
+    const now = performance.now(), dt = Math.max(1, now - p.t);
+    p.vx = (e.clientX - p.lx) / dt * 16; p.vy = (e.clientY - p.ly) / dt * 16;
+    const dx = e.clientX - p.lx, dy = e.clientY - p.ly;
+    p.lx = e.clientX; p.ly = e.clientY; p.t = now;
+    if (!p.moved && Math.hypot(e.clientX - p.x, e.clientY - p.y) > 6) { p.moved = true; hint.classList.add("off"); try { target.setPointerCapture(p.id); } catch (err) { /* pointeur relâché */ } }
+    if (p.moved) onMove?.(dx, dy, e, p);
+    lastInteract = now;
+  });
+  const end = () => { if (!p) return; if (!p.moved) onTap?.(p.el, p); else onEnd?.(p.vx, p.vy, p); p = null; lastInteract = performance.now(); };
+  target.addEventListener("pointerup", end); target.addEventListener("pointercancel", () => { p = null; });
+}
+
+/* ---------- A · ORBITE ---------- */
+const orb = { rot: 0, v: 0, target: null, items: [], front: -1 };
+const orbField = document.getElementById("orbField"), orbCap = document.getElementById("orbCap");
+const STEP = Math.PI * 2 / N;
+for (let i = 0; i < N; i++) {
+  const b = disc(i, "orb-item"); orbField.appendChild(b);
+  b.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); orb.front === i ? openDetail(i, b) : orbTo(i); } });
+  b.addEventListener("focus", () => orbTo(i));
+  orb.items.push(b);
+}
+const wrapAngle = a => Math.atan2(Math.sin(a), Math.cos(a));
+function orbTo(i) { orb.target = orb.rot + wrapAngle(-i * STEP - orb.rot); orb.v = 0; }
+gesture(document.querySelector('[data-scene="orbite"]'), {
+  onStart: () => { orb.target = null; orb.v = 0; },
+  onMove: dx => { orb.rot += dx / (W * .42); },
+  onEnd: vx => { orb.v = vx / (W * .42); },
+  onTap: el => { if (!el) return; const i = orb.items.indexOf(el); if (i < 0) return; orb.front === i ? openDetail(i, el) : orbTo(i); },
+});
+function orbCaption(i) {
+  if (i === orb.front) return; orb.front = i;
+  orbCap.classList.add("swap");
+  setTimeout(() => {
+    orbCap.querySelector(".n").textContent = `${num(i)} / 08`;
+    orbCap.querySelector(".t").textContent = CATS[i][0];
+    orbCap.querySelector(".s").textContent = CATS[i][1];
+    orbCap.classList.remove("swap");
+  }, reduce ? 0 : 180);
+}
+function orbFrame(t) {
+  const now = performance.now();
+  if (orb.target !== null) { orb.rot += (orb.target - orb.rot) * .1; if (Math.abs(orb.target - orb.rot) < .0005) { orb.rot = orb.target; orb.target = null; } }
+  else if (Math.abs(orb.v) > .0005) { orb.rot += orb.v; orb.v *= .94; }
+  else { orb.v = 0; const snap = Math.round(orb.rot / STEP) * STEP; if (Math.abs(snap - orb.rot) > .0005) orb.target = snap; }
+  // Rotation automatique douce quand personne ne touche.
+  if (!reduce && orb.target === null && orb.v === 0 && now - lastInteract > 4500 && !detail.classList.contains("open")) { orb.target = orb.rot - STEP; lastInteract = now - 1200; }
+  const d = Math.max(118, Math.min(W * .34, H * .26, 170));
+  const cy = H * .36, rx = Math.min(W * .4, 420), ry = Math.min(H * .15, 110);
+  stage.style.setProperty("--d", d + "px"); stage.style.setProperty("--cy", cy + "px");
+  stage.style.setProperty("--seal", Math.min(W * .36, H * .26, 210) + "px");
+  let best = 0, bd = -2;
+  orb.items.forEach((b, i) => {
+    const a = orb.rot + i * STEP;
+    const depth = (Math.cos(a) + 1) / 2;
+    const x = W / 2 + rx * Math.sin(a), y = cy + ry * Math.cos(a) + (reduce ? 0 : Math.sin(t / 900 + i) * 4);
+    const s = .38 + .62 * Math.pow(depth, 1.6);
+    b.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${Math.sin(a) * -8}deg)`;
+    b.style.zIndex = depth > .5 ? 51 + Math.round(depth * 40) : Math.round(depth * 40);
+    b.style.filter = `blur(${((1 - depth) * 3).toFixed(2)}px) brightness(${(.7 + .3 * depth).toFixed(2)})`;
+    b.style.setProperty("--fs", Math.max(14, d * .13) + "px");
+    b.tabIndex = 0;
+    if (depth > bd) { bd = depth; best = i; }
+  });
+  orbCaption(best);
+}
+
+/* ---------- B · INDEX 3D ---------- */
+const idx = { pos: 0, v: 0, target: null, rows: [], on: -1 };
+const idxEl = document.getElementById("idx"), idxBulle = document.getElementById("idxBulle");
+for (let i = 0; i < N; i++) {
+  const r = document.createElement("button"); r.type = "button"; r.className = "idx-row";
+  r.innerHTML = `<span class="n">${num(i)}</span><span class="t">${CATS[i][0]}</span>`;
+  r.setAttribute("aria-label", `${CATS[i][0]} — ${CATS[i][1]}`);
+  r.addEventListener("focus", () => { idx.target = i; });
+  r.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && idx.on === i) { e.preventDefault(); openDetail(i, r); } });
+  idxEl.appendChild(r); idx.rows.push(r);
+}
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+gesture(document.querySelector('[data-scene="index"]'), {
+  onStart: () => { idx.target = null; idx.v = 0; },
+  onMove: (dx, dy) => { const p = idx.pos - dy / 70; idx.pos = p < 0 ? p * .5 + idx.pos * 0 : p > N - 1 ? N - 1 + (p - (N - 1)) * .5 : p; },
+  onEnd: (vx, vy) => { idx.v = -vy / 70; },
+  onTap: el => { if (!el) return; const i = idx.rows.indexOf(el); if (i < 0) return; idx.on === i ? openDetail(i, el) : (idx.target = i); },
+});
+document.querySelector('[data-scene="index"]').addEventListener("wheel", e => { e.preventDefault(); idx.target = null; idx.v = e.deltaY / 400; hint.classList.add("off"); }, { passive: false });
+function idxBubble(i) {
+  if (i === idx.on) return; idx.on = i;
+  idx.rows.forEach((r, k) => r.classList.toggle("on", k === i));
+  idxBulle.querySelector(".big").textContent = num(i);
+  idxBulle.querySelector(".note").textContent = CATS[i][1];
+  idxBulle.classList.remove("pop"); void idxBulle.offsetWidth; idxBulle.classList.add("pop");
+}
+function idxFrame() {
+  if (idx.target !== null) { idx.pos += (idx.target - idx.pos) * .14; if (Math.abs(idx.target - idx.pos) < .002) { idx.pos = idx.target; idx.target = null; } }
+  else if (Math.abs(idx.v) > .002) { idx.pos += idx.v; idx.v *= .92; if (idx.pos < -.4 || idx.pos > N - .6) idx.v *= .5; }
+  else { idx.v = 0; const s = clamp(Math.round(idx.pos), 0, N - 1); if (Math.abs(s - idx.pos) > .002) idx.target = s; }
+  const R = Math.min(H * .36, 300), stepDeg = 22;
+  idx.rows.forEach((r, i) => {
+    const phi = (i - idx.pos) * stepDeg, rad = phi * Math.PI / 180;
+    const vis = Math.abs(phi) < 88;
+    r.style.visibility = vis ? "visible" : "hidden";
+    if (!vis) return;
+    const y = R * Math.sin(rad) - H * .06, z = R * Math.cos(rad) - R;
+    r.style.transform = `translate3d(0, calc(-50% + ${y}px), ${z}px) rotateX(${-phi}deg)`;
+    r.style.opacity = (Math.cos(rad) ** 2).toFixed(3);
+  });
+  idxBubble(clamp(Math.round(idx.pos), 0, N - 1));
+}
+
+/* ---------- C · GRAVITÉ ---------- */
+const grav = { bodies: [], grab: null, ready: false };
+const gravField = document.getElementById("gravField");
+for (let i = 0; i < N; i++) {
+  const b = disc(i, "grav-item"); gravField.appendChild(b);
+  b.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDetail(i, b); } });
+  grav.bodies.push({ el: b, i, x: 0, y: 0, vx: 0, vy: 0, a: 0, va: 0 });
+}
+function gravReset(drop) {
+  const r = gravR();
+  const cols = Math.max(2, Math.floor((W - 20) / (r * 2.1)));
+  grav.bodies.forEach((b, k) => {
+    if (drop && !reduce) { b.x = r + 10 + Math.random() * (W - 2 * r - 20); b.y = -r - k * r * 1.3; b.vx = (Math.random() - .5) * 4; b.vy = 0; b.va = (Math.random() - .5) * .1; }
+    else { const c = k % cols, row = Math.floor(k / cols); b.x = (W - cols * r * 2.1) / 2 + r * 1.05 + c * r * 2.1; b.y = H - r - 8 - row * r * 1.95; b.vx = b.vy = b.va = 0; b.a = 0; }
+  });
+  grav.ready = true;
+}
+const gravR = () => Math.max(48, Math.min(W * .15, 92));
+document.getElementById("shake").addEventListener("click", () => {
+  lastInteract = performance.now(); hint.classList.add("off");
+  if (reduce) return gravReset(false);
+  grav.bodies.forEach(b => { b.vy = -14 - Math.random() * 10; b.vx = (Math.random() - .5) * 18; b.va = (Math.random() - .5) * .3; });
+});
+const gravScene = document.querySelector('[data-scene="gravite"]');
+gesture(gravScene, {
+  onStart: (e, p) => { const b = grav.bodies.find(o => o.el === p.el); if (b) { grav.grab = b; const s = stage.getBoundingClientRect(); b.ox = e.clientX - s.left - b.x; b.oy = e.clientY - s.top - b.y; } },
+  onMove: (dx, dy, e) => { const b = grav.grab; if (!b) return; const s = stage.getBoundingClientRect(); b.x = e.clientX - s.left - b.ox; b.y = e.clientY - s.top - b.oy; b.vx = dx; b.vy = dy; },
+  onEnd: (vx, vy) => { const b = grav.grab; if (b) { b.vx = clamp(vx, -40, 40); b.vy = clamp(vy, -40, 40); b.va = b.vx / gravR() * .5; } grav.grab = null; },
+  onTap: el => { grav.grab = null; const b = grav.bodies.find(o => o.el === el); if (b) openDetail(b.i, el); },
+});
+function gravFrame() {
+  if (!grav.ready) gravReset(true);
+  const r = gravR(), g = reduce ? 0 : .55, top = 40;
+  stage.style.setProperty("--d", r * 2 + "px");
+  grav.bodies.forEach(b => b.el.style.setProperty("--fs", Math.max(13, r * .24) + "px"));
+  if (!reduce) for (const b of grav.bodies) {
+    if (b === grav.grab) continue;
+    b.vy += g; b.vx *= .995; b.x += b.vx; b.y += b.vy; b.a += b.va; b.va *= .985;
+    if (b.y > H - r) { b.y = H - r; b.vy *= -.38; b.vx *= .9; b.va = b.vx / r; }
+    if (b.x < r) { b.x = r; b.vx *= -.5; } if (b.x > W - r) { b.x = W - r; b.vx *= -.5; }
+    if (b.y < top - 4 * r) { b.y = top - 4 * r; b.vy = Math.abs(b.vy) * .3; }
+    if (Math.abs(b.vx) < .15 && Math.abs(b.vy) < .6) b.a *= .93;
+  }
+  // Collisions : quatre passes suffisent pour huit disques.
+  for (let pass = 0; pass < 4; pass++) for (let m = 0; m < N; m++) for (let n = m + 1; n < N; n++) {
+    const A = grav.bodies[m], B = grav.bodies[n];
+    const dx = B.x - A.x, dy = B.y - A.y, dist = Math.hypot(dx, dy) || .01, min = r * 2;
+    if (dist >= min) continue;
+    const nx = dx / dist, ny = dy / dist, push = (min - dist) / 2;
+    const wa = A === grav.grab ? 0 : 1, wb = B === grav.grab ? 0 : 1, tot = wa + wb || 1;
+    A.x -= nx * push * 2 * wa / tot; A.y -= ny * push * 2 * wa / tot; B.x += nx * push * 2 * wb / tot; B.y += ny * push * 2 * wb / tot;
+    const rv = (B.vx - A.vx) * nx + (B.vy - A.vy) * ny;
+    if (rv < 0) { const j = -(1.3) * rv / 2; A.vx -= j * nx * wa; A.vy -= j * ny * wa; B.vx += j * nx * wb; B.vy += j * ny * wb; A.va -= rv * .004; B.va += rv * .004; }
+  }
+  grav.bodies.forEach(b => { b.el.style.transform = `translate(${b.x}px, ${b.y}px) rotate(${b.a}rad)`; });
+}
+
+/* ---------- Boucle ---------- */
+function frame(t) {
+  if (W === 0) measure();
+  if (scene === "orbite") orbFrame(t); else if (scene === "index") idxFrame(t); else gravFrame(t);
+  requestAnimationFrame(frame);
+}
+function setScene(v) {
+  scene = v;
+  stage.querySelectorAll("[data-scene]").forEach(s => s.hidden = s.dataset.scene !== v);
+  document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === v)));
+  document.getElementById("legend").innerHTML = LEGENDS[v];
+  hint.textContent = HINTS[v]; hint.classList.remove("off");
+  if (detail.classList.contains("open")) closeDetail();
+  if (v === "gravite") grav.ready = false;
+  lastInteract = performance.now();
+  try { localStorage.setItem("bulles-piste", v); } catch (e) { /* stockage indisponible : piste A par défaut */ }
+}
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => setScene(b.dataset.tab)));
+addEventListener("resize", () => { measure(); if (scene === "gravite") gravReset(false); });
+measure();
+let start = "orbite";
+try { start = localStorage.getItem("bulles-piste") || start; } catch (e) { /* idem */ }
+if (location.hash.slice(1) in LEGENDS) start = location.hash.slice(1);
+setScene(LEGENDS[start] ? start : "orbite");
+requestAnimationFrame(frame);
+</script>
