@@ -3,7 +3,7 @@ import { html } from "../../fondations/rendu.js";
 import { Planche, idTitre } from "../../composants/Planche/Planche.js";
 import { Titre } from "../../composants/Titre/Titre.js";
 import { Grille } from "../../composants/Grille/Grille.js";
-import { Carte } from "../../composants/Carte/Carte.js";
+import { Rideau } from "../../composants/Rideau/Rideau.js";
 import { Bouton, SigneOuverture } from "../../composants/Bouton/Bouton.js";
 import { Pastille } from "../../composants/Pastille/Pastille.js";
 import { Media } from "../../composants/Media/Media.js";
@@ -69,10 +69,11 @@ export function Projets({ section, contenu, ctx }) {
   const categories = section.categories ?? [];
   const accroche = accrocheRealisations(ctx.c(section.accroche, `${chemin}.accroche`));
   const retour = Bouton({ texte: ctx.t("projet.categories.retour"), variante: "surface", forme: "rond", href: `#${section.id}`, options: { icone: "retour", iconeSeule: true, taille: "grand", attributs: { "data-categorie-retour": "" } } });
-  const choix = categories.map((d, rang) => Carte({
+  // Choix de catégorie : des cartes Rideau, animées en continu (#191).
+  const choix = categories.map((d, rang) => Rideau({
     rang: numero(rang), libelle: ctx.c(d.libelle, `${chemin}.categories.${rang}.libelle`),
     note: ctx.c(d.note, `${chemin}.categories.${rang}.note`),
-    options: { classe: "carte--choix", indice: rang, href: `#categorie-${d.id}` },
+    href: `#categorie-${d.id}`, indice: rang,
   }));
   const blocs = categories.map((categorie, rang) => {
     const cheminCategorie = `${chemin}.categories.${rang}`;
