@@ -25,7 +25,7 @@ export const HUMEURS = {
  * (assets/logos-sprite.svg) ; le sceau ne fait que le référencer.
  *
  * @param {object} p
- * @param {"couverture"|"grand"|"moyen"|"petit"|"document"} [p.taille]   document : en-tête du CV
+ * @param {"couverture"|"grand"|"moyen"|"petit"|"document"|"partage"} [p.taille]   document : en-tête du CV ; partage : carte de partage, rond vert (#184)
  * @param {string|null} [p.lien]      rend le sceau cliquable
  * @param {string|null} [p.libelle]   nom accessible ; sans lui le sceau est décoratif
  * @param {boolean|string} [p.anime]  true : entrée animée (expérience d'accueil) ;

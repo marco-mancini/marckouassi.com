@@ -22,6 +22,8 @@ import { cheminsPages, contextePage, rendrePage, PageIntrouvable } from "./pages
 import { chargerFichiers, chargerPublication, valider, referencesMedias } from "./contenu.mjs";
 import { publierMedias, sourceLocale, sourceDistante, lireJeton } from "./medias.mjs";
 import { construireCms } from "./cms.mjs";
+import { publierIcones } from "./icones.mjs";
+import { publierPartage } from "./partage.mjs";
 import { baseConnaissance, baseQualification, mesurer, PLAFOND_JETONS } from "../Design_System/gabarits/connaissance.js";
 
 const RACINE = process.cwd();
@@ -79,7 +81,9 @@ async function main() {
   // MarcoS n'a d'adresse que si le Worker est déployé. Sans elle, le gabarit
   // Assistant ne rend rien : le site est identique, et aucun bouton ne mène
   // à une modale absente (AI_IMPLEMENTATION_PLAN.md, IA-04).
-  const ressources = { sprite, couleurTheme, annee, assistantEndpoint: env.ASSISTANT_URL || null };
+  // Images de partage (og:image) : carte du site, vignettes des projets (#184).
+  const partage = await publierPartage({ racine: RACINE, sortie: SORTIE, contenu, dictionnaires, lireSource });
+  const ressources = { sprite, couleurTheme, annee, partage, assistantEndpoint: env.ASSISTANT_URL || null };
   const manquants = [];
 
   for (const langue of site.langues) {
@@ -112,17 +116,21 @@ async function main() {
   // /admin/ : CMS Git (Sveltia). L'ancien back-office Supabase (tools/admin.mjs) est en sommeil.
   await construireCms({ racine: RACINE, sortie: SORTIE, contenu });
 
-  // 5. Référencement et version
+  // 5. Référencement et version. « lastmod » : date de cette publication
+  // (pas de date par page : le contenu n'en porte pas, #185).
   const urls = site.langues.flatMap((langue) => pages.map((chemin) => ({ langue, chemin })));
   await ecrire("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls.map(({ langue, chemin }) => `  <url>
     <loc>${site.url}/${cheminLangue(langue, defaut, chemin)}</loc>
+    <lastmod>${new Date().toISOString().slice(0, 10)}</lastmod>
 ${site.langues.map((code) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${site.url}/${cheminLangue(code, defaut, chemin)}"/>`).join("\n")}
     <xhtml:link rel="alternate" hreflang="x-default" href="${site.url}/${cheminLangue(defaut, defaut, chemin)}"/>
   </url>`).join("\n")}
 </urlset>
 `);
+  // Favicon et icônes d'application : le sceau complet, fond vert (#183).
+  await publierIcones({ racine: RACINE, sortie: SORTIE, site });
   await ecrire("robots.txt", `User-agent: *\nDisallow: /admin/\nSitemap: ${site.url}/sitemap.xml\n`);
   await ecrire("version.json", JSON.stringify({ version, date: new Date().toISOString() }));
   await ecrire(".nojekyll", "");
