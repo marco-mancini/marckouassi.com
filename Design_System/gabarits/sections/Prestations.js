@@ -28,9 +28,9 @@ export function Prestations({ section, contenu, ctx }) {
     const action = marcos
       ? Bouton({
           texte: ctx.t("prestations.parler"), variante: "principal",
-          options: { icone: "ouvrir", attributs: { type: "button", "data-modale-ouvrir": "assistant", "aria-haspopup": "dialog", "aria-controls": "assistant", "data-assistant-question": ctx.t("prestations.question", { offre: ctx.c(offre.titre, `${chemin}.offres.${rang}.titre`) }) } },
+          options: { icone: "ouvrir", taille: "grand", attributs: { type: "button", "data-modale-ouvrir": "assistant", "aria-haspopup": "dialog", "aria-controls": "assistant", "data-assistant-question": ctx.t("prestations.question", { offre: ctx.c(offre.titre, `${chemin}.offres.${rang}.titre`) }) } },
         })
-      : Bouton({ texte: ctx.t("prestations.parler"), variante: "principal", href: `#${ancreContact}`, options: { icone: "ouvrir" } });
+      : Bouton({ texte: ctx.t("prestations.parler"), variante: "principal", href: `#${ancreContact}`, options: { icone: "ouvrir", taille: "grand" } });
     return {
       id: offre.id,
       titre,
@@ -38,7 +38,7 @@ export function Prestations({ section, contenu, ctx }) {
         <p class="prestations__offre-rang">${ctx.t("prestations.offre", { numero: numero(rang), total: numero(total - 1) })}</p>
         <p class="prestations__offre-titre" aria-hidden="true">${titre}</p>
         <p class="prestations__offre-sous">${ctx.t("prestations.livre")}</p>
-        <ul class="liste-puces prestations__livrables">${offre.points.map((point, i) => html`<li>${ctx.l(point, `${chemin}.offres.${rang}.points.${i}`)}</li>`)}</ul>
+        <ul class="prestations__livrables">${offre.points.map((point, i) => html`<li class="prestations__livrable"><span class="prestations__livrable-rang" aria-hidden="true">${String.fromCharCode(97 + i)}</span><span>${ctx.l(point, `${chemin}.offres.${rang}.points.${i}`)}</span></li>`)}</ul>
         <div class="prestations__offre-pied">${action}</div>
       </div>`,
     };
@@ -49,14 +49,10 @@ export function Prestations({ section, contenu, ctx }) {
   // L'ancre des projets est lue dans les données : aucune route parallèle.
   const ancreProjets = contenu.sections.find((autre) => autre.type === "projets")?.id ?? section.id;
   const parcours = section.parcours
-    ? html`<aside class="prestations__invitation ilot-clair" aria-labelledby="${`invitation-${section.id}`}">
-        <div class="prestations__invitation-texte"><p class="prestations__invitation-amorce">${ctx.t("prestations.avant")}</p><p class="prestations__invitation-question" id="${`invitation-${section.id}`}">${ctx.c(section.parcours.question, `${chemin}.parcours.question`)}</p></div>
-        <div class="prestations__entree">${Bouton({
-          texte: ctx.c(section.parcours.action, `${chemin}.parcours.action`),
-          variante: "principal",
-          options: { icone: "fleche", attributs: { type: "button", "data-decouverte-ouvrir": "", "aria-expanded": "false", "aria-controls": `decouverte-${section.id}` } },
-        })}</div>
-      </aside>${Decouverte({ parcours: section.parcours, projets: contenu.projets, ctx, chemin: `${chemin}.parcours`, ancreProjets, idSection: section.id })}`
+    ? html`<div class="prestations__entree"><button class="prestations__invitation ilot-clair" type="button" data-decouverte-ouvrir aria-expanded="false" aria-controls="${`decouverte-${section.id}`}">
+        <span class="prestations__invitation-texte"><span class="prestations__invitation-amorce">${ctx.t("prestations.avant")}</span><span class="prestations__invitation-question">${ctx.c(section.parcours.question, `${chemin}.parcours.question`)}</span></span>
+        <span class="prestations__invitation-action"><span class="prestations__invitation-libelle">${ctx.c(section.parcours.action, `${chemin}.parcours.action`)}</span><span class="prestations__invitation-cercle" aria-hidden="true"></span></span>
+      </button></div>${Decouverte({ parcours: section.parcours, projets: contenu.projets, ctx, chemin: `${chemin}.parcours`, ancreProjets, idSection: section.id })}`
     : "";
 
   // Même tête que les autres planches : titre, sceau, affirmation or dessous.

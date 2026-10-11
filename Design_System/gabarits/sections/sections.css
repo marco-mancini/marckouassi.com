@@ -152,19 +152,33 @@ html[data-animations="reduites"] :is(.couverture__disposition, .couverture__edit
 .prestations__offre { display: grid; gap: var(--space-4); }
 .prestations__offre-rang, .prestations__offre-sous { margin: 0; color: var(--accent-texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-etiquette); text-transform: uppercase; }
 .prestations__offre-titre { margin: 0; color: var(--texte-titre); font-family: var(--font-display); font-size: var(--prestations-offre-titre-taille); line-height: var(--leading-heading); text-transform: uppercase; }
-.prestations__livrables { gap: var(--space-3); }
+/* Ce que je livre : des tuiles egales, une lettre or chacune. */
+.prestations__livrables { display: grid; margin: 0; padding: 0; gap: var(--space-3); list-style: none; }
+.prestations__livrable { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-3); padding: var(--space-4); border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-lg); background: var(--prestations-tuile-fond); color: var(--texte); line-height: var(--leading-compact); }
+.prestations__livrable-rang { display: grid; width: var(--prestations-tuile-rang); height: var(--prestations-tuile-rang); place-items: center; border-radius: var(--radius-full); background: var(--accent-texte-grand); color: var(--fond); font-family: var(--font-mono); font-size: var(--type-label); line-height: var(--rideau-fleche-interligne); }
 .prestations__offre-pied { display: flex; flex-wrap: wrap; padding-top: var(--space-4); border-top: var(--border-hairline) solid var(--filet); }
 /* En accordeon, le titre est deja dans l'onglet juste au-dessus. */
 @media (max-width: 850px) { .prestations__offre-rang, .prestations__offre-titre { display: none; } }
-@media (min-width: 851px) { .prestations__livrables { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-5); } }
-/* Le parcours, porte par sa question. Il n'existe qu'avec le script, comme son bouton. */
-.prestations__invitation { display: none; margin-top: var(--prestations-invitation-marge); padding: var(--prestations-invitation-rembourrage); border-radius: var(--radius-xl); background: var(--fond); color: var(--texte); }
-html.js-anime .prestations__invitation { display: grid; gap: var(--space-5); align-items: end; }
-@media (min-width: 851px) { html.js-anime .prestations__invitation { grid-template-columns: minmax(0, 1fr) auto; } }
+@media (min-width: 560px) { .prestations__livrables { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; } }
+/* Le parcours : toute la carte est le bouton. Elle n'existe qu'avec le
+   script, comme le parcours qu'elle ouvre (Decouverte.css). */
+.prestations__entree { margin-top: var(--prestations-invitation-marge); }
+html.js-anime .prestations__entree { display: block; }
+.prestations__invitation {
+  display: grid; width: 100%; gap: var(--space-5); align-items: end; padding: var(--prestations-invitation-rembourrage);
+  border: 0; border-radius: var(--radius-xl); background: var(--fond); color: var(--texte); font: inherit; text-align: left; cursor: pointer;
+  transition: transform var(--duration-base) var(--rideau-sortie), box-shadow var(--duration-base) var(--rideau-sortie);
+}
+@media (min-width: 851px) { .prestations__invitation { grid-template-columns: minmax(0, 1fr) auto; } }
 .prestations__invitation-texte { display: grid; gap: var(--space-2); }
-.prestations__invitation-amorce { margin: 0; color: var(--accent-texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-etiquette); text-transform: uppercase; }
-.prestations__invitation-question { margin: 0; color: var(--texte-titre); font-family: var(--font-display); font-size: var(--prestations-invitation-taille); line-height: var(--leading-heading); text-transform: uppercase; text-wrap: balance; }
-.prestations__invitation .prestations__entree { margin-top: 0; justify-content: flex-start; }
+.prestations__invitation-amorce, .prestations__invitation-libelle { color: var(--accent-texte); font-family: var(--font-mono); font-size: var(--type-label); letter-spacing: var(--interlettrage-etiquette); text-transform: uppercase; }
+.prestations__invitation-question { color: var(--texte-titre); font-family: var(--font-display); font-size: var(--prestations-invitation-taille); line-height: var(--leading-heading); text-transform: uppercase; text-wrap: balance; }
+.prestations__invitation-action { display: flex; align-items: center; gap: var(--space-3); justify-self: start; }
+.prestations__invitation-cercle { display: grid; width: var(--prestations-invitation-cercle); height: var(--prestations-invitation-cercle); place-items: center; border: var(--border-hairline) solid currentColor; border-radius: var(--radius-full); color: var(--texte-titre); font-size: var(--type-body-emphasis); transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-base) var(--rideau-sortie); }
+.prestations__invitation-cercle::before { content: "\2192"; }
+.prestations__invitation:hover, .prestations__invitation:focus-visible { transform: translateY(var(--rideau-souleve)); box-shadow: 0 var(--carte-ombre-survol-y) var(--carte-ombre-survol-flou) var(--carte-ombre-survol-retrait) var(--shadow-board); }
+.prestations__invitation:hover .prestations__invitation-cercle, .prestations__invitation:focus-visible .prestations__invitation-cercle { background-color: var(--texte-titre); color: var(--fond); transform: translateX(var(--space-1)); }
+.prestations__invitation:active { transform: scale(var(--rideau-presse)); }
 
 /* --- Contact : fait office de pied de page --- */
 .contact { display: flex; min-height: min(var(--contact-hauteur-min), calc(100svh - var(--contact-degagement))); flex-direction: column; }

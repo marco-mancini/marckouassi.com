@@ -817,6 +817,9 @@
   --prestations-invitation-taille: clamp(1.75rem, 4.4vw, 3.75rem);
   --prestations-invitation-marge: clamp(32px, 4vw, 56px);
   --prestations-invitation-rembourrage: clamp(22px, 3vw, 40px);
+  --prestations-invitation-cercle: clamp(56px, 6vw, 76px); /* le grand cercle-flèche du parcours */
+  --prestations-tuile-rang: 26px;
+  --prestations-tuile-fond: color-mix(in srgb, var(--paper) 6%, transparent);
   /* EnTete */
   --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
   /* Galerie */
