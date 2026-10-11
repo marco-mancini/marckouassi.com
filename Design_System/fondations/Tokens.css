@@ -685,24 +685,18 @@
   /* Carte de partage (og:image, #184) : une image fixe de 1200 x 630,
      capturee par tools/partage.mjs. Valeurs en pixels : elle ne s'adapte
      a aucun ecran, elle EST le format attendu par les reseaux. */
-  --sceau-partage: 540px;
+  --sceau-partage: 594px;
   --partage-largeur: 1200px;
   --partage-hauteur: 630px;
-  --partage-sceau-gauche: 48px;
-  --partage-sceau-haut: 44px;
-  --partage-portrait-gauche: 150px;
-  --partage-texte-marge: 48px;
-  --partage-texte-droite: 60px;
-  --partage-texte-largeur: 528px;
-  --partage-espace: 17px;
-  --partage-signature-haut: 40px;
-  --partage-type-etiquette: 20px;
-  --partage-type-salut: 53px;
-  --partage-type-mot: 104px;
-  --partage-type-promesse: 37px;
-  --partage-signature-chevauchement: -.42em;
-  --partage-interligne-mot: .9;
-  --partage-interligne-promesse: 1.05;
+  --partage-sceau-gauche: 36px;
+  --partage-sceau-haut: 18px;
+  --partage-portrait-gauche: 168px;
+  --partage-texte-droite: 56px;
+  --partage-texte-largeur: 470px;
+  --partage-espace: 22px;
+  --partage-type-etiquette: 26px;
+  --partage-type-mot: 128px;
+  --partage-interligne-mot: .92;
   --partage-espacement-etiquette: .08em;
   --pastille-rond: 42px;
   --pastille-rond-compact: 36px;

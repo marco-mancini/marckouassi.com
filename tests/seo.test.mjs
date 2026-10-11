@@ -113,11 +113,14 @@ test("partage : la carte dérive de la couverture et du portrait, sans texte pro
   const ctx = contextePage({ site, langue: "fr", chemin: "", dictionnaires, medias, ressources: { sprite: "" } });
   const textes = textesPartage({ contenu, ctx });
   const couverture = contenu.sections.find((s) => s.type === "couverture");
-  assert.equal(textes.promesse, couverture.promesse.fr);
-  assert.equal(textes.salutation, couverture.signature.salutation.fr);
+  assert.equal(textes.accent, couverture.signature.accent.fr);
+  assert.equal(textes.role, couverture.role.fr);
   const carte = String(CartePartage({ contenu, ctx }));
-  for (const texte of [textes.edition, textes.role, textes.accent, textes.mot]) assert.ok(carte.includes(texte), texte);
+  for (const texte of [textes.role, textes.accent, textes.mot]) assert.ok(carte.includes(texte), texte);
   assert.match(carte, /sceau--partage/);
+  // Décision de Marc : ni édition, ni nom manuscrit, ni promesse sur la carte.
+  assert.doesNotMatch(carte, /signature__salut/);
+  assert.ok(!carte.includes(couverture.promesse.fr) && !carte.includes(couverture.edition.fr));
   assert.equal(textesPartage({ contenu: { ...contenu, sections: [] }, ctx }), null);
 });
 

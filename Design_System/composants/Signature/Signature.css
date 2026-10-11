@@ -20,8 +20,6 @@
 /* Carte de partage : image fixe de 1200 x 630, tailles en pixels (#184). */
 .signature--partage {
   --signature-taille: var(--partage-type-mot);
-  --signature-taille-salut: var(--partage-type-salut);
-  --signature-chevauchement: var(--partage-signature-chevauchement);
   --signature-interligne: var(--partage-interligne-mot);
 }
 .signature__salut {

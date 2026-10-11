@@ -1,7 +1,8 @@
 /* ==========================================================================
    PARTAGE — carte de partage (og:image), 1200 x 630, capturee en image
    Fond creme fixe : la carte ne suit jamais le theme. Le sceau vert et le
-   portrait a gauche, la signature de la couverture a droite (#184).
+   portrait a gauche ; a droite PORTFOLIO DESIGN. en grand, le role dessous
+   (#184, version du 11 octobre).
    ========================================================================== */
 .partage {
   /* Couleurs du fond clair, quel que soit le theme de la capture. */
@@ -16,18 +17,11 @@
 .partage__sceau { position: absolute; left: var(--partage-sceau-gauche); top: var(--partage-sceau-haut); }
 .partage__portrait { position: absolute; left: var(--partage-portrait-gauche); bottom: 0; height: 100%; width: auto; max-width: none; }
 .partage__texte {
-  position: absolute; top: var(--partage-texte-marge); bottom: var(--partage-texte-marge); right: var(--partage-texte-droite);
+  position: absolute; top: 0; bottom: 0; right: var(--partage-texte-droite);
   width: var(--partage-texte-largeur);
   display: flex; flex-direction: column; justify-content: center; gap: var(--partage-espace);
 }
-.partage__texte p { margin: 0; }
-.partage__edition, .partage__role {
-  font-family: var(--font-mono); font-size: var(--partage-type-etiquette);
-  letter-spacing: var(--partage-espacement-etiquette); color: var(--texte);
-}
-.partage__edition { position: absolute; top: 0; right: 0; }
-.partage__role { text-transform: uppercase; }
-.partage__promesse {
-  font-family: var(--font-display); font-size: var(--partage-type-promesse); font-weight: var(--weight-regular);
-  line-height: var(--partage-interligne-promesse); text-transform: uppercase; color: var(--accent-gold);
+.partage__role {
+  margin: 0; font-family: var(--font-mono); font-size: var(--partage-type-etiquette);
+  letter-spacing: var(--partage-espacement-etiquette); text-transform: uppercase; color: var(--texte);
 }
