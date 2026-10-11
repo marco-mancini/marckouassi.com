@@ -584,6 +584,43 @@ test("feuilles et modules se chargent tous avec l'empreinte du build, sans éche
   await contexte.close();
 });
 
+test("prestations en volets : côte à côte sur grand écran, accordéon sur téléphone, tout lisible sans script (#199)", async () => {
+  const contenu = await chargerFichiers(process.cwd());
+  const offres = contenu.sections.find((s) => s.type === "prestations").offres;
+  const ouverts = (page) => page.$$eval("#prestations .volets__panneau", (l) => l.filter((e) => !e.hidden && e.offsetParent !== null).length);
+  // Grand écran : une offre toujours ouverte, le survol et le clic changent l'offre.
+  const large = await ouvrir(nav, serveur.url + "/", { largeur: 1280, hauteur: 900 });
+  await large.locator("#prestations .volets__onglet").nth(2).scrollIntoViewIfNeeded();
+  assert.equal(await ouverts(large), 1);
+  await large.locator("#prestations .volets__onglet").nth(2).click();
+  assert.equal(await large.locator("#prestations .volets__onglet").nth(2).getAttribute("aria-expanded"), "true");
+  await large.locator("#prestations .volets__onglet").nth(2).click();
+  assert.equal(await ouverts(large), 1, "un clic sur l'offre ouverte ne la referme pas");
+  // Sans prix, et l'action mène quelque part : MarcoS ou, inactif, le Contact.
+  assert.equal(await large.locator("#prestations .pastille").count(), 0, "aucun prix affiché");
+  const action = large.locator("#prestations .volets__panneau:not([hidden]) .prestations__offre-pied a");
+  assert.equal(await action.getAttribute("href"), "#contact");
+  assert.deepEqual(large.erreurs, []);
+  await large.fermer();
+  // Téléphone : accordéon, un second clic referme.
+  const mobile = await ouvrir(nav, serveur.url + "/", { largeur: 390, hauteur: 844 });
+  const premier = mobile.locator("#prestations .volets__onglet").first();
+  await premier.scrollIntoViewIfNeeded();
+  assert.equal(await ouverts(mobile), 1);
+  await premier.click();
+  assert.equal(await ouverts(mobile), 0, "le second clic referme");
+  await mobile.locator("#prestations .volets__onglet").nth(3).click();
+  assert.equal(await mobile.locator("#prestations .volets__onglet").nth(3).getAttribute("aria-expanded"), "true");
+  const hauteurs = await mobile.$$eval("#prestations .volets__onglet", (l) => l.map((e) => e.getBoundingClientRect().height));
+  assert.ok(Math.min(...hauteurs) >= 44, "cibles de 44 px");
+  assert.deepEqual(mobile.erreurs, []);
+  await mobile.fermer();
+  // Sans script : toutes les offres sont lisibles.
+  const sansScript = await ouvrir(nav, serveur.url + "/", { js: false });
+  assert.equal(await ouverts(sansScript), offres.length);
+  await sansScript.fermer();
+});
+
 test("les cartes Rideau désignent une vedette à tour de rôle, et s'effacent sous la main", async () => {
   // Décision de Marc (#191) : les cartes montrent d'elles-mêmes qu'elles
   // s'ouvrent. Une seule vedette à la fois ; elle passe à la suivante ; elle

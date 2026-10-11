@@ -14,6 +14,7 @@ import { activerEnTete } from "../Design_System/composants/EnTete/EnTete.js";
 import { suivreSectionCourante } from "../Design_System/composants/Navigation/Navigation.js";
 import { activerApparitions } from "../Design_System/composants/Apparition/Apparition.js";
 import { activerRideaux } from "../Design_System/composants/Rideau/Rideau.js";
+import { activerVolets } from "../Design_System/composants/Volets/Volets.js";
 import { activerProjets } from "../Design_System/gabarits/Gabarit_Projet/Gabarit_Projet.js";
 import { activerNavigationCategories } from "../Design_System/gabarits/sections/Projets.js";
 import { activerDecouverte } from "../Design_System/gabarits/Decouverte/Decouverte.js";
@@ -37,6 +38,8 @@ activerDecouverte(document, { reduit });
 activerApparitions(document, { reduit });
 // Cartes Rideau (#191) : la vedette qui passe d'une carte à l'autre.
 activerRideaux(document, { reduit });
+// Volets (#199) : les offres des prestations, une seule ouverte à la fois.
+activerVolets(document);
 // Sans [data-assistant] dans la page, activerAssistant sort immédiatement.
 activerAssistant(document);
 // États du site (#162) : sceaux des messages, 404, réseau, médias en échec.

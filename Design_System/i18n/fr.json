@@ -167,5 +167,15 @@
   },
   "partage": {
     "alt": "{portrait} {accent} {mot}."
+  },
+  "prestations": {
+    "_role": "Libellés d’interface de la section Prestations (#199). Les offres elles-mêmes vivent dans content/sections.json.",
+    "choisir": "Choisissez votre besoin",
+    "offres": "Les offres",
+    "offre": "Offre {numero} / {total}",
+    "livre": "Ce que je livre",
+    "parler": "Parler de ce projet",
+    "question": "Je souhaite parler d’un projet : {offre}.",
+    "avant": "Avant de choisir"
   }
 }

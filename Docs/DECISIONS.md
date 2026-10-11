@@ -23,6 +23,39 @@ Règles :
 
 ---
 
+## 2026-10-11 — Prestations : des volets, une action par offre, aucun tarif affiché
+
+Décisions de Marc, en conversation, sur maquette validée (https://claude.ai/artifact/WeAxmRPay6R211DE6zojVs) · issue [#199](https://github.com/marco-mancini/marckouassi.com/issues/199) (PM-199).
+
+**Problème.** La section 06 empilait quatre `Encart` aux en-têtes or et blanc alternés.
+- Chaque offre se terminait par une pastille « Sur devis » qui ressemblait à un bouton mais ne faisait rien (AGENTS.md §6.8).
+- Aucune offre ne permettait de passer à l'action.
+- Sur téléphone, la section faisait environ 1 400 px.
+- Le titre promettait des « tarifs » qu'aucune offre ne donnait.
+
+**Options.** Garder les encarts en retirant les pastilles ; une liste éditoriale ; des volets (liste et offre ouverte côte à côte, accordéon sur téléphone).
+
+**Choix.**
+- Les **volets**, avec un nouveau composant générique `Volets`.
+- Titre « Prestations » seul, et tête identique aux autres planches.
+- « Sur devis » et « Tarifs » supprimés : les champs `prix` quittent le contenu.
+- Une action par offre, « Parler de ce projet », qui ouvre **MarcoS** avec la question de l'offre préremplie. Tant que MarcoS est inactif, elle mène au Contact.
+
+**Motif.**
+- Le visiteur choisit d'abord son besoin, puis voit ce qui est livré, puis peut agir. Il n'y a plus qu'une offre à lire à la fois.
+- La bascule vers le Contact évite un bouton mort tant que #175 et #177 ne sont pas tranchées.
+
+**Impact.**
+- Nouveau composant `Volets`, qui porte l'inventaire à 28.
+- Libellés `prestations.*` en FR et EN.
+- `Assistant` accepte une question apportée par une entrée (`data-assistant-question`) : il remplit le champ s'il est vide, sans rien envoyer.
+- Quatre jetons de l'ancienne tête sont retirés.
+- La phrase préremplie (« Je souhaite parler d'un projet : … ») est un texte nouveau, à valider par Marc.
+
+**Réversibilité.** Totale. On revient à l'ancien gabarit, et aux champs `prix`, depuis l'historique Git.
+
+---
+
 ## 2026-10-11 — Les choix de catégorie deviennent des cartes « Rideau », animées en continu
 
 Décision de Marc, en conversation, sur maquette validée · issue [#191](https://github.com/marco-mancini/marckouassi.com/issues/191) (PM-191).

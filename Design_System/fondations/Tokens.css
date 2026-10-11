@@ -337,7 +337,6 @@
      des capitales. Cet interligne-la lui est donc propre. */
   --type-prestations-titre: clamp(2.6rem, 10.2vw, 12rem);
   --leading-prestations-titre: 1.02;
-  --type-prestations-accroche: clamp(1.25rem, 2.2vw, 2.75rem);
   /* Le titre d'une etude vit dans une colonne, pas dans la fenetre : il se
      mesure donc sur son conteneur (cqi), sinon 10vw lui donnait 144 px dans
      une colonne de 477 px — 154 px de debordement, lignes superposees. */
@@ -505,7 +504,6 @@
 
   /* --- Planches : couverture, prestations --- */
   --prestations-grid-min: 250px;
-  --prestations-masthead-gap: clamp(16px, 2.5vw, 30px);
   --prestation-entete-padding: var(--space-5) var(--space-6);
   --prestation-corps-padding: var(--space-6);
   --prestation-prix-decalage: calc(var(--space-6) * -1);
@@ -803,6 +801,22 @@
   --rideau-onde-opacite: .8;
   --rideau-vedette-pas: 2.6s; /* une carte vedette après l'autre */
   --rideau-vedette-attente: 1.6s; /* le temps que la rangée finisse de s'ouvrir */
+  /* Volets — un seul élément ouvert : accordéon, ou liste et volet côte à côte (#199). */
+  --volets-rang-colonne: 2.4em;
+  --volets-onglet-rembourrage: var(--space-4);
+  --volets-titre-taille: clamp(1.5rem, 3.2vw, 2.5rem);
+  --volets-signe: 32px;
+  --volets-filet-actif: 2px;
+  --volets-panneau-rembourrage: var(--space-5);
+  --volets-panneau-rembourrage-large: clamp(24px, 2.6vw, 36px);
+  --volets-colonnes-ecart: clamp(28px, 3.5vw, 48px);
+  --volets-panneau-haut: calc(var(--header-height) + var(--space-5)); /* le volet collant reste sous l'en-tête */
+  --volets-panneau-hauteur-min: 22rem;
+  /* Prestations en volets (#199) */
+  --prestations-offre-titre-taille: clamp(2.25rem, 4.6vw, 4rem);
+  --prestations-invitation-taille: clamp(1.75rem, 4.4vw, 3.75rem);
+  --prestations-invitation-marge: clamp(32px, 4vw, 56px);
+  --prestations-invitation-rembourrage: clamp(22px, 3vw, 40px);
   /* EnTete */
   --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
   /* Galerie */
@@ -962,9 +976,6 @@
   /* sections : projets */
   --projets-tete-marge-haute: clamp(25px, 4vw, 54px); /* marge haute de la tête « Projets » */
   --projets-tete-marge-basse-compact: 18px; /* marge basse de la tête « Projets » sous 850 px */
-  /* sections : prestations */
-  --prestations-tete-marge-haute: clamp(26px, 4vw, 56px); /* marge haute de la tête « Prestations » */
-  --prestations-tete-marge-basse: clamp(24px, 3.5vw, 48px); /* marge basse de la tête « Prestations » */
   /* sections : contact */
   --contact-principal-padding: clamp(44px, 7vw, 100px); /* respiration verticale du bloc principal du contact */
   --contact-principal-espace: 40px; /* écart entre titre et actions du contact */

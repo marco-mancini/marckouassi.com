@@ -1,0 +1,57 @@
+/* ==========================================================================
+   VOLETS — un seul element ouvert a la fois (#199)
+   Une colonne : accordeon, le volet sous son titre. Deux colonnes (des
+   --volets-seuil, ecrit dans la media query) : les titres a gauche, le volet
+   ouvert a droite. La disposition n'existe qu'avec le script (.est-actif) :
+   sans lui, tout est ouvert et empile. Couleurs par les roles du contexte.
+   ========================================================================== */
+.volets { display: grid; border-top: var(--border-hairline) solid var(--filet); }
+.volets__titre { margin: 0; }
+.volets__onglet {
+  position: relative; display: grid; width: 100%; min-height: var(--cible-tactile);
+  grid-template-columns: var(--volets-rang-colonne) minmax(0, 1fr) auto; align-items: center; gap: var(--space-3);
+  padding: var(--volets-onglet-rembourrage) var(--space-1);
+  border: 0; border-bottom: var(--border-hairline) solid var(--filet); background: none;
+  color: var(--texte-titre); font: inherit; text-align: left; cursor: pointer;
+}
+.volets__rang { color: var(--accent-texte); font-family: var(--font-mono); font-size: var(--type-label); }
+.volets__libelle {
+  font-family: var(--font-display); font-size: var(--volets-titre-taille); font-weight: var(--weight-regular);
+  line-height: var(--leading-heading); letter-spacing: var(--interlettrage-titre); text-transform: uppercase;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.volets__signe {
+  display: grid; width: var(--volets-signe); height: var(--volets-signe); place-items: center;
+  border: var(--border-hairline) solid currentColor; border-radius: var(--radius-full);
+  font-size: var(--type-body); line-height: var(--rideau-fleche-interligne);
+  transition: transform var(--duration-base) var(--rideau-sortie), background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.volets__signe::before { content: "+"; }
+/* Le filet or qui se trace sous le titre ouvert ou survole. */
+.volets__onglet::after {
+  content: ""; position: absolute; left: 0; bottom: calc(var(--border-hairline) * -1); width: 100%; height: var(--volets-filet-actif);
+  background: var(--accent-texte-grand); transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform var(--duration-slow) var(--rideau-sortie);
+}
+.volets__onglet:hover::after, .volets__onglet:focus-visible::after, .volets.est-actif .volets__onglet[aria-expanded="true"]::after { transform: scaleX(1); }
+.volets.est-actif .volets__onglet[aria-expanded="true"] .volets__libelle { color: var(--accent-texte-grand); }
+.volets.est-actif .volets__onglet[aria-expanded="true"] .volets__signe { transform: rotate(var(--rideau-fleche-rotation)); background-color: var(--accent-texte-grand); border-color: var(--accent-texte-grand); color: var(--fond); }
+.volets__panneau { padding: var(--volets-panneau-rembourrage) 0; }
+.volets__panneau[hidden] { display: none; }
+.volets.est-actif .volets__panneau:not([hidden]) > * { animation: apparition var(--apparition-duree) var(--ease-out) both; }
+
+/* Deux colonnes : la liste a gauche, le volet ouvert a droite. */
+@media (min-width: 851px) {
+  .volets.est-actif { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-auto-flow: row dense; column-gap: var(--volets-colonnes-ecart); align-items: start; border-top: 0; }
+  .volets.est-actif .volets__titre { grid-column: 1; }
+  .volets.est-actif .volets__titre:first-child .volets__onglet { border-top: var(--border-hairline) solid var(--filet); }
+  .volets.est-actif .volets__panneau {
+    position: sticky; top: var(--volets-panneau-haut); grid-column: 2; grid-row: 1 / span var(--volets-nombre, 8);
+    min-height: var(--volets-panneau-hauteur-min); padding: var(--volets-panneau-rembourrage-large);
+    border: var(--border-hairline) solid var(--filet); border-radius: var(--radius-xl);
+    background: var(--carte-surface-profonde);
+  }
+  .volets.est-actif .volets__signe::before { content: "\2192"; }
+  /* Cote a cote, la fleche montre le volet : elle ne pivote pas. */
+  .volets.est-actif .volets__onglet[aria-expanded="true"] .volets__signe { transform: none; }
+}
