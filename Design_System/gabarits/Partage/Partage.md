@@ -36,3 +36,5 @@ Pourquoi pas au build : Vercel n'a pas de navigateur, et Sharp ne sait pas dessi
 | Projet | `seo.image` du projet si choisie, sinon sa première image (recadrage centré sur la zone d'intérêt) |
 
 Les pages déclarent `og:image` (adresse absolue, jamais préfixée par la langue), ses dimensions, son texte alternatif, et `twitter:card` = `summary_large_image`.
+
+**Pas de `og:description`** (décision de Marc, 11 octobre) : un partage n'affiche que l'image et le titre, « Portfolio • Marc Kouassi » sur l'accueil (`site.seo.titre`). La `meta description` reste pour les moteurs de recherche ; une application qui s'en servirait à défaut afficherait encore ce texte.

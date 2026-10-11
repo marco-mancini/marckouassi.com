@@ -97,6 +97,8 @@ test("partage : l'accueil et le CV portent la carte de leur langue, en adresse a
       assert.equal(meta(page, "og:image:alt"), `${textes.portrait.alt} ${textes.accent} ${textes.mot}.`.replace(/'/g, "&#39;"));
       assert.equal(meta(page, "twitter:card"), "summary_large_image");
       assert.equal(meta(page, "og:site_name"), site.identite.nom);
+      // Décision de Marc : le partage n'affiche que le titre, sans description.
+      assert.equal(meta(page, "og:description"), undefined);
     }
   }
 });
