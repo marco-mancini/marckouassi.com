@@ -714,3 +714,27 @@ test("les catégories dépliées tiennent en FR/EN, clair/sombre, à toutes les 
     }
   }
 });
+
+test("en-tête : les liens tiennent sur une ligne et ne passent jamais sous le choix de langue (#187)", async () => {
+  for (const largeur of [1200, 1280, 1366, 1440, 1920]) {
+    for (const chemin of ["/", "/en/"]) {
+      const page = await ouvrir(nav, serveur.url + chemin, { largeur });
+      const mesure = await page.evaluate(() => {
+        const entete = document.querySelector('[data-en-tete="site"]');
+        const liens = [...entete.querySelectorAll(".en-tete__navigation .navigation a")];
+        const actions = entete.querySelector(".en-tete__actions").getBoundingClientRect();
+        const hauteurLigne = Math.min(...liens.map((a) => a.getBoundingClientRect().height));
+        return {
+          visibles: liens.filter((a) => a.getBoundingClientRect().width > 0).length,
+          total: liens.length,
+          chevauchement: Math.max(...liens.map((a) => a.getBoundingClientRect().right)) - actions.left,
+          surDeuxLignes: liens.filter((a) => a.getBoundingClientRect().height > hauteurLigne + 4).length,
+        };
+      });
+      assert.equal(mesure.visibles, mesure.total, `${largeur} ${chemin} : liens visibles`);
+      assert.ok(mesure.chevauchement < 0, `${largeur} ${chemin} : le dernier lien passe sous les actions (${mesure.chevauchement} px)`);
+      assert.equal(mesure.surDeuxLignes, 0, `${largeur} ${chemin} : lien coupé sur deux lignes`);
+      await page.fermer();
+    }
+  }
+});
