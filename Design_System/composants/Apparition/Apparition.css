@@ -14,4 +14,6 @@ html.js-anime [data-apparition]:not([data-apparition="douce"]):not(.est-apparu) 
 [data-apparition="droite"] { --apparition-x: calc(var(--apparition-distance) * 2); --apparition-y: 0px; }
 [data-apparition="fondu"] { --apparition-y: 0px; }
 [data-apparition="douce"].est-apparu { animation: planche-entree var(--duration-base) var(--ease-out) both; }
-[data-apparition="rideau"].est-apparu { animation: rideau-ouverture var(--duration-slow) var(--ease-out) both; }
+/* Le rideau suit le meme decalage par rang que les autres directions : une
+   rangee de cartes s'ouvre l'une apres l'autre (#191). */
+[data-apparition="rideau"].est-apparu { animation: rideau-ouverture var(--duration-slow) var(--ease-out) calc(var(--apparition-base) + var(--i, 0) * var(--apparition-pas)) both; }

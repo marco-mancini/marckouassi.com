@@ -444,8 +444,6 @@
   --projets-hauteur-min: clamp(760px, 58vw, 980px); /* hauteur minimale de la planche des réalisations */
   --projets-filtres-marge-basse: clamp(28px, 3vw, 48px); /* écart entre les choix de catégorie et la grille */
   --projets-filtres-marge-basse-compact: 22px; /* le même, sous 850 px */
-  --projets-categorie-hauteur: clamp(88px, 10vw, 132px); /* hauteur des grands choix de catégorie */
-  --projets-categorie-hauteur-compact: clamp(76px, 24vw, 100px); /* le même, sous 850 px */
   --projet-carte-vide-ratio: 4 / 3; /* emplacement d'une catégorie sans réalisation */
   --bouton-retour-categorie-diametre: 35px;
   --bouton-retour-categorie-diametre-compact: 28px;
@@ -757,22 +755,54 @@
   --carte-ombre-survol-retrait: -20px; /* ombre de carte au survol : retrait */
   --carte-chevron-course: 0.22em; /* course du chevron d'ouverture au survol */
   --carte-gouttiere-chevron: 1.6em; /* place reservee au chevron, a droite du libelle */
-  /* Largeur minimale d'une carte d'univers. En dessous, le libelle et sa note
-     passaient a deux lignes et la carte se serrait ; c'est la place qui decide
-     du nombre de colonnes, pas un palier ecrit. */
-  --projets-choix-colonne-min: 380px;
   /* Note doree d'une carte : un cran sous le corps courant. Elle accompagne le
      libelle, elle ne le concurrence pas. --accent-gold-soft mesure 4,73:1 sur
      l'olive, le seuil du petit texte est donc tenu. */
   --carte-note-taille: 1rem;
-  /* Les trois memes valeurs, resserrees pour la carte d'univers sur telephone :
+  /* Les trois memes valeurs, resserrees pour les cartes de savoir-faire sur telephone :
      deux colonnes y valent mieux qu'une liste de huit, et c'est le texte qui
      cede, pas la grille. */
   --carte-titre-taille-telephone: .95rem;
-  --carte-titre-taille-etroit: .78rem; /* libellé d'univers sous 391 px */
   --carte-note-taille-telephone: .8125rem;
   --carte-filigrane-taille-telephone: 1.6rem;
   --carte-numero-taille-telephone: .75rem; /* le numéro d'une carte, remonté en face du point */
+  /* Rideau — carte d'entrée animée des catégories de réalisations (#191).
+     La crème et son encre sont celles du sceau : elles ne suivent pas le
+     thème, comme la carte crème du monogramme. */
+  --rideau-hauteur-min: clamp(96px, 8vw, 116px);
+  --rideau-rembourrage: clamp(12px, 1.1vw, 16px);
+  --rideau-titre-taille: clamp(1.0625rem, 1.6vw, 1.5rem);
+  --rideau-titre-etroit: 12.5cqi; /* dans une carte étroite (320 px), le mot le plus long tient sa ligne */
+  --rideau-note-taille: .8125rem;
+  --rideau-note-mesure: 24ch; /* la note garde une ligne courte, à l'écart du rang */
+  --rideau-rang-taille: clamp(3.25rem, 5vw, 4.5rem);
+  --rideau-rang-interligne: .8;
+  --rideau-rang-debord: -6px; /* le rang descend sous le bord : un filigrane, pas un chiffre posé */
+  --rideau-rang-trait: 1.1px;
+  --rideau-rang-couleur: color-mix(in srgb, var(--accent-gold) 45%, transparent);
+  --rideau-rang-couleur-creme: var(--clair-accent-gold-deep);
+  --rideau-fleche: 30px; /* signe d'ouverture : la cible tactile, c'est la carte entière */
+  --rideau-fleche-glyphe: .8125rem;
+  --rideau-fleche-interligne: 1;
+  --rideau-fleche-rotation: 45deg;
+  --rideau-creme: var(--clair-logo-fond);
+  --rideau-encre: var(--clair-ink);
+  --rideau-note-creme: var(--clair-muted);
+  --rideau-souleve: -3px;
+  --rideau-presse: .98;
+  --rideau-reflet-largeur: 45%;
+  --rideau-reflet-inclinaison: -12deg;
+  --rideau-sortie: cubic-bezier(.16, 1, .3, 1); /* la sortie longue de la séquence d'ouverture */
+  --rideau-pas: 70ms; /* décalage d'une carte à la suivante */
+  --rideau-reflet-duree: 5.6s;
+  --rideau-reflet-pas: 180ms; /* le reflet passe d'une carte à l'autre, en vague */
+  --rideau-pousse-duree: 2.2s;
+  --rideau-onde-duree: 2.8s;
+  --rideau-onde-pas: 350ms;
+  --rideau-onde-echelle: 1.7;
+  --rideau-onde-opacite: .8;
+  --rideau-vedette-pas: 2.6s; /* une carte vedette après l'autre */
+  --rideau-vedette-attente: 1.6s; /* le temps que la rangée finisse de s'ouvrir */
   /* EnTete */
   --en-tete-marque-largeur: 48px; /* largeur du monogramme de l'en-tête */
   /* Galerie */
