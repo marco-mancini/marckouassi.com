@@ -19,7 +19,7 @@ export function cheminsPages(contenu) {
  * @param {string} p.chemin          chemin sans préfixe de langue
  * @param {object} p.dictionnaires   { fr, en }
  * @param {Map}    p.medias          table source → fichier publié
- * @param {object} p.ressources      { sprite, couleurTheme, annee, assistantEndpoint }
+ * @param {object} p.ressources      { sprite, couleurTheme, annee, empreinte, assistantEndpoint }
  */
 export function contextePage({ site, langue, chemin, dictionnaires, medias, ressources }) {
   const defaut = site.langueParDefaut;

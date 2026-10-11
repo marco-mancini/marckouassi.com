@@ -121,6 +121,8 @@ export function jsonLd(donnees) {
  */
 export function Document({ ctx, meta, corps }) {
   const r = ctx.racine;
+  // Empreinte des ressources (#197) : une page neuve ne charge jamais d'anciennes feuilles.
+  const v = ctx.empreinte ? `?v=${ctx.empreinte}` : "";
   return html`<!doctype html>
 <html${attributs({ lang: ctx.langue })}>
 <head>
@@ -151,8 +153,8 @@ ${ctx.mesure ? html`<meta name="mesure-ga4"${attributs({ content: ctx.mesure })}
 <link rel="icon"${attributs({ href: `${r}favicon.svg`, type: "image/svg+xml" })}>
 <link rel="apple-touch-icon"${attributs({ href: `${r}apple-touch-icon.png` })}>
 <link rel="manifest"${attributs({ href: `${r}site.webmanifest` })}>
-<link rel="stylesheet"${attributs({ href: `${r}Design_System/styles/Index.css` })}>
-<script type="module"${attributs({ src: `${r}Frontend/site.js` })}></script>
+<link rel="stylesheet"${attributs({ href: `${r}Design_System/styles/Index.css${v}` })}>
+<script type="module"${attributs({ src: `${r}Frontend/site.js${v}` })}></script>
 </head>
 <body>
 ${brut(ctx.sprite)}

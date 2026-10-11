@@ -25,6 +25,7 @@ import { construireCms } from "./cms.mjs";
 import { publierIcones } from "./icones.mjs";
 import { publierPartage } from "./partage.mjs";
 import { baseConnaissance, baseQualification, mesurer, PLAFOND_JETONS } from "../Design_System/gabarits/connaissance.js";
+import { calculerEmpreinte, versionnerRessources } from "./empreinte.mjs";
 
 const RACINE = process.cwd();
 const SORTIE = path.join(RACINE, "_site");
@@ -83,7 +84,9 @@ async function main() {
   // à une modale absente (AI_IMPLEMENTATION_PLAN.md, IA-04).
   // Images de partage (og:image) : carte du site, vignettes des projets (#184).
   const partage = await publierPartage({ racine: RACINE, sortie: SORTIE, contenu, dictionnaires, lireSource });
-  const ressources = { sprite, couleurTheme, annee, partage, assistantEndpoint: env.ASSISTANT_URL || null };
+  // Empreinte des feuilles et modules : les pages et les ressources se chargent entre eux avec elle (#197).
+  const empreinte = await calculerEmpreinte(RACINE);
+  const ressources = { sprite, couleurTheme, annee, partage, empreinte, assistantEndpoint: env.ASSISTANT_URL || null };
   const manquants = [];
 
   for (const langue of site.langues) {
@@ -106,6 +109,8 @@ async function main() {
   await copier("Design_System", "Design_System", (chemin) => !/\.(md|html)$/.test(chemin));
   await copier("Frontend/site.js", "Frontend/site.js");
   await copier("Frontend/mesure.js", "Frontend/mesure.js");
+  // Toute adresse de feuille ou de module change avec son contenu : jamais de page neuve sur d'anciennes ressources (#197).
+  await versionnerRessources(SORTIE, empreinte);
   // Les dix expressions de MarcoS ne sont PLUS copiées en brut ici. Cette copie
   // existait parce que le gabarit Assistant les désignait par un chemin absolu
   // (#49) ; le contenu porte désormais `site.assistant.avatar.etats`, et la
