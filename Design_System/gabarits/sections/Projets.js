@@ -7,7 +7,6 @@ import { Rideau } from "../../composants/Rideau/Rideau.js";
 import { Bouton } from "../../composants/Bouton/Bouton.js";
 import { texteEnrichi } from "../../composants/Accent/Accent.js";
 import { Gabarit_Projet } from "../Gabarit_Projet/Gabarit_Projet.js";
-import { Realisation_carte, vueRealisation } from "../Realisation_carte/Realisation_carte.js";
 import { credit } from "./commun.js";
 import { reveler } from "../../composants/Apparition/Apparition.js";
 import { media, numero, projetsDeLaCategorie } from "../outils.js";
@@ -80,15 +79,6 @@ export function Projets({ section, contenu, ctx }) {
     const cartes = projets.map((projet, index) => Gabarit_Projet({
       projet, ctx, mode: "carte", options: { rang: index, total: projets.length },
     }));
-    // Une catégorie peut porter des réalisations isolées plutôt que des projets
-    // complets. C'est la DONNÉE qui le dit, jamais un identifiant écrit ici :
-    // le critère de clôture de #123 interdit toute donnée métier en dur.
-    // La categorie donne ses DONNEES ; la carte est le gabarit commun.
-    const cartesRealisations = (categorie.realisations ?? []).length
-      ? Grille({ elements: categorie.realisations.map((realisation, index) => Realisation_carte({
-        vue: vueRealisation({ realisation, ctx, chemin: `${cheminCategorie}.realisations.${index}`, rang: index }), ctx,
-      })), colonnes: [1, 1, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] })
-      : null;
     return html`<section class="categorie-projets" id="categorie-${categorie.id}" aria-labelledby="titre-${categorie.id}">
       <header class="categorie-projets__entete">
         <div class="categorie-projets__ligne-titre">
@@ -98,7 +88,7 @@ export function Projets({ section, contenu, ctx }) {
         <p class="categorie-projets__sous-titre texte-accroche">${ctx.c(categorie.note, `${cheminCategorie}.note`)}</p>
         <p class="categorie-projets__recit texte-corps">${ctx.c(categorie.recit, `${cheminCategorie}.recit`)}</p>
       </header>
-      ${projets.length ? Grille({ elements: cartes, colonnes: [1, 1, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] }) : cartesRealisations ?? Message({ type: "vide", titre: ctx.t("projet.categories.numero", { numero: numero(rang) }), texte: ctx.t("projet.categories.vide"), mode: { sceau: "vide" } })}
+      ${projets.length ? Grille({ elements: cartes, colonnes: [1, 1, 1], espace: ["var(--projets-espace)", "var(--projets-espace-compact)"] }) : Message({ type: "vide", titre: ctx.t("projet.categories.numero", { numero: numero(rang) }), texte: ctx.t("projet.categories.vide"), mode: { sceau: "vide" } })}
     </section>`;
   });
 

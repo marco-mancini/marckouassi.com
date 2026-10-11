@@ -46,7 +46,6 @@
 /* 3. Gabarits : composition des pages, jamais l'interieur d'un composant. */
 @import url("../gabarits/Gabarit_Projet/Gabarit_Projet.css");
 @import url("../gabarits/Projet_carte/Projet_carte.css");
-@import url("../gabarits/Realisation_carte/Realisation_carte.css");
 @import url("../gabarits/Projet_etude/Projet_etude.css");
 @import url("../gabarits/Jalon/Jalon.css");
 @import url("../gabarits/Intro/Intro.css");

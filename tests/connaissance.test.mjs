@@ -68,9 +68,12 @@ test("la base contient ce qu'elle doit contenir", () => {
   const base = baseConnaissance({ contenu, langue: "fr" });
   assert.equal(base.projets.length, contenu.projets.length);
   for (const p of base.projets) {
-    for (const cle of ["id", "titre", "categorie", "periode", "idee", "page"]) {
+    for (const cle of ["id", "titre", "categorie", "idee", "page"]) {
       assert.ok(p[cle], `projet ${p.id} : ${cle} manquant`);
     }
+    // Les années sont facultatives (#200) : la période suit la donnée.
+    const source = contenu.projets.find((x) => x.id === p.id);
+    if (source.annees || source.periode) assert.ok(p.periode, `projet ${p.id} : periode manquant`);
     assert.ok(!("contexte" in p) && !("valeur" in p), `projet ${p.id} : champ retiré présent`);
   }
   assert.ok(base.cv.experiences.length > 0, "les expériences du CV sont la source du parcours");

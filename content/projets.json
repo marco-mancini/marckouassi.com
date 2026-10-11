@@ -787,5 +787,435 @@
       }
     ],
     "categoriePrincipale": "digital-ui-ux"
+  },
+  {
+    "id": "8ight-concept",
+    "titre": {
+      "fr": "8ight Concept",
+      "en": "8ight Concept"
+    },
+    "categorie": {
+      "fr": "Logotype · identité et objets de marque",
+      "en": "Logotype · identity and branded objects"
+    },
+    "contexte": {
+      "fr": "Les images montrent une marque bâtie sur un chiffre : le 8 ouvre le mot et sert aussi de symbole seul. La planche réunit le logotype, l’isotype, les trois couleurs et la typographie ; les mises en situation le portent sur une façade et sur une série de vêtements.",
+      "en": "The images show a brand built on a number: the 8 opens the word and also stands alone as the symbol. The sheet brings together the logotype, the symbol, the three colours and the typeface; the mock-ups carry it onto a facade and onto a set of garments."
+    },
+    "idee": {
+      "fr": "Le chiffre et la lettre se confondent. Les contreformes du 8 sont découpées en quartiers, ce qui donne au symbole une géométrie reconnaissable même réduite à un badge brodé.",
+      "en": "Number and letter merge. The counters of the 8 are cut into quarters, giving the symbol a geometry that stays recognisable even shrunk to an embroidered badge."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_EIGTH_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons 8ight Concept — logo, isotype, palette et typographie",
+          "en": "8ight Concept brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_EIGTH_02.jpg",
+        "alt": {
+          "fr": "Logo 8ight Concept en relief sur un bardage rouge",
+          "en": "8ight Concept logo in relief on red cladding"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_EIGTH_03.jpg",
+        "alt": {
+          "fr": "Tee-shirt, casquette et sac rouges floqués 8ight Concept",
+          "en": "Red T-shirt, cap and tote bag printed with the 8ight Concept logo"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "afor",
+    "titre": {
+      "fr": "AFOR",
+      "en": "AFOR"
+    },
+    "categorie": {
+      "fr": "Logotype · agence foncière",
+      "en": "Logotype · land agency"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’une agence foncière rurale : un livre ouvert sur lequel se déploie un parcellaire, surmonté d’un repère de carte. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches de terrain.",
+      "en": "The images show the identity of a rural land agency: an open book carrying a pattern of plots, topped by a map pin. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto field posters."
+    },
+    "idee": {
+      "fr": "Le parcellaire et le repère de carte disent le métier sans un mot : la terre, mesurée, située. L’orange et le vert séparent la trame cultivée du support qui la porte.",
+      "en": "The plots and the map pin state the trade without a word: land, measured and located. Orange and green separate the cultivated grid from the ground that carries it."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_AFOR_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons AFOR — logo, isotype, palette et typographie",
+          "en": "AFOR brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_AFOR_02.jpg",
+        "alt": {
+          "fr": "Affiche AFOR présentant une carte parcellaire du territoire",
+          "en": "AFOR poster showing a land parcel map of the territory"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_AFOR_03.jpg",
+        "alt": {
+          "fr": "Bannière AFOR sur une vue aérienne de parcelles rurales",
+          "en": "AFOR banner over an aerial view of rural plots"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "bni-finances",
+    "titre": {
+      "fr": "BNI Finances",
+      "en": "BNI Finances"
+    },
+    "categorie": {
+      "fr": "Logotype · filiale financière",
+      "en": "Logotype · financial subsidiary"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’une filiale financière : une courbe inscrite dans un cartouche, suivie du nom et de sa signature. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur une enseigne de façade et sur des supports de communication.",
+      "en": "The images show the identity of a financial subsidiary: a rising curve set in a cartouche, followed by the name and its tagline. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto a building sign and onto communication material."
+    },
+    "idee": {
+      "fr": "La courbe de progression tient lieu de symbole. Enfermée dans un cartouche sombre, elle reste lisible en petit, sur une carte de visite comme sur une enseigne.",
+      "en": "The rising curve serves as the symbol. Held inside a dark cartouche, it stays legible when small, on a business card as much as on a sign."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_BNI_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons BNI Finances — logo, isotype, palette et typographie",
+          "en": "BNI Finances brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_BNI_02.jpg",
+        "alt": {
+          "fr": "Enseigne BNI Finances sur la façade d’un immeuble",
+          "en": "BNI Finances sign on a building facade"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_BNI_03.jpg",
+        "alt": {
+          "fr": "Visuel BNI Finances, une main retenant une chute de dominos près d’une pile de pièces",
+          "en": "BNI Finances visual, a hand stopping falling dominoes beside a stack of coins"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "ileve11-communication",
+    "titre": {
+      "fr": "Ileve11 Communication",
+      "en": "Ileve11 Communication"
+    },
+    "categorie": {
+      "fr": "Logotype · agence de communication",
+      "en": "Logotype · communication agency"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’une agence de communication : chaque lettre du nom prend sa pastille et sa couleur, et les deux derniers caractères se lisent comme un nombre. La planche réunit le logotype, l’isotype, les six couleurs et la typographie ; les mises en situation le portent sur des affiches.",
+      "en": "The images show the identity of a communication agency: each letter of the name takes its own dot and colour, and the last two characters read as a number. The sheet brings together the logotype, the symbol, the six colours and the typeface; the mock-ups carry it onto posters."
+    },
+    "idee": {
+      "fr": "Le nom se compte autant qu’il se lit. La série de pastilles colorées fait du mot une suite d’unités, et le nombre final reprend cette forme en symbole.",
+      "en": "The name is counted as much as it is read. The row of coloured dots turns the word into a series of units, and the closing number takes that shape as the symbol."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_ILEVEN_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons Ileve11 Communication — logo, isotype, palette et typographie",
+          "en": "Ileve11 Communication brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_ILEVEN_02.jpg",
+        "alt": {
+          "fr": "Affiche Ileve11 Communication, portrait sur un fond de formes colorées",
+          "en": "Ileve11 Communication poster, a portrait against coloured shapes"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_ILEVEN_03.jpg",
+        "alt": {
+          "fr": "Affiche Ileve11 Communication sur une ville de nuit",
+          "en": "Ileve11 Communication poster over a city at night"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "impact-communication",
+    "titre": {
+      "fr": "Impact Communication",
+      "en": "Impact Communication"
+    },
+    "categorie": {
+      "fr": "Logotype · agence de communication",
+      "en": "Logotype · communication agency"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’une agence de communication : une tache de peinture traverse le mot et en devient le symbole. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches.",
+      "en": "The images show the identity of a communication agency: a paint splash crosses the word and becomes its symbol. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto posters."
+    },
+    "idee": {
+      "fr": "La tache dit le mot. Projetée sur une lettre, elle laisse au nom sa lisibilité tout en donnant à la marque un signe qui vit seul.",
+      "en": "The splash states the word. Thrown across one letter, it leaves the name legible while giving the brand a mark that stands on its own."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_IMPACT_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons Impact Communication — logo, isotype, palette et typographie",
+          "en": "Impact Communication brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_IMPACT_02.jpg",
+        "alt": {
+          "fr": "Affiche Impact Communication, un homme tenant une tablette devant une ville",
+          "en": "Impact Communication poster, a man holding a tablet in front of a city"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_IMPACT_03.jpg",
+        "alt": {
+          "fr": "Affiche Impact Communication, une femme devant un ordinateur portable",
+          "en": "Impact Communication poster, a woman at a laptop"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "mm-auto",
+    "titre": {
+      "fr": "M&M Auto",
+      "en": "M&M Auto"
+    },
+    "categorie": {
+      "fr": "Logotype · vente de véhicules",
+      "en": "Logotype · vehicle dealership"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’un vendeur de véhicules : un monogramme inscrit dans un cercle, décliné en bleu et en blanc. La planche réunit le logotype, l’isotype, les deux couleurs et la typographie ; les mises en situation le portent sur le site et sur une bannière de concession.",
+      "en": "The images show the identity of a vehicle dealership: a monogram set in a circle, declined in blue and white. The sheet brings together the logotype, the symbol, the two colours and the typeface; the mock-ups carry it onto the website and onto a dealership banner."
+    },
+    "idee": {
+      "fr": "Les deux M se partagent un jambage et forment une seule silhouette. Le cercle les tient, et le signe reste net à la taille d’une icône comme sur une façade.",
+      "en": "The two Ms share a stem and form a single silhouette. The circle holds them, and the mark stays sharp at icon size as well as on a facade."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_MM_AUTO_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons M&M Auto — logo, isotype, palette et typographie",
+          "en": "M&M Auto brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_MM_AUTO_02.jpg",
+        "alt": {
+          "fr": "Maquette du site M&M Auto, catalogue de véhicules",
+          "en": "M&M Auto website mockup, vehicle catalogue"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_MM_AUTO_03.jpg",
+        "alt": {
+          "fr": "Bannière M&M Auto devant une concession automobile",
+          "en": "M&M Auto banner in front of a car dealership"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "marcos",
+    "titre": {
+      "fr": "MarcoS",
+      "en": "MarcoS"
+    },
+    "categorie": {
+      "fr": "Logotype · assistant virtuel",
+      "en": "Logotype · virtual assistant"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’un assistant virtuel : un mot manuscrit dont la dernière lettre se prolonge en boucle, et un monogramme tiré du M. La planche réunit le logotype, l’isotype, les quatre couleurs et les deux typographies ; les mises en situation le portent sur un écran d’ordinateur et sur un téléphone.",
+      "en": "The images show the identity of a virtual assistant: a handwritten word whose last letter extends into a loop, and a monogram drawn from the M. The sheet brings together the logotype, the symbol, the four colours and the two typefaces; the mock-ups carry it onto a laptop screen and onto a phone."
+    },
+    "idee": {
+      "fr": "La boucle finale relie l’écrit à la parole. Le monogramme reprend le mouvement du M, de sorte que la marque garde son geste même réduite à la pastille d’une application.",
+      "en": "The closing loop ties writing to speech. The monogram takes up the movement of the M, so the brand keeps its gesture even when reduced to an app icon."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_MARCOS_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons MarcoS — logo, isotype, palette et typographie",
+          "en": "MarcoS brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_MARCOS_02.jpg",
+        "alt": {
+          "fr": "Logo MarcoS affiché sur l’écran d’un ordinateur portable",
+          "en": "MarcoS logo on a laptop screen"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_MARCOS_03.jpg",
+        "alt": {
+          "fr": "Conversation MarcoS ouverte sur un téléphone tenu en main",
+          "en": "MarcoS conversation open on a hand-held phone"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "tako",
+    "titre": {
+      "fr": "Tako",
+      "en": "Tako"
+    },
+    "categorie": {
+      "fr": "Logotype · restauration",
+      "en": "Logotype · food service"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’une enseigne de restauration : un mot compact dont une lettre est traversée par une arche, reprise seule en symbole. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur une devanture et sur des emballages.",
+      "en": "The images show the identity of a food outlet: a compact word in which one letter is crossed by an arch, taken up alone as the symbol. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto a storefront and onto takeaway packaging."
+    },
+    "idee": {
+      "fr": "L’arche est à la fois la forme du plat et celle d’un toit. Elle sort du mot pour devenir le signe, et tient sur un gobelet comme sur une façade.",
+      "en": "The arch is at once the shape of the dish and that of a roof. It steps out of the word to become the mark, and holds on a cup as well as on a facade."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_TAKO_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons Tako — logo, isotype, palette et typographie",
+          "en": "Tako brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_TAKO_02.jpg",
+        "alt": {
+          "fr": "Devanture du restaurant Tako, des clients attablés en terrasse",
+          "en": "Tako restaurant storefront, customers seated outside"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_TAKO_03.jpg",
+        "alt": {
+          "fr": "Gobelets et boîte à emporter Tako, avec des tacos servis",
+          "en": "Tako cups and takeaway box with tacos served"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "up-in-africa",
+    "titre": {
+      "fr": "Up’ in Africa",
+      "en": "Up’ in Africa"
+    },
+    "categorie": {
+      "fr": "Logotype · innovation et entrepreneuriat",
+      "en": "Logotype · innovation and entrepreneurship"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’un catalyseur d’innovation : un blason partagé en deux couleurs, surmonté du nom et de sa signature. La planche réunit le logotype, l’isotype, la palette et la typographie ; les mises en situation le portent sur des affiches.",
+      "en": "The images show the identity of an innovation catalyst: a shield split into two colours, topped by the name and its tagline. The sheet brings together the logotype, the symbol, the palette and the typeface; the mock-ups carry it onto posters."
+    },
+    "idee": {
+      "fr": "Le blason monte. Sa pointe et l’étoile qu’il abrite donnent une direction au nom, et les deux couleurs séparent l’élan de ce qui le soutient.",
+      "en": "The shield rises. Its point and the star it holds give the name a direction, and the two colours separate the momentum from what carries it."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_UP_IN_AFRICA_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons Up’ in Africa — logo, isotype, palette et typographie",
+          "en": "Up’ in Africa brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_UP_IN_AFRICA_02.jpg",
+        "alt": {
+          "fr": "Affiche Up’ in Africa, une femme devant une ligne d’horizon urbaine",
+          "en": "Up’ in Africa poster, a woman in front of a city skyline"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_UP_IN_AFRICA_03.jpg",
+        "alt": {
+          "fr": "Affiche Up’ in Africa sur une carte stylisée du continent",
+          "en": "Up’ in Africa poster over a stylised map of the continent"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
+  },
+  {
+    "id": "wona",
+    "titre": {
+      "fr": "Wona",
+      "en": "Wona"
+    },
+    "categorie": {
+      "fr": "Logotype · média culturel",
+      "en": "Logotype · cultural media"
+    },
+    "contexte": {
+      "fr": "Les images montrent l’identité d’un média culturel : un mot dont une lettre devient un triangle et une autre un signe plein, accompagné de sa signature. La planche réunit le logotype, l’isotype, la palette et les deux typographies ; les mises en situation le portent sur une enseigne ronde et sur une affiche.",
+      "en": "The images show the identity of a cultural media brand: a word in which one letter becomes a triangle and another a solid mark, carried with its tagline. The sheet brings together the logotype, the symbol, the palette and the two typefaces; the mock-ups carry it onto a round sign and onto a poster."
+    },
+    "idee": {
+      "fr": "La lettre devient forme. Le triangle et le signe plein donnent au mot une structure qui se lit de loin, et l’isotype garde cette géométrie quand le nom disparaît.",
+      "en": "The letter turns into shape. The triangle and the solid mark give the word a structure that reads from a distance, and the symbol keeps that geometry once the name is gone."
+    },
+    "medias": [
+      {
+        "src": "Public/images/Logotype/Mockup_WONA_01.jpg",
+        "alt": {
+          "fr": "Planche de déclinaisons Wona — logo, isotype, palette et typographie",
+          "en": "Wona brand sheet — logo, symbol, palette and typography"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_WONA_02.jpg",
+        "alt": {
+          "fr": "Enseigne ronde Wona sur une façade",
+          "en": "Round Wona sign on a facade"
+        }
+      },
+      {
+        "src": "Public/images/Logotype/Mockup_WONA_03.jpg",
+        "alt": {
+          "fr": "Affiche Wona, portrait d’une femme au foulard sur un paysage africain",
+          "en": "Wona poster, a portrait of a woman wearing a headwrap over an African landscape"
+        }
+      }
+    ],
+    "categoriePrincipale": "logotype"
   }
 ]

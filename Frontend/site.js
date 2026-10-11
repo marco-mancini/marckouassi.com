@@ -16,7 +16,6 @@ import { activerApparitions } from "../Design_System/composants/Apparition/Appar
 import { activerRideaux } from "../Design_System/composants/Rideau/Rideau.js";
 import { activerProjets } from "../Design_System/gabarits/Gabarit_Projet/Gabarit_Projet.js";
 import { activerNavigationCategories } from "../Design_System/gabarits/sections/Projets.js";
-import { activerRealisations } from "../Design_System/gabarits/Realisation_carte/Realisation_carte.js";
 import { activerDecouverte } from "../Design_System/gabarits/Decouverte/Decouverte.js";
 import { lancerIntro } from "../Design_System/gabarits/Intro/Intro.js";
 import { activerAssistant } from "../Design_System/gabarits/Assistant/Assistant.js";
@@ -33,9 +32,6 @@ activerEnTete(document.querySelector('[data-en-tete="site"]'));
 suivreSectionCourante(document);
 // activerProjets est le seul branchement des projets : il appelle activerEtudes.
 activerProjets(document);
-// Les realisations isolees n'ont pas de page : leur fiche est deja dans le
-// flux, et c'est ici qu'elle se replie pour rejoindre la modale partagee.
-activerRealisations(document);
 activerNavigationCategories(document);
 activerDecouverte(document, { reduit });
 activerApparitions(document, { reduit });

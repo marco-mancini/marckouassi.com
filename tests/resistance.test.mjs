@@ -48,7 +48,7 @@ test("le contenu actuel est valide et toutes les pages se rendent, en FR et en E
   for (const langue of base.site.langues) for (const chemin of cheminsPages(base)) assert.ok(rendre(copie(), { langue, chemin }).page.startsWith("<!doctype html>"), `${langue} ${chemin}`);
 });
 
-test("11 → 12 projets : compteur, numéros, nombre en lettres et plage d'années recalculés", () => {
+test("un projet de plus : compteur, numéros, nombre en lettres et plage d'années recalculés", () => {
   const contenu = copie();
   const nouveau = { ...structuredClone(contenu.projets[0]), id: "essai-douze", annees: { debut: 2027, fin: 2027 } };
   contenu.projets.push(nouveau);
@@ -57,11 +57,13 @@ test("11 → 12 projets : compteur, numéros, nombre en lettres et plage d'anné
   assert.equal(compteurs(page).length, total);
   assert.equal(compteurs(page).at(-1), `Projet ${String(total).padStart(2, "0")} / ${String(total).padStart(2, "0")}`);
   assert.equal(compteurs(page)[0], `Projet 01 / ${String(total).padStart(2, "0")}`);
-  assert.match(rendre(contenu).page, /Douze projets/);
+  // Le total s'écrit en lettres tant que le dictionnaire le connaît, sinon en chiffres.
+  const nombre = (langue) => { const mots = JSON.parse(fs.readFileSync(`Design_System/i18n/${langue}.json`, "utf8")).nombres; const mot = mots[contenu.projets.length] ?? String(contenu.projets.length); return mot.charAt(0).toUpperCase() + mot.slice(1); };
+  assert.ok(rendre(contenu).page.includes(`${nombre("fr")} projets`));
   assert.match(rendre(contenu).page, /class="couverture__detail">\s*·\s*2022 — 2027</);
   assert.ok(cheminsPages(contenu).includes("projets/essai-douze/"));
   assert.match(rendre(contenu, { chemin: "projets/essai-douze/" }).page, /<h1/);
-  assert.match(rendre(contenu, { langue: "en" }).page, /Twelve projects/);
+  assert.ok(rendre(contenu, { langue: "en" }).page.includes(`${nombre("en")} projects`));
 });
 
 test("projet supprimé : plus de trou dans la numérotation, plus de page, total recalculé", () => {
